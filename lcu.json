@@ -1,0 +1,14 @@
+{
+  "templates": {
+    "repository": "lowcodeunit-devkit/lcu-cli-templates-core",
+    "scope": "@lowcodeunit",
+    "workspace": "applications-flow"
+  },
+  "config": {
+    "wc": ["wc/applications-flow.lcu.js"],
+    "solutions": {},
+    "elements": {},
+    "data-flow": {},
+    "dependencies": {}
+  }
+}
