@@ -1,0 +1,44 @@
+@import "../../../assets/common";
+
+:host ::ng-deep {
+  .divider-fill-vert {
+    min-height: 250px;
+  }
+
+  .octocat-icon {
+    height: 35px;
+    width: 35px;
+    margin-left: 0.25em;
+    margin-top: -5px;
+    display: inline-block;
+    background-size: cover;
+    background-position: 50%;
+    background-image: url("/assets/img/octocat-icon.jpg");
+  }
+
+  .welcome {
+    text-align: center;
+
+    .mat-display-2 {
+      margin-bottom: 1em;
+    }
+  }
+
+  .setup {
+    text-align: center;
+
+    .connect {
+      margin: auto;
+
+      .github {
+        font-size: 36px;
+        line-height: 64px;
+        color: white;
+      }
+    }
+  }
+
+  .loading {
+    text-align: center;
+  }
+}

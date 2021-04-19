@@ -8,7 +8,11 @@
 		"wc": [
 			"wc/applications-flow.lcu.js"
 		],
-		"solutions": {},
+		"solutions": {
+			"projects": {
+				"element": "applications-flow-projects-element"
+			}
+		},
 		"elements": {},
 		"data-flow": {},
 		"dependencies": {}

@@ -46,6 +46,14 @@
     }
   }
 
+  .lcu-card-container {
+    width: 100%;
+
+    lcu-home, lcu-projects {
+      width: 100%;
+    }
+  }
+
   .lcu-content {
     box-sizing: border-box;
     display: flex;
