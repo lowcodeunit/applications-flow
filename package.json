@@ -2,9 +2,10 @@
 	"name": "@lowcodeunit/applications-flow",
 	"version": "0.0.1",
 	"scripts": {
-		"build:common": "ng build common",
+		"build:vcommon": "ng build common",
 		"build:demo": "ng build demo --prod",
 		"build:lcu": "ng build lcu --prod --single-bundle && npm run pack",
+		"clean": "rimraf dist",
 		"demo": "npm run build:common && npm run start:demo",
 		"demo:lcu": "npm run build:common && npm run build:lcu && npm run start:demo",
 		"deploy": "npm version patch && npm run deploy:all",
@@ -19,8 +20,10 @@
 		"pack:main": "concat-glob-cli -f \"dist/lcu/main.*.js\" -o dist/lcu/wc/lcu.startup.js",
 		"pack:pollyfills": "concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/lcu/wc/lcu.pollyfills.js",
 		"pack:styles": "concat-glob-cli -f \"dist/lcu/wc/styles.*.css\" -o dist/lcu/wc/applications-flow.lcu.css",
-		"start": "ng serve demo --port=4222 --aot=false",
-		"build": "npm run build:common && npm run build:lcu",
+		"start": "npm run clean && npm-run-all --parallel watch:*",
+		"start:demo": "ng serve demo --port=4222 --aot=false",
+		"watch:common": "ng build common --watch",
+		"watch:demo": "wait-on dist/common/lcu.api.d.ts && npm run start:demo",
 		"test": "ng test",
 		"lint": "ng lint",
 		"e2e": "ng e2e"
@@ -75,10 +78,12 @@
 		"karma-jasmine-html-reporter": "^1.5.0",
 		"mkdirp": "^1.0.4",
 		"ng-packagr": "^10.1.0",
+		"npm-run-all": "^4.1.5",
 		"protractor": "~7.0.0",
 		"rimraf": "^3.0.2",
 		"ts-node": "~8.3.0",
 		"tslint": "~6.1.0",
-		"typescript": "~4.1.5"
+		"typescript": "~4.1.5",
+		"wait-on": "^5.3.0"
 	}
 }

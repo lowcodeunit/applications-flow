@@ -23,6 +23,10 @@ export class ApplicationsFlowProjectsElementComponent
   //  Fields
 
   //  Properties
+  public get IsBranchValid(): boolean {
+    return this.ProjectFormGroup.get('repoDetails').get('branch').valid;
+  }
+
   public get IsOrganizationValid(): boolean {
     return this.ProjectFormGroup.get('repoDetails').get('organization').valid;
   }
@@ -63,10 +67,14 @@ export class ApplicationsFlowProjectsElementComponent
 
     this.ProjectFormGroup = this.formBuilder.group({
       repoDetails: this.formBuilder.group({
+        branch: ['', Validators.required],
         organization: ['', Validators.required],
         repository: ['', Validators.required],
       }),
       projectDetails: this.formBuilder.group({
+        apiLocation: [''],
+        appLocation: ['', Validators.required],
+        outputLocation: ['', Validators.required],
         template: ['', Validators.required],
         templateType: ['', Validators.required],
       }),
@@ -76,14 +84,18 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
-  public CreateProject() {
-    this.State.Loading = true;
+  public CancelCreateRepository() {
+    this.State.GitHub.CreatingRepository = false;
   }
 
-  public RefreshOrganizations() {
-    // this.State.GitHub.Loading = true;
+  public CreateRepository() {
+    this.State.GitHub.CreatingRepository = true;
 
-    this.ProjectFormGroup.get('repoDetails').reset();
+    this.ProjectFormGroup.get('repoDetails').get('repository').reset();
+  }
+
+  public CreateProject() {
+    this.State.Loading = true;
   }
 
   public OrganizationChanged(event: MatSelectChange) {
@@ -92,6 +104,26 @@ export class ApplicationsFlowProjectsElementComponent
     if (org !== event.value) {
       this.ProjectFormGroup.get('repoDetails').get('repository').reset();
     }
+  }
+
+  public RefreshOrganizations() {
+    // this.State.GitHub.Loading = true;
+
+    this.ProjectFormGroup.get('repoDetails').reset();
+  }
+
+  public RepositoryChanged(event: MatSelectChange) {
+    const repo = this.ProjectFormGroup.get('repoDetails').get('repository');
+
+    if (repo !== event.value) {
+      this.ProjectFormGroup.get('repoDetails').get('branch').reset();
+    }
+  }
+
+  public SaveRepository() {
+    alert(this.ProjectFormGroup.get('repoDetails').get('repository').value);
+
+    this.State.GitHub.CreatingRepository = false;
   }
 
   public SetupRepository() {

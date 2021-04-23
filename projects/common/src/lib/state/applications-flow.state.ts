@@ -25,6 +25,8 @@ export class ProjectState {
 }
 
 export class GitHubSetupState {
+  public CreatingRepository?: boolean;
+
   public HasConnection?: boolean;
 
   public Loading?: boolean;

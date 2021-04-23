@@ -75,7 +75,9 @@
             <mat-step
               label="Setup Repository"
               formGroupName="repoDetails"
-              [completed]="IsOrganizationValid && IsRepositoryValid"
+              [completed]="
+                IsOrganizationValid && IsRepositoryValid && IsBranchValid
+              "
             >
               <div *ngIf="!State.GitHub.Loading">
                 <h4 class="mat-title">Now we'll setup your repository</h4>
@@ -91,9 +93,9 @@
                     <mat-option value="Org2">Org2</mat-option>
                   </mat-select>
 
-                  <mat-icon matSuffix (click)="RefreshOrganizations()"
-                    >refresh</mat-icon
-                  >
+                  <mat-icon matSuffix (click)="RefreshOrganizations()">
+                    refresh
+                  </mat-icon>
 
                   <mat-hint>
                     If you don't have an organization or would like to create a
@@ -118,8 +120,61 @@
                     "
                     [disabled]="!IsOrganizationValid"
                     required
+                    (selectionChange)="RepositoryChanged($event)"
+                    *ngIf="!State.GitHub.CreatingRepository"
                   >
-                    <mat-option value="Repo1">repo</mat-option>
+                    <mat-option value="Repo1">Repo1</mat-option>
+                    <mat-option value="Repo2">Repo2</mat-option>
+                  </mat-select>
+
+                  <input
+                    matInput
+                    placeholder="Repository (creates new if does not exist)"
+                    formControlName="repository"
+                    required
+                    *ngIf="State.GitHub.CreatingRepository"
+                  />
+
+                  <mat-icon
+                    matSuffix
+                    (click)="CreateRepository()"
+                    *ngIf="!State.GitHub.CreatingRepository && IsOrganizationValid"
+                  >
+                    add_circle
+                  </mat-icon>
+
+                  <mat-icon
+                    matSuffix
+                    color="primary"
+                    (click)="SaveRepository()"
+                    *ngIf="State.GitHub.CreatingRepository && IsRepositoryValid"
+                  >
+                    save
+                  </mat-icon>
+
+                  <mat-icon
+                    matSuffix
+                    (click)="CancelCreateRepository()"
+                    *ngIf="State.GitHub.CreatingRepository"
+                  >
+                    cancel
+                  </mat-icon>
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width margin-2">
+                  <mat-select
+                    formControlName="branch"
+                    [placeholder]="
+                      IsRepositoryValid
+                        ? 'Branch'
+                        : 'Branch (select repository first)'
+                    "
+                    [disabled]="
+                      !IsRepositoryValid || State.GitHub.CreatingRepository
+                    "
+                    required
+                  >
+                    <mat-option value="master">master</mat-option>
                   </mat-select>
                 </mat-form-field>
 
@@ -135,6 +190,7 @@
                     color="accent"
                     matStepperNext
                     type="button"
+                    [disabled]="State.GitHub.CreatingRepository"
                   >
                     Next
                   </button>
