@@ -15,11 +15,11 @@
     </a>
   </nav>
 
-  <ng-container *ngIf="!State?.Loading">
-    <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center">
+  <div [fxHide]="State?.Loading">
+    <div fxLayout="column" fxLayoutAlign="center center">
       <div class="margin-x-1" fxFlex="40%" fxFlex.lt-md="100%">
         <div class="welcome">
-          <h2 class="mat-display-2">
+          <h2 class="mat-display-2 margin-y-2">
             <span *ngIf="State.Projects?.length <= 0">
               Thank you for signing up
             </span>
@@ -27,43 +27,39 @@
             <span *ngIf="State.Projects?.length > 0">Project Setup</span>
           </h2>
 
-          <h3 class="mat-headline">Let's get your Project setup and running</h3>
+          <h3 class="mat-title">Let's get your Project setup and running</h3>
         </div>
+
+        <!--
+              <div
+                class="divider-fill-vert margin-x-5"
+                fxShow
+                [fxHide.lt-md]="true"
+                fxHide
+                [fxShow.lt-md]="true"
+              ></div> -->
+
+        <div class="divider-fill-hor margin-y-4"></div>
       </div>
 
-      <div
-        class="divider-fill-vert margin-x-5"
-        fxShow
-        [fxHide.lt-md]="true"
-      ></div>
-
-      <div
-        class="divider-fill-hor margin-y-5"
-        fxHide
-        [fxShow.lt-md]="true"
-      ></div>
-
-      <div class="setup margin-x-1" fxFlex="60%" fxFlex.lt-md="100%">
-        <form
-          [formGroup]="ProjectFormGroup"
-          (ngSubmit)="CreateProvider($event)"
-        >
-          <mat-horizontal-stepper linear #providerStepper>
+      <div class="setup margin-x-1" fxFlex="80%" fxFlex.lt-md="100%">
+        <form [formGroup]="ProjectFormGroup" (ngSubmit)="CreateProject($event)">
+          <mat-horizontal-stepper linear #projectStepper>
             <mat-step
-              label="Connect Git Provider"
+              label="Connect Git"
               [completed]="State.GitHub.HasConnection"
             >
-              <div class="connect margin-3">
-                <h4 class="mat-title">
-                  The first step is getting your git provider connected
-                </h4>
+              <div class="connect margin-x-3 margin-bottom-3">
+                <h3 class="mat-display-1 margin-bottom-4">
+                  Connect your git provider
+                </h3>
 
                 <!-- href="/.oauth/github" -->
                 <a
-                  (click)="TempGitHubConnect()"
+                  (click)="ConnectGitHubProvider()"
                   mat-raised-button
                   color="primary"
-                  class="github"
+                  class="github margin-y-3"
                 >
                   Connect with GitHub
 
@@ -79,8 +75,10 @@
                 IsOrganizationValid && IsRepositoryValid && IsBranchValid
               "
             >
-              <div *ngIf="!State.GitHub.Loading">
-                <h4 class="mat-title">Now we'll setup your repository</h4>
+              <div>
+                <h3 class="mat-display-1 margin-bottom-4">
+                  Setup your repository
+                </h3>
 
                 <mat-form-field class="mat-full-width margin-2">
                   <mat-select
@@ -89,8 +87,13 @@
                     (selectionChange)="OrganizationChanged($event)"
                     required
                   >
-                    <mat-option value="Org1">Org1</mat-option>
-                    <mat-option value="Org2">Org2</mat-option>
+                    <ng-container
+                      *ngFor="let orgOpt of State.GitHub.OrganizationOptions"
+                    >
+                      <mat-option [value]="orgOpt.Name">
+                        {{ orgOpt.Name }}
+                      </mat-option>
+                    </ng-container>
                   </mat-select>
 
                   <mat-icon matSuffix (click)="RefreshOrganizations()">
@@ -110,7 +113,10 @@
                   </mat-hint>
                 </mat-form-field>
 
-                <mat-form-field class="mat-full-width margin-2">
+                <mat-form-field
+                  class="mat-full-width margin-2"
+                  *ngIf="IsOrganizationValid && !State.GitHub.Loading"
+                >
                   <mat-select
                     formControlName="repository"
                     [placeholder]="
@@ -123,8 +129,13 @@
                     (selectionChange)="RepositoryChanged($event)"
                     *ngIf="!State.GitHub.CreatingRepository"
                   >
-                    <mat-option value="Repo1">Repo1</mat-option>
-                    <mat-option value="Repo2">Repo2</mat-option>
+                    <ng-container
+                      *ngFor="let repoOpt of State.GitHub.RepositoryOptions"
+                    >
+                      <mat-option [value]="repoOpt.Name">
+                        {{ repoOpt.Name }}
+                      </mat-option>
+                    </ng-container>
                   </mat-select>
 
                   <input
@@ -138,7 +149,9 @@
                   <mat-icon
                     matSuffix
                     (click)="CreateRepository()"
-                    *ngIf="!State.GitHub.CreatingRepository && IsOrganizationValid"
+                    *ngIf="
+                      !State.GitHub.CreatingRepository && IsOrganizationValid
+                    "
                   >
                     add_circle
                   </mat-icon>
@@ -161,7 +174,10 @@
                   </mat-icon>
                 </mat-form-field>
 
-                <mat-form-field class="mat-full-width margin-2">
+                <mat-form-field
+                  class="mat-full-width margin-2"
+                  *ngIf="IsRepositoryValid && !State.GitHub.Loading"
+                >
                   <mat-select
                     formControlName="branch"
                     [placeholder]="
@@ -174,11 +190,44 @@
                     "
                     required
                   >
-                    <mat-option value="master">master</mat-option>
+                    <ng-container
+                      *ngFor="let branchOpt of State.GitHub.BranchOptions"
+                    >
+                      <mat-option [value]="branchOpt.Name">
+                        {{ branchOpt.Name }}
+                      </mat-option>
+                    </ng-container>
                   </mat-select>
                 </mat-form-field>
 
-                <div>
+                <div class="margin-3" *ngIf="State.GitHub.Loading">
+                  <lcu-loader
+                    style="margin: auto"
+                    [loading]="true"
+                  ></lcu-loader>
+
+                  <div class="margin-3">
+                    <h4 class="mat-title" *ngIf="!IsOrganizationValid">
+                      Loading organizations
+                    </h4>
+
+                    <h4
+                      class="mat-title"
+                      *ngIf="IsOrganizationValid && !IsRepositoryValid"
+                    >
+                      Loading repositories
+                    </h4>
+
+                    <h4
+                      class="mat-title"
+                      *ngIf="IsRepositoryValid && !IsBranchValid"
+                    >
+                      Loading branches
+                    </h4>
+                  </div>
+                </div>
+
+                <div class="margin-top-4">
                   <button mat-button matStepperPrevious type="button">
                     Back
                   </button>
@@ -196,19 +245,15 @@
                   </button>
                 </div>
               </div>
-
-              <div *ngIf="State.GitHub.Loading">
-                <h4 class="mat-title">Reloading Organizations</h4>
-
-                <lcu-loader [loading]="true"></lcu-loader>
-              </div>
             </mat-step>
 
             <!-- [stepControl]="formArray.get([2])" -->
-            <mat-step label="Configure Details" formGroupName="projectDetails">
-              <h4 class="mat-title">Configure the basic project details for</h4>
+            <mat-step label="Configure Project" formGroupName="projectDetails">
+              <h3 class="mat-display-1 margin-bottom-2">
+                Configure hosting for
+              </h3>
 
-              <h4 class="mat-title">
+              <h4 class="mat-headline margin-bottom-2">
                 <strong>
                   @{{
                     ProjectFormGroup.get("repoDetails").get("organization")
@@ -216,48 +261,43 @@
                   }}/{{
                     ProjectFormGroup.get("repoDetails").get("repository").value
                   }}
+                  @{{ ProjectFormGroup.get("repoDetails").get("branch").value }}
                 </strong>
               </h4>
 
-              <mat-form-field class="mat-full-width margin-2">
-                <mat-select
-                  formControlName="templateType"
-                  placeholder="Template Type"
-                  required
-                >
-                  <mat-option value="LowCodeUnit">Low Code Unit</mat-option>
+              <div class="margin-y-2" *ngIf="!State.HostingDetails.Loading">
+                <lcu-hosting-details-form-group
+                  [formGroup]="ProjectFormGroup"
+                  [details]="State.HostingDetails"
+                ></lcu-hosting-details-form-group>
+              </div>
 
-                  <mat-option value="custom">Custom</mat-option>
-                </mat-select>
-              </mat-form-field>
+              <div class="margin-3" *ngIf="State.HostingDetails.Loading">
+                <lcu-loader
+                  style="margin: auto"
+                  [loading]="true"
+                ></lcu-loader>
 
-              <mat-form-field class="mat-full-width margin-2">
-                <mat-select
-                  formControlName="template"
-                  [placeholder]="
-                    IsTemplateTypeValid
-                      ? 'Template'
-                      : 'Template (select template type first)'
-                  "
-                  [disabled]="!IsTemplateTypeValid"
-                  required
-                  *ngIf="
-                    ProjectFormGroup.get('projectDetails').get('templateType')
-                      .value != 'custom'
-                  "
-                >
-                  <mat-option value="Docusaurus">Docusaurus</mat-option>
+                <div class="margin-3">
+                  <h4 class="mat-title" *ngIf="!IsOrganizationValid">
+                    Loading organizations
+                  </h4>
 
-                  <mat-option value="LCUPack">LCU Pack</mat-option>
-                </mat-select>
+                  <h4
+                    class="mat-title"
+                    *ngIf="IsOrganizationValid && !IsRepositoryValid"
+                  >
+                    Loading repositories
+                  </h4>
 
-                <input
-                  matInput
-                  placeholder="Template"
-                  formControlName="template"
-                  required
-                />
-              </mat-form-field>
+                  <h4
+                    class="mat-title"
+                    *ngIf="IsRepositoryValid && !IsBranchValid"
+                  >
+                    Loading branches
+                  </h4>
+                </div>
+              </div>
 
               <div>
                 <button mat-button matStepperPrevious type="button">
@@ -269,7 +309,7 @@
                 <button
                   mat-raised-button
                   color="primary"
-                  [disabled]="!IsTemplateValid"
+                  [disabled]="!AreProjectDetailsValid"
                 >
                   Create Project
                 </button>
@@ -279,7 +319,7 @@
         </form>
       </div>
     </div>
-  </ng-container>
+  </div>
 
   <div class="loading" *ngIf="State?.Loading">
     <lcu-loader [loading]="State?.Loading"></lcu-loader>

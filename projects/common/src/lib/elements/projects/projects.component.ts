@@ -1,9 +1,31 @@
-import { Component, OnInit, Injector, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Injector,
+  ViewChild,
+  Inject,
+  AfterViewInit,
+} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
-import { LCUElementContext, LcuElementComponent } from '@lcu/common';
-import { ApplicationsFlowState } from './../../state/applications-flow.state';
+import {
+  LCUElementContext,
+  LcuElementComponent,
+  BaseResponse,
+  BaseModeledResponse,
+} from '@lcu/common';
+import {
+  ApplicationsFlowState,
+  GitHubBranch,
+  GitHubOrganization,
+  GitHubRepository,
+  ProjectHostingDetails,
+  ProjectHostingOption,
+} from './../../state/applications-flow.state';
+import { ApplicationsFlowService } from '../../services/applications-flow.service';
+
+declare var window: Window;
 
 export class ApplicationsFlowProjectsElementState {}
 
@@ -19,10 +41,14 @@ export const SELECTOR_APPLICATIONS_FLOW_PROJECTS_ELEMENT =
 })
 export class ApplicationsFlowProjectsElementComponent
   extends LcuElementComponent<ApplicationsFlowProjectsContext>
-  implements OnInit {
+  implements AfterViewInit, OnInit {
   //  Fields
 
   //  Properties
+  public get AreProjectDetailsValid(): boolean {
+    return this.ProjectFormGroup.get('projectDetails')?.valid;
+  }
+
   public get IsBranchValid(): boolean {
     return this.ProjectFormGroup.get('repoDetails').get('branch').valid;
   }
@@ -35,26 +61,18 @@ export class ApplicationsFlowProjectsElementComponent
     return this.ProjectFormGroup.get('repoDetails').get('repository').valid;
   }
 
-  public get IsTemplateValid(): boolean {
-    return this.ProjectFormGroup.get('projectDetails').get('template').valid;
-  }
-
-  public get IsTemplateTypeValid(): boolean {
-    return this.ProjectFormGroup.get('projectDetails').get('templateType')
-      .valid;
-  }
-
   public ProjectFormGroup: FormGroup;
 
   public State: ApplicationsFlowState;
 
-  @ViewChild('providerStepper')
+  @ViewChild('projectStepper')
   public Stepper: MatStepper;
 
   //  Constructors
   constructor(
     protected injector: Injector,
-    protected formBuilder: FormBuilder
+    protected formBuilder: FormBuilder,
+    protected appsFlowSvc: ApplicationsFlowService
   ) {
     super(injector);
 
@@ -62,6 +80,10 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  Life Cycle
+  public ngAfterViewInit() {
+    this.handleStateChange();
+  }
+
   public ngOnInit() {
     super.ngOnInit();
 
@@ -71,21 +93,19 @@ export class ApplicationsFlowProjectsElementComponent
         organization: ['', Validators.required],
         repository: ['', Validators.required],
       }),
-      projectDetails: this.formBuilder.group({
-        apiLocation: [''],
-        appLocation: ['', Validators.required],
-        outputLocation: ['', Validators.required],
-        template: ['', Validators.required],
-        templateType: ['', Validators.required],
-      }),
+      projectDetails: this.formBuilder.group({}),
     });
-
-    // this.handleStateChange();
   }
 
   //  API Methods
   public CancelCreateRepository() {
     this.State.GitHub.CreatingRepository = false;
+  }
+
+  public ConnectGitHubProvider() {
+    const reidrectUri = location.pathname + location.search;
+
+    window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
   }
 
   public CreateRepository() {
@@ -103,6 +123,8 @@ export class ApplicationsFlowProjectsElementComponent
 
     if (org !== event.value) {
       this.ProjectFormGroup.get('repoDetails').get('repository').reset();
+
+      this.listRepositories();
     }
   }
 
@@ -117,6 +139,8 @@ export class ApplicationsFlowProjectsElementComponent
 
     if (repo !== event.value) {
       this.ProjectFormGroup.get('repoDetails').get('branch').reset();
+
+      this.listBranches();
     }
   }
 
@@ -127,12 +151,6 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public SetupRepository() {
-    this.determineStep();
-  }
-
-  public TempGitHubConnect() {
-    this.State.GitHub.HasConnection = true;
-
     this.determineStep();
   }
 
@@ -148,10 +166,91 @@ export class ApplicationsFlowProjectsElementComponent
       }
     }
 
-    this.Stepper.selectedIndex = index;
+    setTimeout(() => {
+      this.Stepper.selectedIndex = index;
+    }, 0);
   }
 
   protected handleStateChange() {
-    this.determineStep();
+    this.State.Loading = true;
+
+    this.appsFlowSvc
+      .HasValidConnection()
+      .subscribe((response: BaseResponse) => {
+        this.State.GitHub.HasConnection = response.Status.Code === 0;
+
+        this.determineStep();
+
+        if (this.State.GitHub.HasConnection) {
+          this.listOrganizations();
+        } else {
+          this.State.Loading = false;
+        }
+      });
+  }
+
+  protected listBranches() {
+    this.State.GitHub.Loading = true;
+
+    this.appsFlowSvc
+      .ListBranches(
+        this.ProjectFormGroup.get('repoDetails').get('organization').value,
+        this.ProjectFormGroup.get('repoDetails').get('repository').value
+      )
+      .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
+        this.State.GitHub.BranchOptions = response.Model;
+
+        this.State.GitHub.Loading = false;
+
+        this.loadProjectHostingDetails();
+
+        console.log(this.State);
+      });
+  }
+
+  protected listOrganizations() {
+    this.appsFlowSvc
+      .ListOrganizations()
+      .subscribe((response: BaseModeledResponse<GitHubOrganization[]>) => {
+        this.State.GitHub.OrganizationOptions = response.Model;
+
+        this.State.Loading = false;
+
+        console.log(this.State);
+      });
+  }
+
+  protected listRepositories() {
+    this.State.GitHub.Loading = true;
+
+    this.appsFlowSvc
+      .ListRepositories(
+        this.ProjectFormGroup.get('repoDetails').get('organization').value
+      )
+      .subscribe((response: BaseModeledResponse<GitHubRepository[]>) => {
+        this.State.GitHub.RepositoryOptions = response.Model;
+
+        this.State.GitHub.Loading = false;
+
+        console.log(this.State);
+      });
+  }
+
+  protected loadProjectHostingDetails() {
+    this.State.HostingDetails.Loading = true;
+
+    this.appsFlowSvc
+      .LoadProjectHostingDetails(
+        this.ProjectFormGroup.get('repoDetails').get('organization').value,
+        this.ProjectFormGroup.get('repoDetails').get('repository').value,
+        this.ProjectFormGroup.get('repoDetails').get('branch').value
+      )
+      .subscribe((response: BaseModeledResponse<ProjectHostingDetails>) => {
+        this.State.HostingDetails = response.Model;
+
+        this.State.HostingDetails.Loading = false;
+
+        console.log(this.State);
+      });
   }
 }

@@ -1,6 +1,10 @@
 @import "../../../assets/common";
 
 :host ::ng-deep {
+  .mat-horizontal-stepper-header-container {
+    display: none !important;
+  }
+
   .divider-fill-vert {
     min-height: 250px;
   }
@@ -13,7 +17,7 @@
     display: inline-block;
     background-size: cover;
     background-position: 50%;
-    background-image: url("/assets/img/octocat-icon.jpg");
+    background-image: url("assets/img/octocat-icon.jpg");
   }
 
   .welcome {
@@ -30,10 +34,15 @@
     .connect {
       margin: auto;
 
+      h3 {
+        word-wrap: normal;
+      }
+
       .github {
         font-size: 36px;
         line-height: 64px;
         color: white;
+        white-space: normal;
       }
     }
   }

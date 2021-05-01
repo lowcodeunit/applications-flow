@@ -1,0 +1,36 @@
+<div [formGroup]="FormGroup.get('projectDetails')">
+  <mat-form-field class="mat-full-width margin-2">
+    <mat-select
+      formControlName="hostingOption"
+      placeholder="Hosting Option"
+      required
+    >
+      <ng-container *ngFor="let hostingOpt of Details.HostingOptions">
+        <mat-option [value]="hostingOpt.Name">
+          {{ hostingOpt.Name }}
+        </mat-option>
+      </ng-container>
+    </mat-select>
+  </mat-form-field>
+
+  <!-- <mat-form-field class="mat-full-width margin-2">
+    <mat-select
+      formControlName="template"
+      [placeholder]="
+        IsTemplateTypeValid
+          ? 'Template'
+          : 'Template (select template type first)'
+      "
+      [disabled]="!IsTemplateTypeValid"
+      required
+      *ngIf="
+        FormGroup.get('projectDetails').get('templateType').value !=
+        'custom'
+      "
+    >
+      <mat-option value="Docusaurus">Docusaurus</mat-option>
+
+      <mat-option value="LCUPack">LCU Pack</mat-option>
+    </mat-select>
+  </mat-form-field> -->
+</div>
