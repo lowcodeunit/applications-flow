@@ -17,6 +17,7 @@ import {
 import { environment } from '../environments/environment';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AppHostModule } from '@lowcodeunit/app-host-common';
+import 'zone.js/dist/zone';
 
 @NgModule({
   declarations: [],
