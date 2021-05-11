@@ -21,4 +21,5 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: lowcodeunit-applications-flow
-          path: build/demo
+          path: dist/demo
+
