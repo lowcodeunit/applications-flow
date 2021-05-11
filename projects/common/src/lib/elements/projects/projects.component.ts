@@ -17,6 +17,7 @@ import {
 } from '@lcu/common';
 import {
   ApplicationsFlowState,
+  EstablishProjectRequest,
   GitHubBranch,
   GitHubOrganization,
   GitHubRepository,
@@ -116,6 +117,32 @@ export class ApplicationsFlowProjectsElementComponent
 
   public CreateProject() {
     this.State.Loading = true;
+
+    const repoDetails = this.ProjectFormGroup.get('repoDetails');
+
+    const projectDetails = this.ProjectFormGroup.get('projectDetails');
+
+    const req: EstablishProjectRequest = {
+      Branch: repoDetails.get('branch').value,
+      BuildScript: projectDetails.get('buildScript').value,
+      // HostingOption: projectDetails.get('hostingOption').value,
+      Organization: repoDetails.get('organization').value,
+      OutputFolder: projectDetails.get('outputFolder').value,
+      // ProjectName: projectDetails.get('buildScript').value,
+      Repository: repoDetails.get('repository').value,
+    };
+
+    req.ProjectName = `${req.Organization} ${req.Repository} ${req.Branch}`;
+
+    // req.HostingOption = '';
+
+    this.appsFlowSvc
+      .BootUserEnterprise(req)
+      .subscribe((response: BaseResponse) => {
+        this.State.Loading = false;
+
+        console.log(response);
+      });
   }
 
   public OrganizationChanged(event: MatSelectChange) {

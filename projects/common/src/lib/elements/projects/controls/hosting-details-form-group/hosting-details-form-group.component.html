@@ -1,36 +1,50 @@
 <div [formGroup]="FormGroup.get('projectDetails')">
-  <mat-form-field class="mat-full-width margin-2">
+  <!-- <mat-form-field class="mat-full-width margin-2">
+    <input
+      matInput
+      formControlName="projectName"
+      placeholder="The project name."
+      required
+    />
+  </mat-form-field> -->
+
+  <!-- <mat-form-field class="mat-full-width margin-2">
     <mat-select
       formControlName="hostingOption"
       placeholder="Hosting Option"
       required
     >
       <ng-container *ngFor="let hostingOpt of Details.HostingOptions">
-        <mat-option [value]="hostingOpt.Name">
+        <mat-option [value]="hostingOpt.Lookup">
           {{ hostingOpt.Name }}
         </mat-option>
       </ng-container>
     </mat-select>
+  </mat-form-field> -->
+
+  <mat-form-field class="mat-full-width margin-2">
+    <input
+      matInput
+      formControlName="buildScript"
+      placeholder="The build script."
+      required
+    />
   </mat-form-field>
 
-  <!-- <mat-form-field class="mat-full-width margin-2">
-    <mat-select
-      formControlName="template"
-      [placeholder]="
-        IsTemplateTypeValid
-          ? 'Template'
-          : 'Template (select template type first)'
-      "
-      [disabled]="!IsTemplateTypeValid"
+  <mat-form-field class="mat-full-width margin-2">
+    <input
+      matInput
+      formControlName="outputFolder"
+      placeholder="The output folder."
       required
-      *ngIf="
-        FormGroup.get('projectDetails').get('templateType').value !=
-        'custom'
-      "
-    >
-      <mat-option value="Docusaurus">Docusaurus</mat-option>
+    />
+  </mat-form-field>
 
-      <mat-option value="LCUPack">LCU Pack</mat-option>
-    </mat-select>
+  <!--<mat-form-field class="mat-full-width margin-2">
+    <input
+      matInput
+      formControlName="deployScript"
+      placeholder="The deployment script (otherwise a default deployment process is create)."
+    />
   </mat-form-field> -->
 </div>

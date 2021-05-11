@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { LCUServiceSettings, StateContext } from '@lcu/common';
-import { ApplicationsFlowState } from '../state/applications-flow.state';
+import { ApplicationsFlowState, EstablishProjectRequest } from '../state/applications-flow.state';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +16,12 @@ export class ApplicationsFlowService {
   }
 
   // API Methods
+  public BootUserEnterprise(request: EstablishProjectRequest) {
+    return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/boot`, request, {
+      headers: this.loadHeaders()
+    });
+  }
+
   public HasValidConnection() {
     return this.http.get(`${this.apiRoot}/api/lowcodeunit/github/connection/valid`, {
       headers: this.loadHeaders()
@@ -41,7 +47,7 @@ export class ApplicationsFlowService {
   }
 
   public LoadProjectHostingDetails(organization: string, repository: string, branch: string) {
-    return this.http.get(`${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`, {
+    return this.http.get(`${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`, {
       headers: this.loadHeaders()
     });
   }

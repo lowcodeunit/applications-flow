@@ -32,7 +32,27 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       }
     }
 
-    formGroup.addControl('hostingOption', this.formBuilder.control(['', Validators.required]));
+    // formGroup.addControl(
+    //   'projectName',
+    //   this.formBuilder.control('', [Validators.required])
+    // );
+
+    // formGroup.addControl(
+    //   'hostingOption',
+    //   this.formBuilder.control('', [Validators.required])
+    // );
+
+    formGroup.addControl(
+      'buildScript',
+      this.formBuilder.control('npm run build', [Validators.required])
+    );
+
+    formGroup.addControl(
+      'outputFolder',
+      this.formBuilder.control('dist', [Validators.required])
+    );
+
+    // formGroup.addControl('deployScript', this.formBuilder.control(['']));
 
     // this.FormGroup.setControl(
     //   'projectDetails',

@@ -67,5 +67,23 @@ export class ProjectHostingDetails {
 }
 
 export class ProjectHostingOption {
+  public Lookup?: string;
+
   public Name?: string;
+}
+
+export class EstablishProjectRequest {
+  public Branch?: string;
+
+  public BuildScript?: string;
+
+  public HostingOption?: string;
+
+  public Organization?: string;
+
+  public OutputFolder?: string;
+
+  public ProjectName?: string;
+
+  public Repository?: string;
 }

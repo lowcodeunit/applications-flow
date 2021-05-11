@@ -115,7 +115,7 @@
 
                 <mat-form-field
                   class="mat-full-width margin-2"
-                  *ngIf="IsOrganizationValid && !State.GitHub.Loading"
+                  *ngIf="IsRepositoryValid || (IsOrganizationValid && !State.GitHub.Loading)"
                 >
                   <mat-select
                     formControlName="repository"
@@ -176,7 +176,7 @@
 
                 <mat-form-field
                   class="mat-full-width margin-2"
-                  *ngIf="IsRepositoryValid && !State.GitHub.Loading"
+                  *ngIf="IsBranchValid || (IsRepositoryValid && !State.GitHub.Loading)"
                 >
                   <mat-select
                     formControlName="branch"
@@ -250,7 +250,7 @@
             <!-- [stepControl]="formArray.get([2])" -->
             <mat-step label="Configure Project" formGroupName="projectDetails">
               <h3 class="mat-display-1 margin-bottom-2">
-                Configure hosting for
+                Configure project
               </h3>
 
               <h4 class="mat-headline margin-bottom-2">
