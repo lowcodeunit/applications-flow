@@ -2,6 +2,7 @@
 	"name": "@lowcodeunit/applications-flow",
 	"version": "0.0.1",
 	"scripts": {
+    "build": "npm run build:common && npm run build:lcu && npm run build:demo",
 		"build:common": "ng build common",
 		"build:demo": "ng build demo --prod",
 		"build:lcu": "ng build lcu --prod --single-bundle && npm run pack",
