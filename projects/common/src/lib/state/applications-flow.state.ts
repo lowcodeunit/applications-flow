@@ -30,6 +30,8 @@ export class ProjectState {
   public Image?: string;
 
   public PreventInheritedApplications?: string;
+
+  public Runs?: GitHubWorkflowRun;
 }
 
 export class GitHubSetupState {
@@ -58,6 +60,20 @@ export class GitHubRepository {
   public CloneURL?: string;
 
   public Name?: string;
+}
+
+export class GitHubWorkflowRun {
+  public Conclusion?: string;
+
+  public CreatedAt?: string;
+
+  public RunNumber?: number;
+
+  public Status?: string;
+
+  public Workflow?: string;
+
+  public UpdatedAt?: string;
 }
 
 export class ProjectHostingDetails {

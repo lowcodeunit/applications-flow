@@ -22,6 +22,12 @@ export class ApplicationsFlowService {
     });
   }
 
+  public ListProjects() {
+    return this.http.get(`${this.apiRoot}/api/lowcodeunit/manage/projects`, {
+      headers: this.loadHeaders()
+    });
+  }
+
   public HasValidConnection() {
     return this.http.get(`${this.apiRoot}/api/lowcodeunit/github/connection/valid`, {
       headers: this.loadHeaders()
