@@ -40,42 +40,60 @@
             </a>
           </h3>
 
-          <ng-container *ngIf="project.Runs[0]; let latestRun">
-            <h4 class="mat-subheading-2">
-              Built with GitHub Actions
+          <ng-container *ngIf="project.Runs?.length <= 0">
+            No workflow runs completed, check in code
+            <a
+              href="https://github.com/{{ latestRun.LCU.Organization }}/{{
+                latestRun.LCU.Repository
+              }}/actions"
+              target="_blank"
+            >
+              here
+            </a>
+            to the {{ latestRun.LCU.Branch }} to start a build with GitHub Actions.
+          </ng-container>
 
-              <a
-                mat-icon-button
-                class="workflow-run-status"
-                href="https://github.com/{{ latestRun.LCU.Organization }}/{{
-                  latestRun.LCU.Repository
-                }}/actions"
-                target="_blank"
-              >
-                <mat-icon
-                  color="primary"
-                  *ngIf="latestRun.Conclusion == 'success'"
+          <ng-container *ngIf="project.Runs?.length > 0">
+            <ng-container *ngIf="project.Runs[0]; let latestRun">
+              <h4 class="mat-subheading-2">
+                Built with GitHub Actions
+
+                <a
+                  mat-icon-button
+                  class="workflow-run-status"
+                  href="https://github.com/{{ latestRun.LCU.Organization }}/{{
+                    latestRun.LCU.Repository
+                  }}/actions"
+                  target="_blank"
                 >
-                  check_circle
-                </mat-icon>
+                  <mat-icon
+                    color="primary"
+                    *ngIf="latestRun.Conclusion == 'success'"
+                  >
+                    check_circle
+                  </mat-icon>
 
-                <mat-icon color="warn" *ngIf="latestRun.Conclusion == 'failure'">
-                  error_outline
-                </mat-icon>
-<!--
+                  <mat-icon
+                    color="warn"
+                    *ngIf="latestRun.Conclusion == 'failure'"
+                  >
+                    error_outline
+                  </mat-icon>
+                  <!--
                 <span>
                   <lcu-loader [loading]="latestRun.Status == 'in_progress'" [diameter]="75"></lcu-loader>
                 </span> -->
 
-                {{ latestRun.Status }}
+                  {{ latestRun.Status }}
 
-                {{ latestRun.Conclusion }}
-              </a>
-            </h4>
+                  {{ latestRun.Conclusion }}
+                </a>
+              </h4>
 
-            <h4 class="mat-subheading-1">
-              <a mat-button (click)="DeployRun(latestRun)"> Deploy Latest </a>
-            </h4>
+              <h4 class="mat-subheading-1">
+                <a mat-button (click)="DeployRun(latestRun)"> Deploy Latest </a>
+              </h4>
+            </ng-container>
           </ng-container>
         </div>
       </div>
