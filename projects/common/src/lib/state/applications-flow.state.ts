@@ -52,6 +52,18 @@ export class GitHubBranch {
   public Name?: string;
 }
 
+export class GitHubLowCodeUnit {
+  public Branch?: string;
+
+  public ID?: string;
+
+  public Lookup?: string;
+
+  public Organization?: string;
+
+  public Repository?: string;
+}
+
 export class GitHubOrganization {
   public Name?: string;
 }
@@ -66,6 +78,8 @@ export class GitHubWorkflowRun {
   public Conclusion?: string;
 
   public CreatedAt?: string;
+
+  public LCU?: GitHubLowCodeUnit;
 
   public RunNumber?: number;
 

@@ -22,8 +22,6 @@
     <div fxLayout="row" *ngFor="let project of State.Projects">
       <div fxFlex="150px" class="project-image">
         <img [src]="project.Image" *ngIf="project.Image" />
-
-        <img src="/assets/images/project-icon.png" *ngIf="!project.Image" />
       </div>
 
       <div class="margin-3">
@@ -35,12 +33,35 @@
             href="https://{{ project.Host }}"
             target="_blank"
             [title]="project.Host"
+            color="accent"
           >
             <mat-icon>launch</mat-icon>
           </a>
         </h3>
 
-        <h4 class="mat-subheading-1">Built with GitHub Actions</h4>
+        <h4 class="mat-subheading-1" *ngIf="project.Runs[0]; let latestRun">
+          <span class="workflow-run-status">
+            <mat-icon color="primary" *ngIf="latestRun.Conclusion == 'success'">
+              check_circle
+            </mat-icon>
+
+            <mat-icon color="warn" *ngIf="latestRun.Conclusion == 'failed'">
+              error_outline
+            </mat-icon>
+          </span>
+
+          Built with GitHub Actions
+
+          <a
+            mat-icon-button
+            href="https://github.com/{{ latestRun.LCU.Organization }}/{{
+              latestRun.LCU.Repository
+            }}/actions"
+            target="_blank"
+          >
+            <mat-icon>launch</mat-icon>
+          </a>
+        </h4>
       </div>
     </div>
   </div>
