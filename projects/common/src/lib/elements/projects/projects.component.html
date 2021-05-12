@@ -14,55 +14,81 @@
     </a>
   </nav>
 
-  <div *ngIf="State.Projects?.length <= 0">
-    <lcu-create-project-wizard></lcu-create-project-wizard>
-  </div>
+  <ng-container *ngIf="!State?.Loading">
+    <div *ngIf="State.Projects?.length <= 0">
+      <lcu-create-project-wizard></lcu-create-project-wizard>
+    </div>
 
-  <div *ngIf="State.Projects?.length > 0">
-    <div fxLayout="row" *ngFor="let project of State.Projects">
-      <div fxFlex="150px" class="project-image">
-        <img [src]="project.Image" *ngIf="project.Image" />
+    <div *ngIf="State.Projects?.length > 0">
+      <div fxLayout="row" *ngFor="let project of State.Projects">
+        <div fxFlex="150px" class="project-image">
+          <img [src]="project.Image" *ngIf="project.Image" />
+        </div>
+
+        <div class="margin-3">
+          <h3 class="mat-headline">
+            {{ project.Name }}
+
+            <a
+              mat-icon-button
+              href="https://{{ project.Host }}"
+              target="_blank"
+              [title]="project.Host"
+              color="accent"
+            >
+              <mat-icon>launch</mat-icon>
+            </a>
+          </h3>
+
+          <ng-container *ngIf="project.Runs[0]; let latestRun">
+            <h4 class="mat-subheading-2">
+              Built with GitHub Actions
+
+              <a
+                mat-icon-button
+                class="workflow-run-status"
+                href="https://github.com/{{ latestRun.LCU.Organization }}/{{
+                  latestRun.LCU.Repository
+                }}/actions"
+                target="_blank"
+              >
+                <mat-icon
+                  color="primary"
+                  *ngIf="latestRun.Conclusion == 'success'"
+                >
+                  check_circle
+                </mat-icon>
+
+                <mat-icon color="warn" *ngIf="latestRun.Conclusion == 'failure'">
+                  error_outline
+                </mat-icon>
+<!--
+                <span>
+                  <lcu-loader [loading]="latestRun.Status == 'in_progress'" [diameter]="75"></lcu-loader>
+                </span> -->
+
+                {{ latestRun.Status }}
+
+                {{ latestRun.Conclusion }}
+              </a>
+            </h4>
+
+            <h4 class="mat-subheading-1">
+              <a mat-button (click)="DeployRun(latestRun)"> Deploy Latest </a>
+            </h4>
+          </ng-container>
+        </div>
       </div>
+    </div>
+  </ng-container>
 
-      <div class="margin-3">
-        <h3 class="mat-headline">
-          {{ project.Name }}
+  <div class="loading" *ngIf="State?.Loading">
+    <lcu-loader [loading]="State?.Loading"></lcu-loader>
 
-          <a
-            mat-icon-button
-            href="https://{{ project.Host }}"
-            target="_blank"
-            [title]="project.Host"
-            color="accent"
-          >
-            <mat-icon>launch</mat-icon>
-          </a>
-        </h3>
+    <div class="margin-3">
+      <p *ngIf="!State.UserEnterpriseLookup">Loading your projects</p>
 
-        <h4 class="mat-subheading-1" *ngIf="project.Runs[0]; let latestRun">
-          <span class="workflow-run-status">
-            <mat-icon color="primary" *ngIf="latestRun.Conclusion == 'success'">
-              check_circle
-            </mat-icon>
-
-            <mat-icon color="warn" *ngIf="latestRun.Conclusion == 'failed'">
-              error_outline
-            </mat-icon>
-          </span>
-
-          Built with GitHub Actions
-
-          <a
-            mat-icon-button
-            href="https://github.com/{{ latestRun.LCU.Organization }}/{{
-              latestRun.LCU.Repository
-            }}/actions"
-            target="_blank"
-          >
-            <mat-icon>launch</mat-icon>
-          </a>
-        </h4>
-      </div>
+      <p *ngIf="State.UserEnterpriseLookup">Loading your Dashboard.</p>
     </div>
   </div>
 </app-host-dashboard-card-element>

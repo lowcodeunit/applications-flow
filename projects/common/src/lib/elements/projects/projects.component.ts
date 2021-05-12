@@ -21,6 +21,7 @@ import {
   GitHubBranch,
   GitHubOrganization,
   GitHubRepository,
+  GitHubWorkflowRun,
   ProjectHostingDetails,
   ProjectHostingOption,
   ProjectState,
@@ -68,6 +69,17 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
+  protected DeployRun(run: GitHubWorkflowRun) {
+    this.State.Loading = true;
+
+    this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
+      if (response.Status.Code === 0) {
+        this.listProjects();
+      } else {
+        this.State.Loading = false;
+      }
+    });
+  }
 
   //  Helpers
   protected handleStateChange() {

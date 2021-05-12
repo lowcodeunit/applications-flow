@@ -79,6 +79,8 @@ export class GitHubWorkflowRun {
 
   public CreatedAt?: string;
 
+  public ID?: string;
+
   public LCU?: GitHubLowCodeUnit;
 
   public RunNumber?: number;

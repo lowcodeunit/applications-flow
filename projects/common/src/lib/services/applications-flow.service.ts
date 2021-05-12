@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { LCUServiceSettings, StateContext } from '@lcu/common';
 import { ApplicationsFlowState, EstablishProjectRequest } from '../state/applications-flow.state';
+import { GitHubWorkflowRun } from './../state/applications-flow.state';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,12 @@ export class ApplicationsFlowService {
   // API Methods
   public BootUserEnterprise(request: EstablishProjectRequest) {
     return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/boot`, request, {
+      headers: this.loadHeaders()
+    });
+  }
+
+  public DeployRun(run: GitHubWorkflowRun) {
+    return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/projects/deploy`, run, {
       headers: this.loadHeaders()
     });
   }
