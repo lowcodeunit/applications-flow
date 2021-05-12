@@ -20,16 +20,27 @@
 
   <div *ngIf="State.Projects?.length > 0">
     <div fxLayout="row" *ngFor="let project of State.Projects">
-      <img [src]="project.Image" *ngIf="project.Image" />
+      <div fxFlex="150px" class="project-image">
+        <img [src]="project.Image" *ngIf="project.Image" />
 
-      <div>
-        <h3 class="mat-headline">{{ project.Name }}</h3>
+        <img src="/assets/images/project-icon.png" *ngIf="!project.Image" />
+      </div>
 
-        <a class="mat-title" href="https://{{ project.Host }}" target="_blank">
-          {{ project.Host }}
-        </a>
+      <div class="margin-3">
+        <h3 class="mat-headline">
+          {{ project.Name }}
 
-        <h4 class="mat-subheading">Built with GitHub Actions</h4>
+          <a
+            mat-icon-button
+            href="https://{{ project.Host }}"
+            target="_blank"
+            [title]="project.Host"
+          >
+            <mat-icon>launch</mat-icon>
+          </a>
+        </h3>
+
+        <h4 class="mat-subheading-1">Built with GitHub Actions</h4>
       </div>
     </div>
   </div>
