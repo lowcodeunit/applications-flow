@@ -5,6 +5,7 @@ import {
   ViewChild,
   Inject,
   AfterViewInit,
+  OnDestroy,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
@@ -44,11 +45,14 @@ export const SELECTOR_APPLICATIONS_FLOW_PROJECTS_ELEMENT =
 })
 export class ApplicationsFlowProjectsElementComponent
   extends LcuElementComponent<ApplicationsFlowProjectsContext>
-  implements OnInit
+  implements OnDestroy, OnInit
 {
   //  Fields
+  protected projMon: NodeJS.Timeout;
 
   //  Properties
+  public CreatingProject: boolean;
+
   public State: ApplicationsFlowState;
 
   //  Constructors
@@ -62,10 +66,16 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  Life Cycle
+  public ngOnDestroy() {
+    this.teardownProjectMonitor();
+  }
+
   public ngOnInit() {
     super.ngOnInit();
 
     this.handleStateChange();
+
+    this.setupProjectMonitor();
   }
 
   //  API Methods
@@ -81,6 +91,10 @@ export class ApplicationsFlowProjectsElementComponent
     });
   }
 
+  protected ToggleCreateProject() {
+    this.CreatingProject = !this.CreatingProject;
+  }
+
   //  Helpers
   protected handleStateChange() {
     this.State.Loading = true;
@@ -88,17 +102,33 @@ export class ApplicationsFlowProjectsElementComponent
     this.listProjects();
   }
 
-  protected listProjects() {
-    this.State.Loading = true;
+  protected listProjects(withLoading: boolean = true) {
+    if (withLoading) {
+      this.State.Loading = true;
+    }
 
     this.appsFlowSvc
       .ListProjects()
       .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
         this.State.Projects = response.Model;
 
-        this.State.Loading = false;
+        if (withLoading) {
+          this.State.Loading = false;
+        }
+
+        this.CreatingProject = !this.State.Projects || this.State.Projects.length <= 0;
 
         console.log(this.State);
       });
+  }
+
+  protected setupProjectMonitor() {
+    this.projMon = setInterval(() => {
+      this.listProjects(false);
+    }, 15000);
+  }
+
+  protected teardownProjectMonitor() {
+    clearInterval(this.projMon);
   }
 }

@@ -146,9 +146,27 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   }
 
   public SaveRepository() {
-    alert(this.ProjectFormGroup.get('repoDetails').get('repository').value);
+    this.State.GitHub.Loading = true;
 
-    this.State.GitHub.CreatingRepository = false;
+    const org =
+      this.ProjectFormGroup.get('repoDetails').get('organization').value;
+
+    const repoName =
+      this.ProjectFormGroup.get('repoDetails').get('repository').value;
+
+    this.appsFlowSvc
+      .CreateRepository(org, repoName)
+      .subscribe((response: BaseResponse) => {
+        if (response.Status.Code === 0) {
+          this.listRepositories(repoName);
+
+          this.State.GitHub.CreatingRepository = false;
+        } else {
+          //  TODO:  Need to surface an error to the user...
+
+          this.State.GitHub.Loading = false;
+        }
+      });
   }
 
   public SetupRepository() {
@@ -203,6 +221,12 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
 
         this.State.GitHub.Loading = false;
 
+        if (this.State.GitHub.BranchOptions?.length === 1) {
+          this.ProjectFormGroup.get('repoDetails')
+            .get('branch')
+            .setValue(this.State.GitHub.BranchOptions[0].Name);
+        }
+
         this.loadProjectHostingDetails();
 
         console.log(this.State);
@@ -221,7 +245,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
       });
   }
 
-  protected listRepositories() {
+  protected listRepositories(activeRepo: string = null) {
     this.State.GitHub.Loading = true;
 
     this.appsFlowSvc
@@ -233,7 +257,17 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
 
         this.State.GitHub.Loading = false;
 
-        console.log(this.State);
+        if (activeRepo) {
+          setTimeout(() => {
+            this.ProjectFormGroup.get('repoDetails')
+              .get('repository')
+              .setValue(activeRepo);
+
+            this.listBranches();
+          }, 0);
+        } else if (this.State.GitHub.RepositoryOptions?.length <= 0) {
+          this.State.GitHub.CreatingRepository = true;
+        }
       });
   }
 

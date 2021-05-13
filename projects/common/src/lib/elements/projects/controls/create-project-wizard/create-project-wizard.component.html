@@ -131,6 +131,7 @@
                     formControlName="repository"
                     required
                     *ngIf="State.GitHub.CreatingRepository"
+                    [fxHide]="State.GitHub.Loading"
                   />
 
                   <mat-icon
@@ -164,8 +165,9 @@
                 <mat-form-field
                   class="mat-full-width margin-2"
                   *ngIf="
-                    IsBranchValid ||
-                    (IsRepositoryValid && !State.GitHub.Loading)
+                    (IsBranchValid ||
+                      (IsRepositoryValid && !State.GitHub.Loading)) &&
+                    !State.GitHub.CreatingRepository
                   "
                 >
                   <mat-select
@@ -175,9 +177,7 @@
                         ? 'Branch'
                         : 'Branch (select repository first)'
                     "
-                    [disabled]="
-                      !IsRepositoryValid || State.GitHub.CreatingRepository
-                    "
+                    [disabled]="!IsRepositoryValid"
                     required
                   >
                     <ng-container

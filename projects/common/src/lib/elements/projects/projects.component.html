@@ -15,11 +15,11 @@
   </nav>
 
   <ng-container *ngIf="!State?.Loading">
-    <div *ngIf="State.Projects?.length <= 0">
+    <div *ngIf="CreatingProject">
       <lcu-create-project-wizard></lcu-create-project-wizard>
     </div>
 
-    <div *ngIf="State.Projects?.length > 0">
+    <div *ngIf="!CreatingProject">
       <div fxLayout="row" *ngFor="let project of State.Projects">
         <div fxFlex="150px" class="project-image">
           <img [src]="project.Image" *ngIf="project.Image" />
@@ -50,7 +50,8 @@
             >
               here
             </a>
-            to the {{ latestRun.LCU.Branch }} to start a build with GitHub Actions.
+            to the {{ latestRun.LCU.Branch }} to start a build with GitHub
+            Actions.
           </ng-container>
 
           <ng-container *ngIf="project.Runs?.length > 0">
@@ -98,6 +99,14 @@
         </div>
       </div>
     </div>
+
+    <span class="card-actions" *ngIf="!CreatingProject">
+      <div fxFlex></div>
+
+      <button mat-raised-button color="accent" (click)="ToggleCreateProject()">
+        Create Project
+      </button>
+    </span>
   </ng-container>
 
   <div class="loading" *ngIf="State?.Loading">

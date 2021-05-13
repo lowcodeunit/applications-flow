@@ -23,6 +23,14 @@ export class ApplicationsFlowService {
     });
   }
 
+  public CreateRepository(organization: string, repoName: string) {
+    return this.http.post(`${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories`, {
+      Name: repoName
+    }, {
+      headers: this.loadHeaders()
+    });
+  }
+
   public DeployRun(run: GitHubWorkflowRun) {
     return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/projects/deploy`, run, {
       headers: this.loadHeaders()
