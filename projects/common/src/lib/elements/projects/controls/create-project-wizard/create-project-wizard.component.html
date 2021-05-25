@@ -27,7 +27,7 @@
       </div>
 
       <div class="setup margin-x-1" fxFlex="80%" fxFlex.lt-md="100%">
-        <form [formGroup]="ProjectFormGroup" (ngSubmit)="CreateProject($event)">
+        <form [formGroup]="ProjectFormGroup" (ngSubmit)="CreateProject()">
           <mat-horizontal-stepper linear #projectStepper>
             <mat-step
               label="Connect Git"
