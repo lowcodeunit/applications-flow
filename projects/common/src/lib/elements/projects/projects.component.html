@@ -19,94 +19,151 @@
       <lcu-create-project-wizard></lcu-create-project-wizard>
     </div>
 
-    <div *ngIf="!CreatingProject">
-      <div fxLayout="row" *ngFor="let project of State.Projects">
-        <div fxFlex="150px" class="project-image">
-          <img [src]="project.Image" *ngIf="project.Image" />
-        </div>
+    <div *ngIf="EditingProjectSettings">
+      <lcu-project-settings
+        [project]="EditingProjectSettings"
+        [host-dns-instance]="State.HostDNSInstance"
+        (saved)="SaveProject($event)"
+        (cancelled)="SetEditProjectSettings(null)"
+      ></lcu-project-settings>
+    </div>
 
-        <div class="margin-3">
-          <h3 class="mat-headline">
-            {{ project.Name }}
+    <ng-container *ngIf="!CreatingProject && !EditingProjectSettings">
+      <div>
+        <div fxLayout="row" *ngFor="let project of State.Projects">
+          <div fxFlex="150px" class="project-image">
+            <img [src]="project.Image" *ngIf="project.Image" />
+          </div>
 
-            <a
-              mat-icon-button
-              href="https://{{ project.Host }}"
-              target="_blank"
-              [title]="project.Host"
-              color="accent"
-            >
-              <mat-icon>launch</mat-icon>
-            </a>
-          </h3>
+          <div class="margin-3">
+            <h3 class="mat-headline">
+              {{ project.Name }}
 
-          <ng-container *ngIf="project.Runs?.length <= 0">
-            No workflow runs completed, check in code
-            <a
-              href="https://github.com/{{ latestRun.LCU.Organization }}/{{
-                latestRun.LCU.Repository
-              }}/actions"
-              target="_blank"
-            >
-              here
-            </a>
-            to the {{ latestRun.LCU.Branch }} to start a build with GitHub
-            Actions.
-          </ng-container>
+              <a
+                mat-icon-button
+                (click)="SetEditProjectSettings(project)"
+                target="_blank"
+                title="Edit Project Settings"
+              >
+                <mat-icon>settings</mat-icon>
+              </a>
 
-          <ng-container *ngIf="project.Runs?.length > 0">
-            <ng-container *ngIf="project.Runs[0]; let latestRun">
-              <h4 class="mat-subheading-2">
-                Built with GitHub Actions
+              <a
+                mat-icon-button
+                href="https://{{ project.Host }}"
+                target="_blank"
+                [title]="project.Host"
+                color="accent"
+              >
+                <mat-icon>launch</mat-icon>
+              </a>
+            </h3>
 
-                <a
-                  mat-icon-button
-                  class="workflow-run-status"
-                  href="https://github.com/{{ latestRun.LCU.Organization }}/{{
-                    latestRun.LCU.Repository
-                  }}/actions"
-                  target="_blank"
+            <ng-container *ngIf="project.Runs?.length <= 0">
+              <div *ngIf="project.LCUs?.length <= 0">
+                Need to handle case when no LCUs, allow create again.. most
+                likely caused by error state
+              </div>
+
+              <ng-container *ngIf="project.LCUs?.length > 0">
+                <ng-container
+                  *ngIf="HasDevOpsConfigured(project, project.LCUs[0].ID)"
                 >
-                  <mat-icon
-                    color="primary"
-                    *ngIf="latestRun.Conclusion == 'success'"
+                  No workflow runs completed, check in code
+                  <a
+                    href="https://github.com/{{
+                      project.LCUs[0].Organization
+                    }}/{{ project.LCUs[0].Repository }}/actions"
+                    target="_blank"
                   >
-                    check_circle
-                  </mat-icon>
+                    here
+                  </a>
+                  to the {{ project.LCUs[0].Branch }} to start a build with
+                  GitHub Actions.
+                </ng-container>
 
-                  <mat-icon
-                    color="warn"
-                    *ngIf="latestRun.Conclusion == 'failure'"
+                <div *ngIf="!HasDevOpsConfigured(project, project.LCUs[0].ID)">
+                  The GitHub Actions are not setup for this project, please
+                  reconfigure.
+
+                  <div class="margin-2">
+                    <a
+                      mat-raised-button
+                      color="primary"
+                      (click)="
+                        ConfigureGitHubLCUDevOps(project.ID, project.LCUs[0])
+                      "
+                    >
+                      Configure Build and Deploy
+                    </a>
+                  </div>
+                </div>
+              </ng-container>
+            </ng-container>
+
+            <ng-container *ngIf="project.Runs?.length > 0">
+              <ng-container *ngIf="project.Runs[0]; let latestRun">
+                <h4
+                  class="mat-subheading-2"
+                  *ngIf="RetrieveLCU(project, latestRun.LCUID); let lcu"
+                >
+                  Built with GitHub Actions
+
+                  <a
+                    mat-icon-button
+                    class="workflow-run-status"
+                    href="https://github.com/{{ lcu.Organization }}/{{
+                      lcu.Repository
+                    }}/actions"
+                    target="_blank"
                   >
-                    error_outline
-                  </mat-icon>
-                  <!--
+                    <mat-icon
+                      color="primary"
+                      *ngIf="latestRun.Conclusion == 'success'"
+                    >
+                      check_circle
+                    </mat-icon>
+
+                    <mat-icon
+                      color="warn"
+                      *ngIf="latestRun.Conclusion == 'failure'"
+                    >
+                      error_outline
+                    </mat-icon>
+                    <!--
                 <span>
                   <lcu-loader [loading]="latestRun.Status == 'in_progress'" [diameter]="75"></lcu-loader>
                 </span> -->
 
-                  {{ latestRun.Status }}
+                    {{ latestRun.Status }}
 
-                  {{ latestRun.Conclusion }}
-                </a>
-              </h4>
+                    {{ latestRun.Conclusion }}
+                  </a>
+                </h4>
 
-              <h4 class="mat-subheading-1">
-                <a mat-button (click)="DeployRun(latestRun)"> Deploy Latest </a>
-              </h4>
+                <h4 class="mat-subheading-1">
+                  <a mat-button (click)="DeployRun(latestRun)">
+                    Deploy Latest
+                  </a>
+                </h4>
+              </ng-container>
             </ng-container>
-          </ng-container>
+          </div>
         </div>
       </div>
-    </div>
 
-    <span class="card-actions" *ngIf="!CreatingProject">
-      <div fxFlex></div>
+      <span class="card-actions">
+        <div fxFlex></div>
 
-      <button mat-raised-button color="accent" (click)="ToggleCreateProject()">
-        Create Project
-      </button>
-    </span>
+        <button
+          mat-raised-button
+          color="accent"
+          (click)="ToggleCreateProject()"
+        >
+          Create Project
+        </button>
+      </span>
+    </ng-container>
   </ng-container>
 
   <div class="loading" *ngIf="State?.Loading">

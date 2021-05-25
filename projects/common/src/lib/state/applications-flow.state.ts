@@ -1,6 +1,8 @@
 export class ApplicationsFlowState {
   public GitHub?: GitHubSetupState;
 
+  public HostDNSInstance?: string;
+
   public HostingDetails?: ProjectHostingDetails;
 
   public Loading?: boolean;
@@ -25,13 +27,17 @@ export class ProjectState {
 
   public Host?: string;
 
-  public Name?: string;
+  public ID?: string;
 
   public Image?: string;
 
-  public PreventInheritedApplications?: string;
+  public LCUs?: GitHubLowCodeUnit[];
 
-  public Runs?: GitHubWorkflowRun;
+  public Name?: string;
+
+  public PreventInheritedApplications?: boolean;
+
+  public Runs?: GitHubWorkflowRun[];
 }
 
 export class GitHubSetupState {
@@ -81,7 +87,7 @@ export class GitHubWorkflowRun {
 
   public ID?: string;
 
-  public LCU?: GitHubLowCodeUnit;
+  public LCUID?: string;
 
   public RunNumber?: number;
 

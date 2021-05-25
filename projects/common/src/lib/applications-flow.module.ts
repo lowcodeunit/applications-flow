@@ -8,12 +8,14 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
+import { ProjectSettingsComponent } from './elements/projects/controls/project-settings/project-settings.component';
 
 @NgModule({
   declarations: [
     ApplicationsFlowProjectsElementComponent,
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
+    ProjectSettingsComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -28,6 +30,7 @@ import { CreateProjectWizardComponent } from './elements/projects/controls/creat
     ApplicationsFlowProjectsElementComponent,
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
+    ProjectSettingsComponent,
   ],
   entryComponents: [ApplicationsFlowProjectsElementComponent],
 })

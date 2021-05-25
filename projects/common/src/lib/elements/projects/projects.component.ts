@@ -20,6 +20,7 @@ import {
   ApplicationsFlowState,
   EstablishProjectRequest,
   GitHubBranch,
+  GitHubLowCodeUnit,
   GitHubOrganization,
   GitHubRepository,
   GitHubWorkflowRun,
@@ -53,6 +54,8 @@ export class ApplicationsFlowProjectsElementComponent
   //  Properties
   public CreatingProject: boolean;
 
+  public EditingProjectSettings: ProjectState;
+
   public State: ApplicationsFlowState;
 
   //  Constructors
@@ -79,7 +82,21 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
-  protected DeployRun(run: GitHubWorkflowRun) {
+  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit) {
+    this.State.Loading = true;
+
+    this.appsFlowSvc
+      .ConfigureGitHubLCUDevOps(projectId, lcu)
+      .subscribe((response: BaseResponse) => {
+        if (response.Status.Code === 0) {
+          this.listProjects(true);
+        } else {
+          this.State.Loading = false;
+        }
+      });
+  }
+
+  public DeployRun(run: GitHubWorkflowRun) {
     this.State.Loading = true;
 
     this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
@@ -91,8 +108,58 @@ export class ApplicationsFlowProjectsElementComponent
     });
   }
 
+  public HasDevOpsConfigured(project: ProjectState, lcuId: string) {
+    const run = project.Runs.find((r) => r.LCUID === lcuId);
+
+    return !!run;
+  }
+
+  public RetrieveLCU(project: ProjectState, lcuId: string) {
+    return project.LCUs.find((lcu) => lcu.ID === lcuId);
+  }
+
+  public SaveProject(project: ProjectState) {
+    this.State.Loading = true;
+
+    this.appsFlowSvc
+      .SaveProject(project, this.State.HostDNSInstance)
+      .subscribe((response: BaseResponse) => {
+        if (response.Status.Code === 0) {
+          window.location.href = window.location.href;
+        } else {
+          this.State.Loading = false;
+        }
+
+        console.log(response);
+      });
+  }
+
+  protected SetEditProjectSettings(project: ProjectState) {
+    if (project != null) {
+      this.State.Loading = true;
+
+      this.appsFlowSvc
+        .IsolateHostDNSInstance()
+        .subscribe((response: BaseModeledResponse<string>) => {
+          this.EditingProjectSettings = project;
+
+          this.CreatingProject = false;
+
+          this.State.HostDNSInstance = response.Model;
+
+          this.State.Loading = false;
+        });
+    } else {
+      this.EditingProjectSettings = project;
+
+      this.CreatingProject = false;
+    }
+  }
+
   protected ToggleCreateProject() {
     this.CreatingProject = !this.CreatingProject;
+
+    this.EditingProjectSettings = null;
   }
 
   //  Helpers
@@ -110,13 +177,17 @@ export class ApplicationsFlowProjectsElementComponent
     this.appsFlowSvc
       .ListProjects()
       .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
-        this.State.Projects = response.Model;
+        if (response.Status.Code === 0) {
+          this.State.Projects = response.Model;
+        } else if (response.Status.Code === 3) {
+        }
 
         if (withLoading) {
           this.State.Loading = false;
         }
 
-        this.CreatingProject = !this.State.Projects || this.State.Projects.length <= 0;
+        this.CreatingProject =
+          !this.State.Projects || this.State.Projects.length <= 0;
 
         console.log(this.State);
       });
