@@ -1,0 +1,30 @@
+<div 
+    fxLayout="row" 
+    fxLayout.lt-sm="column"
+    class="container">
+    <div 
+        id="projects"
+        fxFlex.gt-xs="60"
+        class="projects"
+        [ngClass.lt-sm]="'margin-bottom-2'"
+        [ngClass.gt-xs]="'margin-right-2'"
+    >
+    Projects
+    </div>
+    <div 
+        id="builds"
+        fxFlex.gt-xs="20"
+        class="builds"
+        [ngClass.lt-sm]="'margin-bottom-2'"
+        [ngClass.gt-xs]="'margin-right-2'"
+    >
+    Builds
+    </div>
+    <div 
+        id="recent"
+        fxFlex.gt-xs="20"
+        class="recent-activities"
+    >
+    Recent Activity
+    </div>
+</div>

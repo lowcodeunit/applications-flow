@@ -14,6 +14,11 @@
     </a>
   </nav>
 
+  <ng-container>
+    <lcu-projects-header></lcu-projects-header>
+    <lcu-project-tabs></lcu-project-tabs>
+  </ng-container>
+
   <ng-container *ngIf="!State?.Loading">
     <div *ngIf="CreatingProject">
       <lcu-create-project-wizard></lcu-create-project-wizard>

@@ -6,3 +6,4 @@ export * from './lib/elements/projects/projects.component';
 export * from './lib/elements/projects/controls/create-project-wizard/create-project-wizard.component';
 export * from './lib/elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 export * from './lib/elements/projects/controls/project-settings/project-settings.component';
+export * from './lib/models/dynamic-tabs.model';

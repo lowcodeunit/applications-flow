@@ -9,6 +9,11 @@ import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
 import { ProjectSettingsComponent } from './elements/projects/controls/project-settings/project-settings.component';
+import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
+import { HeaderComponent } from './elements/projects/controls/header/header.component';
+import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
+import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
+import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +21,11 @@ import { ProjectSettingsComponent } from './elements/projects/controls/project-s
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
     ProjectSettingsComponent,
+    DynamicTabsComponent,
+    HeaderComponent,
+    ProjectTabsComponent,
+    GeneralComponent,
+    DomainsComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -31,8 +41,13 @@ import { ProjectSettingsComponent } from './elements/projects/controls/project-s
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
     ProjectSettingsComponent,
+    DynamicTabsComponent,
+    HeaderComponent,
+    ProjectTabsComponent,
+    GeneralComponent,
+    DomainsComponent,
   ],
-  entryComponents: [ApplicationsFlowProjectsElementComponent],
+  entryComponents: [ApplicationsFlowProjectsElementComponent, DynamicTabsComponent, HeaderComponent, ProjectTabsComponent, GeneralComponent, DomainsComponent],
 })
 export class ApplicationsFlowModule {
   static forRoot(): ModuleWithProviders<ApplicationsFlowModule> {
