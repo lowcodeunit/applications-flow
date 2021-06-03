@@ -1,0 +1,28 @@
+<div 
+    fxLayout="row" 
+    fxLayoutAlign="space-between center"
+    *ngFor="let item of ProjectItems">
+    <div fxLayout="row">
+        <div class="icon">
+
+        </div>
+        <div 
+            fxLayout="column"
+            class="details margin-left-2">
+            <span class="title mat-body-1">{{ item.Details.Title }}</span>
+            <span class="mat-body-2">{{ item.Details.Source }}</span>
+            <span class="mat-body-2">{{ item.Details.URL }}</span>
+        </div>
+    </div>
+    <div 
+        fxLayout="row" 
+        class="actions">
+        <div class="item" *ngFor="let action of item.Actions">
+            <button 
+                mat-button
+                [matTooltip]="action.Tooltip">
+                <mat-icon>{{ action.Icon }}</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

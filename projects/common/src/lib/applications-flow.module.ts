@@ -14,6 +14,7 @@ import { HeaderComponent } from './elements/projects/controls/header/header.comp
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
 import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
 import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
+import { ProjectItemComponent } from './elements/projects/controls/project-item/project-item.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { DomainsComponent } from './elements/projects/controls/tabs/domains/doma
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
+    ProjectItemComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -46,8 +48,9 @@ import { DomainsComponent } from './elements/projects/controls/tabs/domains/doma
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
+    ProjectItemComponent,
   ],
-  entryComponents: [ApplicationsFlowProjectsElementComponent, DynamicTabsComponent, HeaderComponent, ProjectTabsComponent, GeneralComponent, DomainsComponent],
+  entryComponents: [ApplicationsFlowProjectsElementComponent, DynamicTabsComponent, HeaderComponent, ProjectTabsComponent, GeneralComponent, DomainsComponent, ProjectItemComponent],
 })
 export class ApplicationsFlowModule {
   static forRoot(): ModuleWithProviders<ApplicationsFlowModule> {

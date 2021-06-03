@@ -1,0 +1,15 @@
+.actions {
+    .item:not(:last-child) {
+        margin-right: 0px;
+    }
+}
+
+.icon {
+    height: 75px;
+    width: 75px;
+    background-color: rgb(5, 148, 0);
+}
+
+.title {
+    font-weight: 700;
+}
