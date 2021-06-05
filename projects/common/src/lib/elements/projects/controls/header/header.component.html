@@ -2,29 +2,57 @@
     fxLayout="row" 
     fxLayout.lt-sm="column"
     class="container">
+
+    <!-- Projects -->
     <div 
         id="projects"
+        fxLayout="column"
         fxFlex.gt-xs="60"
         class="projects padding-3"
         [ngClass.lt-sm]="'margin-bottom-2'"
         [ngClass.gt-xs]="'margin-right-2'"
     >
-    <lcu-project-item></lcu-project-item>
+    <div 
+        fxLayout="row"
+        fxLayoutAlign="start center"
+        class="title margin-bottom-4">
+        <mat-icon class="margin-right-2">language</mat-icon>
+        <span>Projects</span>
     </div>
+        <lcu-project-items></lcu-project-items>
+    </div>
+
+    <!-- Builds -->
     <div 
         id="builds"
         fxFlex.gt-xs="20"
-        class="builds"
+        fxLayout="column"
+        class="builds padding-3"
         [ngClass.lt-sm]="'margin-bottom-2'"
         [ngClass.gt-xs]="'margin-right-2'"
     >
-    Builds
+        <div 
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            class="title margin-bottom-4">
+            <mat-icon class="margin-right-2">gavel</mat-icon>
+            <span>Builds</span>
+        </div>
     </div>
+
+    <!-- Recent Activities -->
     <div 
         id="recent"
+        fxLayout="column"
         fxFlex.gt-xs="20"
-        class="recent-activities"
+        class="recent-activities padding-3"
     >
-    Recent Activity
+        <div 
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            class="title margin-bottom-4">
+            <mat-icon class="margin-right-2">list</mat-icon>
+            <span>Recent Activities</span>
+        </div>
     </div>
 </div>

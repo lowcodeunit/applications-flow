@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProjectDetailModel } from 'projects/common/src/lib/models/project-details.model';
 
 @Component({
-  selector: 'lcu-project-item',
+  selector: 'lcu-project-items',
   templateUrl: './project-item.component.html',
   styleUrls: ['./project-item.component.scss']
 })

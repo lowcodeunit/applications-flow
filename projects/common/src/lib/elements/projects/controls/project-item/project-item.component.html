@@ -6,7 +6,7 @@
         <div class="icon">
 
         </div>
-        <div 
+        <div
             fxLayout="column"
             class="details margin-left-2">
             <span class="title mat-body-1">{{ item.Details.Title }}</span>
@@ -19,7 +19,7 @@
         class="actions">
         <div class="item" *ngFor="let action of item.Actions">
             <button 
-                mat-button
+                mat-icon-button
                 [matTooltip]="action.Tooltip">
                 <mat-icon>{{ action.Icon }}</mat-icon>
             </button>
