@@ -12,6 +12,8 @@ export class ProjectItemComponent implements OnInit {
 
   public ProjectItems: Array<ProjectItemModel>;
 
+  panelOpenState = false;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -21,8 +23,9 @@ export class ProjectItemComponent implements OnInit {
   protected itemDetails(): void {
 
     this.ProjectItems = [
-      new ProjectItemModel({
-        Image: 'asdfsdf',
+      new ProjectItemModel(
+      {
+        Image: 'face',
         Actions: [
           {
             Icon: 'settings',
@@ -42,7 +45,56 @@ export class ProjectItemComponent implements OnInit {
           Source: 'Deploys from Github',
           URL: 'www.pimpire.com'
         }
-      })
+      }
+      ),
+      new ProjectItemModel(
+        {
+          Image: 'house',
+          Actions: [
+            {
+              Icon: 'settings',
+              Tooltip: 'Settings'
+            },
+            {
+              Icon: 'refresh',
+              Tooltip: 'Refresh'
+            },
+            {
+              Icon: 'open_in_new',
+              Tooltip: 'Open'
+            }
+          ],
+          Details: {
+            Title: 'Project Name',
+            Source: 'Deploys from Somewhere',
+            URL: 'www.projectname.com'
+          }
+        }
+      ),
+      new ProjectItemModel(
+        {
+          Image: 'house',
+          Actions: [
+            {
+              Icon: 'settings',
+              Tooltip: 'Settings'
+            },
+            {
+              Icon: 'refresh',
+              Tooltip: 'Refresh'
+            },
+            {
+              Icon: 'open_in_new',
+              Tooltip: 'Open'
+            }
+          ],
+          Details: {
+            Title: 'Project Name',
+            Source: 'Deploys from Somewhere',
+            URL: 'www.projectname.com'
+          }
+        }
+      )
     ];
   }
 

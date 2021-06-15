@@ -1,15 +1,27 @@
-.actions {
-    .item:not(:last-child) {
-        margin-right: 0px;
+:host {
+    .actions {
+        .item:not(:last-child) {
+            margin-right: 0px;
+        }
     }
-}
 
-.icon {
-    height: 75px;
-    width: 75px;
-    background-color: rgb(5, 148, 0);
-}
+    .icon {
+        height: 75px;
+        width: 75px;
+        // background-color: rgb(5, 148, 0);
+    }
 
-.title {
-    font-weight: 700;
+    .title {
+        font-weight: 700;
+    }
+
+    .expansion-panel {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .expansion-container {
+        height: 300px;
+        overflow-y: scroll;
+    }
 }
