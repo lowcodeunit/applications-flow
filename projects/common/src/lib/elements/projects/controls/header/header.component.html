@@ -19,7 +19,7 @@
         <mat-icon class="margin-right-2">language</mat-icon>
         <span>Projects</span>
     </div>
-        <lcu-project-items></lcu-project-items>
+        <lcu-project-items *ngIf="State" [projects]="State.Projects"></lcu-project-items>
     </div>
 
     <!-- Builds -->
@@ -38,6 +38,7 @@
             <mat-icon class="margin-right-2">gavel</mat-icon>
             <span>Builds</span>
         </div>
+        <!-- <lcu-builds *ngIf="State" [projects]="State.Projects"></lcu-builds> -->
     </div>
 
     <!-- Recent Activities -->
@@ -56,3 +57,4 @@
         </div>
     </div>
 </div>
+<!-- <pre>{{ State | json }}</pre> -->

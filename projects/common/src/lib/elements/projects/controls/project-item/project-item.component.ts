@@ -1,7 +1,9 @@
-import { ProjectActionsModel } from './../../../../models/project-actions.model';
+import { Subscription } from 'rxjs';
+import { ProjectService } from './../../../../services/project.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ProjectState } from './../../../../state/applications-flow.state';
 import { ProjectItemModel } from './../../../../models/project-item.model';
-import { Component, OnInit } from '@angular/core';
-import { ProjectDetailModel } from 'projects/common/src/lib/models/project-details.model';
+
 
 @Component({
   selector: 'lcu-project-items',
@@ -10,95 +12,55 @@ import { ProjectDetailModel } from 'projects/common/src/lib/models/project-detai
 })
 export class ProjectItemComponent implements OnInit {
 
+  /**
+   * Event to edit project settings
+   */
+  // @Output('edit-project-settings')
+  // public EditProjectSettings: EventEmitter<ProjectItemModel>;
+
+  /**
+   * List of projects
+   */
+  private _projects: Array<ProjectState>;
+  @Input('projects')
+  set Projects(val: Array<ProjectState>) {
+
+    if (!val) { return; }
+
+    this._projects = val;
+
+    // set the initial project, passes data to the build componoent
+    this.CurrentProject(val[0]);
+  }
+
+  get Projects(): Array<ProjectState> {
+    return this._projects;
+  }
+
   public ProjectItems: Array<ProjectItemModel>;
 
-  panelOpenState = false;
+  public PanelOpenState: boolean;
 
-  constructor() { }
+  constructor(
+    protected projectService: ProjectService) {
+    }
 
-  ngOnInit(): void {
-    this.itemDetails();
+  public ngOnInit(): void {
+
   }
 
-  protected itemDetails(): void {
-
-    this.ProjectItems = [
-      new ProjectItemModel(
-      {
-        Image: 'face',
-        Actions: [
-          {
-            Icon: 'settings',
-            Tooltip: 'Settings'
-          },
-          {
-            Icon: 'refresh',
-            Tooltip: 'Refresh'
-          },
-          {
-            Icon: 'open_in_new',
-            Tooltip: 'Open'
-          }
-        ],
-        Details: {
-          Title: 'Pimpire',
-          Source: 'Deploys from Github',
-          URL: 'www.pimpire.com'
-        }
-      }
-      ),
-      new ProjectItemModel(
-        {
-          Image: 'house',
-          Actions: [
-            {
-              Icon: 'settings',
-              Tooltip: 'Settings'
-            },
-            {
-              Icon: 'refresh',
-              Tooltip: 'Refresh'
-            },
-            {
-              Icon: 'open_in_new',
-              Tooltip: 'Open'
-            }
-          ],
-          Details: {
-            Title: 'Project Name',
-            Source: 'Deploys from Somewhere',
-            URL: 'www.projectname.com'
-          }
-        }
-      ),
-      new ProjectItemModel(
-        {
-          Image: 'house',
-          Actions: [
-            {
-              Icon: 'settings',
-              Tooltip: 'Settings'
-            },
-            {
-              Icon: 'refresh',
-              Tooltip: 'Refresh'
-            },
-            {
-              Icon: 'open_in_new',
-              Tooltip: 'Open'
-            }
-          ],
-          Details: {
-            Title: 'Project Name',
-            Source: 'Deploys from Somewhere',
-            URL: 'www.projectname.com'
-          }
-        }
-      )
-    ];
+  /**
+   * 
+   * @param project Current project object
+   * 
+   * Event to edit project settings
+   */
+  public ProjectSettings(project: ProjectItemModel): void {
+    this.projectService.SetEditProjectSettings.next(project);
   }
 
+  public CurrentProject(project: ProjectState): void {
+
+    this.projectService.CurrentSelectedProject.next(project);
+  }
 }
-// {Icon: 'settings', Tooltip: 'Settings'},
-// {Icon: 'refresh', Tooltip: 'Refresh'},
-// {Icon: 'open_in_new', Tooltip: 'Open in new window'}

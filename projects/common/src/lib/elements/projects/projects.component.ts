@@ -29,6 +29,9 @@ import {
   ProjectState,
 } from './../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
+import { ProjectService } from '../../services/project.service';
+import { Subscription } from 'rxjs';
+import { ProjectItemModel } from '../../models/project-item.model';
 
 declare var window: Window;
 
@@ -56,24 +59,32 @@ export class ApplicationsFlowProjectsElementComponent
 
   public EditingProjectSettings: ProjectState;
 
+  /**
+   * Subscription for editing project settings
+   */
+  protected editProjectSettingsSubscription: Subscription;
+
   public State: ApplicationsFlowState;
 
   //  Constructors
   constructor(
     protected injector: Injector,
-    protected appsFlowSvc: ApplicationsFlowService
+    protected appsFlowSvc: ApplicationsFlowService,
+    protected projectService: ProjectService
   ) {
     super(injector);
 
     this.State = new ApplicationsFlowState();
+
+    this.setServices();
   }
 
   //  Life Cycle
-  public ngOnDestroy() {
+  public ngOnDestroy(): void {
     this.teardownProjectMonitor();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     super.ngOnInit();
 
     this.handleStateChange();
@@ -82,7 +93,7 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
-  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit) {
+  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit): void {
     this.State.Loading = true;
 
     this.appsFlowSvc
@@ -96,7 +107,8 @@ export class ApplicationsFlowProjectsElementComponent
       });
   }
 
-  public DeployRun(run: GitHubWorkflowRun) {
+  public DeployRun(run: GitHubWorkflowRun): void {
+  
     this.State.Loading = true;
 
     this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
@@ -108,17 +120,18 @@ export class ApplicationsFlowProjectsElementComponent
     });
   }
 
-  public HasDevOpsConfigured(project: ProjectState, lcuId: string) {
-    const run = project.Runs.find((r) => r.LCUID === lcuId);
+  public HasDevOpsConfigured(val: {project: ProjectState, lcuID: string}): boolean {
+    const run = val.project.Runs.find((r) => r.LCUID === val.lcuID);
 
     return !!run;
   }
 
-  public RetrieveLCU(project: ProjectState, lcuId: string) {
-    return project.LCUs.find((lcu) => lcu.ID === lcuId);
-  }
+  // project: ProjectState, lcuId: string
+  // public RetrieveLCU(val: {project: ProjectState, lcuID: string}): GitHubLowCodeUnit {
+  //   return val.project.LCUs.find((lcu) => lcu.ID === val.lcuID);
+  // }
 
-  public SaveProject(project: ProjectState) {
+  public SaveProject(project: ProjectState): void {
     this.State.Loading = true;
 
     this.appsFlowSvc
@@ -134,7 +147,19 @@ export class ApplicationsFlowProjectsElementComponent
       });
   }
 
-  protected SetEditProjectSettings(project: ProjectState) {
+  /**
+   * Setup any service subscriptions
+   */
+  protected setServices(): void {
+
+    // listen to edit project settings subject change
+    this.editProjectSettingsSubscription = this.projectService.SetEditProjectSettings
+    .subscribe((project: ProjectItemModel) => {
+      this.SetEditProjectSettings(project);
+    });
+  }
+
+  protected SetEditProjectSettings(project: ProjectState): void {
     if (project != null) {
       this.State.Loading = true;
 
@@ -156,20 +181,20 @@ export class ApplicationsFlowProjectsElementComponent
     }
   }
 
-  protected ToggleCreateProject() {
+  protected ToggleCreateProject(): void {
     this.CreatingProject = !this.CreatingProject;
 
     this.EditingProjectSettings = null;
   }
 
   //  Helpers
-  protected handleStateChange() {
+  protected handleStateChange(): void {
     this.State.Loading = true;
 
     this.listProjects();
   }
 
-  protected listProjects(withLoading: boolean = true) {
+  protected listProjects(withLoading: boolean = true): void {
     if (withLoading) {
       this.State.Loading = true;
     }
@@ -189,17 +214,20 @@ export class ApplicationsFlowProjectsElementComponent
         this.CreatingProject =
           !this.State.Projects || this.State.Projects.length <= 0;
 
+        this.appsFlowSvc.UpdateState(this.State);
         console.log(this.State);
       });
+
+    // this.appsFlowSvc.StateChanged.next(this.State);
   }
 
-  protected setupProjectMonitor() {
+  protected setupProjectMonitor(): void {
     this.projMon = setInterval(() => {
       this.listProjects(false);
     }, 15000);
   }
 
-  protected teardownProjectMonitor() {
+  protected teardownProjectMonitor(): void {
     clearInterval(this.projMon);
   }
 }

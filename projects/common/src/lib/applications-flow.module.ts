@@ -1,3 +1,4 @@
+import { ProjectService } from './services/project.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -15,6 +16,8 @@ import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/
 import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
 import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
 import { ProjectItemComponent } from './elements/projects/controls/project-item/project-item.component';
+import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
+import { RecentActivitiesComponent } from './elements/projects/controls/recent-activities/recent-activities.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +31,8 @@ import { ProjectItemComponent } from './elements/projects/controls/project-item/
     GeneralComponent,
     DomainsComponent,
     ProjectItemComponent,
+    BuildsComponent,
+    RecentActivitiesComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -49,14 +54,29 @@ import { ProjectItemComponent } from './elements/projects/controls/project-item/
     GeneralComponent,
     DomainsComponent,
     ProjectItemComponent,
+    BuildsComponent,
+    RecentActivitiesComponent,
   ],
-  entryComponents: [ApplicationsFlowProjectsElementComponent, DynamicTabsComponent, HeaderComponent, ProjectTabsComponent, GeneralComponent, DomainsComponent, ProjectItemComponent],
+  entryComponents: 
+  [
+    ApplicationsFlowProjectsElementComponent, 
+    DynamicTabsComponent, 
+    HeaderComponent, 
+    ProjectTabsComponent, 
+    GeneralComponent, 
+    DomainsComponent, 
+    ProjectItemComponent, BuildsComponent, RecentActivitiesComponent
+  ],
 })
 export class ApplicationsFlowModule {
   static forRoot(): ModuleWithProviders<ApplicationsFlowModule> {
     return {
       ngModule: ApplicationsFlowModule,
-      providers: [ApplicationsFlowStateContext, ApplicationsFlowService],
+      providers: [
+        ApplicationsFlowStateContext,
+        ApplicationsFlowService,
+        ProjectService
+      ],
     };
   }
 }

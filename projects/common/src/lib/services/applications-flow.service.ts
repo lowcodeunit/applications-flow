@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { LCUServiceSettings, StateContext } from '@lcu/common';
+import { Observable, Subject } from 'rxjs';
 import {
   ApplicationsFlowState,
   EstablishProjectRequest,
@@ -16,16 +17,28 @@ export class ApplicationsFlowService {
   //  Fields
   protected apiRoot: string;
 
+  /**
+   * Event for when state changes
+   */
+  public StateChanged: Subject<ApplicationsFlowState>;
+
   // Constructors
   constructor(
     protected http: HttpClient,
     protected settings: LCUServiceSettings
   ) {
     this.apiRoot = settings.APIRoot;
+    this.StateChanged = new Subject<ApplicationsFlowState>();
   }
 
   // API Methods
-  public BootUserEnterprise(request: EstablishProjectRequest) {
+
+  public UpdateState(state: ApplicationsFlowState): void {
+
+    this.StateChanged.next(state);
+  }
+
+  public BootUserEnterprise(request: EstablishProjectRequest): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/boot`,
       request,
@@ -35,7 +48,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit) {
+  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectId}/lowcodeunits/configure`,
       lcu,
@@ -45,7 +58,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public CreateRepository(organization: string, repoName: string) {
+  public CreateRepository(organization: string, repoName: string): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories`,
       {
@@ -57,7 +70,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public DeployRun(run: GitHubWorkflowRun) {
+  public DeployRun(run: GitHubWorkflowRun): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/deploy`,
       run,
@@ -67,7 +80,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public HasValidConnection() {
+  public HasValidConnection(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/connection/valid`,
       {
@@ -76,7 +89,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public IsolateHostDNSInstance() {
+  public IsolateHostDNSInstance(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/isolate`,
       {
@@ -85,13 +98,13 @@ export class ApplicationsFlowService {
     );
   }
 
-  public ListProjects() {
+  public ListProjects(): Observable<object> {
     return this.http.get(`${this.apiRoot}/api/lowcodeunit/manage/projects`, {
       headers: this.loadHeaders(),
     });
   }
 
-  public ListBranches(organization: string, repository: string) {
+  public ListBranches(organization: string, repository: string): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories/${repository}/branches`,
       {
@@ -100,7 +113,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public ListOrganizations() {
+  public ListOrganizations(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/organizations`,
       {
@@ -109,7 +122,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public ListRepositories(organization: string) {
+  public ListRepositories(organization: string): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories`,
       {
@@ -122,7 +135,7 @@ export class ApplicationsFlowService {
     organization: string,
     repository: string,
     branch: string
-  ) {
+  ): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
       {
@@ -131,7 +144,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public SaveProject(project: ProjectState, hostDnsInstance: string) {
+  public SaveProject(project: ProjectState, hostDnsInstance: string): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/projects?hostDnsInstance=${hostDnsInstance}`,
       project,

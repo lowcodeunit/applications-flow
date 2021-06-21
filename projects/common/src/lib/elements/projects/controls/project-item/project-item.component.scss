@@ -5,14 +5,25 @@
         }
     }
 
-    .icon {
-        height: 75px;
-        width: 75px;
-        // background-color: rgb(5, 148, 0);
+    .project-thumbnail {
+        img {
+            height: 50px;
+            width: auto;
+        }
     }
 
-    .title {
-        font-weight: 700;
+    .active {
+        background-color: var(--theme-primary-A700);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+    }
+
+    .inactive {
+        background-color:rgba(242, 245, 169, 0);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
     }
 
     .expansion-panel {
@@ -21,7 +32,7 @@
     }
 
     .expansion-container {
-        height: 300px;
-        overflow-y: scroll;
+        max-height: 300px;
+        overflow-y: auto;
     }
 }

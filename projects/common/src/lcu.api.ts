@@ -10,3 +10,4 @@ export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-item.model';
 export * from './lib/models/project-details.model';
 export * from './lib/models/project-actions.model';
+export * from './lib/services/project.service';

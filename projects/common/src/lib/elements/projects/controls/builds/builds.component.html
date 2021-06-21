@@ -1,0 +1,47 @@
+<div *ngIf="Project">
+    <ng-container *ngIf="Project.Runs?.length > 0">
+        <ng-container *ngIf="Project.Runs[0]; let latestRun">
+            <div *ngIf="RetrieveLCU({project: Project, lcuID: latestRun.LCUID}); let lcu">
+            <div 
+                class="workflow-run-status">
+                <!-- [ngClass]="latestRun.Conclusion == 'success' ? 'success' : 'error'" -->
+                <div>
+                <a 
+                    mat-icon-button  
+                    href="https://github.com/{{ lcu.Organization }}/{{lcu.Repository}}/actions" 
+                    target="_blank">
+                    <div fxLayoutAlign="center center" class="success icon-bg">
+                        <mat-icon 
+                            *ngIf="latestRun.Conclusion == 'success'">
+                            check_circle
+                        </mat-icon>
+                    </div>
+                   
+                    <div>
+                        <mat-icon 
+                            class="error"
+                            *ngIf="latestRun.Conclusion == 'failure'">
+                            error_outline
+                        </mat-icon>
+                    </div>
+
+                    <span mat-body>
+                        {{ latestRun.Status }} {{ latestRun.Conclusion }}
+                    </span>
+                </a>
+            </div>
+            </div>
+            <h4 
+                class="mat-subheading-2" >
+                Built with GitHub Actions
+            </h4>
+
+            <h4 class="mat-subheading-1">
+                <a mat-button (click)="DeployLastRun(latestRun)">
+                    Deploy Latest
+                </a>
+            </h4>
+        </div>
+        </ng-container>
+    </ng-container>
+</div>

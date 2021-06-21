@@ -1,0 +1,17 @@
+.workflow-run-status {
+   
+}
+
+.success {
+    background-color: var(--success); 
+}
+
+.error {
+    background-color: var(--theme-warn-500);
+}
+
+.icon-bg {
+    border-radius: 50%;
+    height: 35px;
+    width: 35px;
+}

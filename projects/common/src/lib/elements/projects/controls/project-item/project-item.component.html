@@ -1,41 +1,39 @@
 <mat-accordion>
-    <div class="expansion-container">
-        <div 
-            fxLayout="row" 
-            fxLayoutAlign="space-between center" 
-            *ngFor="let item of ProjectItems">
-            <div 
-                fxFlex 
-                fxLayout="row">
-                <mat-expansion-panel class="expansion-panel">
-                    <mat-expansion-panel-header
-                        [collapsedHeight]="'100px'" 
-                        [expandedHeight]="'100px'">
-                        <div 
-                            fxLayout="row" 
-                            fxFlex
-                            fxLayoutAlign="space-between center"
-                            class="margin-right-3">
+    <div *ngIf="Projects" class="expansion-container">
+        <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let project of Projects">
+
+            <div fxFlex fxLayout="row">
+                <mat-expansion-panel 
+                    (opened)="panelOpenState = true; CurrentProject(project)"
+                    (closed)="panelOpenState = false"
+                    [ngClass]="panelOpenState === true ? 'active' : 'inactive'"
+                    class="expansion-panel">
+                    <mat-expansion-panel-header [collapsedHeight]="'75px'" [expandedHeight]="'75px'">
+                        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" class="margin-right-3">
                             <div fxLayout="row">
-                                <div class="icon">
-                                    <mat-icon style="font-size: 75px;">{{ item.Image }}</mat-icon>
+                                <div class="project-thumbnail">
+                                    <img [src]="project.Image">
+                                    <!-- <mat-icon style="font-size: 50px;">{{ project.Image }}</mat-icon> -->
                                 </div>
                                 <div fxLayout="column" class="details margin-left-3">
-                                    <span class="title mat-body-1">{{ item.Details.Title }}</span>
-                                    <span class="mat-body-2">{{ item.Details.Source }}</span>
-                                    <span class="mat-body-2">{{ item.Details.URL }}</span>
+                                    <span class="mat-headline mat-body-1">{{ project.Name }}</span>
                                 </div>
                             </div>
                             <div fxLayout="row" class="actions">
-                                <div class="item" *ngFor="let action of item.Actions">
-                                    <button mat-icon-button [matTooltip]="action.Tooltip">
-                                        <mat-icon color="primary">{{ action.Icon }}</mat-icon>
-                                    </button>
-                                </div>
+                                <a mat-icon-button (click)="ProjectSettings(project)" target="_blank"
+                                    title="Edit Project Settings">
+                                    <mat-icon>settings</mat-icon>
+                                </a>
+
+                                <a mat-icon-button href="https://{{ project.Host }}" target="_blank"
+                                    [title]="project.Host" color="accent">
+                                    <mat-icon>launch</mat-icon>
+                                </a>
                             </div>
                         </div>
                     </mat-expansion-panel-header>
-                    <p>One stop portal to all Computer Science Subjects. </p>
+                    <span class="mat-body-2">{{ project.Host }}</span>
+                    <span class="mat-body-2">{{ project.Description }}</span>
                 </mat-expansion-panel>
             </div>
         </div>
