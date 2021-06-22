@@ -1,6 +1,4 @@
-.workflow-run-status {
-   
-}
+@import '../../../../../assets/common';
 
 .success {
     color: var(--success); 
@@ -13,4 +11,11 @@
 .icon-bg {
     border-radius: 50%;
     padding: 3px;
+}
+
+.name {
+    white-space: nowrap;
+    width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

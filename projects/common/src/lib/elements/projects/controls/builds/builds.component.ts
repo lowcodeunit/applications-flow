@@ -1,5 +1,6 @@
+import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
 import { ProjectService } from './../../../../services/project.service';
-import { GitHubLowCodeUnit, GitHubWorkflowRun, ProjectState } from './../../../../state/applications-flow.state';
+import { ApplicationsFlowState, GitHubLowCodeUnit, GitHubWorkflowRun, ProjectState } from './../../../../state/applications-flow.state';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs';
 
@@ -10,8 +11,8 @@ import { Subscription } from 'rxjs';
 })
 export class BuildsComponent implements OnInit, OnDestroy {
 
-  @Output('deploy-run')
-  public DeployRunEmitter: EventEmitter<GitHubWorkflowRun>;
+  // @Output('deploy-run')
+  // public DeployRunEmitter: EventEmitter<GitHubWorkflowRun>;
 
   // @Output('retrieve-lcu')
   // public RetrieveLCUEmitter: EventEmitter<{project: ProjectState, lcuID: string}>;
@@ -19,19 +20,42 @@ export class BuildsComponent implements OnInit, OnDestroy {
   protected currentSelectedProjectSubscription: Subscription;
 
   /**
-   * Current selected project from the project's list
+   * List of projects
    */
-  public Project: ProjectState;
+   private _projects: Array<ProjectState>;
+   @Input('projects')
+   set Projects(val: Array<ProjectState>) {
+ 
+     if (!val) { return; }
+ 
+     this._projects = val;
+ 
+     // set the initial project, passes data to the build componoent
+     // this.CurrentProject(val[0]);
+   }
+ 
+   get Projects(): Array<ProjectState> {
+     return this._projects;
+   }
 
-  constructor(protected projectService: ProjectService) {
+  public State: ApplicationsFlowState;
 
-    this.DeployRunEmitter = new EventEmitter();
+  protected stateChangeSubscription: Subscription;
+
+  constructor(protected projectService: ProjectService, protected appsFlowSvc: ApplicationsFlowService) {
+
+    // this.DeployRunEmitter = new EventEmitter();
     // this.RetrieveLCUEmitter = new EventEmitter();
 
-    this.currentSelectedProjectSubscription = projectService.CurrentSelectedProject
-    .subscribe((val: ProjectState) => {
-      this.Project = val;
+    this.stateChangeSubscription = this.appsFlowSvc.StateChanged
+    .subscribe((state: ApplicationsFlowState) => {
+     this.State = state;
     });
+
+    // this.currentSelectedProjectSubscription = projectService.CurrentSelectedProject
+    // .subscribe((val: ProjectState) => {
+    //   this.Project = val;
+    // });
   }
 
   public ngOnInit(): void {
@@ -42,7 +66,8 @@ export class BuildsComponent implements OnInit, OnDestroy {
   }
 
   public DeployRun(lastrun: GitHubWorkflowRun): void {
-    this.DeployRunEmitter.emit(lastrun);
+    // this.DeployRunEmitter.emit(lastrun);
+    this.projectService.DeployRun(this.State, lastrun);
   }
 
   public RetrieveLCU(val: {project: ProjectState, lcuID: string}): GitHubLowCodeUnit {

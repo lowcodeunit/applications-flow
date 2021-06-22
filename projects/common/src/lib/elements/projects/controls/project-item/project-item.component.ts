@@ -30,7 +30,7 @@ export class ProjectItemComponent implements OnInit {
     this._projects = val;
 
     // set the initial project, passes data to the build componoent
-    this.CurrentProject(val[0]);
+    // this.CurrentProject(val[0]);
   }
 
   get Projects(): Array<ProjectState> {
@@ -61,6 +61,6 @@ export class ProjectItemComponent implements OnInit {
 
   public CurrentProject(project: ProjectState): void {
 
-    this.projectService.CurrentSelectedProject.next(project);
+    // this.projectService.CurrentSelectedProject.next(project);
   }
 }

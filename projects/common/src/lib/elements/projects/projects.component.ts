@@ -55,7 +55,7 @@ export class ApplicationsFlowProjectsElementComponent
   protected projMon: NodeJS.Timeout;
 
   //  Properties
-  public CreatingProject: boolean;
+  // public CreatingProject: boolean;
 
   public EditingProjectSettings: ProjectState;
 
@@ -100,25 +100,25 @@ export class ApplicationsFlowProjectsElementComponent
       .ConfigureGitHubLCUDevOps(projectId, lcu)
       .subscribe((response: BaseResponse) => {
         if (response.Status.Code === 0) {
-          this.listProjects(true);
+          this.projectService.ListProjects(this.State, true);
         } else {
           this.State.Loading = false;
         }
       });
   }
 
-  public DeployRun(run: GitHubWorkflowRun): void {
+  // public DeployRun(run: GitHubWorkflowRun): void {
   
-    this.State.Loading = true;
+  //   this.State.Loading = true;
 
-    this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
-      if (response.Status.Code === 0) {
-        this.listProjects();
-      } else {
-        this.State.Loading = false;
-      }
-    });
-  }
+  //   this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
+  //     if (response.Status.Code === 0) {
+  //       this.listProjects();
+  //     } else {
+  //       this.State.Loading = false;
+  //     }
+  //   });
+  // }
 
   public HasDevOpsConfigured(val: {project: ProjectState, lcuID: string}): boolean {
     const run = val.project.Runs.find((r) => r.LCUID === val.lcuID);
@@ -168,7 +168,7 @@ export class ApplicationsFlowProjectsElementComponent
         .subscribe((response: BaseModeledResponse<string>) => {
           this.EditingProjectSettings = project;
 
-          this.CreatingProject = false;
+          this.projectService.CreatingProject = false;
 
           this.State.HostDNSInstance = response.Model;
 
@@ -177,12 +177,12 @@ export class ApplicationsFlowProjectsElementComponent
     } else {
       this.EditingProjectSettings = project;
 
-      this.CreatingProject = false;
+      this.projectService.CreatingProject = false;
     }
   }
 
   protected ToggleCreateProject(): void {
-    this.CreatingProject = !this.CreatingProject;
+    this.projectService.CreatingProject = !this.projectService.CreatingProject;
 
     this.EditingProjectSettings = null;
   }
@@ -191,39 +191,37 @@ export class ApplicationsFlowProjectsElementComponent
   protected handleStateChange(): void {
     this.State.Loading = true;
 
-    this.listProjects();
+    this.projectService.ListProjects(this.State);
   }
 
-  protected listProjects(withLoading: boolean = true): void {
-    if (withLoading) {
-      this.State.Loading = true;
-    }
+  // protected listProjects(withLoading: boolean = true): void {
+  //   if (withLoading) {
+  //     this.State.Loading = true;
+  //   }
 
-    this.appsFlowSvc
-      .ListProjects()
-      .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
-        if (response.Status.Code === 0) {
-          this.State.Projects = response.Model;
-        } else if (response.Status.Code === 3) {
-        }
+  //   this.appsFlowSvc
+  //     .ListProjects()
+  //     .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
+  //       if (response.Status.Code === 0) {
+  //         this.State.Projects = response.Model;
+  //       } else if (response.Status.Code === 3) {
+  //       }
 
-        if (withLoading) {
-          this.State.Loading = false;
-        }
+  //       if (withLoading) {
+  //         this.State.Loading = false;
+  //       }
 
-        this.CreatingProject =
-          !this.State.Projects || this.State.Projects.length <= 0;
+  //       this.CreatingProject =
+  //         !this.State.Projects || this.State.Projects.length <= 0;
 
-        this.appsFlowSvc.UpdateState(this.State);
-        console.log(this.State);
-      });
-
-    // this.appsFlowSvc.StateChanged.next(this.State);
-  }
+  //       this.appsFlowSvc.UpdateState(this.State);
+  //       console.log(this.State);
+  //     });
+  // }
 
   protected setupProjectMonitor(): void {
     this.projMon = setInterval(() => {
-      this.listProjects(false);
+      this.projectService.ListProjects(this.State, false);
     }, 15000);
   }
 
