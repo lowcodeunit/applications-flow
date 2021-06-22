@@ -39,7 +39,10 @@
     </div>
         <lcu-project-items *ngIf="State" [projects]="State.Projects"></lcu-project-items>
     </div>
-
+    <div
+        class="divider-fill-vert"
+        [fxHide.lt-md]="true">
+    </div>
     <!-- Builds -->
     <div 
         id="builds"
@@ -62,13 +65,18 @@
         </lcu-builds>
     </div>
 
+    <div
+      class="divider-fill-vert"
+      fxShow
+      [fxHide.lt-md]="true">
+    </div> 
+
     <!-- Recent Activities -->
     <div 
         id="recent"
         fxLayout="column"
         fxFlex.gt-xs="20"
-        class="recent-activities padding-3"
-    >
+        class="recent-activities padding-3">
         <div 
             fxLayout="row"
             fxLayoutAlign="start center"
@@ -78,6 +86,13 @@
         </div>
     </div>
 </div>
+
+
+  <div
+    class="divider-fill-hor margin-top-4 margin-bottom-4"
+    [fxShow.lt-md]="true">
+  </div>
+
     <lcu-project-tabs></lcu-project-tabs>
   </ng-container>
 

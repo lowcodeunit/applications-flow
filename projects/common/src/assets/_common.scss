@@ -13,6 +13,7 @@ $purple-accent: map-get($mat-purple, 500);
 $cyan-accent: rgba(map-get($mat-cyan, A100), .75);
 $pink-accent: map-get($mat-pink, 500);
 $success:  map-get($mat-green, A700);
+$divider-size: 5px;
 
   /**
   * Set initial color values
@@ -44,5 +45,19 @@ $success:  map-get($mat-green, A700);
     --cyan-accent: #{rgba(map-get($mat-cyan, A100), .75)};
     --pink-accent: #{map-get($mat-pink, 500)};
 
-    --success: #{map-get($mat-green, 500)};
+    --success: #{map-get($mat-green, A400)};
+}
+
+.divider-fill-vert {
+  background-color: var(--theme-accent-500);
+  min-height: 100%;
+  top:10%;
+  bottom:10%;
+  min-width: $divider-size;
+}
+
+.divider-fill-hor {
+  background-color: var(--theme-accent-500);
+  height: $divider-size;
+  width: 100%;
 }

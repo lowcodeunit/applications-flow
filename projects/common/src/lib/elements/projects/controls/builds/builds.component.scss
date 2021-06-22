@@ -3,15 +3,14 @@
 }
 
 .success {
-    background-color: var(--success); 
+    color: var(--success); 
 }
 
 .error {
-    background-color: var(--theme-warn-500);
+    color: var(--theme-warn-500);
 }
 
 .icon-bg {
     border-radius: 50%;
-    height: 35px;
-    width: 35px;
+    padding: 3px;
 }
