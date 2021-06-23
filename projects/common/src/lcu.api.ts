@@ -11,3 +11,4 @@ export * from './lib/models/project-item.model';
 export * from './lib/models/project-details.model';
 export * from './lib/models/project-actions.model';
 export * from './lib/services/project.service';
+export * from './lib/models/form-card-actions.model';

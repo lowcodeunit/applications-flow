@@ -1,0 +1,34 @@
+<mat-card>
+    <mat-card-header>
+        <div mat-card-avatar>
+            <mat-icon 
+              color="accent" 
+              class="title-icon">
+              {{ TitleIcon }}
+            </mat-icon>
+          </div>
+          <mat-card-title 
+            class="paragraph-title">
+            {{ Title }}
+          </mat-card-title>
+          <mat-card-subtitle 
+            class="plain-text">
+            {{ SubTitle }}
+          </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <ng-content></ng-content>
+    </mat-card-content>
+    <mat-card-actions>
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <div *ngFor="let action of Actions" fxLayout="row" class="margin-right-1">
+          <button 
+            color="{{ action.Color }}" 
+            mat-button (click)="action.ClickEvent()">
+            {{ action.Label }}
+          </button>
+        </div>
+      </div>
+     
+    </mat-card-actions>
+</mat-card>

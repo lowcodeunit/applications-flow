@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    this.themeBuilderService.MaterialTheme = 'https://www.iot-ensemble.com/assets/theming/theming.scss';
     this.setupThemes();
   }
 
@@ -55,12 +56,13 @@ export class AppComponent implements OnInit {
           Warn: '#b9f013'
         }
       )
-    ]
+    ];
 
     this.themeBuilderService.SetThemes(themes);
   }
 
   public DisplayDetails(): void {
     console.log('DisplayDetails()');
+
   }
 }

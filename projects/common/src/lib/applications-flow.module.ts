@@ -18,6 +18,7 @@ import { DomainsComponent } from './elements/projects/controls/tabs/domains/doma
 import { ProjectItemComponent } from './elements/projects/controls/project-item/project-item.component';
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
 import { RecentActivitiesComponent } from './elements/projects/controls/recent-activities/recent-activities.component';
+import { FormCardComponent } from './elements/form-card/form-card.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RecentActivitiesComponent } from './elements/projects/controls/recent-a
     ProjectItemComponent,
     BuildsComponent,
     RecentActivitiesComponent,
+    FormCardComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -56,6 +58,7 @@ import { RecentActivitiesComponent } from './elements/projects/controls/recent-a
     ProjectItemComponent,
     BuildsComponent,
     RecentActivitiesComponent,
+    FormCardComponent,
   ],
   entryComponents: 
   [
@@ -65,7 +68,7 @@ import { RecentActivitiesComponent } from './elements/projects/controls/recent-a
     ProjectTabsComponent, 
     GeneralComponent, 
     DomainsComponent, 
-    ProjectItemComponent, BuildsComponent, RecentActivitiesComponent
+    ProjectItemComponent, BuildsComponent, RecentActivitiesComponent, FormCardComponent
   ],
 })
 export class ApplicationsFlowModule {

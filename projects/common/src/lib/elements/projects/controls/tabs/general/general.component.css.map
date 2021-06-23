@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAME,AAAA,WAAW,CAAC;EALV,SAAS,EAMc,IAAI;EAL3B,MAAM,EAKiB,IAAI;EAJ3B,KAAK,EAIkB,IAAI;CAC5B",
+    "sources": [
+        "general.component.scss"
+    ],
+    "names": [],
+    "file": "general.component.css"
+}
