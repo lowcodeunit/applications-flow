@@ -18,9 +18,9 @@
                     fxLayout="row">
                     <mat-form-field appearance="fill" class="margin-right-1">
                         <mat-icon
-                          matSuffix style="color:var(--green-accent)"
-                          [style.color]="ProjectName.valid ? 'var(--green-accent)' : 'var(--theme-warn-500)'">
-                          check_circle
+                          matSuffix
+                          [ngClass]="ProjectName.valid ? 'valid-control' : 'invalid-control'">
+                          {{ ProjectName.valid ? 'check_circle' : 'cancel' }}
                         </mat-icon>
                         <input
                             type="text"
@@ -37,12 +37,16 @@
 
                     </mat-form-field>
                     <mat-form-field appearance="fill">
-                      <mat-icon matSuffix>face</mat-icon>
+                        <mat-icon
+                            matSuffix
+                            [ngClass]="ProjectSurname.valid ? 'valid-control' : 'invalid-control'">
+                            {{ ProjectSurname.valid ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
                         <input
                             type="text"
                             matInput
                             [placeholder]="ProjectSurname.invalid || ProjectSurname.disabled ? 'Project Surname' : ''"
-                            formControlName="ProjectSurname"
+                            formControlName="projectSurname"
                         />
                         <mat-hint *ngIf="ProjectSurname.valid">
                             Selected Project Surname
@@ -55,18 +59,42 @@
                         </mat-error> -->
                     </mat-form-field>
                 </div>
-                <div
-                    class="divider-fill-hor margin-top-4 margin-bottom-4">
-                </div>
+                <div class="card-divider"></div>
             </lcu-form-card>
           </div>
           <div>
             <lcu-form-card
                 title-icon="house"
                 title="Root Directory"
-                [sub-title]="RootDirSubTitle">
-                Root Directory Card
-                <div formGroupName="RootDirFormGroup"></div>
+                [sub-title]="RootDirSubTitle"
+                [form-actions]="RootDirActions">
+                <div formGroupName="RootDirFormGroup" fxLayout="column">
+                    <mat-form-field appearance="fill" class="margin-right-1">
+                        <mat-icon
+                          matSuffix
+                          [ngClass]="RootDirectory.valid ? 'valid-control' : 'invalid-control'">
+                          {{ RootDirectory.valid ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="RootDirectory.invalid || RootDirectory.disabled ? 'Root Directory' : ''"
+                            formControlName="rootDirectory"
+                        />
+                        <mat-hint *ngIf="RootDirectory.valid">
+                            Selected Root Directory
+                        </mat-hint>
+                        <mat-error *ngIf="RootDirectory.hasError('required')">
+                            Root Directory is required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-checkbox
+                        id="rootDirectoryIncludeSource"
+                        formControlName="rootDirectoryIncludeSource">
+                        Include source files outside of the Root Directory in the build step    
+                    </mat-checkbox>
+                </div>
+                <div class="card-divider"></div>
             </lcu-form-card>
           </div>
         </div>
@@ -75,8 +103,32 @@
             title-icon="settings"
             title="Build & Development Settings"
             [sub-title]="BuildDevSubTitle">
-            Build & Development Card
-            <div formGroupName="DevSettingsFormGroup"></div>
+            
+            <div formGroupName="DevSettingsFormGroup">
+                <!-- <mat-icon>{{ SelectedFrameworkPreset?.Icon }}</mat-icon> -->
+                <mat-form-field>
+                    <mat-label fxLayout="row">
+                        <mat-icon class="margin-right-3">list_alt</mat-icon>
+                        Framework Presets
+                    </mat-label>
+                    <mat-select [(value)]="SelectedFrameworkPreset">
+                        <mat-select-trigger fxLayout="row" fxLayoutAlign="start center">
+                            <mat-icon class="margin-right-3">{{ SelectedFrameworkPreset?.Icon }}</mat-icon>
+                            {{ SelectedFrameworkPreset?.Label }}
+                          </mat-select-trigger>
+                      <mat-option 
+                        *ngFor="let preset of FrameworkPresets" 
+                        [value]="preset" 
+                        (click)="PresetSelected(preset)">
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <mat-icon>{{ preset.Icon }}</mat-icon>
+                            <span>{{ preset.Label }}</span>
+                        </div>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+            <div class="card-divider"></div>
         </lcu-form-card>
     </form>
 

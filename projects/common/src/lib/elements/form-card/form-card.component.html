@@ -1,4 +1,4 @@
-<mat-card class="card">
+<mat-card>
     <mat-card-header>
         <div mat-card-avatar>
             <mat-icon
@@ -16,7 +16,7 @@
             {{ SubTitle }}
           </mat-card-subtitle>
     </mat-card-header>
-    <mat-card-content fxFlexFill>
+    <mat-card-content fxFlexFill class="margin-top-3">
       <ng-template #content>
         <ng-content></ng-content>
       </ng-template>
@@ -29,7 +29,7 @@
           *ngIf="FormActions"
           fxLayout="row"
           fxLayoutAlign="space-between center">
-          <span class="plain-text">{{ FormActions.Message }}</span>
+          <span class="mat-small caption-text">{{ FormActions.Message }}</span>
           <div fxLayoutAlign="end center">
               <div
               *ngFor="let action of FormActions?.Actions"

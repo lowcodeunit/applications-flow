@@ -1,5 +1,6 @@
 <app-host-dashboard-card-element
   class="projects section"
+  fxFlex
   [context]="{ Title: 'Projects', Icon: 'language' }"
 >
   <nav>
@@ -22,9 +23,7 @@
       class="container">
     </div>
 
-  <div
-    class="divider-fill-hor margin-top-4 margin-bottom-4"
-    [fxShow.lt-md]="true">
+  <div class="divider">
   </div>
     <lcu-project-tabs></lcu-project-tabs>
   </ng-container>

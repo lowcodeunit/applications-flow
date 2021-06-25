@@ -1,3 +1,4 @@
+import { DevSettingsPresetModel } from './../../../../../models/dev-settings-preset.model';
 import { AfterContentChecked, AfterContentInit, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LcuElementComponent, LCUElementContext } from '@lcu/common';
@@ -25,10 +26,52 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   // public ProjectNameIcon: string;
   // public ProjectNameTitle: string;
 
+  public DevSettingsActions: FormActionsModel;
+
+  /**
+   * Access form control for Build Command
+   */
+  public get DevSettingsBuildCommand(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.buildCommand');
+  }
+
+  /**
+   * Access form control for Dev Command
+   */
+   public get DevSettingsDevCommand(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.devCommand');
+  }
+
+  /**
+   * Access form control for Install Command
+   */
+   public get DevSettingsInstallCommand(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.installCommand');
+  }
+
+  /**
+   * Access form control for Output Directory
+   */
+   public get DevSettingsOutputDirector(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.outputDirectory');
+  }
+
+  /**
+   * Access form control for Preset
+   */
+   public get DevSettingsPreset(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.preset');
+  }
+
   /**
    * FormGroup for dev settings card
    */
   public DevSettingsFormGroup: FormGroup;
+
+  /**
+   * List of dev setting presets
+   */
+  public FrameworkPresets: Array<DevSettingsPresetModel>;
 
   /**
    * Main FormGroup
@@ -62,12 +105,30 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   // public RootDirIcon: string;
   // public RootDirTitle: string;
 
+
+  /**
+   * Access form control for root directory
+   */
+  public get RootDirectory(): AbstractControl {
+    return this.GeneralForm.get('RootDirFormGroup.rootDirectory');
+  }
+
+  /**
+   * Access form control for root directory
+   */
+   public get RootDirectoryIncludeSource(): AbstractControl {
+    return this.GeneralForm.get('RootDirFormGroup.rootDirectoryIncludeSource');
+  }
+
+  public RootDirActions: FormActionsModel;
+
   /**
    * FormGroup for root dir card
    */
   public RootDirFormGroup: FormGroup;
   public RootDirSubTitle: string;
 
+  public SelectedFrameworkPreset: DevSettingsPresetModel;
 
   public State: ApplicationsFlowState;
 
@@ -102,9 +163,37 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
     this.cd.detectChanges();
   }
 
+  /**
+   * 
+   * @param val Selected preset
+   */
+  public PresetSelected(val: DevSettingsPresetModel): void {
+
+  }
+
   protected setupRootDirectory(): void {
     // this.RootDirIcon = 'face';
     // this.RootDirTitle = 'Project Name';
+
+    this.RootDirActions =
+    {
+      Message: 'Changes will be applied to your next deployment',
+      Actions:
+      [
+       {
+         Label: 'Clear',
+         Color: 'warn',
+         ClickEvent: this.clearForm
+       },
+       {
+         Label: 'Save',
+         Color: 'accent',
+         ClickEvent: this.saveChanges
+       }
+     ]
+    }
+   ;
+
     this.RootDirSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
   }
 
@@ -122,23 +211,23 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
         {
           Label: 'Clear',
           Color: 'warn',
-          ClickEvent: this.clearProjNameForm
+          ClickEvent: this.clearForm
         },
         {
           Label: 'Save',
           Color: 'accent',
-          ClickEvent: this.saveProjNameChanges
+          ClickEvent: this.saveChanges
         }
       ]
      }
     ;
   }
 
-  protected saveProjNameChanges(): void {
+  protected saveChanges(): void {
     console.log('dynamic click event');
   }
 
-  protected clearProjNameForm(): void {
+  protected clearForm(): void {
     console.log('dynamic clear event');
   }
 
@@ -146,6 +235,20 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
 
     // this.BuildDevIcon = 'house';
     // this.BuildDevTitle = 'Build & Development Settings';
+
+    this.FrameworkPresets = [
+      {
+        Icon: 'face',
+        ID: 1,
+        Label: 'Option 1'
+      },
+      {
+        Icon: 'house',
+        ID: 2,
+        Label: 'Option 2'
+      }
+    ];
+
     this.BuildDevSubTitle = 'When using a framework for a new project, it will be automatically detected. As a s result, several project settings are automatically configured t achieve the best result. You can override them below.';
   }
 
@@ -153,19 +256,23 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
     this.GeneralForm = new FormGroup({
       ProjectNameFormGroup: new FormGroup({
         projectName: new FormControl('', {
-          validators: [Validators.required],
+          validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change'
         }),
         projectSurname: new FormControl('', {validators: Validators.required})
       }),
       RootDirFormGroup: new FormGroup({
-        root: new FormControl(''),
-        includeSource: new FormControl('')
+        rootDirectory: new FormControl('', {
+          validators: [Validators.required, Validators.minLength(3)],
+          updateOn: 'change'
+        }),
+        rootDirectoryIncludeSource: new FormControl(false)
       }),
       DevSettingsFormGroup: new FormGroup({
         preset: new FormControl(''),
         buildCommand: new FormControl(''),
         outputDirectory: new FormControl(''),
+        installCommand: new FormControl(''),
         devCommand: new FormControl('')
       })
     });

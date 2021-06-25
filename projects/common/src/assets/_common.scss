@@ -1,6 +1,32 @@
 @import '../../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
 @import '../../../../node_modules/@lcu/common/assets/theming/common-theme';
 
+/**
+  * mixin to set vertical or horizontal dividers
+  */
+  @mixin divider($direction, $height: $divider-size, $width: 100%, $color: var(--theme-accent-500)) {
+
+    background-color: $color;
+
+    @if $direction == vertical {
+      min-height: $height;
+      top:10%;
+      bottom:10%;
+      min-width: $divider-size;
+    } @else if $direction == horizontal {
+      height: $height;
+      width: $width;
+    } @else {
+      @error "Unknown direction #{$direction}"
+    }
+  }
+
+  @mixin mat-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+  }
+
 $primary: map-get($global-theme, primary);
 $accent: map-get($global-theme, accent);
 $warn: map-get($global-theme, warn);
@@ -32,7 +58,6 @@ $divider-size: 5px;
     --initial-light-background: #{mat-color($background, card)};
     --initial-light-text: #{map-get(map-get($global-theme, 'foreground'), 'text')};
     --initial-dark-text: #{invert(map-get(map-get($global-theme, 'foreground'), 'text'))};
-
     --background: #{invert(map-get($background, background))};
 
     /**
@@ -44,13 +69,12 @@ $divider-size: 5px;
     --purple-accent: #{map-get($mat-purple, 500)};
     --cyan-accent: #{rgba(map-get($mat-cyan, A100), .75)};
     --pink-accent: #{map-get($mat-pink, 500)};
-
     --success: #{map-get($mat-green, A400)};
 }
 
 * {
-  margin: 0;
-  padding: 0;
+  // margin: 0;
+  // padding: 0;
   // box-sizing: border-box;
   // font-size: 62.5%;
 }
@@ -61,6 +85,18 @@ body {
 
 :host {
   
+  // .caption-text {
+  //   color: rgba(var(--initial-light-text), .25) !important;
+  // }
+
+
+  .valid-control {
+    color: var(--green-accent);
+  }
+
+  .invalid-control {
+    color: var(--theme-warn-500);
+  }
 
   .actions {
       .item:not(:last-child) {
@@ -98,18 +134,19 @@ body {
       max-height: 300px;
       overflow-y: auto;
   }
+
+  .divider-fill-vert {
+    background-color: var(--theme-accent-500);
+    min-height: 100%;
+    top:10%;
+    bottom:10%;
+    min-width: $divider-size;
+  }
+  
+  .divider-fill-hor {
+    background-color: var(--theme-accent-500);
+    height: $divider-size;
+    width: 100%;
+  }
 }
 
-.divider-fill-vert {
-  background-color: var(--theme-accent-500);
-  min-height: 100%;
-  top:10%;
-  bottom:10%;
-  min-width: $divider-size;
-}
-
-.divider-fill-hor {
-  background-color: var(--theme-accent-500);
-  height: $divider-size;
-  width: 100%;
-}

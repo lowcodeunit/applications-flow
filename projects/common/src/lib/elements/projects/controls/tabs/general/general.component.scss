@@ -1,13 +1,10 @@
-@mixin mat-icon-size($size: 24px) {
-    font-size: $size;
-    height: $size;
-    width: $size;
-  }
+@import '../../../../../../assets/common';
 
   .title-icon {
     @include mat-icon-size(36px);
   }
 
-  .mat-form-field-invalid .mat-icon {
-    color: red !important;
+.card-divider {
+  @include divider(horizontal, 1px);
+  margin-top: 20px;
 }
