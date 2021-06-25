@@ -8,6 +8,6 @@
     @include mat-icon-size(36px);
   }
 
-  .card {
-    // box-sizing: border-box;
-  }
+  .mat-form-field-invalid .mat-icon {
+    color: red !important;
+}

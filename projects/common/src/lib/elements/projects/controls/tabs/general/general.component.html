@@ -6,23 +6,27 @@
         class="padding-top-3"
         [formGroup]="GeneralForm">
         <div fxFlex="50" fxLayout="column" class="margin-right-3">
+          <div class="margin-bottom-3">
             <lcu-form-card
                 [form-actions]="ProjNameActions"
-                fxFlex="50"
-                class="margin-bottom-4 card"
-                title-icon="star" 
-                title="Project Name" 
+                title-icon="star"
+                title="Project Name"
                 [sub-title]="ProjectNameSubTitle">
-                
-                <div 
-                    formGroupName="ProjectNameFormGroup" 
+
+                <div
+                    formGroupName="ProjectNameFormGroup"
                     fxLayout="row">
-                    <mat-form-field class="margin-right-1">
+                    <mat-form-field appearance="fill" class="margin-right-1">
+                        <mat-icon
+                          matSuffix style="color:var(--green-accent)"
+                          [style.color]="ProjectName.valid ? 'var(--green-accent)' : 'var(--theme-warn-500)'">
+                          check_circle
+                        </mat-icon>
                         <input
                             type="text"
                             matInput
                             [placeholder]="ProjectName.invalid || ProjectName.disabled ? 'Project Name' : ''"
-                            formControlName="ProjectName"
+                            formControlName="projectName"
                         />
                         <mat-hint *ngIf="ProjectName.valid">
                             Selected Project Name
@@ -30,9 +34,10 @@
                         <mat-error *ngIf="ProjectName.hasError('required')">
                             Project Name is required
                         </mat-error>
-                        
+
                     </mat-form-field>
-                    <mat-form-field>
+                    <mat-form-field appearance="fill">
+                      <mat-icon matSuffix>face</mat-icon>
                         <input
                             type="text"
                             matInput
@@ -51,24 +56,24 @@
                     </mat-form-field>
                 </div>
                 <div
-                    class="divider-fill-hor margin-top-4 margin-bottom-4"
-                    [fxShow.lt-md]="true">
+                    class="divider-fill-hor margin-top-4 margin-bottom-4">
                 </div>
             </lcu-form-card>
-            
+          </div>
+          <div>
             <lcu-form-card
-                fxFlex="50"
-                title-icon="house" 
-                title="Root Directory" 
+                title-icon="house"
+                title="Root Directory"
                 [sub-title]="RootDirSubTitle">
                 Root Directory Card
                 <div formGroupName="RootDirFormGroup"></div>
             </lcu-form-card>
+          </div>
         </div>
         <lcu-form-card
-            fxFlex="50" 
-            title-icon="settings" 
-            title="Build & Development Settings" 
+            fxFlex="50"
+            title-icon="settings"
+            title="Build & Development Settings"
             [sub-title]="BuildDevSubTitle">
             Build & Development Card
             <div formGroupName="DevSettingsFormGroup"></div>

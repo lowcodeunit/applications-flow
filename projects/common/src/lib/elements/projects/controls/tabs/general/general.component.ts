@@ -15,7 +15,7 @@ export class ApplicationsFlowProjectsContext extends LCUElementContext<Applicati
   styleUrls: ['./general.component.scss']
 })
 
-export class GeneralComponent 
+export class GeneralComponent
 extends LcuElementComponent<ApplicationsFlowProjectsContext>
   implements OnDestroy, OnInit, AfterContentChecked  {
 
@@ -67,7 +67,7 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
    */
   public RootDirFormGroup: FormGroup;
   public RootDirSubTitle: string;
-  
+
 
   public State: ApplicationsFlowState;
 
@@ -105,16 +105,16 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   protected setupRootDirectory(): void {
     // this.RootDirIcon = 'face';
     // this.RootDirTitle = 'Project Name';
-    // this.RootDirSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
+    this.RootDirSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
   }
 
   protected setupProjectName(): void {
 
     // this.ProjectNameIcon = 'house';
     // this.ProjectNameTitle = 'Root Directory';
-   // this.ProjectNameSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
+   this.ProjectNameSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
 
-    this.ProjNameActions =
+   this.ProjNameActions =
      {
        Message: 'Changes will be applied to your next deployment',
        Actions:
@@ -152,7 +152,10 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   protected setupForm(): void {
     this.GeneralForm = new FormGroup({
       ProjectNameFormGroup: new FormGroup({
-        projectName: new FormControl('', {validators: Validators.required}),
+        projectName: new FormControl('', {
+          validators: [Validators.required],
+          updateOn: 'change'
+        }),
         projectSurname: new FormControl('', {validators: Validators.required})
       }),
       RootDirFormGroup: new FormGroup({
