@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="card">
     <mat-card-header>
         <div mat-card-avatar>
             <mat-icon 
@@ -17,18 +17,32 @@
           </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
+      <ng-template #content>
         <ng-content></ng-content>
+      </ng-template>
+      <ng-container 
+        *ngTemplateOutlet="content">
+      </ng-container>
     </mat-card-content>
     <mat-card-actions>
-      <div fxLayout="row" fxLayoutAlign="end center">
-        <div *ngFor="let action of Actions" fxLayout="row" class="margin-right-1">
-          <button 
-            color="{{ action.Color }}" 
-            mat-button (click)="action.ClickEvent()">
-            {{ action.Label }}
-          </button>
-        </div>
+      <div 
+          *ngIf="FormActions"
+          fxLayout="row" 
+          fxLayoutAlign="space-between center">
+          <span class="plain-text">{{ FormActions.Message }}</span>
+          <div fxLayoutAlign="end center">
+              <div 
+              *ngFor="let action of FormActions?.Actions" 
+              fxLayout="row" 
+              fxLayoutAlign="end center"
+              class="margin-right-1">
+                  <button 
+                      color="{{ action.Color }}" 
+                      mat-button (click)="action.ClickEvent()">
+                      {{ action.Label }}
+                  </button>
+              </div>
+          </div>
       </div>
-     
     </mat-card-actions>
 </mat-card>

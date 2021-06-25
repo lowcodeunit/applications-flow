@@ -1,33 +1,79 @@
-<form
-    fxFlex
-    fxLayout="row"
-    fxLayout.lt-md="column"
-    class="padding-5"
-    [formGroup]="Form"
-    novalidate>
-    <!-- <div fxLayout="column" class="margin-right-3">
-        <lcu-form-card
-            [actions]="ProjNameActions"
-            fxFlex="50"
-            class="margin-bottom-3" 
-            title-icon="star" 
-            title="Project Name" 
-            [sub-title]="ProjectNameSubTitle">
-            Project Name Card
-        </lcu-form-card>
+
+    <form
+        fxFlex
+        fxLayout="row"
+        fxLayout.lt-md="column"
+        class="padding-top-3"
+        [formGroup]="GeneralForm">
+        <div fxFlex="50" fxLayout="column" class="margin-right-3">
+            <lcu-form-card
+                [form-actions]="ProjNameActions"
+                fxFlex="50"
+                class="margin-bottom-4 card"
+                title-icon="star" 
+                title="Project Name" 
+                [sub-title]="ProjectNameSubTitle">
+                
+                <div 
+                    formGroupName="ProjectNameFormGroup" 
+                    fxLayout="row">
+                    <mat-form-field class="margin-right-1">
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="ProjectName.invalid || ProjectName.disabled ? 'Project Name' : ''"
+                            formControlName="projectName"
+                            [matAutocomplete]="projectName"
+                        />
+                        <mat-hint *ngIf="ProjectName.valid">
+                            Selected Project Name
+                        </mat-hint>
+                        <mat-error *ngIf="ProjectName.hasError('required')">
+                            Project Name is required
+                        </mat-error>
+                        
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="ProjectSurname.invalid || ProjectSurname.disabled ? 'Project Surname' : ''"
+                            formControlName="projectSurname"
+                            [matAutocomplete]="projectSurname"
+                        />
+                        <mat-hint *ngIf="ProjectSurname.valid">
+                            Selected Project Surname
+                        </mat-hint>
+                        <mat-error *ngIf="ProjectSurname.hasError('required')">
+                            Project Surname is required
+                        </mat-error>
+                        <!-- <mat-error *ngIf="ProjectSurname.hasError('invalidOriginPosition')">
+                            Invalid Project Surname
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div
+                    class="divider-fill-hor margin-top-4 margin-bottom-4"
+                    [fxShow.lt-md]="true">
+                </div>
+            </lcu-form-card>
+            
+            <lcu-form-card
+                fxFlex="50"
+                title-icon="house" 
+                title="Root Directory" 
+                [sub-title]="RootDirSubTitle">
+                Root Directory Card
+                <div formGroupName="RootDirFormGroup"></div>
+            </lcu-form-card>
+        </div>
         <lcu-form-card
             fxFlex="50" 
-            title-icon="house" 
-            title="Root Directory" 
-            [sub-title]="RootDirSubTitle">
-            Root Directory Card
+            title-icon="settings" 
+            title="Build & Development Settings" 
+            [sub-title]="BuildDevSubTitle">
+            Build & Development Card
+            <div formGroupName="DevSettingsFormGroup"></div>
         </lcu-form-card>
-    </div>
-    <lcu-form-card
-        fxFlex="50" 
-        title-icon="settings" 
-        title="Build & Development Settings" 
-        [sub-title]="BuildDevSubTitle">
-        Build & Development Card
-    </lcu-form-card> -->
-</form>
+    </form>
+

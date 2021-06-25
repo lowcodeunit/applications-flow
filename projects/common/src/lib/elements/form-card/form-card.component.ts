@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormCardActionsModel } from '../../models/form-card-actions.model';
-
+import { FormActionsModel } from '../../models/form-actions.model';
 @Component({
   selector: 'lcu-form-card',
   templateUrl: './form-card.component.html',
@@ -9,8 +8,8 @@ import { FormCardActionsModel } from '../../models/form-card-actions.model';
 
 export class FormCardComponent implements OnInit {
 
-  @Input('actions')
-  public Actions: Array<FormCardActionsModel>;
+  @Input('form-actions')
+  public FormActions: FormActionsModel;
 
   @Input('title')
   public Title: string;

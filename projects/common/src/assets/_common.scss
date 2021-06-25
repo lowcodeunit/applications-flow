@@ -28,8 +28,8 @@ $divider-size: 5px;
     --initial-warn: #{mat-color($warn)};
     --initial-dark-background: #222222;
     --initial-light-background: #f2f2f2;
-    // --initial-dark-background: #{invert(mat-color($background, card))};
-    // --initial-light-background: #{mat-color($background, card)};
+    --initial-dark-background: #{invert(mat-color($background, card, .65))};
+    --initial-light-background: #{mat-color($background, card)};
     --initial-light-text: #{map-get(map-get($global-theme, 'foreground'), 'text')};
     --initial-dark-text: #{invert(map-get(map-get($global-theme, 'foreground'), 'text'))};
 
@@ -48,8 +48,20 @@ $divider-size: 5px;
     --success: #{map-get($mat-green, A400)};
 }
 
+* {
+  margin: 0;
+  padding: 0;
+  // box-sizing: border-box;
+  // font-size: 62.5%;
+}
+
+body {
+  background-color: var(--initial-dark-background);
+}
 
 :host {
+  
+
   .actions {
       .item:not(:last-child) {
           margin-right: 0px;
