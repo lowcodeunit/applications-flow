@@ -22,8 +22,7 @@
                             type="text"
                             matInput
                             [placeholder]="ProjectName.invalid || ProjectName.disabled ? 'Project Name' : ''"
-                            formControlName="projectName"
-                            [matAutocomplete]="projectName"
+                            formControlName="ProjectName"
                         />
                         <mat-hint *ngIf="ProjectName.valid">
                             Selected Project Name
@@ -38,8 +37,7 @@
                             type="text"
                             matInput
                             [placeholder]="ProjectSurname.invalid || ProjectSurname.disabled ? 'Project Surname' : ''"
-                            formControlName="projectSurname"
-                            [matAutocomplete]="projectSurname"
+                            formControlName="ProjectSurname"
                         />
                         <mat-hint *ngIf="ProjectSurname.valid">
                             Selected Project Surname
