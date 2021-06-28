@@ -1,0 +1,254 @@
+
+    <form
+        fxFlex
+        fxLayout="row"
+        fxLayout.lt-md="column"
+        class="padding-top-3"
+        [formGroup]="GeneralForm">
+        <div fxFlex="50" fxLayout="column" class="margin-right-3">
+          <div class="margin-bottom-3">
+            <lcu-form-card
+                [form-actions]="ProjNameActions"
+                title-icon="star"
+                title="Project Name"
+                [sub-title]="ProjectNameSubTitle">
+
+                <div
+                    formGroupName="ProjectNameFormGroup"
+                    fxLayout="row">
+                    <mat-form-field appearance="fill" class="margin-right-1">
+                        <mat-icon
+                          matSuffix
+                          [ngClass]="ProjectName.valid ? 'valid-control' : 'invalid-control'">
+                          {{ ProjectName.valid ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="ProjectName.invalid || ProjectName.disabled ? 'Project Name' : ''"
+                            formControlName="projectName"
+                        />
+                        <mat-hint *ngIf="ProjectName.valid">
+                            Selected Project Name
+                        </mat-hint>
+                        <mat-error *ngIf="ProjectName.hasError('required')">
+                            Project Name is required
+                        </mat-error>
+
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-icon
+                            matSuffix
+                            [ngClass]="ProjectSurname.valid ? 'valid-control' : 'invalid-control'">
+                            {{ ProjectSurname.valid ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="ProjectSurname.invalid || ProjectSurname.disabled ? 'Project Surname' : ''"
+                            formControlName="projectSurname"
+                        />
+                        <mat-hint *ngIf="ProjectSurname.valid">
+                            Selected Project Surname
+                        </mat-hint>
+                        <mat-error *ngIf="ProjectSurname.hasError('required')">
+                            Project Surname is required
+                        </mat-error>
+                        <!-- <mat-error *ngIf="ProjectSurname.hasError('invalidOriginPosition')">
+                            Invalid Project Surname
+                        </mat-error> -->
+                    </mat-form-field>
+                </div>
+                <div class="card-divider"></div>
+            </lcu-form-card>
+          </div>
+          <div>
+            <lcu-form-card
+                title-icon="house"
+                title="Root Directory"
+                [sub-title]="RootDirSubTitle"
+                [form-actions]="RootDirActions">
+                <div formGroupName="RootDirFormGroup" fxLayout="column">
+                    <mat-form-field appearance="fill" class="margin-right-1">
+                        <mat-icon
+                          matSuffix
+                          [ngClass]="RootDirectory.valid ? 'valid-control' : 'invalid-control'">
+                          {{ RootDirectory.valid ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="RootDirectory.invalid || RootDirectory.disabled ? 'Root Directory' : ''"
+                            formControlName="rootDirectory"
+                        />
+                        <mat-hint *ngIf="RootDirectory.valid">
+                            Selected Root Directory
+                        </mat-hint>
+                        <mat-error *ngIf="RootDirectory.hasError('required')">
+                            Root Directory is required
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-checkbox
+                        id="rootDirectoryIncludeSource"
+                        formControlName="rootDirectoryIncludeSource">
+                        Include source files outside of the Root Directory in the build step    
+                    </mat-checkbox>
+                </div>
+                <div class="card-divider"></div>
+            </lcu-form-card>
+          </div>
+        </div>
+        <lcu-form-card
+            fxFlex="50"
+            title-icon="settings"
+            title="Build & Development Settings"
+            [sub-title]="BuildDevSubTitle"
+            [form-actions]="BuildDevActions">
+            
+            <div formGroupName="DevSettingsFormGroup" fxLayout="column">
+                <!-- <mat-icon>{{ SelectedFrameworkPreset?.Icon }}</mat-icon> -->
+                <mat-form-field fxFlex class="margin-bottom-3">
+                    <mat-label fxLayout="row">
+                        <mat-icon class="margin-right-3">list_alt</mat-icon>
+                        Framework Presets
+                    </mat-label>
+                    <mat-select [(value)]="SelectedFrameworkPreset">
+                        <mat-select-trigger fxLayout="row" fxLayoutAlign="start center">
+                            <mat-icon class="margin-right-3">{{ SelectedFrameworkPreset?.Icon }}</mat-icon>
+                            {{ SelectedFrameworkPreset?.Label }}
+                          </mat-select-trigger>
+                      <mat-option 
+                        *ngFor="let preset of FrameworkPresets" 
+                        [value]="preset" 
+                        (click)="PresetSelected(preset)">
+                        <div fxLayout="row" fxLayoutAlign="start center">
+                            <mat-icon>{{ preset.Icon }}</mat-icon>
+                            <span>{{ preset.Label }}</span>
+                        </div>
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  
+                  <!-- INPUTS -->
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                      <div fxLayout="row" fxLayoutAlign="start center">
+                        <mat-label class="margin-right-2">Build Command</mat-label>
+                        <mat-icon color="accent">help_outline</mat-icon>
+                      </div>
+                    
+                    <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                        <mat-icon
+                          matSuffix
+                          [ngClass]="DevSettingsBuildCommand.valid ? 'valid-control' : 'invalid-control'">
+                          {{ DevSettingsBuildCommand.valid ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="DevSettingsBuildCommand.invalid || DevSettingsBuildCommand.disabled ? 'npm run fathym-build or npm run build' : ''"
+                            formControlName="buildCommand"
+                        />
+                       
+                    </mat-form-field>
+                    <mat-slide-toggle
+                        color="accent"
+                        name="buildCommandOverride"
+                        formControlName="buildCommandOverride">
+                        Override
+                        </mat-slide-toggle>
+                  </div>
+
+
+
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <mat-label class="margin-right-2">Output Directory</mat-label>
+                      <mat-icon color="accent">help_outline</mat-icon>
+                    </div>
+                  
+                  <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                      <mat-icon
+                        matSuffix
+                        [ngClass]="DevSettingsOutputDirectory.valid ? 'valid-control' : 'invalid-control'">
+                        {{ DevSettingsOutputDirectory.valid ? 'check_circle' : 'cancel' }}
+                      </mat-icon>
+                      <input
+                          type="text"
+                          matInput
+                          [placeholder]="DevSettingsOutputDirectory.invalid || DevSettingsOutputDirectory.disabled ? 'public if it exists or, .' : ''"
+                          formControlName="outputDirectory"
+                      />
+                    
+                  </mat-form-field>
+                  <mat-slide-toggle
+                      color="accent"
+                      name="buildCommandOverride"
+                      formControlName="buildCommandOverride">
+                      Override
+                      </mat-slide-toggle>
+                </div>
+
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <mat-label class="margin-right-2">Install Command</mat-label>
+                      <mat-icon color="accent">help_outline</mat-icon>
+                    </div>
+                  
+                  <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                      <mat-icon
+                        matSuffix
+                        [ngClass]="DevSettingsInstallCommand.valid ? 'valid-control' : 'invalid-control'">
+                        {{ DevSettingsInstallCommand.valid ? 'check_circle' : 'cancel' }}
+                      </mat-icon>
+                      <input
+                          type="text"
+                          matInput
+                          [placeholder]="DevSettingsInstallCommand.invalid || DevSettingsInstallCommand.disabled ? 'yarn install or npm install' : ''"
+                          formControlName="installCommand"
+                      />
+                     
+                  </mat-form-field>
+                  <mat-slide-toggle
+                      color="accent"
+                      name="buildCommandOverride"
+                      formControlName="buildCommandOverride">
+                      Override
+                      </mat-slide-toggle>
+                </div>
+
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <mat-label class="margin-right-2">Development Command</mat-label>
+                      <mat-icon color="accent">help_outline</mat-icon>
+                    </div>
+                  
+                  <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                      <mat-icon
+                        matSuffix
+                        [ngClass]="DevSettingsDevCommand.valid ? 'valid-control' : 'invalid-control'">
+                        {{ DevSettingsDevCommand.valid ? 'check_circle' : 'cancel' }}
+                      </mat-icon>
+                      <input
+                          type="text"
+                          matInput
+                          [placeholder]="DevSettingsDevCommand.invalid || DevSettingsDevCommand.disabled ? 'None' : ''"
+                          formControlName="devCommand"
+                      />
+                     
+                  </mat-form-field>
+                  <mat-slide-toggle
+                      color="accent"
+                      name="buildCommandOverride"
+                      formControlName="buildCommandOverride">
+                      Override
+                      </mat-slide-toggle>
+                </div>
+            </div>
+            <div class="card-divider"></div>
+        </lcu-form-card>
+    </form>
+

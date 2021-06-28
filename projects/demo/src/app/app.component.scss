@@ -1,9 +1,10 @@
-@import '~@angular/material/theming';
+// @import '~@angular/material/theming';
 
-@mixin lcu-component-theme($theme) {
-  $primary: map-get($theme, primary);
-  $accent: map-get($theme, accent);
-  $warn: map-get($theme, warn);
+// @mixin lcu-component-theme($theme) {
+  // $primary: map-get($theme, primary);
+  // $accent: map-get($theme, accent);
+  // $warn: map-get($theme, warn);
+@import '../../../common/src/assets/common';
 
   $header-height: 64px;
 
@@ -47,7 +48,7 @@
   }
 
   .lcu-card-container {
-    width: 100%;
+    width: 100%
 
     lcu-home, lcu-projects {
       width: 100%;
@@ -70,36 +71,36 @@
     }
   }
 
-  .color-swatch-arctic {
-    color: mat-color($fathym-arctic-primary, 500) !important;
-  }
+  // .color-swatch-arctic {
+  //   color: mat-color($fathym-arctic-primary, 500) !important;
+  // }
 
-  .color-swatch-contrast {
-    color: mat-color($fathym-contrast-primary, 500) !important;
-  }
+  // .color-swatch-contrast {
+  //   color: mat-color($fathym-contrast-primary, 500) !important;
+  // }
 
-  .color-swatch-cool-candy {
-    color: mat-color($fathym-cool-candy-primary, 500) !important;
-  }
+  // .color-swatch-cool-candy {
+  //   color: mat-color($fathym-cool-candy-primary, 500) !important;
+  // }
 
-  .color-swatch-flipper {
-    color: mat-color($fathym-flipper-primary, 500) !important;
-  }
+  // .color-swatch-flipper {
+  //   color: mat-color($fathym-flipper-primary, 500) !important;
+  // }
 
-  .color-swatch-ice {
-    color: mat-color($fathym-ice-primary, 500) !important;
-  }
+  // .color-swatch-ice {
+  //   color: mat-color($fathym-ice-primary, 500) !important;
+  // }
 
-  .color-swatch-sea-green {
-    color: mat-color($fathym-sea-green-primary, 500) !important;
-  }
+  // .color-swatch-sea-green {
+  //   color: mat-color($fathym-sea-green-primary, 500) !important;
+  // }
 
-  .color-swatch-white-mint {
-    color: mat-color($fathym-white-mint-primary, 500) !important;
-  }
+  // .color-swatch-white-mint {
+  //   color: mat-color($fathym-white-mint-primary, 500) !important;
+  // }
 
-  .color-swatch-ivy {
-    color: mat-color($fathym-primary, 500) !important;
-  }
+  // .color-swatch-ivy {
+  //   color: mat-color($fathym-primary, 500) !important;
+  // }
 
-}
+// }

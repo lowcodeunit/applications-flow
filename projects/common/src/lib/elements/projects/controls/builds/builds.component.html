@@ -1,0 +1,59 @@
+<mat-accordion>
+    <div *ngIf="Projects" class="expansion-container">
+        <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let project of Projects">
+            <div fxFlex fxLayout="row">
+                <mat-expansion-panel (opened)="panelOpenState = true;" (closed)="panelOpenState = false"
+                    [ngClass]="panelOpenState === true ? 'active' : 'inactive'" class="expansion-panel">
+                    <mat-expansion-panel-header [collapsedHeight]="'75px'" [expandedHeight]="'75px'">
+                        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" class="margin-right-3">
+                            <div fxLayout="row">
+                                <div *ngIf="project.Runs[0]; let latestRun">
+                                    <div fxLayout="column"
+                                        *ngIf="RetrieveLCU({project: project, lcuID: latestRun.LCUID}); let lcu">
+                                        <div class="workflow-run-status">
+                                            <a mat-icon-button
+                                                href="https://github.com/{{ lcu.Organization }}/{{lcu.Repository}}/actions"
+                                                target="_blank">
+                                                <div fxLayout="row">
+                                                    <div fxLayoutAlign="center center" class="icon-bg"
+                                                        [ngClass]="latestRun.Conclusion == 'success' ? 'success' : 'error'">
+                                                        <mat-icon
+                                                            matTooltip="{{ latestRun.Status }} {{ latestRun.Conclusion }}"
+                                                            *ngIf="latestRun.Conclusion == 'success'">
+                                                            {{ latestRun.Conclusion == 'success' ? 'check_circle' :
+                                                            'error'}}
+                                                        </mat-icon>
+                                                    </div>
+
+                                                    <div>
+                                                        <mat-icon class="error"
+                                                            *ngIf="latestRun.Conclusion == 'failure'">
+                                                            error_outline
+                                                        </mat-icon>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div fxLayout="column" class="details margin-left-3">
+                                    <span class="name mat-headline mat-body-1">{{ project.Name }}</span>
+                                </div>
+                            </div>
+
+                            <div fxLayout="row" class="actions">
+                                <a mat-button color="accent" (click)="DeployLastRun(latestRun)" target="_blank"
+                                    matTooltip="Deploy Latest" title="Deploy Latest">
+                                    <mat-icon>cloud_upload</mat-icon>
+                                </a>
+                            </div>
+                        </div>
+                    </mat-expansion-panel-header>
+                    <span class="mat-body-2">Build Details</span>
+                </mat-expansion-panel>
+            </div>
+        </div>
+    </div>
+</mat-accordion>

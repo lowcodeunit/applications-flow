@@ -1,5 +1,6 @@
 <app-host-dashboard-card-element
   class="projects section"
+  fxFlex
   [context]="{ Title: 'Projects', Icon: 'language' }"
 >
   <nav>
@@ -13,6 +14,19 @@
       <mat-icon matTooltip="More info">help_outline</mat-icon>
     </a>
   </nav>
+
+  <ng-container *ngIf="State">
+    <lcu-projects-header></lcu-projects-header>
+    <div 
+      fxLayout="row" 
+      fxLayout.lt-sm="column"
+      class="container">
+    </div>
+
+  <div class="divider">
+  </div>
+    <lcu-project-tabs></lcu-project-tabs>
+  </ng-container>
 
   <ng-container *ngIf="!State?.Loading">
     <div *ngIf="CreatingProject">
@@ -31,12 +45,12 @@
     <ng-container *ngIf="!CreatingProject && !EditingProjectSettings">
       <div>
         <div fxLayout="row" *ngFor="let project of State.Projects">
-          <div fxFlex="150px" class="project-image">
+          <!-- <div fxFlex="150px" class="project-image">
             <img [src]="project.Image" *ngIf="project.Image" />
-          </div>
+          </div> -->
 
           <div class="margin-3">
-            <h3 class="mat-headline">
+            <!-- <h3 class="mat-headline">
               {{ project.Name }}
 
               <a
@@ -57,7 +71,7 @@
               >
                 <mat-icon>launch</mat-icon>
               </a>
-            </h3>
+            </h3> -->
 
             <ng-container *ngIf="project.Runs?.length <= 0">
               <div *ngIf="project.LCUs?.length <= 0">
@@ -101,7 +115,7 @@
               </ng-container>
             </ng-container>
 
-            <ng-container *ngIf="project.Runs?.length > 0">
+            <!-- <ng-container *ngIf="project.Runs?.length > 0">
               <ng-container *ngIf="project.Runs[0]; let latestRun">
                 <h4
                   class="mat-subheading-2"
@@ -130,11 +144,7 @@
                     >
                       error_outline
                     </mat-icon>
-                    <!--
-                <span>
-                  <lcu-loader [loading]="latestRun.Status == 'in_progress'" [diameter]="75"></lcu-loader>
-                </span> -->
-
+              
                     {{ latestRun.Status }}
 
                     {{ latestRun.Conclusion }}
@@ -147,7 +157,7 @@
                   </a>
                 </h4>
               </ng-container>
-            </ng-container>
+            </ng-container> -->
           </div>
         </div>
       </div>

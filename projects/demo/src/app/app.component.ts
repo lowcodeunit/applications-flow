@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ThemeColorPickerService } from '@lcu/common';
+import { PalettePickerService, ThemeBuilderConstants, ThemeBuilderService, ThemePickerModel } from '@lowcodeunit/lcu-theme-builder-common';
+import { HttpClient } from '@angular/common/http';
+
+declare var Sass: any;
 
 @Component({
   selector: 'lcu-root',
@@ -13,36 +16,53 @@ export class AppComponent implements OnInit {
   public Title = 'LCU-Starter-App';
 
   constructor(
-    protected themeService: ThemeColorPickerService
+    protected http: HttpClient,
+    protected themeBuilderService: ThemeBuilderService,
+    protected palettePickerService: PalettePickerService
   ) { }
 
   public ngOnInit(): void {
-    this.resetTheme();
-    this.setThemes();
+    this.themeBuilderService.MaterialTheme = 'https://www.iot-ensemble.com/assets/theming/theming.scss';
+    this.setupThemes();
   }
 
-  protected resetTheme(): void {
-    this.ThemeClass = this.themeService.GetColorClass();
-  }
 
-  public PickTheme(color: string): void {
-    this.themeService.SetColorClass(`fathym-${color}-theme`);
-  }
-
-  protected setThemes(): void {
-    this.Themes = [
-      { ColorSwatch: 'color-swatch-arctic', Icon: 'brightness_1', Label: 'Arctic Theme', Value: 'arctic-theme', Color: 'arctic' },
-      { ColorSwatch: 'color-swatch-contrast', Icon: 'brightness_1', Label: 'Contrast Theme', Value: 'contrast-theme', Color: 'contrast' },
-      { ColorSwatch: 'color-swatch-cool-candy', Icon: 'brightness_1', Label: 'Cool Candy Theme', Value: 'cool-candy-theme', Color: 'cool-candy' },
-      { ColorSwatch: 'color-swatch-flipper', Icon: 'brightness_1', Label: 'Flipper Theme', Value: 'flipper-theme', Color: 'flipper' },
-      { ColorSwatch: 'color-swatch-ice', Icon: 'brightness_1', Label: 'Ice Theme', Value: 'ice-theme', Color: 'ice' },
-      { ColorSwatch: 'color-swatch-sea-green', Icon: 'brightness_1', Label: 'Sea Green Theme', Value: 'sea-green-theme', Color: 'sea-green' },
-      { ColorSwatch: 'color-swatch-white-mint', Icon: 'brightness_1', Label: 'White Mint Theme', Value: 'white-mint-theme', Color: 'white-mint' },
-      { ColorSwatch: 'color-swatch-ivy', Icon: 'brightness_1', Label: 'Ivy Theme', Value: 'ivy-theme', Color: 'ivy' }
+  /**
+   * Setup array of themes
+   */
+   protected setupThemes(): void {
+    const themes: Array<ThemePickerModel> = [
+      new ThemePickerModel(
+        {
+          ID: 'Fathym Brand',
+          Primary: ThemeBuilderConstants.document.getPropertyValue('--initial-primary'),
+          Accent: ThemeBuilderConstants.document.getPropertyValue('--initial-accent'),
+          Warn: ThemeBuilderConstants.document.getPropertyValue('--initial-warn')
+        }
+      ),
+      new ThemePickerModel(
+        {
+          ID: 'Yellow', 
+          Primary: '#ffcc11',
+          Accent: '#06a5ff',
+          Warn: '#990000'
+        }
+      ),
+      new ThemePickerModel(
+        {
+          ID: 'Pink',
+          Primary: '#a83271',
+          Accent: '#6103ff',
+          Warn: '#b9f013'
+        }
+      )
     ];
+
+    this.themeBuilderService.SetThemes(themes);
   }
 
   public DisplayDetails(): void {
     console.log('DisplayDetails()');
+
   }
 }

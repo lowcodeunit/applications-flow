@@ -1,4 +1,4 @@
-@import "../../../assets/common";
+@import '../../../assets/common';
 
 :host ::ng-deep {
   .project-image {
@@ -10,5 +10,9 @@
 
   .loading {
     text-align: center;
+  }
+
+  .divider {
+    @include divider(horizontal, 1px);
   }
 }

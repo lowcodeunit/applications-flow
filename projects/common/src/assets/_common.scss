@@ -1,162 +1,152 @@
+@import '../../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
 @import '../../../../node_modules/@lcu/common/assets/theming/common-theme';
-@import '../../../../node_modules/@lcu/common/assets/styles/utils/margins-padding';
-@import '../../../../node_modules/@lcu/common/assets/styles/utils/fathym-cursors';
 
+/**
+  * mixin to set vertical or horizontal dividers
+  */
+  @mixin divider($direction, $height: $divider-size, $width: 100%, $color: var(--theme-accent-500)) {
 
-$global-theme: fathym-ivy-theme(true);
+    background-color: $color;
+
+    @if $direction == vertical {
+      min-height: $height;
+      top:10%;
+      bottom:10%;
+      min-width: $divider-size;
+    } @else if $direction == horizontal {
+      height: $height;
+      width: $width;
+    } @else {
+      @error "Unknown direction #{$direction}"
+    }
+  }
+
+  @mixin mat-icon-size($size: 24px) {
+    font-size: $size;
+    height: $size;
+    width: $size;
+  }
 
 $primary: map-get($global-theme, primary);
 $accent: map-get($global-theme, accent);
 $warn: map-get($global-theme, warn);
-
+$background: map-get($global-theme, background);
+$foreground: map-get($global-theme, foreground);
 $orange-accent: map-get($mat-orange, 500);
-$green-accent: map-get($mat-green, 400);
+$green-accent: map-get($mat-green, A400);
 $yellow-accent: map-get($mat-yellow, 600);
-
+$purple-accent: map-get($mat-purple, 500);
+$cyan-accent: rgba(map-get($mat-cyan, A100), .75);
+$pink-accent: map-get($mat-pink, 500);
 $success:  map-get($mat-green, A700);
-
-// $primary-logo: $fathym-default-logo;
-$logo-color: map-get(map-get($global-theme, 'foreground'), 'icon');
 $divider-size: 5px;
-$divider: mat-color($primary);
-$background: map-get(map-get($global-theme, 'background'), 'background');
-$background-fill: rgba(map-get($mat-grey, 900), .75);
-$foreground: map-get(map-get($global-theme, 'foreground'), 'base');
-$primary-text: mat-color($primary);
-$secondary-text: map-get(map-get($global-theme, 'foreground'), 'secondary-text');
 
-@function set-opacity($color, $opacity) {
-    @return rgba($color, $opacity);
+  /**
+  * Set initial color values
+  */
+:root {
+  /**
+  * Set initial theme color values
+  * these are pulled from the current theme, but can be whomever.
+  */
+    --initial-primary: #{mat-color($primary)};
+    --initial-accent: #{mat-color($accent)};
+    --initial-warn: #{mat-color($warn)};
+    --initial-dark-background: #222222;
+    --initial-light-background: #f2f2f2;
+    --initial-dark-background: #{invert(mat-color($background, card, .65))};
+    --initial-light-background: #{mat-color($background, card)};
+    --initial-light-text: #{map-get(map-get($global-theme, 'foreground'), 'text')};
+    --initial-dark-text: #{invert(map-get(map-get($global-theme, 'foreground'), 'text'))};
+    --background: #{invert(map-get($background, background))};
+
+    /**
+    * Brand accent colors - pulled from current theme, but can be whomever
+    */
+    --orange-accent: #{map-get($mat-orange, 500)};
+    --green-accent: #{map-get($mat-green, A400)};
+    --yellow-accent: #{map-get($mat-yellow, 600)};
+    --purple-accent: #{map-get($mat-purple, 500)};
+    --cyan-accent: #{rgba(map-get($mat-cyan, A100), .75)};
+    --pink-accent: #{map-get($mat-pink, 500)};
+    --success: #{map-get($mat-green, A400)};
 }
 
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  // margin: 0;
+  // padding: 0;
+  // box-sizing: border-box;
+  // font-size: 62.5%;
 }
 
-html, body {
-    height: 100%;
-    background-color: $background;
-    color: white;
+body {
+  background-color: var(--initial-dark-background);
 }
 
-.logo-config {
-    background-position: center;
-    background-repeat: no-repeat;
-}
+:host {
+  
+  // .caption-text {
+  //   color: rgba(var(--initial-light-text), .25) !important;
+  // }
 
- .fathym-logo {
-    background-image: fathym-logo(thinky-logo, mat-color($accent), 1);
-    width: 50px;
-    height: 60px;
-    @extend .logo-config;
-}
 
-.fathym-full-logo {
-    background-image: fathym-logo(thinky-full-logo, mat-color($accent), 1);
-    width: 160px;
-    height: 60px;
-    @extend .logo-config;
-}
+  .valid-control {
+    color: var(--green-accent);
+  }
 
-.no-access {
-    background-color: rgba(mat-color($warn), .5);
-}
+  .invalid-control {
+    color: var(--theme-warn-500);
+  }
 
-.main-primary-text {
-    color: mat-color($primary) !important;
-}
+  .actions {
+      .item:not(:last-child) {
+          margin-right: 0px;
+      }
+  }
 
-.main-accent-text {
-    color: mat-color($accent) !important;
-}
+  .project-thumbnail {
+      img {
+          height: 50px;
+          width: auto;
+      }
+  }
 
-.secondary-text {
-    color: $secondary-text;
-}
+  .active {
+      background-color: var(--theme-accent-400);
+      -webkit-transition: background-color 1000ms linear;
+      -ms-transition: background-color 1000ms linear;
+      transition: background-color 1000ms linear;
+  }
 
-.orange-accent {
-    background-color: $orange-accent;
-    color: $light-primary-text !important;
-}
+  .inactive {
+      background-color:rgba(242, 245, 169, 0);
+      -webkit-transition: background-color 1000ms linear;
+      -ms-transition: background-color 1000ms linear;
+      transition: background-color 1000ms linear;
+  }
 
-.green-accent {
-    background-color: $green-accent;
-    color: map-get(map-get($mat-green, contrast), 600);
-}
+  .expansion-panel {
+      width: 100%;
+      margin-bottom: 10px;
+  }
 
-.orange-accent-text {
-    color: $orange-accent;
-}
+  .expansion-container {
+      max-height: 300px;
+      overflow-y: auto;
+  }
 
-.yellow-accent-text {
-    color: $yellow-accent;
-}
-
-.green-accent-text {
-    color: $green-accent;
-}
-
-.divider-fill-vert {
-    background-color: $divider;
+  .divider-fill-vert {
+    background-color: var(--theme-accent-500);
     min-height: 100%;
     top:10%;
     bottom:10%;
     min-width: $divider-size;
-}
-
-.divider-fill-hor {
-    background-color: $divider;
+  }
+  
+  .divider-fill-hor {
+    background-color: var(--theme-accent-500);
     height: $divider-size;
     width: 100%;
-}
-
-.background-fill {
-    background-color: $background-fill;
-}
-
-.rowHighlight:hover {
-    background-color: rgba(map-get($accent, 500), .07);
-}
-
-.mat-button-base {
-  padding: 0 16px !important;
-}
-
-/**
-* Common styles for Napkin-IDE projects
-*
-* If this starts to get big, think about moving these to another stylesheet
-*/
-.spinner-logo {
-  position: absolute;
-  background-image: fathym-logo(thinky-logo, black, 1);
-  // height: 50px !important;
-  // width: 50px !important;
-  // height: 50px !important;
-  // width: 50px !important;
-  background-repeat: no-repeat;
-}
-
-.wrapperloading {
-  display: none !important;
-}
-
-//TODO:  Move to common and out  of all default styles
-.mat-spinner {
-  ::ng-deep circle {
-      stroke: $success;
   }
-
-  margin: auto;
-}
-
-.mat-full-width {
-  width: 100%;
-}
-
-.spread {
-  margin: 2em;
 }
 
