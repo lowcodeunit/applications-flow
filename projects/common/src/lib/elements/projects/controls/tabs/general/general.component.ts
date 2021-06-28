@@ -321,19 +321,19 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
         buildCommand: new FormControl('', { 
           validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change'}),
-        overrideBuildCommand: new FormControl(false),
+        buildCommandOverride: new FormControl(false),
         outputDirectory: new FormControl('', { 
           validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change'}),
-        overrideOutputDirectory: new FormControl(false),
+        outputDirectoryOverride: new FormControl(false),
         installCommand: new FormControl('', { 
           validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change'}),
-        overrideInstallCommand: new FormControl(false),
+        installCommandOverride: new FormControl(false),
         devCommand: new FormControl('', { 
           validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change'}),
-        overrideDevCommand: new FormControl(false),
+        devCommandOverride: new FormControl(false),
       })
     });
 

@@ -14,3 +14,4 @@ export * from './lib/services/project.service';
 export * from './lib/models/actions.model';
 export * from './lib/models/form-actions.model';
 export * from './lib/models/dev-settings-preset.model';
+export * from './lib/models/domain.model';
