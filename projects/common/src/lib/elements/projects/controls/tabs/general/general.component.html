@@ -102,11 +102,12 @@
             fxFlex="50"
             title-icon="settings"
             title="Build & Development Settings"
-            [sub-title]="BuildDevSubTitle">
+            [sub-title]="BuildDevSubTitle"
+            [form-actions]="BuildDevActions">
             
-            <div formGroupName="DevSettingsFormGroup">
+            <div formGroupName="DevSettingsFormGroup" fxLayout="column">
                 <!-- <mat-icon>{{ SelectedFrameworkPreset?.Icon }}</mat-icon> -->
-                <mat-form-field>
+                <mat-form-field fxFlex class="margin-bottom-3">
                     <mat-label fxLayout="row">
                         <mat-icon class="margin-right-3">list_alt</mat-icon>
                         Framework Presets
@@ -127,6 +128,125 @@
                       </mat-option>
                     </mat-select>
                   </mat-form-field>
+                  
+                  <!-- INPUTS -->
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                      <div fxLayout="row" fxLayoutAlign="start center">
+                        <mat-label class="margin-right-2">Build Command</mat-label>
+                        <mat-icon color="accent">help_outline</mat-icon>
+                      </div>
+                    
+                    <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                        <mat-icon
+                          matSuffix
+                          [ngClass]="DevSettingsBuildCommand.valid ? 'valid-control' : 'invalid-control'">
+                          {{ DevSettingsBuildCommand.valid ? 'check_circle' : 'cancel' }}
+                        </mat-icon>
+                        <input
+                            type="text"
+                            matInput
+                            [placeholder]="DevSettingsBuildCommand.invalid || DevSettingsBuildCommand.disabled ? 'npm run fathym-build or npm run build' : ''"
+                            formControlName="buildCommand"
+                        />
+                       
+                    </mat-form-field>
+                    <mat-slide-toggle
+                        color="accent"
+                        name="buildCommandOverride"
+                        formControlName="buildCommandOverride">
+                        Override
+                        </mat-slide-toggle>
+                  </div>
+
+
+
+                  <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <mat-label class="margin-right-2">Output Directory</mat-label>
+                      <mat-icon color="accent">help_outline</mat-icon>
+                    </div>
+                  
+                  <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                      <mat-icon
+                        matSuffix
+                        [ngClass]="DevSettingsOutputDirectory.valid ? 'valid-control' : 'invalid-control'">
+                        {{ DevSettingsOutputDirectory.valid ? 'check_circle' : 'cancel' }}
+                      </mat-icon>
+                      <input
+                          type="text"
+                          matInput
+                          [placeholder]="DevSettingsOutputDirectory.invalid || DevSettingsOutputDirectory.disabled ? 'public if it exists or, .' : ''"
+                          formControlName="outputDirectory"
+                      />
+                    
+                  </mat-form-field>
+                  <mat-slide-toggle
+                      color="accent"
+                      name="buildCommandOverride"
+                      formControlName="buildCommandOverride">
+                      Override
+                      </mat-slide-toggle>
+                </div>
+
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <mat-label class="margin-right-2">Install Command</mat-label>
+                      <mat-icon color="accent">help_outline</mat-icon>
+                    </div>
+                  
+                  <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                      <mat-icon
+                        matSuffix
+                        [ngClass]="DevSettingsInstallCommand.valid ? 'valid-control' : 'invalid-control'">
+                        {{ DevSettingsInstallCommand.valid ? 'check_circle' : 'cancel' }}
+                      </mat-icon>
+                      <input
+                          type="text"
+                          matInput
+                          [placeholder]="DevSettingsInstallCommand.invalid || DevSettingsInstallCommand.disabled ? 'yarn install or npm install' : ''"
+                          formControlName="installCommand"
+                      />
+                     
+                  </mat-form-field>
+                  <mat-slide-toggle
+                      color="accent"
+                      name="buildCommandOverride"
+                      formControlName="buildCommandOverride">
+                      Override
+                      </mat-slide-toggle>
+                </div>
+
+
+
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                      <mat-label class="margin-right-2">Development Command</mat-label>
+                      <mat-icon color="accent">help_outline</mat-icon>
+                    </div>
+                  
+                  <mat-form-field fxFlex appearance="fill" class="margin-right-3 margin-left-3">
+                      <mat-icon
+                        matSuffix
+                        [ngClass]="DevSettingsDevCommand.valid ? 'valid-control' : 'invalid-control'">
+                        {{ DevSettingsDevCommand.valid ? 'check_circle' : 'cancel' }}
+                      </mat-icon>
+                      <input
+                          type="text"
+                          matInput
+                          [placeholder]="DevSettingsDevCommand.invalid || DevSettingsDevCommand.disabled ? 'None' : ''"
+                          formControlName="devCommand"
+                      />
+                     
+                  </mat-form-field>
+                  <mat-slide-toggle
+                      color="accent"
+                      name="buildCommandOverride"
+                      formControlName="buildCommandOverride">
+                      Override
+                      </mat-slide-toggle>
+                </div>
             </div>
             <div class="card-divider"></div>
         </lcu-form-card>

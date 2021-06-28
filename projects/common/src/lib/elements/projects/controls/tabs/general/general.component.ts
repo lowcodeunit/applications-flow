@@ -20,6 +20,8 @@ export class GeneralComponent
 extends LcuElementComponent<ApplicationsFlowProjectsContext>
   implements OnDestroy, OnInit, AfterContentChecked  {
 
+  public BuildDevActions: FormActionsModel;
+
   // public BuildDevIcon: string;
   // public BuildDevTitle: string;
   public BuildDevSubTitle: string;
@@ -36,10 +38,24 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   }
 
   /**
+   * Access form control for Build Command
+   */
+   public get DevSettingsBuildCommandOverride(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.buildCommandOverride');
+  }
+
+  /**
    * Access form control for Dev Command
    */
    public get DevSettingsDevCommand(): AbstractControl {
     return this.GeneralForm.get('DevSettingsFormGroup.devCommand');
+  }
+
+  /**
+   * Access form control for Build Command
+   */
+   public get DevSettingsDevCommandOverride(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.devCommandOverride');
   }
 
   /**
@@ -50,10 +66,24 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   }
 
   /**
+   * Access form control for Build Command
+   */
+   public get DevSettingsInstallCommandOverride(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.installCommandOverride');
+  }
+
+  /**
    * Access form control for Output Directory
    */
-   public get DevSettingsOutputDirector(): AbstractControl {
+   public get DevSettingsOutputDirectory(): AbstractControl {
     return this.GeneralForm.get('DevSettingsFormGroup.outputDirectory');
+  }
+
+  /**
+   * Access form control for Build Command
+   */
+   public get DevSettingsOutputDirectoryOverride(): AbstractControl {
+    return this.GeneralForm.get('DevSettingsFormGroup.outputDirectoryOverride');
   }
 
   /**
@@ -236,6 +266,24 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
     // this.BuildDevIcon = 'house';
     // this.BuildDevTitle = 'Build & Development Settings';
 
+    this.BuildDevActions =
+    {
+      Message: 'Changes will be applied to your next deployment',
+      Actions:
+      [
+       {
+         Label: 'Clear',
+         Color: 'warn',
+         ClickEvent: this.clearForm
+       },
+       {
+         Label: 'Save',
+         Color: 'accent',
+         ClickEvent: this.saveChanges
+       }
+     ]
+    }
+
     this.FrameworkPresets = [
       {
         Icon: 'face',
@@ -270,10 +318,22 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
       }),
       DevSettingsFormGroup: new FormGroup({
         preset: new FormControl(''),
-        buildCommand: new FormControl(''),
-        outputDirectory: new FormControl(''),
-        installCommand: new FormControl(''),
-        devCommand: new FormControl('')
+        buildCommand: new FormControl('', { 
+          validators: [Validators.required, Validators.minLength(3)],
+          updateOn: 'change'}),
+        overrideBuildCommand: new FormControl(false),
+        outputDirectory: new FormControl('', { 
+          validators: [Validators.required, Validators.minLength(3)],
+          updateOn: 'change'}),
+        overrideOutputDirectory: new FormControl(false),
+        installCommand: new FormControl('', { 
+          validators: [Validators.required, Validators.minLength(3)],
+          updateOn: 'change'}),
+        overrideInstallCommand: new FormControl(false),
+        devCommand: new FormControl('', { 
+          validators: [Validators.required, Validators.minLength(3)],
+          updateOn: 'change'}),
+        overrideDevCommand: new FormControl(false),
       })
     });
 
