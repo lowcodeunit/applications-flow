@@ -19,6 +19,9 @@ import { ProjectItemComponent } from './elements/projects/controls/project-item/
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
 import { RecentActivitiesComponent } from './elements/projects/controls/recent-activities/recent-activities.component';
 import { FormCardComponent } from './elements/form-card/form-card.component';
+import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-name/project-name.component';
+import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
+import { SettingsComponent } from './elements/projects/controls/tabs/general/forms/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +38,9 @@ import { FormCardComponent } from './elements/form-card/form-card.component';
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,
+    ProjectNameComponent,
+    RootDirectoryComponent,
+    SettingsComponent
   ],
   imports: [
     FathymSharedModule,
@@ -59,6 +65,9 @@ import { FormCardComponent } from './elements/form-card/form-card.component';
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,
+    ProjectNameComponent,
+    RootDirectoryComponent,
+    SettingsComponent
   ],
   entryComponents: 
   [
@@ -68,7 +77,13 @@ import { FormCardComponent } from './elements/form-card/form-card.component';
     ProjectTabsComponent, 
     GeneralComponent, 
     DomainsComponent, 
-    ProjectItemComponent, BuildsComponent, RecentActivitiesComponent, FormCardComponent
+    ProjectItemComponent, 
+    BuildsComponent, 
+    RecentActivitiesComponent, 
+    FormCardComponent, 
+    ProjectNameComponent, 
+    RootDirectoryComponent, 
+    SettingsComponent
   ],
 })
 export class ApplicationsFlowModule {

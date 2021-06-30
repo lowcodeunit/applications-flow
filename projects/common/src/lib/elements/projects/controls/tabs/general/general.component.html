@@ -7,7 +7,8 @@
         [formGroup]="GeneralForm">
         <div fxFlex="50" fxLayout="column" class="margin-right-3">
           <div class="margin-bottom-3">
-            <lcu-form-card
+              <lcu-project-name [state]="State"></lcu-project-name>
+            <!-- <lcu-form-card
                 [form-actions]="ProjNameActions"
                 title-icon="star"
                 title="Project Name"
@@ -54,13 +55,13 @@
                         <mat-error *ngIf="ProjectSurname.hasError('required')">
                             Project Surname is required
                         </mat-error>
-                        <!-- <mat-error *ngIf="ProjectSurname.hasError('invalidOriginPosition')">
+                        <mat-error *ngIf="ProjectSurname.hasError('invalidOriginPosition')">
                             Invalid Project Surname
                         </mat-error> -->
-                    </mat-form-field>
-                </div>
+                    <!-- </mat-form-field> -->
+                <!-- </div>
                 <div class="card-divider"></div>
-            </lcu-form-card>
+            </lcu-form-card> -->
           </div>
           <div>
             <lcu-form-card
@@ -109,12 +110,12 @@
                 <!-- <mat-icon>{{ SelectedFrameworkPreset?.Icon }}</mat-icon> -->
                 <mat-form-field fxFlex class="margin-bottom-3">
                     <mat-label fxLayout="row">
-                        <mat-icon class="margin-right-3">list_alt</mat-icon>
+                        <mat-icon color="accent" class="margin-right-3">list_alt</mat-icon>
                         Framework Presets
                     </mat-label>
                     <mat-select [(value)]="SelectedFrameworkPreset">
                         <mat-select-trigger fxLayout="row" fxLayoutAlign="start center">
-                            <mat-icon class="margin-right-3">{{ SelectedFrameworkPreset?.Icon }}</mat-icon>
+                            <mat-icon color="accent" class="margin-right-3">{{ SelectedFrameworkPreset?.Icon }}</mat-icon>
                             {{ SelectedFrameworkPreset?.Label }}
                           </mat-select-trigger>
                       <mat-option 
@@ -122,7 +123,7 @@
                         [value]="preset" 
                         (click)="PresetSelected(preset)">
                         <div fxLayout="row" fxLayoutAlign="start center">
-                            <mat-icon>{{ preset.Icon }}</mat-icon>
+                            <mat-icon color="accent">{{ preset.Icon }}</mat-icon>
                             <span>{{ preset.Label }}</span>
                         </div>
                       </mat-option>
@@ -187,7 +188,6 @@
                       Override
                       </mat-slide-toggle>
                 </div>
-
 
 
                 <div fxLayout="row" fxLayoutAlign="space-between center">

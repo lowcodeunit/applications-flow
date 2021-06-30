@@ -109,28 +109,28 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   public GeneralForm: FormGroup;
 
 
-  /**
-   * Access form control for project name
-   */
-   public get ProjectName(): AbstractControl {
-    return this.GeneralForm.get('ProjectNameFormGroup.projectName');
-  }
+  // /**
+  //  * Access form control for project name
+  //  */
+  //  public get ProjectName(): AbstractControl {
+  //   return this.GeneralForm.get('ProjectNameFormGroup.projectName');
+  // }
 
-  /**
-   * Access form control for project surname
-   */
-  public get ProjectSurname(): AbstractControl {
-    return this.GeneralForm.get('ProjectNameFormGroup.projectSurname');
-  }
+  // /**
+  //  * Access form control for project surname
+  //  */
+  // public get ProjectSurname(): AbstractControl {
+  //   return this.GeneralForm.get('ProjectNameFormGroup.projectSurname');
+  // }
 
-  public ProjNameActions: FormActionsModel;
+  // public ProjNameActions: FormActionsModel;
 
-  public ProjectNameSubTitle: string;
+  // public ProjectNameSubTitle: string;
 
   /**
    * FormGroup for project name card
    */
-  public ProjectNameFormGroup: FormGroup;
+  // public ProjectNameFormGroup: FormGroup;
 
   // public RootDirIcon: string;
   // public RootDirTitle: string;
@@ -173,7 +173,7 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
 
     // setTimeout(() => {
     this.setupForm();
-    this.setupProjectName();
+    // this.setupProjectName();
     this.setupRootDirectory();
     this.setupBuildDev();
 // }, 0);
@@ -227,31 +227,31 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
     this.RootDirSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
   }
 
-  protected setupProjectName(): void {
+  // protected setupProjectName(): void {
 
-    // this.ProjectNameIcon = 'house';
-    // this.ProjectNameTitle = 'Root Directory';
-   this.ProjectNameSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
+  //   // this.ProjectNameIcon = 'house';
+  //   // this.ProjectNameTitle = 'Root Directory';
+  //  this.ProjectNameSubTitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
 
-   this.ProjNameActions =
-     {
-       Message: 'Changes will be applied to your next deployment',
-       Actions:
-       [
-        {
-          Label: 'Clear',
-          Color: 'warn',
-          ClickEvent: this.clearForm
-        },
-        {
-          Label: 'Save',
-          Color: 'accent',
-          ClickEvent: this.saveChanges
-        }
-      ]
-     }
-    ;
-  }
+  //  this.ProjNameActions =
+  //    {
+  //      Message: 'Changes will be applied to your next deployment',
+  //      Actions:
+  //      [
+  //       {
+  //         Label: 'Clear',
+  //         Color: 'warn',
+  //         ClickEvent: this.clearForm
+  //       },
+  //       {
+  //         Label: 'Save',
+  //         Color: 'accent',
+  //         ClickEvent: this.saveChanges
+  //       }
+  //     ]
+  //    }
+  //   ;
+  // }
 
   protected saveChanges(): void {
     console.log('dynamic click event');
@@ -302,13 +302,13 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
 
   protected setupForm(): void {
     this.GeneralForm = new FormGroup({
-      ProjectNameFormGroup: new FormGroup({
-        projectName: new FormControl('', {
-          validators: [Validators.required, Validators.minLength(3)],
-          updateOn: 'change'
-        }),
-        projectSurname: new FormControl('', {validators: Validators.required})
-      }),
+      // ProjectNameFormGroup: new FormGroup({
+      //   projectName: new FormControl('', {
+      //     validators: [Validators.required, Validators.minLength(3)],
+      //     updateOn: 'change'
+      //   }),
+      //   projectSurname: new FormControl('', {validators: Validators.required})
+      // }),
       RootDirFormGroup: new FormGroup({
         rootDirectory: new FormControl('', {
           validators: [Validators.required, Validators.minLength(3)],
