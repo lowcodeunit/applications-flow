@@ -22,6 +22,7 @@ import { FormCardComponent } from './elements/form-card/form-card.component';
 import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-name/project-name.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
 import { SettingsComponent } from './elements/projects/controls/tabs/general/forms/settings/settings.component';
+import { BaseCardFormComponent } from './elements/base-card-form/base-card-form.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { SettingsComponent } from './elements/projects/controls/tabs/general/for
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent
+    SettingsComponent,
+    BaseCardFormComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -67,7 +69,8 @@ import { SettingsComponent } from './elements/projects/controls/tabs/general/for
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent
+    SettingsComponent,
+    BaseCardFormComponent,
   ],
   entryComponents: 
   [
@@ -77,13 +80,7 @@ import { SettingsComponent } from './elements/projects/controls/tabs/general/for
     ProjectTabsComponent, 
     GeneralComponent, 
     DomainsComponent, 
-    ProjectItemComponent, 
-    BuildsComponent, 
-    RecentActivitiesComponent, 
-    FormCardComponent, 
-    ProjectNameComponent, 
-    RootDirectoryComponent, 
-    SettingsComponent
+    ProjectItemComponent, BuildsComponent, RecentActivitiesComponent, FormCardComponent, ProjectNameComponent, RootDirectoryComponent, SettingsComponent, BaseCardFormComponent
   ],
 })
 export class ApplicationsFlowModule {
