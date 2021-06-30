@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./base-card-form.component.scss']
 })
 
-export abstract class BaseCardFormComponent implements OnInit {
+export class BaseCardFormComponent implements OnInit {
 
   /**
    * Form button actions
