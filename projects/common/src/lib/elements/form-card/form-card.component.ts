@@ -18,7 +18,7 @@ export class FormCardComponent implements OnInit {
   public TitleIcon: string;
 
   @Input('sub-title')
-  public SubTitle: string;
+  public Subtitle: string;
 
   constructor() { }
 
