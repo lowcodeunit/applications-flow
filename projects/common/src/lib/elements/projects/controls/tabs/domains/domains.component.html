@@ -1,7 +1,11 @@
-<form fxLayout="row" fxLayout.lt-md="column" class="padding-top-3" [formGroup]="DomainForm">
+<form 
+    fxLayout="row" 
+    fxLayout.lt-md="column" 
+    class="padding-top-3" 
+    [formGroup]="Form">
 
     <div>
-        <lcu-form-card title-icon="domain" title="Domains" [sub-title]="Subtitle">
+        <lcu-form-card [config]="Config">
             <div fxLayout="column">
                 <div fxLayout="row">
                     <div fxFlex fxLayout="row">

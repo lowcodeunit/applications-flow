@@ -1,4 +1,4 @@
-import { BaseCardFormComponent } from './../../../../../../base-card-form/base-card-form.component';
+import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
 import { ApplicationsFlowState } from './../../../../../../../state/applications-flow.state';
 import { FormActionsModel } from './../../../../../../../models/form-actions.model';
 import { Component, Input, OnInit } from '@angular/core';
@@ -10,7 +10,17 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
   styleUrls: ['./project-name.component.scss']
 })
 
-export class ProjectNameComponent extends BaseCardFormComponent implements OnInit {
+export class ProjectNameComponent implements OnInit {
+
+  /**
+   * Form button actions
+   */
+  public Config: CardFormConfigModel;
+
+  /**
+   * FormGroup for project name card
+   */
+  public Form: FormGroup;
 
   /**
    * Access form control for project name
@@ -18,11 +28,6 @@ export class ProjectNameComponent extends BaseCardFormComponent implements OnIni
    public get Name(): AbstractControl {
     return this.Form.get('name');
   }
-
-  /**
-   * Card subtitle
-   */
-  public Subtitle: string;
 
   /**
    * Access form control for project surname
@@ -37,13 +42,7 @@ export class ProjectNameComponent extends BaseCardFormComponent implements OnIni
   @Input('state')
   public State: ApplicationsFlowState;
 
-  /**
-   * Card title
-   */
-  public Title: string;
-
   constructor() {
-    super();
    }
 
   ngOnInit(): void {
@@ -55,28 +54,31 @@ export class ProjectNameComponent extends BaseCardFormComponent implements OnIni
    * Form configurations
    */
   protected config(): void {
-
-    this.Icon = 'house';
-    this.Title = 'Root Directory';
-    this.Subtitle = 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory';
-
-    this.Actions =
-     {
-       Message: 'Changes will be applied to your next deployment',
-       Actions:
-       [
-        {
-          Label: 'Clear',
-          Color: 'warn',
-          ClickEvent: this.clearForm
-        },
-        {
-          Label: 'Save',
-          Color: 'accent',
-          ClickEvent: this.save
-        }
-      ]
-     };
+    this.Config = new CardFormConfigModel(
+      {
+      Icon: 'house',
+      Title: 'Root Directory',
+      Subtitle: 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory',
+      FormActions:
+      {
+        Message: 'Changes will be applied to your next deployment',
+        Actions:
+        [
+         {
+           Label: 'Clear',
+           Color: 'warn',
+           ClickEvent: this.clearForm,
+           Type: 'RESET'
+         },
+         {
+           Label: 'Save',
+           Color: 'accent',
+           ClickEvent: this.save,
+           Type: 'SAVE'
+         }
+       ]
+      }
+    });
   }
   /**
    * Setup form controls
@@ -94,5 +96,28 @@ export class ProjectNameComponent extends BaseCardFormComponent implements OnIni
     });
 
     this.onChange();
+  }
+
+  /**
+   * Save form
+   */
+  protected save(): void {
+    
+  }
+
+  /**
+   * Clear form controls
+   */
+  protected clearForm(): void {
+
+  }
+
+  /**
+   * Listen to form changes
+   */
+  protected onChange(): void {
+    this.Form.valueChanges.subscribe((val: any) => {
+
+    });
   }
 }

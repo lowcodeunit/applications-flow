@@ -18,6 +18,4 @@ export * from './lib/models/domain.model';
 export * from './lib/elements/projects/controls/tabs/general/forms/project-name/project-name.component';
 export * from './lib/elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
 export * from './lib/elements/projects/controls/tabs/general/forms/settings/settings.component';
-export * from './lib/elements/base-card-form/base-card-form.component';
 export * from './lib/models/card-form-config.model';
-export * from './lib/elements/base-card-form/base-card-form.component';

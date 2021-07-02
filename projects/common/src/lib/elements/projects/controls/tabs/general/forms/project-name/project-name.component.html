@@ -1,15 +1,12 @@
-<!-- <form
+<form
     fxFlex
     fxLayout="row"
     fxLayout.lt-md="column"
-    class="padding-top-3"
-    [formGroup]="Form"> -->
+    [formGroup]="Form">
     <lcu-form-card 
         fxFlex
-        [form-actions]="Actions" 
-        [title-icon]="Icon" 
-        [title]="Title"
-        [sub-title]="Subtitle">
+        [config]="Config"
+        [valid]="Form.valid">
         <div 
             fxLayout="row">
             <mat-form-field 
@@ -48,4 +45,4 @@
         </div>
         <div class="card-divider"></div>
     </lcu-form-card>
-<!-- </form> -->
+</form>

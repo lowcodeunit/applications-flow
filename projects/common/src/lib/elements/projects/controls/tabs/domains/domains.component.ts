@@ -1,3 +1,4 @@
+import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
 import { DomainModel } from './../../../../../models/domain.model';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -10,10 +11,20 @@ import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/fo
 export class DomainsComponent implements OnInit {
 
   /**
+   * Card / Form Config
+   */
+  public Config: CardFormConfigModel;
+
+  /**
+   * FormGroup
+   */
+  public Form: FormGroup;
+
+  /**
    * Access form control for root directory
    */
   public get Domain(): AbstractControl {
-    return this.DomainForm.get('domain');
+    return this.Form.get('domain');
   }
 
   /**
@@ -21,40 +32,39 @@ export class DomainsComponent implements OnInit {
    */
   public Domains: Array<DomainModel>;
 
-  /**
-   * Main FormGroup
-   */
-  public DomainForm: FormGroup;
-
-  /**
-   * Card subtitle
-   */
-  public Subtitle: string;
-
   constructor() {
-    this.Subtitle = 'These domains are assigned to your deployments. Optionally, a different Git branch or a redirection to another domain can be configured for each one.'
-    this.Domains = [
-      {
-        Branch: 'Integration',
-        Name: 'pimpire.fathym.int',
-        Host: 'pimpire.fathym.int',
-        ValidConfig: 'Valid'
-      },
-      {
-        Branch: 'Integration',
-        Name: 'pimpire.fathym.int',
-        Host: 'pimpire.fathym.int',
-        ValidConfig: 'Valid'
-      }
-    ];
   }
 
   ngOnInit(): void {
     this.setupForm();
+    this.config();
+  }
+
+  protected config(): void {
+   this.Config = new CardFormConfigModel({
+     Icon: 'head',
+     Title: 'Domains',
+     Subtitle: 'These domains are assigned to your deployments. Optionally, a different Git branch or a redirection to another domain can be configured for each one.'
+   });
+
+   this.Domains = [
+    {
+      Branch: 'Integration',
+      Name: 'pimpire.fathym.int',
+      Host: 'pimpire.fathym.int',
+      ValidConfig: 'Valid'
+    },
+    {
+      Branch: 'Integration',
+      Name: 'pimpire.fathym.int',
+      Host: 'pimpire.fathym.int',
+      ValidConfig: 'Valid'
+    }
+  ];
   }
 
   protected setupForm(): void {
-    this.DomainForm = new FormGroup({
+    this.Form = new FormGroup({
       domain: new FormControl('', {
         validators: [Validators.required, Validators.minLength(3)],
         updateOn: 'change'

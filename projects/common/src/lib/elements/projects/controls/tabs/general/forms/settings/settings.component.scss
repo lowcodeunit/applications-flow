@@ -1,0 +1,6 @@
+@import '../../../../../../../../assets/common';
+
+.card-divider {
+    @include divider(horizontal, 1px);
+    margin-top: 20px;
+  }

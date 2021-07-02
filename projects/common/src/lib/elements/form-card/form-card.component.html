@@ -4,16 +4,16 @@
             <mat-icon
               color="accent"
               class="title-icon">
-              {{ TitleIcon }}
+              {{ Config.Icon }}
             </mat-icon>
           </div>
           <mat-card-title
             class="paragraph-title">
-            {{ Title }}
+            {{ Config.Title }}
           </mat-card-title>
           <mat-card-subtitle
             class="plain-text">
-            {{ Subtitle }}
+            {{ Config.Subtitle }}
           </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content fxFlexFill class="margin-top-3">
@@ -26,19 +26,20 @@
     </mat-card-content>
     <mat-card-actions>
       <div
-          *ngIf="FormActions"
+          *ngIf="Config.FormActions"
           fxLayout="row"
           fxLayoutAlign="space-between center">
-          <span class="mat-small caption-text">{{ FormActions.Message }}</span>
+          <span class="mat-small caption-text">{{ Config.FormActions.Message }}</span>
           <div fxLayoutAlign="end center">
               <div
-              *ngFor="let action of FormActions?.Actions"
-              fxLayout="row"
-              fxLayoutAlign="end center"
-              class="margin-right-1">
+                *ngFor="let action of Config.FormActions?.Actions"
+                fxLayout="row"
+                fxLayoutAlign="end center"
+                class="margin-right-1">
                   <button
+                      [disabled]="action.Type === 'SAVE' && Valid === false"
                       color="{{ action.Color }}"
-                      mat-button (click)="action.ClickEvent()">
+                      mat-flat-button (click)="action.ClickEvent()">
                       {{ action.Label }}
                   </button>
               </div>
