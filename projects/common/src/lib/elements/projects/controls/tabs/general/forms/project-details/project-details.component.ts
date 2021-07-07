@@ -1,19 +1,25 @@
-import { FormsService } from './../../../../../../../services/forms.service';
-import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
-import { ApplicationsFlowState } from './../../../../../../../state/applications-flow.state';
-import { FormActionsModel } from './../../../../../../../models/form-actions.model';
+import { FormsService } from '../../../../../../../services/forms.service';
+import { CardFormConfigModel } from '../../../../../../../models/card-form-config.model';
+import {
+  ApplicationsFlowState,
+  ProjectState,
+} from '../../../../../../../state/applications-flow.state';
+import { FormActionsModel } from '../../../../../../../models/form-actions.model';
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'lcu-project-name',
-  templateUrl: './project-name.component.html',
-  styleUrls: ['./project-name.component.scss']
+  selector: 'lcu-project-details',
+  templateUrl: './project-details.component.html',
+  styleUrls: ['./project-details.component.scss'],
 })
-
 export class ProjectNameComponent implements OnInit {
-
   /**
    * Form button actions
    */
@@ -29,35 +35,34 @@ export class ProjectNameComponent implements OnInit {
   /**
    * Access form control for project name
    */
-   public get Name(): AbstractControl {
+  public get Name(): AbstractControl {
     return this.Form.get('name');
   }
 
   /**
    * Access form control for project surname
    */
- public get Surname(): AbstractControl {
-  return this.Form.get('surname');
-}
+  public get Surname(): AbstractControl {
+    return this.Form.get('surname');
+  }
 
   /**
    * Input value for state
    */
-  @Input('state')
-  public State: ApplicationsFlowState;
+  @Input('project')
+  public Project: ProjectState;
 
-  constructor(protected formsService: FormsService) {
-   }
+  constructor(protected formsService: FormsService) {}
 
-  ngOnInit(): void {
-
+  public ngOnInit(): void {
     this.setupForm();
+
     this.config();
 
     // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
     //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
 
-    //   if (val.Id !== 'ProjectNameForm' && this.Form.enabled) { 
+    //   if (val.Id !== 'ProjectNameForm' && this.Form.enabled) {
     //     console.log('DISABLE Project Name');
     //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
     //     this.Form.disable();
@@ -69,32 +74,30 @@ export class ProjectNameComponent implements OnInit {
    * Form configurations
    */
   protected config(): void {
-    this.Config = new CardFormConfigModel(
-      {
+    this.Config = new CardFormConfigModel({
       Icon: 'house',
       Title: 'Root Directory',
-      Subtitle: 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory',
-      FormActions:
-      {
+      Subtitle:
+        'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory',
+      FormActions: {
         Message: 'Changes will be applied to your next deployment',
-        Actions:
-        [
-         {
-           Label: 'Clear',
-           Color: 'warn',
-           ClickEvent: () => this.clearForm(),
-           // use arrow function, so 'this' refers to ProjectNameComponent 
-           // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
-           Type: 'RESET'
-         },
-         {
-           Label: 'Save',
-           Color: 'accent',
-           ClickEvent: () => this.save(),
-           Type: 'SAVE'
-         }
-       ]
-      }
+        Actions: [
+          {
+            Label: 'Clear',
+            Color: 'warn',
+            ClickEvent: () => this.clearForm(),
+            // use arrow function, so 'this' refers to ProjectNameComponent
+            // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
+            Type: 'RESET',
+          },
+          {
+            Label: 'Save',
+            Color: 'accent',
+            ClickEvent: () => this.save(),
+            Type: 'SAVE',
+          },
+        ],
+      },
     });
   }
   /**
@@ -104,30 +107,27 @@ export class ProjectNameComponent implements OnInit {
     this.Form = new FormGroup({
       name: new FormControl('', {
         validators: [Validators.required, Validators.minLength(3)],
-        updateOn: 'change'
+        updateOn: 'change',
       }),
       surname: new FormControl('', {
         validators: [Validators.required, Validators.minLength(3)],
-        updateOn: 'change'
-      })
+        updateOn: 'change',
+      }),
     });
 
-    this.formsService.Forms.push({Id: 'ProjectNameForm', Form: this.Form});
+    this.formsService.Forms.push({ Id: 'ProjectNameForm', Form: this.Form });
     this.onChange();
   }
 
   /**
    * Save form
    */
-  protected save(): void {
-
-  }
+  protected save(): void {}
 
   /**
    * Clear form controls
    */
   protected clearForm(): void {
-
     // enable all forms
     this.formsService.DisableForms(false);
   }
@@ -137,7 +137,6 @@ export class ProjectNameComponent implements OnInit {
    */
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
-
       // disable all forms except the current form being edited
       this.formsService.DisableForms('ProjectNameForm');
 

@@ -1,18 +1,20 @@
 import { FormGroup } from '@angular/forms';
 import { FormsService } from './../../../../../services/forms.service';
-import { 
+import {
   AfterContentChecked,
   ChangeDetectorRef,
   Component,
   Injector,
-   OnDestroy,
-   OnInit } from '@angular/core';
+  Input,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 
-import { 
-  LcuElementComponent,
-  LCUElementContext
-} from '@lcu/common';
-import { ApplicationsFlowState } from './../../../../../state/applications-flow.state';
+import { LcuElementComponent, LCUElementContext } from '@lcu/common';
+import {
+  ApplicationsFlowState,
+  ProjectState,
+} from './../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from './../../../../../services/applications-flow.service';
 
 export class ApplicationsFlowProjectsElementState {}
@@ -22,14 +24,18 @@ export class ApplicationsFlowProjectsContext extends LCUElementContext<Applicati
 @Component({
   selector: 'lcu-general',
   templateUrl: './general.component.html',
-  styleUrls: ['./general.component.scss']
+  styleUrls: ['./general.component.scss'],
 })
-
 export class GeneralComponent
-extends LcuElementComponent<ApplicationsFlowProjectsContext>
-  implements OnDestroy, OnInit, AfterContentChecked  {
+  extends LcuElementComponent<ApplicationsFlowProjectsContext>
+  implements OnDestroy, OnInit, AfterContentChecked
+{
+  @Input('data')
+  public Data: { Project: ProjectState };
 
-  public State: ApplicationsFlowState;
+  public get Project(): ProjectState {
+    return this.Data.Project;
+  }
 
   constructor(
     protected injector: Injector,
@@ -38,15 +44,12 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
     protected formsService: FormsService
   ) {
     super(injector);
-
-    this.State = new ApplicationsFlowState();
   }
 
   //  Life Cycle
   public ngOnDestroy(): void {}
 
   public ngOnInit(): void {
-
     /**
      * Testing disabling forms
      */

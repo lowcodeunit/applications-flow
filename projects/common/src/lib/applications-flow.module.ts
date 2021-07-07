@@ -20,7 +20,7 @@ import { ProjectItemComponent } from './elements/projects/controls/project-item/
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
 import { RecentActivitiesComponent } from './elements/projects/controls/recent-activities/recent-activities.component';
 import { FormCardComponent } from './elements/form-card/form-card.component';
-import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-name/project-name.component';
+import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-details/project-details.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
 import { SettingsComponent } from './elements/projects/controls/tabs/general/forms/settings/settings.component';
 import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';

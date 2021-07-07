@@ -1,62 +1,62 @@
 import { Subscription } from 'rxjs';
 import { FormsService } from './../../../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
-import { ApplicationsFlowState } from './../../../../../../../state/applications-flow.state';
+import { ProjectState } from './../../../../../../../state/applications-flow.state';
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'lcu-root-directory',
   templateUrl: './root-directory.component.html',
-  styleUrls: ['./root-directory.component.scss']
+  styleUrls: ['./root-directory.component.scss'],
 })
-
 export class RootDirectoryComponent implements OnInit {
-
   /**
    * Card / Form Config
    */
-   public Config: CardFormConfigModel;
+  public Config: CardFormConfigModel;
 
-   /**
-    * FormGroup
-    */
-   public Form: FormGroup;
+  /**
+   * FormGroup
+   */
+  public Form: FormGroup;
 
-   protected formIsDirtySubscription: Subscription;
- 
+  protected formIsDirtySubscription: Subscription;
 
   /**
    * Access form control for root directory
    */
-   public get Root(): AbstractControl {
+  public get Root(): AbstractControl {
     return this.Form.get('root');
   }
 
   /**
    * Access form control for root directory
    */
-   public get IncludeSource(): AbstractControl {
+  public get IncludeSource(): AbstractControl {
     return this.Form.get('includeSource');
   }
 
   /**
    * Input value for state
    */
- @Input('state')
- public State: ApplicationsFlowState;
+  @Input('project')
+  public Project: ProjectState;
 
-  constructor(protected formsService: FormsService) {
+  constructor(protected formsService: FormsService) {}
 
+  public ngOnInit(): void {
     this.setupForm();
-    this.config();
-  }
 
-  ngOnInit(): void {
+    this.config();
 
     // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
     //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
-
     //   if (val.Id !== 'RootDirectoryForm' && this.Form.enabled) {
     //     console.log('DISABLE Root Directory');
     //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
@@ -72,12 +72,12 @@ export class RootDirectoryComponent implements OnInit {
     this.Form = new FormGroup({
       root: new FormControl('', {
         validators: [Validators.required, Validators.minLength(3)],
-        updateOn: 'change'
+        updateOn: 'change',
       }),
-      includeSource: new FormControl(false)
+      includeSource: new FormControl(false),
     });
 
-    this.formsService.Forms.push({Id: 'RootDirectoryForm', Form: this.Form});
+    this.formsService.Forms.push({ Id: 'RootDirectoryForm', Form: this.Form });
     this.onChange();
   }
 
@@ -88,36 +88,34 @@ export class RootDirectoryComponent implements OnInit {
     this.Config = new CardFormConfigModel({
       Icon: 'house',
       Title: 'Root Directory',
-      Subtitle: 'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory',
+      Subtitle:
+        'The directory within your project, in which your code is located. Leave this field empty if your code is not located in a subdirectory',
       FormActions: {
         Message: 'Changes will be applied to your next deployment',
-        Actions:
-        [
-         {
-           Label: 'Clear',
-           Color: 'warn',
-           ClickEvent: () => this.clearForm(),
-           // use arrow function, so 'this' refers to ProjectNameComponent 
-           // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
-           Type: 'RESET'
-         },
-         {
-           Label: 'Save',
-           Color: 'accent',
-           ClickEvent: () => this.save(),
-           Type: 'SAVE'
-         }
-       ]
-      }
+        Actions: [
+          {
+            Label: 'Clear',
+            Color: 'warn',
+            ClickEvent: () => this.clearForm(),
+            // use arrow function, so 'this' refers to ProjectNameComponent
+            // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
+            Type: 'RESET',
+          },
+          {
+            Label: 'Save',
+            Color: 'accent',
+            ClickEvent: () => this.save(),
+            Type: 'SAVE',
+          },
+        ],
+      },
     });
-    }
+  }
 
   /**
    * Save form
    */
-  protected save(): void {
-    
-  }
+  protected save(): void {}
 
   /**
    * Clear form controls
@@ -134,10 +132,8 @@ export class RootDirectoryComponent implements OnInit {
    */
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: any) => {
-
       // disable all forms except the current form being edited
       this.formsService.DisableForms('RootDirectoryForm');
     });
   }
-
 }
