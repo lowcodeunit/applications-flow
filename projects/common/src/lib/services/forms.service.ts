@@ -18,35 +18,30 @@ export class FormsService {
     /**
      * When any form is being edited
      */
-    public FormIsDirty: Subject<{IsDirty: boolean, Id: string, Form: FormGroup}>;
+    // public FormIsDirty: Subject<{IsDirty: boolean, Id: string, Form: FormGroup}>;
 
+    /**
+     * 
+     * @param val as string - enabled form name
+     * @param val as boolen - enable/disable all forms
+     * 
+     * Enable / disable forms, use this when a form is being edited and 
+     * all other forms need to be disabled
+     */
     public DisableForms(val: string | boolean): void {
-        
-       const xd = this.Forms.find(x => {
-            return x.Id === 'ProjectNameForm';
+
+        this.Forms.forEach((form: { Id: string, Form: FormGroup }) => {
+
+            if (typeof val === 'boolean') {
+                val ? form.Form.disable({ onlySelf: true, emitEvent: false }) : form.Form.enable({ onlySelf: true, emitEvent: false });
+            } else {
+                if (form.Id === val) {
+                    form.Form.enable({ onlySelf: true, emitEvent: false });
+                } else {
+                    form.Form.disable({ onlySelf: true, emitEvent: false });
+                }
+            }
         });
-       xd.Form.disable();
-       console.log('sdfasdfasdfsdfsfsfsfd', xd);
-
-       // this.Forms.forEach((form: {Id: string, Form: FormGroup}) => {
-            //form.Form.disable();
-            // console.log('asdfsfdds');
-
-            // if (form.Id === val) {
-                // form.Form.disable();
-           // }
-            // console.log('DISABLE');
-            // enable/disable all forms
-            // if (typeof val === 'boolean') {
-            //     val ? form.Form.disable() : form.Form.enable();
-            // } else if (typeof val === 'string') {
-            //     if (form.Id === val) {
-            //         form.Form.enable();
-            //     } else {
-            //         form.Form.disable();
-            //     }
-            // }
-        // });
     }
 
 
@@ -92,6 +87,6 @@ export class FormsService {
 
     constructor() {
         this.Forms = [];
-        this.FormIsDirty = new Subject();
+        // this.FormIsDirty = new Subject();
     }
 }

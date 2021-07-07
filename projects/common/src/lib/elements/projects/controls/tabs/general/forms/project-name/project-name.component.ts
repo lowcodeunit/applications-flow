@@ -120,17 +120,16 @@ export class ProjectNameComponent implements OnInit {
    * Save form
    */
   protected save(): void {
-  
+
   }
 
   /**
    * Clear form controls
    */
   protected clearForm(): void {
-    
+
     // enable all forms
     this.formsService.DisableForms(false);
-   
   }
 
   /**
@@ -138,9 +137,13 @@ export class ProjectNameComponent implements OnInit {
    */
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
-      console.log('DISABLE FORMS');
-      this.Form.disable();
-      // this.formsService.DisableForms('ProjectNameForm');
+
+      // disable all forms except the current form being edited
+      this.formsService.DisableForms('ProjectNameForm');
+
+      /**
+       * One possible way to enable / disable - shannon
+       */
       // this.formsService.FormIsDirty.next(
       //   {
       //     IsDirty: true,
