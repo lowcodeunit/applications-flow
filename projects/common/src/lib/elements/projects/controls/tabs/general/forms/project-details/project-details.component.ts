@@ -106,11 +106,11 @@ export class ProjectNameComponent implements OnInit {
   protected setupForm(): void {
     this.Form = new FormGroup({
       name: new FormControl(this.Project?.Name || '', {
-        validators: [Validators.required, Validators.minLength(3)],
+        validators: [Validators.required, Validators.minLength(1)],
         updateOn: 'change',
       }),
       description: new FormControl(this.Project?.Description || '', {
-        validators: [Validators.required, Validators.minLength(3)],
+        validators: [Validators.required, Validators.minLength(1)],
         updateOn: 'change',
       }),
     });

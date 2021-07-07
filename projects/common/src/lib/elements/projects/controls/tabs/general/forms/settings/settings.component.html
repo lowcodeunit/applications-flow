@@ -152,45 +152,6 @@
           Override
         </mat-slide-toggle>
       </div>
-
-      <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <mat-label class="margin-right-2">Development Command</mat-label>
-          <mat-icon color="accent">help_outline</mat-icon>
-        </div>
-
-        <mat-form-field
-          fxFlex
-          appearance="fill"
-          class="margin-right-3 margin-left-3"
-        >
-          <mat-icon
-            *ngIf="DevCommand.enabled"
-            matSuffix
-            [ngClass]="DevCommand.valid ? 'valid-control' : 'invalid-control'"
-          >
-            {{ DevCommand.valid ? "check_circle" : "cancel" }}
-          </mat-icon>
-          <input
-            type="text"
-            matInput
-            [placeholder]="
-              DevCommand.invalid || DevCommand.disabled
-                ? 'Development Command'
-                : ''
-            "
-            formControlName="devCommand"
-          />
-        </mat-form-field>
-        <mat-slide-toggle
-          (change)="SliderChanged($event)"
-          color="accent"
-          name="devCommandOverride"
-          formControlName="devCommandOverride"
-        >
-          Override
-        </mat-slide-toggle>
-      </div>
     </div>
     <div class="card-divider"></div>
   </lcu-form-card>

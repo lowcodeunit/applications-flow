@@ -70,8 +70,8 @@ export class RootDirectoryComponent implements OnInit {
    */
   protected setupForm(): void {
     this.Form = new FormGroup({
-      root: new FormControl('', {
-        validators: [Validators.required, Validators.minLength(3)],
+      root: new FormControl('/', {
+        validators: [Validators.required, Validators.minLength(1)],
         updateOn: 'change',
       }),
       includeSource: new FormControl(false),

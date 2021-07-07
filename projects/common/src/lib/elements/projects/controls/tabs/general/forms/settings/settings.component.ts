@@ -45,20 +45,6 @@ export class SettingsComponent implements OnInit {
   }
 
   /**
-   * Access form control for Dev Command
-   */
-  public get DevCommand(): AbstractControl {
-    return this.Form.get('devCommand');
-  }
-
-  /**
-   * Access form control for Build Command
-   */
-  public get DevCommandOverride(): AbstractControl {
-    return this.Form.get('devCommandOverride');
-  }
-
-  /**
    * Access form control for Install Command
    */
   public get InstallCommand(): AbstractControl {
@@ -202,7 +188,7 @@ export class SettingsComponent implements OnInit {
       preset: new FormControl(''),
       buildCommand: new FormControl(
         {
-          value: 'npm run fathym-build or npm run build',
+          value: 'npm run build',
           disabled: true,
         },
         {
@@ -213,7 +199,7 @@ export class SettingsComponent implements OnInit {
       buildCommandOverride: new FormControl(false, { updateOn: 'change' }),
       outputDirectory: new FormControl(
         {
-          value: '\'public\' if it exists or, \'.\'',
+          value: 'build',
           disabled: true,
         },
         {
@@ -224,7 +210,7 @@ export class SettingsComponent implements OnInit {
       outputDirectoryOverride: new FormControl(false),
       installCommand: new FormControl(
         {
-          value: '\'yarn install\' or \'npm install\'',
+          value: 'npm ci',
           disabled: true,
         },
         {
@@ -232,18 +218,7 @@ export class SettingsComponent implements OnInit {
           updateOn: 'change',
         }
       ),
-      installCommandOverride: new FormControl(false),
-      devCommand: new FormControl(
-        {
-          value: 'None',
-          disabled: true,
-        },
-        {
-          validators: [Validators.required, Validators.minLength(3)],
-          updateOn: 'change',
-        }
-      ),
-      devCommandOverride: new FormControl(false),
+      installCommandOverride: new FormControl(false)
     });
 
     this.formsService.Forms.push({ Id: 'SettingsForm', Form: this.Form });

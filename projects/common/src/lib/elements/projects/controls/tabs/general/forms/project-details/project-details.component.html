@@ -5,8 +5,8 @@
     [valid]="Form.valid"
     [disabled]="Form.disabled"
   >
-    <div fxLayout="row">
-      <mat-form-field appearance="fill" class="margin-right-1">
+    <div fxLayout="column">
+      <mat-form-field fxFlex class="margin-right-1">
         <mat-icon
           matSuffix
           [ngClass]="Name.valid ? 'valid-control' : 'invalid-control'"
@@ -27,10 +27,8 @@
           Project Name is required
         </mat-error>
       </mat-form-field>
-    </div>
 
-    <div fxLayout="row">
-      <mat-form-field appearance="fill">
+      <mat-form-field fxFlex class="margin-right-1">
         <mat-icon
           matSuffix
           [ngClass]="Description.valid ? 'valid-control' : 'invalid-control'"
