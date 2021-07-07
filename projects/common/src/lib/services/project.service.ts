@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse } from '@lcu/common';
-import { Subject, Subscription } from 'rxjs';
-import { ProjectItemModel } from '../models/project-item.model';
 import {
   ApplicationsFlowState,
   GitHubWorkflowRun,
@@ -17,8 +15,7 @@ export class ProjectService {
 
   public EditingProjectSettings: ProjectState;
 
-  constructor(protected appsFlowSvc: ApplicationsFlowService) {
-  }
+  constructor(protected appsFlowSvc: ApplicationsFlowService) {}
 
   public DeployRun(state: ApplicationsFlowState, run: GitHubWorkflowRun): void {
     state.Loading = true;
@@ -53,13 +50,14 @@ export class ProjectService {
         }
 
         this.CreatingProject = !state.Projects || state.Projects.length <= 0;
-
-        this.appsFlowSvc.UpdateState(state);
         console.log(state);
       });
   }
 
-  public SetEditProjectSettings(state: ApplicationsFlowState, project: ProjectState): void {
+  public SetEditProjectSettings(
+    state: ApplicationsFlowState,
+    project: ProjectState
+  ): void {
     if (project != null) {
       state.Loading = true;
 

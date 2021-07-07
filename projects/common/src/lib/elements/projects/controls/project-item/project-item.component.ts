@@ -1,8 +1,5 @@
-import { Subscription } from 'rxjs';
-import { ProjectService } from './../../../../services/project.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProjectState } from './../../../../state/applications-flow.state';
-import { ProjectItemModel } from './../../../../models/project-item.model';
 import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 
 @Component({
@@ -11,33 +8,31 @@ import { ApplicationsFlowEventsService } from './../../../../services/applicatio
   styleUrls: ['./project-item.component.scss'],
 })
 export class ProjectItemComponent implements OnInit {
-  /**
-   * Event to edit project settings
-   */
-  // @Output('edit-project-settings')
-  // public EditProjectSettings: EventEmitter<ProjectItemModel>;
+  //  Fields
 
+  //  Properties
   /**
    * List of projects
    */
   @Input('projects')
   public Projects: Array<ProjectState>;
 
-  public ProjectItems: Array<ProjectItemModel>;
-
   public PanelOpenState: boolean;
 
+  //  Constructors
   constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
+  //  Life Cycle
   public ngOnInit(): void {}
 
+  //  API Methods
   /**
    *
    * @param project Current project object
    *
    * Event to edit project settings
    */
-  public ProjectSettings(project: ProjectItemModel): void {
+  public ProjectSettings(project: ProjectState): void {
     this.appsFlowEventsSvc.SetEditProjectSettings(project);
   }
 

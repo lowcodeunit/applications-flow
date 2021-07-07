@@ -31,7 +31,6 @@ import {
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { ProjectService } from '../../services/project.service';
 import { Subscription } from 'rxjs';
-import { ProjectItemModel } from '../../models/project-item.model';
 import { ApplicationsFlowEventsService } from './../../services/applications-flow-events.service';
 
 declare var window: Window;

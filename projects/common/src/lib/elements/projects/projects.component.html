@@ -22,19 +22,12 @@
 
     <ng-container *ngIf="!CreatingProject">
       <ng-container *ngIf="State">
-        <lcu-projects-header></lcu-projects-header>
-        <div fxLayout="row" fxLayout.lt-sm="column" class="container"></div>
+        <lcu-projects-header [projects]="State.Projects"></lcu-projects-header>
 
         <div *ngIf="EditingProjectSettings">
           <div class="divider"></div>
 
           <lcu-project-tabs></lcu-project-tabs>
-          <!-- <lcu-project-settings
-            [project]="EditingProjectSettings"
-            [host-dns-instance]="State.HostDNSInstance"
-            (saved)="SaveProject($event)"
-            (cancelled)="SetEditProjectSettings(null)"
-          ></lcu-project-settings> -->
         </div>
       </ng-container>
 
@@ -179,5 +172,9 @@
 
       <p *ngIf="State.UserEnterpriseLookup">Loading your Dashboard.</p>
     </div>
+  </div>
+
+  <div>
+    <pre>{{ State | json }}</pre>
   </div>
 </app-host-dashboard-card-element>

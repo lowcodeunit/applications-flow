@@ -1,14 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { LCUServiceSettings, StateContext } from '@lcu/common';
-import { Observable, Subject } from 'rxjs';
-import { ProjectItemModel } from '../models/project-item.model';
-import {
-  ApplicationsFlowState,
-  EstablishProjectRequest,
-  GitHubLowCodeUnit,
-  ProjectState,
-} from '../state/applications-flow.state';
+import { ProjectState } from '../state/applications-flow.state';
 import { GitHubWorkflowRun } from '../state/applications-flow.state';
 
 @Injectable({
@@ -20,7 +11,7 @@ export class ApplicationsFlowEventsService {
   //  Properties
   public DeployRunEvent: EventEmitter<GitHubWorkflowRun>;
 
-  public SetEditProjectSettingsEvent: EventEmitter<ProjectItemModel>;
+  public SetEditProjectSettingsEvent: EventEmitter<ProjectState>;
 
   // Constructors
   constructor() {
@@ -34,7 +25,7 @@ export class ApplicationsFlowEventsService {
     this.DeployRunEvent.emit(run);
   }
 
-  public SetEditProjectSettings(projectItem: ProjectItemModel): void {
+  public SetEditProjectSettings(projectItem: ProjectState): void {
     this.SetEditProjectSettingsEvent.emit(projectItem);
   }
 

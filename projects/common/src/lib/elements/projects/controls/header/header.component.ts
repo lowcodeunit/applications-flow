@@ -1,28 +1,30 @@
 import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
-import { ApplicationsFlowState } from './../../../../state/applications-flow.state';
-import { Component, OnInit } from '@angular/core';
+import {
+  ApplicationsFlowState,
+  ProjectState,
+} from './../../../../state/applications-flow.state';
+import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lcu-projects-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
+  //  Fields
 
-  public State: ApplicationsFlowState;
+  //  Properties
+  @Input('projects')
+  public Projects: Array<ProjectState>;
 
-  protected stateChangeSubscription: Subscription;
+  //  Constructors
+  public constructor() {}
 
-  constructor(protected appsFlowSvc: ApplicationsFlowService) {
+  //  Life Cycle
+  public ngOnInit(): void {}
 
-    // Listen for State changes
-    this.stateChangeSubscription = this.appsFlowSvc.StateChanged
-    .subscribe((state: ApplicationsFlowState) => {
-     this.State = state;
-    });
-   }
+  //  API Methods
 
-  ngOnInit(): void {
-  }
+  //  Helpers
 }
