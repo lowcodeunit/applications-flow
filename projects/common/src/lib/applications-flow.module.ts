@@ -23,6 +23,7 @@ import { FormCardComponent } from './elements/form-card/form-card.component';
 import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-name/project-name.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
 import { SettingsComponent } from './elements/projects/controls/tabs/general/forms/settings/settings.component';
+import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { SettingsComponent } from './elements/projects/controls/tabs/general/for
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent
+    SettingsComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -68,23 +69,22 @@ import { SettingsComponent } from './elements/projects/controls/tabs/general/for
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent
+    SettingsComponent,
   ],
-  entryComponents: 
-  [
-    ApplicationsFlowProjectsElementComponent, 
-    DynamicTabsComponent, 
-    HeaderComponent, 
-    ProjectTabsComponent, 
-    GeneralComponent, 
-    DomainsComponent, 
-    ProjectItemComponent, 
-    BuildsComponent, 
-    RecentActivitiesComponent, 
-    FormCardComponent, 
-    ProjectNameComponent, 
-    RootDirectoryComponent, 
-    SettingsComponent
+  entryComponents: [
+    ApplicationsFlowProjectsElementComponent,
+    DynamicTabsComponent,
+    HeaderComponent,
+    ProjectTabsComponent,
+    GeneralComponent,
+    DomainsComponent,
+    ProjectItemComponent,
+    BuildsComponent,
+    RecentActivitiesComponent,
+    FormCardComponent,
+    ProjectNameComponent,
+    RootDirectoryComponent,
+    SettingsComponent,
   ],
 })
 export class ApplicationsFlowModule {
@@ -95,7 +95,8 @@ export class ApplicationsFlowModule {
         ApplicationsFlowStateContext,
         ApplicationsFlowService,
         ProjectService,
-        FormsService
+        FormsService,
+        ApplicationsFlowEventsService,
       ],
     };
   }
