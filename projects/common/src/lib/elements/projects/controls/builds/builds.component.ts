@@ -15,6 +15,7 @@ import {
   EventEmitter,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-builds',
@@ -22,66 +23,24 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./builds.component.scss'],
 })
 export class BuildsComponent implements OnInit, OnDestroy {
-  // @Output('deploy-run')
-  // public DeployRunEmitter: EventEmitter<GitHubWorkflowRun>;
+  //  Fields
 
-  // @Output('retrieve-lcu')
-  // public RetrieveLCUEmitter: EventEmitter<{project: ProjectState, lcuID: string}>;
-
-  protected currentSelectedProjectSubscription: Subscription;
-
+  //  Properties
   /**
    * List of projects
    */
-  private _projects: Array<ProjectState>;
   @Input('projects')
-  set Projects(val: Array<ProjectState>) {
-    if (!val) {
-      return;
-    }
+  public Projects: Array<ProjectState>;
 
-    this._projects = val;
-
-    // set the initial project, passes data to the build componoent
-    // this.CurrentProject(val[0]);
-  }
-
-  get Projects(): Array<ProjectState> {
-    return this._projects;
-  }
-
-  public State: ApplicationsFlowState;
-
-  protected stateChangeSubscription: Subscription;
-
-  constructor(
-    protected projectService: ProjectService,
-    protected appsFlowSvc: ApplicationsFlowService
-  ) {
-    // this.DeployRunEmitter = new EventEmitter();
-    // this.RetrieveLCUEmitter = new EventEmitter();
-
-    this.stateChangeSubscription = this.appsFlowSvc.StateChanged.subscribe(
-      (state: ApplicationsFlowState) => {
-        this.State = state;
-      }
-    );
-
-    // this.currentSelectedProjectSubscription = projectService.CurrentSelectedProject
-    // .subscribe((val: ProjectState) => {
-    //   this.Project = val;
-    // });
-  }
+  constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
   public ngOnInit(): void {}
 
   public ngOnDestroy(): void {
-    this.currentSelectedProjectSubscription?.unsubscribe();
   }
 
   public DeployRun(lastrun: GitHubWorkflowRun): void {
-    // this.DeployRunEmitter.emit(lastrun);
-    this.projectService.DeployRun(this.State, lastrun);
+    this.appsFlowEventsSvc.DeployRun(lastrun);
   }
 
   public RetrieveLCU(val: {

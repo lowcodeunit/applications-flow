@@ -15,16 +15,9 @@ import { ApplicationsFlowService } from './applications-flow.service';
 export class ProjectService {
   public CreatingProject: boolean;
 
-  public CurrentSelectedProject: Subject<ProjectState>;
-
-  /**
-   * Subject for editing project settings
-   */
-  public SetEditProjectSettings: Subject<ProjectItemModel>;
+  public EditingProjectSettings: ProjectState;
 
   constructor(protected appsFlowSvc: ApplicationsFlowService) {
-    this.SetEditProjectSettings = new Subject<ProjectItemModel>();
-    this.CurrentSelectedProject = new Subject<ProjectState>();
   }
 
   public DeployRun(state: ApplicationsFlowState, run: GitHubWorkflowRun): void {
@@ -64,5 +57,33 @@ export class ProjectService {
         this.appsFlowSvc.UpdateState(state);
         console.log(state);
       });
+  }
+
+  public SetEditProjectSettings(state: ApplicationsFlowState, project: ProjectState): void {
+    if (project != null) {
+      state.Loading = true;
+
+      this.appsFlowSvc
+        .IsolateHostDNSInstance()
+        .subscribe((response: BaseModeledResponse<string>) => {
+          this.EditingProjectSettings = project;
+
+          this.CreatingProject = false;
+
+          state.HostDNSInstance = response.Model;
+
+          state.Loading = false;
+        });
+    } else {
+      this.EditingProjectSettings = project;
+
+      this.CreatingProject = false;
+    }
+  }
+
+  public ToggleCreateProject(): void {
+    this.CreatingProject = !this.CreatingProject;
+
+    this.EditingProjectSettings = null;
   }
 }

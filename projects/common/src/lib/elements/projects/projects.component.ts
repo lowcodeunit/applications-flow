@@ -32,6 +32,7 @@ import { ApplicationsFlowService } from '../../services/applications-flow.servic
 import { ProjectService } from '../../services/project.service';
 import { Subscription } from 'rxjs';
 import { ProjectItemModel } from '../../models/project-item.model';
+import { ApplicationsFlowEventsService } from './../../services/applications-flow-events.service';
 
 declare var window: Window;
 
@@ -64,7 +65,9 @@ export class ApplicationsFlowProjectsElementComponent
     return this.projectService.CreatingProject;
   }
 
-  public EditingProjectSettings: ProjectState;
+  public get EditingProjectSettings(): ProjectState {
+    return this.projectService.EditingProjectSettings;
+  }
 
   public State: ApplicationsFlowState;
 
@@ -72,7 +75,8 @@ export class ApplicationsFlowProjectsElementComponent
   constructor(
     protected injector: Injector,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected projectService: ProjectService
+    protected projectService: ProjectService,
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     super(injector);
 
@@ -155,32 +159,8 @@ export class ApplicationsFlowProjectsElementComponent
       });
   }
 
-  public SetEditProjectSettings(project: ProjectState): void {
-    if (project != null) {
-      this.State.Loading = true;
-
-      this.appsFlowSvc
-        .IsolateHostDNSInstance()
-        .subscribe((response: BaseModeledResponse<string>) => {
-          this.EditingProjectSettings = project;
-
-          this.projectService.CreatingProject = false;
-
-          this.State.HostDNSInstance = response.Model;
-
-          this.State.Loading = false;
-        });
-    } else {
-      this.EditingProjectSettings = project;
-
-      this.projectService.CreatingProject = false;
-    }
-  }
-
   public ToggleCreateProject(): void {
-    this.projectService.CreatingProject = !this.projectService.CreatingProject;
-
-    this.EditingProjectSettings = null;
+    this.projectService.ToggleCreateProject();
   }
 
   //  Helpers
@@ -219,13 +199,15 @@ export class ApplicationsFlowProjectsElementComponent
    * Setup any service subscriptions
    */
   protected setServices(): void {
-    // listen to edit project settings subject change
-    this.editProjectSettingsSubscription =
-      this.projectService.SetEditProjectSettings.subscribe(
-        (project: ProjectItemModel) => {
-          this.SetEditProjectSettings(project);
-        }
-      );
+    this.appsFlowEventsSvc.DeployRunEvent.subscribe((run) => {
+      this.projectService.DeployRun(this.State, run);
+    });
+
+    this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe(
+      (projectItem) => {
+        this.projectService.SetEditProjectSettings(this.State, projectItem);
+      }
+    );
   }
 
   protected setupProjectMonitor(): void {
