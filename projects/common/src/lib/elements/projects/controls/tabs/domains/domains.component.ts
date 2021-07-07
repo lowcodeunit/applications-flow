@@ -37,6 +37,7 @@ export class DomainsComponent implements OnInit {
 
   ngOnInit(): void {
     this.setupForm();
+
     this.config();
   }
 
@@ -48,19 +49,19 @@ export class DomainsComponent implements OnInit {
    });
 
    this.Domains = [
-    {
-      Branch: 'Integration',
-      Name: 'pimpire.fathym.int',
-      Host: 'pimpire.fathym.int',
-      ValidConfig: 'Valid'
-    },
-    {
-      Branch: 'Integration',
-      Name: 'pimpire.fathym.int',
-      Host: 'pimpire.fathym.int',
-      ValidConfig: 'Valid'
-    }
-  ];
+      {
+        Branch: 'Integration',
+        Name: 'pimpire.fathym.int',
+        Host: 'pimpire.fathym.int',
+        ValidConfig: 'Valid'
+      },
+      {
+        Branch: 'Integration',
+        Name: 'pimpire.fathym.int',
+        Host: 'pimpire.fathym.int',
+        ValidConfig: 'Valid'
+      }
+    ];
   }
 
   protected setupForm(): void {

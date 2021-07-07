@@ -52,11 +52,6 @@ export class ApplicationsFlowProjectsElementComponent
   implements OnDestroy, OnInit
 {
   //  Fields
-  /**
-   * Subscription for editing project settings
-   */
-  protected editProjectSettingsSubscription: Subscription;
-
   protected projMon: NodeJS.Timeout;
 
   //  Properties
