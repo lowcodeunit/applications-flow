@@ -138,9 +138,10 @@ export class ProjectNameComponent implements OnInit {
    */
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
+
       console.log('DISABLE FORMS');
-      this.Form.disable();
-      // this.formsService.DisableForms('ProjectNameForm');
+      // this.Form.disable();
+      this.formsService.DisableForms('ProjectNameForm');
       // this.formsService.FormIsDirty.next(
       //   {
       //     IsDirty: true,

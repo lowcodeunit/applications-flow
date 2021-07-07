@@ -21,32 +21,20 @@ export class FormsService {
     public FormIsDirty: Subject<{IsDirty: boolean, Id: string, Form: FormGroup}>;
 
     public DisableForms(val: string | boolean): void {
-        
-       const xd = this.Forms.find(x => {
-            return x.Id === 'ProjectNameForm';
-        });
-       xd.Form.disable();
-       console.log('sdfasdfasdfsdfsfsfsfd', xd);
 
-       // this.Forms.forEach((form: {Id: string, Form: FormGroup}) => {
-            //form.Form.disable();
-            // console.log('asdfsfdds');
+        this.Forms.forEach((form: { Id: string, Form: FormGroup }) => {
 
-            // if (form.Id === val) {
-                // form.Form.disable();
-           // }
-            // console.log('DISABLE');
             // enable/disable all forms
-            // if (typeof val === 'boolean') {
-            //     val ? form.Form.disable() : form.Form.enable();
-            // } else if (typeof val === 'string') {
-            //     if (form.Id === val) {
-            //         form.Form.enable();
-            //     } else {
-            //         form.Form.disable();
-            //     }
-            // }
-        // });
+            if (typeof val === 'boolean') {
+                val ? form.Form.disable({ onlySelf: true, emitEvent: false }) : form.Form.enable({ onlySelf: true, emitEvent: false });
+            } else {
+                if (form.Id === val) {
+                    form.Form.enable({ onlySelf: true, emitEvent: false });
+                } else {
+                    form.Form.disable({ onlySelf: true, emitEvent: false });
+                }
+            }
+        });
     }
 
 
