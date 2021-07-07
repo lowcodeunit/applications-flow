@@ -60,7 +60,9 @@ export class ApplicationsFlowProjectsElementComponent
   protected projMon: NodeJS.Timeout;
 
   //  Properties
-  // public CreatingProject: boolean;
+  public get CreatingProject(): boolean {
+    return this.projectService.CreatingProject;
+  }
 
   public EditingProjectSettings: ProjectState;
 
@@ -229,7 +231,7 @@ export class ApplicationsFlowProjectsElementComponent
   protected setupProjectMonitor(): void {
     this.projMon = setInterval(() => {
       this.projectService.ListProjects(this.State, false);
-    }, 15000);
+    }, 60000);
   }
 
   protected teardownProjectMonitor(): void {
