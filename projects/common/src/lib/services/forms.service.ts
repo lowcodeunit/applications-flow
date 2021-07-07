@@ -18,13 +18,20 @@ export class FormsService {
     /**
      * When any form is being edited
      */
-    public FormIsDirty: Subject<{IsDirty: boolean, Id: string, Form: FormGroup}>;
+    // public FormIsDirty: Subject<{IsDirty: boolean, Id: string, Form: FormGroup}>;
 
+    /**
+     * 
+     * @param val as string - enabled form name
+     * @param val as boolen - enable/disable all forms
+     * 
+     * Enable / disable forms, use this when a form is being edited and 
+     * all other forms need to be disabled
+     */
     public DisableForms(val: string | boolean): void {
 
         this.Forms.forEach((form: { Id: string, Form: FormGroup }) => {
 
-            // enable/disable all forms
             if (typeof val === 'boolean') {
                 val ? form.Form.disable({ onlySelf: true, emitEvent: false }) : form.Form.enable({ onlySelf: true, emitEvent: false });
             } else {
@@ -80,6 +87,6 @@ export class FormsService {
 
     constructor() {
         this.Forms = [];
-        this.FormIsDirty = new Subject();
+        // this.FormIsDirty = new Subject();
     }
 }

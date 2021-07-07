@@ -185,13 +185,15 @@ export class SettingsComponent implements OnInit {
            {
              Label: 'Clear',
              Color: 'warn',
-             ClickEvent: this.clearForm,
+             ClickEvent: () => this.clearForm(),
+            // use arrow function, so 'this' refers to ProjectNameComponent 
+            // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
              Type: 'RESET'
            },
            {
              Label: 'Save',
              Color: 'accent',
-             ClickEvent: this.save,
+             ClickEvent: () => this.save(),
              Type: 'SAVE'
            }
          ]
@@ -250,13 +252,9 @@ export class SettingsComponent implements OnInit {
 
     protected onChange(): void {
       this.Form.valueChanges.subscribe((val: any) => {
-        // this.formsService.FormIsDirty.next(
-        //   {
-        //     IsDirty: true,
-        //     Id: 'SettingsForm',
-        //     Form: this.Form
-        //   }
-        // );
+
+        // disable all forms except the current form being edited
+        this.formsService.DisableForms('SettingsForm');
       });
     }
 
@@ -282,7 +280,10 @@ export class SettingsComponent implements OnInit {
      * Clear form controls
      */
     protected clearForm(): void {
-      this.Form.reset();
+      // this.Form.reset();
+
+      // enable all forms
+      this.formsService.DisableForms(false);
     }
 
     /**
