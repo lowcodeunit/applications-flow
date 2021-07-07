@@ -1,4 +1,4 @@
-<mat-accordion>
+<mat-accordion *ngIf="State">
     <div *ngIf="Projects" class="expansion-container">
         <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let project of Projects">
             <div fxFlex fxLayout="row">
@@ -44,7 +44,7 @@
                             </div>
 
                             <div fxLayout="row" class="actions">
-                                <a mat-button color="accent" (click)="DeployLastRun(latestRun)" target="_blank"
+                                <a mat-button color="accent" (click)="DeployRun(latestRun)" target="_blank"
                                     matTooltip="Deploy Latest" title="Deploy Latest">
                                     <mat-icon>cloud_upload</mat-icon>
                                 </a>

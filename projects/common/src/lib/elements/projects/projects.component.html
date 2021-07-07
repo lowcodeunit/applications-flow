@@ -20,7 +20,7 @@
       <lcu-create-project-wizard></lcu-create-project-wizard>
     </div>
 
-    <ng-container *ngIf="!CreatingProject && !EditingProjectSettings">
+    <ng-container *ngIf="!CreatingProject">
       <ng-container *ngIf="State">
         <lcu-projects-header></lcu-projects-header>
         <div fxLayout="row" fxLayout.lt-sm="column" class="container"></div>
@@ -38,7 +38,7 @@
         </div>
       </ng-container>
 
-      <div>
+      <div *ngIf="!EditingProjectSettings">
         <div fxLayout="row" *ngFor="let project of State.Projects">
           <!-- <div fxFlex="150px" class="project-image">
             <img [src]="project.Image" *ngIf="project.Image" />
