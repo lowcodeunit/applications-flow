@@ -17,14 +17,9 @@
 
   <ng-container *ngIf="State">
     <lcu-projects-header></lcu-projects-header>
-    <div 
-      fxLayout="row" 
-      fxLayout.lt-sm="column"
-      class="container">
-    </div>
+    <div fxLayout="row" fxLayout.lt-sm="column" class="container"></div>
 
-  <div class="divider">
-  </div>
+    <div class="divider"></div>
     <lcu-project-tabs></lcu-project-tabs>
   </ng-container>
 
@@ -144,7 +139,7 @@
                     >
                       error_outline
                     </mat-icon>
-              
+
                     {{ latestRun.Status }}
 
                     {{ latestRun.Conclusion }}
