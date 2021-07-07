@@ -52,17 +52,17 @@ export class ApplicationsFlowProjectsElementComponent
   implements OnDestroy, OnInit
 {
   //  Fields
+  /**
+   * Subscription for editing project settings
+   */
+  protected editProjectSettingsSubscription: Subscription;
+
   protected projMon: NodeJS.Timeout;
 
   //  Properties
   // public CreatingProject: boolean;
 
   public EditingProjectSettings: ProjectState;
-
-  /**
-   * Subscription for editing project settings
-   */
-  protected editProjectSettingsSubscription: Subscription;
 
   public State: ApplicationsFlowState;
 
@@ -93,7 +93,10 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
-  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit): void {
+  public ConfigureGitHubLCUDevOps(
+    projectId: string,
+    lcu: GitHubLowCodeUnit
+  ): void {
     this.State.Loading = true;
 
     this.appsFlowSvc
@@ -108,7 +111,7 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   // public DeployRun(run: GitHubWorkflowRun): void {
-  
+
   //   this.State.Loading = true;
 
   //   this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
@@ -120,7 +123,10 @@ export class ApplicationsFlowProjectsElementComponent
   //   });
   // }
 
-  public HasDevOpsConfigured(val: {project: ProjectState, lcuID: string}): boolean {
+  public HasDevOpsConfigured(val: {
+    project: ProjectState;
+    lcuID: string;
+  }): boolean {
     const run = val.project.Runs.find((r) => r.LCUID === val.lcuID);
 
     return !!run;
@@ -147,19 +153,7 @@ export class ApplicationsFlowProjectsElementComponent
       });
   }
 
-  /**
-   * Setup any service subscriptions
-   */
-  protected setServices(): void {
-
-    // listen to edit project settings subject change
-    this.editProjectSettingsSubscription = this.projectService.SetEditProjectSettings
-    .subscribe((project: ProjectItemModel) => {
-      this.SetEditProjectSettings(project);
-    });
-  }
-
-  protected SetEditProjectSettings(project: ProjectState): void {
+  public SetEditProjectSettings(project: ProjectState): void {
     if (project != null) {
       this.State.Loading = true;
 
@@ -181,7 +175,7 @@ export class ApplicationsFlowProjectsElementComponent
     }
   }
 
-  protected ToggleCreateProject(): void {
+  public ToggleCreateProject(): void {
     this.projectService.CreatingProject = !this.projectService.CreatingProject;
 
     this.EditingProjectSettings = null;
@@ -218,6 +212,19 @@ export class ApplicationsFlowProjectsElementComponent
   //       console.log(this.State);
   //     });
   // }
+
+  /**
+   * Setup any service subscriptions
+   */
+  protected setServices(): void {
+    // listen to edit project settings subject change
+    this.editProjectSettingsSubscription =
+      this.projectService.SetEditProjectSettings.subscribe(
+        (project: ProjectItemModel) => {
+          this.SetEditProjectSettings(project);
+        }
+      );
+  }
 
   protected setupProjectMonitor(): void {
     this.projMon = setInterval(() => {
