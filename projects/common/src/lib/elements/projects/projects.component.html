@@ -20,22 +20,22 @@
       <lcu-create-project-wizard></lcu-create-project-wizard>
     </div>
 
-    <div *ngIf="EditingProjectSettings">
-      <lcu-project-settings
-        [project]="EditingProjectSettings"
-        [host-dns-instance]="State.HostDNSInstance"
-        (saved)="SaveProject($event)"
-        (cancelled)="SetEditProjectSettings(null)"
-      ></lcu-project-settings>
-    </div>
-
     <ng-container *ngIf="!CreatingProject && !EditingProjectSettings">
       <ng-container *ngIf="State">
         <lcu-projects-header></lcu-projects-header>
         <div fxLayout="row" fxLayout.lt-sm="column" class="container"></div>
 
-        <div class="divider"></div>
-        <lcu-project-tabs></lcu-project-tabs>
+        <div *ngIf="EditingProjectSettings">
+          <div class="divider"></div>
+
+          <lcu-project-tabs></lcu-project-tabs>
+          <!-- <lcu-project-settings
+            [project]="EditingProjectSettings"
+            [host-dns-instance]="State.HostDNSInstance"
+            (saved)="SaveProject($event)"
+            (cancelled)="SetEditProjectSettings(null)"
+          ></lcu-project-settings> -->
+        </div>
       </ng-container>
 
       <div>
