@@ -27,28 +27,35 @@
           Project Name is required
         </mat-error>
       </mat-form-field>
+    </div>
 
+    <div fxLayout="row">
       <mat-form-field appearance="fill">
         <mat-icon
           matSuffix
-          [ngClass]="Surname.valid ? 'valid-control' : 'invalid-control'"
+          [ngClass]="Description.valid ? 'valid-control' : 'invalid-control'"
         >
-          {{ Surname.valid ? "check_circle" : "cancel" }}
+          {{ Description.valid ? "check_circle" : "cancel" }}
         </mat-icon>
 
-        <input
+        <textarea
           type="text"
           matInput
+          rows="3"
           [placeholder]="
-            Surname.invalid || Surname.disabled ? 'Project Surname' : ''
+            Description.invalid || Description.disabled
+              ? 'Project Description'
+              : ''
           "
-          formControlName="surname"
-        />
+          formControlName="description"
+        ></textarea>
 
-        <mat-hint *ngIf="Surname.valid"> Selected Project Surname </mat-hint>
+        <mat-hint *ngIf="Description.valid">
+          Selected Project Description
+        </mat-hint>
 
-        <mat-error *ngIf="Surname.hasError('required')">
-          Project Surname is required
+        <mat-error *ngIf="Description.hasError('required')">
+          Project Description is required
         </mat-error>
       </mat-form-field>
     </div>

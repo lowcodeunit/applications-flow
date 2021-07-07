@@ -26,6 +26,13 @@ export class ProjectNameComponent implements OnInit {
   public Config: CardFormConfigModel;
 
   /**
+   * Access form control for description
+   */
+  public get Description(): AbstractControl {
+    return this.Form.get('description');
+  }
+
+  /**
    * FormGroup for project name card
    */
   public Form: FormGroup;
@@ -37,13 +44,6 @@ export class ProjectNameComponent implements OnInit {
    */
   public get Name(): AbstractControl {
     return this.Form.get('name');
-  }
-
-  /**
-   * Access form control for project surname
-   */
-  public get Surname(): AbstractControl {
-    return this.Form.get('surname');
   }
 
   /**
@@ -105,17 +105,18 @@ export class ProjectNameComponent implements OnInit {
    */
   protected setupForm(): void {
     this.Form = new FormGroup({
-      name: new FormControl('', {
+      name: new FormControl(this.Project?.Name || '', {
         validators: [Validators.required, Validators.minLength(3)],
         updateOn: 'change',
       }),
-      surname: new FormControl('', {
+      description: new FormControl(this.Project?.Description || '', {
         validators: [Validators.required, Validators.minLength(3)],
         updateOn: 'change',
       }),
     });
 
     this.formsService.Forms.push({ Id: 'ProjectNameForm', Form: this.Form });
+
     this.onChange();
   }
 
