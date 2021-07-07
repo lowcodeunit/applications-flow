@@ -1,3 +1,5 @@
+import { FormGroup } from '@angular/forms';
+import { FormsService } from './../../../../../services/forms.service';
 import { 
   AfterContentChecked,
   ChangeDetectorRef,
@@ -32,7 +34,8 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   constructor(
     protected injector: Injector,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected formsService: FormsService
   ) {
     super(injector);
 
@@ -42,7 +45,20 @@ extends LcuElementComponent<ApplicationsFlowProjectsContext>
   //  Life Cycle
   public ngOnDestroy(): void {}
 
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+
+    /**
+     * Testing disabling forms
+     */
+    // setTimeout(() => {
+    //   this.formsService.Forms.find((x: {Id: string, Form: FormGroup}) => {
+    //    if (x.Id === 'RootDirectoryForm') {
+    //      x.Form.disable();
+    //      debugger;
+    //    }
+    //   });
+    // }, 5000);
+  }
 
   public ngAfterContentChecked(): void {
     this.cd.detectChanges();

@@ -1,3 +1,4 @@
+import { FormsService } from './services/forms.service';
 import { ProjectService } from './services/project.service';
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -93,7 +94,8 @@ export class ApplicationsFlowModule {
       providers: [
         ApplicationsFlowStateContext,
         ApplicationsFlowService,
-        ProjectService
+        ProjectService,
+        FormsService
       ],
     };
   }

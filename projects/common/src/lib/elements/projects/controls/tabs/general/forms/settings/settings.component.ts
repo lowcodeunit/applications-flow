@@ -1,9 +1,11 @@
+import { FormsService } from './../../../../../../../services/forms.service';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DevSettingsPresetModel } from './../../../../../../../models/dev-settings-preset.model';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
 import { ApplicationsFlowState } from './../../../../../../../state/applications-flow.state';
 import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -22,6 +24,8 @@ export class SettingsComponent implements OnInit {
    * Formgroup
    */
   public Form: FormGroup;
+
+  protected formIsDirtySubscription: Subscription;
 
   /**
    * Access form control for Build Command
@@ -112,12 +116,22 @@ export class SettingsComponent implements OnInit {
    @Input('state')
    public State: ApplicationsFlowState;
 
-  constructor() {}
+  constructor(protected formsService: FormsService) {}
 
   public ngOnInit(): void {
     this.setupForm();
     this.config();
     this.setupPresets();
+
+    // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
+    //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
+
+    //   if (val.Id !== 'SettingsForm' && this.Form.enabled) {
+    //     console.log('DISABLE SETTINGS');
+    //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
+    //     this.Form.disable();
+    //    }
+    // });
   }
 
   /**
@@ -219,7 +233,7 @@ export class SettingsComponent implements OnInit {
             validators: [Validators.required, Validators.minLength(3)],
             updateOn: 'change'}),
           installCommandOverride: new FormControl(false),
-          devCommand: new FormControl( 
+          devCommand: new FormControl(
           {
             value: 'None',
             disabled: true
@@ -230,12 +244,20 @@ export class SettingsComponent implements OnInit {
           devCommandOverride: new FormControl(false)
         });
 
+      this.formsService.Forms.push({Id: 'SettingsForm', Form: this.Form});
       this.onChange();
     }
 
     protected onChange(): void {
-      // this.BuildCommandOverride.valueChanges.subscribe((val: boolean) => {
-      // })
+      this.Form.valueChanges.subscribe((val: any) => {
+        // this.formsService.FormIsDirty.next(
+        //   {
+        //     IsDirty: true,
+        //     Id: 'SettingsForm',
+        //     Form: this.Form
+        //   }
+        // );
+      });
     }
 
     /**

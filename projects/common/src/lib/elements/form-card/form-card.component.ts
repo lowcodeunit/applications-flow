@@ -16,6 +16,12 @@ export class FormCardComponent implements OnInit {
   public Config: CardFormConfigModel;
 
   /**
+   * Disable everything
+   */
+  @Input('disabled')
+  public Disabled: boolean;
+
+  /**
    * Form validity
    */
   @Input('valid')

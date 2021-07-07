@@ -1,8 +1,10 @@
+import { FormsService } from './../../../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
 import { ApplicationsFlowState } from './../../../../../../../state/applications-flow.state';
 import { FormActionsModel } from './../../../../../../../models/form-actions.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'lcu-project-name',
@@ -21,6 +23,8 @@ export class ProjectNameComponent implements OnInit {
    * FormGroup for project name card
    */
   public Form: FormGroup;
+
+  // protected formIsDirtySubscription: Subscription;
 
   /**
    * Access form control for project name
@@ -42,12 +46,23 @@ export class ProjectNameComponent implements OnInit {
   @Input('state')
   public State: ApplicationsFlowState;
 
-  constructor() {
+  constructor(protected formsService: FormsService) {
    }
 
   ngOnInit(): void {
+
     this.setupForm();
     this.config();
+
+    // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
+    //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
+
+    //   if (val.Id !== 'ProjectNameForm' && this.Form.enabled) { 
+    //     console.log('DISABLE Project Name');
+    //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
+    //     this.Form.disable();
+    //   }
+    // });
   }
 
   /**
@@ -67,13 +82,15 @@ export class ProjectNameComponent implements OnInit {
          {
            Label: 'Clear',
            Color: 'warn',
-           ClickEvent: this.clearForm,
+           ClickEvent: () => this.clearForm(),
+           // use arrow function, so 'this' refers to ProjectNameComponent 
+           // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
            Type: 'RESET'
          },
          {
            Label: 'Save',
            Color: 'accent',
-           ClickEvent: this.save,
+           ClickEvent: () => this.save(),
            Type: 'SAVE'
          }
        ]
@@ -95,6 +112,7 @@ export class ProjectNameComponent implements OnInit {
       })
     });
 
+    this.formsService.Forms.push({Id: 'ProjectNameForm', Form: this.Form});
     this.onChange();
   }
 
@@ -102,22 +120,34 @@ export class ProjectNameComponent implements OnInit {
    * Save form
    */
   protected save(): void {
-    
+  
   }
 
   /**
    * Clear form controls
    */
   protected clearForm(): void {
-
+    
+    // enable all forms
+    this.formsService.DisableForms(false);
+   
   }
 
   /**
    * Listen to form changes
    */
   protected onChange(): void {
-    this.Form.valueChanges.subscribe((val: any) => {
-
+    this.Form.valueChanges.subscribe((val: object) => {
+      console.log('DISABLE FORMS');
+      this.Form.disable();
+      // this.formsService.DisableForms('ProjectNameForm');
+      // this.formsService.FormIsDirty.next(
+      //   {
+      //     IsDirty: true,
+      //     Id: 'ProjectNameForm',
+      //     Form: this.Form
+      //   }
+      // );
     });
   }
 }

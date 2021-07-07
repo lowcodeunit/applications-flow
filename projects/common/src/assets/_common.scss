@@ -148,5 +148,17 @@ body {
     height: $divider-size;
     width: 100%;
   }
+
+  .form-disabled {
+    background-color: rgb(121, 121, 121);
+    opacity: 0.5;
+    border-radius: 4px;
+  }
+
+  // .form-enabled {
+  //   background-color: rgb(8, 228, 19);
+  //   opacity: 0.5;
+  //   border-radius: 4px;
+  // }
 }
 

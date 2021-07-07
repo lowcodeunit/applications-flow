@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+import { FormsService } from './../../../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
 import { ApplicationsFlowState } from './../../../../../../../state/applications-flow.state';
 import { Component, Input, OnInit } from '@angular/core';
@@ -20,6 +22,8 @@ export class RootDirectoryComponent implements OnInit {
     * FormGroup
     */
    public Form: FormGroup;
+
+   protected formIsDirtySubscription: Subscription;
  
 
   /**
@@ -42,13 +46,23 @@ export class RootDirectoryComponent implements OnInit {
  @Input('state')
  public State: ApplicationsFlowState;
 
-  constructor() {
+  constructor(protected formsService: FormsService) {
 
     this.setupForm();
     this.config();
   }
 
   ngOnInit(): void {
+
+    // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
+    //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
+
+    //   if (val.Id !== 'RootDirectoryForm' && this.Form.enabled) {
+    //     console.log('DISABLE Root Directory');
+    //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
+    //     this.Form.disable();
+    //   }
+    // });
   }
 
   /**
@@ -62,6 +76,9 @@ export class RootDirectoryComponent implements OnInit {
       }),
       includeSource: new FormControl(false)
     });
+
+    this.formsService.Forms.push({Id: 'RootDirectoryForm', Form: this.Form});
+    this.onChange();
   }
 
   /**
@@ -112,7 +129,11 @@ export class RootDirectoryComponent implements OnInit {
    */
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: any) => {
-
+      // this.formsService.FormIsDirty.next(
+      //   {
+      //     IsDirty: true, Id: 'RootDirectoryForm', Form: this.Form
+      //   }
+      // );
     });
   }
 

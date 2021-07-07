@@ -9,6 +9,7 @@ import {
   OnInit, 
   ViewChild, 
   ViewContainerRef } from '@angular/core';
+  import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'lcu-dynamic-tabs',
@@ -41,9 +42,10 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
    *
    * @param index selected tab index
    */
-  public TabChange(index: number): void {
+  public TabChanged(evt: MatTabChangeEvent): void {
+
     setTimeout(() => {
-        this.renderComponent(index);
+        this.renderComponent(evt.index);
     }, 1000);
   }
 
