@@ -1,6 +1,9 @@
 {
 	"name": "@lowcodeunit/applications-flow",
 	"version": "0.0.1",
+	"author": {
+		"name": "Fathym"
+	},
 	"scripts": {
 		"build": "npm run build:common && npm run build:lcu && npm run build:demo",
 		"build:common": "ng build common",
