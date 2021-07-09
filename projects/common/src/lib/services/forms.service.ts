@@ -43,6 +43,11 @@ export class FormsService {
         return this._form;
     }
 
+    /**
+     * When any form is being edited
+     */
+    public FormIsDirty: Subject<boolean>;
+
     protected forms: Array<FormModel>;
 
     /**
@@ -51,10 +56,6 @@ export class FormsService {
     // public formsInitialValues: Array<FormModel>;
     public formsValues: Array<FormValues>;
 
-    /**
-     * When any form is being edited
-     */
-    // public FormIsDirty: Subject<{IsDirty: boolean, Id: string, Form: FormGroup}>;
 
     /**
      * 
@@ -110,27 +111,18 @@ export class FormsService {
         for (const [key, value] of Object.entries(formToCheck.controls)) {
             for (const prop in value) {
                 if (prop === 'value') {
-                    return value[prop] !== formVals.Values[key];
+                    const dirty: boolean = value[prop] !== formVals.Values[key];
+                    this.FormIsDirty.next(dirty);
+                    return dirty;
                     // return value[prop] !== formInitialValues.Form.controls[key][prop];
                 }
             }
         }
     }
 
-    /**
-     * Compare initial values with the current values
-     * 
-     * @param obj form data
-     * @param prop property to check
-     * @returns boolean of whether or not the values changed
-     */
-    protected hasChanged(form: FormGroup, prop: string): boolean {
-        return true;
-       // return this.reference[prop] !== form[prop];
-    }
-
     constructor() {
         this.forms = [];
         this.formsValues = [];
+        this.FormIsDirty = new Subject();
     }
 }

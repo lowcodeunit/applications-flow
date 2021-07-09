@@ -1,3 +1,5 @@
+import { FormsService } from './../../services/forms.service';
+import { Subscription } from 'rxjs';
 import { DynamicTabsModel } from './../../models/dynamic-tabs.model';
 import { 
   AfterViewInit, 
@@ -26,11 +28,24 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
   @ViewChild('container', {read: ViewContainerRef, static: false})
   protected viewContainer: ViewContainerRef;
 
-  constructor(protected componentFactoryResolver: ComponentFactoryResolver) { }
+  public FormIsDirty: boolean;
+  /**
+   * Listener for when any form is dirty
+   */
+  protected formIsDirtySubscription: Subscription;
+
+  constructor(
+    protected componentFactoryResolver: ComponentFactoryResolver, 
+    protected formsService: FormsService) { }
 
   // Lifecycle hook
   public ngOnInit(): void {
 
+    this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
+      (val: boolean) => {
+        debugger;
+        this.FormIsDirty = val;
+    });
   }
 
   public ngAfterViewInit(): void {
