@@ -1,10 +1,3 @@
-import { FormsService } from '../../../../../../../services/forms.service';
-import { CardFormConfigModel } from '../../../../../../../models/card-form-config.model';
-import {
-  ApplicationsFlowState,
-  ProjectState,
-} from '../../../../../../../state/applications-flow.state';
-import { FormActionsModel } from '../../../../../../../models/form-actions.model';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -12,7 +5,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { FormsService } from '../../../../../../../services/forms.service';
+import { CardFormConfigModel } from '../../../../../../../models/card-form-config.model';
+import {
+  ProjectState
+} from '../../../../../../../state/applications-flow.state';
+
 
 @Component({
   selector: 'lcu-project-details',
@@ -42,8 +40,6 @@ export class ProjectNameComponent implements OnInit {
    */
   public IsDirty: boolean;
 
-  // protected formIsDirtySubscription: Subscription;
-
   /**
    * Access form control for project name
    */
@@ -63,16 +59,6 @@ export class ProjectNameComponent implements OnInit {
     this.setupForm();
 
     this.config();
-
-    // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
-    //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
-
-    //   if (val.Id !== 'ProjectNameForm' && this.Form.enabled) {
-    //     console.log('DISABLE Project Name');
-    //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
-    //     this.Form.disable();
-    //   }
-    // });
   }
 
   /**
@@ -144,7 +130,6 @@ export class ProjectNameComponent implements OnInit {
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
 
-     
       if (this.formsService.ForRealThough('ProjectNameForm', this.Form)) {
         this.IsDirty = true;
          // disable all forms except the current form being edited
@@ -155,17 +140,6 @@ export class ProjectNameComponent implements OnInit {
         // enable all forms
         this.formsService.DisableForms(false);
       }
-
-      /**
-       * One possible way to enable / disable - shannon
-       */
-      // this.formsService.FormIsDirty.next(
-      //   {
-      //     IsDirty: true,
-      //     Id: 'ProjectNameForm',
-      //     Form: this.Form
-      //   }
-      // );
     });
   }
 }

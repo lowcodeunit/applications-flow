@@ -9,6 +9,9 @@ import { Subject } from 'rxjs';
  * 
  * Leaving this here, because 
  * this model is local only
+ * 
+ * TODO: if we start needing this model outside of this service,
+ * need to move this into the models directory - shannon
  */
 export class FormValues {
     public Id: string;
@@ -91,15 +94,14 @@ export class FormsService {
      */
     protected createValuesReference(val: FormModel): void {
 
-        // this.formsInitialValues.push(Object.assign({}, val));
         this.formsValues.push(new FormValues(val.Id, val.Form.value));
     }
 
     /**
      * Check for actual form changes, because the user
-     * could have canceled or changed the value back to the 
+     * could have canceled or changed the value back to the
      * original
-     * 
+     *
      * @param form form to be tested
      */
     public ForRealThough(id: string, formToCheck: FormGroup): boolean {
@@ -108,13 +110,17 @@ export class FormsService {
             return x.Id === id;
         });
 
+        // loop over the form to check and compare its values with
+        // stored reference values we are holding on to
         for (const [key, value] of Object.entries(formToCheck.controls)) {
             for (const prop in value) {
                 if (prop === 'value') {
                     const dirty: boolean = value[prop] !== formVals.Values[key];
+
+                    // subscription for when any form is dirty
                     this.FormIsDirty.next(dirty);
+
                     return dirty;
-                    // return value[prop] !== formInitialValues.Form.controls[key][prop];
                 }
             }
         }

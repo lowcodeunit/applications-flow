@@ -54,15 +54,6 @@ export class RootDirectoryComponent implements OnInit {
     this.setupForm();
 
     this.config();
-
-    // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
-    //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
-    //   if (val.Id !== 'RootDirectoryForm' && this.Form.enabled) {
-    //     console.log('DISABLE Root Directory');
-    //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
-    //     this.Form.disable();
-    //   }
-    // });
   }
 
   /**

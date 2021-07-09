@@ -41,9 +41,9 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
   // Lifecycle hook
   public ngOnInit(): void {
 
+    // listen form any form to be dirty, then disable all tabs except for the current tab
     this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
       (val: boolean) => {
-        debugger;
         this.FormIsDirty = val;
     });
   }
