@@ -10,6 +10,7 @@ import { CardFormConfigModel } from '../../../../../../../models/card-form-confi
 import {
   ProjectState
 } from '../../../../../../../state/applications-flow.state';
+import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
 
 
 @Component({
@@ -53,7 +54,7 @@ export class ProjectNameComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(public formsService: FormsService) {}
+  constructor(protected formsService: FormsService, protected appsFlowEventsSvc: ApplicationsFlowEventsService) { }
 
   public ngOnInit(): void {
     this.setupForm();
@@ -114,7 +115,13 @@ export class ProjectNameComponent implements OnInit {
   /**
    * Save form
    */
-  protected save(): void {}
+  protected save(): void {
+    this.appsFlowEventsSvc.SaveProject({
+      ...this.Project,
+      Description: this.Description.value,
+      Name: this.Name.value
+    });
+  }
 
   /**
    * Clear form controls
@@ -132,7 +139,7 @@ export class ProjectNameComponent implements OnInit {
 
       if (this.formsService.ForRealThough('ProjectNameForm', this.Form)) {
         this.IsDirty = true;
-         // disable all forms except the current form being edited
+        // disable all forms except the current form being edited
         this.formsService.DisableForms('ProjectNameForm');
       } else {
 
