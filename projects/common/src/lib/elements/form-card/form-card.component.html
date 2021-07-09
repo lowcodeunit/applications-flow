@@ -28,7 +28,7 @@
       </mat-card-content>
       <mat-card-actions>
         <div
-            *ngIf="Config.FormActions && (Form.dirty && Form.valid)"
+            *ngIf="Config.FormActions && IsDirty"
             fxLayout="row"
             fxLayoutAlign="space-between center">
             <span class="mat-small caption-text">{{ Config.FormActions.Message }}</span>

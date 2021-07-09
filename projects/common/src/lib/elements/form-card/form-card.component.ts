@@ -22,6 +22,9 @@ export class FormCardComponent implements OnInit {
   @Input('disabled')
   public Disabled: boolean;
 
+  @Input('is-dirty')
+  public IsDirty: boolean;
+
   /**
    * Form
    */

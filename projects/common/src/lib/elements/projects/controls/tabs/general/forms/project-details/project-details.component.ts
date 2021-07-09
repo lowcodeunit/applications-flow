@@ -37,6 +37,11 @@ export class ProjectNameComponent implements OnInit {
    */
   public Form: FormGroup;
 
+  /**
+   * When form is dirty, ties into formsService.DisableForms
+   */
+  public IsDirty: boolean;
+
   // protected formIsDirtySubscription: Subscription;
 
   /**
@@ -139,10 +144,15 @@ export class ProjectNameComponent implements OnInit {
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
 
-      // disable all forms except the current form being edited
+     
       if (this.formsService.ForRealThough('ProjectNameForm', this.Form)) {
+        this.IsDirty = true;
+         // disable all forms except the current form being edited
         this.formsService.DisableForms('ProjectNameForm');
       } else {
+
+        this.IsDirty = false;
+        // enable all forms
         this.formsService.DisableForms(false);
       }
 
