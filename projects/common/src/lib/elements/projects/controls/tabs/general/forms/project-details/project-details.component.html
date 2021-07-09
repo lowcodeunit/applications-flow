@@ -2,11 +2,11 @@
   <lcu-form-card
     fxFlex
     [config]="Config"
-    [valid]="Form.valid"
+    [form]="Form"
     [disabled]="Form.disabled"
   >
     <div fxLayout="column">
-      <mat-form-field fxFlex class="margin-right-1">
+      <mat-form-field appearance="fill" fxFlex class="margin-right-1 margin-bottom-2">
         <mat-icon
           matSuffix
           [ngClass]="Name.valid ? 'valid-control' : 'invalid-control'"
@@ -28,7 +28,7 @@
         </mat-error>
       </mat-form-field>
 
-      <mat-form-field fxFlex class="margin-right-1">
+      <mat-form-field fxFlex appearance="fill" class="margin-right-1">
         <mat-icon
           matSuffix
           [ngClass]="Description.valid ? 'valid-control' : 'invalid-control'"
@@ -60,4 +60,8 @@
 
     <div class="card-divider"></div>
   </lcu-form-card>
+  <div fxLayout="column">
+    <!-- <pre>{{formsService.formsInitialValuesOnly[0].values['name']}}</pre> -->
+  </div>
+  
 </form>

@@ -52,7 +52,7 @@ export class ProjectNameComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService) {}
+  constructor(public formsService: FormsService) {}
 
   public ngOnInit(): void {
     this.setupForm();
@@ -115,7 +115,7 @@ export class ProjectNameComponent implements OnInit {
       }),
     });
 
-    this.formsService.Forms.push({ Id: 'ProjectNameForm', Form: this.Form });
+    this.formsService.Form = { Id: 'ProjectNameForm', Form: this.Form };
 
     this.onChange();
   }
@@ -140,6 +140,7 @@ export class ProjectNameComponent implements OnInit {
     this.Form.valueChanges.subscribe((val: object) => {
       // disable all forms except the current form being edited
       this.formsService.DisableForms('ProjectNameForm');
+      this.formsService.ForRealThough('ProjectNameForm', this.Form);
 
       /**
        * One possible way to enable / disable - shannon

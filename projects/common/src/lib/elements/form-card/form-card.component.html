@@ -28,7 +28,7 @@
       </mat-card-content>
       <mat-card-actions>
         <div
-            *ngIf="Config.FormActions"
+            *ngIf="Config.FormActions && (Form.dirty && Form.valid)"
             fxLayout="row"
             fxLayoutAlign="space-between center">
             <span class="mat-small caption-text">{{ Config.FormActions.Message }}</span>
@@ -39,7 +39,7 @@
                   fxLayoutAlign="end center"
                   class="margin-right-1">
                     <button
-                        [disabled]="Disabled || (action.Type === 'SAVE' && Valid === false)"
+                        [disabled]="Disabled || (action.Type === 'SAVE' && Form.invalid)"
                         color="{{ action.Color }}"
                         mat-flat-button (click)="action.ClickEvent()">
                         {{ action.Label }}

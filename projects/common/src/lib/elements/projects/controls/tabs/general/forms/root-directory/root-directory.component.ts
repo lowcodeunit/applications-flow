@@ -77,7 +77,7 @@ export class RootDirectoryComponent implements OnInit {
       includeSource: new FormControl(false),
     });
 
-    this.formsService.Forms.push({ Id: 'RootDirectoryForm', Form: this.Form });
+    this.formsService.Form = { Id: 'RootDirectoryForm', Form: this.Form };
     this.onChange();
   }
 

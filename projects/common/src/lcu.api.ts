@@ -18,3 +18,4 @@ export * from './lib/elements/projects/controls/tabs/general/forms/root-director
 export * from './lib/elements/projects/controls/tabs/general/forms/settings/settings.component';
 export * from './lib/models/card-form-config.model';
 export * from './lib/services/forms.service';
+export * from './lib/models/form.model';

@@ -221,7 +221,7 @@ export class SettingsComponent implements OnInit {
       installCommandOverride: new FormControl(false)
     });
 
-    this.formsService.Forms.push({ Id: 'SettingsForm', Form: this.Form });
+    this.formsService.Form = { Id: 'SettingsForm', Form: this.Form };
     this.onChange();
   }
 

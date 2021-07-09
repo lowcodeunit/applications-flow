@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
 import { CardFormConfigModel } from '../../models/card-form-config.model';
 import { FormActionsModel } from '../../models/form-actions.model';
@@ -22,13 +23,13 @@ export class FormCardComponent implements OnInit {
   public Disabled: boolean;
 
   /**
-   * Form validity
+   * Form
    */
-  @Input('valid')
-  public Valid: boolean;
+  @Input('form')
+  public Form: FormGroup;
 
   constructor() {
-    this.Valid = false;
+
    }
 
   ngOnInit(): void {
