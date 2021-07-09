@@ -11,10 +11,7 @@ import {
 } from '@angular/core';
 
 import { LcuElementComponent, LCUElementContext } from '@lcu/common';
-import {
-  ApplicationsFlowState,
-  ProjectState,
-} from './../../../../../state/applications-flow.state';
+import { ProjectState } from './../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from './../../../../../services/applications-flow.service';
 
 export class ApplicationsFlowProjectsElementState {}

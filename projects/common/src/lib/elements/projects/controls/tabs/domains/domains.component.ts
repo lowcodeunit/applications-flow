@@ -1,7 +1,8 @@
 import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
 import { DomainModel } from './../../../../../models/domain.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ProjectState } from './../../../../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-domains',
@@ -27,10 +28,12 @@ export class DomainsComponent implements OnInit {
     return this.Form.get('domain');
   }
 
-  /**
-   * List of domains
-   */
-  public Domains: Array<DomainModel>;
+  @Input('data')
+  public Data: { Project: ProjectState };
+
+  public get Project(): ProjectState {
+    return this.Data.Project;
+  }
 
   constructor() {
   }
@@ -47,26 +50,11 @@ export class DomainsComponent implements OnInit {
      Title: 'Domains',
      Subtitle: 'These domains are assigned to your deployments. Optionally, a different Git branch or a redirection to another domain can be configured for each one.'
    });
-
-   this.Domains = [
-      {
-        Branch: 'Integration',
-        Name: 'pimpire.fathym.int',
-        Host: 'pimpire.fathym.int',
-        ValidConfig: 'Valid'
-      },
-      {
-        Branch: 'Integration',
-        Name: 'pimpire.fathym.int',
-        Host: 'pimpire.fathym.int',
-        ValidConfig: 'Valid'
-      }
-    ];
   }
 
   protected setupForm(): void {
     this.Form = new FormGroup({
-      domain: new FormControl('', {
+      domain: new FormControl(this.Project.Host || '', {
         validators: [Validators.required, Validators.minLength(3)],
         updateOn: 'change'
       }),
