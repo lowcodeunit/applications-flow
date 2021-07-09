@@ -138,9 +138,13 @@ export class ProjectNameComponent implements OnInit {
    */
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
+
       // disable all forms except the current form being edited
-      this.formsService.DisableForms('ProjectNameForm');
-      this.formsService.ForRealThough('ProjectNameForm', this.Form);
+      if (this.formsService.ForRealThough('ProjectNameForm', this.Form)) {
+        this.formsService.DisableForms('ProjectNameForm');
+      } else {
+        this.formsService.DisableForms(false);
+      }
 
       /**
        * One possible way to enable / disable - shannon
