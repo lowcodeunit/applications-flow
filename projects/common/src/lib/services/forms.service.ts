@@ -3,6 +3,23 @@ import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 
+
+/**
+ * Model for form values
+ * 
+ * Leaving this here, because 
+ * this model is local only
+ */
+export class FormValues {
+    public Id: string;
+    public Values: object;
+
+    constructor(id: string, values: object) {
+        this.Id = id;
+        this.Values = values;
+    }
+}
+
 @Injectable({
     providedIn: 'root',
   })
@@ -19,25 +36,20 @@ export class FormsService {
 
         this._form = val;
         this.forms.push(val);
-        debugger;
-        this.createReference(val);
+        this.createValuesReference(val);
     }
 
     public get Form(): FormModel {
         return this._form;
     }
 
-    public TestOne: FormModel;
-
-    public TestTwo: any;
-
     protected forms: Array<FormModel>;
 
     /**
      * Storage reference for intial form values
      */
-    public formsInitialValues: Array<FormModel>;
-    public formsInitialValuesOnly: Array<any>;
+    // public formsInitialValues: Array<FormModel>;
+    public formsValues: Array<FormValues>;
 
     /**
      * When any form is being edited
@@ -76,11 +88,10 @@ export class FormsService {
      *
      * @param obj form data
      */
-    protected createReference(val: FormModel): void {
+    protected createValuesReference(val: FormModel): void {
 
-        debugger;
         // this.formsInitialValues.push(Object.assign({}, val));
-        this.formsInitialValuesOnly.push({Id: val.Id, values: val.Form.value});
+        this.formsValues.push(new FormValues(val.Id, val.Form.value));
     }
 
     /**
@@ -91,45 +102,19 @@ export class FormsService {
      * @param form form to be tested
      */
     public ForRealThough(id: string, formToCheck: FormGroup): boolean {
-        let hasChanged: boolean = false;
 
-        // let f: any = this.formsInitialValues.filter((item, index) => {
-        //     return item.Id === id;
-        // });
-        debugger;
-        const formInitialValues: FormModel = this.formsInitialValues.find((x: FormModel) => {
+        const formVals: FormValues = this.formsValues.find((x: FormValues) => {
             return x.Id === id;
         });
 
-        for (const prop in formToCheck.controls) {
-            // if (prop) {
-            //     debugger;
-            //     return formInitialValues[prop] !== formToCheck[prop];
-            // }
-
-
-            // if (this.hasChanged(formInitialValues.Form, prop)) {
-            //     return true;
-            // } else {
-            //     return false;
-            // }
-        }
-
         for (const [key, value] of Object.entries(formToCheck.controls)) {
-            
             for (const prop in value) {
                 if (prop === 'value') {
-                    debugger;
-                    return value[prop] !== formInitialValues.Form.controls[key][prop];
+                    return value[prop] !== formVals.Values[key];
+                    // return value[prop] !== formInitialValues.Form.controls[key][prop];
                 }
             }
         }
-
-        // for (const prop in form) {
-        //     if (this.hasChanged(form, prop)) {
-        //         hasChanged = true;
-        //     }
-        // }
     }
 
     /**
@@ -146,7 +131,6 @@ export class FormsService {
 
     constructor() {
         this.forms = [];
-        this.formsInitialValues = [];
-        this.formsInitialValuesOnly = [];
+        this.formsValues = [];
     }
 }
