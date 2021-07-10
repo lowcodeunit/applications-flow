@@ -54,7 +54,8 @@ export class ProjectNameComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService, protected appsFlowEventsSvc: ApplicationsFlowEventsService) { }
+  constructor(protected formsService: FormsService,
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService) { }
 
   public ngOnInit(): void {
     this.setupForm();

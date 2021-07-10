@@ -9,6 +9,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-root-directory',
@@ -48,7 +49,8 @@ export class RootDirectoryComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService) {}
+  constructor(protected formsService: FormsService,
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
   public ngOnInit(): void {
     this.setupForm();
@@ -106,7 +108,13 @@ export class RootDirectoryComponent implements OnInit {
   /**
    * Save form
    */
-  protected save(): void {}
+  protected save(): void {
+    this.appsFlowEventsSvc.SaveProject({
+      ...this.Project,
+      // Root: this.Root.value,
+      // IncludeSource: this.IncludeSource.value
+    });
+  }
 
   /**
    * Clear form controls

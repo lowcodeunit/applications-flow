@@ -11,6 +11,7 @@ import { CardFormConfigModel } from './../../../../../../../models/card-form-con
 import { ProjectState } from './../../../../../../../state/applications-flow.state';
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-settings',
@@ -95,7 +96,8 @@ export class SettingsComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService) {}
+  constructor(protected formsService: FormsService,
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
   public ngOnInit(): void {
     this.setupForm();
@@ -263,5 +265,12 @@ export class SettingsComponent implements OnInit {
   /**
    * Save changes
    */
-  protected save(): void {}
+  protected save(): void {
+    this.appsFlowEventsSvc.SaveProject({
+      ...this.Project,
+      // BuildCommand: this.BuildCommand.value,
+      // InstallCommand: this.InstallCommand.value,
+      // OutputDirectory: this.OutputDirectory.value
+    });
+  }
 }
