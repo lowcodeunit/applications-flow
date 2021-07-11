@@ -14,7 +14,7 @@
                 matSuffix
                 [ngClass]="Domain.valid ? 'valid-control' : 'invalid-control'"
               >
-                {{ Domain.valid ? "check_circle" : "cancel" }}
+                {{ Domain.valid ? "check_circle" : "error_outline" }}
               </mat-icon>
               <input
                 type="text"
@@ -72,7 +72,7 @@
                     "
                   >
                     {{
-                      domain.ValidConfig === "Valid" ? "check_circle" : "cancel"
+                      domain.ValidConfig === "Valid" ? "check_circle" : "error_outline"
                     }}
                   </mat-icon>
                   <span>
@@ -89,7 +89,7 @@
                       domain.Branch ? 'valid-control' : 'invalid-control'
                     "
                   >
-                    {{ domain.Branch ? "check_circle" : "cancel" }}
+                    {{ domain.Branch ? "check_circle" : "error_outline" }}
                   </mat-icon>
                   <span> Assigned to {{ domain.Branch }} </span>
                 </div>

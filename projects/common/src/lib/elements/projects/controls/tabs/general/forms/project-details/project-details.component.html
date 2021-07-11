@@ -11,7 +11,7 @@
           matSuffix
           [ngClass]="Name.valid ? 'valid-control' : 'invalid-control'"
         >
-          {{ Name.valid ? "check_circle" : "cancel" }}
+          {{ Name.valid ? "check_circle" : "error_outline" }}
         </mat-icon>
 
         <input
@@ -33,7 +33,7 @@
           matSuffix
           [ngClass]="Description.valid ? 'valid-control' : 'invalid-control'"
         >
-          {{ Description.valid ? "check_circle" : "cancel" }}
+          {{ Description.valid ? "check_circle" : "error_outline" }}
         </mat-icon>
 
         <textarea

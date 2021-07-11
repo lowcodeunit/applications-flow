@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, DebugNode, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -95,6 +95,7 @@ export class ProjectNameComponent implements OnInit {
    * Setup form controls
    */
   protected setupForm(): void {
+    debugger;
     this.Form = new FormGroup({
       name: new FormControl(this.Project?.Name || '', {
         validators: [Validators.required, Validators.minLength(1)],
