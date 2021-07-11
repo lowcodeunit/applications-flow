@@ -11,11 +11,15 @@ export class ApplicationsFlowEventsService {
   //  Properties
   public DeployRunEvent: EventEmitter<GitHubWorkflowRun>;
 
+  public SaveProjectEvent: EventEmitter<ProjectState>;
+
   public SetEditProjectSettingsEvent: EventEmitter<ProjectState>;
 
   // Constructors
   constructor() {
     this.DeployRunEvent = new EventEmitter();
+
+    this.SaveProjectEvent = new EventEmitter();
 
     this.SetEditProjectSettingsEvent = new EventEmitter();
   }
@@ -25,8 +29,12 @@ export class ApplicationsFlowEventsService {
     this.DeployRunEvent.emit(run);
   }
 
-  public SetEditProjectSettings(projectItem: ProjectState): void {
-    this.SetEditProjectSettingsEvent.emit(projectItem);
+  public SaveProject(project: ProjectState): void {
+    this.SaveProjectEvent.emit(project);
+  }
+
+  public SetEditProjectSettings(project: ProjectState): void {
+    this.SetEditProjectSettingsEvent.emit(project);
   }
 
   //  Helpers
