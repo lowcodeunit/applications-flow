@@ -2,10 +2,13 @@
   fxLayout="row"
   fxLayout.lt-md="column"
   class="padding-top-3"
-  [formGroup]="Form"
->
+  [formGroup]="Form">
   <div>
-    <lcu-form-card [config]="Config">
+    <lcu-form-card 
+    [config]="Config"
+    [form]="Form"
+    [is-dirty]="IsDirty"
+    >
       <div fxLayout="column">
         <div fxLayout="row">
           <div fxFlex fxLayout="row">
