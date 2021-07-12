@@ -197,9 +197,15 @@ export class ApplicationsFlowProjectsElementComponent
       this.projectService.DeployRun(this.State, run);
     });
 
+    this.appsFlowEventsSvc.SaveProjectEvent.subscribe(
+      (project) => {
+        this.projectService.SaveProject(this.State, project);
+      }
+    );
+
     this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe(
-      (projectItem) => {
-        this.projectService.SetEditProjectSettings(this.State, projectItem);
+      (project) => {
+        this.projectService.SetEditProjectSettings(this.State, project);
       }
     );
   }

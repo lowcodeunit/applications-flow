@@ -54,6 +54,19 @@ export class ProjectService {
       });
   }
 
+  public SaveProject(
+    state: ApplicationsFlowState,
+    project: ProjectState
+  ): void {
+      state.Loading = true;
+
+      this.appsFlowSvc
+        .SaveProject(project, state.HostDNSInstance)
+        .subscribe((response: BaseModeledResponse<string>) => {
+          state.Loading = false;
+        });
+  }
+
   public SetEditProjectSettings(
     state: ApplicationsFlowState,
     project: ProjectState
