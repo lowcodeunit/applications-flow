@@ -5,9 +5,9 @@
                 <mat-expansion-panel (opened)="panelOpenState = true;" (closed)="panelOpenState = false"
                     [ngClass]="panelOpenState === true ? 'active' : 'inactive'" class="expansion-panel">
                     <mat-expansion-panel-header [collapsedHeight]="'75px'" [expandedHeight]="'75px'">
-                        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" class="margin-right-3">
+                        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" class="margin-right-3" *ngIf="project.Runs[0]; let latestRun">
                             <div fxLayout="row">
-                                <div *ngIf="project.Runs[0]; let latestRun">
+                                <div>
                                     <div fxLayout="column"
                                         *ngIf="RetrieveLCU({project: project, lcuID: latestRun.LCUID}); let lcu">
                                         <div class="workflow-run-status">
