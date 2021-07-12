@@ -24,10 +24,10 @@
       <ng-container *ngIf="State">
         <lcu-projects-header [projects]="State.Projects"></lcu-projects-header>
 
-        <div *ngIf="EditingProjectSettings">
+        <div *ngIf="EditingProject">
           <div class="divider"></div>
 
-          <lcu-project-tabs [project]="EditingProjectSettings"></lcu-project-tabs>
+          <lcu-project-tabs [project]="EditingProject"></lcu-project-tabs>
         </div>
       </ng-container>
 

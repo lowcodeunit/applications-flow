@@ -59,8 +59,8 @@ export class ApplicationsFlowProjectsElementComponent
     return this.projectService.CreatingProject;
   }
 
-  public get EditingProjectSettings(): ProjectState {
-    return this.projectService.EditingProjectSettings;
+  public get EditingProject(): ProjectState {
+    return this.State.Projects.find(p => p.ID === this.projectService.EditingProjectID);
   }
 
   public State: ApplicationsFlowState;
@@ -136,22 +136,6 @@ export class ApplicationsFlowProjectsElementComponent
   // public RetrieveLCU(val: {project: ProjectState, lcuID: string}): GitHubLowCodeUnit {
   //   return val.project.LCUs.find((lcu) => lcu.ID === val.lcuID);
   // }
-
-  public SaveProject(project: ProjectState): void {
-    this.State.Loading = true;
-
-    this.appsFlowSvc
-      .SaveProject(project, this.State.HostDNSInstance)
-      .subscribe((response: BaseResponse) => {
-        if (response.Status.Code === 0) {
-          window.location.href = window.location.href;
-        } else {
-          this.State.Loading = false;
-        }
-
-        console.log(response);
-      });
-  }
 
   public ToggleCreateProject(): void {
     this.projectService.ToggleCreateProject();

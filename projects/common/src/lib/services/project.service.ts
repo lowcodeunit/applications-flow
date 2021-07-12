@@ -13,7 +13,7 @@ import { ApplicationsFlowService } from './applications-flow.service';
 export class ProjectService {
   public CreatingProject: boolean;
 
-  public EditingProjectSettings: ProjectState;
+  public EditingProjectID: string;
 
   constructor(protected appsFlowSvc: ApplicationsFlowService) {}
 
@@ -50,6 +50,7 @@ export class ProjectService {
         }
 
         this.CreatingProject = !state.Projects || state.Projects.length <= 0;
+
         console.log(state);
       });
   }
@@ -63,7 +64,13 @@ export class ProjectService {
       this.appsFlowSvc
         .SaveProject(project, state.HostDNSInstance)
         .subscribe((response: BaseModeledResponse<string>) => {
-          state.Loading = false;
+          if (response.Status.Code === 0) {
+            this.ListProjects(state, true);
+          } else {
+            state.Loading = false;
+          }
+
+          console.log(response);
         });
   }
 
@@ -77,7 +84,7 @@ export class ProjectService {
       this.appsFlowSvc
         .IsolateHostDNSInstance()
         .subscribe((response: BaseModeledResponse<string>) => {
-          this.EditingProjectSettings = project;
+          this.EditingProjectID = project.ID;
 
           this.CreatingProject = false;
 
@@ -86,7 +93,7 @@ export class ProjectService {
           state.Loading = false;
         });
     } else {
-      this.EditingProjectSettings = project;
+      this.EditingProjectID = project.ID;
 
       this.CreatingProject = false;
     }
@@ -95,6 +102,6 @@ export class ProjectService {
   public ToggleCreateProject(): void {
     this.CreatingProject = !this.CreatingProject;
 
-    this.EditingProjectSettings = null;
+    this.EditingProjectID = null;
   }
 }
