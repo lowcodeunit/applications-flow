@@ -44,7 +44,7 @@ export class DomainsComponent implements OnInit {
   constructor(protected formsService: FormsService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setupForm();
 
     this.config();

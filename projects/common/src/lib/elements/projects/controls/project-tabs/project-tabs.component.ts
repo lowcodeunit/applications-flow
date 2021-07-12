@@ -20,7 +20,7 @@ export class ProjectTabsComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.tabsComponents();
   }
 
