@@ -1,3 +1,4 @@
+type ButtonType = 'GENERIC' | 'RESET' | 'SAVE';
 export class ActionsModel {
 
   /**
@@ -19,4 +20,9 @@ export class ActionsModel {
    * Style from parent component
    */
    public Style?: string;
+
+   /**
+    * Type of button functionality (reset, save, generic)
+    */
+   public Type: ButtonType;
   }

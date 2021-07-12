@@ -5,7 +5,7 @@ export class CardFormConfigModel {
     /**
      *  Form button actions
      */
-    public FormActions: FormActionsModel;
+    public FormActions?: FormActionsModel;
 
     /**
      * Card title icon
@@ -21,4 +21,9 @@ export class CardFormConfigModel {
      * Card subtitle
      */
     public Subtitle: string;
+
+    constructor(opts: CardFormConfigModel) {
+
+        Object.assign(this, opts); // destructure values
+    }
 }

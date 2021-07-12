@@ -1,66 +1,42 @@
-import { Subscription } from 'rxjs';
-import { ProjectService } from './../../../../services/project.service';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ProjectState } from './../../../../state/applications-flow.state';
-import { ProjectItemModel } from './../../../../models/project-item.model';
-
+import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-project-items',
   templateUrl: './project-item.component.html',
-  styleUrls: ['./project-item.component.scss']
+  styleUrls: ['./project-item.component.scss'],
 })
 export class ProjectItemComponent implements OnInit {
+  //  Fields
 
-  /**
-   * Event to edit project settings
-   */
-  // @Output('edit-project-settings')
-  // public EditProjectSettings: EventEmitter<ProjectItemModel>;
-
+  //  Properties
   /**
    * List of projects
    */
-  private _projects: Array<ProjectState>;
   @Input('projects')
-  set Projects(val: Array<ProjectState>) {
-
-    if (!val) { return; }
-
-    this._projects = val;
-
-    // set the initial project, passes data to the build componoent
-    // this.CurrentProject(val[0]);
-  }
-
-  get Projects(): Array<ProjectState> {
-    return this._projects;
-  }
-
-  public ProjectItems: Array<ProjectItemModel>;
+  public Projects: Array<ProjectState>;
 
   public PanelOpenState: boolean;
 
-  constructor(
-    protected projectService: ProjectService) {
-    }
+  //  Constructors
+  constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
-  public ngOnInit(): void {
+  //  Life Cycle
+  public ngOnInit(): void {}
 
-  }
-
+  //  API Methods
   /**
-   * 
+   *
    * @param project Current project object
-   * 
+   *
    * Event to edit project settings
    */
-  public ProjectSettings(project: ProjectItemModel): void {
-    this.projectService.SetEditProjectSettings.next(project);
+  public ProjectSettings(project: ProjectState): void {
+    this.appsFlowEventsSvc.SetEditProjectSettings(project);
   }
 
   public CurrentProject(project: ProjectState): void {
-
     // this.projectService.CurrentSelectedProject.next(project);
   }
 }

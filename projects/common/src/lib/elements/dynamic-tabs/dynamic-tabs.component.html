@@ -1,9 +1,11 @@
-<mat-tab-group (selectedIndexChange)="TabChange($event)">
-    <mat-tab 
+<mat-tab-group (selectedTabChange)="TabChanged($event)">
+    <mat-tab
         *ngFor="let component of TabComponents"
+        #tab
+        [disabled]='!tab.isActive && FormIsDirty'
         [label]="component.Label" >
         <ng-template matTabContent>
-            <div #container></div>
+            <div #container class="margin-top-3"></div>
         </ng-template>
     </mat-tab>
 </mat-tab-group>

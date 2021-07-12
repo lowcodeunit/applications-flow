@@ -17,10 +17,7 @@ export class ApplicationsFlowService {
   //  Fields
   protected apiRoot: string;
 
-  /**
-   * Event for when state changes
-   */
-  public StateChanged: Subject<ApplicationsFlowState>;
+  //  Properties
 
   // Constructors
   constructor(
@@ -28,16 +25,9 @@ export class ApplicationsFlowService {
     protected settings: LCUServiceSettings
   ) {
     this.apiRoot = settings.APIRoot;
-    this.StateChanged = new Subject<ApplicationsFlowState>();
   }
 
   // API Methods
-
-  public UpdateState(state: ApplicationsFlowState): void {
-
-    this.StateChanged.next(state);
-  }
-
   public BootUserEnterprise(request: EstablishProjectRequest): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/boot`,

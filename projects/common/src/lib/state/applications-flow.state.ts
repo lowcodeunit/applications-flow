@@ -23,6 +23,8 @@ export class ApplicationsFlowState {
 }
 
 export class ProjectState {
+  public ActionsSet?: { [id: string]: DevOpsAction };
+
   public Description?: string;
 
   public Host?: string;
@@ -96,6 +98,20 @@ export class GitHubWorkflowRun {
   public Workflow?: string;
 
   public UpdatedAt?: string;
+}
+
+export class DevOpsAction {
+  public Details?: string;
+
+  public ID?: string;
+
+  public Name?: string;
+
+  public Overwrite?: boolean;
+
+  public Path?: string;
+
+  public Template?: string;
 }
 
 export class ProjectHostingDetails {

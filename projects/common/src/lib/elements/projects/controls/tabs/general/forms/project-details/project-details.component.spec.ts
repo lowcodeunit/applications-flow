@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { BaseCardFormComponent } from './base-card-form.component';
+import { ProjectNameComponent } from './project-details.component';
 
-describe('BaseCardFormComponent', () => {
-  let component: BaseCardFormComponent;
-  let fixture: ComponentFixture<BaseCardFormComponent>;
+describe('ProjectNameComponent', () => {
+  let component: ProjectNameComponent;
+  let fixture: ComponentFixture<ProjectNameComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BaseCardFormComponent ]
+      declarations: [ ProjectNameComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BaseCardFormComponent);
+    fixture = TestBed.createComponent(ProjectNameComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,48 +1,52 @@
-<mat-card>
-    <mat-card-header>
-        <div mat-card-avatar>
-            <mat-icon
-              color="accent"
-              class="title-icon">
-              {{ TitleIcon }}
-            </mat-icon>
-          </div>
-          <mat-card-title
-            class="paragraph-title">
-            {{ Title }}
-          </mat-card-title>
-          <mat-card-subtitle
-            class="plain-text">
-            {{ Subtitle }}
-          </mat-card-subtitle>
-    </mat-card-header>
-    <mat-card-content fxFlexFill class="margin-top-3">
-      <ng-template #content>
-        <ng-content></ng-content>
-      </ng-template>
-      <ng-container
-        *ngTemplateOutlet="content">
-      </ng-container>
-    </mat-card-content>
-    <mat-card-actions>
-      <div
-          *ngIf="FormActions"
-          fxLayout="row"
-          fxLayoutAlign="space-between center">
-          <span class="mat-small caption-text">{{ FormActions.Message }}</span>
-          <div fxLayoutAlign="end center">
-              <div
-              *ngFor="let action of FormActions?.Actions"
-              fxLayout="row"
-              fxLayoutAlign="end center"
-              class="margin-right-1">
-                  <button
-                      color="{{ action.Color }}"
-                      mat-button (click)="action.ClickEvent()">
-                      {{ action.Label }}
-                  </button>
-              </div>
-          </div>
-      </div>
-    </mat-card-actions>
-</mat-card>
+<div
+  [ngClass]="Disabled ? 'form-disabled' : 'form-enabled'">
+  <mat-card>
+      <mat-card-header>
+          <div mat-card-avatar>
+              <mat-icon
+                color="accent"
+                class="title-icon">
+                {{ Config.Icon }}
+              </mat-icon>
+            </div>
+            <mat-card-title
+              class="paragraph-title">
+              {{ Config.Title }}
+            </mat-card-title>
+            <mat-card-subtitle
+              class="plain-text">
+              {{ Config.Subtitle }}
+            </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content fxFlexFill class="margin-top-3">
+        <ng-template #content>
+          <ng-content></ng-content>
+        </ng-template>
+        <ng-container
+          *ngTemplateOutlet="content">
+        </ng-container>
+      </mat-card-content>
+      <mat-card-actions>
+        <div
+            *ngIf="Config.FormActions && IsDirty"
+            fxLayout="row"
+            fxLayoutAlign="space-between center">
+            <span class="mat-small caption-text">{{ Config.FormActions.Message }}</span>
+            <div fxLayoutAlign="end center">
+                <div
+                  *ngFor="let action of Config.FormActions?.Actions"
+                  fxLayout="row"
+                  fxLayoutAlign="end center"
+                  class="margin-right-1">
+                    <button
+                        [disabled]="Disabled || (action.Type === 'SAVE' && Form.invalid)"
+                        color="{{ action.Color }}"
+                        mat-flat-button (click)="action.ClickEvent()">
+                        {{ action.Label }}
+                    </button>
+                </div>
+            </div>
+        </div>
+      </mat-card-actions>
+  </mat-card>
+</div>

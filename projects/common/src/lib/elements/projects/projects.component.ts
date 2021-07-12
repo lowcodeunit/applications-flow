@@ -31,7 +31,7 @@ import {
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { ProjectService } from '../../services/project.service';
 import { Subscription } from 'rxjs';
-import { ProjectItemModel } from '../../models/project-item.model';
+import { ApplicationsFlowEventsService } from './../../services/applications-flow-events.service';
 
 declare var window: Window;
 
@@ -55,14 +55,13 @@ export class ApplicationsFlowProjectsElementComponent
   protected projMon: NodeJS.Timeout;
 
   //  Properties
-  // public CreatingProject: boolean;
+  public get CreatingProject(): boolean {
+    return this.projectService.CreatingProject;
+  }
 
-  public EditingProjectSettings: ProjectState;
-
-  /**
-   * Subscription for editing project settings
-   */
-  protected editProjectSettingsSubscription: Subscription;
+  public get EditingProject(): ProjectState {
+    return this.State.Projects.find(p => p.ID === this.projectService.EditingProjectID);
+  }
 
   public State: ApplicationsFlowState;
 
@@ -70,7 +69,8 @@ export class ApplicationsFlowProjectsElementComponent
   constructor(
     protected injector: Injector,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected projectService: ProjectService
+    protected projectService: ProjectService,
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     super(injector);
 
@@ -93,7 +93,10 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
-  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit): void {
+  public ConfigureGitHubLCUDevOps(
+    projectId: string,
+    lcu: GitHubLowCodeUnit
+  ): void {
     this.State.Loading = true;
 
     this.appsFlowSvc
@@ -108,7 +111,7 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   // public DeployRun(run: GitHubWorkflowRun): void {
-  
+
   //   this.State.Loading = true;
 
   //   this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
@@ -120,7 +123,10 @@ export class ApplicationsFlowProjectsElementComponent
   //   });
   // }
 
-  public HasDevOpsConfigured(val: {project: ProjectState, lcuID: string}): boolean {
+  public HasDevOpsConfigured(val: {
+    project: ProjectState;
+    lcuID: string;
+  }): boolean {
     const run = val.project.Runs.find((r) => r.LCUID === val.lcuID);
 
     return !!run;
@@ -131,60 +137,8 @@ export class ApplicationsFlowProjectsElementComponent
   //   return val.project.LCUs.find((lcu) => lcu.ID === val.lcuID);
   // }
 
-  public SaveProject(project: ProjectState): void {
-    this.State.Loading = true;
-
-    this.appsFlowSvc
-      .SaveProject(project, this.State.HostDNSInstance)
-      .subscribe((response: BaseResponse) => {
-        if (response.Status.Code === 0) {
-          window.location.href = window.location.href;
-        } else {
-          this.State.Loading = false;
-        }
-
-        console.log(response);
-      });
-  }
-
-  /**
-   * Setup any service subscriptions
-   */
-  protected setServices(): void {
-
-    // listen to edit project settings subject change
-    this.editProjectSettingsSubscription = this.projectService.SetEditProjectSettings
-    .subscribe((project: ProjectItemModel) => {
-      this.SetEditProjectSettings(project);
-    });
-  }
-
-  protected SetEditProjectSettings(project: ProjectState): void {
-    if (project != null) {
-      this.State.Loading = true;
-
-      this.appsFlowSvc
-        .IsolateHostDNSInstance()
-        .subscribe((response: BaseModeledResponse<string>) => {
-          this.EditingProjectSettings = project;
-
-          this.projectService.CreatingProject = false;
-
-          this.State.HostDNSInstance = response.Model;
-
-          this.State.Loading = false;
-        });
-    } else {
-      this.EditingProjectSettings = project;
-
-      this.projectService.CreatingProject = false;
-    }
-  }
-
-  protected ToggleCreateProject(): void {
-    this.projectService.CreatingProject = !this.projectService.CreatingProject;
-
-    this.EditingProjectSettings = null;
+  public ToggleCreateProject(): void {
+    this.projectService.ToggleCreateProject();
   }
 
   //  Helpers
@@ -219,10 +173,31 @@ export class ApplicationsFlowProjectsElementComponent
   //     });
   // }
 
+  /**
+   * Setup any service subscriptions
+   */
+  protected setServices(): void {
+    this.appsFlowEventsSvc.DeployRunEvent.subscribe((run) => {
+      this.projectService.DeployRun(this.State, run);
+    });
+
+    this.appsFlowEventsSvc.SaveProjectEvent.subscribe(
+      (project) => {
+        this.projectService.SaveProject(this.State, project);
+      }
+    );
+
+    this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe(
+      (project) => {
+        this.projectService.SetEditProjectSettings(this.State, project);
+      }
+    );
+  }
+
   protected setupProjectMonitor(): void {
     this.projMon = setInterval(() => {
       this.projectService.ListProjects(this.State, false);
-    }, 15000);
+    }, 60000);
   }
 
   protected teardownProjectMonitor(): void {

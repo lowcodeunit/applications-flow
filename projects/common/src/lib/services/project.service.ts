@@ -1,66 +1,107 @@
 import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse } from '@lcu/common';
-import { Subject, Subscription } from 'rxjs';
-import { ProjectItemModel } from '../models/project-item.model';
-import { ApplicationsFlowState, GitHubWorkflowRun, ProjectState } from '../state/applications-flow.state';
+import {
+  ApplicationsFlowState,
+  GitHubWorkflowRun,
+  ProjectState,
+} from '../state/applications-flow.state';
 import { ApplicationsFlowService } from './applications-flow.service';
 
 @Injectable({
-    providedIn: 'root',
-  })
+  providedIn: 'root',
+})
+export class ProjectService {
+  public CreatingProject: boolean;
 
+  public EditingProjectID: string;
 
-  export class ProjectService {
+  constructor(protected appsFlowSvc: ApplicationsFlowService) {}
 
-    public CreatingProject: boolean;
+  public DeployRun(state: ApplicationsFlowState, run: GitHubWorkflowRun): void {
+    state.Loading = true;
 
-    public CurrentSelectedProject: Subject<ProjectState>;
+    this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
+      if (response.Status.Code === 0) {
+        this.ListProjects(state);
+      } else {
+        state.Loading = false;
+      }
+    });
+  }
 
-    /**
-     * Subject for editing project settings
-     */
-    public SetEditProjectSettings: Subject<ProjectItemModel>;
-
-    constructor(protected appsFlowSvc: ApplicationsFlowService) {
-        this.SetEditProjectSettings = new Subject<ProjectItemModel>();
-        this.CurrentSelectedProject = new Subject<ProjectState>();
+  public ListProjects(
+    state: ApplicationsFlowState,
+    withLoading: boolean = true
+  ): void {
+    if (withLoading) {
+      state.Loading = true;
     }
 
-    public DeployRun(state: ApplicationsFlowState, run: GitHubWorkflowRun): void {
-  
-      state.Loading = true;
-  
-      this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
+    this.appsFlowSvc
+      .ListProjects()
+      .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
         if (response.Status.Code === 0) {
-          this.ListProjects(state);
-        } else {
+          state.Projects = response.Model;
+        } else if (response.Status.Code === 3) {
+        }
+
+        if (withLoading) {
           state.Loading = false;
         }
-      });
-    }
 
-    public ListProjects(state: ApplicationsFlowState, withLoading: boolean = true): void {
-      if (withLoading) {
-        state.Loading = true;
-      }
-  
+        this.CreatingProject = !state.Projects || state.Projects.length <= 0;
+
+        console.log(state);
+      });
+  }
+
+  public SaveProject(
+    state: ApplicationsFlowState,
+    project: ProjectState
+  ): void {
+      state.Loading = true;
+
       this.appsFlowSvc
-        .ListProjects()
-        .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
+        .SaveProject(project, state.HostDNSInstance)
+        .subscribe((response: BaseModeledResponse<string>) => {
           if (response.Status.Code === 0) {
-            state.Projects = response.Model;
-          } else if (response.Status.Code === 3) {
-          }
-  
-          if (withLoading) {
+            this.ListProjects(state, true);
+          } else {
             state.Loading = false;
           }
-  
-          this.CreatingProject =
-            !state.Projects || state.Projects.length <= 0;
-  
-          this.appsFlowSvc.UpdateState(state);
-          console.log(state);
+
+          console.log(response);
         });
+  }
+
+  public SetEditProjectSettings(
+    state: ApplicationsFlowState,
+    project: ProjectState
+  ): void {
+    if (project != null) {
+      state.Loading = true;
+
+      this.appsFlowSvc
+        .IsolateHostDNSInstance()
+        .subscribe((response: BaseModeledResponse<string>) => {
+          this.EditingProjectID = project.ID;
+
+          this.CreatingProject = false;
+
+          state.HostDNSInstance = response.Model;
+
+          state.Loading = false;
+        });
+    } else {
+      this.EditingProjectID = project.ID;
+
+      this.CreatingProject = false;
     }
   }
+
+  public ToggleCreateProject(): void {
+    this.CreatingProject = !this.CreatingProject;
+
+    this.EditingProjectID = null;
+  }
+}

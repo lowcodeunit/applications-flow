@@ -1,3 +1,5 @@
+import { FormsService } from './../../services/forms.service';
+import { Subscription } from 'rxjs';
 import { DynamicTabsModel } from './../../models/dynamic-tabs.model';
 import { 
   AfterViewInit, 
@@ -9,6 +11,7 @@ import {
   OnInit, 
   ViewChild, 
   ViewContainerRef } from '@angular/core';
+  import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'lcu-dynamic-tabs',
@@ -25,11 +28,24 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
   @ViewChild('container', {read: ViewContainerRef, static: false})
   protected viewContainer: ViewContainerRef;
 
-  constructor(protected componentFactoryResolver: ComponentFactoryResolver) { }
+  public FormIsDirty: boolean;
+  /**
+   * Listener for when any form is dirty
+   */
+  protected formIsDirtySubscription: Subscription;
+
+  constructor(
+    protected componentFactoryResolver: ComponentFactoryResolver, 
+    protected formsService: FormsService) { }
 
   // Lifecycle hook
   public ngOnInit(): void {
 
+    // listen form any form to be dirty, then disable all tabs except for the current tab
+    this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
+      (val: boolean) => {
+        this.FormIsDirty = val;
+    });
   }
 
   public ngAfterViewInit(): void {
@@ -41,9 +57,10 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
    *
    * @param index selected tab index
    */
-  public TabChange(index: number): void {
+  public TabChanged(evt: MatTabChangeEvent): void {
+
     setTimeout(() => {
-        this.renderComponent(index);
+        this.renderComponent(evt.index);
     }, 1000);
   }
 

@@ -1,4 +1,6 @@
+import { FormGroup } from '@angular/forms';
 import { Component, Input, OnInit } from '@angular/core';
+import { CardFormConfigModel } from '../../models/card-form-config.model';
 import { FormActionsModel } from '../../models/form-actions.model';
 @Component({
   selector: 'lcu-form-card',
@@ -8,19 +10,30 @@ import { FormActionsModel } from '../../models/form-actions.model';
 
 export class FormCardComponent implements OnInit {
 
-  @Input('form-actions')
-  public FormActions: FormActionsModel;
+  /**
+   * Values for building out the card
+   */
+  @Input('config')
+  public Config: CardFormConfigModel;
 
-  @Input('title')
-  public Title: string;
+  /**
+   * Disable everything
+   */
+  @Input('disabled')
+  public Disabled: boolean;
 
-  @Input('title-icon')
-  public TitleIcon: string;
+  @Input('is-dirty')
+  public IsDirty: boolean;
 
-  @Input('sub-title')
-  public Subtitle: string;
+  /**
+   * Form
+   */
+  @Input('form')
+  public Form: FormGroup;
 
-  constructor() { }
+  constructor() {
+
+   }
 
   ngOnInit(): void {
   }

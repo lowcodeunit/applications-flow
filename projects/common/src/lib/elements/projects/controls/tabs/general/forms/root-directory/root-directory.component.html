@@ -1,1 +1,38 @@
-<p>root-directory works!</p>
+<form
+    fxFlex
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    [formGroup]="Form">
+    <lcu-form-card
+        [config]="Config"
+        [form]="Form"
+        [disabled]="Form.disabled">
+        <div fxLayout="column">
+            <mat-form-field appearance="fill" class="margin-right-1">
+                <mat-icon
+                    matSuffix
+                    [ngClass]="Root.valid ? 'valid-control' : 'invalid-control'">
+                    {{ Root.valid ? 'check_circle' : 'cancel' }}
+                </mat-icon>
+                <input
+                    type="text"
+                    matInput
+                    [placeholder]="Root.invalid || Root.disabled ? 'Root Directory' : ''"
+                    formControlName="root"
+                />
+                <mat-hint *ngIf="Root.valid">
+                    Selected Root Directory
+                </mat-hint>
+                <mat-error *ngIf="Root.hasError('required')">
+                    Root Directory is required
+                </mat-error>
+            </mat-form-field>
+            <mat-checkbox
+                id="includeSource"
+                formControlName="includeSource">
+                Include source files outside of the Root Directory in the build step    
+            </mat-checkbox>
+        </div>
+        <div class="card-divider"></div>
+    </lcu-form-card>
+</form>
