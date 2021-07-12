@@ -8,7 +8,7 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DevSettingsPresetModel } from './../../../../../../../models/dev-settings-preset.model';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
-import { ProjectState } from './../../../../../../../state/applications-flow.state';
+import { GitHubLowCodeUnit, ProjectState } from './../../../../../../../state/applications-flow.state';
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
@@ -285,11 +285,18 @@ export class SettingsComponent implements OnInit {
    * Save changes
    */
   protected save(): void {
+    this.Project.LCUs.forEach(lcu => {
+      const action = this.Project.ActionsSet[lcu.ID] || {};
+
+      action.Details = JSON.stringify({
+        BuildScript: this.BuildCommand.value,
+        OutputFolder: this.OutputDirectory.value,
+        InstallCommand: this.InstallCommand.value || 'npm ci'
+      });
+    });
+
     this.appsFlowEventsSvc.SaveProject({
-      ...this.Project,
-      // BuildCommand: this.BuildCommand.value,
-      // InstallCommand: this.InstallCommand.value,
-      // OutputDirectory: this.OutputDirectory.value
+      ...this.Project
     });
   }
 }
