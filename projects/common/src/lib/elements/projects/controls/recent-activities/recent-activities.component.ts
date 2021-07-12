@@ -9,7 +9,7 @@ export class RecentActivitiesComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
 }

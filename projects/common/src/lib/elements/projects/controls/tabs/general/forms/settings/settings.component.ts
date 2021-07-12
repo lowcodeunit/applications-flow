@@ -41,9 +41,9 @@ export class SettingsComponent implements OnInit {
   /**
    * Access form control for Build Command
    */
-  public get BuildCommandOverride(): AbstractControl {
-    return this.Form.get('buildCommandOverride');
-  }
+  // public get BuildCommandOverride(): AbstractControl {
+  //   return this.Form.get('buildCommandOverride');
+  // }
 
   /**
    * Access form control for Install Command
@@ -55,9 +55,9 @@ export class SettingsComponent implements OnInit {
   /**
    * Access form control for Build Command
    */
-  public get InstallCommandOverride(): AbstractControl {
-    return this.Form.get('installCommandOverride');
-  }
+  // public get InstallCommandOverride(): AbstractControl {
+  //   return this.Form.get('installCommandOverride');
+  // }
 
   /**
    * Access form control for Output Directory
@@ -69,9 +69,9 @@ export class SettingsComponent implements OnInit {
   /**
    * Access form control for Build Command
    */
-  public get OutputDirectoryOverride(): AbstractControl {
-    return this.Form.get('outputDirectoryOverride');
-  }
+  // public get OutputDirectoryOverride(): AbstractControl {
+  //   return this.Form.get('outputDirectoryOverride');
+  // }
 
   /**
    * Access form control for Preset
@@ -84,6 +84,11 @@ export class SettingsComponent implements OnInit {
    * List of dev setting presets
    */
   public FrameworkPresets: Array<DevSettingsPresetModel>;
+
+  /**
+   * When form is dirty, ties into formsService.DisableForms
+   */
+  public IsDirty: boolean;
 
   /**
    * Selected preset
@@ -105,16 +110,6 @@ export class SettingsComponent implements OnInit {
     this.config();
 
     this.setupPresets();
-
-    // this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
-    //   (val: {IsDirty: boolean, Id: string, Form: FormGroup}) => {
-
-    //   if (val.Id !== 'SettingsForm' && this.Form.enabled) {
-    //     console.log('DISABLE SETTINGS');
-    //     // val.IsDirty ? this.Form.disable() : this.Form.enable();
-    //     this.Form.disable();
-    //    }
-    // });
   }
 
   /**
@@ -134,25 +129,39 @@ export class SettingsComponent implements OnInit {
    *
    * @param event slider toggle event
    */
-  public SliderChanged(event: MatSlideToggleChange): void {
-    const toggle: string = event.source.name.toLowerCase();
-    const checked: boolean = event.checked;
+  // public SliderChanged(event: MatSlideToggleChange): void {
+  //   const toggle: string = event.source.name.toLowerCase();
+  //   const checked: boolean = event.checked;
 
-    Object.keys(this.Form.controls).forEach((key: string) => {
-      const k: string = key.toLowerCase();
-      if (toggle !== k && toggle.includes(k)) {
-        checked
-          ? this.Form.controls[key].enable()
-          : this.Form.controls[key].disable();
-      }
-    });
-  }
+  //   Object.keys(this.Form.controls).forEach((key: string) => {
+  //     const k: string = key.toLowerCase();
+  //     if (toggle !== k && toggle.includes(k)) {
+  //       checked
+  //         ? this.Form.controls[key].enable()
+  //         : this.Form.controls[key].disable();
+  //     }
+  //   });
+  // }
 
   /**
    *
    * @param val Selected preset
    */
   public PresetSelected(val: DevSettingsPresetModel): void {}
+
+  /**
+   * Need this extra work to test for validity, because of setting all forms
+   * valid. In this case, we don't want the inputs to be enabled unless the 
+   * override toggle is set to true - setting form.enable(), enables the inputs, 
+   * regarless if the toggle is false
+   * 
+   * @param form control to test
+   *
+   * @returns if control is valid or not
+   */
+  // public IsFormValid(form: AbstractControl): boolean {
+  //   return form.value.length >= 3 || form.valid;
+  // }
 
   protected config(): void {
     this.Config = new CardFormConfigModel({
@@ -191,36 +200,36 @@ export class SettingsComponent implements OnInit {
       buildCommand: new FormControl(
         {
           value: 'npm run build',
-          disabled: true,
+          disabled: false
         },
         {
           validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change',
         }
       ),
-      buildCommandOverride: new FormControl(false, { updateOn: 'change' }),
+      // buildCommandOverride: new FormControl(false, { updateOn: 'change' }),
       outputDirectory: new FormControl(
         {
           value: 'build',
-          disabled: true,
+          disabled: false
         },
         {
           validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change',
         }
       ),
-      outputDirectoryOverride: new FormControl(false),
+      // outputDirectoryOverride: new FormControl(false),
       installCommand: new FormControl(
         {
           value: 'npm ci',
-          disabled: true,
+          disabled: false
         },
         {
           validators: [Validators.required, Validators.minLength(3)],
           updateOn: 'change',
         }
       ),
-      installCommandOverride: new FormControl(false)
+      // installCommandOverride: new FormControl(false)
     });
 
     this.formsService.Form = { Id: 'SettingsForm', Form: this.Form };
@@ -229,8 +238,18 @@ export class SettingsComponent implements OnInit {
 
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: any) => {
-      // disable all forms except the current form being edited
-      this.formsService.DisableForms('SettingsForm');
+
+      if (this.formsService.ForRealThough('SettingsForm', this.Form)) {
+
+        this.IsDirty = true;
+         // disable all forms except the current form being edited
+        this.formsService.DisableForms('SettingsForm');
+      } else {
+
+        this.IsDirty = false;
+        // enable all forms
+        this.formsService.DisableForms(false);
+      }
     });
   }
 

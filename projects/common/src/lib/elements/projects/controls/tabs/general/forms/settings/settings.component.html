@@ -3,7 +3,7 @@
     fxFlex
     [config]="Config"
     [form]="Form"
-    [disabled]="Form.disabled"
+    [is-dirty]="IsDirty"
   >
     <div fxLayout="column">
       <!-- <mat-icon>{{ SelectedFrameworkPreset?.Icon }}</mat-icon> -->
@@ -44,11 +44,10 @@
           class="margin-right-3 margin-left-3"
         >
           <mat-icon
-            *ngIf="BuildCommand.enabled"
             matSuffix
             [ngClass]="BuildCommand.valid ? 'valid-control' : 'invalid-control'"
           >
-            {{ BuildCommand.valid ? "check_circle" : "cancel" }}
+            {{ BuildCommand.valid ? "check_circle" : "error_outline" }}
           </mat-icon>
           <input
             type="text"
@@ -61,14 +60,14 @@
             formControlName="buildCommand"
           />
         </mat-form-field>
-        <mat-slide-toggle
+        <!-- <mat-slide-toggle
           (change)="SliderChanged($event)"
           color="accent"
           name="buildCommandOverride"
           formControlName="buildCommandOverride"
         >
           Override
-        </mat-slide-toggle>
+        </mat-slide-toggle> -->
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -83,13 +82,10 @@
           class="margin-right-3 margin-left-3"
         >
           <mat-icon
-            *ngIf="OutputDirectory.enabled"
             matSuffix
-            [ngClass]="
-              OutputDirectory.valid ? 'valid-control' : 'invalid-control'
-            "
+            [ngClass]="OutputDirectory.valid ? 'valid-control' : 'invalid-control'"
           >
-            {{ OutputDirectory.valid ? "check_circle" : "cancel" }}
+            {{ OutputDirectory.valid ? "check_circle" : "error_outline" }}
           </mat-icon>
           <input
             type="text"
@@ -102,14 +98,14 @@
             formControlName="outputDirectory"
           />
         </mat-form-field>
-        <mat-slide-toggle
+        <!-- <mat-slide-toggle
           (change)="SliderChanged($event)"
           color="accent"
           name="outputDirectoryOverride"
           formControlName="outputDirectoryOverride"
         >
           Override
-        </mat-slide-toggle>
+        </mat-slide-toggle> -->
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between center">
@@ -124,13 +120,10 @@
           class="margin-right-3 margin-left-3"
         >
           <mat-icon
-            *ngIf="InstallCommand.enabled"
             matSuffix
-            [ngClass]="
-              InstallCommand.valid ? 'valid-control' : 'invalid-control'
-            "
+            [ngClass]="InstallCommand.valid ? 'valid-control' : 'invalid-control'"
           >
-            {{ InstallCommand.valid ? "check_circle" : "cancel" }}
+            {{ InstallCommand.valid ? "check_circle" : "error_outline" }}
           </mat-icon>
           <input
             type="text"
@@ -143,14 +136,14 @@
             formControlName="installCommand"
           />
         </mat-form-field>
-        <mat-slide-toggle
+        <!-- <mat-slide-toggle
           (change)="SliderChanged($event)"
           color="accent"
           name="installCommandOverride"
           formControlName="installCommandOverride"
         >
           Override
-        </mat-slide-toggle>
+        </mat-slide-toggle> -->
       </div>
     </div>
     <div class="card-divider"></div>

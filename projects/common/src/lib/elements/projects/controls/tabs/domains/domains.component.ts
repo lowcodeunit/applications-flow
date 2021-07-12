@@ -1,3 +1,4 @@
+import { FormsService } from './../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
 import { DomainModel } from './../../../../../models/domain.model';
 import { Component, Input, OnInit } from '@angular/core';
@@ -22,6 +23,11 @@ export class DomainsComponent implements OnInit {
   public Form: FormGroup;
 
   /**
+   * When form is dirty, ties into formsService.DisableForms
+   */
+  public IsDirty: boolean;
+
+  /**
    * Access form control for root directory
    */
   public get Domain(): AbstractControl {
@@ -35,10 +41,10 @@ export class DomainsComponent implements OnInit {
     return this.Data.Project;
   }
 
-  constructor() {
+  constructor(protected formsService: FormsService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setupForm();
 
     this.config();
@@ -48,7 +54,26 @@ export class DomainsComponent implements OnInit {
    this.Config = new CardFormConfigModel({
      Icon: 'head',
      Title: 'Domains',
-     Subtitle: 'These domains are assigned to your deployments. Optionally, a different Git branch or a redirection to another domain can be configured for each one.'
+     Subtitle: 'These domains are assigned to your deployments. Optionally, a different Git branch or a redirection to another domain can be configured for each one.',
+     FormActions: {
+      Message: 'Changes will be applied to your next deployment',
+      Actions: [
+        {
+          Label: 'Clear',
+          Color: 'warn',
+          ClickEvent: () => this.clearForm(),
+          // use arrow function, so 'this' refers to ProjectNameComponent
+          // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
+          Type: 'RESET',
+        },
+        {
+          Label: 'Save',
+          Color: 'accent',
+          ClickEvent: () => this.save(),
+          Type: 'SAVE',
+        },
+      ],
+    },
    });
   }
 
@@ -59,6 +84,40 @@ export class DomainsComponent implements OnInit {
         updateOn: 'change'
       }),
     });
+
+    this.formsService.Form = { Id: 'DomainForm', Form: this.Form };
+    this.onChange()
   }
 
+  protected onChange(): void {
+    this.Form.valueChanges.subscribe((val: any) => {
+
+      if (this.formsService.ForRealThough('DomainForm', this.Form)) {
+
+        this.IsDirty = true;
+         // disable all forms except the current form being edited
+        this.formsService.DisableForms('DomainForm');
+      } else {
+
+        this.IsDirty = false;
+        // enable all forms
+        this.formsService.DisableForms(false);
+      }
+    });
+  }
+
+  /**
+   * Clear form controls
+   */
+  protected clearForm(): void {
+    // this.Form.reset();
+
+    // enable all forms
+    this.formsService.DisableForms(false);
+  }
+
+  /**
+   * Save changes
+   */
+  protected save(): void {}
 }

@@ -94,7 +94,17 @@ export class FormsService {
      */
     protected createValuesReference(val: FormModel): void {
 
-        this.formsValues.push(new FormValues(val.Id, val.Form.value));
+        // const values: Array<{key: string, value: string}> = [];
+        const keyValues: object = {};
+
+        for (const [key, value] of Object.entries(val.Form.controls)) {
+
+            // values.push({key, value: value.value});
+            keyValues[key] = value.value;
+        }
+
+        // this.formsValues.push(new FormValues(val.Id, val.Form.value));
+        this.formsValues.push(new FormValues(val.Id, keyValues));
     }
 
     /**
@@ -102,7 +112,8 @@ export class FormsService {
      * could have canceled or changed the value back to the
      * original
      *
-     * @param form form to be tested
+     * @param id form id
+     * @param formToCheck form to be tested
      */
     public ForRealThough(id: string, formToCheck: FormGroup): boolean {
 
@@ -110,20 +121,15 @@ export class FormsService {
             return x.Id === id;
         });
 
-        // loop over the form to check and compare its values with
-        // stored reference values we are holding on to
-        for (const [key, value] of Object.entries(formToCheck.controls)) {
-            for (const prop in value) {
-                if (prop === 'value') {
-                    const dirty: boolean = value[prop] !== formVals.Values[key];
-
-                    // subscription for when any form is dirty
-                    this.FormIsDirty.next(dirty);
-
-                    return dirty;
-                }
+        for (const key in formToCheck.controls) {
+            if (formToCheck.controls[key].value !== formVals.Values[key]) {
+                this.FormIsDirty.next(true);
+                return true;
             }
         }
+
+        this.FormIsDirty.next(false);
+        return false;
     }
 
     constructor() {

@@ -47,17 +47,7 @@ export class GeneralComponent
   public ngOnDestroy(): void {}
 
   public ngOnInit(): void {
-    /**
-     * Testing disabling forms
-     */
-    // setTimeout(() => {
-    //   this.formsService.Forms.find((x: {Id: string, Form: FormGroup}) => {
-    //    if (x.Id === 'RootDirectoryForm') {
-    //      x.Form.disable();
-    //      debugger;
-    //    }
-    //   });
-    // }, 5000);
+
   }
 
   public ngAfterContentChecked(): void {
