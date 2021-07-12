@@ -195,11 +195,17 @@ export class SettingsComponent implements OnInit {
    * Setup form controls
    */
   protected setupForm(): void {
+    const lcu = this.Project.LCUs[0];
+
+    const action = this.Project.ActionsSet[lcu.ID] || {};
+
+    const actionDetails = JSON.parse(action.Details);
+
     this.Form = new FormGroup({
       preset: new FormControl(''),
       buildCommand: new FormControl(
         {
-          value: 'npm run build',
+          value: actionDetails.BuildScript || 'npm run build',
           disabled: false
         },
         {
@@ -210,7 +216,7 @@ export class SettingsComponent implements OnInit {
       // buildCommandOverride: new FormControl(false, { updateOn: 'change' }),
       outputDirectory: new FormControl(
         {
-          value: 'build',
+          value: actionDetails.OutputFolder || 'build',
           disabled: false
         },
         {
@@ -221,7 +227,7 @@ export class SettingsComponent implements OnInit {
       // outputDirectoryOverride: new FormControl(false),
       installCommand: new FormControl(
         {
-          value: 'npm ci',
+          value: actionDetails.InstallCommand || 'npm ci',
           disabled: false
         },
         {
@@ -285,14 +291,14 @@ export class SettingsComponent implements OnInit {
    * Save changes
    */
   protected save(): void {
-    this.Project.LCUs.forEach(lcu => {
-      const action = this.Project.ActionsSet[lcu.ID] || {};
+    const lcu = this.Project.LCUs[0];
 
-      action.Details = JSON.stringify({
-        BuildScript: this.BuildCommand.value,
-        OutputFolder: this.OutputDirectory.value,
-        InstallCommand: this.InstallCommand.value || 'npm ci'
-      });
+    const action = this.Project.ActionsSet[lcu.ID] || {};
+
+    action.Details = JSON.stringify({
+      BuildScript: this.BuildCommand.value,
+      OutputFolder: this.OutputDirectory.value,
+      InstallCommand: this.InstallCommand.value || 'npm ci'
     });
 
     this.appsFlowEventsSvc.SaveProject({

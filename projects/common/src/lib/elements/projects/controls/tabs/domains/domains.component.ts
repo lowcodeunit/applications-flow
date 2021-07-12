@@ -4,6 +4,7 @@ import { DomainModel } from './../../../../../models/domain.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProjectState } from './../../../../../state/applications-flow.state';
+import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-domains',
@@ -41,7 +42,8 @@ export class DomainsComponent implements OnInit {
     return this.Data.Project;
   }
 
-  constructor(protected formsService: FormsService) {
+  constructor(protected formsService: FormsService,
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService) {
   }
 
   public ngOnInit(): void {
@@ -119,5 +121,10 @@ export class DomainsComponent implements OnInit {
   /**
    * Save changes
    */
-  protected save(): void {}
+  protected save(): void {
+    this.appsFlowEventsSvc.SaveProject({
+      ...this.Project,
+      Host: this.Domain.value
+    });
+  }
 }
