@@ -11,8 +11,6 @@ import {
   ProjectState
 } from '../../../../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
-import { FormModel } from 'projects/common/src/lib/models/form.model';
-
 
 @Component({
   selector: 'lcu-project-details',

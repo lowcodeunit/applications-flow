@@ -1,4 +1,3 @@
-import { FormModel } from './../../../../../../../models/form.model';
 import { FormsService } from './../../../../../../../services/forms.service';
 import {
   AbstractControl,
@@ -305,5 +304,7 @@ export class SettingsComponent implements OnInit {
     this.appsFlowEventsSvc.SaveProject({
       ...this.Project
     });
+
+    this.formsService.UpdateValuesReference({ Id: 'SettingsForm', Form: this.Form });
   }
 }

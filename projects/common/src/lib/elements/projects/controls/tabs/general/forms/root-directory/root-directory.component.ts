@@ -1,4 +1,3 @@
-import { FormModel } from './../../../../../../../models/form.model';
 import { Subscription } from 'rxjs';
 import { FormsService } from './../../../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
@@ -50,7 +49,8 @@ export class RootDirectoryComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService,
+  constructor(
+    protected formsService: FormsService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
   public ngOnInit(): void {
@@ -115,6 +115,7 @@ export class RootDirectoryComponent implements OnInit {
       // Root: this.Root.value,
       // IncludeSource: this.IncludeSource.value
     });
+    // this.formsService.UpdateValuesReference({ Id: 'RootDirectoryForm', Form: this.Form });
   }
 
   /**

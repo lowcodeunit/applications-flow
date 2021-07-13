@@ -109,16 +109,17 @@ export class FormsService {
         this.formsValues.push(new FormValues(val.Id, keyValues));
     }
 
+    /**
+     * Update value reference after saves
+     * 
+     * @param val form model with values
+     */
     public UpdateValuesReference(val: FormModel): void {
         const index: number = this.formsValues.findIndex((x: FormValues) => {
             return x.Id === val.Id;
         });
 
-        debugger;
         this.formsValues[index].Values = val.Form.value;
-
-        // this.formsValues[el => el.Id === val.Id] = val;
-        // this.formsValues[this.formsValues.findIndex(el => el.Id === val.Id)] = val;
     }
 
     /**
