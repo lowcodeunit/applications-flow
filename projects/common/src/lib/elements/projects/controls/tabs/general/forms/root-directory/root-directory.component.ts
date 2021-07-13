@@ -1,3 +1,4 @@
+import { FormModel } from './../../../../../../../models/form.model';
 import { Subscription } from 'rxjs';
 import { FormsService } from './../../../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
@@ -70,7 +71,7 @@ export class RootDirectoryComponent implements OnInit {
       includeSource: new FormControl(false),
     });
 
-    this.formsService.Form = { Id: 'RootDirectoryForm', Form: this.Form };
+    this.formsService.Form = { Id: 'RootDirectoryForm', Form: this.Form};
     this.onChange();
   }
 

@@ -30,11 +30,13 @@ export class ProjectTabsComponent implements OnInit {
         Component: GeneralComponent,
         Data: { Project: this.Project },
         Label: 'General',
+        Icon: 'pages'
       }),
       new DynamicTabsModel({
         Component: DomainsComponent,
         Data: { Project: this.Project },
         Label: 'Domains',
+        Icon: 'domain'
       }),
     ];
   }

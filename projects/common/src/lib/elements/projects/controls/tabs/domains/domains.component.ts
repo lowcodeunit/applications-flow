@@ -5,6 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ProjectState } from './../../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
+import { FormModel } from 'projects/common/src/lib/models/form.model';
 
 @Component({
   selector: 'lcu-domains',
@@ -87,7 +88,7 @@ export class DomainsComponent implements OnInit {
       }),
     });
 
-    this.formsService.Form = { Id: 'DomainForm', Form: this.Form };
+    this.formsService.Form = new FormModel({ Id: 'DomainForm', Form: this.Form });
     this.onChange()
   }
 

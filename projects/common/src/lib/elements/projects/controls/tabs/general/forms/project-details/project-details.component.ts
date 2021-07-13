@@ -11,6 +11,7 @@ import {
   ProjectState
 } from '../../../../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
+import { FormModel } from 'projects/common/src/lib/models/form.model';
 
 
 @Component({
@@ -54,7 +55,8 @@ export class ProjectNameComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService,
+  constructor(
+    protected formsService: FormsService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService) { }
 
   public ngOnInit(): void {
@@ -97,7 +99,7 @@ export class ProjectNameComponent implements OnInit {
    * Setup form controls
    */
   protected setupForm(): void {
-    
+
     this.Form = new FormGroup({
       name: new FormControl(this.Project?.Name || '', {
         validators: [Validators.required, Validators.minLength(1)],
@@ -109,7 +111,7 @@ export class ProjectNameComponent implements OnInit {
       }),
     });
 
-    this.formsService.Form = { Id: 'ProjectNameForm', Form: this.Form };
+    this.formsService.Form = {Id: 'ProjectNameForm', Form: this.Form};
 
     this.onChange();
   }
@@ -123,6 +125,8 @@ export class ProjectNameComponent implements OnInit {
       Description: this.Description.value,
       Name: this.Name.value
     });
+
+    this.formsService.UpdateValuesReference({ Id: 'ProjectNameForm', Form: this.Form });
   }
 
   /**

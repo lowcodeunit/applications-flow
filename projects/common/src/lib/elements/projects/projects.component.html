@@ -25,9 +25,12 @@
         <lcu-projects-header [projects]="State.Projects"></lcu-projects-header>
 
         <div *ngIf="EditingProject">
-          <div class="divider"></div>
+          <div class="divider margin-bottom-3"></div>
 
-          <lcu-project-tabs [project]="EditingProject"></lcu-project-tabs>
+          <lcu-project-tabs 
+            [project]="EditingProject"
+            class="margin-top-3">
+          </lcu-project-tabs>
         </div>
       </ng-container>
 
@@ -38,6 +41,7 @@
           mat-raised-button
           color="accent"
           (click)="ToggleCreateProject()"
+          class="margin-top-4"
         >
           Create Project
         </button>

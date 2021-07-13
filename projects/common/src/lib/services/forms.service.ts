@@ -70,6 +70,8 @@ export class FormsService {
      */
     public DisableForms(val: string | boolean): void {
 
+        const preventEvent: {onlySelf: boolean, emitEvent: boolean} = { onlySelf: true, emitEvent: false };
+
         this.forms.forEach((form: FormModel) => {
 
             if (typeof val === 'boolean') {
@@ -105,6 +107,18 @@ export class FormsService {
 
         // this.formsValues.push(new FormValues(val.Id, val.Form.value));
         this.formsValues.push(new FormValues(val.Id, keyValues));
+    }
+
+    public UpdateValuesReference(val: FormModel): void {
+        const index: number = this.formsValues.findIndex((x: FormValues) => {
+            return x.Id === val.Id;
+        });
+
+        debugger;
+        this.formsValues[index].Values = val.Form.value;
+
+        // this.formsValues[el => el.Id === val.Id] = val;
+        // this.formsValues[this.formsValues.findIndex(el => el.Id === val.Id)] = val;
     }
 
     /**
