@@ -49,7 +49,8 @@ export class RootDirectoryComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService,
+  constructor(
+    protected formsService: FormsService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
   public ngOnInit(): void {
@@ -70,7 +71,7 @@ export class RootDirectoryComponent implements OnInit {
       includeSource: new FormControl(false),
     });
 
-    this.formsService.Form = { Id: 'RootDirectoryForm', Form: this.Form };
+    this.formsService.Form = { Id: 'RootDirectoryForm', Form: this.Form};
     this.onChange();
   }
 
@@ -114,6 +115,7 @@ export class RootDirectoryComponent implements OnInit {
       // Root: this.Root.value,
       // IncludeSource: this.IncludeSource.value
     });
+    // this.formsService.UpdateValuesReference({ Id: 'RootDirectoryForm', Form: this.Form });
   }
 
   /**

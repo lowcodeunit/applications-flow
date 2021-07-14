@@ -1,12 +1,17 @@
-<div fxFlex="50" fxLayout="column" class="margin-right-3">
-  <lcu-project-details
-    [project]="Project"
-    class="margin-bottom-3"
-  ></lcu-project-details>
+<div fxLayout="row" fxLayout.lt-md="column">
+  <div 
+    fxFlex="50" 
+    fxLayout="column" 
+    class="margin-right-3">
+    <lcu-project-details
+      [project]="Project"
+      class="margin-bottom-3"
+    ></lcu-project-details>
 
-  <!-- <lcu-root-directory [project]="Project"></lcu-root-directory> -->
-</div>
+    <!-- <lcu-root-directory [project]="Project"></lcu-root-directory> -->
+  </div>
 
-<div fxFlex="50">
-  <lcu-settings [project]="Project"></lcu-settings>
+  <div fxFlex="50">
+    <lcu-settings [project]="Project"></lcu-settings>
+  </div>
 </div>

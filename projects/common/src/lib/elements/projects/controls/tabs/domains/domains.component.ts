@@ -24,6 +24,11 @@ export class DomainsComponent implements OnInit {
   public Form: FormGroup;
 
   /**
+   * Form name
+   */
+  protected formName: string;
+
+  /**
    * When form is dirty, ties into formsService.DisableForms
    */
   public IsDirty: boolean;
@@ -42,11 +47,15 @@ export class DomainsComponent implements OnInit {
     return this.Data.Project;
   }
 
-  constructor(protected formsService: FormsService,
+  constructor(
+    protected formsService: FormsService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService) {
   }
 
   public ngOnInit(): void {
+
+    this.formName = 'DomainForm';
+
     this.setupForm();
 
     this.config();
@@ -61,9 +70,9 @@ export class DomainsComponent implements OnInit {
       Message: 'Changes will be applied to your next deployment',
       Actions: [
         {
-          Label: 'Clear',
+          Label: 'Reset',
           Color: 'warn',
-          ClickEvent: () => this.clearForm(),
+          ClickEvent: () => this.resetForm(),
           // use arrow function, so 'this' refers to ProjectNameComponent
           // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
           Type: 'RESET',
@@ -87,18 +96,18 @@ export class DomainsComponent implements OnInit {
       }),
     });
 
-    this.formsService.Form = { Id: 'DomainForm', Form: this.Form };
+    this.formsService.Form = { Id: this.formName, Form: this.Form };
     this.onChange()
   }
 
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: any) => {
 
-      if (this.formsService.ForRealThough('DomainForm', this.Form)) {
+      if (this.formsService.ForRealThough(this.formName, this.Form)) {
 
         this.IsDirty = true;
          // disable all forms except the current form being edited
-        this.formsService.DisableForms('DomainForm');
+        this.formsService.DisableForms(this.formName);
       } else {
 
         this.IsDirty = false;
@@ -109,13 +118,13 @@ export class DomainsComponent implements OnInit {
   }
 
   /**
-   * Clear form controls
+   * Reset form controls back to previous values
    */
-  protected clearForm(): void {
-    // this.Form.reset();
-
+   protected resetForm(): void {
     // enable all forms
-    this.formsService.DisableForms(false);
+    // this.formsService.DisableForms(false);
+
+    this.formsService.ResetFormValues(this.formName);
   }
 
   /**
@@ -126,5 +135,6 @@ export class DomainsComponent implements OnInit {
       ...this.Project,
       Host: this.Domain.value
     });
+    this.formsService.UpdateValuesReference({ Id: this.formName, Form: this.Form });
   }
 }

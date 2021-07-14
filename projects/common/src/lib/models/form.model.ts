@@ -10,4 +10,8 @@ export class FormModel {
      * Form
      */
     public Form: FormGroup;
+
+    constructor(opts: FormModel) {
+        Object.assign(this, opts); // destructure values
+    }
 }
