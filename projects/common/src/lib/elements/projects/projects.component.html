@@ -24,24 +24,24 @@
       <ng-container *ngIf="State">
         <lcu-projects-header [projects]="State.Projects"></lcu-projects-header>
 
+        <span class="card-actions">
+          <div fxFlex></div>
+  
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="ToggleCreateProject()"
+          >
+            Create Project
+          </button>
+        </span>
+
         <div *ngIf="EditingProject">
           <div class="divider"></div>
 
           <lcu-project-tabs [project]="EditingProject"></lcu-project-tabs>
         </div>
       </ng-container>
-
-      <span class="card-actions">
-        <div fxFlex></div>
-
-        <button
-          mat-raised-button
-          color="accent"
-          (click)="ToggleCreateProject()"
-        >
-          Create Project
-        </button>
-      </span>
     </ng-container>
   </ng-container>
 
