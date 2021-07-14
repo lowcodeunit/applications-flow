@@ -19,3 +19,4 @@ export * from './lib/elements/projects/controls/tabs/general/forms/settings/sett
 export * from './lib/models/card-form-config.model';
 export * from './lib/services/forms.service';
 export * from './lib/models/form.model';
+export * from './lib/models/form.values.model';
