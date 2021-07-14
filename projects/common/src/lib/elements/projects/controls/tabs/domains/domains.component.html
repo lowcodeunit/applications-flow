@@ -25,7 +25,13 @@
                 [placeholder]="Domain.invalid || Domain.disabled ? '/' : ''"
                 formControlName="domain"
               />
-              <mat-hint *ngIf="Domain.valid"> Domain </mat-hint>
+
+              <mat-hint>
+                In order to use a custom domain, create a CNAME dns record pointing
+                desired subdomain to <strong>{{ HostDNSInstance }}</strong>.
+              </mat-hint>
+              
+              
               <mat-error *ngIf="Domain.hasError('required')">
                 Domain is required
               </mat-error>
