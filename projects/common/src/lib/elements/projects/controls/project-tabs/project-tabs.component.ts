@@ -13,6 +13,9 @@ export class ProjectTabsComponent implements OnInit {
   //  Fields
 
   //  Properties
+  @Input('host-dns-instance')
+  public HostDNSInstance: string;
+
   @Input('project')
   public Project: ProjectState;
 
@@ -34,7 +37,7 @@ export class ProjectTabsComponent implements OnInit {
       }),
       new DynamicTabsModel({
         Component: DomainsComponent,
-        Data: { Project: this.Project },
+        Data: { Project: this.Project, HostDNSInstance: this.HostDNSInstance },
         Label: 'Domains',
         Icon: 'domain'
       }),
