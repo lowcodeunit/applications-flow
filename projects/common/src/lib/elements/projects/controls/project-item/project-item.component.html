@@ -1,15 +1,26 @@
 <mat-accordion>
     <div *ngIf="Projects" class="expansion-container">
-        <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let project of Projects">
-
-            <div fxFlex fxLayout="row">
+        <!-- fxLayoutAlign="space-between center"  -->
+        <div 
+            fxLayout="row" 
+            fxLayout.lt-md="column" 
+            *ngFor="let project of Projects">
+            <div 
+                fxFlex 
+                fxLayout="row">
                 <mat-expansion-panel 
                     (opened)="panelOpenState = true; CurrentProject(project)"
                     (closed)="panelOpenState = false"
                     [ngClass]="panelOpenState === true ? 'active' : 'inactive'"
                     class="expansion-panel">
-                    <mat-expansion-panel-header [collapsedHeight]="'75px'" [expandedHeight]="'75px'">
-                        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" class="margin-right-3">
+                    <mat-expansion-panel-header 
+                        [collapsedHeight]="'75px'" 
+                        [expandedHeight]="'75px'">
+                        <div 
+                            fxFlex
+                            fxLayout="row"  
+                            fxLayoutAlign="space-between center" 
+                            class="margin-right-3">
                             <div fxLayout="row">
                                 <div class="project-thumbnail">
                                     <img [src]="project.Image">

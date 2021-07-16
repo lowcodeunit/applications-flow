@@ -1,10 +1,12 @@
-<div fxLayout="row" fxLayout.lt-sm="column" class="container">
+<div 
+  fxLayout="row" 
+  fxLayout.lt-md="column">
   <!-- Projects -->
   <div
     id="projects"
     fxLayout="column"
     fxFlex.gt-xs="50"
-    class="projects padding-3"
+    class="projects padding-top-3"
     [ngClass.lt-sm]="'margin-bottom-2'"
     [ngClass.gt-xs]="'margin-right-2'"
   >
@@ -18,17 +20,17 @@
       <span>Projects</span>
     </div>
 
-    <lcu-project-items [projects]="Projects"> </lcu-project-items>
+    <lcu-project-items [projects]="Projects"></lcu-project-items>
   </div>
 
-  <div class="divider-fill-vert" [fxHide.lt-md]="true"></div>
+  <!-- <div class="divider-fill-vert" [fxHide.lt-md]="true"></div> -->
 
   <!-- Builds -->
   <div
     id="builds"
     fxFlex.gt-xs="25"
     fxLayout="column"
-    class="builds padding-3"
+    class="padding-top-3"
     [ngClass.lt-sm]="'margin-bottom-2'"
     [ngClass.gt-xs]="'margin-right-2'"
   >
@@ -44,14 +46,15 @@
     <lcu-builds [projects]="Projects"> </lcu-builds>
   </div>
 
-  <div class="divider-fill-vert" fxShow [fxHide.lt-md]="true"></div>
+  <!-- <div class="divider-fill-vert" fxShow [fxHide.lt-md]="true"></div> -->
 
   <!-- Recent Activities -->
   <div
     id="recent"
     fxLayout="column"
     fxFlex.gt-xs="25"
-    class="recent-activities padding-3"
+    class="padding-top-3"
+    style="background-color: cadetblue;"
   >
     <div
       fxLayout="row"

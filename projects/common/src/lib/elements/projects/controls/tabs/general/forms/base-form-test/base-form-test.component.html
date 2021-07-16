@@ -1,0 +1,66 @@
+<form 
+    fxFlex 
+    fxLayout="row" 
+    fxLayout.lt-md="column" 
+    [formGroup]="FormConfig.Form">
+    <lcu-form-card
+        fxFlex
+        [config]="FormConfig.CardConfig"
+        [form]="FormConfig.Form"
+        [is-dirty]="FormConfig.IsDirty">
+        <div fxLayout="column">
+            <mat-form-field appearance="fill" fxFlex class="margin-right-1 margin-bottom-2">
+            <mat-icon
+                matSuffix
+                [ngClass]="Name.valid ? 'valid-control' : 'invalid-control'"
+            >
+                {{ Name.valid ? "check_circle" : "error_outline" }}
+            </mat-icon>
+    
+            <input
+                type="text"
+                matInput
+                [placeholder]="Name.invalid || Name.disabled ? 'Project Name' : ''"
+                formControlName="name"
+            />
+    
+            <mat-hint *ngIf="Name.valid"> Selected Project Name </mat-hint>
+    
+            <mat-error *ngIf="Name.hasError('required')">
+                Project Name is required
+            </mat-error>
+            </mat-form-field>
+    
+            <mat-form-field fxFlex appearance="fill" class="margin-right-1">
+            <mat-icon
+                matSuffix
+                [ngClass]="Description.valid ? 'valid-control' : 'invalid-control'"
+            >
+                {{ Description.valid ? "check_circle" : "error_outline" }}
+            </mat-icon>
+    
+            <textarea
+                type="text"
+                matInput
+                rows="3"
+                [placeholder]="
+                Description.invalid || Description.disabled
+                    ? 'Project Description'
+                    : ''
+                "
+                formControlName="description"
+            ></textarea>
+    
+            <mat-hint *ngIf="Description.valid">
+                Selected Project Description
+            </mat-hint>
+    
+            <mat-error *ngIf="Description.hasError('required')">
+                Project Description is required
+            </mat-error>
+            </mat-form-field>
+        </div>
+    
+        <div class="card-divider"></div>
+    </lcu-form-card>
+</form>

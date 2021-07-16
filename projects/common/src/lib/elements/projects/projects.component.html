@@ -1,6 +1,5 @@
 <app-host-dashboard-card-element
-  class="projects section"
-  fxFlex
+  
   [context]="{ Title: 'Projects', Icon: 'language' }"
 >
   <nav>
@@ -15,7 +14,7 @@
     </a>
   </nav>
 
-  <ng-container *ngIf="!State?.Loading">
+  <ng-container *ngIf="!State?.Loading" style="background-color: chartreuse;">
     <div *ngIf="CreatingProject">
       <lcu-create-project-wizard></lcu-create-project-wizard>
     </div>
@@ -35,7 +34,7 @@
       </ng-container>
 
       <span class="card-actions">
-        <div fxFlex></div>
+        <!-- <div fxFlex></div> -->
 
         <button
           mat-raised-button

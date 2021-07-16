@@ -1,11 +1,25 @@
 <mat-accordion>
-    <div *ngIf="Projects" class="expansion-container">
-        <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let project of Projects">
-            <div fxFlex fxLayout="row">
+    <div 
+        *ngIf="Projects" 
+        class="expansion-container">
+        <div 
+            fxLayout="row" 
+            fxLayoutAlign="space-between center" 
+            *ngFor="let project of Projects">
+            <div 
+                fxFlex 
+                fxLayout="row" >
                 <mat-expansion-panel (opened)="panelOpenState = true;" (closed)="panelOpenState = false"
                     [ngClass]="panelOpenState === true ? 'active' : 'inactive'" class="expansion-panel">
-                    <mat-expansion-panel-header [collapsedHeight]="'75px'" [expandedHeight]="'75px'">
-                        <div fxLayout="row" fxFlex fxLayoutAlign="space-between center" class="margin-right-3" *ngIf="project.Runs[0]; let latestRun">
+                    <mat-expansion-panel-header 
+                        [collapsedHeight]="'75px'" 
+                        [expandedHeight]="'75px'">
+                        <div 
+                            fxFlex
+                            fxLayout="row" 
+                            fxLayoutAlign="space-between center" 
+                            class="margin-right-3" 
+                            *ngIf="project.Runs[0]; let latestRun">
                             <div fxLayout="row">
                                 <div>
                                     <div fxLayout="column"
@@ -15,7 +29,9 @@
                                                 href="https://github.com/{{ lcu.Organization }}/{{lcu.Repository}}/actions"
                                                 target="_blank">
                                                 <div fxLayout="row">
-                                                    <div fxLayoutAlign="center center" class="icon-bg"
+                                                    <div 
+                                                        fxLayoutAlign="center center" 
+                                                        class="icon-bg"
                                                         [ngClass]="latestRun.Conclusion == 'success' ? 'success' : 'error'">
                                                         <mat-icon
                                                             matTooltip="{{ latestRun.Status }} {{ latestRun.Conclusion }}"
@@ -36,8 +52,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div fxLayout="column" class="details margin-left-3">
                                     <span class="name mat-headline mat-body-1">{{ project.Name }}</span>
                                 </div>
