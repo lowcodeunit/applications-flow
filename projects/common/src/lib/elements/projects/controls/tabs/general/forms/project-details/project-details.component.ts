@@ -1,3 +1,5 @@
+import { FormValuesModel } from './../../../../../../../models/form.values.model';
+import { FormModel } from './../../../../../../../models/form.model';
 import { Component, DebugNode, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -11,7 +13,6 @@ import {
   ProjectState
 } from '../../../../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
-
 
 @Component({
   selector: 'lcu-project-details',
@@ -37,6 +38,11 @@ export class ProjectNameComponent implements OnInit {
   public Form: FormGroup;
 
   /**
+   * Name of form
+   */
+  protected formName: string;
+
+  /**
    * When form is dirty, ties into formsService.DisableForms
    */
   public IsDirty: boolean;
@@ -54,10 +60,14 @@ export class ProjectNameComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService,
+  constructor(
+    protected formsService: FormsService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService) { }
 
   public ngOnInit(): void {
+
+    this.formName = 'ProjectNameForm';
+
     this.setupForm();
 
     this.config();
@@ -76,9 +86,9 @@ export class ProjectNameComponent implements OnInit {
         Message: 'Changes will be applied to your next deployment',
         Actions: [
           {
-            Label: 'Clear',
+            Label: 'Reset',
             Color: 'warn',
-            ClickEvent: () => this.clearForm(),
+            ClickEvent: () => this.resetForm(),
             // use arrow function, so 'this' refers to ProjectNameComponent
             // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
             Type: 'RESET',
@@ -97,7 +107,7 @@ export class ProjectNameComponent implements OnInit {
    * Setup form controls
    */
   protected setupForm(): void {
-    
+
     this.Form = new FormGroup({
       name: new FormControl(this.Project?.Name || '', {
         validators: [Validators.required, Validators.minLength(1)],
@@ -109,7 +119,7 @@ export class ProjectNameComponent implements OnInit {
       }),
     });
 
-    this.formsService.Form = { Id: 'ProjectNameForm', Form: this.Form };
+    this.formsService.Form = {Id: this.formName, Form: this.Form};
 
     this.onChange();
   }
@@ -123,14 +133,18 @@ export class ProjectNameComponent implements OnInit {
       Description: this.Description.value,
       Name: this.Name.value
     });
+
+    this.formsService.UpdateValuesReference({ Id: this.formName, Form: this.Form });
   }
 
   /**
-   * Clear form controls
+   * Reset form controls back to previous values
    */
-  protected clearForm(): void {
+  protected resetForm(): void {
     // enable all forms
-    this.formsService.DisableForms(false);
+    // this.formsService.DisableForms(false);
+
+    this.formsService.ResetFormValues(this.formName);
   }
 
   /**
@@ -139,10 +153,10 @@ export class ProjectNameComponent implements OnInit {
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
 
-      if (this.formsService.ForRealThough('ProjectNameForm', this.Form)) {
+      if (this.formsService.ForRealThough(this.formName, this.Form)) {
         this.IsDirty = true;
         // disable all forms except the current form being edited
-        this.formsService.DisableForms('ProjectNameForm');
+        this.formsService.DisableForms(this.formName);
       } else {
 
         this.IsDirty = false;

@@ -1,27 +1,8 @@
+import { FormValuesModel } from './../models/form.values.model';
 import { FormModel } from './../models/form.model';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-
-
-/**
- * Model for form values
- * 
- * Leaving this here, because 
- * this model is local only
- * 
- * TODO: if we start needing this model outside of this service,
- * need to move this into the models directory - shannon
- */
-export class FormValues {
-    public Id: string;
-    public Values: object;
-
-    constructor(id: string, values: object) {
-        this.Id = id;
-        this.Values = values;
-    }
-}
 
 @Injectable({
     providedIn: 'root',
@@ -57,8 +38,7 @@ export class FormsService {
      * Storage reference for intial form values
      */
     // public formsInitialValues: Array<FormModel>;
-    public formsValues: Array<FormValues>;
-
+    public previousFormValues: Array<FormValuesModel>;
 
     /**
      * 
@@ -70,15 +50,17 @@ export class FormsService {
      */
     public DisableForms(val: string | boolean): void {
 
+        const preventEvent: {onlySelf: boolean, emitEvent: boolean} = { onlySelf: true, emitEvent: false };
+
         this.forms.forEach((form: FormModel) => {
 
             if (typeof val === 'boolean') {
-                val ? form.Form.disable({ onlySelf: true, emitEvent: false }) : form.Form.enable({ onlySelf: true, emitEvent: false });
+                val ? form.Form.disable(preventEvent) : form.Form.enable(preventEvent);
             } else {
                 if (form.Id === val) {
-                    form.Form.enable({ onlySelf: true, emitEvent: false });
+                    form.Form.enable(preventEvent);
                 } else {
-                    form.Form.disable({ onlySelf: true, emitEvent: false });
+                    form.Form.disable(preventEvent);
                 }
             }
         });
@@ -103,8 +85,54 @@ export class FormsService {
             keyValues[key] = value.value;
         }
 
-        // this.formsValues.push(new FormValues(val.Id, val.Form.value));
-        this.formsValues.push(new FormValues(val.Id, keyValues));
+        // this.formsValues.push(new FormValuesModel(val.Id, val.Form.value));
+        this.previousFormValues.push(new FormValuesModel(val.Id, keyValues));
+    }
+
+    /**
+     * Update value reference after saves
+     * 
+     * @param val form model with values
+     */
+    public UpdateValuesReference(val: FormModel): void {
+
+        const index: number = this.previousFormValues.findIndex((x: FormValuesModel) => {
+            return x.Id === val.Id;
+        });
+
+        this.previousFormValues[index].Values = val.Form.value;
+
+        // TODO: look at consolidating updating this.forms and this.previousFormValues - shannon (7-14-21)
+        const formIndex: number = this.forms.findIndex((x: FormModel) => {
+            return x.Id === val.Id;
+        });
+
+        this.forms[formIndex] = val;
+    }
+
+    /**
+     * Reset form values back to previous 
+     * 
+     * @param id form id
+     */
+    public ResetFormValues(id: string): void {
+        this.forms.find((form: FormModel) => {
+            if (form.Id === id) {
+                form.Form.patchValue(this.GetPreviousFormValues(id).Values);
+            }
+        });
+    }
+
+    /**
+     * 
+     * @param id form id to search for
+     *
+     * @returns previous form values
+     */
+    public GetPreviousFormValues(id: string): FormValuesModel {
+        return this.previousFormValues.find((x: FormValuesModel) => {
+            return x.Id === id;
+        });
     }
 
     /**
@@ -117,7 +145,7 @@ export class FormsService {
      */
     public ForRealThough(id: string, formToCheck: FormGroup): boolean {
 
-        const formVals: FormValues = this.formsValues.find((x: FormValues) => {
+        const formVals: FormValuesModel = this.previousFormValues.find((x: FormValuesModel) => {
             return x.Id === id;
         });
 
@@ -134,7 +162,7 @@ export class FormsService {
 
     constructor() {
         this.forms = [];
-        this.formsValues = [];
+        this.previousFormValues = [];
         this.FormIsDirty = new Subject();
     }
 }
