@@ -32,6 +32,11 @@ export class SettingsComponent implements OnInit {
   public Form: FormGroup;
 
   /**
+   * Name of form
+   */
+  protected formName: string;
+
+  /**
    * Access form control for Build Command
    */
   public get BuildCommand(): AbstractControl {
@@ -101,10 +106,14 @@ export class SettingsComponent implements OnInit {
   @Input('project')
   public Project: ProjectState;
 
-  constructor(protected formsService: FormsService,
+  constructor(
+    protected formsService: FormsService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
   public ngOnInit(): void {
+
+    this.formName = 'SettingsForm';
+
     this.setupForm();
 
     this.config();
@@ -173,10 +182,10 @@ export class SettingsComponent implements OnInit {
         Message: 'Changes will be applied to your next deployment',
         Actions: [
           {
-            Label: 'Clear',
+            Label: 'Reset',
             Color: 'warn',
-            ClickEvent: () => this.clearForm(),
-            // use arrow function, so 'this' refers to ProjectNameComponent
+            ClickEvent: () => this.resetForm(),
+            // use arrow function, so 'this' refers to SettingsComponent
             // if we used ClickeEvent: this.clearForm, then 'this' would refer to this current Actions object
             Type: 'RESET',
           },
@@ -238,18 +247,18 @@ export class SettingsComponent implements OnInit {
       // installCommandOverride: new FormControl(false)
     });
 
-    this.formsService.Form = { Id: 'SettingsForm', Form: this.Form };
+    this.formsService.Form = { Id: this.formName, Form: this.Form };
     this.onChange();
   }
 
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: any) => {
 
-      if (this.formsService.ForRealThough('SettingsForm', this.Form)) {
+      if (this.formsService.ForRealThough(this.formName, this.Form)) {
 
         this.IsDirty = true;
          // disable all forms except the current form being edited
-        this.formsService.DisableForms('SettingsForm');
+        this.formsService.DisableForms(this.formName);
       } else {
 
         this.IsDirty = false;
@@ -278,13 +287,13 @@ export class SettingsComponent implements OnInit {
   }
 
   /**
-   * Clear form controls
+   * Reset form controls back to previous values
    */
-  protected clearForm(): void {
-    // this.Form.reset();
-
+   protected resetForm(): void {
     // enable all forms
-    this.formsService.DisableForms(false);
+    // this.formsService.DisableForms(false);
+
+    this.formsService.ResetFormValues(this.formName);
   }
 
   /**
@@ -304,5 +313,7 @@ export class SettingsComponent implements OnInit {
     this.appsFlowEventsSvc.SaveProject({
       ...this.Project
     });
+
+    this.formsService.UpdateValuesReference({ Id: this.formName, Form: this.Form });
   }
 }

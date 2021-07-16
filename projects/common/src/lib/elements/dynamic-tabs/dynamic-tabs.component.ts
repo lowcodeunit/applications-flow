@@ -21,18 +21,33 @@ import {
 
 export class DynamicTabsComponent implements OnInit, AfterViewInit {
 
-  // tslint:disable-next-line:no-input-rename
-  @Input('tab-components')
-  public TabComponents: Array<DynamicTabsModel>;
-
+  /**
+   * Container used to display dynamic components
+   */
   @ViewChild('container', {read: ViewContainerRef, static: false})
   protected viewContainer: ViewContainerRef;
 
+  @Input('background-color')
+  public BackgroundColor: string;
+
+  @Input('color')
+  public Color: string;
+
+  /**
+   * Form is dirty flag
+   */
   public FormIsDirty: boolean;
+
   /**
    * Listener for when any form is dirty
    */
   protected formIsDirtySubscription: Subscription;
+
+  /**
+   * Components loaded as dynamic components
+   */ 
+  @Input('tab-components')
+  public TabComponents: Array<DynamicTabsModel>;
 
   constructor(
     protected componentFactoryResolver: ComponentFactoryResolver, 

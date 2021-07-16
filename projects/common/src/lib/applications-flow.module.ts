@@ -24,6 +24,8 @@ import { ProjectNameComponent } from './elements/projects/controls/tabs/general/
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
 import { SettingsComponent } from './elements/projects/controls/tabs/general/forms/settings/settings.component';
 import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
+import { BaseFormComponent } from './elements/base-form/base-form.component';
+import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { ApplicationsFlowEventsService } from './services/applications-flow-even
     ProjectNameComponent,
     RootDirectoryComponent,
     SettingsComponent,
+    BaseFormComponent,
+    BaseFormTestComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -70,6 +74,8 @@ import { ApplicationsFlowEventsService } from './services/applications-flow-even
     ProjectNameComponent,
     RootDirectoryComponent,
     SettingsComponent,
+    BaseFormComponent,
+    BaseFormTestComponent,
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -85,6 +91,8 @@ import { ApplicationsFlowEventsService } from './services/applications-flow-even
     ProjectNameComponent,
     RootDirectoryComponent,
     SettingsComponent,
+    BaseFormComponent,
+    BaseFormTestComponent,
   ],
 })
 export class ApplicationsFlowModule {
