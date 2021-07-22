@@ -131,6 +131,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
 
   public RefreshOrganizations(): void {
     // this.State.GitHub.Loading = true;
+    this.listOrganizations();
 
     this.ProjectFormGroup.get('repoDetails').reset();
   }
@@ -177,14 +178,8 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   protected determineStep(): void {
     let index = 0;
 
-// look here when Github change is made - shannon
-
-    if (this.State.GitHub.HasConnection) {
-      if (this.IsOrganizationValid && this.IsRepositoryValid) {
-        index = 2;
-      } else {
-        index = 1;
-      }
+    if (this.IsOrganizationValid && this.IsRepositoryValid) {
+      index = 1;
     }
 
     setTimeout(() => {
@@ -195,20 +190,9 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   protected handleStateChange(): void {
     this.State.Loading = true;
 
-    // move this into github control thing - shannon
-    // this.appsFlowSvc
-    //   .HasValidConnection()
-    //   .subscribe((response: BaseResponse) => {
-    //     this.State.GitHub.HasConnection = response.Status.Code === 0;
+    this.determineStep();
 
-    //     this.determineStep();
-
-    //     if (this.State.GitHub.HasConnection) {
-    //       this.listOrganizations();
-    //     } else {
-    //       this.State.Loading = false;
-    //     }
-    //   });
+    this.listOrganizations();
   }
 
   protected listBranches(): void {
@@ -237,6 +221,8 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   }
 
   protected listOrganizations(): void {
+    this.State.Loading = true;
+
     this.appsFlowSvc
       .ListOrganizations()
       .subscribe((response: BaseModeledResponse<GitHubOrganization[]>) => {

@@ -1,5 +1,4 @@
 <app-host-dashboard-card-element
-  
   [context]="{ Title: 'Projects', Icon: 'language' }"
 >
   <nav>
@@ -15,61 +14,60 @@
   </nav>
 
   <ng-container *ngIf="!State?.Loading">
-    
-    <div 
+    <div
       fxLayout="column"
       fxLayoutAlign="center center"
-      class="margin-bottom-4">
+      class="margin-bottom-4"
+    >
       <h2 class="mat-display-2 margin-y-2">
         <span *ngIf="State.Projects?.length <= 0">
           Thank you for signing up
         </span>
-        <span 
-          *ngIf="State.Projects?.length > 0">
-          Project Setup
-        </span>
+        <span *ngIf="State.Projects?.length > 0"> Project Setup </span>
       </h2>
-      <h3 
-        class="mat-title 
-        margin-top-3">
+      <h3 class="mat-title margin-top-3">
         Let's get your Project setup and running
       </h3>
     </div>
 
-    <lcu-git-auth *ngIf="State.GitHub.HasConnection"></lcu-git-auth>
+    <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth>
 
-    <div *ngIf="CreatingProject">
-      <lcu-create-project-wizard></lcu-create-project-wizard>
-    </div>
+    <ng-container *ngIf="State.GitHub.HasConnection">
+      <div *ngIf="CreatingProject">
+        <lcu-create-project-wizard></lcu-create-project-wizard>
+      </div>
 
-    <ng-container *ngIf="!CreatingProject">
-      <ng-container *ngIf="State">
-        <lcu-projects-header [projects]="State.Projects"></lcu-projects-header>
+      <ng-container *ngIf="!CreatingProject">
+        <ng-container *ngIf="State">
+          <lcu-projects-header
+            [projects]="State.Projects"
+          ></lcu-projects-header>
 
-        <span 
-          fxLayoutAlign="end center"
-          class="card-actions">
-          <button
-            mat-raised-button
-            color="accent"
-            (click)="ToggleCreateProject()"
-            class="margin-top-4 margin-bottom-2">
-            Create Project
-          </button>
-        </span>
+          <span fxLayoutAlign="end center" class="card-actions">
+            <button
+              mat-raised-button
+              color="accent"
+              (click)="ToggleCreateProject()"
+              class="margin-top-4 margin-bottom-2"
+            >
+              Create Project
+            </button>
+          </span>
 
-        <div *ngIf="EditingProject">
-          <div class="divider margin-bottom-3"></div>
-          <lcu-project-tabs 
-            [project]="EditingProject"
-            [host-dns-instance]="State.HostDNSInstance"
-            class="margin-top-3">
-          </lcu-project-tabs>
-        </div>
+          <div *ngIf="EditingProject">
+            <div class="divider margin-bottom-3"></div>
+            <lcu-project-tabs
+              [project]="EditingProject"
+              [host-dns-instance]="State.HostDNSInstance"
+              class="margin-top-3"
+            >
+            </lcu-project-tabs>
+          </div>
+        </ng-container>
       </ng-container>
     </ng-container>
   </ng-container>
-
+  
   <div class="loading" *ngIf="State?.Loading">
     <lcu-loader [loading]="State?.Loading"></lcu-loader>
 

@@ -148,8 +148,19 @@ export class ApplicationsFlowProjectsElementComponent
     this.State.Loading = true;
 
     this.projectService.ListProjects(this.State);
-  }
 
+    this.appsFlowSvc
+      .HasValidConnection()
+      .subscribe((response: BaseResponse) => {
+        this.State.GitHub.HasConnection = response.Status.Code === 0;
+
+        if (this.State.GitHub.HasConnection) {
+        } else {
+        }
+
+        this.State.Loading = false;
+      });
+  }
   // protected listProjects(withLoading: boolean = true): void {
   //   if (withLoading) {
   //     this.State.Loading = true;

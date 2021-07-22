@@ -1,6 +1,6 @@
 import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
 import { ApplicationsFlowState } from './../../../../state/applications-flow.state';
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { BaseResponse } from '@lcu/common';
 
 @Component({
@@ -9,16 +9,11 @@ import { BaseResponse } from '@lcu/common';
   styleUrls: ['./git-auth.component.scss']
 })
 export class GitAuthComponent implements OnInit, AfterViewInit {
-
-  public State: ApplicationsFlowState;
-
-  constructor(protected appsFlowSvc: ApplicationsFlowService) {
-    this.State = new ApplicationsFlowState();
+  constructor() {
    }
 
   //  Life Cycle
   public ngAfterViewInit(): void {
-    this.handleStateChange();
   }
 
   public ngOnInit(): void {
@@ -36,23 +31,5 @@ export class GitAuthComponent implements OnInit, AfterViewInit {
   /**
    * Listen for State changes
    */
-  protected handleStateChange(): void {
-    this.State.Loading = true;
-
-    // move this into github control thing - shannon
-    this.appsFlowSvc
-      .HasValidConnection()
-      .subscribe((response: BaseResponse) => {
-        this.State.GitHub.HasConnection = response.Status.Code === 0;
-
-       // this.determineStep();
-
-        if (this.State.GitHub.HasConnection) {
-         // this.listOrganizations();
-        } else {
-          this.State.Loading = false;
-        }
-      });
-  }
 
 }
