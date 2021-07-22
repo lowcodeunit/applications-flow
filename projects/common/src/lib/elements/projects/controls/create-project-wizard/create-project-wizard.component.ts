@@ -53,11 +53,11 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
     this.State = new ApplicationsFlowState();
   }
   //  Life Cycle
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.handleStateChange();
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.ProjectFormGroup = this.formBuilder.group({
       repoDetails: this.formBuilder.group({
         branch: ['', Validators.required],
@@ -69,23 +69,23 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   }
 
   //  API Methods
-  public CancelCreateRepository() {
+  public CancelCreateRepository(): void {
     this.State.GitHub.CreatingRepository = false;
   }
 
-  public ConnectGitHubProvider() {
-    const reidrectUri = location.pathname + location.search;
+  // public ConnectGitHubProvider(): void {
+  //   const reidrectUri = location.pathname + location.search;
 
-    window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
-  }
+  //   window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
+  // }
 
-  public CreateRepository() {
+  public CreateRepository(): void {
     this.State.GitHub.CreatingRepository = true;
 
     this.ProjectFormGroup.get('repoDetails').get('repository').reset();
   }
 
-  public CreateProject() {
+  public CreateProject(): void {
     this.State.Loading = true;
 
     const repoDetails = this.ProjectFormGroup.get('repoDetails');
@@ -119,7 +119,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
       });
   }
 
-  public OrganizationChanged(event: MatSelectChange) {
+  public OrganizationChanged(event: MatSelectChange): void {
     const org = this.ProjectFormGroup.get('repoDetails').get('organization');
 
     if (org !== event.value) {
@@ -129,13 +129,13 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
     }
   }
 
-  public RefreshOrganizations() {
+  public RefreshOrganizations(): void {
     // this.State.GitHub.Loading = true;
 
     this.ProjectFormGroup.get('repoDetails').reset();
   }
 
-  public RepositoryChanged(event: MatSelectChange) {
+  public RepositoryChanged(event: MatSelectChange): void {
     const repo = this.ProjectFormGroup.get('repoDetails').get('repository');
 
     if (repo !== event.value) {
@@ -145,7 +145,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
     }
   }
 
-  public SaveRepository() {
+  public SaveRepository(): void {
     this.State.GitHub.Loading = true;
 
     const org =
@@ -169,13 +169,15 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
       });
   }
 
-  public SetupRepository() {
+  public SetupRepository(): void {
     this.determineStep();
   }
 
   //  Helpers
-  protected determineStep() {
+  protected determineStep(): void {
     let index = 0;
+
+// look here when Github change is made - shannon
 
     if (this.State.GitHub.HasConnection) {
       if (this.IsOrganizationValid && this.IsRepositoryValid) {
@@ -190,25 +192,26 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
     }, 0);
   }
 
-  protected handleStateChange() {
+  protected handleStateChange(): void {
     this.State.Loading = true;
 
-    this.appsFlowSvc
-      .HasValidConnection()
-      .subscribe((response: BaseResponse) => {
-        this.State.GitHub.HasConnection = response.Status.Code === 0;
+    // move this into github control thing - shannon
+    // this.appsFlowSvc
+    //   .HasValidConnection()
+    //   .subscribe((response: BaseResponse) => {
+    //     this.State.GitHub.HasConnection = response.Status.Code === 0;
 
-        this.determineStep();
+    //     this.determineStep();
 
-        if (this.State.GitHub.HasConnection) {
-          this.listOrganizations();
-        } else {
-          this.State.Loading = false;
-        }
-      });
+    //     if (this.State.GitHub.HasConnection) {
+    //       this.listOrganizations();
+    //     } else {
+    //       this.State.Loading = false;
+    //     }
+    //   });
   }
 
-  protected listBranches() {
+  protected listBranches(): void {
     this.State.GitHub.Loading = true;
 
     this.appsFlowSvc
@@ -233,7 +236,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
       });
   }
 
-  protected listOrganizations() {
+  protected listOrganizations(): void {
     this.appsFlowSvc
       .ListOrganizations()
       .subscribe((response: BaseModeledResponse<GitHubOrganization[]>) => {
@@ -245,7 +248,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
       });
   }
 
-  protected listRepositories(activeRepo: string = null) {
+  protected listRepositories(activeRepo: string = null): void {
     this.State.GitHub.Loading = true;
 
     this.appsFlowSvc
@@ -271,7 +274,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
       });
   }
 
-  protected loadProjectHostingDetails() {
+  protected loadProjectHostingDetails(): void {
     this.State.HostingDetails.Loading = true;
 
     this.appsFlowSvc

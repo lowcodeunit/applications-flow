@@ -26,6 +26,7 @@ import { SettingsComponent } from './elements/projects/controls/tabs/general/for
 import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
 import { BaseFormComponent } from './elements/base-form/base-form.component';
 import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
+import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { BaseFormTestComponent } from './elements/projects/controls/tabs/general
     SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
+    GitAuthComponent,
   ],
   imports: [
     FathymSharedModule,
@@ -76,6 +78,7 @@ import { BaseFormTestComponent } from './elements/projects/controls/tabs/general
     SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
+    GitAuthComponent,
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -93,6 +96,7 @@ import { BaseFormTestComponent } from './elements/projects/controls/tabs/general
     SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
+    GitAuthComponent,
   ],
 })
 export class ApplicationsFlowModule {

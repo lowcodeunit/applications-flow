@@ -2,7 +2,7 @@
   <div [fxHide]="State?.Loading">
     <div fxLayout="column" fxLayoutAlign="center center">
       <div class="margin-x-1" fxFlex="40%" fxFlex.lt-md="100%">
-        <div class="welcome">
+        <!-- <div class="welcome">
           <h2 class="mat-display-2 margin-y-2">
             <span *ngIf="State.Projects?.length <= 0">
               Thank you for signing up
@@ -12,7 +12,7 @@
           </h2>
 
           <h3 class="mat-title">Let's get your Project setup and running</h3>
-        </div>
+        </div> -->
 
         <!--
               <div
@@ -29,7 +29,7 @@
       <div class="setup margin-x-1" fxFlex="80%" fxFlex.lt-md="100%">
         <form [formGroup]="ProjectFormGroup" (ngSubmit)="CreateProject()">
           <mat-horizontal-stepper linear #projectStepper>
-            <mat-step
+            <!-- <mat-step
               label="Connect Git"
               [completed]="State.GitHub.HasConnection"
             >
@@ -38,7 +38,7 @@
                   Connect your git provider
                 </h3>
 
-                <!-- href="/.oauth/github" -->
+                
                 <a
                   (click)="ConnectGitHubProvider()"
                   mat-raised-button
@@ -50,7 +50,7 @@
                   <span class="octocat-icon"></span>
                 </a>
               </div>
-            </mat-step>
+            </mat-step> -->
 
             <mat-step
               label="Setup Repository"
