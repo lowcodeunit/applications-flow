@@ -51,6 +51,7 @@ export class ApplicationsFlowProjectsElementComponent
   extends LcuElementComponent<ApplicationsFlowProjectsContext>
   implements OnDestroy, OnInit
 {
+
   //  Fields
   protected projMon: NodeJS.Timeout;
 
