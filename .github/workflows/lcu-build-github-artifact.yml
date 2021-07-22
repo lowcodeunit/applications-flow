@@ -13,8 +13,8 @@ jobs:
         with:
           node-version: 12
           registry-url: 
-      - name: NPM Instal
-        run: npm install
+      - name: NPM Install
+        run: npm ci
       - name: NPM Publish
         run: npm run build
       - name: Archive production artifacts
