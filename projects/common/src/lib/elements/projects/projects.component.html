@@ -23,12 +23,7 @@
         <span *ngIf="State.Projects?.length <= 0">
           Thank you for signing up
         </span>
-        <span *ngIf="State.Projects?.length > 0"> Project Setup </span>
       </h2>
-      <h3 class="mat-title margin-top-3">
-        Let's get your Project setup and running
-      </h3>
-
     </div>
 
     <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth>
@@ -68,7 +63,7 @@
       </ng-container>
     </ng-container>
   </ng-container>
-  
+
   <div class="loading" *ngIf="State?.Loading">
     <lcu-loader [loading]="State?.Loading"></lcu-loader>
 
