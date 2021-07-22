@@ -36,7 +36,7 @@
       </h3>
     </div>
 
-    <lcu-git-auth></lcu-git-auth>
+    <lcu-git-auth *ngIf="State.GitHub.HasConnection"></lcu-git-auth>
 
     <div *ngIf="CreatingProject">
       <lcu-create-project-wizard></lcu-create-project-wizard>
