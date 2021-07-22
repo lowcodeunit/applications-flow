@@ -60,7 +60,9 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public get EditingProject(): ProjectState {
-    return this.State.Projects.find(p => p.ID === this.projectService.EditingProjectID);
+    return this.State.Projects.find(
+      (p) => p.ID === this.projectService.EditingProjectID
+    );
   }
 
   public State: ApplicationsFlowState;
@@ -181,17 +183,13 @@ export class ApplicationsFlowProjectsElementComponent
       this.projectService.DeployRun(this.State, run);
     });
 
-    this.appsFlowEventsSvc.SaveProjectEvent.subscribe(
-      (project) => {
-        this.projectService.SaveProject(this.State, project);
-      }
-    );
+    this.appsFlowEventsSvc.SaveProjectEvent.subscribe((project) => {
+      this.projectService.SaveProject(this.State, project);
+    });
 
-    this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe(
-      (project) => {
-        this.projectService.SetEditProjectSettings(this.State, project);
-      }
-    );
+    this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe((project) => {
+      this.projectService.SetEditProjectSettings(this.State, project);
+    });
   }
 
   protected setupProjectMonitor(): void {
