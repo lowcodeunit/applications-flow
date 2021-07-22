@@ -1,0 +1,31 @@
+<div 
+  fxFlex 
+  fxLayout="column"
+  fxLayoutAlign="center center">
+  <!-- <div
+    label="Connect Git"
+    [completed]="State.GitHub.HasConnection"
+  > -->
+  <div 
+    label="Connect Git" 
+    *ngIf="!State.GitHub.HasConnection">
+    <div 
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      class="connect margin-x-3 margin-bottom-3">
+      <h3 class="mat-display-1 margin-bottom-4">
+        Connect your git provider
+      </h3>
+
+      <!-- href="/.oauth/github" -->
+      <a 
+        (click)="ConnectGitHubProvider()" 
+        mat-raised-button color="primary" 
+        class="github margin-y-3">
+        Connect with GitHub
+
+        <span class="octocat-icon"></span>
+      </a>
+    </div>
+  </div>
+</div>
