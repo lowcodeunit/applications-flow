@@ -206,7 +206,7 @@ export class SettingsComponent implements OnInit {
   protected setupForm(): void {
     const lcu = this.Project.LCUs[0];
 
-    const action = this.Project.ActionsSet[lcu.ID] || {};
+    const action = this.Project.ActionsSet ? this.Project.ActionsSet[lcu.ID] || {} : {};
 
     const actionDetails = JSON.parse(action.Details);
 
