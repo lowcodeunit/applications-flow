@@ -8,7 +8,10 @@ import {
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { DevSettingsPresetModel } from './../../../../../../../models/dev-settings-preset.model';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
-import { GitHubLowCodeUnit, ProjectState } from './../../../../../../../state/applications-flow.state';
+import {
+  GitHubLowCodeUnit,
+  ProjectState,
+} from './../../../../../../../state/applications-flow.state';
 import { Component, Input, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
@@ -108,13 +111,13 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+  ) {
+    this.setupForm();
+  }
 
   public ngOnInit(): void {
-
     this.formName = 'SettingsForm';
-
-    this.setupForm();
 
     this.config();
 
@@ -160,10 +163,10 @@ export class SettingsComponent implements OnInit {
 
   /**
    * Need this extra work to test for validity, because of setting all forms
-   * valid. In this case, we don't want the inputs to be enabled unless the 
-   * override toggle is set to true - setting form.enable(), enables the inputs, 
+   * valid. In this case, we don't want the inputs to be enabled unless the
+   * override toggle is set to true - setting form.enable(), enables the inputs,
    * regarless if the toggle is false
-   * 
+   *
    * @param form control to test
    *
    * @returns if control is valid or not
@@ -204,18 +207,20 @@ export class SettingsComponent implements OnInit {
    * Setup form controls
    */
   protected setupForm(): void {
-    const lcu = this.Project.LCUs[0];
+    const lcu = this.Project?.LCUs[0];
 
-    const action = this.Project.ActionsSet ? this.Project.ActionsSet[lcu.ID] || {} : {};
+    const action = this.Project?.ActionsSet
+      ? this.Project.ActionsSet[lcu.ID] || {}
+      : {};
 
-    const actionDetails = JSON.parse(action.Details);
+    const actionDetails = JSON.parse(action.Details || '{}');
 
     this.Form = new FormGroup({
       preset: new FormControl(''),
       buildCommand: new FormControl(
         {
-          value: actionDetails.BuildScript || 'npm run build',
-          disabled: false
+          value: actionDetails?.BuildScript || 'npm run build',
+          disabled: false,
         },
         {
           validators: [Validators.required, Validators.minLength(3)],
@@ -225,8 +230,8 @@ export class SettingsComponent implements OnInit {
       // buildCommandOverride: new FormControl(false, { updateOn: 'change' }),
       outputDirectory: new FormControl(
         {
-          value: actionDetails.OutputFolder || 'build',
-          disabled: false
+          value: actionDetails?.OutputFolder || 'build',
+          disabled: false,
         },
         {
           validators: [Validators.required, Validators.minLength(3)],
@@ -236,8 +241,8 @@ export class SettingsComponent implements OnInit {
       // outputDirectoryOverride: new FormControl(false),
       installCommand: new FormControl(
         {
-          value: actionDetails.InstallCommand || 'npm ci',
-          disabled: false
+          value: actionDetails?.InstallCommand || 'npm ci',
+          disabled: false,
         },
         {
           validators: [Validators.required, Validators.minLength(3)],
@@ -253,14 +258,11 @@ export class SettingsComponent implements OnInit {
 
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: any) => {
-
       if (this.formsService.ForRealThough(this.formName, this.Form)) {
-
         this.IsDirty = true;
-         // disable all forms except the current form being edited
+        // disable all forms except the current form being edited
         this.formsService.DisableForms(this.formName);
       } else {
-
         this.IsDirty = false;
         // enable all forms
         this.formsService.DisableForms(false);
@@ -289,7 +291,7 @@ export class SettingsComponent implements OnInit {
   /**
    * Reset form controls back to previous values
    */
-   protected resetForm(): void {
+  protected resetForm(): void {
     // enable all forms
     // this.formsService.DisableForms(false);
 
@@ -307,13 +309,16 @@ export class SettingsComponent implements OnInit {
     action.Details = JSON.stringify({
       BuildScript: this.BuildCommand.value,
       OutputFolder: this.OutputDirectory.value,
-      InstallCommand: this.InstallCommand.value || 'npm ci'
+      InstallCommand: this.InstallCommand.value || 'npm ci',
     });
 
     this.appsFlowEventsSvc.SaveProject({
-      ...this.Project
+      ...this.Project,
     });
 
-    this.formsService.UpdateValuesReference({ Id: this.formName, Form: this.Form });
+    this.formsService.UpdateValuesReference({
+      Id: this.formName,
+      Form: this.Form,
+    });
   }
 }
