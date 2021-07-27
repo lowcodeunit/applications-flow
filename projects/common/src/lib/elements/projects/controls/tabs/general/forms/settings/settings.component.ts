@@ -203,9 +203,6 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  /**
-   * Setup form controls
-   */
   protected setupForm(): void {
     const lcu = this.Project?.LCUs[0];
 
