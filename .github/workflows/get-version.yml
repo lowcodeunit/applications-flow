@@ -1,0 +1,16 @@
+name: Get Version
+
+on:
+  push:
+    branches: 
+    - 'integration'
+    - 'feature/**'
+
+jobs:  
+  getVersion: 
+    name: get version
+    runs-on: ubuntu-latest
+    steps:
+      - id: get_version
+        uses: battila7/get-version-action@v2     
+      - run: echo ${{ steps.get_version.outputs.version-without-v }}
