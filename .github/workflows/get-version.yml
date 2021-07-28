@@ -16,16 +16,26 @@ jobs:
         fetch-depth: '0'
     - name: Bump version and push tag
       uses: anothrNick/github-tag-action@1.26.0
+      id: versionBump
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         RELEASE_BRANCHES: integration,feature* 
         DEFAULT_BUMP: patch
         WITH_V: false
-  
-  branchName: 
-    name: get branch name
-    runs-on: ubuntu-latest
-    steps:
-      - id: get_branchName
-        uses: battila7/get-version-action@v2     
-      - run: echo ${{ steps.get_version.outputs.version-without-v }}
+    - run: echo "The new version is ${{ steps.versionBump.outputs.new_tag }}"
+    
+  getBranch: 
+     name: Extract branch name
+     runs-on: ubuntu-latest     
+     steps:
+     - name: Extract Branch
+       id: extract_branch      
+       shell: bash
+       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"  
+      
+  echo:
+     name: Echo Branch name
+     runs-on: ubuntu-latest
+     steps: 
+      - shell: bash
+        run: echo "The branch name is ${{ steps.extract_branch.outputs.branch }}"
