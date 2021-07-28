@@ -36,6 +36,7 @@ jobs:
   echo:
      name: Echo Branch name
      runs-on: ubuntu-latest
+     needs: getBranch
      steps: 
       - shell: bash
         run: echo "The branch name is ${{ steps.extract_branch.outputs.branch }}"
