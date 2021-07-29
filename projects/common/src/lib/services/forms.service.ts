@@ -95,7 +95,7 @@ export class FormsService {
      * @param val form model with values
      */
     public UpdateValuesReference(val: FormModel): void {
-
+        debugger;
         const index: number = this.previousFormValues.findIndex((x: FormValuesModel) => {
             return x.Id === val.Id;
         });

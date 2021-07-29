@@ -113,11 +113,13 @@ export class SettingsComponent implements OnInit {
     protected formsService: FormsService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
-    this.setupForm();
+  
   }
 
   public ngOnInit(): void {
     this.formName = 'SettingsForm';
+
+    this.setupForm();
 
     this.config();
 

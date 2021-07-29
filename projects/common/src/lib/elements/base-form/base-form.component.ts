@@ -73,7 +73,7 @@ export class BaseFormComponent implements OnInit {
    * Update Form value reference
    */
   protected updateValueRef(): void {
-
+    debugger;
     this.formsService.UpdateValuesReference(
       {
         Id: this.FormConfig.FormName,
