@@ -10,7 +10,7 @@ on:
 
 jobs:
   buildDeploy:
-    name: Build Release
+    name: Build and Publish
     runs-on: ubuntu-latest
     steps:
     # checkout repository
