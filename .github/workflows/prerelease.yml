@@ -42,6 +42,10 @@ jobs:
     - name: replace slash with dash in branch name
       if: ${{ steps.vars.outputs.branchName != 'integration' }}
       shell: pwsh
+      run: (Get-Content -path package.json -Raw) -replace "feature/","feature-"
+    - name: replace slash with dash in branch name (WRITE)
+      if: ${{ steps.vars.outputs.branchName != 'integration' }}
+      shell: pwsh
       run: (Get-Content -path package.json -Raw) -replace "feature/","feature-" | Set-Content -Path package.json
 
     - name: replace tag text
