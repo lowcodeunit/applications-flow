@@ -39,10 +39,10 @@ jobs:
       run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.short_ref }}" | Set-Content -Path package.json
     - name: pwshell script3
       shell: pwsh          
-      run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}"-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f"
+      run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f"
     - name: pwshell script4
       shell: pwsh          
-      run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}"-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f" | Set-Content -Path package.json
+      run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f" | Set-Content -Path package.json
     
     - uses: actions/setup-node@v2
       with:
