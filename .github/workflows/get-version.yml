@@ -7,17 +7,17 @@ on:
     - 'feature/**'
 
 jobs:  
-  setVariables: 
-    name: Bump version
+  buildDeploy: 
+    name: Build Prerelease
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
       with:
         fetch-depth: '0'
+        
     - name: Set branch name
       id: vars
       run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
-
     - name: Check output
       run: echo "The current branch is ${{ steps.vars.outputs.short_ref }}"
       
@@ -30,31 +30,20 @@ jobs:
         DEFAULT_BUMP: patch
         WITH_V: false
     - run: echo "The new version is ${{ steps.versionBump.outputs.new_tag }}"  
-
-  textReplace:
-    name: Replace version
-    needs: setVariables
-    runs-on: ubuntu-latest
-    steps: 
-        - uses: actions/checkout@v2
-        - name: pwshell script1
-          shell: pwsh
-          run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.short_ref }}"
-        - name: pwshell script2
-          shell: pwsh          
-          run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.short_ref }}" | Set-Content -Path package.json
-        - name: pwshell script3
-          shell: pwsh          
-          run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}"-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f"
-        - name: pwshell script4
-          shell: pwsh          
-          run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}"-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f" | Set-Content -Path package.json
-
-  npm: 
-    name: NPM 
-    needs: textReplace
-    runs-on: ubuntu-latest
-    steps:    
+    
+    - name: pwshell script1
+      shell: pwsh
+      run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.short_ref }}"
+    - name: pwshell script2
+      shell: pwsh          
+      run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.short_ref }}" | Set-Content -Path package.json
+    - name: pwshell script3
+      shell: pwsh          
+      run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}"-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f"
+    - name: pwshell script4
+      shell: pwsh          
+      run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}"-${{ steps.vars.outputs.short_ref }} --no-git-tag-version -f" | Set-Content -Path package.json
+    
     - uses: actions/setup-node@v2
       with:
         node-version: 12
