@@ -54,10 +54,7 @@ jobs:
         registry-url: 'https://registry.npmjs.org'
     - name: NPM Install (ci)
       if: ${{ steps.versionBump.outputs.new_tag != '' }}
-      run: npm ci
-    - uses: actions/setup-node@v2
-      with:
-        registry-url: 'https://npm.pkg.github.com'      
+      run: npm ci   
     - name: NPM Publish
       if: ${{ steps.versionBump.outputs.new_tag != '' }}
       run: npm run deploy
