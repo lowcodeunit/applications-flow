@@ -9,7 +9,7 @@ on:
       - 'main'
 
 jobs:
-  buildDeploy:
+  build:
     name: Build and Publish
     runs-on: ubuntu-latest
     steps:
