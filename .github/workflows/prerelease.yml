@@ -22,8 +22,7 @@ jobs:
     # set branch name variable
     - name: Set branch name
       id: vars
-      shell: pwsh
-      run: echo ::set-output name=branchName::(${GITHUB_REF#refs/*/} -replace "/","-")
+      run: echo ::set-output name=branchName::${GITHUB_REF#refs/*/}
 
     - name: Check output
       run: echo "The current branch is ${{ steps.vars.outputs.branchName }}"
@@ -40,6 +39,11 @@ jobs:
     - run: echo "The new version is ${{ steps.versionBump.outputs.new_tag }}"
 
     # replace text in package.json
+    - name: replace slash with dash in branch name
+      if: ${{ steps.vars.outputs.branchName != 'integration' }}
+      shell: pwsh
+      run: (Get-Content -path package.json -Raw) -replace "feature/","feature-" | Set-Content -Path package.json
+
     - name: replace tag text
       shell: pwsh
       run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.branchName }}" | Set-Content -Path package.json
