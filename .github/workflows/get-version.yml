@@ -36,6 +36,7 @@ jobs:
     needs: setVariables
     runs-on: ubuntu-latest
     steps: 
+        - uses: actions/checkout@v2
         - name: pwshell script1
           shell: pwsh
           run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.short_ref }}"
