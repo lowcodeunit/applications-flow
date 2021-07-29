@@ -39,15 +39,6 @@ jobs:
     - run: echo "The new version is ${{ steps.versionBump.outputs.new_tag }}"
 
     # replace text in package.json
-    - name: replace slash with dash in branch name
-      if: ${{ steps.vars.outputs.branchName != 'integration' }}
-      shell: pwsh
-      run: (Get-Content -path package.json -Raw) -replace "feature/","feature-"
-    - name: replace slash with dash in branch name (WRITE)
-      if: ${{ steps.vars.outputs.branchName != 'integration' }}
-      shell: pwsh
-      run: (Get-Content -path package.json -Raw) -replace "feature/","feature-" | Set-Content -Path package.json
-
     - name: replace tag text
       shell: pwsh
       run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.branchName }}" | Set-Content -Path package.json
@@ -55,6 +46,11 @@ jobs:
     - name: replace vsn text
       shell: pwsh
       run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}-${{ steps.vars.outputs.branchName }} --no-git-tag-version -f" | Set-Content -Path package.json
+
+    - name: replace slash with dash in branch name
+      if: ${{ steps.vars.outputs.branchName != 'integration' }}
+      shell: pwsh
+      run: (Get-Content -path package.json -Raw) -replace "feature/","feature-" | Set-Content -Path package.json
 
     # run npm commands
     - uses: actions/setup-node@v2
