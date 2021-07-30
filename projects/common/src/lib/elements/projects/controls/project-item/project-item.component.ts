@@ -39,4 +39,8 @@ export class ProjectItemComponent implements OnInit {
   public CurrentProject(project: ProjectState): void {
     // this.projectService.CurrentSelectedProject.next(project);
   }
+
+  public DeleteProject(project: ProjectState): void {
+    
+  }
 }
