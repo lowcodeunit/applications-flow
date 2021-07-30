@@ -29,8 +29,15 @@ export class BuildsComponent implements OnInit, OnDestroy {
   /**
    * List of projects
    */
+  private _projects: Array<ProjectState>;
   @Input('projects')
-  public Projects: Array<ProjectState>;
+  public set Projects(val: Array<ProjectState>) {
+    this._projects = val;
+  }
+
+  public get Projects(): Array<ProjectState> {
+    return this._projects;
+  }
 
   constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 

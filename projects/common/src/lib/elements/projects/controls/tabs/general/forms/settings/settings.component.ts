@@ -182,7 +182,7 @@ export class SettingsComponent implements OnInit {
       Icon: 'settings',
       Title: 'Build & Development Settings',
       Subtitle:
-        'When using a framework for a new project, it will be automatically detected. As a s result, several project settings are automatically configured t achieve the best result. You can override them below.',
+        'When using a framework for a new project, it will be automatically detected. As a result, several project settings are automatically configured to achieve the best result. You can override them below.',
       FormActions: {
         Message: 'Changes will be applied to your next deployment',
         Actions: [
