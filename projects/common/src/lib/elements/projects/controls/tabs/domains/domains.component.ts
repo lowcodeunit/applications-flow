@@ -41,10 +41,11 @@ export class DomainsComponent implements OnInit {
   }
 
   @Input('data')
-  public Data: { Project: ProjectState };
+  public Data: { Project: ProjectState, HostDNSInstance: string };
 
-  @Input('host-dns-instance')
-  public HostDNSInstance: string;
+  public get HostDNSInstance(): string {
+    return this.Data.HostDNSInstance;
+  }
 
   public get Project(): ProjectState {
     return this.Data.Project;

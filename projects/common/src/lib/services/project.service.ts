@@ -91,6 +91,8 @@ export class ProjectService {
           state.HostDNSInstance = response.Model;
 
           state.Loading = false;
+
+          console.log(state);
         });
     } else {
       this.EditingProjectID = project.ID;
