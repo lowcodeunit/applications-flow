@@ -13,6 +13,8 @@ export class ApplicationsFlowEventsService {
 
   public DeployRunEvent: EventEmitter<GitHubWorkflowRun>;
 
+  public ListProjectsEvent: EventEmitter<boolean>;
+
   public SaveProjectEvent: EventEmitter<ProjectState>;
 
   public SetCreatingProjectEvent: EventEmitter<boolean>;
@@ -24,6 +26,8 @@ export class ApplicationsFlowEventsService {
     this.DeleteProjectEvent = new EventEmitter();
 
     this.DeployRunEvent = new EventEmitter();
+
+    this.ListProjectsEvent = new EventEmitter();
 
     this.SaveProjectEvent = new EventEmitter();
 
@@ -39,6 +43,10 @@ export class ApplicationsFlowEventsService {
 
   public DeployRun(run: GitHubWorkflowRun): void {
     this.DeployRunEvent.emit(run);
+  }
+
+  public ListProjects(withLoading: boolean): void {
+    this.ListProjectsEvent.emit(withLoading);
   }
 
   public SaveProject(project: ProjectState): void {

@@ -16,6 +16,10 @@ export class HeaderComponent implements OnInit {
   //  Fields
 
   //  Properties
+  public get HasProjects(): boolean {
+    return this.Projects && this.Projects.length > 0;
+  }
+
   @Input('projects')
   public Projects: Array<ProjectState>;
 
@@ -24,7 +28,8 @@ export class HeaderComponent implements OnInit {
 
   //  Constructors
   public constructor(
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+  ) {}
 
   //  Life Cycle
   public ngOnInit(): void {}

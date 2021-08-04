@@ -1,10 +1,24 @@
 <div fxLayout="row" fxLayout.lt-md="column" *ngIf="Projects">
+  <div class="no-projects" fxFlex="100%" *ngIf="Projects?.length <= 0">
+    <h1 class="spread mat-display-1">No projects configured</h1>
+
+    <h2 class="spread mat-headline">
+      Create your first project to get started
+    </h2>
+  </div>
+
   <div fxFlex="30%" fxFlex.lt-md="100%" *ngFor="let project of Projects">
-    <mat-card class="spread" [class.selected-project]="project.ID == SelectedProjectID">
+    <mat-card
+      class="spread"
+      [class.selected-project]="project.ID == SelectedProjectID"
+    >
       <mat-card-header>
         <img mat-card-avatar [src]="project.Image" />
 
-        <mat-card-title class="mat-subheading-2" [matTooltip]="project.Description">
+        <mat-card-title
+          class="mat-subheading-2"
+          [matTooltip]="project.Description"
+        >
           {{ project.Name }}
         </mat-card-title>
       </mat-card-header>

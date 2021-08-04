@@ -1,10 +1,14 @@
 @import "../../../../../assets/common";
 
 :host ::ng-deep {
+  .no-projects {
+    text-align: center;
+  }
+
   .mat-card {
-      &.selected-project {
-          border: #4a918e solid 3px;
-      }
+    &.selected-project {
+      border: #4a918e solid 3px;
+    }
     .mat-card-actions {
       .data-app-actions {
         display: none !important;

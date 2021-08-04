@@ -1,4 +1,4 @@
-<div fxLayout="row" fxLayout.lt-md="column">
+<div [fxLayout]="HasProjects ? 'row' : 'column'" fxLayout.lt-md="column" fxLayoutAlign="center center">
   <div fxFlex="100%">
     <lcu-project-items
       [projects]="Projects"
@@ -7,7 +7,7 @@
   </div>
 
   <div fxFlex="250px" fxFlex.lt-md="100%">
-    <div class="extras" fxLayout="column">
+    <div class="extras" [fxLayout]="HasProjects ? 'column' : 'row'">
       <mat-card class="spread">
         <mat-card-header>
           <mat-card-title>Create New Project</mat-card-title>

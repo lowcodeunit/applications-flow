@@ -53,6 +53,14 @@ export class ApplicationsFlowProjectsElementComponent
 {
   //  Fields
   protected projMon: NodeJS.Timeout;
+  protected setupProjectMonitor(): void {
+    this.projMon = setInterval(() => {
+      this.appsFlowEventsSvc.ListProjects(false);
+    }, 60000);
+  }
+  protected teardownProjectMonitor(): void {
+    clearInterval(this.projMon);
+  }
 
   //  Properties
   public get CreatingProject(): boolean {
@@ -83,7 +91,7 @@ export class ApplicationsFlowProjectsElementComponent
 
   //  Life Cycle
   public ngOnDestroy(): void {
-    this.teardownProjectMonitor();
+    // this.teardownProjectMonitor();
   }
 
   public ngOnInit(): void {
@@ -91,7 +99,7 @@ export class ApplicationsFlowProjectsElementComponent
 
     this.handleStateChange();
 
-    this.setupProjectMonitor();
+    // this.setupProjectMonitor();
   }
 
   //  API Methods
@@ -152,6 +160,10 @@ export class ApplicationsFlowProjectsElementComponent
       this.projectService.DeployRun(this.State, run);
     });
 
+    this.appsFlowEventsSvc.ListProjectsEvent.subscribe((withLoading) => {
+      this.projectService.ListProjects(this.State, withLoading);
+    });
+
     this.appsFlowEventsSvc.SaveProjectEvent.subscribe((project) => {
       this.projectService.SaveProject(this.State, project);
     });
@@ -165,13 +177,4 @@ export class ApplicationsFlowProjectsElementComponent
     });
   }
 
-  protected setupProjectMonitor(): void {
-    this.projMon = setInterval(() => {
-      this.projectService.ListProjects(this.State, false);
-    }, 60000);
-  }
-
-  protected teardownProjectMonitor(): void {
-    clearInterval(this.projMon);
-  }
 }
