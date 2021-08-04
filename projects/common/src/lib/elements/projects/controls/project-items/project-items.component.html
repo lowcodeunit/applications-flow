@@ -1,0 +1,61 @@
+<div fxLayout="row" fxLayout.lt-md="column" *ngIf="Projects">
+  <div fxFlex="30%" fxFlex.lt-md="100%" *ngFor="let project of Projects">
+    <mat-card class="spread" [class.selected-project]="project.ID == SelectedProjectID">
+      <mat-card-header>
+        <img mat-card-avatar [src]="project.Image" />
+
+        <mat-card-title class="mat-subheading-2" [matTooltip]="project.Description">
+          {{ project.Name }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="spread">
+          <span class="mat-body-2">{{ project.Host }}</span>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div class="data-app-actions">
+          <div fxFlex></div>
+
+          <a
+            mat-icon-button
+            href="https://{{ project.Host }}"
+            target="_blank"
+            [title]="project.Host"
+            color="accent"
+          >
+            <mat-icon>launch</mat-icon>
+          </a>
+
+          <button mat-icon-button (click)="ProjectSettings(project)">
+            <mat-icon matTooltip="Edit Project Settings">settings</mat-icon>
+          </button>
+
+          <button mat-icon-button color="warn" (click)="DeleteProject(project)">
+            <mat-icon matTooltip="Delete {{ project.Name }}"
+              >delete_forever</mat-icon
+            >
+          </button>
+        </div>
+
+        <div class="data-app-fakes">
+          <div fxFlex></div>
+
+          <button mat-icon-button disabled>
+            <mat-icon>fiber_manual_record</mat-icon>
+          </button>
+
+          <button mat-icon-button disabled>
+            <mat-icon>fiber_manual_record</mat-icon>
+          </button>
+
+          <button mat-icon-button disabled>
+            <mat-icon>fiber_manual_record</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

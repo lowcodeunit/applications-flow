@@ -37,18 +37,8 @@
         <ng-container *ngIf="State">
           <lcu-projects-header
             [projects]="State.Projects"
+            [selected-project-id]="EditingProject?.ID"
           ></lcu-projects-header>
-
-          <span fxLayoutAlign="end center" class="card-actions">
-            <button
-              mat-raised-button
-              color="accent"
-              (click)="ToggleCreateProject()"
-              class="margin-top-4 margin-bottom-2"
-            >
-              Create Project
-            </button>
-          </span>
 
           <div *ngIf="EditingProject">
             <div class="divider margin-bottom-3"></div>

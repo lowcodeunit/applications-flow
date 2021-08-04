@@ -16,7 +16,7 @@ import { HeaderComponent } from './elements/projects/controls/header/header.comp
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
 import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
 import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
-import { ProjectItemComponent } from './elements/projects/controls/project-item/project-item.component';
+import { ProjectItemsComponent } from './elements/projects/controls/project-items/project-items.component';
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
 import { RecentActivitiesComponent } from './elements/projects/controls/recent-activities/recent-activities.component';
 import { FormCardComponent } from './elements/form-card/form-card.component';
@@ -39,7 +39,7 @@ import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
-    ProjectItemComponent,
+    ProjectItemsComponent,
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,
@@ -69,7 +69,7 @@ import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
-    ProjectItemComponent,
+    ProjectItemsComponent,
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,
@@ -87,7 +87,7 @@ import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
-    ProjectItemComponent,
+    ProjectItemsComponent,
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,

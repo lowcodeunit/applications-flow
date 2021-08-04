@@ -17,6 +17,18 @@ export class ProjectService {
 
   constructor(protected appsFlowSvc: ApplicationsFlowService) {}
 
+  public DeleteProject(state: ApplicationsFlowState, projectId: string): void {
+    state.Loading = true;
+
+    this.appsFlowSvc.DeleteProject(projectId).subscribe((response: BaseResponse) => {
+      if (response.Status.Code === 0) {
+        this.ListProjects(state);
+      } else {
+        state.Loading = false;
+      }
+    });
+  }
+
   public DeployRun(state: ApplicationsFlowState, run: GitHubWorkflowRun): void {
     state.Loading = true;
 
@@ -74,6 +86,12 @@ export class ProjectService {
         });
   }
 
+  public SetCreatingProject(creatingProject: boolean): void {
+    this.CreatingProject = creatingProject;
+
+    this.EditingProjectID = null;
+  }
+
   public SetEditProjectSettings(
     state: ApplicationsFlowState,
     project: ProjectState
@@ -102,8 +120,6 @@ export class ProjectService {
   }
 
   public ToggleCreateProject(): void {
-    this.CreatingProject = !this.CreatingProject;
-
-    this.EditingProjectID = null;
+    this.SetCreatingProject(!this.CreatingProject);
   }
 }

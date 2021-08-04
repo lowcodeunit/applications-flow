@@ -12,6 +12,7 @@ import {
   GitHubRepository,
   ProjectHostingDetails,
 } from '../../../../state/applications-flow.state';
+import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-create-project-wizard',
@@ -48,7 +49,8 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   //  Constructors
   constructor(
     protected formBuilder: FormBuilder,
-    protected appsFlowSvc: ApplicationsFlowService
+    protected appsFlowSvc: ApplicationsFlowService,
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     this.State = new ApplicationsFlowState();
   }
@@ -69,6 +71,10 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   }
 
   //  API Methods
+  public Cancel() {
+    this.appsFlowEventsSvc.SetCreatingProject(false);
+  }
+  
   public CancelCreateRepository(): void {
     this.State.GitHub.CreatingRepository = false;
   }

@@ -1,0 +1,46 @@
+<form
+  fxLayout="row"
+  fxLayout.lt-md="column"
+  class="padding-top-3"
+  [formGroup]="Form">
+  <div>
+    <lcu-form-card 
+    [config]="Config"
+    [form]="Form"
+    [is-dirty]="IsDirty"
+    >
+      <div fxLayout="column">
+        <div fxLayout="row">
+          <div fxFlex fxLayout="row">
+            <mat-form-field fxFlex appearance="fill" class="margin-right-3">
+              <mat-icon
+                matSuffix
+                [ngClass]="Domain.valid ? 'valid-control' : 'invalid-control'"
+              >
+                {{ Domain.valid ? "check_circle" : "error_outline" }}
+              </mat-icon>
+              <input
+                type="text"
+                matInput
+                [placeholder]="Domain.invalid || Domain.disabled ? '/' : ''"
+                formControlName="domain"
+              />
+
+              <mat-hint>
+                In order to use a custom domain, create a CNAME dns record pointing
+                desired subdomain to <strong>{{ HostDNSInstance }}</strong>.
+              </mat-hint>
+              
+              
+              <mat-error *ngIf="Domain.hasError('required')">
+                Domain is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <!-- <button mat-button color="accent">Add</button> -->
+        </div>
+      </div>
+      <!-- <div class="card-divider"></div> -->
+    </lcu-form-card>
+  </div>
+</form>

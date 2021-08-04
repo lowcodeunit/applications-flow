@@ -60,6 +60,15 @@ export class ApplicationsFlowService {
     );
   }
 
+  public DeleteProject(projectId: string): Observable<object> {
+    return this.http.delete(
+      `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectId}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public DeployRun(run: GitHubWorkflowRun): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/deploy`,

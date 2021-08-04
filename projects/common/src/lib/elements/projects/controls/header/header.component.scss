@@ -1,0 +1,13 @@
+:host ::ng-deep {
+  .mat-card-content {
+    text-align: center;
+    height: 100px;
+    overflow: auto;
+  }
+
+  .extras {
+    .mat-card-header {
+      text-align: center;
+    }
+  }
+}

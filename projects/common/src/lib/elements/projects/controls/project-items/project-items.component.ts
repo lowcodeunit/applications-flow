@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProjectState } from './../../../../state/applications-flow.state';
-import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
+import { ProjectState } from '../../../../state/applications-flow.state';
+import { ApplicationsFlowEventsService } from '../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-project-items',
-  templateUrl: './project-item.component.html',
-  styleUrls: ['./project-item.component.scss'],
+  templateUrl: './project-items.component.html',
+  styleUrls: ['./project-items.component.scss'],
 })
-export class ProjectItemComponent implements OnInit {
+export class ProjectItemsComponent implements OnInit {
   //  Fields
 
   //  Properties
@@ -19,6 +19,9 @@ export class ProjectItemComponent implements OnInit {
 
   public PanelOpenState: boolean;
 
+  @Input('selected-project-id')
+  public SelectedProjectID: string;
+
   //  Constructors
   constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
@@ -26,6 +29,12 @@ export class ProjectItemComponent implements OnInit {
   public ngOnInit(): void {}
 
   //  API Methods
+  public DeleteProject(project: ProjectState): void {
+    if (confirm(`Are you sure you want to delete project '${project.Name}'?`)) {
+      this.appsFlowEventsSvc.DeleteProject(project.ID);
+    }
+  }
+
   /**
    *
    * @param project Current project object
@@ -38,9 +47,5 @@ export class ProjectItemComponent implements OnInit {
 
   public CurrentProject(project: ProjectState): void {
     // this.projectService.CurrentSelectedProject.next(project);
-  }
-
-  public DeleteProject(project: ProjectState): void {
-    
   }
 }

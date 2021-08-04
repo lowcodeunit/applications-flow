@@ -51,7 +51,6 @@ export class ApplicationsFlowProjectsElementComponent
   extends LcuElementComponent<ApplicationsFlowProjectsContext>
   implements OnDestroy, OnInit
 {
-
   //  Fields
   protected projMon: NodeJS.Timeout;
 
@@ -113,19 +112,6 @@ export class ApplicationsFlowProjectsElementComponent
       });
   }
 
-  // public DeployRun(run: GitHubWorkflowRun): void {
-
-  //   this.State.Loading = true;
-
-  //   this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
-  //     if (response.Status.Code === 0) {
-  //       this.listProjects();
-  //     } else {
-  //       this.State.Loading = false;
-  //     }
-  //   });
-  // }
-
   public HasDevOpsConfigured(val: {
     project: ProjectState;
     lcuID: string;
@@ -133,15 +119,6 @@ export class ApplicationsFlowProjectsElementComponent
     const run = val.project.Runs.find((r) => r.LCUID === val.lcuID);
 
     return !!run;
-  }
-
-  // project: ProjectState, lcuId: string
-  // public RetrieveLCU(val: {project: ProjectState, lcuID: string}): GitHubLowCodeUnit {
-  //   return val.project.LCUs.find((lcu) => lcu.ID === val.lcuID);
-  // }
-
-  public ToggleCreateProject(): void {
-    this.projectService.ToggleCreateProject();
   }
 
   //  Helpers
@@ -162,41 +139,25 @@ export class ApplicationsFlowProjectsElementComponent
         this.State.Loading = false;
       });
   }
-  // protected listProjects(withLoading: boolean = true): void {
-  //   if (withLoading) {
-  //     this.State.Loading = true;
-  //   }
-
-  //   this.appsFlowSvc
-  //     .ListProjects()
-  //     .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
-  //       if (response.Status.Code === 0) {
-  //         this.State.Projects = response.Model;
-  //       } else if (response.Status.Code === 3) {
-  //       }
-
-  //       if (withLoading) {
-  //         this.State.Loading = false;
-  //       }
-
-  //       this.CreatingProject =
-  //         !this.State.Projects || this.State.Projects.length <= 0;
-
-  //       this.appsFlowSvc.UpdateState(this.State);
-  //       console.log(this.State);
-  //     });
-  // }
 
   /**
    * Setup any service subscriptions
    */
   protected setServices(): void {
+    this.appsFlowEventsSvc.DeleteProjectEvent.subscribe((projectId) => {
+      this.projectService.DeleteProject(this.State, projectId);
+    });
+
     this.appsFlowEventsSvc.DeployRunEvent.subscribe((run) => {
       this.projectService.DeployRun(this.State, run);
     });
 
     this.appsFlowEventsSvc.SaveProjectEvent.subscribe((project) => {
       this.projectService.SaveProject(this.State, project);
+    });
+
+    this.appsFlowEventsSvc.SetCreatingProjectEvent.subscribe((creatingProject) => {
+      this.projectService.SetCreatingProject(creatingProject);
     });
 
     this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe((project) => {

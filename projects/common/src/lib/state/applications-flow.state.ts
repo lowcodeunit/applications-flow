@@ -25,6 +25,8 @@ export class ApplicationsFlowState {
 export class ProjectState {
   public ActionsSet?: { [id: string]: DevOpsAction };
 
+  public Applications?: ApplicationState[];
+
   public Description?: string;
 
   public Host?: string;
@@ -40,6 +42,22 @@ export class ProjectState {
   public PreventInheritedApplications?: boolean;
 
   public Runs?: GitHubWorkflowRun[];
+}
+
+export class ApplicationState {
+  public IsPrivate?: boolean;
+
+  public Name?: string;
+
+  public Organization?: string;
+
+  public PathRegex?: string;
+
+  public Priority?: number;
+
+  public Repository?: string;
+
+  public Version?: string;
 }
 
 export class GitHubSetupState {
