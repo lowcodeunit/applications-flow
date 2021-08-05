@@ -20,12 +20,12 @@ jobs:
         fetch-depth: '0'
 
     # set branch name variable
-    - name: Set branch name
+    - name: Set branch name variable
       id: vars
-      run: echo ::set-output name=branchName::${GITHUB_REF#refs/*/}
+      run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
 
-    - name: Check output
-      run: echo "The current branch is ${{ steps.vars.outputs.branchName }}"
+    - name: Echo current branch
+      run: echo "The current branch is ${{ steps.vars.outputs.short_ref }}"
 
     # bump version and push tag
     - name: Bump version and push tag
@@ -43,7 +43,7 @@ jobs:
       shell: pwsh
       run: (Get-Content -path package.json -Raw) -replace "--access public","--access public --tag ${{ steps.vars.outputs.branchName }}" | Set-Content -Path package.json
 
-    - name: replace vsn text
+    - name: replace version text
       shell: pwsh
       run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }}-${{ steps.vars.outputs.branchName }} --no-git-tag-version -f" | Set-Content -Path package.json
 
