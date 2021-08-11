@@ -1,5 +1,11 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { MatRadioChange } from '@angular/material/radio';
 import { ProjectHostingDetails } from './../../../../state/applications-flow.state';
 
 @Component({
@@ -11,11 +17,19 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   //  Fields
 
   //  Properties
+  public get BuildPipeline(): AbstractControl {
+    return this.FormGroup.get('projectDetails').get('buildPipeline');
+  }
+
   @Input('details')
   public Details: ProjectHostingDetails;
 
   @Input('formGroup')
   public FormGroup: FormGroup;
+
+  public get Organization(): AbstractControl {
+    return this.FormGroup.get('repoDetails').get('organization');
+  }
 
   //  Constructors
   constructor(protected formBuilder: FormBuilder) {}
@@ -31,6 +45,11 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
         formGroup.removeControl(ctrl);
       }
     }
+
+    formGroup.addControl(
+      'buildPipeline',
+      this.formBuilder.control('github', [Validators.required])
+    );
 
     // formGroup.addControl(
     //   'projectName',
@@ -52,6 +71,11 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       this.formBuilder.control('dist', [Validators.required])
     );
 
+    formGroup.addControl(
+      'installCommand',
+      this.formBuilder.control('npm ci', [Validators.required])
+    );
+
     // formGroup.addControl('deployScript', this.formBuilder.control(['']));
 
     // this.FormGroup.setControl(
@@ -68,6 +92,19 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   }
 
   //  API Methods
+  public BuildPipelineChanged(event: MatRadioChange): void {
+    const formGroup = this.FormGroup.get('projectDetails') as FormGroup;
+
+    if (this.BuildPipeline.value === 'npm') {
+      if (!formGroup.controls.npmToken) {
+        formGroup.addControl('npmToken', this.formBuilder.control('', [Validators.required]));
+      }
+    } else {
+      if (formGroup.controls.npmToken) {
+        formGroup.removeControl('npmToken');
+      }
+    }
+  }
 
   //  Helpers
 }

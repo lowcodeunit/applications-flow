@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { ProjectState } from '../state/applications-flow.state';
+import { EstablishProjectRequest, ProjectState } from '../state/applications-flow.state';
 import { GitHubWorkflowRun } from '../state/applications-flow.state';
 
 @Injectable({
@@ -9,6 +9,8 @@ export class ApplicationsFlowEventsService {
   //  Fields
 
   //  Properties
+  public BootUserProjectEvent: EventEmitter<EstablishProjectRequest>;
+
   public DeleteProjectEvent: EventEmitter<string>;
 
   public DeployRunEvent: EventEmitter<GitHubWorkflowRun>;
@@ -23,6 +25,8 @@ export class ApplicationsFlowEventsService {
 
   // Constructors
   constructor() {
+    this.BootUserProjectEvent = new EventEmitter();
+
     this.DeleteProjectEvent = new EventEmitter();
 
     this.DeployRunEvent = new EventEmitter();
@@ -37,6 +41,10 @@ export class ApplicationsFlowEventsService {
   }
 
   // API Methods
+  public BootUserProject(req: EstablishProjectRequest): void {
+    this.BootUserProjectEvent.emit(req);
+  }
+
   public DeleteProject(projectId: string): void {
     this.DeleteProjectEvent.emit(projectId);
   }

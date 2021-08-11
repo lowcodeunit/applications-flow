@@ -28,7 +28,7 @@ export class ApplicationsFlowService {
   }
 
   // API Methods
-  public BootUserEnterprise(request: EstablishProjectRequest): Observable<object> {
+  public BootUserProject(request: EstablishProjectRequest): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/boot`,
       request,

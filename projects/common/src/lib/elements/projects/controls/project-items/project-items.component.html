@@ -47,6 +47,11 @@
             <mat-icon matTooltip="Edit Project Settings">settings</mat-icon>
           </button>
 
+          <a mat-button color="accent" (click)="DeployRun(latestRun)" target="_blank"
+              matTooltip="Deploy Latest" title="Deploy Latest">
+              <mat-icon>cloud_upload</mat-icon>
+          </a>
+
           <button mat-icon-button color="warn" (click)="DeleteProject(project)">
             <mat-icon matTooltip="Delete {{ project.Name }}"
               >delete_forever</mat-icon
@@ -56,6 +61,10 @@
 
         <div class="data-app-fakes">
           <div fxFlex></div>
+
+          <button mat-icon-button disabled>
+            <mat-icon>fiber_manual_record</mat-icon>
+          </button>
 
           <button mat-icon-button disabled>
             <mat-icon>fiber_manual_record</mat-icon>

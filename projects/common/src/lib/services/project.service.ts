@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse } from '@lcu/common';
 import {
   ApplicationsFlowState,
+  EstablishProjectRequest,
   GitHubWorkflowRun,
   ProjectState,
 } from '../state/applications-flow.state';
@@ -17,16 +18,55 @@ export class ProjectService {
 
   constructor(protected appsFlowSvc: ApplicationsFlowService) {}
 
+  public BootUserProject(
+    state: ApplicationsFlowState,
+    req: EstablishProjectRequest
+  ): void {
+    state.Loading = true;
+
+    this.appsFlowSvc
+      .BootUserProject(req)
+      .subscribe((response: BaseResponse) => {
+        if (response.Status.Code === 0) {
+          window.location.href = window.location.href;
+        } else {
+          state.Loading = false;
+        }
+
+        console.log(response);
+      });
+  }
+
+  // public CreateRepository(state: ApplicationsFlowState, org: string, repoName: string): void {
+  //   state.GitHub.Loading = true;
+
+  //   this.appsFlowSvc
+  //     .CreateRepository(org, repoName)
+  //     .subscribe((response: BaseResponse) => {
+  //       if (response.Status.Code === 0) {
+  //         this.listRepositories(repoName);
+
+  //         state.GitHub.CreatingRepository = false;
+  //       } else {
+  //         //  TODO:  Need to surface an error to the user...
+
+  //         state.GitHub.Loading = false;
+  //       }
+  //     });
+  // }
+
   public DeleteProject(state: ApplicationsFlowState, projectId: string): void {
     state.Loading = true;
 
-    this.appsFlowSvc.DeleteProject(projectId).subscribe((response: BaseResponse) => {
-      if (response.Status.Code === 0) {
-        this.ListProjects(state);
-      } else {
-        state.Loading = false;
-      }
-    });
+    this.appsFlowSvc
+      .DeleteProject(projectId)
+      .subscribe((response: BaseResponse) => {
+        if (response.Status.Code === 0) {
+          this.ListProjects(state);
+        } else {
+          state.Loading = false;
+        }
+      });
   }
 
   public DeployRun(state: ApplicationsFlowState, run: GitHubWorkflowRun): void {
@@ -71,19 +111,19 @@ export class ProjectService {
     state: ApplicationsFlowState,
     project: ProjectState
   ): void {
-      state.Loading = true;
+    state.Loading = true;
 
-      this.appsFlowSvc
-        .SaveProject(project, state.HostDNSInstance)
-        .subscribe((response: BaseModeledResponse<string>) => {
-          if (response.Status.Code === 0) {
-            this.ListProjects(state, true);
-          } else {
-            state.Loading = false;
-          }
+    this.appsFlowSvc
+      .SaveProject(project, state.HostDNSInstance)
+      .subscribe((response: BaseModeledResponse<string>) => {
+        if (response.Status.Code === 0) {
+          this.ListProjects(state, true);
+        } else {
+          state.Loading = false;
+        }
 
-          console.log(response);
-        });
+        console.log(response);
+      });
   }
 
   public SetCreatingProject(creatingProject: boolean): void {

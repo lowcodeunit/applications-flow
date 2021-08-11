@@ -133,15 +133,15 @@ export class ApplicationsFlowProjectsElementComponent
   protected handleStateChange(): void {
     this.State.Loading = true;
 
-    this.projectService.ListProjects(this.State);
-
     this.appsFlowSvc
       .HasValidConnection()
       .subscribe((response: BaseResponse) => {
         this.State.GitHub.HasConnection = response.Status.Code === 0;
 
         if (this.State.GitHub.HasConnection) {
+          this.projectService.ListProjects(this.State, true);
         } else {
+          this.State.Loading = false;
         }
 
         this.State.Loading = false;
@@ -152,6 +152,10 @@ export class ApplicationsFlowProjectsElementComponent
    * Setup any service subscriptions
    */
   protected setServices(): void {
+    this.appsFlowEventsSvc.BootUserProjectEvent.subscribe((req) => {
+      this.projectService.BootUserProject(this.State, req);
+    });
+
     this.appsFlowEventsSvc.DeleteProjectEvent.subscribe((projectId) => {
       this.projectService.DeleteProject(this.State, projectId);
     });
@@ -168,13 +172,14 @@ export class ApplicationsFlowProjectsElementComponent
       this.projectService.SaveProject(this.State, project);
     });
 
-    this.appsFlowEventsSvc.SetCreatingProjectEvent.subscribe((creatingProject) => {
-      this.projectService.SetCreatingProject(creatingProject);
-    });
+    this.appsFlowEventsSvc.SetCreatingProjectEvent.subscribe(
+      (creatingProject) => {
+        this.projectService.SetCreatingProject(creatingProject);
+      }
+    );
 
     this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe((project) => {
       this.projectService.SetEditProjectSettings(this.State, project);
     });
   }
-
 }

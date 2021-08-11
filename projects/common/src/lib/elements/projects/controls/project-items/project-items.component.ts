@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ProjectState } from '../../../../state/applications-flow.state';
+import { GitHubWorkflowRun, ProjectState } from '../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../services/applications-flow-events.service';
 
 @Component({
@@ -33,6 +33,10 @@ export class ProjectItemsComponent implements OnInit {
     if (confirm(`Are you sure you want to delete project '${project.Name}'?`)) {
       this.appsFlowEventsSvc.DeleteProject(project.ID);
     }
+  }
+
+  public DeployRun(lastrun: GitHubWorkflowRun): void {
+    this.appsFlowEventsSvc.DeployRun(lastrun);
   }
 
   /**

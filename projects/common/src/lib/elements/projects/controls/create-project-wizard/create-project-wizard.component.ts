@@ -108,21 +108,11 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
       Repository: repoDetails.get('repository').value,
     };
 
-    req.ProjectName = `${req.Organization} ${req.Repository} ${req.Branch}`;
+    req.ProjectName = `@${req.Organization}/${req.Repository}@${req.Branch}`;
 
     // req.HostingOption = '';
 
-    this.appsFlowSvc
-      .BootUserEnterprise(req)
-      .subscribe((response: BaseResponse) => {
-        if (response.Status.Code === 0) {
-          window.location.href = window.location.href;
-        } else {
-          this.State.Loading = false;
-        }
-
-        console.log(response);
-      });
+    this.appsFlowEventsSvc.BootUserProject(req);
   }
 
   public OrganizationChanged(event: MatSelectChange): void {
