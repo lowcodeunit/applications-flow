@@ -57,9 +57,13 @@ jobs:
     - name: npm install
       run: npm ci
 
-    # build & publish npm packages to npmjs.org
-    - name: npm build & publish
-      if: ${{ steps.versionBump.outputs.new_tag != '' }}
-      run: npm run deploy
-      env:
-        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+    # build npm
+    - name: npm build
+      run: npm build  
+
+    # publish github artifacts
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${GITHUB_REPOSITORY#*/}
+        path: dist/${{ steps.vars.outputs.branchName }}
