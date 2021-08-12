@@ -25,14 +25,7 @@ jobs:
       run: echo ::set-output name=branchName::${GITHUB_REF##*/}
       
     - name: Echo current branch
-      run: echo "The current branch is ${{ steps.vars.outputs.branchName }}"          
-      
-    - name: Set repo variable
-      id: rvars
-      run: echo ::set-output name=repoName::${GITHUB_REPOSITORY#*/}
-      
-    - name: Echo current repo
-      run: echo "The current repo ${{ steps.rars.outputs.repoName }}"            
+      run: echo "The current branch is ${{ steps.vars.outputs.branchName }}"                        
 
     # bump version and push tag
     - name: Bump version and push tag
@@ -65,11 +58,11 @@ jobs:
 
     # build npm
     - name: npm build
-      run: npm build  
+      run: npm run build  
 
     # publish github artifacts
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ steps.rvars.outputs.repoName }}
-        path: dist/${{ steps.vars.outputs.branchName }}
+        name: archive npm package
+        path: dist/demo
