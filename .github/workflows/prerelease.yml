@@ -64,5 +64,5 @@ jobs:
     - name: Archive production artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: archive npm package
-        path: dist/demo
+        name: ${{ github.event.repository.name }}
+        path: dist/**
