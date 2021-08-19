@@ -25,7 +25,7 @@ jobs:
       run: echo ::set-output name=branchName::${GITHUB_REF##*/}
       
     - name: Echo current branch
-      run: echo "The current branch is ${{ steps.vars.outputs.branchName }}"                        
+      run: echo "The current branch is ${{ steps.vars.outputs.branchName }}"            
 
     # bump version and push tag
     - name: Bump version and push tag
@@ -50,19 +50,16 @@ jobs:
     # run npm commands
     - uses: actions/setup-node@v2
       with:
-        node-version: 12        
+        node-version: 12
+        registry-url: 'https://registry.npmjs.org'
 
     # install npm dependencies from package-lock.json
     - name: npm install
       run: npm ci
 
-    # build npm
-    - name: npm build
-      run: npm run build  
-
-    # publish github artifacts
-    - name: Archive production artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ github.event.repository.name }}
-        path: dist/**
+    # build & publish npm packages to npmjs.org
+    - name: npm build & publish
+      if: ${{ steps.versionBump.outputs.new_tag != '' }}
+      run: npm run deploy
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
