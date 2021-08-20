@@ -139,9 +139,31 @@ export class ProjectHostingDetails {
 }
 
 export class ProjectHostingOption {
+  public Description?: string;
+
+  public Image?: string;
+
+  public Inputs?: ProjectHostingOptionInput[];
+
   public Lookup?: string;
 
   public Name?: string;
+
+  public Path?: string;
+
+  public Templates?: string[];
+}
+
+export class ProjectHostingOptionInput {
+  public DefaultValue?: string;
+
+  public Hint?: string;
+
+  public Lookup?: string;
+
+  public Placeholder?: string;
+
+  public Required?: boolean;
 }
 
 export class EstablishProjectRequest {

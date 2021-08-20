@@ -9,7 +9,7 @@ export class ApplicationsFlowEventsService {
   //  Fields
 
   //  Properties
-  public BootUserProjectEvent: EventEmitter<EstablishProjectRequest>;
+  public EnsureUserEnterpriseEvent: EventEmitter<any>;
 
   public DeleteProjectEvent: EventEmitter<string>;
 
@@ -25,7 +25,7 @@ export class ApplicationsFlowEventsService {
 
   // Constructors
   constructor() {
-    this.BootUserProjectEvent = new EventEmitter();
+    this.EnsureUserEnterpriseEvent = new EventEmitter();
 
     this.DeleteProjectEvent = new EventEmitter();
 
@@ -41,8 +41,8 @@ export class ApplicationsFlowEventsService {
   }
 
   // API Methods
-  public BootUserProject(req: EstablishProjectRequest): void {
-    this.BootUserProjectEvent.emit(req);
+  public EnsureUserEnterprise(req: EstablishProjectRequest): void {
+    this.EnsureUserEnterpriseEvent.emit(req);
   }
 
   public DeleteProject(projectId: string): void {

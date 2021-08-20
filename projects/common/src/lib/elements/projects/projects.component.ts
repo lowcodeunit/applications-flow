@@ -103,14 +103,11 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
-  public ConfigureGitHubLCUDevOps(
-    projectId: string,
-    lcu: GitHubLowCodeUnit
-  ): void {
+  public ConfigureDevOpsAction(devOpsActionLookup: string): void {
     this.State.Loading = true;
 
     this.appsFlowSvc
-      .ConfigureGitHubLCUDevOps(projectId, lcu)
+      .ConfigureDevOpsAction(devOpsActionLookup)
       .subscribe((response: BaseResponse) => {
         if (response.Status.Code === 0) {
           this.projectService.ListProjects(this.State, true);
@@ -120,40 +117,19 @@ export class ApplicationsFlowProjectsElementComponent
       });
   }
 
-  public HasDevOpsConfigured(val: {
-    project: ProjectState;
-    lcuID: string;
-  }): boolean {
-    const run = val.project.Runs.find((r) => r.LCUID === val.lcuID);
-
-    return !!run;
-  }
-
   //  Helpers
   protected handleStateChange(): void {
     this.State.Loading = true;
 
-    this.appsFlowSvc
-      .HasValidConnection()
-      .subscribe((response: BaseResponse) => {
-        this.State.GitHub.HasConnection = response.Status.Code === 0;
-
-        if (this.State.GitHub.HasConnection) {
-          this.projectService.ListProjects(this.State, true);
-        } else {
-          this.State.Loading = false;
-        }
-
-        this.State.Loading = false;
-      });
+    this.projectService.HasValidConnection(this.State);
   }
 
   /**
    * Setup any service subscriptions
    */
   protected setServices(): void {
-    this.appsFlowEventsSvc.BootUserProjectEvent.subscribe((req) => {
-      this.projectService.BootUserProject(this.State, req);
+    this.appsFlowEventsSvc.EnsureUserEnterpriseEvent.subscribe(() => {
+      this.projectService.EnsureUserEnterprise(this.State);
     });
 
     this.appsFlowEventsSvc.DeleteProjectEvent.subscribe((projectId) => {

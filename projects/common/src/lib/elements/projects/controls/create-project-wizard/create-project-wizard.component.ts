@@ -12,6 +12,7 @@ import {
   GitHubRepository,
   ProjectHostingDetails,
 } from '../../../../state/applications-flow.state';
+import { SourceControlFormControlsComponent } from '../forms/source-control/source-control.component';
 import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 
 @Component({
@@ -24,24 +25,35 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
 
   //  Properties
   public get AreProjectDetailsValid(): boolean {
-    return this.ProjectFormGroup.get('projectDetails')?.valid;
+    return this.ProjectDetailsFormGroup?.valid;
   }
 
+  public HostingDetails: ProjectHostingDetails;
+
   public get IsBranchValid(): boolean {
-    return this.ProjectFormGroup.get('repoDetails').get('branch').valid;
+    return this.SourceControl?.SelectedBranches?.length > 0;
   }
 
   public get IsOrganizationValid(): boolean {
-    return this.ProjectFormGroup.get('repoDetails').get('organization').valid;
+    return this.RepoDetailsFormGroup.get('organization')?.valid;
   }
 
   public get IsRepositoryValid(): boolean {
-    return this.ProjectFormGroup.get('repoDetails').get('repository').valid;
+    return this.RepoDetailsFormGroup.get('repository')?.valid;
+  }
+
+  public get ProjectDetailsFormGroup(): FormGroup {
+    return this.ProjectFormGroup.get('projectDetails') as FormGroup;
   }
 
   public ProjectFormGroup: FormGroup;
 
-  public State: ApplicationsFlowState;
+  public get RepoDetailsFormGroup(): FormGroup {
+    return this.ProjectFormGroup.get('repoDetails') as FormGroup;
+  }
+
+  @ViewChild(SourceControlFormControlsComponent)
+  public SourceControl: SourceControlFormControlsComponent;
 
   @ViewChild('projectStepper')
   public Stepper: MatStepper;
@@ -52,7 +64,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
     protected appsFlowSvc: ApplicationsFlowService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
-    this.State = new ApplicationsFlowState();
+    this.HostingDetails = new ProjectHostingDetails();
   }
   //  Life Cycle
   public ngAfterViewInit(): void {
@@ -61,11 +73,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
 
   public ngOnInit(): void {
     this.ProjectFormGroup = this.formBuilder.group({
-      repoDetails: this.formBuilder.group({
-        branch: ['', Validators.required],
-        organization: ['', Validators.required],
-        repository: ['', Validators.required],
-      }),
+      repoDetails: this.formBuilder.group({}),
       projectDetails: this.formBuilder.group({}),
     });
   }
@@ -74,96 +82,9 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   public Cancel() {
     this.appsFlowEventsSvc.SetCreatingProject(false);
   }
-  
-  public CancelCreateRepository(): void {
-    this.State.GitHub.CreatingRepository = false;
-  }
 
-  // public ConnectGitHubProvider(): void {
-  //   const reidrectUri = location.pathname + location.search;
-
-  //   window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
-  // }
-
-  public CreateRepository(): void {
-    this.State.GitHub.CreatingRepository = true;
-
-    this.ProjectFormGroup.get('repoDetails').get('repository').reset();
-  }
-
-  public CreateProject(): void {
-    this.State.Loading = true;
-
-    const repoDetails = this.ProjectFormGroup.get('repoDetails');
-
-    const projectDetails = this.ProjectFormGroup.get('projectDetails');
-
-    const req: EstablishProjectRequest = {
-      Branch: repoDetails.get('branch').value,
-      BuildScript: projectDetails.get('buildScript').value,
-      // HostingOption: projectDetails.get('hostingOption').value,
-      Organization: repoDetails.get('organization').value,
-      OutputFolder: projectDetails.get('outputFolder').value,
-      // ProjectName: projectDetails.get('projectName').value,
-      Repository: repoDetails.get('repository').value,
-    };
-
-    req.ProjectName = `@${req.Organization}/${req.Repository}@${req.Branch}`;
-
-    // req.HostingOption = '';
-
-    this.appsFlowEventsSvc.BootUserProject(req);
-  }
-
-  public OrganizationChanged(event: MatSelectChange): void {
-    const org = this.ProjectFormGroup.get('repoDetails').get('organization');
-
-    if (org !== event.value) {
-      this.ProjectFormGroup.get('repoDetails').get('repository').reset();
-
-      this.listRepositories();
-    }
-  }
-
-  public RefreshOrganizations(): void {
-    // this.State.GitHub.Loading = true;
-    this.listOrganizations();
-
-    this.ProjectFormGroup.get('repoDetails').reset();
-  }
-
-  public RepositoryChanged(event: MatSelectChange): void {
-    const repo = this.ProjectFormGroup.get('repoDetails').get('repository');
-
-    if (repo !== event.value) {
-      this.ProjectFormGroup.get('repoDetails').get('branch').reset();
-
-      this.listBranches();
-    }
-  }
-
-  public SaveRepository(): void {
-    this.State.GitHub.Loading = true;
-
-    const org =
-      this.ProjectFormGroup.get('repoDetails').get('organization').value;
-
-    const repoName =
-      this.ProjectFormGroup.get('repoDetails').get('repository').value;
-
-    this.appsFlowSvc
-      .CreateRepository(org, repoName)
-      .subscribe((response: BaseResponse) => {
-        if (response.Status.Code === 0) {
-          this.listRepositories(repoName);
-
-          this.State.GitHub.CreatingRepository = false;
-        } else {
-          //  TODO:  Need to surface an error to the user...
-
-          this.State.GitHub.Loading = false;
-        }
-      });
+  public ConfigureRepository() {
+    this.loadProjectHostingDetails();
   }
 
   public SetupRepository(): void {
@@ -174,7 +95,11 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   protected determineStep(): void {
     let index = 0;
 
-    if (this.IsOrganizationValid && this.IsRepositoryValid) {
+    if (
+      this.IsOrganizationValid &&
+      this.IsRepositoryValid &&
+      this.IsBranchValid
+    ) {
       index = 1;
     }
 
@@ -184,93 +109,24 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   }
 
   protected handleStateChange(): void {
-    this.State.Loading = true;
-
     this.determineStep();
-
-    this.listOrganizations();
-  }
-
-  protected listBranches(): void {
-    this.State.GitHub.Loading = true;
-
-    this.appsFlowSvc
-      .ListBranches(
-        this.ProjectFormGroup.get('repoDetails').get('organization').value,
-        this.ProjectFormGroup.get('repoDetails').get('repository').value
-      )
-      .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
-        this.State.GitHub.BranchOptions = response.Model;
-
-        this.State.GitHub.Loading = false;
-
-        if (this.State.GitHub.BranchOptions?.length === 1) {
-          this.ProjectFormGroup.get('repoDetails')
-            .get('branch')
-            .setValue(this.State.GitHub.BranchOptions[0].Name);
-        }
-
-        this.loadProjectHostingDetails();
-
-        console.log(this.State);
-      });
-  }
-
-  protected listOrganizations(): void {
-    this.State.Loading = true;
-
-    this.appsFlowSvc
-      .ListOrganizations()
-      .subscribe((response: BaseModeledResponse<GitHubOrganization[]>) => {
-        this.State.GitHub.OrganizationOptions = response.Model;
-
-        this.State.Loading = false;
-
-        console.log(this.State);
-      });
-  }
-
-  protected listRepositories(activeRepo: string = null): void {
-    this.State.GitHub.Loading = true;
-
-    this.appsFlowSvc
-      .ListRepositories(
-        this.ProjectFormGroup.get('repoDetails').get('organization').value
-      )
-      .subscribe((response: BaseModeledResponse<GitHubRepository[]>) => {
-        this.State.GitHub.RepositoryOptions = response.Model;
-
-        this.State.GitHub.Loading = false;
-
-        if (activeRepo) {
-          setTimeout(() => {
-            this.ProjectFormGroup.get('repoDetails')
-              .get('repository')
-              .setValue(activeRepo);
-
-            this.listBranches();
-          }, 0);
-        } else if (this.State.GitHub.RepositoryOptions?.length <= 0) {
-          this.State.GitHub.CreatingRepository = true;
-        }
-      });
   }
 
   protected loadProjectHostingDetails(): void {
-    this.State.HostingDetails.Loading = true;
+    this.HostingDetails.Loading = true;
 
     this.appsFlowSvc
       .LoadProjectHostingDetails(
-        this.ProjectFormGroup.get('repoDetails').get('organization').value,
-        this.ProjectFormGroup.get('repoDetails').get('repository').value,
-        this.ProjectFormGroup.get('repoDetails').get('branch').value
+        this.RepoDetailsFormGroup.get('organization').value,
+        this.RepoDetailsFormGroup.get('repository').value,
+        this.SourceControl?.SelectedBranches?.join(',')
       )
       .subscribe((response: BaseModeledResponse<ProjectHostingDetails>) => {
-        this.State.HostingDetails = response.Model;
+        this.HostingDetails = response.Model;
 
-        this.State.HostingDetails.Loading = false;
+        this.HostingDetails.Loading = false;
 
-        console.log(this.State);
+        this.Stepper.next();
       });
   }
 }

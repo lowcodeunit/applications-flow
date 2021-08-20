@@ -22,6 +22,8 @@
 
   .welcome {
     text-align: center;
+    width: 100%;
+    max-width: 550px;
 
     .mat-display-2 {
       margin-bottom: 1em;
@@ -44,6 +46,7 @@
 
   .setup {
     text-align: center;
+    width: 90%;
 
     .connect {
       margin: auto;

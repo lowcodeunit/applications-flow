@@ -1,6 +1,10 @@
-<div [formGroup]="FormGroup.get('projectDetails')">
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center">
-    <div fxFlex="60%" fxFlex.lt-md="90%">
+<div [formGroup]="FormGroup">
+  <div
+    fxLayout="row wrap"
+    fxLayout.lt-md="column"
+    fxLayoutAlign="center center"
+  >
+    <div fxFlex="50%" fxFlex.lt-md="90%">
       <mat-card class="spread">
         <mat-card-header>
           <mat-card-title>Build Pipeline</mat-card-title>
@@ -10,73 +14,66 @@
           <mat-radio-group
             formControlName="buildPipeline"
             aria-label="Select a build pipeline option"
-            change="BuildPipelineChanged($event)"
+            (change)="BuildPipelineChanged($event)"
             required
           >
             <div
-              fxLayout="row"
+              fxLayout="row wrap"
               fxLayout.lt-md="column"
               fxLayoutAlign="center center"
             >
-              <div fxFlex="45%" fxFlex.lt-md="90%">
+              <div
+                fxFlex="45%"
+                fxFlex.lt-md="90%"
+                *ngFor="
+                  let hostOption of Details?.HostingOptions;
+                  let i = index
+                "
+              >
                 <div>
-                  <img
-                    class="mat-icon spread"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Octicons-mark-github.svg/2048px-Octicons-mark-github.svg.png"
-                  />
+                  <img class="mat-icon spread" [src]="hostOption.Image" />
                 </div>
 
                 <div>
-                  <mat-radio-button value="github"></mat-radio-button>
-                </div>
-              </div>
-
-              <div fxFlex="45%" fxFlex.lt-md="90%">
-                <div>
-                  <img
-                    class="mat-icon spread"
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Npm-logo.svg/800px-Npm-logo.svg.png"
-                  />
-                </div>
-
-                <div>
-                  <mat-radio-button value="npm"></mat-radio-button>
+                  <mat-radio-button
+                    [checked]="i == 0"
+                    [value]="hostOption.Lookup"
+                  ></mat-radio-button>
                 </div>
               </div>
             </div>
 
             <div>
               <h3>
-                <span *ngIf="BuildPipeline.value == 'github'">
-                  Github Build Pipeline
-                </span>
-
-                <span *ngIf="BuildPipeline.value == 'npm'">
-                  Github w/ NPM Build Pipeline
-                </span>
+                <ng-container
+                  *ngFor="let hostOption of Details?.HostingOptions"
+                >
+                  <span *ngIf="BuildPipeline.value == hostOption.Lookup">
+                    {{ hostOption.Name }}
+                  </span>
+                </ng-container>
               </h3>
 
               <p>
-                <span *ngIf="BuildPipeline.value == 'github'">
-                  A Github actions based workflow that utilizes action artifacts
-                  as a deployment source. Deploy any build for testing and
-                  release.
-                </span>
-
-                <span *ngIf="BuildPipeline.value == 'npm'">
-                  A Github actions based workflow that utilizes NPM as a
-                  deployment source. Easily deploy based on versions and tags.
-                </span>
+                <ng-container
+                  *ngFor="let hostOption of Details?.HostingOptions"
+                >
+                  <span *ngIf="BuildPipeline.value == hostOption.Lookup">
+                    {{ hostOption.Description }}
+                  </span>
+                </ng-container>
               </p>
             </div>
           </mat-radio-group>
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
 
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center">
-    <div fxFlex="45%" fxFlex.lt-md="90%" *ngIf="BuildPipeline.value == 'npm'">
+    <div
+      fxFlex="50%"
+      fxFlex.lt-md="90%"
+      *ngIf="SelectedHostingOptionLookup == 'npm-release'"
+    >
       <mat-card class="spread">
         <mat-card-header>
           <mat-card-title>Prerequisites</mat-card-title>
@@ -103,7 +100,7 @@
               organization used to publish. If your NPM publish organization
               matches your Guthub organization, you must make sure to have
               created an NPM organization with the same value (<strong>{{
-                Organization.value
+                Organization
               }}</strong
               >).
             </p>
@@ -111,10 +108,8 @@
         </mat-card-content>
       </mat-card>
     </div>
-  </div>
 
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center">
-    <div fxFlex="45%" fxFlex.lt-md="90%">
+    <div fxFlex="50%" fxFlex.lt-md="90%">
       <mat-card class="spread">
         <mat-card-header>
           <mat-card-title>Build Details</mat-card-title>
@@ -125,32 +120,16 @@
             <mat-icon>build</mat-icon>
           </div>
 
-          <ng-container>
+          <ng-container *ngFor="let input of SelectedHostingOption?.Inputs">
             <mat-form-field class="mat-full-width margin-2">
               <input
                 matInput
-                formControlName="buildScript"
-                placeholder="The build script."
-                required
+                [formControlName]="input.Lookup"
+                [placeholder]="input.Placeholder"
+                [required]="input.Required"
               />
-            </mat-form-field>
 
-            <mat-form-field class="mat-full-width margin-2">
-              <input
-                matInput
-                formControlName="outputFolder"
-                placeholder="The output folder."
-                required
-              />
-            </mat-form-field>
-
-            <mat-form-field class="mat-full-width margin-2">
-              <input
-                matInput
-                formControlName="installCommand"
-                placeholder="The install command for the build."
-                required
-              />
+              <mat-hint>{{ input.Hint }}</mat-hint>
             </mat-form-field>
           </ng-container>
         </mat-card-content>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse } from '@lcu/common';
+import { debug } from 'console';
 import {
   ApplicationsFlowState,
   EstablishProjectRequest,
@@ -18,17 +19,16 @@ export class ProjectService {
 
   constructor(protected appsFlowSvc: ApplicationsFlowService) {}
 
-  public BootUserProject(
-    state: ApplicationsFlowState,
-    req: EstablishProjectRequest
+  public EnsureUserEnterprise(
+    state: ApplicationsFlowState
   ): void {
     state.Loading = true;
 
     this.appsFlowSvc
-      .BootUserProject(req)
+      .EnsureUserEnterprise()
       .subscribe((response: BaseResponse) => {
         if (response.Status.Code === 0) {
-          window.location.href = window.location.href;
+          this.ListProjects(state, true);
         } else {
           state.Loading = false;
         }
@@ -79,6 +79,22 @@ export class ProjectService {
         state.Loading = false;
       }
     });
+  }
+
+  public HasValidConnection(state: ApplicationsFlowState): void {
+    state.Loading = true;
+
+    this.appsFlowSvc
+      .HasValidConnection()
+      .subscribe((response: BaseResponse) => {
+        state.GitHub.HasConnection = response.Status.Code === 0;
+
+        if (state.GitHub.HasConnection) {
+          this.EnsureUserEnterprise(state);
+        } else {
+          state.Loading = false;
+        }
+      });
   }
 
   public ListProjects(

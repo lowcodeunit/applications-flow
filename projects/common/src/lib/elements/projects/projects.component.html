@@ -18,12 +18,13 @@
       fxLayout="column"
       fxLayoutAlign="center center"
       class="margin-bottom-4"
-      *ngIf="State.Projects?.length <= 0"
     >
-      <h2 class="mat-display-2 margin-y-2">
-        <span>
-          Thank you for signing up
-        </span>
+      <h2 class="mat-display-2 margin-y-2" *ngIf="State.Projects?.length <= 0">
+        <span> Thank you for signing up </span>
+      </h2>
+
+      <h2 class="mat-display-2 margin-y-2" *ngIf="State.Projects?.length > 0">
+        <span>Project Setup</span>
       </h2>
     </div>
 

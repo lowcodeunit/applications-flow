@@ -28,27 +28,30 @@ export class ApplicationsFlowService {
   }
 
   // API Methods
-  public BootUserProject(request: EstablishProjectRequest): Observable<object> {
+  public EnsureUserEnterprise(): Observable<object> {
     return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/boot`,
-      request,
+      `${this.apiRoot}/api/lowcodeunit/manage/enterprise/ensure`,
+      {},
       {
         headers: this.loadHeaders(),
       }
     );
   }
 
-  public ConfigureGitHubLCUDevOps(projectId: string, lcu: GitHubLowCodeUnit): Observable<object> {
+  public ConfigureDevOpsAction(actionLookup: string): Observable<object> {
     return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectId}/lowcodeunits/configure`,
-      lcu,
+      `${this.apiRoot}/api/lowcodeunit/manage/devops/actions/${actionLookup}/configure`,
+      {},
       {
         headers: this.loadHeaders(),
       }
     );
   }
 
-  public CreateRepository(organization: string, repoName: string): Observable<object> {
+  public CreateRepository(
+    organization: string,
+    repoName: string
+  ): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories`,
       {
@@ -103,7 +106,10 @@ export class ApplicationsFlowService {
     });
   }
 
-  public ListBranches(organization: string, repository: string): Observable<object> {
+  public ListBranches(
+    organization: string,
+    repository: string
+  ): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories/${repository}/branches`,
       {
@@ -143,7 +149,10 @@ export class ApplicationsFlowService {
     );
   }
 
-  public SaveProject(project: ProjectState, hostDnsInstance: string): Observable<object> {
+  public SaveProject(
+    project: ProjectState,
+    hostDnsInstance: string
+  ): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/projects?hostDnsInstance=${hostDnsInstance}`,
       project,
