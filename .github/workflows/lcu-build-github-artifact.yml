@@ -1,0 +1,27 @@
+name: Build GitHub Artifact
+
+on:
+  push:
+    branches:
+      - 'main'
+      - 'master'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url:
+      - name: NPM Install
+        run: npm ci
+      - name: NPM Publish
+        run: npm run build
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: lowcodeunit-applications-flow
+          path: dist/demo
+
