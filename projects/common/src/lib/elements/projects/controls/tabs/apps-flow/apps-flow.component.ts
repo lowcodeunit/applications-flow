@@ -42,12 +42,18 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public get ApplicationRoutes(): Array<string> {
+    return Object.keys(this.RoutedApplications || {});
+  }
+
+  public get RoutedApplications(): {
+    [route: string]: Array<EaCApplicationAsCode>;
+  } {
     const appLookups = Object.keys(this.Applications);
 
-    let appRoutes =
-      appLookups.map((appLookup) => {
-        const app = this.Applications[appLookup];
+    const apps = appLookups.map((appLookup) => this.Applications[appLookup]);
 
+    let appRoutes =
+      apps.map((app) => {
         return app.LookupConfig?.PathRegex.replace('.*', '');
       }) || [];
 
@@ -67,7 +73,25 @@ export class AppsFlowComponent implements OnInit {
 
     routeBases = routeBases.sort((a, b) => b.localeCompare(a));
 
-    return routeBases;
+    let workingApps = [...(apps || [])];
+
+    const routeSet = routeBases.reduce((prev, current) => {
+      const routeMap = {
+        ...prev,
+      };
+
+      routeMap[current] = workingApps.filter((wa) => {
+        return wa.LookupConfig?.PathRegex.startsWith(current);
+      });
+
+      workingApps = workingApps.filter((wa) => {
+        return routeMap[current].indexOf(wa) < 0;
+      });
+
+      return routeMap;
+    }, {}) || {};
+
+    return routeSet;
   }
 
   public get Applications(): { [lookup: string]: EaCApplicationAsCode } {

@@ -49,7 +49,7 @@
                 required
               />
             </mat-form-field>
-<!-- 
+            <!-- 
             <mat-form-field class="mat-full-width">
               <input
                 matInput
@@ -373,11 +373,7 @@
 
   <div class="spread" *ngIf="!EditingApplication">
     <span class="apps-actions">
-      <button
-        mat-raised-button
-        color="accent"
-        (click)="CreateNewApplication()"
-      >
+      <button mat-raised-button color="accent" (click)="CreateNewApplication()">
         <mat-icon color="primary">add</mat-icon> Create New
       </button>
     </span>
@@ -416,6 +412,16 @@
                 <div class="data-app-actions">
                   <div fxFlex></div>
 
+                  <a
+                    mat-icon-button
+                    href="https://{{ Project.Hosts[0] }}{{ appRoute }}"
+                    target="_blank"
+                    [title]="Project.Hosts[0] + appRoute"
+                    color="accent"
+                  >
+                    <mat-icon>launch</mat-icon>
+                  </a>
+
                   <button
                     mat-icon-button
                     (click)="CurrentApplicationRoute = appRoute"
@@ -432,6 +438,10 @@
                   <button mat-icon-button disabled>
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
                 </div>
               </mat-card-actions>
             </mat-card>
@@ -442,7 +452,11 @@
 
     <div *ngIf="CurrentApplicationRoute">
       <h2>
-        <button mat-icon-button matTooltip="Back to Routes" (click)="CurrentApplicationRoute = null">
+        <button
+          mat-icon-button
+          matTooltip="Back to Routes"
+          (click)="CurrentApplicationRoute = null"
+        >
           <mat-icon>arrow_back</mat-icon>
         </button>
 
@@ -450,8 +464,12 @@
       </h2>
 
       <div fxLayout="row" fxLayout.lt-md="column">
-        <div fxFlex="30%" fxFlex.lt-md="100%" *ngFor="let appLookup of ApplicationLookups">
-          <mat-card class="spread" *ngIf="Applications[appLookup]; let app">
+        <div
+          fxFlex="30%"
+          fxFlex.lt-md="100%"
+          *ngFor="let app of RoutedApplications[CurrentApplicationRoute]"
+        >
+          <mat-card class="spread">
             <mat-card-header>
               <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
 
@@ -486,7 +504,10 @@
                   <mat-icon>launch</mat-icon>
                 </a>
 
-                <button mat-icon-button (click)="SetEditingApplication(appLookup)">
+                <button
+                  mat-icon-button
+                  (click)="SetEditingApplication(appLookup)"
+                >
                   <mat-icon matTooltip="Edit Application"> edit </mat-icon>
                 </button>
 
