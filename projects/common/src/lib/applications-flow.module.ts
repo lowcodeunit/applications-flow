@@ -10,7 +10,6 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
-import { ProjectSettingsComponent } from './elements/projects/controls/project-settings/project-settings.component';
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
@@ -22,7 +21,6 @@ import { RecentActivitiesComponent } from './elements/projects/controls/recent-a
 import { FormCardComponent } from './elements/form-card/form-card.component';
 import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-details/project-details.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
-import { SettingsComponent } from './elements/projects/controls/tabs/general/forms/settings/settings.component';
 import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
 import { BaseFormComponent } from './elements/base-form/base-form.component';
 import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
@@ -37,7 +35,6 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     ApplicationsFlowProjectsElementComponent,
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
-    ProjectSettingsComponent,
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
@@ -49,7 +46,6 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
     GitAuthComponent,
@@ -70,7 +66,6 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     ApplicationsFlowProjectsElementComponent,
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
-    ProjectSettingsComponent,
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
@@ -82,7 +77,6 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
     GitAuthComponent,
@@ -103,7 +97,6 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
     GitAuthComponent,
