@@ -1,46 +1,540 @@
-<form
-  fxLayout="row"
-  fxLayout.lt-md="column"
-  class="padding-top-3"
-  [formGroup]="Form">
-  <div>
-    <lcu-form-card 
-    [config]="Config"
-    [form]="Form"
-    [is-dirty]="IsDirty"
+<div>
+  <form
+    [formGroup]="ApplicationFormGroup"
+    (ngSubmit)="SaveApplication()"
+    *ngIf="EditingApplication"
+  >
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="center center"
+      fxLayout.lt-md="column"
     >
-      <div fxLayout="column">
-        <div fxLayout="row">
-          <div fxFlex fxLayout="row">
-            <mat-form-field fxFlex appearance="fill" class="margin-right-3">
-              <mat-icon
-                matSuffix
-                [ngClass]="Domain.valid ? 'valid-control' : 'invalid-control'"
-              >
-                {{ Domain.valid ? "check_circle" : "error_outline" }}
-              </mat-icon>
-              <input
-                type="text"
-                matInput
-                [placeholder]="Domain.invalid || Domain.disabled ? '/' : ''"
-                formControlName="domain"
-              />
+      <div fxFlex="60%" fxFlex.lt-md="100%">
+        <mat-card class="spread">
+          <mat-card-title>
+            <ng-container *ngIf="EditingApplication?.Application">
+              Edit Application:
+              {{ EditingApplication.Application?.Name }}
+            </ng-container>
 
-              <mat-hint>
-                In order to use a custom domain, create a CNAME dns record pointing
-                desired subdomain to <strong>{{ HostDNSInstance }}</strong>.
-              </mat-hint>
-              
-              
-              <mat-error *ngIf="Domain.hasError('required')">
-                Domain is required
-              </mat-error>
+            <ng-container *ngIf="!EditingApplication?.Application">
+              Create an Application
+            </ng-container>
+          </mat-card-title>
+
+          <mat-card-content>
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
             </mat-form-field>
+
+            <mat-form-field class="mat-full-width">
+              <textarea
+                matInput
+                placeholder="Description"
+                formControlName="description"
+                required
+              ></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                placeholder="Route"
+                formControlName="route"
+                required
+              />
+            </mat-form-field>
+<!-- 
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                placeholder="Priority"
+                formControlName="priority"
+                required
+              />
+            </mat-form-field> -->
+
+            <mat-form-field class="mat-full-width">
+              <mat-select
+                placeholder="Type"
+                formControlName="procType"
+                (selectionChange)="ProcessorTypeChanged($event)"
+                required
+              >
+                <mat-option value="DFS">View Package</mat-option>
+
+                <mat-option value="Redirect">Redirect</mat-option>
+
+                <mat-option value="Proxy">Proxy</mat-option>
+
+                <mat-option value="OAuth">OAuth</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div [ngSwitch]="ProcessorType">
+              <div *ngSwitchCase="'DFS'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Default File"
+                    formControlName="defaultFile"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <mat-select
+                    placeholder="Type"
+                    formControlName="lcuType"
+                    (selectionChange)="LCUTypeChanged($event)"
+                    required
+                  >
+                    <mat-option value="NPM">NPM</mat-option>
+
+                    <mat-option value="GitHub">GitHub</mat-option>
+
+                    <!-- <mat-option value="Zip">Zip</mat-option> -->
+                  </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                  <div *ngSwitchCase="'GitHub'">
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Organization"
+                        formControlName="organization"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Repository"
+                        formControlName="repository"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Build"
+                        formControlName="build"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngSwitchCase="'NPM'">
+                    <lcu-npm-package-select
+                      [npm-package]="
+                        EditingApplication.Processor?.LowCodeUnit?.Package
+                      "
+                      [npm-package-version]="
+                        EditingApplication.Processor?.LowCodeUnit?.Version
+                      "
+                      [form-group]="ApplicationFormGroup"
+                    ></lcu-npm-package-select>
+
+                    <!-- <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Package"
+                        formControlName="package"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Version"
+                        formControlName="version"
+                        required
+                      />
+                    </mat-form-field> -->
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'OAuth'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Scopes (space separated)"
+                    formControlName="scopes"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Token Lookup"
+                    formControlName="tokenLookup"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <mat-select
+                    placeholder="Type"
+                    formControlName="lcuType"
+                    (selectionChange)="LCUTypeChanged($event)"
+                    required
+                  >
+                    <mat-option value="GitHubOAuth">GitHub</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                  <div *ngSwitchCase="'GitHubOAuth'">
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Client ID"
+                        formControlName="clientId"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Client Secret"
+                        formControlName="clientSecret"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'Proxy'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Inbound Path"
+                    formControlName="inboundPath"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <mat-select
+                    placeholder="Type"
+                    formControlName="lcuType"
+                    (selectionChange)="LCUTypeChanged($event)"
+                    required
+                  >
+                    <mat-option value="API">API</mat-option>
+
+                    <mat-option value="SPA">Single Page Application</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                  <div *ngSwitchCase="'API'">
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="API Root"
+                        formControlName="apiRoot"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Allowed Methods (separate with spaces)"
+                        formControlName="methods"
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Security ({header}~{value})"
+                        formControlName="security"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngSwitchCase="'SPA'">
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="SPA Root"
+                        formControlName="spaRoot"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'Redirect'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Redirect URL"
+                    formControlName="redirect"
+                    required
+                  />
+                </mat-form-field>
+
+                <div>
+                  <mat-slide-toggle class="spread" formControlName="permanent">
+                    Is Permanent?
+                  </mat-slide-toggle>
+
+                  <mat-slide-toggle
+                    class="spread"
+                    formControlName="preserveMethod"
+                  >
+                    Preserve Method?
+                  </mat-slide-toggle>
+
+                  <mat-icon
+                    class="spread"
+                    matSuffix
+                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                  >
+                    info_outline
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+
+            <div class="spread" *ngIf="ProcessorType">
+              <div>
+                <mat-slide-toggle formControlName="isPrivate">
+                  Is Secured Application?
+                </mat-slide-toggle>
+
+                <mat-icon
+                  matSuffix
+                  matTooltip="A Secured Application is one that requires the user to be authenticated to use the application. The application is hosted behind an identity wall."
+                >
+                  info_outline
+                </mat-icon>
+              </div>
+
+              <div *ngIf="IsPrivateFormControl.value">
+                <div>
+                  <mat-slide-toggle formControlName="isTriggerSignIn">
+                    Is Trigger Sign In Application?
+                  </mat-slide-toggle>
+
+                  <mat-icon
+                    matSuffix
+                    matTooltip="A Trigger Sign In Application will direct the user to sign in if they are not already."
+                  >
+                    info_outline
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div>
+      <div fxFlex></div>
+
+      <button mat-button type="button" (click)="SetEditingApplication(null)">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+
+      <div fxFlex></div>
+
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!ApplicationFormGroup.valid"
+      >
+        <mat-icon>save</mat-icon> Save Application
+      </button>
+
+      <div fxFlex></div>
+    </div>
+  </form>
+
+  <div class="spread" *ngIf="!EditingApplication">
+    <span class="apps-actions">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="CreateNewApplication()"
+      >
+        <mat-icon color="primary">add</mat-icon> Create New
+      </button>
+    </span>
+
+    <div class="spread" *ngIf="!CurrentApplicationRoute">
+      <div *ngIf="ApplicationRoutes?.length <= 0">
+        <h2>No applications created, create your first application.</h2>
+      </div>
+
+      <div *ngIf="ApplicationRoutes?.length > 0">
+        <h2>Project Routes</h2>
+
+        <div fxLayout="row" fxLayout.lt-md="column" *ngIf="ApplicationRoutes">
+          <div
+            fxFlex="30%"
+            fxFlex.lt-md="100%"
+            *ngFor="let appRoute of ApplicationRoutes"
+          >
+            <mat-card class="spread">
+              <mat-card-header>
+                <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
+
+                <mat-card-title
+                  class="mat-subheading-2"
+                  [matTooltip]="appRoute"
+                >
+                  {{ appRoute }}
+                </mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="spread"></div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <div class="data-app-actions">
+                  <div fxFlex></div>
+
+                  <button
+                    mat-icon-button
+                    (click)="CurrentApplicationRoute = appRoute"
+                  >
+                    <mat-icon matTooltip="Edit Application Route">
+                      settings
+                    </mat-icon>
+                  </button>
+                </div>
+
+                <div class="data-app-fakes">
+                  <div fxFlex></div>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+                </div>
+              </mat-card-actions>
+            </mat-card>
           </div>
-          <!-- <button mat-button color="accent">Add</button> -->
         </div>
       </div>
-      <!-- <div class="card-divider"></div> -->
-    </lcu-form-card>
+    </div>
+
+    <div *ngIf="CurrentApplicationRoute">
+      <h2>
+        <button mat-icon-button matTooltip="Back to Routes" (click)="CurrentApplicationRoute = null">
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        {{ CurrentApplicationRoute }} Routes
+      </h2>
+
+      <div fxLayout="row" fxLayout.lt-md="column">
+        <div fxFlex="30%" fxFlex.lt-md="100%" *ngFor="let appLookup of ApplicationLookups">
+          <mat-card class="spread" *ngIf="Applications[appLookup]; let app">
+            <mat-card-header>
+              <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
+
+              <mat-card-title
+                class="mat-subheading-2"
+                [matTooltip]="app.Application.Description"
+              >
+                {{ app.Application.Name }}
+              </mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+              <div class="spread"></div>
+            </mat-card-content>
+
+            <mat-card-actions>
+              <div class="data-app-actions">
+                <div fxFlex></div>
+
+                <a
+                  mat-icon-button
+                  href="https://{{ Project.Hosts[0] }}{{
+                    app.LookupConfig.PathRegex.replace('.*', '')
+                  }}"
+                  target="_blank"
+                  [title]="
+                    Project.Hosts[0] +
+                    app.LookupConfig.PathRegex.replace('.*', '')
+                  "
+                  color="accent"
+                >
+                  <mat-icon>launch</mat-icon>
+                </a>
+
+                <button mat-icon-button (click)="SetEditingApplication(appLookup)">
+                  <mat-icon matTooltip="Edit Application"> edit </mat-icon>
+                </button>
+
+                <a
+                  mat-icon-button
+                  color="accent"
+                  (click)="Unpack(appLookup)"
+                  target="_blank"
+                  matTooltip="Unpack Latest"
+                  title="Unpack Latest"
+                >
+                  <mat-icon>cloud_upload</mat-icon>
+                </a>
+
+                <button
+                  mat-icon-button
+                  color="warn"
+                  (click)="DeleteApplication(app)"
+                >
+                  <mat-icon matTooltip="Delete {{ app.Application.Name }}">
+                    delete_forever
+                  </mat-icon>
+                </button>
+              </div>
+
+              <div class="data-app-fakes">
+                <div fxFlex></div>
+
+                <button mat-icon-button disabled>
+                  <mat-icon>fiber_manual_record</mat-icon>
+                </button>
+
+                <button mat-icon-button disabled>
+                  <mat-icon>fiber_manual_record</mat-icon>
+                </button>
+
+                <button mat-icon-button disabled>
+                  <mat-icon>fiber_manual_record</mat-icon>
+                </button>
+
+                <button mat-icon-button disabled>
+                  <mat-icon>fiber_manual_record</mat-icon>
+                </button>
+              </div>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+    </div>
   </div>
-</form>
+</div>

@@ -1,6 +1,47 @@
-@import '../../../../../../assets/common';
+@import "../../../../../../assets/common";
 
-.domain-item {
+:host ::ng-deep {
+  // text-align: center;
+
+  .apps-actions {
+    float: right;
+  }
+
+  .mat-card {
+    .mat-card-content {
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .mat-card-actions {
+      .data-app-actions {
+        display: none !important;
+      }
+
+      .data-app-fakes {
+        display: flex !important;
+
+        .mat-icon {
+          font-size: 8px;
+        }
+      }
+    }
+
+    &:hover {
+      .mat-card-actions {
+        .data-app-actions {
+          display: flex !important;
+        }
+
+        .data-app-fakes {
+          display: none !important;
+        }
+      }
+    }
+  }
+
+  .domain-item {
     border-radius: 5;
     border: var(--theme-accent-500) solid 1px;
+  }
 }

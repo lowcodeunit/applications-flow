@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse } from '@lcu/common';
 import { debug } from 'console';
+import { EaCProjectAsCode, EnterpriseAsCode } from '../models/eac.models';
 import {
   ApplicationsFlowState,
-  EstablishProjectRequest,
   GitHubWorkflowRun,
-  ProjectState,
+  UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
 import { ApplicationsFlowService } from './applications-flow.service';
 
@@ -15,27 +15,9 @@ import { ApplicationsFlowService } from './applications-flow.service';
 export class ProjectService {
   public CreatingProject: boolean;
 
-  public EditingProjectID: string;
+  public EditingProjectLookup: string;
 
   constructor(protected appsFlowSvc: ApplicationsFlowService) {}
-
-  public EnsureUserEnterprise(
-    state: ApplicationsFlowState
-  ): void {
-    state.Loading = true;
-
-    this.appsFlowSvc
-      .EnsureUserEnterprise()
-      .subscribe((response: BaseResponse) => {
-        if (response.Status.Code === 0) {
-          this.ListProjects(state, true);
-        } else {
-          state.Loading = false;
-        }
-
-        console.log(response);
-      });
-  }
 
   // public CreateRepository(state: ApplicationsFlowState, org: string, repoName: string): void {
   //   state.GitHub.Loading = true;
@@ -55,127 +37,254 @@ export class ProjectService {
   //     });
   // }
 
-  public DeleteProject(state: ApplicationsFlowState, projectId: string): void {
-    state.Loading = true;
+  public async DeleteApplication(
+    state: ApplicationsFlowState,
+    appLookup: string
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
 
-    this.appsFlowSvc
-      .DeleteProject(projectId)
-      .subscribe((response: BaseResponse) => {
-        if (response.Status.Code === 0) {
-          this.ListProjects(state);
-        } else {
-          state.Loading = false;
+      this.appsFlowSvc.DeleteApplication(appLookup).subscribe(
+        async (response: BaseResponse) => {
+          if (response.Status.Code === 0) {
+            const eac = await this.LoadEnterpriseAsCode(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+          }
+        },
+        (err) => {
+          reject(err);
+
+          console.log(err);
         }
-      });
-  }
-
-  public DeployRun(state: ApplicationsFlowState, run: GitHubWorkflowRun): void {
-    state.Loading = true;
-
-    this.appsFlowSvc.DeployRun(run).subscribe((response: BaseResponse) => {
-      if (response.Status.Code === 0) {
-        this.ListProjects(state);
-      } else {
-        state.Loading = false;
-      }
+      );
     });
   }
 
-  public HasValidConnection(state: ApplicationsFlowState): void {
-    state.Loading = true;
-
-    this.appsFlowSvc
-      .HasValidConnection()
-      .subscribe((response: BaseResponse) => {
-        state.GitHub.HasConnection = response.Status.Code === 0;
-
-        if (state.GitHub.HasConnection) {
-          this.EnsureUserEnterprise(state);
-        } else {
-          state.Loading = false;
-        }
-      });
-  }
-
-  public ListProjects(
+  public DeleteProject(
     state: ApplicationsFlowState,
-    withLoading: boolean = true
-  ): void {
-    if (withLoading) {
+    projectLookup: string
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
       state.Loading = true;
-    }
 
-    this.appsFlowSvc
-      .ListProjects()
-      .subscribe((response: BaseModeledResponse<ProjectState[]>) => {
-        if (response.Status.Code === 0) {
-          state.Projects = response.Model;
-        } else if (response.Status.Code === 3) {
+      this.appsFlowSvc.DeleteProject(projectLookup).subscribe(
+        async (response: BaseResponse) => {
+          if (response.Status.Code === 0) {
+            const eac = await this.LoadEnterpriseAsCode(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+          }
+        },
+        (err) => {
+          reject(err);
+
+          console.log(err);
         }
-
-        if (withLoading) {
-          state.Loading = false;
-        }
-
-        this.CreatingProject = !state.Projects || state.Projects.length <= 0;
-
-        console.log(state);
-      });
+      );
+    });
   }
 
-  public SaveProject(
-    state: ApplicationsFlowState,
-    project: ProjectState
-  ): void {
-    state.Loading = true;
+  public EnsureUserEnterprise(
+    state: ApplicationsFlowState
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
 
-    this.appsFlowSvc
-      .SaveProject(project, state.HostDNSInstance)
-      .subscribe((response: BaseModeledResponse<string>) => {
-        if (response.Status.Code === 0) {
-          this.ListProjects(state, true);
-        } else {
-          state.Loading = false;
+      this.appsFlowSvc.EnsureUserEnterprise().subscribe(
+        async (response: BaseResponse) => {
+          if (response.Status.Code === 0) {
+            const eac = await this.LoadEnterpriseAsCode(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+          }
+
+          console.log(response);
+        },
+        (err) => {
+          reject(err);
+
+          console.log(err);
         }
+      );
+    });
+  }
 
-        console.log(response);
-      });
+  public HasValidConnection(
+    state: ApplicationsFlowState
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.HasValidConnection().subscribe(
+        async (response: BaseResponse) => {
+          state.GitHub.HasConnection = response.Status.Code === 0;
+
+          if (state.GitHub.HasConnection) {
+            const eac = await this.EnsureUserEnterprise(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            resolve({});
+          }
+        },
+        (err) => {
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
+  public LoadEnterpriseAsCode(
+    state: ApplicationsFlowState
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.LoadEnterpriseAsCode().subscribe(
+        (response: BaseModeledResponse<EnterpriseAsCode>) => {
+          if (response.Status.Code === 0) {
+            state.EaC = response.Model;
+          } else if (response.Status.Code === 3) {
+          }
+
+          state.Loading = false;
+
+          this.CreatingProject =
+            Object.keys(state?.EaC?.Projects || {}).length <= 0;
+
+          resolve(state.EaC);
+
+          console.log(state);
+        },
+        (err) => {
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
+  public async SaveEnterpriseAsCode(
+    state: ApplicationsFlowState,
+    eac: EnterpriseAsCode
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc
+        .SaveEnterpriseAsCode(eac, state.HostDNSInstance)
+        .subscribe(
+          async (response: BaseModeledResponse<string>) => {
+            if (response.Status.Code === 0) {
+              eac = await this.LoadEnterpriseAsCode(state);
+
+              resolve(eac);
+            } else {
+              state.Loading = false;
+
+              reject(response.Status);
+            }
+          },
+          (err) => {
+            reject(err);
+
+            console.log(err);
+          }
+        );
+    });
   }
 
   public SetCreatingProject(creatingProject: boolean): void {
     this.CreatingProject = creatingProject;
 
-    this.EditingProjectID = null;
+    this.EditingProjectLookup = null;
   }
 
   public SetEditProjectSettings(
     state: ApplicationsFlowState,
-    project: ProjectState
-  ): void {
-    if (project != null) {
-      state.Loading = true;
+    projectLookup: string
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (projectLookup != null) {
+        state.Loading = true;
 
-      this.appsFlowSvc
-        .IsolateHostDNSInstance()
-        .subscribe((response: BaseModeledResponse<string>) => {
-          this.EditingProjectID = project.ID;
+        this.appsFlowSvc.IsolateHostDNSInstance().subscribe(
+          (response: BaseModeledResponse<string>) => {
+            this.EditingProjectLookup = projectLookup;
 
-          this.CreatingProject = false;
+            this.CreatingProject = false;
 
-          state.HostDNSInstance = response.Model;
+            state.HostDNSInstance = response.Model;
 
-          state.Loading = false;
+            state.Loading = false;
 
-          console.log(state);
-        });
-    } else {
-      this.EditingProjectID = project.ID;
+            resolve({});
 
-      this.CreatingProject = false;
-    }
+            console.log(state);
+          },
+          (err) => {
+            reject(err);
+
+            console.log(err);
+          }
+        );
+      } else {
+        this.EditingProjectLookup = projectLookup;
+
+        this.CreatingProject = false;
+
+        resolve({});
+      }
+    });
   }
 
   public ToggleCreateProject(): void {
     this.SetCreatingProject(!this.CreatingProject);
+  }
+
+  public UnpackLowCodeUnit(
+    state: ApplicationsFlowState,
+    req: UnpackLowCodeUnitRequest
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.UnpackLowCodeUnit(req).subscribe(
+        async (response: BaseResponse) => {
+          if (response.Status.Code === 0) {
+            const eac = await this.LoadEnterpriseAsCode(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+          }
+        },
+        (err) => {
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
   }
 }

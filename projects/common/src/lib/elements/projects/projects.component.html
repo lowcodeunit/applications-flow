@@ -19,33 +19,33 @@
       fxLayoutAlign="center center"
       class="margin-bottom-4"
     >
-      <h2 class="mat-display-2 margin-y-2" *ngIf="State.Projects?.length <= 0">
+      <h2 class="mat-display-2 margin-y-2" *ngIf="ProjectLookups?.length <= 0">
         <span> Thank you for signing up </span>
-      </h2>
-
-      <h2 class="mat-display-2 margin-y-2" *ngIf="State.Projects?.length > 0">
-        <span>Project Setup</span>
       </h2>
     </div>
 
     <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth>
 
     <ng-container *ngIf="State.GitHub.HasConnection">
-      <div *ngIf="CreatingProject">
+      <!-- <div *ngIf="!CreatingProject">
+        Creating
         <lcu-create-project-wizard></lcu-create-project-wizard>
-      </div>
+      </div> -->
 
-      <ng-container *ngIf="!CreatingProject">
+      <ng-container>
         <ng-container *ngIf="State">
           <lcu-projects-header
-            [projects]="State.Projects"
-            [selected-project-id]="EditingProject?.ID"
+            [projects]="State.EaC?.Projects"
+            [creating-project]="CreatingProject"
+            [selected-project-lookup]="EditingProjectLookup"
           ></lcu-projects-header>
 
           <div *ngIf="EditingProject">
             <div class="divider margin-bottom-3"></div>
             <lcu-project-tabs
               [project]="EditingProject"
+              [project-lookup]="EditingProjectLookup"
+              [applications]="State.EaC?.Applications"
               [host-dns-instance]="State.HostDNSInstance"
               class="margin-top-3"
             >

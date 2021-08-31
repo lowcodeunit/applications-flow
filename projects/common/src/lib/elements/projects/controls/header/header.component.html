@@ -1,8 +1,12 @@
-<div [fxLayout]="HasProjects ? 'row' : 'column'" fxLayout.lt-md="column" fxLayoutAlign="center center">
+<div
+  [fxLayout]="HasProjects ? 'row' : 'column'"
+  fxLayout.lt-md="column"
+  fxLayoutAlign="center center"
+>
   <div fxFlex="100%">
     <lcu-project-items
       [projects]="Projects"
-      [selected-project-id]="SelectedProjectID"
+      [selected-project-lookup]="SelectedProjectLookup"
     ></lcu-project-items>
   </div>
 
@@ -14,20 +18,48 @@
         <mat-card-header>
           <mat-card-title>Create New Project</mat-card-title>
         </mat-card-header>
-  
+
         <mat-card-content>
-          <button
-            mat-fab
-            color="accent"
-            (click)="EnableCreatingProject()"
-            class="margin-top-4 margin-bottom-2"
+          <form
+            [formGroup]="ProjectFormGroup"
+            (ngSubmit)="CreateProject()"
+            *ngIf="CreatingProject"
           >
-            <mat-icon>add</mat-icon>
-          </button>
+            <div class="margin-2">
+              <mat-form-field class="mat-full-width">
+                <input
+                  matInput
+                  placeholder="Project Name"
+                  formControlName="name"
+                  required
+                />
+              </mat-form-field>
+
+              <button
+                mat-fab
+                type="submit"
+                color="primary"
+                [disabled]="!ProjectFormGroup.valid"
+              >
+                <mat-icon>save</mat-icon>
+              </button>
+            </div>
+          </form>
+
+          <div *ngIf="!CreatingProject">
+            <button
+              mat-fab
+              color="accent"
+              (click)="EnableCreatingProject()"
+              class="margin-top-4 margin-bottom-2"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
         </mat-card-content>
       </mat-card>
-      
-      <mat-card class="spread">
+
+      <!-- <mat-card class="spread">
         <mat-card-header>
           <mat-card-title>Documentation</mat-card-title>
         </mat-card-header>
@@ -43,14 +75,15 @@
             <mat-icon>description</mat-icon>
         </a>
         </mat-card-content>
-      </mat-card>
+      </mat-card> -->
     </div>
   </div>
+</div>
 
-  <!-- <div class="divider-fill-vert" [fxHide.lt-md]="true"></div> -->
+<!-- <div class="divider-fill-vert" [fxHide.lt-md]="true"></div> -->
 
-  <!-- Builds -->
-  <!-- <div
+<!-- Builds -->
+<!-- <div
     id="builds"
     fxFlex.gt-xs="25"
     fxLayout="column"
@@ -70,10 +103,10 @@
     <lcu-builds [projects]="Projects"> </lcu-builds>
   </div> -->
 
-  <!-- <div class="divider-fill-vert" fxShow [fxHide.lt-md]="true"></div> -->
+<!-- <div class="divider-fill-vert" fxShow [fxHide.lt-md]="true"></div> -->
 
-  <!-- Recent Activities -->
-  <!-- <div
+<!-- Recent Activities -->
+<!-- <div
     id="recent"
     fxLayout="column"
     fxFlex.gt-xs="25"
@@ -89,4 +122,3 @@
       <span>Recent Activities</span>
     </div>
   </div> -->
-</div>

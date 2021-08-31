@@ -1,20 +1,21 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ProjectHostingDetails, ProjectState } from '../../../../state/applications-flow.state';
+import { ProjectHostingDetails } from '../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../services/applications-flow.service';
 import { BaseResponse } from '@lcu/common';
+import { EaCProjectAsCode } from '../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-project-settings',
   templateUrl: './project-settings.component.html',
-  styleUrls: ['./project-settings.component.scss']
+  styleUrls: ['./project-settings.component.scss'],
 })
 export class ProjectSettingsComponent implements OnInit {
   //  Fields
 
   //  Properties
   @Output('cancelled')
-  public Cancelled: EventEmitter<ProjectState>;
+  public Cancelled: EventEmitter<EaCProjectAsCode>;
 
   @Input('host-dns-instance')
   public HostDNSInstance: string;
@@ -22,15 +23,13 @@ export class ProjectSettingsComponent implements OnInit {
   public ProjectSettingsFormGroup: FormGroup;
 
   @Input('project')
-  public Project: ProjectState;
+  public Project: EaCProjectAsCode;
 
   @Output('saved')
-  public Saved: EventEmitter<ProjectState>;
+  public Saved: EventEmitter<EaCProjectAsCode>;
 
   //  Constructors
-  constructor(
-    protected formBuilder: FormBuilder
-  ) {
+  constructor(protected formBuilder: FormBuilder) {
     this.Cancelled = new EventEmitter();
 
     this.Saved = new EventEmitter();
@@ -38,9 +37,12 @@ export class ProjectSettingsComponent implements OnInit {
   //  Life Cycle
   public ngOnInit() {
     this.ProjectSettingsFormGroup = this.formBuilder.group({
-      host: [this.Project?.Host || '', Validators.required],
-      name: [this.Project?.Name || '', Validators.required],
-      description: [this.Project?.Description || '', Validators.required],
+      host: [this.Project?.Hosts[0] || '', Validators.required],
+      name: [this.Project?.Project?.Name || '', Validators.required],
+      description: [
+        this.Project?.Project?.Description || '',
+        Validators.required,
+      ],
     });
   }
 
@@ -50,11 +52,17 @@ export class ProjectSettingsComponent implements OnInit {
   }
 
   public Save() {
-    const project: ProjectState = {
+    const project: EaCProjectAsCode = {
       ...this.Project,
-      Name: this.ProjectSettingsFormGroup.get('name').value,
-      Host: this.ProjectSettingsFormGroup.get('host').value,
-      Description: this.ProjectSettingsFormGroup.get('description').value,
+      Project: {
+        ...(this.Project.Project || {}),
+        Name: this.ProjectSettingsFormGroup.get('name').value,
+        Description: this.ProjectSettingsFormGroup.get('description').value,
+      },
+      Hosts: [
+        ...(this.Project.Hosts || []),
+        this.ProjectSettingsFormGroup.get('host').value,
+      ],
     };
 
     this.Saved.emit(project);

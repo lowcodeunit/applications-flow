@@ -4,14 +4,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatStepper } from '@angular/material/stepper';
 import { BaseResponse, BaseModeledResponse } from '@lcu/common';
 import { ApplicationsFlowService } from '../../../../services/applications-flow.service';
-import {
-  ApplicationsFlowState,
-  EstablishProjectRequest,
-  GitHubBranch,
-  GitHubOrganization,
-  GitHubRepository,
-  ProjectHostingDetails,
-} from '../../../../state/applications-flow.state';
+import { ProjectHostingDetails } from '../../../../state/applications-flow.state';
 import { SourceControlFormControlsComponent } from '../forms/source-control/source-control.component';
 import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 
@@ -41,6 +34,8 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   public get IsRepositoryValid(): boolean {
     return this.RepoDetailsFormGroup.get('repository')?.valid;
   }
+
+  public Loading?: boolean;
 
   public get ProjectDetailsFormGroup(): FormGroup {
     return this.ProjectFormGroup.get('projectDetails') as FormGroup;
@@ -85,6 +80,56 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
 
   public ConfigureRepository() {
     this.loadProjectHostingDetails();
+  }
+
+  public CreateProject(): void {
+    this.Loading = true;
+
+    // const req: ProjectState = {
+    //   Branch: this.SourceControl.SelectedBranches.join(','),
+    //   BuildScript: this.ProjectDetailsFormGroup.get('buildScript').value,
+    //   // HostingOption: projectDetails.get('hostingOption').value,
+    //   Organization: this.RepoDetailsFormGroup.get('organization').value,
+    //   OutputFolder: this.ProjectDetailsFormGroup.get('outputFolder').value,
+    //   // ProjectName: projectDetails.get('projectName').value,
+    //   Repository: this.RepoDetailsFormGroup.get('repository').value,
+    // };
+
+    // const src: EaCSourceControl = {
+    //   Name: '',
+    //   Type: 'GitHub',
+    //   Organization: this.RepoDetailsFormGroup.get('organization').value,
+    //   Repository: this.RepoDetailsFormGroup.get('repository').value,
+    //   Branches: this.SourceControl.SelectedBranches.join(','),
+    // };
+
+    // const doa: EaCDevOpsAction = {
+    //   Type: 'NPM',
+    //   Name: 'NPM Deploy',
+    //   Lookup: 'npm-deploy',
+    //   Output: this.ProjectDetailsFormGroup.get('outputFolder').value,
+    //   DeployCommand: 'npm run deploy',
+    //   InstallCommand: 'npm ci',
+    //   NPMRegistry: 'https://registry.npmjs.org/',
+    // };
+
+    // const art: EaCArtifact = {
+    //   Type: 'NPM',
+    //   Name: 'NPM Deploy',
+    //   Lookup: 'npm-deploy',
+    //   Output: this.ProjectDetailsFormGroup.get('output').value,
+    //   DeployCommand: 'npm run deploy',
+    //   InstallCommand: 'npm ci',
+    //   NPMRegistry: 'https://registry.npmjs.org/',
+    // };
+
+    // const proj: EaCProjectAsCode = {
+    //   Project: {
+    //     Name: `${src.Organization} ${src.Repository} ${src.Branches}`,
+    //   },
+    // };
+
+    // this.appsFlowEventsSvc.SaveProject(req);
   }
 
   public SetupRepository(): void {

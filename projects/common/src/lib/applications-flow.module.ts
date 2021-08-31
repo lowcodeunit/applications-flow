@@ -28,6 +28,9 @@ import { BaseFormComponent } from './elements/base-form/base-form.component';
 import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
 import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth.component';
 import { SourceControlFormControlsComponent } from './elements/projects/controls/forms/source-control/source-control.component';
+import { AppsFlowComponent } from './elements/projects/controls/tabs/apps-flow/apps-flow.component';
+import { NPMService } from './services/npm.service';
+import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +54,8 @@ import { SourceControlFormControlsComponent } from './elements/projects/controls
     BaseFormTestComponent,
     GitAuthComponent,
     SourceControlFormControlsComponent,
+    AppsFlowComponent,
+    NpmPackageSelectComponent
   ],
   imports: [
     FathymSharedModule,
@@ -82,6 +87,8 @@ import { SourceControlFormControlsComponent } from './elements/projects/controls
     BaseFormTestComponent,
     GitAuthComponent,
     SourceControlFormControlsComponent,
+    AppsFlowComponent,
+    NpmPackageSelectComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -101,6 +108,8 @@ import { SourceControlFormControlsComponent } from './elements/projects/controls
     BaseFormTestComponent,
     GitAuthComponent,
     SourceControlFormControlsComponent,
+    AppsFlowComponent,
+    NpmPackageSelectComponent
   ],
 })
 export class ApplicationsFlowModule {
@@ -111,6 +120,7 @@ export class ApplicationsFlowModule {
         ApplicationsFlowStateContext,
         ApplicationsFlowService,
         ProjectService,
+        NPMService,
         FormsService,
         ApplicationsFlowEventsService,
       ],

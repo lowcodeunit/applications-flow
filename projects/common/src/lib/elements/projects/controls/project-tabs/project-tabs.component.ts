@@ -2,7 +2,11 @@ import { DomainsComponent } from './../tabs/domains/domains.component';
 import { DynamicTabsModel } from './../../../../models/dynamic-tabs.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { GeneralComponent } from '../tabs/general/general.component';
-import { ProjectState } from '../../../../state/applications-flow.state';
+import {
+  EaCApplicationAsCode,
+  EaCProjectAsCode,
+} from '../../../../models/eac.models';
+import { AppsFlowComponent } from '../tabs/apps-flow/apps-flow.component';
 
 @Component({
   selector: 'lcu-project-tabs',
@@ -13,11 +17,21 @@ export class ProjectTabsComponent implements OnInit {
   //  Fields
 
   //  Properties
+  public get ApplicationLookups(): Array<string> {
+    return Object.keys(this.Applications || {});
+  }
+
+  @Input('applications')
+  public Applications: { [lookup: string]: EaCApplicationAsCode };
+
   @Input('host-dns-instance')
   public HostDNSInstance: string;
 
   @Input('project')
-  public Project: ProjectState;
+  public Project: EaCProjectAsCode;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
 
   public TabComponents: Array<DynamicTabsModel>;
 
@@ -30,16 +44,30 @@ export class ProjectTabsComponent implements OnInit {
   protected tabsComponents(): void {
     this.TabComponents = [
       new DynamicTabsModel({
+        Component: AppsFlowComponent,
+        Data: {
+          Project: this.Project,
+          ProjectLookup: this.ProjectLookup,
+          Applications: this.Applications,
+        },
+        Label: 'Application Flow',
+        Icon: 'account_tree',
+      }),
+      new DynamicTabsModel({
         Component: GeneralComponent,
-        Data: { Project: this.Project },
+        Data: { Project: this.Project, ProjectLookup: this.ProjectLookup },
         Label: 'General',
-        Icon: 'pages'
+        Icon: 'pages',
       }),
       new DynamicTabsModel({
         Component: DomainsComponent,
-        Data: { Project: this.Project, HostDNSInstance: this.HostDNSInstance },
+        Data: {
+          Project: this.Project,
+          ProjectLookup: this.ProjectLookup,
+          HostDNSInstance: this.HostDNSInstance,
+        },
         Label: 'Domains',
-        Icon: 'domain'
+        Icon: 'domain',
       }),
     ];
   }

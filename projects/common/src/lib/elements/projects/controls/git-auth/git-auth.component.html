@@ -19,9 +19,10 @@
 
       <!-- href="/.oauth/github" -->
       <a 
-        (click)="ConnectGitHubProvider()" 
+        (click)="ConnectGitHubProvider();" 
         mat-raised-button color="primary" 
-        class="github margin-y-3">
+        class="github margin-y-3"
+        [disabled]="ConnectClicked">
         Connect with GitHub
 
         <span class="octocat-icon"></span>

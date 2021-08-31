@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GitHubWorkflowRun, ProjectState } from '../../../../state/applications-flow.state';
+import { GitHubWorkflowRun } from '../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../services/applications-flow-events.service';
+import { EaCProjectAsCode } from '../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-project-items',
@@ -11,16 +12,20 @@ export class ProjectItemsComponent implements OnInit {
   //  Fields
 
   //  Properties
+  public get ProjectLookups(): Array<string> {
+    return Object.keys(this.Projects || {});
+  }
+
   /**
    * List of projects
    */
   @Input('projects')
-  public Projects: Array<ProjectState>;
+  public Projects: { [lookup: string]: EaCProjectAsCode };
 
   public PanelOpenState: boolean;
 
-  @Input('selected-project-id')
-  public SelectedProjectID: string;
+  @Input('selected-project-lookup')
+  public SelectedProjectLookup: string;
 
   //  Constructors
   constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
@@ -29,14 +34,10 @@ export class ProjectItemsComponent implements OnInit {
   public ngOnInit(): void {}
 
   //  API Methods
-  public DeleteProject(project: ProjectState): void {
-    if (confirm(`Are you sure you want to delete project '${project.Name}'?`)) {
-      this.appsFlowEventsSvc.DeleteProject(project.ID);
+  public DeleteProject(projectLookup: string, projectName: string): void {
+    if (confirm(`Are you sure you want to delete project '${projectName}'?`)) {
+      this.appsFlowEventsSvc.DeleteProject(projectLookup);
     }
-  }
-
-  public DeployRun(lastrun: GitHubWorkflowRun): void {
-    this.appsFlowEventsSvc.DeployRun(lastrun);
   }
 
   /**
@@ -45,11 +46,7 @@ export class ProjectItemsComponent implements OnInit {
    *
    * Event to edit project settings
    */
-  public ProjectSettings(project: ProjectState): void {
-    this.appsFlowEventsSvc.SetEditProjectSettings(project);
-  }
-
-  public CurrentProject(project: ProjectState): void {
-    // this.projectService.CurrentSelectedProject.next(project);
+  public ProjectSettings(projectLookup: string): void {
+    this.appsFlowEventsSvc.SetEditProjectSettings(projectLookup);
   }
 }

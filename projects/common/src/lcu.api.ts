@@ -10,6 +10,7 @@ export * from './lib/elements/projects/controls/project-settings/project-setting
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
 export * from './lib/services/project.service';
+export * from './lib/services/npm.service';
 export * from './lib/models/actions.model';
 export * from './lib/models/form-actions.model';
 export * from './lib/models/dev-settings-preset.model';

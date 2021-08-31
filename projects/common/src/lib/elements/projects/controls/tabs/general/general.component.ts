@@ -11,8 +11,8 @@ import {
 } from '@angular/core';
 
 import { LcuElementComponent, LCUElementContext } from '@lcu/common';
-import { ProjectState } from './../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from './../../../../../services/applications-flow.service';
+import { EaCProjectAsCode } from '../../../../../models/eac.models';
 
 export class ApplicationsFlowProjectsElementState {}
 
@@ -28,9 +28,9 @@ export class GeneralComponent
   implements OnDestroy, OnInit, AfterContentChecked
 {
   @Input('data')
-  public Data: { Project: ProjectState };
+  public Data: { Project: EaCProjectAsCode };
 
-  public get Project(): ProjectState {
+  public get Project(): EaCProjectAsCode {
     return this.Data.Project;
   }
 

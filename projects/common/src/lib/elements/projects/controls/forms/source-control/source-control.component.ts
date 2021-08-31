@@ -19,12 +19,9 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSelectChange } from '@angular/material/select';
 import { BaseResponse, BaseModeledResponse } from '@lcu/common';
 import {
-  ApplicationsFlowState,
-  EstablishProjectRequest,
   GitHubBranch,
   GitHubOrganization,
   GitHubRepository,
-  ProjectHostingDetails,
 } from '../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';

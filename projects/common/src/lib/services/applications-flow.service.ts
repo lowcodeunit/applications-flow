@@ -2,12 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { LCUServiceSettings, StateContext } from '@lcu/common';
 import { Observable, Subject } from 'rxjs';
+import { EaCProjectAsCode, EnterpriseAsCode } from '../models/eac.models';
 import {
-  ApplicationsFlowState,
-  EstablishProjectRequest,
-  GitHubLowCodeUnit,
-  ProjectState,
-} from '../state/applications-flow.state';
+  ApplicationsFlowState, UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
 import { GitHubWorkflowRun } from './../state/applications-flow.state';
 
 @Injectable({
@@ -28,16 +25,6 @@ export class ApplicationsFlowService {
   }
 
   // API Methods
-  public EnsureUserEnterprise(): Observable<object> {
-    return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/enterprise/ensure`,
-      {},
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
   public ConfigureDevOpsAction(actionLookup: string): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/devops/actions/${actionLookup}/configure`,
@@ -63,19 +50,28 @@ export class ApplicationsFlowService {
     );
   }
 
-  public DeleteProject(projectId: string): Observable<object> {
+  public DeleteApplication(appLookup: string): Observable<object> {
     return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectId}`,
+      `${this.apiRoot}/api/lowcodeunit/manage/applications/${appLookup}`,
       {
         headers: this.loadHeaders(),
       }
     );
   }
 
-  public DeployRun(run: GitHubWorkflowRun): Observable<object> {
+  public DeleteProject(projectLookup: string): Observable<object> {
+    return this.http.delete(
+      `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectLookup}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public EnsureUserEnterprise(): Observable<object> {
     return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/deploy`,
-      run,
+      `${this.apiRoot}/api/lowcodeunit/manage/enterprise/ensure`,
+      {},
       {
         headers: this.loadHeaders(),
       }
@@ -136,6 +132,12 @@ export class ApplicationsFlowService {
     );
   }
 
+  public LoadEnterpriseAsCode(): Observable<object> {
+    return this.http.get(`${this.apiRoot}/api/lowcodeunit/manage/eac`, {
+      headers: this.loadHeaders(),
+    });
+  }
+
   public LoadProjectHostingDetails(
     organization: string,
     repository: string,
@@ -149,13 +151,23 @@ export class ApplicationsFlowService {
     );
   }
 
-  public SaveProject(
-    project: ProjectState,
+  public SaveEnterpriseAsCode(
+    eac: EnterpriseAsCode,
     hostDnsInstance: string
   ): Observable<object> {
     return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects?hostDnsInstance=${hostDnsInstance}`,
-      project,
+      `${this.apiRoot}/api/lowcodeunit/manage/eac?hostDnsInstance=${hostDnsInstance}`,
+      eac,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): Observable<object> {
+    return this.http.post(
+      `${this.apiRoot}/api/lowcodeunit/manage/projects/unpack`,
+      req,
       {
         headers: this.loadHeaders(),
       }

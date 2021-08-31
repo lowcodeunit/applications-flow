@@ -21,7 +21,7 @@
           formControlName="name"
         />
 
-        <mat-hint *ngIf="Name.valid"> Selected Project Name </mat-hint>
+        <!-- <mat-hint *ngIf="Name.valid"> Selected Project Name </mat-hint> -->
 
         <mat-error *ngIf="Name.hasError('required')">
           Project Name is required
@@ -48,9 +48,9 @@
           formControlName="description"
         ></textarea>
 
-        <mat-hint *ngIf="Description.valid">
+        <!-- <mat-hint *ngIf="Description.valid">
           Selected Project Description
-        </mat-hint>
+        </mat-hint> -->
 
         <mat-error *ngIf="Description.hasError('required')">
           Project Description is required

@@ -1,6 +1,21 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { EstablishProjectRequest, ProjectState } from '../state/applications-flow.state';
-import { GitHubWorkflowRun } from '../state/applications-flow.state';
+import { EaCApplicationAsCode, EaCProjectAsCode } from '../models/eac.models';
+import { EnterpriseAsCode } from '../models/eac.models';
+import { GitHubWorkflowRun, UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
+
+export class SaveApplicationAsCodeEventRequest {
+  public Application?: EaCApplicationAsCode;
+
+  public ApplicationLookup?: string;
+
+  public ProjectLookup?: string;
+}
+
+export class SaveProjectAsCodeEventRequest {
+  public Project?: EaCProjectAsCode;
+
+  public ProjectLookup?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -9,64 +24,94 @@ export class ApplicationsFlowEventsService {
   //  Fields
 
   //  Properties
-  public EnsureUserEnterpriseEvent: EventEmitter<any>;
+  public DeleteApplicationEvent: EventEmitter<string>;
 
   public DeleteProjectEvent: EventEmitter<string>;
 
-  public DeployRunEvent: EventEmitter<GitHubWorkflowRun>;
+  public EnsureUserEnterpriseEvent: EventEmitter<any>;
 
-  public ListProjectsEvent: EventEmitter<boolean>;
+  // public ListProjectsEvent: EventEmitter<boolean>;
 
-  public SaveProjectEvent: EventEmitter<ProjectState>;
+  public LoadEnterpriseAsCodeEvent: EventEmitter<any>;
+
+  public SaveApplicationAsCodeEvent: EventEmitter<SaveApplicationAsCodeEventRequest>;
+
+  public SaveEnterpriseAsCodeEvent: EventEmitter<EnterpriseAsCode>;
+
+  public SaveProjectAsCodeEvent: EventEmitter<SaveProjectAsCodeEventRequest>;
 
   public SetCreatingProjectEvent: EventEmitter<boolean>;
 
-  public SetEditProjectSettingsEvent: EventEmitter<ProjectState>;
+  public SetEditProjectSettingsEvent: EventEmitter<string>;
+
+  public UnpackLowCodeUnitEvent: EventEmitter<UnpackLowCodeUnitRequest>;
 
   // Constructors
   constructor() {
-    this.EnsureUserEnterpriseEvent = new EventEmitter();
+    this.DeleteApplicationEvent = new EventEmitter();
 
     this.DeleteProjectEvent = new EventEmitter();
 
-    this.DeployRunEvent = new EventEmitter();
+    this.EnsureUserEnterpriseEvent = new EventEmitter();
 
-    this.ListProjectsEvent = new EventEmitter();
+    this.LoadEnterpriseAsCodeEvent = new EventEmitter();
 
-    this.SaveProjectEvent = new EventEmitter();
+    this.SaveApplicationAsCodeEvent = new EventEmitter();
+
+    this.SaveEnterpriseAsCodeEvent = new EventEmitter();
+
+    this.SaveProjectAsCodeEvent = new EventEmitter();
 
     this.SetCreatingProjectEvent = new EventEmitter();
 
     this.SetEditProjectSettingsEvent = new EventEmitter();
+
+    this.UnpackLowCodeUnitEvent = new EventEmitter();
   }
 
   // API Methods
-  public EnsureUserEnterprise(req: EstablishProjectRequest): void {
-    this.EnsureUserEnterpriseEvent.emit(req);
+  public DeleteApplication(appLookup: string): void {
+    this.DeleteApplicationEvent.emit(appLookup);
   }
 
-  public DeleteProject(projectId: string): void {
-    this.DeleteProjectEvent.emit(projectId);
+  public DeleteProject(projectLookup: string): void {
+    this.DeleteProjectEvent.emit(projectLookup);
   }
 
-  public DeployRun(run: GitHubWorkflowRun): void {
-    this.DeployRunEvent.emit(run);
+  public EnsureUserEnterprise(): void {
+    this.EnsureUserEnterpriseEvent.emit();
   }
 
-  public ListProjects(withLoading: boolean): void {
-    this.ListProjectsEvent.emit(withLoading);
+  // public ListProjects(withLoading: boolean): void {
+  //   this.ListProjectsEvent.emit(withLoading);
+  // }
+
+  public LoadEnterpriseAsCode(): void {
+    this.LoadEnterpriseAsCodeEvent.emit();
   }
 
-  public SaveProject(project: ProjectState): void {
-    this.SaveProjectEvent.emit(project);
+  public SaveApplicationAsCode(req: SaveApplicationAsCodeEventRequest): void {
+    this.SaveApplicationAsCodeEvent.emit(req);
+  }
+
+  public SaveEnterpriseAsCode(eac: EnterpriseAsCode): void {
+    this.SaveEnterpriseAsCodeEvent.emit(eac);
+  }
+
+  public SaveProjectAsCode(req: SaveProjectAsCodeEventRequest): void {
+    this.SaveProjectAsCodeEvent.emit(req);
   }
 
   public SetCreatingProject(creatingProject: boolean): void {
     this.SetCreatingProjectEvent.emit(creatingProject);
   }
 
-  public SetEditProjectSettings(project: ProjectState): void {
-    this.SetEditProjectSettingsEvent.emit(project);
+  public SetEditProjectSettings(projectLookup: string): void {
+    this.SetEditProjectSettingsEvent.emit(projectLookup);
+  }
+
+  public UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): void {
+    this.UnpackLowCodeUnitEvent.emit(req);
   }
 
   //  Helpers
