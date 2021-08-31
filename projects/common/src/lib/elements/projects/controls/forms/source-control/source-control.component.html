@@ -130,7 +130,7 @@
     <div
       fxFlex="33%"
       *ngIf="
-        (IsBranchValid || (IsRepositoryValid && !Loading)) &&
+        (IsBranchesValid || (IsRepositoryValid && !Loading)) &&
         !CreatingRepository
       "
     >
@@ -219,7 +219,7 @@
             Loading repositories
           </h4>
 
-          <h4 class="mat-title" *ngIf="IsRepositoryValid && !IsBranchValid">
+          <h4 class="mat-title" *ngIf="IsRepositoryValid && !IsBranchesValid">
             Loading branches
           </h4>
         </div>
