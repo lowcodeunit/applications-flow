@@ -235,6 +235,8 @@ export class ProjectService {
       this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
+            this.EditingProjectLookup = null;
+
             const eac = await this.LoadEnterpriseAsCode(state);
 
             resolve(eac);
