@@ -80,7 +80,6 @@ export class HeaderComponent implements OnInit {
       },
     };
 
-    debugger;
     this.appsFlowEventsSvc.SaveProjectAsCode({
       ProjectLookup: Guid.CreateRaw(),
       Project: proj,
