@@ -28,10 +28,14 @@ export class GeneralComponent
   implements OnDestroy, OnInit, AfterContentChecked
 {
   @Input('data')
-  public Data: { Project: EaCProjectAsCode };
+  public Data: { Project: EaCProjectAsCode; ProjectLookup: string };
 
   public get Project(): EaCProjectAsCode {
     return this.Data.Project;
+  }
+
+  public get ProjectLookup(): string {
+    return this.Data.ProjectLookup;
   }
 
   constructor(
@@ -46,9 +50,7 @@ export class GeneralComponent
   //  Life Cycle
   public ngOnDestroy(): void {}
 
-  public ngOnInit(): void {
-
-  }
+  public ngOnInit(): void {}
 
   public ngAfterContentChecked(): void {
     this.cd.detectChanges();
