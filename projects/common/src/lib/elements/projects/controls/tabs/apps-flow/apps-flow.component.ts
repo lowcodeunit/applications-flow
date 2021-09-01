@@ -397,6 +397,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public SetEditingApplication(appLookup: string): void {
+    debugger;
     this.EditingApplicationLookup = appLookup;
 
     this.setupApplicationForm();

@@ -220,8 +220,14 @@ export class ApplicationsFlowProjectsElementComponent
       }
     );
 
-    this.appsFlowEventsSvc.UnpackLowCodeUnitEvent.subscribe(async (run) => {
-      await this.projectService.UnpackLowCodeUnit(this.State, run);
+    this.appsFlowEventsSvc.UnpackLowCodeUnitEvent.subscribe(async (req) => {
+      if (
+        confirm(
+          `Are you sure you want to unpack application '${req.ApplicationLookup}' with version '${req.Version}'?`
+        )
+      ) {
+        await this.projectService.UnpackLowCodeUnit(this.State, req);
+      }
     });
   }
 }
