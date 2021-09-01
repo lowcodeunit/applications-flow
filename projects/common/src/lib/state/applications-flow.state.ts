@@ -1,7 +1,11 @@
 import { EnterpriseAsCode } from '../models/eac.models';
 
 export class ApplicationsFlowState {
+  public ActiveEnterpriseLookup?: string;
+
   public EaC?: EnterpriseAsCode;
+
+  public Enterprises?: Array<{ Name: string; Lookup: string }>;
 
   public GitHub?: GitHubSetupState;
 

@@ -93,6 +93,10 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   //  API Methods
+  public async ActiveEnterpriseChanged(event: MatSelectChange): Promise<void> {
+    await this.projectService.SetActiveEnterprise(this.State, event.value);
+  }
+
   public ConfigureDevOpsAction(devOpsActionLookup: string): void {
     this.State.Loading = true;
 
@@ -112,6 +116,8 @@ export class ApplicationsFlowProjectsElementComponent
     this.State.Loading = true;
 
     await this.projectService.HasValidConnection(this.State);
+
+    await this.projectService.ListEnterprises(this.State);
   }
 
   protected async handleSaveApplication(

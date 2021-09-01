@@ -75,27 +75,37 @@ export class AppsFlowComponent implements OnInit {
 
     let workingApps = [...(apps || [])];
 
-    const routeSet = routeBases.reduce((prev, current) => {
-      const routeMap = {
-        ...prev,
-      };
+    const routeSet =
+      routeBases.reduce((prev, current) => {
+        const routeMap = {
+          ...prev,
+        };
 
-      routeMap[current] = workingApps.filter((wa) => {
-        return wa.LookupConfig?.PathRegex.startsWith(current);
-      });
+        routeMap[current] = workingApps.filter((wa) => {
+          return wa.LookupConfig?.PathRegex.startsWith(current);
+        });
 
-      workingApps = workingApps.filter((wa) => {
-        return routeMap[current].indexOf(wa) < 0;
-      });
+        workingApps = workingApps.filter((wa) => {
+          return routeMap[current].indexOf(wa) < 0;
+        });
 
-      return routeMap;
-    }, {}) || {};
+        return routeMap;
+      }, {}) || {};
 
     return routeSet;
   }
 
-  public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
+  public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.Data?.Applications || {};
+  }
+
+  public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
+    const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+    this.Project.ApplicationLookups.forEach((appLookup) => {
+      apps[appLookup] = this.ApplicationsBank[appLookup];
+    });
+    return apps;
   }
 
   public get BuildFormControl(): AbstractControl {

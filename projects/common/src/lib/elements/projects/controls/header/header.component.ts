@@ -1,5 +1,5 @@
 import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 import {
@@ -13,6 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Guid } from '@lcu/common';
+import { ProjectItemsComponent } from '../project-items/project-items.component';
 
 @Component({
   selector: 'lcu-projects-header',

@@ -1,4 +1,9 @@
 :host ::ng-deep {
+  .has-selected {
+    overflow: auto;
+    width: 100%;
+  }
+
   .mat-card-content {
     text-align: center;
     height: 125px;

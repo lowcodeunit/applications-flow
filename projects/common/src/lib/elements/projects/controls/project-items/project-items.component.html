@@ -1,4 +1,7 @@
-<div fxLayout="row" fxLayout.lt-md="column">
+<div
+  [fxLayout]="SelectedProjectLookup ? 'row' : 'row wrap'"
+  [fxLayout.lt-md]="SelectedProjectLookup ? 'row' : 'column'"
+>
   <div class="no-projects" fxFlex="100%" *ngIf="ProjectLookups?.length <= 0">
     <!-- <h1 class="spread mat-display-1">No projects configured</h1> -->
 
@@ -7,7 +10,11 @@
     </h2>
   </div>
 
-  <div fxFlex="30%" fxFlex.lt-md="100%" *ngFor="let projectLookup of ProjectLookups">
+  <div
+    [fxFlex]="SelectedProjectLookup ? '350px' : '30%'"
+    fxFlex.lt-md="100%"
+    *ngFor="let projectLookup of ProjectLookups"
+  >
     <mat-card
       class="spread"
       [class.selected-project]="projectLookup == SelectedProjectLookup"

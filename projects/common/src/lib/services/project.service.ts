@@ -54,9 +54,13 @@ export class ProjectService {
             state.Loading = false;
 
             reject(response.Status);
+
+            console.log(response);
           }
         },
         (err) => {
+          state.Loading = false;
+
           reject(err);
 
           console.log(err);
@@ -82,9 +86,13 @@ export class ProjectService {
             state.Loading = false;
 
             reject(response.Status);
+
+            console.log(response);
           }
         },
         (err) => {
+          state.Loading = false;
+
           reject(err);
 
           console.log(err);
@@ -109,11 +117,13 @@ export class ProjectService {
             state.Loading = false;
 
             reject(response.Status);
-          }
 
-          console.log(response);
+            console.log(response);
+          }
         },
         (err) => {
+          state.Loading = false;
+
           reject(err);
 
           console.log(err);
@@ -143,6 +153,37 @@ export class ProjectService {
           }
         },
         (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
+  public async ListEnterprises(state: ApplicationsFlowState): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.ListEnterprises().subscribe(
+        async (response: BaseModeledResponse<Array<any>>) => {
+          state.Loading = false;
+
+          if (response.Status.Code === 0) {
+            state.Enterprises = response.Model;
+
+            resolve(response.Model);
+          } else {
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
           reject(err);
 
           console.log(err);
@@ -159,12 +200,12 @@ export class ProjectService {
 
       this.appsFlowSvc.LoadEnterpriseAsCode().subscribe(
         (response: BaseModeledResponse<EnterpriseAsCode>) => {
+          state.Loading = false;
+
           if (response.Status.Code === 0) {
             state.EaC = response.Model;
           } else if (response.Status.Code === 3) {
           }
-
-          state.Loading = false;
 
           this.CreatingProject =
             Object.keys(state?.EaC?.Projects || {}).length <= 0;
@@ -174,6 +215,40 @@ export class ProjectService {
           console.log(state);
         },
         (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
+  public async SetActiveEnterprise(
+    state: ApplicationsFlowState,
+    activeEntLookup: string
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
+        async (response: BaseResponse) => {
+          if (response.Status.Code === 0) {
+            const eac = await this.LoadEnterpriseAsCode(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
           reject(err);
 
           console.log(err);
@@ -201,9 +276,13 @@ export class ProjectService {
               state.Loading = false;
 
               reject(response.Status);
+
+              console.log(response);
             }
           },
           (err) => {
+            state.Loading = false;
+
             reject(err);
 
             console.log(err);
@@ -228,25 +307,29 @@ export class ProjectService {
 
         this.appsFlowSvc.IsolateHostDNSInstance().subscribe(
           (response: BaseModeledResponse<string>) => {
+            state.Loading = false;
+
             this.EditingProjectLookup = projectLookup;
 
             this.CreatingProject = false;
 
             state.HostDNSInstance = response.Model;
 
-            state.Loading = false;
-
             resolve({});
 
             console.log(state);
           },
           (err) => {
+            state.Loading = false;
+
             reject(err);
 
             console.log(err);
           }
         );
       } else {
+        state.Loading = false;
+
         this.EditingProjectLookup = projectLookup;
 
         this.CreatingProject = false;
@@ -277,9 +360,13 @@ export class ProjectService {
             state.Loading = false;
 
             reject(response.Status);
+
+            console.log(response);
           }
         },
         (err) => {
+          state.Loading = false;
+
           reject(err);
 
           console.log(err);

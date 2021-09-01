@@ -3,7 +3,7 @@
   fxLayout.lt-md="column"
   fxLayoutAlign="center center"
 >
-  <div fxFlex="100%">
+  <div fxFlex="100%" [class.has-selected]="SelectedProjectLookup">
     <lcu-project-items
       [projects]="Projects"
       [selected-project-lookup]="SelectedProjectLookup"

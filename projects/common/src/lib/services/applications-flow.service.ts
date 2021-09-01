@@ -4,7 +4,9 @@ import { LCUServiceSettings, StateContext } from '@lcu/common';
 import { Observable, Subject } from 'rxjs';
 import { EaCProjectAsCode, EnterpriseAsCode } from '../models/eac.models';
 import {
-  ApplicationsFlowState, UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
+  ApplicationsFlowState,
+  UnpackLowCodeUnitRequest,
+} from '../state/applications-flow.state';
 import { GitHubWorkflowRun } from './../state/applications-flow.state';
 
 @Injectable({
@@ -114,6 +116,15 @@ export class ApplicationsFlowService {
     );
   }
 
+  public ListEnterprises(): Observable<object> {
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/manage/enterprises/list`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public ListOrganizations(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/organizations`,
@@ -158,6 +169,18 @@ export class ApplicationsFlowService {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/eac?hostDnsInstance=${hostDnsInstance}`,
       eac,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public SetActiveEnterprise(activeEntLookup: string): Observable<object> {
+    return this.http.post(
+      `${this.apiRoot}/api/lowcodeunit/manage/enterprises/active`,
+      {
+        ActiveEnterpriseLookup: activeEntLookup,
+      },
       {
         headers: this.loadHeaders(),
       }
