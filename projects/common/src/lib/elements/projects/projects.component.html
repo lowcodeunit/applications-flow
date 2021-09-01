@@ -7,7 +7,7 @@
       *ngIf="State.Enterprises?.length > 0"
     >
       <mat-select
-        placeholder="Active Enterprise ({{ State.ActiveEnterpriseLookup }})"
+        placeholder="Active Enterprise ({{ State.ActiveEnterpriseLookup || 'My Enterprise' }})"
         [value]="State.ActiveEnterpriseLookup"
         (selectionChange)="ActiveEnterpriseChanged($event)"
       >

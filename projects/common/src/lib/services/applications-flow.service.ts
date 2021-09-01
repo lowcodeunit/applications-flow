@@ -80,6 +80,15 @@ export class ApplicationsFlowService {
     );
   }
 
+  public GetActiveEnterprise(): Observable<object> {
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/manage/enterprises/active`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public HasValidConnection(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/connection/valid`,

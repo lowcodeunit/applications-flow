@@ -45,56 +45,6 @@ export class AppsFlowComponent implements OnInit {
     return Object.keys(this.RoutedApplications || {});
   }
 
-  public get RoutedApplications(): {
-    [route: string]: Array<EaCApplicationAsCode>;
-  } {
-    const appLookups = Object.keys(this.Applications);
-
-    const apps = appLookups.map((appLookup) => this.Applications[appLookup]);
-
-    let appRoutes =
-      apps.map((app) => {
-        return app.LookupConfig?.PathRegex.replace('.*', '');
-      }) || [];
-
-    appRoutes = appRoutes.filter((ar) => ar != null);
-
-    let routeBases: string[] = [];
-
-    appRoutes.forEach((appRoute) => {
-      const appRouteParts = appRoute.split('/');
-
-      const appRouteBase = `/${appRouteParts[1]}`;
-
-      if (routeBases.indexOf(appRouteBase) < 0) {
-        routeBases.push(appRouteBase);
-      }
-    });
-
-    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
-
-    let workingApps = [...(apps || [])];
-
-    const routeSet =
-      routeBases.reduce((prev, current) => {
-        const routeMap = {
-          ...prev,
-        };
-
-        routeMap[current] = workingApps.filter((wa) => {
-          return wa.LookupConfig?.PathRegex.startsWith(current);
-        });
-
-        workingApps = workingApps.filter((wa) => {
-          return routeMap[current].indexOf(wa) < 0;
-        });
-
-        return routeMap;
-      }, {}) || {};
-
-    return routeSet;
-  }
-
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.Data?.Applications || {};
   }
@@ -121,6 +71,10 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public CurrentApplicationRoute: string;
+
+  public get CurrentRouteApplicationLookups(): Array<string> {
+    return Object.keys(this.RoutedApplications[this.CurrentApplicationRoute] || {});
+  }
 
   @Input('data')
   public Data: {
@@ -209,6 +163,68 @@ export class AppsFlowComponent implements OnInit {
 
   public get RepositoryFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.repository;
+  }
+
+  public get RoutedApplications(): {
+    [route: string]: { [lookup: string]: EaCApplicationAsCode };
+  } {
+    const appLookups = Object.keys(this.Applications);
+
+    const apps = appLookups.map((appLookup) => this.Applications[appLookup]);
+
+    let appRoutes =
+      apps.map((app) => {
+        return app.LookupConfig?.PathRegex.replace('.*', '');
+      }) || [];
+
+    appRoutes = appRoutes.filter((ar) => ar != null);
+
+    let routeBases: string[] = [];
+
+    appRoutes.forEach((appRoute) => {
+      const appRouteParts = appRoute.split('/');
+
+      const appRouteBase = `/${appRouteParts[1]}`;
+
+      if (routeBases.indexOf(appRouteBase) < 0) {
+        routeBases.push(appRouteBase);
+      }
+    });
+
+    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+    let workingAppLookups = [...(appLookups || [])];
+
+    const routeSet =
+      routeBases.reduce((prevRouteMap, currentRouteBase) => {
+        const routeMap = {
+          ...prevRouteMap,
+        };
+
+        const filteredAppLookups = workingAppLookups.filter((wal) => {
+          const wa = this.Applications[wal];
+
+          return wa.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+        });
+
+        routeMap[currentRouteBase] = filteredAppLookups.reduce((prevAppMap, appLookup) => {
+          const appMap = {
+            ...prevAppMap,
+          };
+
+          appMap[appLookup] = this.Applications[appLookup];
+
+          return appMap;
+        }, {}) || {};
+
+        workingAppLookups = workingAppLookups.filter((wa) => {
+          return filteredAppLookups.indexOf(wa) < 0;
+        });
+
+        return routeMap;
+      }, {}) || {};
+
+    return routeSet;
   }
 
   public get RouteFormControl(): AbstractControl {
@@ -397,7 +413,6 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public SetEditingApplication(appLookup: string): void {
-    debugger;
     this.EditingApplicationLookup = appLookup;
 
     this.setupApplicationForm();

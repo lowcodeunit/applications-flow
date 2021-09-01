@@ -386,7 +386,11 @@
       <div *ngIf="ApplicationRoutes?.length > 0">
         <h2>Project Routes</h2>
 
-        <div fxLayout="row wrap" fxLayout.lt-md="column" *ngIf="ApplicationRoutes">
+        <div
+          fxLayout="row wrap"
+          fxLayout.lt-md="column"
+          *ngIf="ApplicationRoutes"
+        >
           <div
             fxFlex="30%"
             fxFlex.lt-md="100%"
@@ -464,97 +468,99 @@
       </h2>
 
       <div fxLayout="row wrap" fxLayout.lt-md="column">
-        <div
-          fxFlex="30%"
-          fxFlex.lt-md="100%"
-          *ngFor="let app of RoutedApplications[CurrentApplicationRoute]"
-        >
-          <mat-card class="spread">
-            <mat-card-header>
-              <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
+        <ng-container *ngFor="let appLookup of CurrentRouteApplicationLookups">
+          <div
+            fxFlex="30%"
+            fxFlex.lt-md="100%"
+            *ngIf="RoutedApplications[CurrentApplicationRoute][appLookup]; let app"
+          >
+            <mat-card class="spread">
+              <mat-card-header>
+                <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
 
-              <mat-card-title
-                class="mat-subheading-2"
-                [matTooltip]="app.Application.Description"
-              >
-                {{ app.Application.Name }}
-              </mat-card-title>
-            </mat-card-header>
-
-            <mat-card-content>
-              <div class="spread"></div>
-            </mat-card-content>
-
-            <mat-card-actions>
-              <div class="data-app-actions">
-                <div fxFlex></div>
-
-                <a
-                  mat-icon-button
-                  href="https://{{ Project.Hosts[0] }}{{
-                    app.LookupConfig.PathRegex.replace('.*', '')
-                  }}"
-                  target="_blank"
-                  [title]="
-                    Project.Hosts[0] +
-                    app.LookupConfig.PathRegex.replace('.*', '')
-                  "
-                  color="accent"
+                <mat-card-title
+                  class="mat-subheading-2"
+                  [matTooltip]="app.Application.Description"
                 >
-                  <mat-icon>launch</mat-icon>
-                </a>
+                  {{ app.Application.Name }}
+                </mat-card-title>
+              </mat-card-header>
 
-                <button
-                  mat-icon-button
-                  (click)="SetEditingApplication(appLookup)"
-                >
-                  <mat-icon matTooltip="Edit Application"> edit </mat-icon>
-                </button>
+              <mat-card-content>
+                <div class="spread"></div>
+              </mat-card-content>
 
-                <a
-                  mat-icon-button
-                  color="accent"
-                  (click)="Unpack(appLookup)"
-                  target="_blank"
-                  matTooltip="Unpack Latest"
-                  title="Unpack Latest"
-                >
-                  <mat-icon>cloud_upload</mat-icon>
-                </a>
+              <mat-card-actions>
+                <div class="data-app-actions">
+                  <div fxFlex></div>
 
-                <button
-                  mat-icon-button
-                  color="warn"
-                  (click)="DeleteApplication(app)"
-                >
-                  <mat-icon matTooltip="Delete {{ app.Application.Name }}">
-                    delete_forever
-                  </mat-icon>
-                </button>
-              </div>
+                  <a
+                    mat-icon-button
+                    href="https://{{ Project.Hosts[0] }}{{
+                      app.LookupConfig.PathRegex.replace('.*', '')
+                    }}"
+                    target="_blank"
+                    [title]="
+                      Project.Hosts[0] +
+                      app.LookupConfig.PathRegex.replace('.*', '')
+                    "
+                    color="accent"
+                  >
+                    <mat-icon>launch</mat-icon>
+                  </a>
 
-              <div class="data-app-fakes">
-                <div fxFlex></div>
+                  <button
+                    mat-icon-button
+                    (click)="SetEditingApplication(appLookup)"
+                  >
+                    <mat-icon matTooltip="Edit Application"> edit </mat-icon>
+                  </button>
 
-                <button mat-icon-button disabled>
-                  <mat-icon>fiber_manual_record</mat-icon>
-                </button>
+                  <a
+                    mat-icon-button
+                    color="accent"
+                    (click)="Unpack(appLookup)"
+                    target="_blank"
+                    matTooltip="Unpack Latest"
+                    title="Unpack Latest"
+                  >
+                    <mat-icon>cloud_upload</mat-icon>
+                  </a>
 
-                <button mat-icon-button disabled>
-                  <mat-icon>fiber_manual_record</mat-icon>
-                </button>
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="DeleteApplication(app)"
+                  >
+                    <mat-icon matTooltip="Delete {{ app.Application.Name }}">
+                      delete_forever
+                    </mat-icon>
+                  </button>
+                </div>
 
-                <button mat-icon-button disabled>
-                  <mat-icon>fiber_manual_record</mat-icon>
-                </button>
+                <div class="data-app-fakes">
+                  <div fxFlex></div>
 
-                <button mat-icon-button disabled>
-                  <mat-icon>fiber_manual_record</mat-icon>
-                </button>
-              </div>
-            </mat-card-actions>
-          </mat-card>
-        </div>
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

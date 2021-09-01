@@ -132,6 +132,41 @@ export class ProjectService {
     });
   }
 
+  public async GetActiveEnterprise(
+    state: ApplicationsFlowState
+  ): Promise<void> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.GetActiveEnterprise().subscribe(
+        async (
+          response: BaseModeledResponse<{ Name: string; Lookup: string }>
+        ) => {
+          if (response.Status.Code === 0) {
+            state.ActiveEnterpriseLookup = response.Model?.Lookup;
+
+            state.Loading = false;
+
+            resolve();
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
   public HasValidConnection(
     state: ApplicationsFlowState
   ): Promise<EnterpriseAsCode> {
@@ -236,6 +271,8 @@ export class ProjectService {
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
             this.EditingProjectLookup = null;
+
+            state.ActiveEnterpriseLookup = activeEntLookup;
 
             const eac = await this.LoadEnterpriseAsCode(state);
 

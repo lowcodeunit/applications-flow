@@ -118,6 +118,10 @@ export class ApplicationsFlowProjectsElementComponent
     await this.projectService.HasValidConnection(this.State);
 
     await this.projectService.ListEnterprises(this.State);
+
+    if (this.State.Enterprises?.length > 0) {
+      await this.projectService.GetActiveEnterprise(this.State);
+    }
   }
 
   protected async handleSaveApplication(
@@ -223,7 +227,9 @@ export class ApplicationsFlowProjectsElementComponent
     this.appsFlowEventsSvc.UnpackLowCodeUnitEvent.subscribe(async (req) => {
       if (
         confirm(
-          `Are you sure you want to unpack application '${req.ApplicationLookup}' with version '${req.Version}'?`
+          `Are you sure you want to unpack application '${
+            req.ApplicationLookup
+          }' with version '${req.Version || 'latest'}'?`
         )
       ) {
         await this.projectService.UnpackLowCodeUnit(this.State, req);
