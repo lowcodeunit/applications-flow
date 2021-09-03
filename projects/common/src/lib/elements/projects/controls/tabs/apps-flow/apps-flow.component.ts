@@ -73,7 +73,9 @@ export class AppsFlowComponent implements OnInit {
   public CurrentApplicationRoute: string;
 
   public get CurrentRouteApplicationLookups(): Array<string> {
-    return Object.keys(this.RoutedApplications[this.CurrentApplicationRoute] || {});
+    return Object.keys(
+      this.RoutedApplications[this.CurrentApplicationRoute] || {}
+    );
   }
 
   @Input('data')
@@ -207,15 +209,16 @@ export class AppsFlowComponent implements OnInit {
           return wa.LookupConfig?.PathRegex.startsWith(currentRouteBase);
         });
 
-        routeMap[currentRouteBase] = filteredAppLookups.reduce((prevAppMap, appLookup) => {
-          const appMap = {
-            ...prevAppMap,
-          };
+        routeMap[currentRouteBase] =
+          filteredAppLookups.reduce((prevAppMap, appLookup) => {
+            const appMap = {
+              ...prevAppMap,
+            };
 
-          appMap[appLookup] = this.Applications[appLookup];
+            appMap[appLookup] = this.Applications[appLookup];
 
-          return appMap;
-        }, {}) || {};
+            return appMap;
+          }, {}) || {};
 
         workingAppLookups = workingAppLookups.filter((wa) => {
           return filteredAppLookups.indexOf(wa) < 0;
@@ -434,6 +437,39 @@ export class AppsFlowComponent implements OnInit {
   }
 
   //  Helpers
+  protected cleanupLcuTypeSubForm(): void {
+    this.ApplicationFormGroup.removeControl('methods');
+    this.ApplicationFormGroup.removeControl('apiRoot');
+    this.ApplicationFormGroup.removeControl('security');
+
+    this.ApplicationFormGroup.removeControl('applicationId');
+
+    this.ApplicationFormGroup.removeControl('build');
+    this.ApplicationFormGroup.removeControl('organization');
+    this.ApplicationFormGroup.removeControl('repository');
+
+    this.ApplicationFormGroup.removeControl('clientId');
+    this.ApplicationFormGroup.removeControl('clientSecret');
+  }
+
+  protected cleanupProcessorTypeSubForm(): void {
+    this.ApplicationFormGroup.removeControl('defaultFile');
+    this.ApplicationFormGroup.removeControl('dfsLcuType');
+
+    this.ApplicationFormGroup.removeControl('oauthLcuType');
+    this.ApplicationFormGroup.removeControl('scopes');
+    this.ApplicationFormGroup.removeControl('tokenLookup');
+
+    this.ApplicationFormGroup.removeControl('inboundPath');
+    this.ApplicationFormGroup.removeControl('proxyLcuType');
+
+    this.ApplicationFormGroup.removeControl('redirect');
+    this.ApplicationFormGroup.removeControl('permanent');
+    this.ApplicationFormGroup.removeControl('preserveMethod');
+
+    this.cleanupLcuTypeSubForm();
+  }
+
   protected setupApplicationForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
@@ -595,18 +631,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupLcuTypeSubForm(): void {
-    this.ApplicationFormGroup.removeControl('methods');
-    this.ApplicationFormGroup.removeControl('apiRoot');
-    this.ApplicationFormGroup.removeControl('security');
-
-    this.ApplicationFormGroup.removeControl('applicationId');
-
-    this.ApplicationFormGroup.removeControl('build');
-    this.ApplicationFormGroup.removeControl('organization');
-    this.ApplicationFormGroup.removeControl('repository');
-
-    this.ApplicationFormGroup.removeControl('clientId');
-    this.ApplicationFormGroup.removeControl('clientSecret');
+    this.cleanupLcuTypeSubForm();
 
     // this.ApplicationFormGroup.removeControl('package');
     // this.ApplicationFormGroup.removeControl('version');
@@ -691,17 +716,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupProcessorTypeSubForm(): void {
-    this.ApplicationFormGroup.removeControl('defaultFile');
-    this.ApplicationFormGroup.removeControl('dfsLcuType');
-
-    this.ApplicationFormGroup.removeControl('oauthLcuType');
-    this.ApplicationFormGroup.removeControl('scopes');
-    this.ApplicationFormGroup.removeControl('tokenLookup');
-
-    this.ApplicationFormGroup.removeControl('inboundPath');
-    this.ApplicationFormGroup.removeControl('proxyLcuType');
-
-    this.ApplicationFormGroup.removeControl('redirect');
+    this.cleanupProcessorTypeSubForm();
 
     if (this.ProcessorType) {
       switch (this.ProcessorType) {
@@ -738,7 +753,7 @@ export class AppsFlowComponent implements OnInit {
       'permanent',
       this.formBldr.control(
         this.EditingApplication.Processor?.Permanent || '',
-        [Validators.required]
+        []
       )
     );
 
@@ -746,7 +761,7 @@ export class AppsFlowComponent implements OnInit {
       'preserveMethod',
       this.formBldr.control(
         this.EditingApplication.Processor?.PreserveMethod || '',
-        [Validators.required]
+        []
       )
     );
   }
