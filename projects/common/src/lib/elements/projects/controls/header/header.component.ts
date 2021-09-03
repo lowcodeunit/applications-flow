@@ -12,7 +12,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { Guid } from '@lcu/common';
+import { Guid, LCUServiceSettings } from '@lcu/common';
 import { ProjectItemsComponent } from '../project-items/project-items.component';
 
 @Component({
@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit {
   //  Constructors
   public constructor(
     protected formBuilder: FormBuilder,
+    protected lcuSettings: LCUServiceSettings,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {}
 
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit {
 
   //  API Methods
   public CreateProject(): void {
+    debugger;
     const proj: EaCProjectAsCode = {
       Project: {
         Name: this.ProjectName?.value,
@@ -72,6 +74,10 @@ export class HeaderComponent implements OnInit {
           fathym: {
             AccessRightLookups: ['Fathym.Global.Admin', 'Fathym.User'],
             ProviderLookups: ['ADB2C'],
+            Usernames: [
+              'support@fathym.com',
+              this.lcuSettings.User.Email
+            ],
           },
         },
         AccessRightLookups: ['Fathym.Global.Admin', 'Fathym.User'],
