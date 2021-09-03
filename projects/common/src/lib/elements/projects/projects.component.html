@@ -4,15 +4,13 @@
   <nav>
     <mat-form-field
       class="mat-full-width"
-      *ngIf="State.Enterprises?.length > 0"
+      *ngIf="State.Enterprises?.length > 1"
     >
       <mat-select
-        placeholder="Active Enterprise ({{ State.ActiveEnterpriseLookup || 'My Enterprise' }})"
+        placeholder="Active Enterprise ({{ State.ActiveEnterpriseLookup }})"
         [value]="State.ActiveEnterpriseLookup"
         (selectionChange)="ActiveEnterpriseChanged($event)"
       >
-        <mat-option value="">My Enterprise</mat-option>
-
         <mat-option [value]="ent.Lookup" *ngFor="let ent of State.Enterprises">
           {{ ent.Name }}
         </mat-option>
