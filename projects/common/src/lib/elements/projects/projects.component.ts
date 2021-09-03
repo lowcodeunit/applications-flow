@@ -54,7 +54,7 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public get EditingProject(): EaCProjectAsCode {
-    return this.State?.EaC?.Projects[this.EditingProjectLookup];
+    return this.State?.EaC?.Projects ? this.State?.EaC?.Projects[this.EditingProjectLookup] : null;
   }
 
   public get EditingProjectLookup(): string {

@@ -238,9 +238,11 @@ export class ProjectService {
           state.Loading = false;
 
           if (response.Status.Code === 0) {
-            state.EaC = response.Model;
+            state.EaC = response.Model || {};
           } else if (response.Status.Code === 3) {
           }
+
+          state.EaC = state.EaC || {};
 
           this.CreatingProject =
             Object.keys(state?.EaC?.Projects || {}).length <= 0;
