@@ -63,21 +63,18 @@ export class HeaderComponent implements OnInit {
 
   //  API Methods
   public CreateProject(): void {
-    debugger;
     const proj: EaCProjectAsCode = {
       Project: {
         Name: this.ProjectName?.value,
       },
       Hosts: [`${Guid.CreateRaw()}-shared.lowcodeunit.com`],
+      ModifierLookups: ['html-base', 'lcu-reg'],
       RelyingParty: {
         AccessConfigurations: {
           fathym: {
             AccessRightLookups: ['Fathym.Global.Admin', 'Fathym.User'],
             ProviderLookups: ['ADB2C'],
-            Usernames: [
-              'support@fathym.com',
-              this.lcuSettings.User.Email
-            ],
+            Usernames: ['support@fathym.com', this.lcuSettings.User.Email],
           },
         },
         AccessRightLookups: ['Fathym.Global.Admin', 'Fathym.User'],
