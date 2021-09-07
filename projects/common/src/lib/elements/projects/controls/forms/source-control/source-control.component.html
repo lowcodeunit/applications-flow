@@ -1,5 +1,5 @@
 <div [formGroup]="FormGroup">
-  <div class="card" *ngIf="Organization?.valid || !Loading">
+  <div class="card" *ngIf="OrganizationFormControl?.valid || !Loading">
     <mat-form-field
       class="mat-full-width with-hint"
       *ngIf="OrganizationOptions?.length > 0"
@@ -47,7 +47,7 @@
 
   <div
     class="card"
-    *ngIf="Repository?.valid || (Organization?.valid && !Loading)"
+    *ngIf="RepositoryFormControl?.valid || (OrganizationFormControl?.valid && !Loading)"
   >
     <mat-form-field class="mat-full-width">
       <mat-icon class="org-icon" matPrefix>description</mat-icon>
@@ -55,11 +55,11 @@
       <mat-select
         [formControlName]="SourceControlRoot + 'repository'"
         [placeholder]="
-          Organization?.valid
+          OrganizationFormControl?.valid
             ? 'Repository'
             : 'Repository (select organization first)'
         "
-        [disabled]="!Organization?.valid || Loading || RepositoryDisabled"
+        [disabled]="!OrganizationFormControl?.valid || Loading || RepositoryDisabled"
         (selectionChange)="RepositoryChanged($event)"
         *ngIf="!CreatingRepository"
         required
@@ -84,7 +84,7 @@
         matSuffix
         (click)="CreateRepository()"
         [fxHide]="Loading || RepositoryDisabled"
-        *ngIf="!CreatingRepository && Organization?.valid"
+        *ngIf="!CreatingRepository && OrganizationFormControl?.valid"
       >
         add_circle
       </mat-icon>
@@ -93,7 +93,7 @@
         matSuffix
         color="primary"
         (click)="SaveRepository()"
-        *ngIf="CreatingRepository && Repository?.valid"
+        *ngIf="CreatingRepository && RepositoryFormControl?.valid"
       >
         save
       </mat-icon>
@@ -111,8 +111,8 @@
   <div
     class="card"
     *ngIf="
-      (Branches?.valid ||
-        (Organization?.valid && Repository?.valid && !Loading)) &&
+      (BranchesFormControl?.valid ||
+        (OrganizationFormControl?.valid && RepositoryFormControl?.valid && !Loading)) &&
       !CreatingRepository &&
       UseBranches
     "
@@ -169,7 +169,7 @@
         [formControlName]="SourceControlRoot + 'mainBranch'"
         placeholder="Main Branch"
         [disabled]="Loading || BranchesDisabled"
-        [fxShow]="SelectedBranches?.length > 1"
+        [fxShow]="SelectedBranchesFormControl?.length > 1"
         required
       >
         <ng-container *ngFor="let branch of SelectedBranches">
@@ -209,15 +209,15 @@
       <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
 
       <div class="margin-3">
-        <h4 class="mat-title" *ngIf="!Organization?.valid">
+        <h4 class="mat-title" *ngIf="!OrganizationFormControl?.valid">
           Loading organizations
         </h4>
 
-        <h4 class="mat-title" *ngIf="Organization?.valid && !Repository?.valid">
+        <h4 class="mat-title" *ngIf="OrganizationFormControl?.valid && !RepositoryFormControl?.valid">
           Loading repositories
         </h4>
 
-        <h4 class="mat-title" *ngIf="Repository?.valid && !Branches?.valid">
+        <h4 class="mat-title" *ngIf="RepositoryFormControl?.valid && !BranchesFormControl?.valid">
           Loading branches
         </h4>
       </div>
