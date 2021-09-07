@@ -161,7 +161,7 @@
 
     <mat-form-field
       class="mat-full-width with-hint"
-      *ngIf="OrganizationOptions?.length > 0"
+      [fxShow]="SelectedBranches?.length > 1"
     >
       <mat-icon class="org-icon" matPrefix>account_tree</mat-icon>
 
@@ -169,7 +169,6 @@
         [formControlName]="SourceControlRoot + 'mainBranch'"
         placeholder="Main Branch"
         [disabled]="Loading || BranchesDisabled"
-        [fxShow]="SelectedBranchesFormControl?.length > 1"
         required
       >
         <ng-container *ngFor="let branch of SelectedBranches">
