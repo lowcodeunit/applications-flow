@@ -153,6 +153,8 @@ export class ProjectHostingDetails {
 }
 
 export class ProjectHostingOption {
+  public ArtifactType?: string;
+
   public Description?: string;
 
   public Image?: string;

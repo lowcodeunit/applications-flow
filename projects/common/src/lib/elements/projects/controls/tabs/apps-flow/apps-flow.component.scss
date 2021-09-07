@@ -40,6 +40,33 @@
     }
   }
 
+  .mat-form-field {
+    margin-top: .5em;
+    margin-bottom: .5em;
+
+    &.with-hint {
+      margin-bottom: 1em;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .form-card {
+      width: 100%;
+    }
+
+    .mat-card {
+      .mat-card-actions {
+        .data-app-actions {
+          display: flex !important;
+        }
+
+        .data-app-fakes {
+          display: none !important;
+        }
+      }
+    }
+  }
+
   .domain-item {
     border-radius: 5;
     border: var(--theme-accent-500) solid 1px;

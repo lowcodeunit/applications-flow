@@ -1,228 +1,225 @@
 <div [formGroup]="FormGroup">
-  <div fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign="center center">
-    <div fxFlex="33%" *ngIf="OrganizationOptions?.length > 0">
-      <mat-card class="spread">
-        <mat-card-header>
-          <mat-card-title>Organization</mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content>
-          <div>
-            <mat-icon class="org-icon">groups</mat-icon>
-          </div>
-
-          <mat-form-field class="mat-full-width margin-2">
-            <mat-select
-              formControlName="organization"
-              placeholder="Organization"
-              (selectionChange)="OrganizationChanged($event)"
-              [disabled]="Loading"
-              required
-            >
-              <ng-container *ngFor="let orgOpt of OrganizationOptions">
-                <mat-option [value]="orgOpt.Name">
-                  {{ orgOpt.Name }}
-                </mat-option>
-              </ng-container>
-            </mat-select>
-
-            <mat-icon matSuffix (click)="RefreshOrganizations()">
-              refresh
-            </mat-icon>
-
-            <a
-              matSuffix
-              href="/.oauth/github?oauth-force-edit=true"
-              title="Re-authorize Organizations"
-              target="_blank"
-            >
-              <mat-icon> launch </mat-icon>
-            </a>
-
-            <mat-hint>
-              If you don't have an organization or would like to create a new
-              one,
-              <a
-                href="https://github.com/account/organizations/new"
-                target="_blank"
-              >
-                start here
-              </a>
-              .
-            </mat-hint>
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div
-      fxFlex="33%"
-      *ngIf="IsRepositoryValid || (IsOrganizationValid && !Loading)"
+  <div class="card" *ngIf="Organization?.valid || !Loading">
+    <mat-form-field
+      class="mat-full-width with-hint"
+      *ngIf="OrganizationOptions?.length > 0"
     >
-      <mat-card class="spread">
-        <mat-card-header>
-          <mat-card-title>Repository</mat-card-title>
-        </mat-card-header>
+      <mat-icon class="org-icon" matPrefix>groups</mat-icon>
 
-        <mat-card-content>
-          <div>
-            <mat-icon class="org-icon">description</mat-icon>
-          </div>
+      <mat-select
+        [formControlName]="SourceControlRoot + 'organization'"
+        placeholder="Organization"
+        (selectionChange)="OrganizationChanged($event)"
+        [disabled]="Loading || OrganizationDisabled"
+        required
+      >
+        <ng-container *ngFor="let orgOpt of OrganizationOptions">
+          <mat-option [value]="orgOpt.Name">
+            {{ orgOpt.Name }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
 
-          <mat-form-field class="mat-full-width margin-2">
-            <mat-select
-              formControlName="repository"
-              [placeholder]="
-                IsOrganizationValid
-                  ? 'Repository'
-                  : 'Repository (select organization first)'
-              "
-              [disabled]="!IsOrganizationValid || Loading"
-              (selectionChange)="RepositoryChanged($event)"
-              *ngIf="!CreatingRepository"
-              required
-            >
-              <ng-container *ngFor="let repoOpt of RepositoryOptions">
-                <mat-option [value]="repoOpt.Name">
-                  {{ repoOpt.Name }}
-                </mat-option>
-              </ng-container>
-            </mat-select>
+      <mat-icon matSuffix (click)="RefreshOrganizations()"> refresh </mat-icon>
 
-            <input
-              matInput
-              placeholder="Repository (creates new if does not exist)"
-              formControlName="repository"
-              *ngIf="CreatingRepository"
-              [fxHide]="Loading"
-              required
-            />
+      <a
+        matSuffix
+        href="/.oauth/github?oauth-force-edit=true"
+        title="Re-authorize Organizations"
+        target="_blank"
+      >
+        <mat-icon> launch </mat-icon>
+      </a>
 
-            <mat-icon
-              matSuffix
-              (click)="CreateRepository()"
-              *ngIf="!CreatingRepository && IsOrganizationValid"
-            >
-              add_circle
-            </mat-icon>
+      <mat-hint>
+        If you don't have an organization or would like to create a new one,
+        <a
+          mat-button
+          href="https://github.com/account/organizations/new"
+          target="_blank"
+        >
+          start here
+        </a>
+        .
+      </mat-hint>
+    </mat-form-field>
+  </div>
 
-            <mat-icon
-              matSuffix
-              color="primary"
-              (click)="SaveRepository()"
-              *ngIf="CreatingRepository && IsRepositoryValid"
-            >
-              save
-            </mat-icon>
+  <div
+    class="card"
+    *ngIf="Repository?.valid || (Organization?.valid && !Loading)"
+  >
+    <mat-form-field class="mat-full-width">
+      <mat-icon class="org-icon" matPrefix>description</mat-icon>
 
-            <mat-icon
-              matSuffix
-              (click)="CancelCreateRepository()"
-              *ngIf="CreatingRepository"
-            >
-              cancel
-            </mat-icon>
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
-    </div>
+      <mat-select
+        [formControlName]="SourceControlRoot + 'repository'"
+        [placeholder]="
+          Organization?.valid
+            ? 'Repository'
+            : 'Repository (select organization first)'
+        "
+        [disabled]="!Organization?.valid || Loading || RepositoryDisabled"
+        (selectionChange)="RepositoryChanged($event)"
+        *ngIf="!CreatingRepository"
+        required
+      >
+        <ng-container *ngFor="let repoOpt of RepositoryOptions">
+          <mat-option [value]="repoOpt.Name">
+            {{ repoOpt.Name }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
 
-    <div
-      fxFlex="33%"
-      *ngIf="
-        (IsBranchesValid || (IsRepositoryValid && !Loading)) &&
-        !CreatingRepository
-      "
+      <input
+        matInput
+        placeholder="Repository (creates new if does not exist)"
+        [formControlName]="SourceControlRoot + 'repository'"
+        *ngIf="CreatingRepository"
+        [fxHide]="Loading || RepositoryDisabled"
+        required
+      />
+
+      <mat-icon
+        matSuffix
+        (click)="CreateRepository()"
+        [fxHide]="Loading || RepositoryDisabled"
+        *ngIf="!CreatingRepository && Organization?.valid"
+      >
+        add_circle
+      </mat-icon>
+
+      <mat-icon
+        matSuffix
+        color="primary"
+        (click)="SaveRepository()"
+        *ngIf="CreatingRepository && Repository?.valid"
+      >
+        save
+      </mat-icon>
+
+      <mat-icon
+        matSuffix
+        (click)="CancelCreateRepository()"
+        *ngIf="CreatingRepository"
+      >
+        cancel
+      </mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div
+    class="card"
+    *ngIf="
+      (Branches?.valid ||
+        (Organization?.valid && Repository?.valid && !Loading)) &&
+      !CreatingRepository &&
+      UseBranches
+    "
+  >
+    <mat-form-field class="mat-full-width">
+      <mat-icon class="org-icon" matPrefix>account_tree</mat-icon>
+
+      <mat-label>Selected Branches</mat-label>
+
+      <mat-autocomplete
+        (optionSelected)="BranchOptionSelected($event)"
+        #branchOptions="matAutocomplete"
+      >
+        <ng-container *ngFor="let branchOpt of BranchOptions">
+          <mat-option [value]="branchOpt.Name">
+            {{ branchOpt.Name }}
+          </mat-option>
+        </ng-container>
+      </mat-autocomplete>
+
+      <mat-chip-list #selectedBranches>
+        <mat-chip
+          [removable]="true"
+          (removed)="RemoveBranchOption(selBranch)"
+          *ngFor="let selBranch of SelectedBranches"
+        >
+          {{ selBranch }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+
+        <input
+          matInput
+          placeholder="New Branch..."
+          [formControlName]="SourceControlRoot + 'branches'"
+          #branches
+          [matAutocomplete]="branchOptions"
+          [matChipInputFor]="selectedBranches"
+          [matChipInputSeparatorKeyCodes]="SeparatorKeysCodes"
+          [matChipInputAddOnBlur]="true"
+          (matChipInputTokenEnd)="AddBranchOption($event)"
+          [disabled]="Loading || BranchesDisabled"
+          required
+        />
+      </mat-chip-list>
+    </mat-form-field>
+
+    <mat-form-field
+      class="mat-full-width with-hint"
+      *ngIf="OrganizationOptions?.length > 0"
     >
-      <mat-card class="spread">
-        <mat-card-header>
-          <mat-card-title>Branches</mat-card-title>
-        </mat-card-header>
+      <mat-icon class="org-icon" matPrefix>account_tree</mat-icon>
 
-        <mat-card-content>
-          <div>
-            <mat-icon class="org-icon">account_tree</mat-icon>
-          </div>
+      <mat-select
+        [formControlName]="SourceControlRoot + 'mainBranch'"
+        placeholder="Main Branch"
+        [disabled]="Loading || BranchesDisabled"
+        [fxShow]="SelectedBranches?.length > 1"
+        required
+      >
+        <ng-container *ngFor="let branch of SelectedBranches">
+          <mat-option [value]="branch">
+            {{ branch }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
 
-          <mat-form-field class="mat-full-width margin-2">
-            <mat-label>Selected Branches</mat-label>
+      <mat-icon matSuffix (click)="RefreshOrganizations()"> refresh </mat-icon>
 
-            <mat-autocomplete
-              (optionSelected)="BranchOptionSelected($event)"
-              #branchOptions="matAutocomplete"
-            >
-              <ng-container *ngFor="let branchOpt of BranchOptions">
-                <mat-option [value]="branchOpt.Name">
-                  {{ branchOpt.Name }}
-                </mat-option>
-              </ng-container>
-            </mat-autocomplete>
+      <a
+        matSuffix
+        href="/.oauth/github?oauth-force-edit=true"
+        title="Re-authorize Organizations"
+        target="_blank"
+      >
+        <mat-icon> launch </mat-icon>
+      </a>
 
-            <mat-chip-list #selectedBranches>
-              <mat-chip
-                [removable]="true"
-                (removed)="RemoveBranchOption(selBranch)"
-                *ngFor="let selBranch of SelectedBranches"
-              >
-                {{ selBranch }}
-                <mat-icon matChipRemove>cancel</mat-icon>
-              </mat-chip>
+      <mat-hint>
+        If you don't have an organization or would like to create a new one,
+        <a
+          mat-button
+          href="https://github.com/account/organizations/new"
+          target="_blank"
+        >
+          start here
+        </a>
+        .
+      </mat-hint>
+    </mat-form-field>
+  </div>
 
-              <input
-                matInput
-                placeholder="New Branch..."
-                formControlName="branches"
-                #branches
-                [matAutocomplete]="branchOptions"
-                [matChipInputFor]="selectedBranches"
-                [matChipInputSeparatorKeyCodes]="SeparatorKeysCodes"
-                [matChipInputAddOnBlur]="true"
-                (matChipInputTokenEnd)="AddBranchOption($event)"
-                [disabled]="Loading"
-              />
-            </mat-chip-list>
+  <div *ngIf="Loading">
+    <div class="spread">
+      <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
 
-            <!-- <mat-select
-              formControlName="branches"
-              [placeholder]="
-                IsRepositoryValid
-                  ? 'Branch'
-                  : 'Branch (select repository first)'
-              "
-              [disabled]="!IsRepositoryValid"
-              required
-            >
-              <ng-container *ngFor="let branchOpt of BranchOptions">
-                <mat-option [value]="branchOpt.Name">
-                  {{ branchOpt.Name }}
-                </mat-option>
-              </ng-container>
-            </mat-select> -->
-          </mat-form-field>
-        </mat-card-content>
-      </mat-card>
-    </div>
+      <div class="margin-3">
+        <h4 class="mat-title" *ngIf="!Organization?.valid">
+          Loading organizations
+        </h4>
 
-    <div fxFlex="33%" *ngIf="Loading">
-      <div class="spread">
-        <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
+        <h4 class="mat-title" *ngIf="Organization?.valid && !Repository?.valid">
+          Loading repositories
+        </h4>
 
-        <div class="margin-3">
-          <h4 class="mat-title" *ngIf="!IsOrganizationValid">
-            Loading organizations
-          </h4>
-
-          <h4
-            class="mat-title"
-            *ngIf="IsOrganizationValid && !IsRepositoryValid"
-          >
-            Loading repositories
-          </h4>
-
-          <h4 class="mat-title" *ngIf="IsRepositoryValid && !IsBranchesValid">
-            Loading branches
-          </h4>
-        </div>
+        <h4 class="mat-title" *ngIf="Repository?.valid && !Branches?.valid">
+          Loading branches
+        </h4>
       </div>
     </div>
   </div>

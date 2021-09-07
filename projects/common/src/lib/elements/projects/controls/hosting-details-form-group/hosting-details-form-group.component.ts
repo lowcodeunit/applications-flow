@@ -20,68 +20,87 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   //  Fields
 
   //  Properties
-  public get BuildPipeline(): AbstractControl {
+  @Input('build-pipeline')
+  public BuildPipeline: string;
+
+  public get BuildPipelineFormControl(): AbstractControl {
     return this.FormGroup.get('buildPipeline');
   }
 
   @Input('details')
   public Details: ProjectHostingDetails;
 
-  @Input('formGroup')
-  public FormGroup: FormGroup;
+  public get FormGroup(): FormGroup {
+    return this.ParentFormGroup.get('hostingDetails') as FormGroup;
+  }
+
+  public get NPMTokenFormControl(): AbstractControl {
+    return this.FormGroup.get('npmToken');
+  }
 
   @Input('organization')
   public Organization: string;
 
+  @Input('formGroup')
+  public ParentFormGroup: FormGroup;
+
   public get SelectedHostingOption(): ProjectHostingOption {
     return this.Details?.HostingOptions?.find(
-      (ho) => ho.Lookup === this.SelectedHostingOptionLookup
+      (ho) => ho.Lookup === this.BuildPipeline
     );
   }
 
-  public SelectedHostingOptionLookup: string;
+  public get SelectedHostingOptionInputControlValues(): {
+    [lookup: string]: any;
+  } {
+    return this.SelectedHostingOption?.Inputs?.reduce((prev, cur) => {
+      const res = {
+        ...prev
+      };
+
+      prev[cur.Lookup] = this.FormGroup.controls[cur.Lookup].value;
+
+      return res;
+    }, {});
+  }
 
   //  Constructors
   constructor(protected formBuilder: FormBuilder) {}
 
   //  Life Cycle
-  public ngOnChanges() {}
+  public ngOnChanges(): void {}
 
-  public ngOnInit() {
-    for (const ctrl in this.FormGroup.controls) {
-      if (ctrl != null) {
-        this.FormGroup.removeControl(ctrl);
-      }
-    }
-
-    this.SelectedHostingOptionLookup =
-      this.SelectedHostingOptionLookup || this.Details?.HostingOptions
+  public ngOnInit(): void {
+    this.BuildPipeline =
+      this.BuildPipeline || this.Details?.HostingOptions
         ? this.Details?.HostingOptions[0]?.Lookup
         : '';
 
-    this.FormGroup.addControl(
-      'buildPipeline',
-      this.formBuilder.control(this.SelectedHostingOptionLookup, [
-        Validators.required,
-      ])
+    if (this.FormGroup != null) {
+      this.ParentFormGroup.removeControl('hostingDetails');
+    }
+
+    this.ParentFormGroup.addControl(
+      'hostingDetails',
+      this.formBuilder.group({
+        buildPipeline: [this.BuildPipeline, [Validators.required]],
+      })
     );
 
     this.setupControlsForForm();
   }
 
   //  API Methods
-  public BuildPipelineChanged(event: MatRadioChange): void {
-    this.SelectedHostingOptionLookup = this.BuildPipeline.value;
+  public BuildPipelineChanged(): void {
+    this.BuildPipeline = this.BuildPipelineFormControl.value;
 
     this.setupControlsForForm();
   }
 
   //  Helpers
-  protected setupControlsForForm() {
-    const controlNames = Object.keys(this.FormGroup.controls);
-
+  protected setupControlsForForm(): void {
     for (const ctrlName in this.FormGroup.controls) {
-      if (ctrlName !== 'buildPipeline') {
+      if (ctrlName !== 'buildPipeline' && ctrlName !== 'devOpsAction') {
         this.FormGroup.removeControl(ctrlName);
       }
     }
@@ -95,14 +114,16 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       );
     });
 
-    if (this.BuildPipeline.value === 'npm-release') {
+    if (this.BuildPipelineFormControl.value === 'npm-release') {
       if (!this.FormGroup.controls.npmToken) {
         this.FormGroup.addControl(
           'npmToken',
           this.formBuilder.control('', [Validators.required])
         );
       }
-    } else if (this.BuildPipeline.value === 'github-artifacts-release') {
+    } else if (
+      this.BuildPipelineFormControl.value === 'github-artifacts-release'
+    ) {
       if (this.FormGroup.controls.npmToken) {
         this.FormGroup.removeControl('npmToken');
       }

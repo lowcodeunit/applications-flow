@@ -1,170 +1,67 @@
-<div [formGroup]="FormGroup">
-  <div
-    fxLayout="row wrap"
-    fxLayout.lt-md="column"
-    fxLayoutAlign="center center"
-  >
-    <div fxFlex="50%" fxFlex.lt-md="90%">
-      <mat-card class="spread">
-        <mat-card-header>
-          <mat-card-title>Build Pipeline</mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content>
-          <mat-radio-group
-            formControlName="buildPipeline"
-            aria-label="Select a build pipeline option"
-            (change)="BuildPipelineChanged($event)"
-            required
-          >
-            <div
-              fxLayout="row wrap"
-              fxLayout.lt-md="column"
-              fxLayoutAlign="center center"
-            >
-              <div
-                fxFlex="45%"
-                fxFlex.lt-md="90%"
-                *ngFor="
-                  let hostOption of Details?.HostingOptions;
-                  let i = index
-                "
-              >
-                <div>
-                  <img class="mat-icon spread" [src]="hostOption.Image" />
-                </div>
-
-                <div>
-                  <mat-radio-button
-                    [checked]="i == 0"
-                    [value]="hostOption.Lookup"
-                  ></mat-radio-button>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3>
-                <ng-container
-                  *ngFor="let hostOption of Details?.HostingOptions"
-                >
-                  <span *ngIf="BuildPipeline.value == hostOption.Lookup">
-                    {{ hostOption.Name }}
-                  </span>
-                </ng-container>
-              </h3>
-
-              <p>
-                <ng-container
-                  *ngFor="let hostOption of Details?.HostingOptions"
-                >
-                  <span *ngIf="BuildPipeline.value == hostOption.Lookup">
-                    {{ hostOption.Description }}
-                  </span>
-                </ng-container>
-              </p>
-            </div>
-          </mat-radio-group>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div
-      fxFlex="50%"
-      fxFlex.lt-md="90%"
-      *ngIf="SelectedHostingOptionLookup == 'npm-release'"
-    >
-      <mat-card class="spread">
-        <mat-card-header>
-          <mat-card-title>Prerequisites</mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content>
-          <div>
-            <mat-icon>security</mat-icon>
-          </div>
-
-          <mat-form-field class="mat-full-width margin-2">
-            <input
-              matInput
-              formControlName="npmToken"
-              placeholder="The NPM token for deployment access."
-              required
-            />
-          </mat-form-field>
-
-          <div>
-            <p class="mat-body-1">
-              In order to securely publish to your NPM organization, an NPM
-              Personal Access Token (PAT) must be provided with access to the
-              organization used to publish. If your NPM publish organization
-              matches your Guthub organization, you must make sure to have
-              created an NPM organization with the same value (<strong>{{
-                Organization
-              }}</strong
-              >).
-            </p>
-          </div>
-        </mat-card-content>
-      </mat-card>
-    </div>
-
-    <div fxFlex="50%" fxFlex.lt-md="90%">
-      <mat-card class="spread">
-        <mat-card-header>
-          <mat-card-title>Build Details</mat-card-title>
-        </mat-card-header>
-
-        <mat-card-content>
-          <div>
-            <mat-icon>build</mat-icon>
-          </div>
-
-          <ng-container *ngFor="let input of SelectedHostingOption?.Inputs">
-            <mat-form-field class="mat-full-width margin-2">
-              <input
-                matInput
-                [formControlName]="input.Lookup"
-                [placeholder]="input.Placeholder"
-                [required]="input.Required"
-              />
-
-              <mat-hint>{{ input.Hint }}</mat-hint>
-            </mat-form-field>
-          </ng-container>
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </div>
-
-  <!-- <mat-form-field class="mat-full-width margin-2">
-    <input
-      matInput
-      formControlName="projectName"
-      placeholder="The project name."
-      required
-    />
-  </mat-form-field> -->
-
-  <!-- <mat-form-field class="mat-full-width margin-2">
+<div [formGroup]="FormGroup" *ngIf="!Details?.Loading">
+  <mat-form-field class="mat-full-width">
     <mat-select
-      formControlName="hostingOption"
-      placeholder="Hosting Option"
+      formControlName="buildPipeline"
+      placeholder="Build Pipeline"
+      (selectionChange)="BuildPipelineChanged()"
       required
     >
-      <ng-container *ngFor="let hostingOpt of Details.HostingOptions">
-        <mat-option [value]="hostingOpt.Lookup">
-          {{ hostingOpt.Name }}
+      <ng-container
+        *ngFor="let hostOption of Details?.HostingOptions; let i = index"
+      >
+        <mat-option [value]="hostOption.Lookup">
+          {{ hostOption.Name }}
         </mat-option>
       </ng-container>
     </mat-select>
-  </mat-form-field> -->
 
-  <!--<mat-form-field class="mat-full-width margin-2">
-    <input
-      matInput
-      formControlName="deployScript"
-      placeholder="The deployment script (otherwise a default deployment process is create)."
-    />
-  </mat-form-field> -->
+    <mat-hint>
+      <ng-container *ngFor="let hostOption of Details?.HostingOptions">
+        <span *ngIf="BuildPipeline == hostOption.Lookup">
+          {{ hostOption.Description }}
+        </span>
+      </ng-container>
+    </mat-hint>
+  </mat-form-field>
+
+  <ng-container *ngFor="let input of SelectedHostingOption?.Inputs">
+    <mat-form-field class="mat-full-width">
+      <input
+        matInput
+        [formControlName]="input.Lookup"
+        [placeholder]="input.Placeholder"
+        [required]="input.Required"
+      />
+
+      <mat-hint>{{ input.Hint }}</mat-hint>
+    </mat-form-field>
+  </ng-container>
+
+  <div *ngIf="BuildPipeline == 'npm-release'">
+    <mat-form-field class="mat-full-width with-hint">
+      <mat-icon matPrefix>security</mat-icon>
+
+      <input
+        matInput
+        formControlName="npmToken"
+        placeholder="NPM token"
+        required
+      />
+
+      <mat-hint>
+        Securely publish to NPM, provide an NPM Personal Access Token (PAT) with
+        publish access to the organization used for your NPM packages.  <a mat-button href="#">Full Guide</a>
+      </mat-hint>
+    </mat-form-field>
+  </div>
+</div>
+
+<div *ngIf="Details?.Loading">
+  <div class="spread">
+    <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
+
+    <div class="margin-3">
+      <h4 class="mat-title">Loading hosting details</h4>
+    </div>
+  </div>
 </div>

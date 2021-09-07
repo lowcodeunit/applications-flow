@@ -4,9 +4,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { GeneralComponent } from '../tabs/general/general.component';
 import {
   EaCApplicationAsCode,
+  EaCEnvironmentAsCode,
   EaCProjectAsCode,
 } from '../../../../models/eac.models';
 import { AppsFlowComponent } from '../tabs/apps-flow/apps-flow.component';
+import { EaCSourceControl } from '../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-project-tabs',
@@ -33,6 +35,12 @@ export class ProjectTabsComponent implements OnInit {
   @Input('project-lookup')
   public ProjectLookup: string;
 
+  @Input('environment')
+  public Environment: EaCEnvironmentAsCode;
+
+  @Input('environment-lookup')
+  public EnvironmentLookup: string;
+
   public TabComponents: Array<DynamicTabsModel>;
 
   constructor() {}
@@ -49,6 +57,8 @@ export class ProjectTabsComponent implements OnInit {
           Project: this.Project,
           ProjectLookup: this.ProjectLookup,
           Applications: this.Applications,
+          Environment: this.Environment,
+          EnvironmentLookup: this.EnvironmentLookup
         },
         Label: 'Application Flow',
         Icon: 'account_tree',

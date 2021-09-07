@@ -1,7 +1,7 @@
 import { FormsService } from './../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
 import { DomainModel } from './../../../../../models/domain.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -9,14 +9,25 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
+import {
+  ApplicationsFlowEventsService,
+  SaveApplicationAsCodeEventRequest,
+} from '../../../../../services/applications-flow-events.service';
 import {
   EaCApplicationAsCode,
+  EaCArtifact,
+  EaCDevOpsAction,
+  EaCEnvironmentAsCode,
   EaCProcessor,
   EaCProjectAsCode,
+  EaCSourceControl,
 } from '../../../../../models/eac.models';
-import { Guid } from '@lcu/common';
+import { BaseModeledResponse, Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
+import { SourceControlFormControlsComponent } from '../../forms/source-control/source-control.component';
+import { ProjectHostingDetails } from '../../../../../state/applications-flow.state';
+import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
+import { HostingDetailsFormGroupComponent } from '../../hosting-details-form-group/hosting-details-form-group.component';
 
 @Component({
   selector: 'lcu-apps-flow',
@@ -81,6 +92,7 @@ export class AppsFlowComponent implements OnInit {
   @Input('data')
   public Data: {
     Applications: { [lookup: string]: EaCApplicationAsCode };
+    Environment: EaCEnvironmentAsCode;
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
@@ -89,8 +101,29 @@ export class AppsFlowComponent implements OnInit {
     return this.ApplicationFormGroup?.controls.defaultFile;
   }
 
+  public get DefaultSourceControl(): EaCSourceControl {
+    return {
+      Organization:
+        this.EditingApplication?.Processor?.LowCodeUnit?.Organization,
+      Repository: this.EditingApplication?.Processor?.LowCodeUnit?.Repository,
+    };
+  }
+
   public get DescriptionFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.description;
+  }
+
+  public get DevOpsAction(): EaCDevOpsAction {
+    return this.Data.Environment.DevOpsActions &&
+      this.DevOpsActionLookupFormControl.value
+      ? this.Data.Environment.DevOpsActions[
+          this.DevOpsActionLookupFormControl.value
+        ]
+      : {};
+  }
+
+  public get DevOpsActionLookupFormControl(): AbstractControl {
+    return this.ApplicationFormGroup.get('devOpsActionLookup');
   }
 
   public get EditingApplication(): EaCApplicationAsCode {
@@ -106,6 +139,15 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public EditingApplicationLookup: string;
+
+  public get HasBuildFormControl(): AbstractControl {
+    return this.ApplicationFormGroup?.controls.hasBuild;
+  }
+
+  public HostingDetails: ProjectHostingDetails;
+
+  @ViewChild(HostingDetailsFormGroupComponent)
+  public HostingDetailsFormControls: HostingDetailsFormGroupComponent;
 
   public get InboundPathFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.inboundPath;
@@ -127,10 +169,6 @@ export class AppsFlowComponent implements OnInit {
 
   public get NameFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.name;
-  }
-
-  public get OrganizationFormControl(): AbstractControl {
-    return this.ApplicationFormGroup?.controls.organization;
   }
 
   public get PackageFormControl(): AbstractControl {
@@ -161,10 +199,6 @@ export class AppsFlowComponent implements OnInit {
 
   public get RedirectFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.redirect;
-  }
-
-  public get RepositoryFormControl(): AbstractControl {
-    return this.ApplicationFormGroup?.controls.repository;
   }
 
   public get RoutedApplications(): {
@@ -242,6 +276,28 @@ export class AppsFlowComponent implements OnInit {
     return this.ApplicationFormGroup?.controls.security;
   }
 
+  public get SourceControl(): EaCSourceControl {
+    return this.Data.Environment.Sources &&
+      this.SourceControlLookupFormControl.value
+      ? this.Data.Environment.Sources[this.SourceControlLookupFormControl.value]
+      : this.DefaultSourceControl;
+  }
+
+  @ViewChild(SourceControlFormControlsComponent)
+  public SourceControlFormControls: SourceControlFormControlsComponent;
+
+  public get SourceControlLookupFormControl(): AbstractControl {
+    return this.ApplicationFormGroup?.controls.sourceControlLookup;
+  }
+
+  public get SourceControlLookups(): Array<string> {
+    return Object.keys(this.SourceControls || {});
+  }
+
+  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    return this.Data.Environment.Sources || {};
+  }
+
   public get SPARootFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.spaRoot;
   }
@@ -261,9 +317,12 @@ export class AppsFlowComponent implements OnInit {
   //  Constructors
   constructor(
     protected formBldr: FormBuilder,
+    protected appsFlowSvc: ApplicationsFlowService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     this.EditingApplicationLookup = null;
+
+    this.HostingDetails = new ProjectHostingDetails();
   }
 
   //  Life Cycle
@@ -274,6 +333,10 @@ export class AppsFlowComponent implements OnInit {
   }
 
   //  API Methods
+  public BranchesChanged(branches: string[]): void {
+    this.loadProjectHostingDetails();
+  }
+
   public CreateNewApplication(): void {
     this.SetEditingApplication(Guid.CreateRaw());
   }
@@ -318,9 +381,10 @@ export class AppsFlowComponent implements OnInit {
         switch (processor.LowCodeUnit.Type) {
           case 'GitHub':
             processor.LowCodeUnit.Organization =
-              this.OrganizationFormControl.value;
+              this.SourceControlFormControls.OrganizationFormControl.value;
 
-            processor.LowCodeUnit.Repository = this.RepositoryFormControl.value;
+            processor.LowCodeUnit.Repository =
+              this.SourceControlFormControls.RepositoryFormControl.value;
 
             processor.LowCodeUnit.Build = this.BuildFormControl.value;
             break;
@@ -390,7 +454,6 @@ export class AppsFlowComponent implements OnInit {
       Application: {
         Name: this.NameFormControl.value,
         Description: this.DescriptionFormControl.value,
-        // Priority: this.PriorityFormControl.value,
       },
       AccessRightLookups: [],
       DataTokens: {},
@@ -408,11 +471,101 @@ export class AppsFlowComponent implements OnInit {
       Processor: processor,
     };
 
-    this.appsFlowEventsSvc.SaveApplicationAsCode({
+    const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ProjectLookup: this.ProjectLookup,
       Application: app,
       ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
-    });
+      SourceControls: {},
+      DevOpsActions: {},
+      Artifacts: {},
+    };
+
+    if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
+      if (app.Processor.LowCodeUnit != null) {
+        debugger;
+        let source: EaCSourceControl = {
+          ...this.SourceControl,
+          Branches: this.SourceControlFormControls.SelectedBranches,
+          MainBranch:
+            this.SourceControlFormControls.MainBranchFormControl.value,
+        };
+
+        if (!this.SourceControlLookupFormControl.value) {
+          app.Processor.LowCodeUnit.SourceControlLookup = `@github://${this.SourceControlFormControls.OrganizationFormControl.value}/${this.SourceControlFormControls.RepositoryFormControl.value}`;
+
+          let devOpsActionLookup: string;
+
+          if (!this.DevOpsActionLookupFormControl.value) {
+            devOpsActionLookup = Guid.CreateRaw();
+
+            const artifactLookup: string = Guid.CreateRaw();
+
+            const secretLookup = 'npm-access-token';
+
+            let doa: EaCDevOpsAction = {
+              ...this.DevOpsAction,
+              ArtifactLookups: [artifactLookup],
+              Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+              Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
+              SecretLookups: [secretLookup],
+              Templates:
+                this.HostingDetailsFormControls.SelectedHostingOption.Templates,
+            };
+
+            const artifact: EaCArtifact = {
+              Type: this.HostingDetailsFormControls.SelectedHostingOption
+                .ArtifactType,
+              Name: doa.Name,
+              NPMRegistry: 'https://registry.npmjs.org/',
+              ...this.HostingDetailsFormControls
+                .SelectedHostingOptionInputControlValues,
+            };
+
+            saveAppReq.Artifacts[artifactLookup] = artifact;
+
+            if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
+              saveAppReq.Secrets[secretLookup] = {
+                Name: 'NPM Access Token',
+                DataTokenLookup: 'npm-access-token',
+                KnownAs: 'NPM_TOKEN',
+              };
+
+              saveAppReq.EnterpriseDataTokens[secretLookup] = {
+                Name: saveAppReq.Secrets[secretLookup].Name,
+                Description: saveAppReq.Secrets[secretLookup].Name,
+                Value:
+                  this.HostingDetailsFormControls.NPMTokenFormControl.value,
+              };
+            }
+          } else {
+            devOpsActionLookup = this.DevOpsActionLookupFormControl.value;
+          }
+
+          source = {
+            ...source,
+            Type: 'GitHub',
+            Name: app.Processor.LowCodeUnit.SourceControlLookup,
+            DevOpsActionTriggerLookups: [devOpsActionLookup],
+            Organization:
+              this.SourceControlFormControls.OrganizationFormControl.value,
+            Repository:
+              this.SourceControlFormControls.RepositoryFormControl.value,
+          };
+        } else {
+          app.Processor.LowCodeUnit.SourceControlLookup =
+            this.SourceControlLookupFormControl.value;
+        }
+
+        saveAppReq.SourceControls[
+          app.Processor.LowCodeUnit.SourceControlLookup
+        ] = source;
+      }
+    } else {
+      app.Processor.LowCodeUnit.SourceControlLookup = null;
+    }
+
+    debugger;
+    this.appsFlowEventsSvc.SaveApplicationAsCode(saveAppReq);
   }
 
   public SetEditingApplication(appLookup: string): void {
@@ -445,8 +598,6 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.removeControl('applicationId');
 
     this.ApplicationFormGroup.removeControl('build');
-    this.ApplicationFormGroup.removeControl('organization');
-    this.ApplicationFormGroup.removeControl('repository');
 
     this.ApplicationFormGroup.removeControl('clientId');
     this.ApplicationFormGroup.removeControl('clientSecret');
@@ -468,6 +619,29 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.removeControl('preserveMethod');
 
     this.cleanupLcuTypeSubForm();
+  }
+
+  protected loadProjectHostingDetails(): void {
+    if (this.SourceControlFormControls?.SelectedBranches?.length > 0) {
+      this.HostingDetails.Loading = true;
+
+      this.appsFlowSvc
+        .LoadProjectHostingDetails(
+          this.SourceControlFormControls.OrganizationFormControl.value,
+          this.SourceControlFormControls.RepositoryFormControl.value,
+          this.SourceControlFormControls?.SelectedBranches?.join(',')
+        )
+        .subscribe(
+          (response: BaseModeledResponse<ProjectHostingDetails>) => {
+            this.HostingDetails = response.Model;
+
+            this.HostingDetails.Loading = false;
+          },
+          (err) => {
+            this.HostingDetails.Loading = false;
+          }
+        );
+    }
   }
 
   protected setupApplicationForm(): void {
@@ -492,8 +666,41 @@ export class AppsFlowComponent implements OnInit {
         procType: [this.ProcessorType, [Validators.required]],
       });
 
+      this.setupBuildForm();
+
+      this.setupSecurityForm();
+
       this.setupProcessorTypeSubForm();
     }
+  }
+
+  protected setupBuildForm(): void {
+    this.ApplicationFormGroup.addControl(
+      'hasBuild',
+      this.formBldr.control(
+        !!this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
+          false,
+        [Validators.required]
+      )
+    );
+
+    this.ApplicationFormGroup.addControl(
+      'devOpsActionLookup',
+      this.formBldr.control(
+        this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
+          '',
+        []
+      )
+    );
+
+    this.ApplicationFormGroup.addControl(
+      'sourceControlLookup',
+      this.formBldr.control(
+        this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
+          '',
+        []
+      )
+    );
   }
 
   protected setupDfsForm(): void {
@@ -550,22 +757,6 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupLCUGitHubForm(): void {
-    this.ApplicationFormGroup.addControl(
-      'organization',
-      this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.Organization || '',
-        [Validators.required]
-      )
-    );
-
-    this.ApplicationFormGroup.addControl(
-      'repository',
-      this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.Repository || '',
-        [Validators.required]
-      )
-    );
-
     this.ApplicationFormGroup.addControl(
       'build',
       this.formBldr.control(
@@ -737,8 +928,6 @@ export class AppsFlowComponent implements OnInit {
           break;
       }
     }
-
-    this.setupSecurityForm();
   }
 
   protected setupRedirectForm(): void {

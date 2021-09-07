@@ -1,14 +1,35 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { EaCApplicationAsCode, EaCProjectAsCode } from '../models/eac.models';
+import {
+  EaCApplicationAsCode,
+  EaCArtifact,
+  EaCDataToken,
+  EaCDevOpsAction,
+  EaCProjectAsCode,
+  EaCSecret,
+  EaCSourceControl,
+} from '../models/eac.models';
 import { EnterpriseAsCode } from '../models/eac.models';
-import { GitHubWorkflowRun, UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
+import {
+  GitHubWorkflowRun,
+  UnpackLowCodeUnitRequest,
+} from '../state/applications-flow.state';
 
 export class SaveApplicationAsCodeEventRequest {
   public Application?: EaCApplicationAsCode;
 
   public ApplicationLookup?: string;
 
+  public Artifacts?: { [lookup: string]: EaCArtifact };
+
+  public EnterpriseDataTokens?: { [lookup: string]: EaCDataToken };
+
+  public DevOpsActions?: { [lookup: string]: EaCDevOpsAction };
+
   public ProjectLookup?: string;
+
+  public Secrets?: { [lookup: string]: EaCSecret };
+
+  public SourceControls?: { [lookup: string]: EaCSourceControl };
 }
 
 export class SaveProjectAsCodeEventRequest {

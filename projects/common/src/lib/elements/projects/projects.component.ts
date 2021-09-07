@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
 import { ApplicationsFlowEventsService } from './../../services/applications-flow-events.service';
 import {
   EaCApplicationAsCode,
+  EaCEnvironmentAsCode,
   EaCProjectAsCode,
 } from '../../models/eac.models';
 import { EnterpriseAsCode } from '../../models/eac.models';
@@ -49,6 +50,17 @@ export class ApplicationsFlowProjectsElementComponent
   protected projMon: NodeJS.Timeout;
 
   //  Properties
+  public get ActiveEnvironment(): EaCEnvironmentAsCode {
+    return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+  }
+
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
+  }
+
   public get CreatingProject(): boolean {
     return this.projectService.CreatingProject;
   }

@@ -208,8 +208,6 @@ export class ApplicationsFlowService {
 
   //  Helpers
   protected loadHeaders(): { [header: string]: string | string[] } {
-    return {
-      'lcu-processor-lookup': this.settings?.State?.Environment || '',
-    };
+    return {};
   }
 }

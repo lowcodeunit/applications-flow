@@ -58,10 +58,12 @@
           <div *ngIf="EditingProject">
             <div class="divider margin-bottom-3"></div>
             <lcu-project-tabs
+              [applications]="State.EaC?.Applications"
               [project]="EditingProject"
               [project-lookup]="EditingProjectLookup"
-              [applications]="State.EaC?.Applications"
               [host-dns-instance]="State.HostDNSInstance"
+              [environment]="ActiveEnvironment"
+              [environment-lookup]="ActiveEnvironmentLookup"
               class="margin-top-3"
             >
             </lcu-project-tabs>

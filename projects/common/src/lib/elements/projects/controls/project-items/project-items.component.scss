@@ -34,5 +34,17 @@
         }
       }
     }
+
+    @media (max-width: 768px) {
+      .mat-card-actions {
+        .data-app-actions {
+          display: flex !important;
+        }
+
+        .data-app-fakes {
+          display: none !important;
+        }
+      }
+    }
   }
 }

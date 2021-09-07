@@ -2,8 +2,11 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
@@ -25,16 +28,29 @@ import {
 } from '../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
+import { EaCSourceControl } from '../../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-source-control-form-controls',
   templateUrl: './source-control.component.html',
   styleUrls: ['./source-control.component.scss'],
 })
-export class SourceControlFormControlsComponent implements OnInit {
+export class SourceControlFormControlsComponent
+  implements AfterViewInit, OnDestroy, OnInit
+{
   //  Fields
 
   //  Properties
+  public get BranchesFormControl(): AbstractControl {
+    return this.FormGroup.get(this.SourceControlRoot + 'branches');
+  }
+
+  @Output('branches-changed')
+  public BranchesChanged: EventEmitter<Array<string>>;
+
+  @Input('branches-disabled')
+  public BranchesDisabled: boolean;
+
   @ViewChild('branches')
   public BranchesInput: ElementRef<HTMLInputElement>;
 
@@ -45,21 +61,27 @@ export class SourceControlFormControlsComponent implements OnInit {
   @Input('form-group')
   public FormGroup: FormGroup;
 
-  public get IsBranchesValid(): boolean {
-    return this.FormGroup.get('branches').valid;
-  }
-
-  public get IsOrganizationValid(): boolean {
-    return this.FormGroup.get('organization').valid;
-  }
-
-  public get IsRepositoryValid(): boolean {
-    return this.FormGroup.get('repository').valid;
-  }
-
   public Loading: boolean;
 
+  public get MainBranchFormControl(): AbstractControl {
+    return this.FormGroup.get(this.SourceControlRoot + 'mainBranch');
+  }
+
+  @Input('org-disabled')
+  public OrganizationDisabled: boolean;
+
+  public get OrganizationFormControl(): AbstractControl {
+    return this.FormGroup.get(this.SourceControlRoot + 'organization');
+  }
+
   public OrganizationOptions: GitHubOrganization[];
+
+  public get RepositoryFormControl(): AbstractControl {
+    return this.FormGroup.get(this.SourceControlRoot + 'repository');
+  }
+
+  @Input('repo-disabled')
+  public RepositoryDisabled: boolean;
 
   public RepositoryOptions: GitHubRepository[];
 
@@ -68,7 +90,13 @@ export class SourceControlFormControlsComponent implements OnInit {
   public readonly SeparatorKeysCodes = [ENTER, COMMA] as const;
 
   @Input('source-control')
-  public SourceControl: any; // EaCSourceControl
+  public SourceControl: EaCSourceControl;
+
+  @Input('source-control-root')
+  public SourceControlRoot: string;
+
+  @Input('use-branches')
+  public UseBranches: boolean;
 
   //  Constructors
   constructor(
@@ -76,19 +104,37 @@ export class SourceControlFormControlsComponent implements OnInit {
     protected appsFlowSvc: ApplicationsFlowService,
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
+    this.BranchesChanged = new EventEmitter();
+
     this.SelectedBranches = [];
 
     this.SourceControl = {};
+
+    this.SourceControlRoot = '';
+
+    this.UseBranches = true;
   }
+
   //  Life Cycle
-  public ngOnInit(): void {
-    this.FormGroup.addControl(
-      'branches',
-      new FormControl(this.SourceControl.Branches ?? '', Validators.required)
+  public ngAfterViewInit(): void {}
+
+  public ngOnDestroy(): void {
+    this.FormGroup.removeControl([this.SourceControlRoot, 'branches'].join(''));
+
+    this.SelectedBranches = [];
+
+    this.FormGroup.removeControl(
+      [this.SourceControlRoot, 'organization'].join('')
     );
 
+    this.FormGroup.removeControl(
+      [this.SourceControlRoot, 'repository'].join('')
+    );
+  }
+
+  public ngOnInit(): void {
     this.FormGroup.addControl(
-      'organization',
+      [this.SourceControlRoot, 'organization'].join(''),
       new FormControl(
         this.SourceControl.Organization ?? '',
         Validators.required
@@ -96,9 +142,16 @@ export class SourceControlFormControlsComponent implements OnInit {
     );
 
     this.FormGroup.addControl(
-      'repository',
+      [this.SourceControlRoot, 'repository'].join(''),
       new FormControl(this.SourceControl.Repository ?? '', Validators.required)
     );
+
+    if (this.UseBranches) {
+      this.FormGroup.addControl(
+        [this.SourceControlRoot, 'branches'].join(''),
+        new FormControl(this.SourceControl.Branches ?? '', Validators.required)
+      );
+    }
 
     this.RefreshOrganizations();
   }
@@ -117,7 +170,7 @@ export class SourceControlFormControlsComponent implements OnInit {
   public CreateRepository(): void {
     this.CreatingRepository = true;
 
-    this.FormGroup.get('repository').reset();
+    this.RepositoryFormControl.reset();
   }
 
   public CancelCreateRepository(): void {
@@ -125,20 +178,30 @@ export class SourceControlFormControlsComponent implements OnInit {
   }
 
   public OrganizationChanged(event: MatSelectChange): void {
-    const org = this.FormGroup.get('organization');
+    const org = this.OrganizationFormControl;
 
-    if (org !== event.value) {
-      this.FormGroup.get('repository').reset();
+    this.RepositoryFormControl.reset();
 
-      this.listRepositories();
+    if (this.UseBranches) {
+      this.BranchesFormControl.reset();
+
+      this.SelectedBranches = [];
     }
+
+    this.listRepositories();
   }
 
   public RefreshOrganizations(): void {
     // this.Loading = true;
     this.listOrganizations();
 
-    this.FormGroup.reset();
+    this.OrganizationFormControl.reset();
+
+    this.RepositoryFormControl.reset();
+
+    if (this.UseBranches) {
+      this.BranchesFormControl.reset();
+    }
   }
 
   public RemoveBranchOption(option: string): void {
@@ -147,13 +210,17 @@ export class SourceControlFormControlsComponent implements OnInit {
     if (index >= 0) {
       this.SelectedBranches.splice(index, 1);
     }
+
+    this.emitBranchesChanged();
   }
 
   public RepositoryChanged(event: MatSelectChange): void {
-    const repo = this.FormGroup.get('repository');
+    const repo = this.RepositoryFormControl;
 
-    if (repo !== event.value) {
-      this.FormGroup.get('branches').reset();
+    if (this.UseBranches) {
+      this.BranchesFormControl.reset();
+
+      this.SelectedBranches = [];
 
       this.listBranches();
     }
@@ -162,9 +229,9 @@ export class SourceControlFormControlsComponent implements OnInit {
   public SaveRepository(): void {
     this.Loading = true;
 
-    const org = this.FormGroup.get('organization').value;
+    const org = this.OrganizationFormControl.value;
 
-    const repoName = this.FormGroup.get('repository').value;
+    const repoName = this.RepositoryFormControl.value;
 
     this.appsFlowSvc
       .CreateRepository(org, repoName)
@@ -181,7 +248,7 @@ export class SourceControlFormControlsComponent implements OnInit {
       });
   }
 
-  //  Helpers
+  // //  Helpers
   protected addBranchOption(value: string): void {
     value = (value || '').trim();
 
@@ -190,27 +257,45 @@ export class SourceControlFormControlsComponent implements OnInit {
     }
 
     this.BranchesInput.nativeElement.blur();
+
+    this.emitBranchesChanged();
+  }
+
+  protected emitBranchesChanged(): void {
+    if (
+      !this.MainBranchFormControl.value &&
+      this.SelectedBranches?.length > 0
+    ) {
+      this.MainBranchFormControl.setValue(
+        this.SelectedBranches.find(
+          (branch) => branch === 'main' || branch === 'master'
+        ) || this.SelectedBranches[0]
+      );
+    }
+
+    this.BranchesChanged.emit(this.SelectedBranches || []);
   }
 
   protected listBranches(): void {
-    this.Loading = true;
+    if (this.UseBranches) {
+      this.Loading = true;
 
-    this.appsFlowSvc
-      .ListBranches(
-        this.FormGroup.get('organization').value,
-        this.FormGroup.get('repository').value
-      )
-      .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
-        this.BranchOptions = response.Model;
+      this.appsFlowSvc
+        .ListBranches(this.OrganizationFormControl.value, this.RepositoryFormControl.value)
+        .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
+          this.BranchOptions = response.Model;
 
-        this.Loading = false;
+          this.Loading = false;
 
-        if (this.BranchOptions?.length === 1) {
-          this.FormGroup.get('repoDetails')
-            .get('branch')
-            .setValue(this.BranchOptions[0].Name);
-        }
-      });
+          if (this.BranchOptions?.length === 1) {
+            this.BranchesFormControl.setValue(this.BranchOptions[0].Name);
+
+            this.SelectedBranches = [this.BranchOptions[0].Name];
+          }
+
+          this.emitBranchesChanged();
+        });
+    }
   }
 
   protected listOrganizations(): void {
@@ -229,7 +314,7 @@ export class SourceControlFormControlsComponent implements OnInit {
     this.Loading = true;
 
     this.appsFlowSvc
-      .ListRepositories(this.FormGroup.get('organization').value)
+      .ListRepositories(this.OrganizationFormControl.value)
       .subscribe((response: BaseModeledResponse<GitHubRepository[]>) => {
         this.RepositoryOptions = response.Model;
 
@@ -237,7 +322,7 @@ export class SourceControlFormControlsComponent implements OnInit {
 
         if (activeRepo) {
           setTimeout(() => {
-            this.FormGroup.get('repository').setValue(activeRepo);
+            this.RepositoryFormControl.setValue(activeRepo);
 
             this.listBranches();
           }, 0);
