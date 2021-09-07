@@ -263,8 +263,8 @@ export class SourceControlFormControlsComponent
 
   protected emitBranchesChanged(): void {
     if (
-      !this.MainBranchFormControl.value &&
-      this.SelectedBranches?.length > 0
+      this.SelectedBranches?.length > 0 &&
+      !this.MainBranchFormControl.value
     ) {
       this.MainBranchFormControl.setValue(
         this.SelectedBranches.find(
@@ -281,7 +281,10 @@ export class SourceControlFormControlsComponent
       this.Loading = true;
 
       this.appsFlowSvc
-        .ListBranches(this.OrganizationFormControl.value, this.RepositoryFormControl.value)
+        .ListBranches(
+          this.OrganizationFormControl.value,
+          this.RepositoryFormControl.value
+        )
         .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
           this.BranchOptions = response.Model;
 
