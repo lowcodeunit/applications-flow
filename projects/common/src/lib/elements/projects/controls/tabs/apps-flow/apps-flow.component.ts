@@ -475,9 +475,11 @@ export class AppsFlowComponent implements OnInit {
       ProjectLookup: this.ProjectLookup,
       Application: app,
       ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
-      SourceControls: {},
-      DevOpsActions: {},
       Artifacts: {},
+      EnterpriseDataTokens: {},
+      DevOpsActions: {},
+      Secrets: {},
+      SourceControls: {},
     };
 
     if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
@@ -502,7 +504,7 @@ export class AppsFlowComponent implements OnInit {
 
             const secretLookup = 'npm-access-token';
 
-            let doa: EaCDevOpsAction = {
+            const doa: EaCDevOpsAction = {
               ...this.DevOpsAction,
               ArtifactLookups: [artifactLookup],
               Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
@@ -511,6 +513,8 @@ export class AppsFlowComponent implements OnInit {
               Templates:
                 this.HostingDetailsFormControls.SelectedHostingOption.Templates,
             };
+
+            saveAppReq.DevOpsActions[devOpsActionLookup] = doa;
 
             const artifact: EaCArtifact = {
               Type: this.HostingDetailsFormControls.SelectedHostingOption
@@ -526,7 +530,7 @@ export class AppsFlowComponent implements OnInit {
             if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
               saveAppReq.Secrets[secretLookup] = {
                 Name: 'NPM Access Token',
-                DataTokenLookup: 'npm-access-token',
+                DataTokenLookup: secretLookup,
                 KnownAs: 'NPM_TOKEN',
               };
 
