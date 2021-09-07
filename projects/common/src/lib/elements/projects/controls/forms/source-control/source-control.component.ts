@@ -119,6 +119,8 @@ export class SourceControlFormControlsComponent
   public ngAfterViewInit(): void {}
 
   public ngOnDestroy(): void {
+    this.FormGroup.removeControl([this.SourceControlRoot, 'mainBranch'].join(''));
+
     this.FormGroup.removeControl([this.SourceControlRoot, 'branches'].join(''));
 
     this.SelectedBranches = [];
@@ -150,6 +152,13 @@ export class SourceControlFormControlsComponent
       this.FormGroup.addControl(
         [this.SourceControlRoot, 'branches'].join(''),
         new FormControl(this.SourceControl.Branches ?? '', Validators.required)
+      );
+    }
+
+    if (this.UseBranches) {
+      this.FormGroup.addControl(
+        [this.SourceControlRoot, 'mainBranch'].join(''),
+        new FormControl(this.SourceControl.MainBranch ?? '', Validators.required)
       );
     }
 
