@@ -20,13 +20,15 @@ import { ApplicationsFlowState } from './../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { ProjectService } from '../../services/project.service';
 import { Subscription } from 'rxjs';
-import { ApplicationsFlowEventsService } from './../../services/applications-flow-events.service';
+import {
+  ApplicationsFlowEventsService,
+  SaveApplicationAsCodeEventRequest,
+} from './../../services/applications-flow-events.service';
 import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
   EaCProjectAsCode,
 } from '../../models/eac.models';
-import { EnterpriseAsCode } from '../../models/eac.models';
 
 declare var window: Window;
 
@@ -66,7 +68,9 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public get EditingProject(): EaCProjectAsCode {
-    return this.State?.EaC?.Projects ? this.State?.EaC?.Projects[this.EditingProjectLookup] : null;
+    return this.State?.EaC?.Projects
+      ? this.State?.EaC?.Projects[this.EditingProjectLookup]
+      : null;
   }
 
   public get EditingProjectLookup(): string {
@@ -137,29 +141,48 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   protected async handleSaveApplication(
-    projectLookup: string,
-    appLookup: string,
-    application: EaCApplicationAsCode
+    req: SaveApplicationAsCodeEventRequest
   ): Promise<void> {
-    const existingProj = this.State.EaC.Projects[projectLookup];
+    const existingProj = this.State.EaC.Projects[req.ProjectLookup];
 
     if (!existingProj.ApplicationLookups) {
       existingProj.ApplicationLookups = [];
     }
 
-    existingProj.ApplicationLookups.push(appLookup);
+    existingProj.ApplicationLookups.push(req.ApplicationLookup);
 
     if (!this.State.EaC.Applications) {
       this.State.EaC.Applications = {};
     }
 
-    this.State.EaC.Applications[appLookup] = application;
+    this.State.EaC.Applications[req.ApplicationLookup] = req.Application;
+
+    if (req.Environment) {
+      if (!this.State.EaC.Environments) {
+        this.State.EaC.Environments = {};
+      }
+
+      this.State.EaC.Environments[req.EnvironmentLookup] = {
+        ...req.Environment,
+      };
+    }
+
+    if (req.EnterpriseDataTokens) {
+      if (!this.State.EaC.DataTokens) {
+        this.State.EaC.DataTokens = {};
+      }
+
+      this.State.EaC.DataTokens = {
+        ...this.State.EaC.DataTokens,
+        ...req.EnterpriseDataTokens,
+      };
+    }
 
     await this.projectService.SaveEnterpriseAsCode(this.State, this.State.EaC);
 
     await this.projectService.UnpackLowCodeUnit(this.State, {
-      ApplicationLookup: appLookup,
-      Version: application.Processor?.LowCodeUnit?.Version,
+      ApplicationLookup: req.ApplicationLookup,
+      Version: req.Application?.Processor?.LowCodeUnit?.Version,
     });
   }
 
@@ -210,11 +233,7 @@ export class ApplicationsFlowProjectsElementComponent
     });
 
     this.appsFlowEventsSvc.SaveApplicationAsCodeEvent.subscribe(async (req) => {
-      await this.handleSaveApplication(
-        req.ProjectLookup,
-        req.ApplicationLookup,
-        req.Application
-      );
+      await this.handleSaveApplication(req);
     });
 
     this.appsFlowEventsSvc.SaveProjectAsCodeEvent.subscribe(async (req) => {
@@ -240,7 +259,7 @@ export class ApplicationsFlowProjectsElementComponent
       if (
         confirm(
           `Are you sure you want to unpack application '${
-            req.ApplicationLookup
+            req.ApplicationName
           }' with version '${req.Version || 'latest'}'?`
         )
       ) {

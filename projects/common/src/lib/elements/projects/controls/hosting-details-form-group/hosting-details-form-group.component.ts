@@ -58,7 +58,7 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
         ...prev
       };
 
-      prev[cur.Lookup] = this.FormGroup.controls[cur.Lookup].value;
+      res[cur.Lookup] = this.FormGroup.controls[cur.Lookup].value;
 
       return res;
     }, {});

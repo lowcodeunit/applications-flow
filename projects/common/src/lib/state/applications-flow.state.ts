@@ -129,6 +129,8 @@ export class GitHubWorkflowRun {
 export class UnpackLowCodeUnitRequest {
   public ApplicationLookup?: string;
 
+  public ApplicationName?: string;
+
   public Version?: string;
 }
 

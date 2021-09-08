@@ -119,7 +119,9 @@ export class SourceControlFormControlsComponent
   public ngAfterViewInit(): void {}
 
   public ngOnDestroy(): void {
-    this.FormGroup.removeControl([this.SourceControlRoot, 'mainBranch'].join(''));
+    this.FormGroup.removeControl(
+      [this.SourceControlRoot, 'mainBranch'].join('')
+    );
 
     this.FormGroup.removeControl([this.SourceControlRoot, 'branches'].join(''));
 
@@ -153,12 +155,15 @@ export class SourceControlFormControlsComponent
         [this.SourceControlRoot, 'branches'].join(''),
         new FormControl(this.SourceControl.Branches ?? '', Validators.required)
       );
-    }
 
-    if (this.UseBranches) {
+      this.SelectedBranches = this.SourceControl.Branches;
+
       this.FormGroup.addControl(
         [this.SourceControlRoot, 'mainBranch'].join(''),
-        new FormControl(this.SourceControl.MainBranch ?? '', Validators.required)
+        new FormControl(
+          this.SourceControl.MainBranch ?? '',
+          Validators.required
+        )
       );
     }
 
@@ -273,13 +278,16 @@ export class SourceControlFormControlsComponent
   protected emitBranchesChanged(): void {
     if (
       this.SelectedBranches?.length > 0 &&
-      !this.MainBranchFormControl.value
+      (!this.MainBranchFormControl.value ||
+        this.SelectedBranches.indexOf(this.MainBranchFormControl.value) < 0)
     ) {
       this.MainBranchFormControl.setValue(
         this.SelectedBranches.find(
           (branch) => branch === 'main' || branch === 'master'
         ) || this.SelectedBranches[0]
       );
+    } else if (this.SelectedBranches?.length <= 0) {
+      this.MainBranchFormControl.reset();
     }
 
     this.BranchesChanged.emit(this.SelectedBranches || []);

@@ -69,6 +69,20 @@ export class AppsFlowComponent implements OnInit {
     return apps;
   }
 
+  public get Artifact(): EaCArtifact {
+    return this.Data.Environment.Artifacts && this.ArtifactLookup
+      ? this.Data.Environment.Artifacts[this.ArtifactLookup]
+      : {};
+  }
+
+  public get ArtifactLookup(): string {
+    const artLookup = this.DevOpsAction?.ArtifactLookups
+      ? this.DevOpsAction?.ArtifactLookups[0]
+      : null;
+
+    return artLookup;
+  }
+
   public get BuildFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.build;
   }
@@ -93,6 +107,7 @@ export class AppsFlowComponent implements OnInit {
   public Data: {
     Applications: { [lookup: string]: EaCApplicationAsCode };
     Environment: EaCEnvironmentAsCode;
+    EnvironmentLookup: string;
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
@@ -114,16 +129,28 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public get DevOpsAction(): EaCDevOpsAction {
-    return this.Data.Environment.DevOpsActions &&
-      this.DevOpsActionLookupFormControl.value
-      ? this.Data.Environment.DevOpsActions[
-          this.DevOpsActionLookupFormControl.value
-        ]
+    return this.Data.Environment.DevOpsActions && this.DevOpsActionLookup
+      ? this.Data.Environment.DevOpsActions[this.DevOpsActionLookup]
       : {};
+  }
+
+  public get DevOpsActionLookup(): string {
+    return this.DevOpsActionLookupFormControl?.value ||
+      this.SourceControl?.DevOpsActionTriggerLookups
+      ? this.SourceControl?.DevOpsActionTriggerLookups[0]
+      : null;
+  }
+
+  public get DevOpsActionLookups(): Array<string> {
+    return Object.keys(this.DevOpsActions || {});
   }
 
   public get DevOpsActionLookupFormControl(): AbstractControl {
     return this.ApplicationFormGroup.get('devOpsActionLookup');
+  }
+
+  public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
+    return this.Data.Environment.DevOpsActions || {};
   }
 
   public get EditingApplication(): EaCApplicationAsCode {
@@ -277,14 +304,20 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public get SourceControl(): EaCSourceControl {
-    return this.Data.Environment.Sources &&
-      this.SourceControlLookupFormControl.value
-      ? this.Data.Environment.Sources[this.SourceControlLookupFormControl.value]
+    return this.Data.Environment.Sources && this.SourceControlLookup
+      ? this.Data.Environment.Sources[this.SourceControlLookup]
       : this.DefaultSourceControl;
   }
 
   @ViewChild(SourceControlFormControlsComponent)
   public SourceControlFormControls: SourceControlFormControlsComponent;
+
+  public get SourceControlLookup(): string {
+    return (
+      this.SourceControlLookupFormControl?.value ||
+      this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup
+    );
+  }
 
   public get SourceControlLookupFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.sourceControlLookup;
@@ -471,20 +504,27 @@ export class AppsFlowComponent implements OnInit {
       Processor: processor,
     };
 
+    if (!app.LookupConfig.PathRegex.startsWith('/')) {
+      app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
+    }
+
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ProjectLookup: this.ProjectLookup,
       Application: app,
       ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
-      Artifacts: {},
+      Environment: {
+        ...this.Data.Environment,
+        Artifacts: this.Data.Environment.Artifacts || {},
+        DevOpsActions: this.Data.Environment.DevOpsActions || {},
+        Secrets: this.Data.Environment.Secrets || {},
+        Sources: this.Data.Environment.Sources || {},
+      },
+      EnvironmentLookup: this.Data.EnvironmentLookup,
       EnterpriseDataTokens: {},
-      DevOpsActions: {},
-      Secrets: {},
-      SourceControls: {},
     };
 
     if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
       if (app.Processor.LowCodeUnit != null) {
-        debugger;
         let source: EaCSourceControl = {
           ...this.SourceControl,
           Branches: this.SourceControlFormControls.SelectedBranches,
@@ -493,7 +533,7 @@ export class AppsFlowComponent implements OnInit {
         };
 
         if (!this.SourceControlLookupFormControl.value) {
-          app.Processor.LowCodeUnit.SourceControlLookup = `@github://${this.SourceControlFormControls.OrganizationFormControl.value}/${this.SourceControlFormControls.RepositoryFormControl.value}`;
+          app.Processor.LowCodeUnit.SourceControlLookup = `github://${this.SourceControlFormControls.OrganizationFormControl.value}/${this.SourceControlFormControls.RepositoryFormControl.value}`;
 
           let devOpsActionLookup: string;
 
@@ -514,7 +554,7 @@ export class AppsFlowComponent implements OnInit {
                 this.HostingDetailsFormControls.SelectedHostingOption.Templates,
             };
 
-            saveAppReq.DevOpsActions[devOpsActionLookup] = doa;
+            saveAppReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
 
             const artifact: EaCArtifact = {
               Type: this.HostingDetailsFormControls.SelectedHostingOption
@@ -525,18 +565,18 @@ export class AppsFlowComponent implements OnInit {
                 .SelectedHostingOptionInputControlValues,
             };
 
-            saveAppReq.Artifacts[artifactLookup] = artifact;
+            saveAppReq.Environment.Artifacts[artifactLookup] = artifact;
 
             if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
-              saveAppReq.Secrets[secretLookup] = {
+              saveAppReq.Environment.Secrets[secretLookup] = {
                 Name: 'NPM Access Token',
                 DataTokenLookup: secretLookup,
                 KnownAs: 'NPM_TOKEN',
               };
 
               saveAppReq.EnterpriseDataTokens[secretLookup] = {
-                Name: saveAppReq.Secrets[secretLookup].Name,
-                Description: saveAppReq.Secrets[secretLookup].Name,
+                Name: saveAppReq.Environment.Secrets[secretLookup].Name,
+                Description: saveAppReq.Environment.Secrets[secretLookup].Name,
                 Value:
                   this.HostingDetailsFormControls.NPMTokenFormControl.value,
               };
@@ -560,7 +600,7 @@ export class AppsFlowComponent implements OnInit {
             this.SourceControlLookupFormControl.value;
         }
 
-        saveAppReq.SourceControls[
+        saveAppReq.Environment.Sources[
           app.Processor.LowCodeUnit.SourceControlLookup
         ] = source;
       }
@@ -568,7 +608,6 @@ export class AppsFlowComponent implements OnInit {
       app.Processor.LowCodeUnit.SourceControlLookup = null;
     }
 
-    debugger;
     this.appsFlowEventsSvc.SaveApplicationAsCode(saveAppReq);
   }
 
@@ -586,9 +625,10 @@ export class AppsFlowComponent implements OnInit {
     }
   }
 
-  public Unpack(appLookup: string, version?: string): void {
+  public Unpack(appLookup: string, appName: string, version?: string): void {
     this.appsFlowEventsSvc.UnpackLowCodeUnit({
       ApplicationLookup: appLookup,
+      ApplicationName: appName,
       Version: version || 'latest',
     });
   }
@@ -690,11 +730,7 @@ export class AppsFlowComponent implements OnInit {
 
     this.ApplicationFormGroup.addControl(
       'devOpsActionLookup',
-      this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
-          '',
-        []
-      )
+      this.formBldr.control(this.DevOpsActionLookup || '', [])
     );
 
     this.ApplicationFormGroup.addControl(

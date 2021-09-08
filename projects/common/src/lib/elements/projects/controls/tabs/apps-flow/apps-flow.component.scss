@@ -40,6 +40,12 @@
     }
   }
 
+  .mat-subtitle {
+    .mat-chip-list {
+      display: inline-block;
+    }
+  }
+
   .mat-form-field {
     margin-top: .5em;
     margin-bottom: .5em;

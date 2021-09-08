@@ -45,17 +45,24 @@
             mat-icon-button
             href="https://{{ project.Hosts[0] }}"
             target="_blank"
-            [title]="project.Hosts[0]"
-            color="accent"
+            title="Launch"
           >
             <mat-icon>launch</mat-icon>
           </a>
 
-          <button mat-icon-button (click)="ProjectSettings(projectLookup)">
+          <button
+            mat-icon-button
+            color="accent"
+            (click)="ProjectSettings(projectLookup)"
+          >
             <mat-icon matTooltip="Edit Project Settings">settings</mat-icon>
           </button>
 
-          <button mat-icon-button color="warn" (click)="DeleteProject(projectLookup, project.Project.Name)">
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="DeleteProject(projectLookup, project.Project.Name)"
+          >
             <mat-icon matTooltip="Delete {{ project.Project.Name }}">
               delete_forever
             </mat-icon>

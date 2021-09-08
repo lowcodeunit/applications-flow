@@ -1,4 +1,5 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
+import { EaCEnvironmentAsCode } from '../models/eac.models';
 import {
   EaCApplicationAsCode,
   EaCArtifact,
@@ -19,17 +20,13 @@ export class SaveApplicationAsCodeEventRequest {
 
   public ApplicationLookup?: string;
 
-  public Artifacts?: { [lookup: string]: EaCArtifact };
-
   public EnterpriseDataTokens?: { [lookup: string]: EaCDataToken };
 
-  public DevOpsActions?: { [lookup: string]: EaCDevOpsAction };
+  public Environment?: EaCEnvironmentAsCode;
+
+  public EnvironmentLookup?: string;
 
   public ProjectLookup?: string;
-
-  public Secrets?: { [lookup: string]: EaCSecret };
-
-  public SourceControls?: { [lookup: string]: EaCSourceControl };
 }
 
 export class SaveProjectAsCodeEventRequest {

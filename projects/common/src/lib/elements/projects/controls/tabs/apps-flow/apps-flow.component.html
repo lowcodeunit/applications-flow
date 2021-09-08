@@ -117,8 +117,12 @@
 
                     <div *ngIf="HasBuildFormControl?.value">
                       <h3>
-                        @{{ SourceControlFormControls?.OrganizationFormControl?.value }}/{{
-                          SourceControlFormControls?.RepositoryFormControl?.value
+                        @{{
+                          SourceControlFormControls?.OrganizationFormControl
+                            ?.value || SourceControl?.Organization
+                        }}/{{
+                          SourceControlFormControls?.RepositoryFormControl
+                            ?.value || SourceControl?.Repository
                         }}
                       </h3>
 
@@ -129,7 +133,9 @@
 
                     <mat-form-field
                       class="mat-full-width"
-                      *ngIf="SourceControlFormControls?.RepositoryFormControl?.valid"
+                      *ngIf="
+                        SourceControlFormControls?.RepositoryFormControl?.valid
+                      "
                     >
                       <input
                         matInput
@@ -354,7 +360,7 @@
             <mat-card-title *ngIf="!HasBuildFormControl.value">
               Build & Source
             </mat-card-title>
-            
+
             <mat-card-title *ngIf="HasBuildFormControl.value">
               Source Control
             </mat-card-title>
@@ -400,7 +406,10 @@
             </mat-form-field>
 
             <lcu-source-control-form-controls
-              *ngIf="HasBuildFormControl.value"
+              *ngIf="
+                HasBuildFormControl.value &&
+                !SourceControlLookupFormControl?.value
+              "
               [form-group]="ApplicationFormGroup"
               [org-disabled]="
                 SourceControlLookupFormControl.value != '' ||
@@ -415,23 +424,42 @@
               (branches-changed)="BranchesChanged($event)"
             ></lcu-source-control-form-controls>
           </mat-card-content>
+
+          <mat-card-content *ngIf="SourceControlLookupFormControl?.value">
+            <h3 class="mat-title">
+              @{{ SourceControl?.Organization }}/{{ SourceControl?.Repository }}
+            </h3>
+
+            <h4 class="mat-subtitle">
+              Branches ({{ SourceControl?.MainBranch }}):
+
+              <mat-chip-list aria-label="Branches">
+                <mat-chip
+                  [color]="branch == SourceControl?.MainBranch ? 'primary' : ''"
+                  [selected]="branch == SourceControl?.MainBranch"
+                  *ngFor="let branch of SourceControl?.Branches"
+                >
+                  {{ branch }}
+                </mat-chip>
+              </mat-chip-list>
+            </h4>
+          </mat-card-content>
         </mat-card>
 
         <mat-card
           class="spread"
           *ngIf="
             HasBuildFormControl.value &&
-            SourceControlFormControls?.SelectedBranches?.length > 0
+            (SourceControlFormControls?.SelectedBranches?.length > 0 ||
+              SourceControl?.Branches?.length > 0)
           "
         >
           <mat-card-header>
             <mat-card-title> Build Pipeline </mat-card-title>
           </mat-card-header>
 
-          <mat-card-content>
-            <mat-form-field
-              class="mat-full-width"
-            >
+          <mat-card-content *ngIf="!SourceControlLookup">
+            <mat-form-field class="mat-full-width">
               <mat-select
                 formControlName="devOpsActionLookup"
                 placeholder="DevOps Action"
@@ -454,9 +482,31 @@
             <lcu-hosting-details-form-group
               [details]="HostingDetails"
               [formGroup]="ApplicationFormGroup"
-              [organization]="SourceControlFormControls?.OrganizationFormControl?.value"
+              [organization]="
+                SourceControlFormControls?.OrganizationFormControl?.value
+              "
               *ngIf="!DevOpsActionLookupFormControl?.value"
             ></lcu-hosting-details-form-group>
+          </mat-card-content>
+
+          <mat-card-content *ngIf="SourceControlLookup">
+            <h3 class="mat-title">
+              {{ DevOpsAction?.Name }} ({{ DevOpsAction?.Path }})
+            </h3>
+
+            <!-- <h4 class="mat-title">
+              Branches ({{ SourceControl?.MainBranch }}):
+
+              <mat-chip-list aria-label="Branches">
+                <mat-chip
+                  [color]="branch == SourceControl?.MainBranch ? 'primary' : ''"
+                  [selected]="branch == SourceControl?.MainBranch"
+                  *ngFor="let branch of SourceControl?.Branches"
+                >
+                  {{ branch }}
+                </mat-chip>
+              </mat-chip-list>
+            </h4> -->
           </mat-card-content>
         </mat-card>
       </div>
@@ -533,14 +583,14 @@
                     mat-icon-button
                     href="https://{{ Project.Hosts[0] }}{{ appRoute }}"
                     target="_blank"
-                    [title]="Project.Hosts[0] + appRoute"
-                    color="accent"
+                    title="Launch"
                   >
                     <mat-icon>launch</mat-icon>
                   </a>
 
                   <button
                     mat-icon-button
+                    color="accent"
                     (click)="CurrentApplicationRoute = appRoute"
                   >
                     <mat-icon matTooltip="Edit Application Route">
@@ -616,26 +666,14 @@
                       app.LookupConfig.PathRegex.replace('.*', '')
                     }}"
                     target="_blank"
-                    [title]="
-                      Project.Hosts[0] +
-                      app.LookupConfig.PathRegex.replace('.*', '')
-                    "
-                    color="accent"
+                    title="Launch"
                   >
                     <mat-icon>launch</mat-icon>
                   </a>
 
-                  <button
-                    mat-icon-button
-                    (click)="SetEditingApplication(appLookup)"
-                  >
-                    <mat-icon matTooltip="Edit Application"> edit </mat-icon>
-                  </button>
-
                   <a
                     mat-icon-button
-                    color="accent"
-                    (click)="Unpack(appLookup)"
+                    (click)="Unpack(appLookup, app.Application.Name)"
                     target="_blank"
                     matTooltip="Unpack Latest"
                     title="Unpack Latest"
@@ -645,8 +683,16 @@
 
                   <button
                     mat-icon-button
+                    color="accent"
+                    (click)="SetEditingApplication(appLookup)"
+                  >
+                    <mat-icon matTooltip="Edit Application"> edit </mat-icon>
+                  </button>
+
+                  <button
+                    mat-icon-button
                     color="warn"
-                    (click)="DeleteApplication(app)"
+                    (click)="DeleteApplication(appLookup, app.Application.Name)"
                   >
                     <mat-icon matTooltip="Delete {{ app.Application.Name }}">
                       delete_forever
