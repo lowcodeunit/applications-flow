@@ -30,6 +30,9 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   @Input('details')
   public Details: ProjectHostingDetails;
 
+  @Input('disabled')
+  public Disabled: boolean;
+
   public get FormGroup(): FormGroup {
     return this.ParentFormGroup.get('hostingDetails') as FormGroup;
   }

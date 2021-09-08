@@ -3,6 +3,7 @@
     <mat-select
       formControlName="buildPipeline"
       placeholder="Build Pipeline"
+      [disabled]="Disabled"
       (selectionChange)="BuildPipelineChanged()"
       required
     >
@@ -30,6 +31,7 @@
         matInput
         [formControlName]="input.Lookup"
         [placeholder]="input.Placeholder"
+        [disabled]="Disabled"
         [required]="input.Required"
       />
 
@@ -46,6 +48,7 @@
         type="password"
         formControlName="npmToken"
         placeholder="NPM token"
+        [disabled]="Disabled"
         required
       />
 

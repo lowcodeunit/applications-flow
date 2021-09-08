@@ -684,6 +684,22 @@ export class AppsFlowComponent implements OnInit {
             this.HostingDetails = response.Model;
 
             this.HostingDetails.Loading = false;
+
+            this.DevOpsActionLookupFormControl.setValue(
+              this.DevOpsActionLookup
+            );
+
+            setTimeout(() => {
+              const hostOption = this.HostingDetails?.HostingOptions?.find(
+                (ho) => ho.Path === this.DevOpsAction.Path
+              );
+
+              this.HostingDetailsFormControls?.BuildPipelineFormControl.setValue(
+                hostOption.Lookup
+              );
+
+              this.HostingDetailsFormControls?.BuildPipelineChanged();
+            }, 0);
           },
           (err) => {
             this.HostingDetails.Loading = false;

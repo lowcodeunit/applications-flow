@@ -437,12 +437,12 @@
             <mat-card-title> Build Pipeline </mat-card-title>
           </mat-card-header>
 
-          <mat-card-content *ngIf="!SourceControlLookup">
+          <mat-card-content>
             <mat-form-field class="mat-full-width">
               <mat-select
                 formControlName="devOpsActionLookup"
                 placeholder="DevOps Action"
-                [disabled]="SourceControlFormControls?.Loading || HostingDetails?.Loading"
+                [disabled]="SourceControlLookupFormControl?.value || SourceControlFormControls?.Loading || HostingDetails?.Loading"
               >
                 <ng-container
                   *ngFor="let devOpsActionLookup of DevOpsActionLookups"
@@ -465,24 +465,8 @@
               [organization]="
                 SourceControlFormControls?.OrganizationFormControl?.value
               "
-              *ngIf="!DevOpsActionLookupFormControl?.value"
+              [disabled]="!!DevOpsActionLookupFormControl?.value || SourceControlFormControls?.Loading || HostingDetails?.Loading"
             ></lcu-hosting-details-form-group>
-          </mat-card-content>
-
-          <mat-card-content *ngIf="SourceControlLookup">
-            <h3 class="mat-title">
-              {{ DevOpsAction?.Name }} ({{ DevOpsAction?.Path }})
-            </h3>
-
-            <div *ngIf="HostingDetails?.Loading">
-              <div class="spread">
-                <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
-            
-                <div class="margin-3">
-                  <h4 class="mat-title">Loading hosting details</h4>
-                </div>
-              </div>
-            </div>
           </mat-card-content>
         </mat-card>
       </div>
