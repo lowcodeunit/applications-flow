@@ -169,6 +169,7 @@
         [formControlName]="SourceControlRoot + 'mainBranch'"
         placeholder="Main Branch"
         [disabled]="Loading || BranchesDisabled"
+        (selectionChange)="MainBranchChanged($event)"
         required
       >
         <ng-container *ngFor="let branch of SelectedBranches">

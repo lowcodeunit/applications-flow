@@ -389,6 +389,8 @@
               <mat-select
                 formControlName="sourceControlLookup"
                 placeholder="Source Control"
+                (selectionChange)="SourceControlLookupChanged($event)"
+                [disabled]="SourceControlFormControls?.Loading || HostingDetails?.Loading"
               >
                 <ng-container
                   *ngFor="let srcCtrlLookup of SourceControlLookups"
@@ -406,10 +408,7 @@
             </mat-form-field>
 
             <lcu-source-control-form-controls
-              *ngIf="
-                HasBuildFormControl.value &&
-                !SourceControlLookupFormControl?.value
-              "
+              [branches-disabled]="HostingDetails?.Loading"
               [form-group]="ApplicationFormGroup"
               [org-disabled]="
                 SourceControlLookupFormControl.value != '' ||
@@ -419,30 +418,10 @@
                 SourceControlLookupFormControl.value != '' ||
                 HostingDetails?.Loading
               "
-              [branches-disabled]="HostingDetails?.Loading"
               [source-control]="SourceControl"
               (branches-changed)="BranchesChanged($event)"
+              *ngIf="HasBuildFormControl.value"
             ></lcu-source-control-form-controls>
-          </mat-card-content>
-
-          <mat-card-content *ngIf="SourceControlLookupFormControl?.value">
-            <h3 class="mat-title">
-              @{{ SourceControl?.Organization }}/{{ SourceControl?.Repository }}
-            </h3>
-
-            <h4 class="mat-subtitle">
-              Branches ({{ SourceControl?.MainBranch }}):
-
-              <mat-chip-list aria-label="Branches">
-                <mat-chip
-                  [color]="branch == SourceControl?.MainBranch ? 'primary' : ''"
-                  [selected]="branch == SourceControl?.MainBranch"
-                  *ngFor="let branch of SourceControl?.Branches"
-                >
-                  {{ branch }}
-                </mat-chip>
-              </mat-chip-list>
-            </h4>
           </mat-card-content>
         </mat-card>
 
@@ -463,6 +442,7 @@
               <mat-select
                 formControlName="devOpsActionLookup"
                 placeholder="DevOps Action"
+                [disabled]="SourceControlFormControls?.Loading || HostingDetails?.Loading"
               >
                 <ng-container
                   *ngFor="let devOpsActionLookup of DevOpsActionLookups"
@@ -494,19 +474,15 @@
               {{ DevOpsAction?.Name }} ({{ DevOpsAction?.Path }})
             </h3>
 
-            <!-- <h4 class="mat-title">
-              Branches ({{ SourceControl?.MainBranch }}):
-
-              <mat-chip-list aria-label="Branches">
-                <mat-chip
-                  [color]="branch == SourceControl?.MainBranch ? 'primary' : ''"
-                  [selected]="branch == SourceControl?.MainBranch"
-                  *ngFor="let branch of SourceControl?.Branches"
-                >
-                  {{ branch }}
-                </mat-chip>
-              </mat-chip-list>
-            </h4> -->
+            <div *ngIf="HostingDetails?.Loading">
+              <div class="spread">
+                <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
+            
+                <div class="margin-3">
+                  <h4 class="mat-title">Loading hosting details</h4>
+                </div>
+              </div>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

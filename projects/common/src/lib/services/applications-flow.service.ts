@@ -163,6 +163,8 @@ export class ApplicationsFlowService {
     repository: string,
     branch: string
   ): Observable<object> {
+    branch = encodeURIComponent(branch);
+
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
       {

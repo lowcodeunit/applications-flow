@@ -617,6 +617,10 @@ export class AppsFlowComponent implements OnInit {
     this.setupApplicationForm();
   }
 
+  public SourceControlLookupChanged(event: MatSelectChange): void {
+    this.SourceControlFormControls?.RefreshOrganizations();
+  }
+
   public StartsWith(app: EaCApplicationAsCode, appRouteBase: string): boolean {
     if (appRouteBase === '/') {
       return app?.LookupConfig?.PathRegex === '/.*';
@@ -671,9 +675,9 @@ export class AppsFlowComponent implements OnInit {
 
       this.appsFlowSvc
         .LoadProjectHostingDetails(
-          this.SourceControlFormControls.OrganizationFormControl.value,
-          this.SourceControlFormControls.RepositoryFormControl.value,
-          this.SourceControlFormControls?.SelectedBranches?.join(',')
+          this.SourceControlFormControls?.OrganizationFormControl?.value,
+          this.SourceControlFormControls?.RepositoryFormControl?.value,
+          this.SourceControlFormControls?.MainBranchFormControl?.value
         )
         .subscribe(
           (response: BaseModeledResponse<ProjectHostingDetails>) => {

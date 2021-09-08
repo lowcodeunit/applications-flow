@@ -119,53 +119,11 @@ export class SourceControlFormControlsComponent
   public ngAfterViewInit(): void {}
 
   public ngOnDestroy(): void {
-    this.FormGroup.removeControl(
-      [this.SourceControlRoot, 'mainBranch'].join('')
-    );
-
-    this.FormGroup.removeControl([this.SourceControlRoot, 'branches'].join(''));
-
-    this.SelectedBranches = [];
-
-    this.FormGroup.removeControl(
-      [this.SourceControlRoot, 'organization'].join('')
-    );
-
-    this.FormGroup.removeControl(
-      [this.SourceControlRoot, 'repository'].join('')
-    );
+    this.destroyFormControls();
   }
 
   public ngOnInit(): void {
-    this.FormGroup.addControl(
-      [this.SourceControlRoot, 'organization'].join(''),
-      new FormControl(
-        this.SourceControl.Organization ?? '',
-        Validators.required
-      )
-    );
-
-    this.FormGroup.addControl(
-      [this.SourceControlRoot, 'repository'].join(''),
-      new FormControl(this.SourceControl.Repository ?? '', Validators.required)
-    );
-
-    if (this.UseBranches) {
-      this.FormGroup.addControl(
-        [this.SourceControlRoot, 'branches'].join(''),
-        new FormControl(this.SourceControl.Branches ?? '', Validators.required)
-      );
-
-      this.SelectedBranches = this.SourceControl.Branches;
-
-      this.FormGroup.addControl(
-        [this.SourceControlRoot, 'mainBranch'].join(''),
-        new FormControl(
-          this.SourceControl.MainBranch ?? '',
-          Validators.required
-        )
-      );
-    }
+    this.setupFormControls();
 
     this.RefreshOrganizations();
   }
@@ -191,6 +149,10 @@ export class SourceControlFormControlsComponent
     this.CreatingRepository = false;
   }
 
+  public MainBranchChanged(event: MatSelectChange): void {
+    this.emitBranchesChanged();
+  }
+
   public OrganizationChanged(event: MatSelectChange): void {
     const org = this.OrganizationFormControl;
 
@@ -209,12 +171,12 @@ export class SourceControlFormControlsComponent
     // this.Loading = true;
     this.listOrganizations();
 
-    this.OrganizationFormControl.reset();
+    this.OrganizationFormControl?.reset();
 
-    this.RepositoryFormControl.reset();
+    this.RepositoryFormControl?.reset();
 
     if (this.UseBranches) {
-      this.BranchesFormControl.reset();
+      this.BranchesFormControl?.reset();
     }
   }
 
@@ -262,7 +224,7 @@ export class SourceControlFormControlsComponent
       });
   }
 
-  // //  Helpers
+  //  Helpers
   protected addBranchOption(value: string): void {
     value = (value || '').trim();
 
@@ -273,6 +235,24 @@ export class SourceControlFormControlsComponent
     this.BranchesInput.nativeElement.blur();
 
     this.emitBranchesChanged();
+  }
+
+  protected destroyFormControls(): void {
+    this.FormGroup.removeControl(
+      [this.SourceControlRoot, 'mainBranch'].join('')
+    );
+
+    this.FormGroup.removeControl([this.SourceControlRoot, 'branches'].join(''));
+
+    this.SelectedBranches = [];
+
+    this.FormGroup.removeControl(
+      [this.SourceControlRoot, 'organization'].join('')
+    );
+
+    this.FormGroup.removeControl(
+      [this.SourceControlRoot, 'repository'].join('')
+    );
   }
 
   protected emitBranchesChanged(): void {
@@ -307,7 +287,9 @@ export class SourceControlFormControlsComponent
 
           this.Loading = false;
 
-          if (this.BranchOptions?.length === 1) {
+          if (this.SourceControl?.Branches?.length > 0) {
+            this.SelectedBranches = this.SourceControl.Branches;
+          } else if (this.BranchOptions?.length === 1) {
             this.BranchesFormControl.setValue(this.BranchOptions[0].Name);
 
             this.SelectedBranches = [this.BranchOptions[0].Name];
@@ -327,6 +309,16 @@ export class SourceControlFormControlsComponent
         this.OrganizationOptions = response.Model;
 
         this.Loading = false;
+
+        if (this.SourceControl?.Organization) {
+          setTimeout(() => {
+            this.OrganizationFormControl.setValue(
+              this.SourceControl.Organization
+            );
+
+            this.listRepositories(this.SourceControl?.Repository);
+          }, 0);
+        }
       });
   }
 
@@ -350,5 +342,39 @@ export class SourceControlFormControlsComponent
           this.CreatingRepository = true;
         }
       });
+  }
+
+  protected setupFormControls(): void {
+    this.destroyFormControls();
+
+    this.FormGroup.addControl(
+      [this.SourceControlRoot, 'organization'].join(''),
+      new FormControl(
+        this.SourceControl.Organization ?? '',
+        Validators.required
+      )
+    );
+
+    this.FormGroup.addControl(
+      [this.SourceControlRoot, 'repository'].join(''),
+      new FormControl(this.SourceControl.Repository ?? '', Validators.required)
+    );
+
+    if (this.UseBranches) {
+      this.FormGroup.addControl(
+        [this.SourceControlRoot, 'branches'].join(''),
+        new FormControl(this.SourceControl?.Branches ?? '', Validators.required)
+      );
+
+      this.SelectedBranches = this.SourceControl?.Branches;
+
+      this.FormGroup.addControl(
+        [this.SourceControlRoot, 'mainBranch'].join(''),
+        new FormControl(
+          this.SourceControl.MainBranch ?? '',
+          Validators.required
+        )
+      );
+    }
   }
 }
