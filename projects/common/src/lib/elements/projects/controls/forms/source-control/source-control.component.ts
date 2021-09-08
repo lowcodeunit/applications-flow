@@ -270,6 +270,8 @@ export class SourceControlFormControlsComponent
       this.MainBranchFormControl.reset();
     }
 
+    this.BranchesFormControl.setValue(this.SelectedBranches.join(','));
+
     this.BranchesChanged.emit(this.SelectedBranches || []);
   }
 

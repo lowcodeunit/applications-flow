@@ -71,7 +71,7 @@ export class AppsFlowComponent implements OnInit {
 
   public get Artifact(): EaCArtifact {
     return this.Data.Environment.Artifacts && this.ArtifactLookup
-      ? this.Data.Environment.Artifacts[this.ArtifactLookup]
+      ? this.Data.Environment.Artifacts[this.ArtifactLookup] || {}
       : {};
   }
 
@@ -130,7 +130,7 @@ export class AppsFlowComponent implements OnInit {
 
   public get DevOpsAction(): EaCDevOpsAction {
     return this.Data.Environment.DevOpsActions && this.DevOpsActionLookup
-      ? this.Data.Environment.DevOpsActions[this.DevOpsActionLookup]
+      ? this.Data.Environment.DevOpsActions[this.DevOpsActionLookup] || {}
       : {};
   }
 
@@ -305,7 +305,7 @@ export class AppsFlowComponent implements OnInit {
 
   public get SourceControl(): EaCSourceControl {
     return this.Data.Environment.Sources && this.SourceControlLookup
-      ? this.Data.Environment.Sources[this.SourceControlLookup]
+      ? this.Data.Environment.Sources[this.SourceControlLookup] || {}
       : this.DefaultSourceControl;
   }
 
@@ -525,6 +525,64 @@ export class AppsFlowComponent implements OnInit {
 
     if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
       if (app.Processor.LowCodeUnit != null) {
+        let artifactLookup: string;
+
+        let artifact: EaCArtifact = {
+          ...this.Artifact,
+          ...this.HostingDetailsFormControls
+            .SelectedHostingOptionInputControlValues,
+        };
+
+        if (!this.ArtifactLookup) {
+          artifactLookup = Guid.CreateRaw();
+
+          artifact = {
+            ...artifact,
+            Type: this.HostingDetailsFormControls.SelectedHostingOption
+              .ArtifactType,
+            Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+            NPMRegistry: 'https://registry.npmjs.org/',
+          };
+        }
+
+        saveAppReq.Environment.Artifacts[artifactLookup] = artifact;
+
+        let devOpsActionLookup: string;
+
+        if (!this.DevOpsActionLookup) {
+          devOpsActionLookup = Guid.CreateRaw();
+
+          const secretLookup = 'npm-access-token';
+
+          const doa: EaCDevOpsAction = {
+            ...this.DevOpsAction,
+            ArtifactLookups: [artifactLookup],
+            Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+            Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
+            SecretLookups: [secretLookup],
+            Templates:
+              this.HostingDetailsFormControls.SelectedHostingOption.Templates,
+          };
+
+          saveAppReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
+
+          if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
+            saveAppReq.Environment.Secrets[secretLookup] = {
+              Name: 'NPM Access Token',
+              DataTokenLookup: secretLookup,
+              KnownAs: 'NPM_TOKEN',
+            };
+
+            saveAppReq.EnterpriseDataTokens[secretLookup] = {
+              Name: saveAppReq.Environment.Secrets[secretLookup].Name,
+              Description: saveAppReq.Environment.Secrets[secretLookup].Name,
+              Value: this.HostingDetailsFormControls.NPMTokenFormControl.value,
+            };
+          }
+        } else {
+          devOpsActionLookup = this.DevOpsActionLookupFormControl.value;
+        }
+
         let source: EaCSourceControl = {
           ...this.SourceControl,
           Branches: this.SourceControlFormControls.SelectedBranches,
@@ -534,56 +592,6 @@ export class AppsFlowComponent implements OnInit {
 
         if (!this.SourceControlLookupFormControl.value) {
           app.Processor.LowCodeUnit.SourceControlLookup = `github://${this.SourceControlFormControls.OrganizationFormControl.value}/${this.SourceControlFormControls.RepositoryFormControl.value}`;
-
-          let devOpsActionLookup: string;
-
-          if (!this.DevOpsActionLookupFormControl.value) {
-            devOpsActionLookup = Guid.CreateRaw();
-
-            const artifactLookup: string = Guid.CreateRaw();
-
-            const secretLookup = 'npm-access-token';
-
-            const doa: EaCDevOpsAction = {
-              ...this.DevOpsAction,
-              ArtifactLookups: [artifactLookup],
-              Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
-              Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
-              SecretLookups: [secretLookup],
-              Templates:
-                this.HostingDetailsFormControls.SelectedHostingOption.Templates,
-            };
-
-            saveAppReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
-
-            const artifact: EaCArtifact = {
-              Type: this.HostingDetailsFormControls.SelectedHostingOption
-                .ArtifactType,
-              Name: doa.Name,
-              NPMRegistry: 'https://registry.npmjs.org/',
-              ...this.HostingDetailsFormControls
-                .SelectedHostingOptionInputControlValues,
-            };
-
-            saveAppReq.Environment.Artifacts[artifactLookup] = artifact;
-
-            if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
-              saveAppReq.Environment.Secrets[secretLookup] = {
-                Name: 'NPM Access Token',
-                DataTokenLookup: secretLookup,
-                KnownAs: 'NPM_TOKEN',
-              };
-
-              saveAppReq.EnterpriseDataTokens[secretLookup] = {
-                Name: saveAppReq.Environment.Secrets[secretLookup].Name,
-                Description: saveAppReq.Environment.Secrets[secretLookup].Name,
-                Value:
-                  this.HostingDetailsFormControls.NPMTokenFormControl.value,
-              };
-            }
-          } else {
-            devOpsActionLookup = this.DevOpsActionLookupFormControl.value;
-          }
 
           source = {
             ...source,
@@ -633,7 +641,7 @@ export class AppsFlowComponent implements OnInit {
     this.appsFlowEventsSvc.UnpackLowCodeUnit({
       ApplicationLookup: appLookup,
       ApplicationName: appName,
-      Version: version || 'latest',
+      Version: version,
     });
   }
 

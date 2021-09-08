@@ -129,6 +129,10 @@
                       <p>
                         Organization and Repository pulled from build settings
                       </p>
+
+                      <mat-hint>
+                        CurrentBuild: {{ EditingApplication?.Processor?.LowCodeUnit?.CurrentBuild }}
+                      </mat-hint>
                     </div>
 
                     <mat-form-field
@@ -156,6 +160,10 @@
                       "
                       [form-group]="ApplicationFormGroup"
                     ></lcu-npm-package-select>
+
+                    <mat-hint>
+                      CurrentVersion: {{ EditingApplication?.Processor?.LowCodeUnit?.CurrentVersion }}
+                    </mat-hint>
                   </div>
                 </div>
               </div>
@@ -390,7 +398,9 @@
                 formControlName="sourceControlLookup"
                 placeholder="Source Control"
                 (selectionChange)="SourceControlLookupChanged($event)"
-                [disabled]="SourceControlFormControls?.Loading || HostingDetails?.Loading"
+                [disabled]="
+                  SourceControlFormControls?.Loading || HostingDetails?.Loading
+                "
               >
                 <ng-container
                   *ngFor="let srcCtrlLookup of SourceControlLookups"
@@ -435,6 +445,11 @@
         >
           <mat-card-header>
             <mat-card-title> Build Pipeline </mat-card-title>
+
+            <mat-hint>
+              Changes made here are reflected for all sources using this
+              DevOpsAction
+            </mat-hint>
           </mat-card-header>
 
           <mat-card-content>
@@ -442,7 +457,11 @@
               <mat-select
                 formControlName="devOpsActionLookup"
                 placeholder="DevOps Action"
-                [disabled]="SourceControlLookupFormControl?.value || SourceControlFormControls?.Loading || HostingDetails?.Loading"
+                [disabled]="
+                  SourceControlLookupFormControl?.value ||
+                  SourceControlFormControls?.Loading ||
+                  HostingDetails?.Loading
+                "
               >
                 <ng-container
                   *ngFor="let devOpsActionLookup of DevOpsActionLookups"
@@ -460,12 +479,17 @@
             </mat-form-field>
 
             <lcu-hosting-details-form-group
+              [artifact]="Artifact"
               [details]="HostingDetails"
               [formGroup]="ApplicationFormGroup"
               [organization]="
                 SourceControlFormControls?.OrganizationFormControl?.value
               "
-              [disabled]="!!DevOpsActionLookupFormControl?.value || SourceControlFormControls?.Loading || HostingDetails?.Loading"
+              [disabled]="
+                !!DevOpsActionLookupFormControl?.value ||
+                SourceControlFormControls?.Loading ||
+                HostingDetails?.Loading
+              "
             ></lcu-hosting-details-form-group>
           </mat-card-content>
         </mat-card>
@@ -485,7 +509,7 @@
         mat-raised-button
         type="submit"
         color="primary"
-        [disabled]="!ApplicationFormGroup.valid"
+        [disabled]="!ApplicationFormGroup.valid || !ApplicationFormGroup.dirty"
       >
         <mat-icon>save</mat-icon> Save Application
       </button>

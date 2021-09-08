@@ -31,7 +31,6 @@
         matInput
         [formControlName]="input.Lookup"
         [placeholder]="input.Placeholder"
-        [disabled]="Disabled"
         [required]="input.Required"
       />
 
@@ -48,8 +47,9 @@
         type="password"
         formControlName="npmToken"
         placeholder="NPM token"
-        [disabled]="Disabled"
         required
+        [disabled]="Disabled"
+        style="-webkit-text-security: disc;"
       />
 
       <mat-hint>

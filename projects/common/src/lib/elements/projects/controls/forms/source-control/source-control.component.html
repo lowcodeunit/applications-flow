@@ -47,7 +47,10 @@
 
   <div
     class="card"
-    *ngIf="RepositoryFormControl?.valid || (OrganizationFormControl?.valid && !Loading)"
+    *ngIf="
+      RepositoryFormControl?.valid ||
+      (OrganizationFormControl?.valid && !Loading)
+    "
   >
     <mat-form-field class="mat-full-width">
       <mat-icon class="org-icon" matPrefix>description</mat-icon>
@@ -59,7 +62,9 @@
             ? 'Repository'
             : 'Repository (select organization first)'
         "
-        [disabled]="!OrganizationFormControl?.valid || Loading || RepositoryDisabled"
+        [disabled]="
+          !OrganizationFormControl?.valid || Loading || RepositoryDisabled
+        "
         (selectionChange)="RepositoryChanged($event)"
         *ngIf="!CreatingRepository"
         required
@@ -112,7 +117,9 @@
     class="card"
     *ngIf="
       (BranchesFormControl?.valid ||
-        (OrganizationFormControl?.valid && RepositoryFormControl?.valid && !Loading)) &&
+        (OrganizationFormControl?.valid &&
+          RepositoryFormControl?.valid &&
+          !Loading)) &&
       !CreatingRepository &&
       UseBranches
     "
@@ -179,10 +186,13 @@
         </ng-container>
       </mat-select>
 
-      <mat-icon matSuffix (click)="RefreshOrganizations()"> refresh </mat-icon>
+      <mat-icon matSuffix (click)="RefreshOrganizations()">
+        refresh
+      </mat-icon>
 
       <a
         matSuffix
+        mat-icon-button
         href="/.oauth/github?oauth-force-edit=true"
         title="Re-authorize Organizations"
         target="_blank"
@@ -213,11 +223,19 @@
           Loading organizations
         </h4>
 
-        <h4 class="mat-title" *ngIf="OrganizationFormControl?.valid && !RepositoryFormControl?.valid">
+        <h4
+          class="mat-title"
+          *ngIf="
+            OrganizationFormControl?.valid && !RepositoryFormControl?.valid
+          "
+        >
           Loading repositories
         </h4>
 
-        <h4 class="mat-title" *ngIf="RepositoryFormControl?.valid && !BranchesFormControl?.valid">
+        <h4
+          class="mat-title"
+          *ngIf="RepositoryFormControl?.valid && !BranchesFormControl?.valid"
+        >
           Loading branches
         </h4>
       </div>

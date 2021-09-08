@@ -6,6 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
+import { EaCArtifact } from '../../../../models/eac.models';
 import {
   ProjectHostingDetails,
   ProjectHostingOption,
@@ -20,6 +21,9 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   //  Fields
 
   //  Properties
+  @Input('artifact')
+  public Artifact: EaCArtifact;
+
   @Input('build-pipeline')
   public BuildPipeline: string;
 
@@ -58,7 +62,7 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   } {
     return this.SelectedHostingOption?.Inputs?.reduce((prev, cur) => {
       const res = {
-        ...prev
+        ...prev,
       };
 
       res[cur.Lookup] = this.FormGroup.controls[cur.Lookup].value;
@@ -113,16 +117,29 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
 
       this.FormGroup.addControl(
         input.Lookup,
-        this.formBuilder.control(input.DefaultValue || '', validators)
+        this.formBuilder.control(
+          this.Artifact[input.Lookup] || input.DefaultValue || '',
+          validators
+        )
       );
+
+      // if (this.Disabled) {
+      //   this.FormGroup.controls[input.Lookup].disable();
+      // }
     });
 
     if (this.BuildPipelineFormControl.value === 'npm-release') {
       if (!this.FormGroup.controls.npmToken) {
         this.FormGroup.addControl(
           'npmToken',
-          this.formBuilder.control('', [Validators.required])
+          this.formBuilder.control(this.Disabled ? 'xxxxxxxx' : '', [
+            Validators.required,
+          ])
         );
+
+        if (this.Disabled) {
+          this.FormGroup.controls.npmToken.disable();
+        }
       }
     } else if (
       this.BuildPipelineFormControl.value === 'github-artifacts-release'
