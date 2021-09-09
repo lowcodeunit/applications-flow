@@ -11,7 +11,7 @@ export class EnterpriseAsCode {
 
   public Environments?: { [lookup: string]: EaCEnvironmentAsCode };
 
-  public Hosts?: Array<string>;
+  public Hosts?: { [lookup: string]: EaCHost };
 
   public LicenseConfigurations?: { [lookup: string]: EaCLicenseConfiguration };
 
@@ -36,6 +36,12 @@ export class EaCEnterpriseDetails {
 
 export class EaCLicenseConfiguration {
   public Plans?: { [lookup: string]: EaCPlan };
+}
+
+export class EaCHost {
+  public HostDNSInstance?: string;
+
+  public Verified?: boolean;
 }
 
 export class EaCDFSModifier {

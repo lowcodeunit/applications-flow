@@ -179,19 +179,12 @@ export class ApplicationsFlowProjectsElementComponent
     }
 
     await this.projectService.SaveEnterpriseAsCode(this.State, this.State.EaC);
-
-    await this.projectService.UnpackLowCodeUnit(this.State, {
-      ApplicationLookup: req.ApplicationLookup,
-      Version: req.Application?.Processor?.LowCodeUnit?.Version,
-    });
   }
 
   protected async handleSaveProject(
     projectLookup: string,
     project: EaCProjectAsCode
   ): Promise<void> {
-    this.State.EaC.Hosts = [...(this.State.EaC.Hosts || []), ...project.Hosts];
-
     if (!this.State.EaC.Projects) {
       this.State.EaC.Projects = {};
     }

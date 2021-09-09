@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
-import { EaCProjectAsCode } from '../../../../../models/eac.models';
+import { EaCHost, EaCProjectAsCode } from '../../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-domains',
@@ -46,13 +46,13 @@ export class DomainsComponent implements OnInit {
 
   @Input('data')
   public Data: {
+    Hosts: { [lookup: string]: EaCHost };
     Project: EaCProjectAsCode;
     ProjectLookup: string;
-    HostDNSInstance: string;
   };
 
   public get HostDNSInstance(): string {
-    return this.Data.HostDNSInstance;
+    return this.Data?.Hosts ? this.Data?.Hosts[this.Project.Hosts[0]]?.HostDNSInstance : null;
   }
 
   public get Project(): EaCProjectAsCode {

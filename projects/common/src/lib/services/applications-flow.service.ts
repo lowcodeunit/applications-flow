@@ -98,15 +98,6 @@ export class ApplicationsFlowService {
     );
   }
 
-  public IsolateHostDNSInstance(): Observable<object> {
-    return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/isolate`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
   public ListProjects(): Observable<object> {
     return this.http.get(`${this.apiRoot}/api/lowcodeunit/manage/projects`, {
       headers: this.loadHeaders(),
@@ -173,17 +164,10 @@ export class ApplicationsFlowService {
     );
   }
 
-  public SaveEnterpriseAsCode(
-    eac: EnterpriseAsCode,
-    hostDnsInstance: string
-  ): Observable<object> {
-    return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/eac?hostDnsInstance=${hostDnsInstance}`,
-      eac,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
+  public SaveEnterpriseAsCode(eac: EnterpriseAsCode): Observable<object> {
+    return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/eac`, eac, {
+      headers: this.loadHeaders(),
+    });
   }
 
   public SetActiveEnterprise(activeEntLookup: string): Observable<object> {

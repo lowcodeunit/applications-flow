@@ -26,9 +26,6 @@ export class ProjectTabsComponent implements OnInit {
   @Input('applications')
   public Applications: { [lookup: string]: EaCApplicationAsCode };
 
-  @Input('host-dns-instance')
-  public HostDNSInstance: string;
-
   @Input('project')
   public Project: EaCProjectAsCode;
 
@@ -74,7 +71,6 @@ export class ProjectTabsComponent implements OnInit {
         Data: {
           Project: this.Project,
           ProjectLookup: this.ProjectLookup,
-          HostDNSInstance: this.HostDNSInstance,
         },
         Label: 'Domains',
         Icon: 'domain',

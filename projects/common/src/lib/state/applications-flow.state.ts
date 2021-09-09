@@ -9,8 +9,6 @@ export class ApplicationsFlowState {
 
   public GitHub?: GitHubSetupState;
 
-  public HostDNSInstance?: string;
-
   public HostingDetails?: ProjectHostingDetails;
 
   public Loading?: boolean;

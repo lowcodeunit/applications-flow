@@ -306,7 +306,7 @@ export class ProjectService {
       state.Loading = true;
 
       this.appsFlowSvc
-        .SaveEnterpriseAsCode(eac, state.HostDNSInstance)
+        .SaveEnterpriseAsCode(eac)
         .subscribe(
           async (response: BaseModeledResponse<string>) => {
             if (response.Status.Code === 0) {
@@ -344,30 +344,15 @@ export class ProjectService {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (projectLookup != null) {
-        state.Loading = true;
+        state.Loading = false;
 
-        this.appsFlowSvc.IsolateHostDNSInstance().subscribe(
-          (response: BaseModeledResponse<string>) => {
-            state.Loading = false;
+        this.EditingProjectLookup = projectLookup;
 
-            this.EditingProjectLookup = projectLookup;
+        this.CreatingProject = false;
 
-            this.CreatingProject = false;
+        resolve({});
 
-            state.HostDNSInstance = response.Model;
-
-            resolve({});
-
-            console.log(state);
-          },
-          (err) => {
-            state.Loading = false;
-
-            reject(err);
-
-            console.log(err);
-          }
-        );
+        console.log(state);
       } else {
         state.Loading = false;
 
