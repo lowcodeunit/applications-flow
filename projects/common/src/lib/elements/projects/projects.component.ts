@@ -144,61 +144,53 @@ export class ApplicationsFlowProjectsElementComponent
   protected async handleSaveApplication(
     req: SaveApplicationAsCodeEventRequest
   ): Promise<void> {
-    const existingProj = this.State.EaC.Projects[req.ProjectLookup];
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      Applications: {},
+      DataTokens: {},
+      Environments: {},
+      Projects: {},
+    };
 
-    if (!existingProj.ApplicationLookups) {
-      existingProj.ApplicationLookups = [];
-    }
+    const existingProj = {
+      ...this.State.EaC.Projects[req.ProjectLookup],
+    };
 
-    existingProj.ApplicationLookups.push(req.ApplicationLookup);
-
-    if (!this.State.EaC.Applications) {
-      this.State.EaC.Applications = {};
-    }
-
-    this.State.EaC.Applications[req.ApplicationLookup] = req.Application;
-
-    if (req.Environment) {
-      if (!this.State.EaC.Environments) {
-        this.State.EaC.Environments = {};
+    if (existingProj.ApplicationLookups?.indexOf(req.ApplicationLookup) < 0) {
+      if (!existingProj.ApplicationLookups) {
+        existingProj.ApplicationLookups = [];
       }
 
-      this.State.EaC.Environments[req.EnvironmentLookup] = {
-        ...req.Environment,
-      };
+      existingProj.ApplicationLookups.push(req.ApplicationLookup);
+
+      saveEaC.Projects[req.ProjectLookup] = existingProj;
+    }
+
+    if (req.Application) {
+      saveEaC.Applications[req.ApplicationLookup] = req.Application;
+    }
+
+    if (req.Environment) {
+      saveEaC.Environments[req.EnvironmentLookup] = req.Environment;
     }
 
     if (req.EnterpriseDataTokens) {
-      if (!this.State.EaC.DataTokens) {
-        this.State.EaC.DataTokens = {};
-      }
-
-      this.State.EaC.DataTokens = {
-        ...this.State.EaC.DataTokens,
-        ...req.EnterpriseDataTokens,
-      };
+      saveEaC.DataTokens = req.EnterpriseDataTokens;
     }
 
-    await this.projectService.SaveEnterpriseAsCode(this.State, this.State.EaC);
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
   }
 
   protected async handleSaveProject(
     projectLookup: string,
     project: EaCProjectAsCode
   ): Promise<void> {
-    // if (!this.State.EaC.Projects) {
-    //   this.State.EaC.Projects = {};
-    // }
-
-    // this.State.EaC.Projects[projectLookup] = project;
-
-    // await this.projectService.SaveEnterpriseAsCode(this.State, this.State.EaC);
-
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      Projects: {},
     };
 
-    saveEaC[projectLookup] = project;
+    saveEaC.Projects[projectLookup] = project;
 
     await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
 
