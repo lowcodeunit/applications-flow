@@ -54,8 +54,18 @@
             mat-icon-button
             color="accent"
             (click)="ProjectSettings(projectLookup)"
+            *ngIf="SelectedProjectLookup != projectLookup"
           >
             <mat-icon matTooltip="Edit Project Settings">settings</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="accent"
+            (click)="ProjectSettings(null)"
+            *ngIf="SelectedProjectLookup == projectLookup"
+          >
+            <mat-icon matTooltip="Edit Project Settings">cancel</mat-icon>
           </button>
 
           <button

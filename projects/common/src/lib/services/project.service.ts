@@ -305,30 +305,28 @@ export class ProjectService {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 
-      this.appsFlowSvc
-        .SaveEnterpriseAsCode(eac)
-        .subscribe(
-          async (response: BaseModeledResponse<string>) => {
-            if (response.Status.Code === 0) {
-              eac = await this.LoadEnterpriseAsCode(state);
+      this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
+        async (response: BaseModeledResponse<string>) => {
+          if (response.Status.Code === 0) {
+            eac = await this.LoadEnterpriseAsCode(state);
 
-              resolve(eac);
-            } else {
-              state.Loading = false;
-
-              reject(response.Status);
-
-              console.log(response);
-            }
-          },
-          (err) => {
+            resolve(eac);
+          } else {
             state.Loading = false;
 
-            reject(err);
+            reject(response.Status);
 
-            console.log(err);
+            console.log(response);
           }
-        );
+        },
+        (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
     });
   }
 
@@ -346,11 +344,15 @@ export class ProjectService {
       if (projectLookup != null) {
         state.Loading = false;
 
-        this.EditingProjectLookup = projectLookup;
+        this.EditingProjectLookup = null;
+
+        setTimeout(() => {
+          this.EditingProjectLookup = projectLookup;
+
+          resolve({});
+        }, 0);
 
         this.CreatingProject = false;
-
-        resolve({});
 
         console.log(state);
       } else {
