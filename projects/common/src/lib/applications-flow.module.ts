@@ -10,43 +10,48 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
-import { ProjectSettingsComponent } from './elements/projects/controls/project-settings/project-settings.component';
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
 import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
 import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
-import { ProjectItemComponent } from './elements/projects/controls/project-item/project-item.component';
+import { ProjectItemsComponent } from './elements/projects/controls/project-items/project-items.component';
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
 import { RecentActivitiesComponent } from './elements/projects/controls/recent-activities/recent-activities.component';
 import { FormCardComponent } from './elements/form-card/form-card.component';
 import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-details/project-details.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
-import { SettingsComponent } from './elements/projects/controls/tabs/general/forms/settings/settings.component';
 import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
 import { BaseFormComponent } from './elements/base-form/base-form.component';
 import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
+import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth.component';
+import { SourceControlFormControlsComponent } from './elements/projects/controls/forms/source-control/source-control.component';
+import { AppsFlowComponent } from './elements/projects/controls/tabs/apps-flow/apps-flow.component';
+import { NPMService } from './services/npm.service';
+import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 
 @NgModule({
   declarations: [
     ApplicationsFlowProjectsElementComponent,
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
-    ProjectSettingsComponent,
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
-    ProjectItemComponent,
+    ProjectItemsComponent,
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
+    GitAuthComponent,
+    SourceControlFormControlsComponent,
+    AppsFlowComponent,
+    NpmPackageSelectComponent
   ],
   imports: [
     FathymSharedModule,
@@ -61,21 +66,23 @@ import { BaseFormTestComponent } from './elements/projects/controls/tabs/general
     ApplicationsFlowProjectsElementComponent,
     HostingDetailsFormGroupComponent,
     CreateProjectWizardComponent,
-    ProjectSettingsComponent,
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
-    ProjectItemComponent,
+    ProjectItemsComponent,
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
+    GitAuthComponent,
+    SourceControlFormControlsComponent,
+    AppsFlowComponent,
+    NpmPackageSelectComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -84,15 +91,18 @@ import { BaseFormTestComponent } from './elements/projects/controls/tabs/general
     ProjectTabsComponent,
     GeneralComponent,
     DomainsComponent,
-    ProjectItemComponent,
+    ProjectItemsComponent,
     BuildsComponent,
     RecentActivitiesComponent,
     FormCardComponent,
     ProjectNameComponent,
     RootDirectoryComponent,
-    SettingsComponent,
     BaseFormComponent,
     BaseFormTestComponent,
+    GitAuthComponent,
+    SourceControlFormControlsComponent,
+    AppsFlowComponent,
+    NpmPackageSelectComponent
   ],
 })
 export class ApplicationsFlowModule {
@@ -103,6 +113,7 @@ export class ApplicationsFlowModule {
         ApplicationsFlowStateContext,
         ApplicationsFlowService,
         ProjectService,
+        NPMService,
         FormsService,
         ApplicationsFlowEventsService,
       ],

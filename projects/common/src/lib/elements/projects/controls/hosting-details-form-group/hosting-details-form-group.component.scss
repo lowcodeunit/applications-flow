@@ -1,4 +1,25 @@
 @import "../../../../../assets/common";
 
 :host ::ng-deep {
+  .mat-card {
+    text-align: center;
+
+    .mat-card-header-text {
+      margin: auto;
+    }
+
+    .mat-icon {
+      width: 64px;
+      height: 64px;
+      font-size: 64px;
+    }
+
+    @media (max-width: 480px) {
+      .mat-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 36px;
+      }
+    }
+  }
 }

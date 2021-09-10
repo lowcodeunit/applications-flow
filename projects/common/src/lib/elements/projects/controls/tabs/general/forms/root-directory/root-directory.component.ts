@@ -1,7 +1,6 @@
 import { Subscription } from 'rxjs';
 import { FormsService } from './../../../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../../../models/card-form-config.model';
-import { ProjectState } from './../../../../../../../state/applications-flow.state';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -10,6 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
+import { EaCProjectAsCode } from '../../../../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-root-directory',
@@ -47,11 +47,15 @@ export class RootDirectoryComponent implements OnInit {
    * Input value for state
    */
   @Input('project')
-  public Project: ProjectState;
+  public Project: EaCProjectAsCode;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+  ) {}
 
   public ngOnInit(): void {
     this.setupForm();
@@ -71,7 +75,7 @@ export class RootDirectoryComponent implements OnInit {
       includeSource: new FormControl(false),
     });
 
-    this.formsService.Form = { Id: 'RootDirectoryForm', Form: this.Form};
+    this.formsService.Form = { Id: 'RootDirectoryForm', Form: this.Form };
     this.onChange();
   }
 
@@ -110,10 +114,13 @@ export class RootDirectoryComponent implements OnInit {
    * Save form
    */
   protected save(): void {
-    this.appsFlowEventsSvc.SaveProject({
-      ...this.Project,
-      // Root: this.Root.value,
-      // IncludeSource: this.IncludeSource.value
+    this.appsFlowEventsSvc.SaveProjectAsCode({
+      ProjectLookup: this.ProjectLookup,
+      Project: {
+        ...this.Project,
+        // Root: this.Root.value,
+        // IncludeSource: this.IncludeSource.value
+      },
     });
     // this.formsService.UpdateValuesReference({ Id: 'RootDirectoryForm', Form: this.Form });
   }

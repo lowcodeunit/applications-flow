@@ -4,13 +4,15 @@ on:
   push:
     branches:
       - 'main'
+      - 'master'
   pull_request:
     branches:
       - 'main'
+      - 'master'
 
 jobs:
-  buildDeploy:
-    name: Build Prerelease
+  build:
+    name: Build and Publish
     runs-on: ubuntu-latest
     steps:
     # checkout repository
@@ -19,11 +21,11 @@ jobs:
         fetch-depth: '0'
 
     # set branch name variable
-    - name: Set branch name
+    - name: Set branch name variable
       id: vars
-      run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+      run: echo ::set-output name=branchName::${GITHUB_REF##*/}
 
-    - name: Check output
+    - name: Echo current branch
       run: echo "The current branch is ${{ steps.vars.outputs.short_ref }}"
 
     # bump version and push tag
@@ -32,13 +34,13 @@ jobs:
       id: versionBump
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        RELEASE_BRANCHES: main
+        RELEASE_BRANCHES: main,master
         DEFAULT_BUMP: minor
         WITH_V: false
     - run: echo "The new version is ${{ steps.versionBump.outputs.new_tag }}"
 
     # replace text in package.json
-    - name: replace text
+    - name: replace version text
       shell: pwsh
       run: (Get-Content -path package.json -Raw) -replace "version patch","version ${{ steps.versionBump.outputs.new_tag }} --no-git-tag-version -f" | Set-Content -Path package.json
 

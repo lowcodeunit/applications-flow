@@ -1,0 +1,63 @@
+<div [formGroup]="FormGroup">
+  <mat-form-field class="mat-full-width">
+    <input
+      matInput
+      placeholder="NPM Package"
+      formControlName="package"
+      [matAutocomplete]="package"
+      required
+    />
+
+    <mat-autocomplete
+      #package="matAutocomplete"
+      (optionSelected)="PackageSelected($event)"
+    >
+      <ng-container *ngFor="let pkg of NPMPackages">
+        <mat-option [value]="pkg.Name">
+          <span>{{ pkg.Name }}</span> |
+
+          <small>(latest: {{ pkg.Version }})</small>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+
+    <mat-icon
+      matSuffix
+      mat-icon-button
+      matTooltip="Enter the name of your NPM node package."
+    >
+      info_outline
+    </mat-icon>
+  </mat-form-field>
+
+  <mat-form-field class="mat-full-width">
+    <input
+      matInput
+      placeholder="Package Version"
+      formControlName="version"
+      [matAutocomplete]="version"
+      required
+    />
+
+    <mat-autocomplete #version="matAutocomplete">
+      <ng-container *ngFor="let version of NPMPackageVersions">
+        <mat-option [value]="version">
+          <span>{{ version }}</span>
+        </mat-option>
+      </ng-container>
+    </mat-autocomplete>
+
+    <a
+      mat-icon-button
+      matSuffix
+      matTooltip="Enter any current or previous version of your package. Click here to access the package version in NPM."
+      [href]="
+        'https://www.npmjs.com/package/' + FormGroup.controls.package.value
+      "
+      target="_blank"
+      id="npm-package-button"
+    >
+      <mat-icon>info_outline</mat-icon>
+    </a>
+  </mat-form-field>
+</div>

@@ -23,7 +23,7 @@ export class ApplicationsFlowStateContext extends StateContext<ApplicationsFlowS
     }
 
     //  Helpers
-    protected defaultValue() {
+    protected defaultValue(): ApplicationsFlowState {
         return { Loading: true } as ApplicationsFlowState;
     }
 

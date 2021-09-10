@@ -54,7 +54,7 @@ $divider-size: 5px;
     --initial-warn: #{mat-color($warn)};
     --initial-dark-background: #222222;
     --initial-light-background: #f2f2f2;
-    --initial-dark-background: #{invert(mat-color($background, card, .65))};
+    // --initial-dark-background: #{invert(mat-color($background, card, 1))};
     --initial-light-background: #{mat-color($background, card)};
     --initial-light-text: #{map-get(map-get($global-theme, 'foreground'), 'text')};
     --initial-dark-text: #{invert(map-get(map-get($global-theme, 'foreground'), 'text'))};
@@ -162,3 +162,18 @@ body {
   // }
 }
 
+@media (max-width: 768px) {
+  .spread {
+    margin: 1em !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .spread {
+    margin: .5em !important;
+  }
+}
+
+.spinner-logo {
+  display: none !important;
+}

@@ -1,50 +1,71 @@
-<div [formGroup]="FormGroup.get('projectDetails')">
-  <!-- <mat-form-field class="mat-full-width margin-2">
-    <input
-      matInput
-      formControlName="projectName"
-      placeholder="The project name."
-      required
-    />
-  </mat-form-field> -->
-
-  <!-- <mat-form-field class="mat-full-width margin-2">
+<div [formGroup]="FormGroup" *ngIf="!Details?.Loading">
+  <mat-form-field class="mat-full-width">
     <mat-select
-      formControlName="hostingOption"
-      placeholder="Hosting Option"
+      formControlName="buildPipeline"
+      placeholder="Build Pipeline"
+      [disabled]="Disabled"
+      (selectionChange)="BuildPipelineChanged()"
       required
     >
-      <ng-container *ngFor="let hostingOpt of Details.HostingOptions">
-        <mat-option [value]="hostingOpt.Lookup">
-          {{ hostingOpt.Name }}
+      <ng-container
+        *ngFor="let hostOption of Details?.HostingOptions; let i = index"
+      >
+        <mat-option [value]="hostOption.Lookup">
+          {{ hostOption.Name }}
         </mat-option>
       </ng-container>
     </mat-select>
-  </mat-form-field> -->
 
-  <mat-form-field class="mat-full-width margin-2">
-    <input
-      matInput
-      formControlName="buildScript"
-      placeholder="The build script."
-      required
-    />
+    <mat-hint>
+      <ng-container *ngFor="let hostOption of Details?.HostingOptions">
+        <span *ngIf="BuildPipeline == hostOption.Lookup">
+          {{ hostOption.Description }}
+        </span>
+      </ng-container>
+    </mat-hint>
   </mat-form-field>
 
-  <mat-form-field class="mat-full-width margin-2">
-    <input
-      matInput
-      formControlName="outputFolder"
-      placeholder="The output folder."
-      required
-    />
-  </mat-form-field>
+  <ng-container *ngFor="let input of SelectedHostingOption?.Inputs">
+    <mat-form-field class="mat-full-width">
+      <input
+        matInput
+        [formControlName]="input.Lookup"
+        [placeholder]="input.Placeholder"
+        [required]="input.Required"
+      />
 
-  <!--<mat-form-field class="mat-full-width margin-2">
-    <input
-      matInput
-      formControlName="deployScript"
-      placeholder="The deployment script (otherwise a default deployment process is create)."
-    />
-  </mat-form-field> -->
+      <mat-hint>{{ input.Hint }}</mat-hint>
+    </mat-form-field>
+  </ng-container>
+
+  <div *ngIf="BuildPipeline == 'npm-release'">
+    <mat-form-field class="mat-full-width with-hint">
+      <mat-icon matPrefix>security</mat-icon>
+
+      <input
+        matInput
+        type="password"
+        formControlName="npmToken"
+        placeholder="NPM token"
+        required
+        [disabled]="Disabled"
+        style="-webkit-text-security: disc;"
+      />
+
+      <mat-hint>
+        Securely publish to NPM, provide an NPM Personal Access Token (PAT) with
+        publish access to the organization used for your NPM packages.  <a mat-button href="#">Full Guide</a>
+      </mat-hint>
+    </mat-form-field>
+  </div>
+</div>
+
+<div *ngIf="Details?.Loading">
+  <div class="spread">
+    <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
+
+    <div class="margin-3">
+      <h4 class="mat-title">Loading hosting details</h4>
+    </div>
+  </div>
 </div>

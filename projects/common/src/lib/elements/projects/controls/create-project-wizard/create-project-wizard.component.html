@@ -1,223 +1,117 @@
-<div *ngIf="State">
-  <div [fxHide]="State?.Loading">
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <div class="margin-x-1" fxFlex="40%" fxFlex.lt-md="100%">
-        <div class="welcome">
-          <h2 class="mat-display-2 margin-y-2">
-            <span *ngIf="State.Projects?.length <= 0">
-              Thank you for signing up
-            </span>
+<div>
+  <div [fxHide]="Loading">
+    <!-- <div style="position: absolute; top: 5px; right: 5px">
+      <button mat-mini-fab (click)="Cancel()">
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </div> -->
 
-            <span *ngIf="State.Projects?.length > 0">Project Setup</span>
-          </h2>
-
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <div
+        fxFlex="80%"
+        fxFlex.lt-md="100%"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+      >
+        <div class="welcome margin-x-1" fxFlex="40%" fxFlex.lt-md="100%">
           <h3 class="mat-title">Let's get your Project setup and running</h3>
+
+          <div class="divider-fill-hor margin-y-4"></div>
         </div>
 
-        <!--
-              <div
-                class="divider-fill-vert margin-x-5"
-                fxShow
-                [fxHide.lt-md]="true"
-                fxHide
-                [fxShow.lt-md]="true"
-              ></div> -->
+        <div class="setup margin-x-1" fxFlex="90%" fxFlex.lt-md="100%">
+          <form [formGroup]="ProjectFormGroup" (ngSubmit)="CreateProject()">
+            <mat-horizontal-stepper linear #projectStepper>
+              <mat-step
+                label="Connect Repository"
+                formGroupName="repoDetails"
+                [completed]="
+                  IsOrganizationValid && IsRepositoryValid && IsBranchValid
+                "
+              >
+                <div>
+                  <h3 class="mat-display-1 margin-bottom-4 margin-top-3">
+                    Connect your repository
+                  </h3>
 
-        <div class="divider-fill-hor margin-y-4"></div>
-      </div>
+                  <div [fxShow]="!HostingDetails.Loading">
+                    <div class="margin-y-2">
+                      <lcu-source-control-form-controls
+                        [form-group]="RepoDetailsFormGroup"
+                        [source-control]="{}"
+                      ></lcu-source-control-form-controls>
+                    </div>
 
-      <div class="setup margin-x-1" fxFlex="80%" fxFlex.lt-md="100%">
-        <form [formGroup]="ProjectFormGroup" (ngSubmit)="CreateProject()">
-          <mat-horizontal-stepper linear #projectStepper>
-            <mat-step
-              label="Connect Git"
-              [completed]="State.GitHub.HasConnection"
-            >
-              <div class="connect margin-x-3 margin-bottom-3">
-                <h3 class="mat-display-1 margin-bottom-4">
-                  Connect your git provider
-                </h3>
+                    <div class="margin-top-4">
+                      <button
+                        mat-button
+                        color="warn"
+                        (click)="Cancel()"
+                        type="button"
+                      >
+                        Cancel
+                      </button>
 
-                <!-- href="/.oauth/github" -->
-                <a
-                  (click)="ConnectGitHubProvider()"
-                  mat-raised-button
-                  color="primary"
-                  class="github margin-y-3"
-                >
-                  Connect with GitHub
+                      <div fxFlex></div>
 
-                  <span class="octocat-icon"></span>
-                </a>
-              </div>
-            </mat-step>
+                      <button
+                        mat-raised-button
+                        color="accent"
+                        (click)="ConfigureRepository()"
+                        type="button"
+                        [disabled]="!IsBranchValid"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
 
-            <mat-step
-              label="Setup Repository"
-              formGroupName="repoDetails"
-              [completed]="
-                IsOrganizationValid && IsRepositoryValid && IsBranchValid
-              "
-            >
-              <div>
-                <h3 class="mat-display-1 margin-bottom-4 margin-top-3">
-                  Setup your repository
-                </h3>
+                  <div class="margin-3" *ngIf="HostingDetails.Loading">
+                    <lcu-loader
+                      style="margin: auto"
+                      [loading]="true"
+                    ></lcu-loader>
 
-                <mat-form-field class="mat-full-width margin-2">
-                  <mat-select
-                    formControlName="organization"
-                    placeholder="Organization"
-                    (selectionChange)="OrganizationChanged($event)"
-                    required
-                  >
-                    <ng-container
-                      *ngFor="let orgOpt of State.GitHub.OrganizationOptions"
-                    >
-                      <mat-option [value]="orgOpt.Name">
-                        {{ orgOpt.Name }}
-                      </mat-option>
-                    </ng-container>
-                  </mat-select>
-
-                  <mat-icon matSuffix (click)="RefreshOrganizations()">
-                    refresh
-                  </mat-icon>
-
-                  <mat-hint>
-                    If you don't have an organization or would like to create a
-                    new one,
-                    <a
-                      href="https://github.com/account/organizations/new"
-                      target="_blank"
-                    >
-                      start here
-                    </a>
-                    .
-                  </mat-hint>
-                </mat-form-field>
-
-                <mat-form-field
-                  class="mat-full-width margin-2"
-                  *ngIf="
-                    IsRepositoryValid ||
-                    (IsOrganizationValid && !State.GitHub.Loading)
-                  "
-                >
-                  <mat-select
-                    formControlName="repository"
-                    [placeholder]="
-                      IsOrganizationValid
-                        ? 'Repository'
-                        : 'Repository (select organization first)'
-                    "
-                    [disabled]="!IsOrganizationValid"
-                    required
-                    (selectionChange)="RepositoryChanged($event)"
-                    *ngIf="!State.GitHub.CreatingRepository"
-                  >
-                    <ng-container
-                      *ngFor="let repoOpt of State.GitHub.RepositoryOptions"
-                    >
-                      <mat-option [value]="repoOpt.Name">
-                        {{ repoOpt.Name }}
-                      </mat-option>
-                    </ng-container>
-                  </mat-select>
-
-                  <input
-                    matInput
-                    placeholder="Repository (creates new if does not exist)"
-                    formControlName="repository"
-                    required
-                    *ngIf="State.GitHub.CreatingRepository"
-                    [fxHide]="State.GitHub.Loading"
-                  />
-
-                  <mat-icon
-                    matSuffix
-                    (click)="CreateRepository()"
-                    *ngIf="
-                      !State.GitHub.CreatingRepository && IsOrganizationValid
-                    "
-                  >
-                    add_circle
-                  </mat-icon>
-
-                  <mat-icon
-                    matSuffix
-                    color="primary"
-                    (click)="SaveRepository()"
-                    *ngIf="State.GitHub.CreatingRepository && IsRepositoryValid"
-                  >
-                    save
-                  </mat-icon>
-
-                  <mat-icon
-                    matSuffix
-                    (click)="CancelCreateRepository()"
-                    *ngIf="State.GitHub.CreatingRepository"
-                  >
-                    cancel
-                  </mat-icon>
-                </mat-form-field>
-
-                <mat-form-field
-                  class="mat-full-width margin-2"
-                  *ngIf="
-                    (IsBranchValid ||
-                      (IsRepositoryValid && !State.GitHub.Loading)) &&
-                    !State.GitHub.CreatingRepository
-                  "
-                >
-                  <mat-select
-                    formControlName="branch"
-                    [placeholder]="
-                      IsRepositoryValid
-                        ? 'Branch'
-                        : 'Branch (select repository first)'
-                    "
-                    [disabled]="!IsRepositoryValid"
-                    required
-                  >
-                    <ng-container
-                      *ngFor="let branchOpt of State.GitHub.BranchOptions"
-                    >
-                      <mat-option [value]="branchOpt.Name">
-                        {{ branchOpt.Name }}
-                      </mat-option>
-                    </ng-container>
-                  </mat-select>
-                </mat-form-field>
-
-                <div class="margin-3" *ngIf="State.GitHub.Loading">
-                  <lcu-loader
-                    style="margin: auto"
-                    [loading]="true"
-                  ></lcu-loader>
-
-                  <div class="margin-3">
-                    <h4 class="mat-title" *ngIf="!IsOrganizationValid">
-                      Loading organizations
-                    </h4>
-
-                    <h4
-                      class="mat-title"
-                      *ngIf="IsOrganizationValid && !IsRepositoryValid"
-                    >
-                      Loading repositories
-                    </h4>
-
-                    <h4
-                      class="mat-title"
-                      *ngIf="IsRepositoryValid && !IsBranchValid"
-                    >
-                      Loading branches
-                    </h4>
+                    <div class="margin-3">
+                      <h4 class="mat-title">Configuring</h4>
+                    </div>
                   </div>
                 </div>
+              </mat-step>
 
-                <div class="margin-top-4">
+              <!-- [stepControl]="formArray.get([2])" -->
+              <mat-step
+                label="Configure Project"
+                formGroupName="projectDetails"
+              >
+                <h3 class="mat-display-1 margin-bottom-2">
+                  Configure build pipeline for
+                </h3>
+
+                <h4 class="mat-headline margin-bottom-2">
+                  <strong>
+                    @{{ RepoDetailsFormGroup.get("organization")?.value }}/{{
+                      RepoDetailsFormGroup.get("repository")?.value
+                    }}
+
+                    <br />
+
+                    <span
+                      *ngFor="let selBranch of SourceControl?.SelectedBranches"
+                    >
+                      @{{ selBranch }}
+                    </span>
+                  </strong>
+                </h4>
+
+                <div class="margin-y-2" *ngIf="!HostingDetails.Loading">
+                  <lcu-hosting-details-form-group
+                    [formGroup]="ProjectDetailsFormGroup"
+                    [details]="HostingDetails"
+                  ></lcu-hosting-details-form-group>
+                </div>
+
+                <div>
                   <button mat-button matStepperPrevious type="button">
                     Back
                   </button>
@@ -226,93 +120,25 @@
 
                   <button
                     mat-raised-button
-                    color="accent"
-                    matStepperNext
-                    type="button"
-                    [disabled]="State.GitHub.CreatingRepository"
+                    color="primary"
+                    [disabled]="!AreProjectDetailsValid"
                   >
-                    Next
+                    Create Project
                   </button>
                 </div>
-              </div>
-            </mat-step>
-
-            <!-- [stepControl]="formArray.get([2])" -->
-            <mat-step label="Configure Project" formGroupName="projectDetails">
-              <h3 class="mat-display-1 margin-bottom-2">Configure project</h3>
-
-              <h4 class="mat-headline margin-bottom-2">
-                <strong>
-                  @{{
-                    ProjectFormGroup.get("repoDetails").get("organization")
-                      .value
-                  }}/{{
-                    ProjectFormGroup.get("repoDetails").get("repository").value
-                  }}
-                  @{{ ProjectFormGroup.get("repoDetails").get("branch").value }}
-                </strong>
-              </h4>
-
-              <div class="margin-y-2" *ngIf="!State.HostingDetails.Loading">
-                <lcu-hosting-details-form-group
-                  [formGroup]="ProjectFormGroup"
-                  [details]="State.HostingDetails"
-                ></lcu-hosting-details-form-group>
-              </div>
-
-              <div class="margin-3" *ngIf="State.HostingDetails.Loading">
-                <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
-
-                <div class="margin-3">
-                  <h4 class="mat-title" *ngIf="!IsOrganizationValid">
-                    Loading organizations
-                  </h4>
-
-                  <h4
-                    class="mat-title"
-                    *ngIf="IsOrganizationValid && !IsRepositoryValid"
-                  >
-                    Loading repositories
-                  </h4>
-
-                  <h4
-                    class="mat-title"
-                    *ngIf="IsRepositoryValid && !IsBranchValid"
-                  >
-                    Loading branches
-                  </h4>
-                </div>
-              </div>
-
-              <div>
-                <button mat-button matStepperPrevious type="button">
-                  Back
-                </button>
-
-                <div fxFlex></div>
-
-                <button
-                  mat-raised-button
-                  color="primary"
-                  [disabled]="!AreProjectDetailsValid"
-                >
-                  Create Project
-                </button>
-              </div>
-            </mat-step>
-          </mat-horizontal-stepper>
-        </form>
+              </mat-step>
+            </mat-horizontal-stepper>
+          </form>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="loading" *ngIf="State?.Loading">
-    <lcu-loader [loading]="State?.Loading"></lcu-loader>
+  <div class="loading" *ngIf="Loading">
+    <lcu-loader [loading]="Loading"></lcu-loader>
 
     <div class="margin-3">
-      <p *ngIf="!State.UserEnterpriseLookup">Loading your projects</p>
-
-      <p *ngIf="State.UserEnterpriseLookup">Loading your Dashboard.</p>
+      <p>Loading</p>
     </div>
   </div>
 </div>

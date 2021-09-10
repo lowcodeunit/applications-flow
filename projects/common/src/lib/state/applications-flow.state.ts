@@ -1,13 +1,19 @@
-export class ApplicationsFlowState {
-  public GitHub?: GitHubSetupState;
+import { EnterpriseAsCode } from '../models/eac.models';
 
-  public HostDNSInstance?: string;
+export class ApplicationsFlowState {
+  public ActiveEnterpriseLookup?: string;
+
+  public EaC?: EnterpriseAsCode;
+
+  public Enterprises?: Array<{ Name: string; Lookup: string }>;
+
+  public GitHub?: GitHubSetupState;
 
   public HostingDetails?: ProjectHostingDetails;
 
   public Loading?: boolean;
 
-  public Projects?: ProjectState[];
+  // public Projects?: ProjectState[];
 
   public UserEnterpriseLookup?: string;
 
@@ -18,29 +24,47 @@ export class ApplicationsFlowState {
 
     this.Loading = true;
 
-    this.Projects = [];
+    // this.Projects = [];
   }
 }
 
-export class ProjectState {
-  public ActionsSet?: { [id: string]: DevOpsAction };
+// export class ProjectState {
+//   public ActionsSet?: { [id: string]: DevOpsAction };
 
-  public Description?: string;
+//   public Applications?: ApplicationState[];
 
-  public Host?: string;
+//   public Description?: string;
 
-  public ID?: string;
+//   public Host?: string;
 
-  public Image?: string;
+//   public ID?: string;
 
-  public LCUs?: GitHubLowCodeUnit[];
+//   public Image?: string;
 
-  public Name?: string;
+//   public LCUs?: GitHubLowCodeUnit[];
 
-  public PreventInheritedApplications?: boolean;
+//   public Name?: string;
 
-  public Runs?: GitHubWorkflowRun[];
-}
+//   public PreventInheritedApplications?: boolean;
+
+//   public Runs?: GitHubWorkflowRun[];
+// }
+
+// export class ApplicationState {
+//   public IsPrivate?: boolean;
+
+//   public Name?: string;
+
+//   public Organization?: string;
+
+//   public PathRegex?: string;
+
+//   public Priority?: number;
+
+//   public Repository?: string;
+
+//   public Version?: string;
+// }
 
 export class GitHubSetupState {
   public BranchOptions?: GitHubBranch[];
@@ -60,17 +84,17 @@ export class GitHubBranch {
   public Name?: string;
 }
 
-export class GitHubLowCodeUnit {
-  public Branch?: string;
+// export class GitHubLowCodeUnit {
+//   public Branch?: string;
 
-  public ID?: string;
+//   public ID?: string;
 
-  public Lookup?: string;
+//   public Lookup?: string;
 
-  public Organization?: string;
+//   public Organization?: string;
 
-  public Repository?: string;
-}
+//   public Repository?: string;
+// }
 
 export class GitHubOrganization {
   public Name?: string;
@@ -100,19 +124,27 @@ export class GitHubWorkflowRun {
   public UpdatedAt?: string;
 }
 
-export class DevOpsAction {
-  public Details?: string;
+export class UnpackLowCodeUnitRequest {
+  public ApplicationLookup?: string;
 
-  public ID?: string;
+  public ApplicationName?: string;
 
-  public Name?: string;
-
-  public Overwrite?: boolean;
-
-  public Path?: string;
-
-  public Template?: string;
+  public Version?: string;
 }
+
+// export class DevOpsAction {
+//   public Details?: string;
+
+//   public ID?: string;
+
+//   public Name?: string;
+
+//   public Overwrite?: boolean;
+
+//   public Path?: string;
+
+//   public Template?: string;
+// }
 
 export class ProjectHostingDetails {
   public HostingOptions?: ProjectHostingOption[];
@@ -121,23 +153,47 @@ export class ProjectHostingDetails {
 }
 
 export class ProjectHostingOption {
+  public ArtifactType?: string;
+
+  public Description?: string;
+
+  public Image?: string;
+
+  public Inputs?: ProjectHostingOptionInput[];
+
   public Lookup?: string;
 
   public Name?: string;
+
+  public Path?: string;
+
+  public Templates?: string[];
 }
 
-export class EstablishProjectRequest {
-  public Branch?: string;
+export class ProjectHostingOptionInput {
+  public DefaultValue?: string;
 
-  public BuildScript?: string;
+  public Hint?: string;
 
-  public HostingOption?: string;
+  public Lookup?: string;
 
-  public Organization?: string;
+  public Placeholder?: string;
 
-  public OutputFolder?: string;
-
-  public ProjectName?: string;
-
-  public Repository?: string;
+  public Required?: boolean;
 }
+
+// export class EstablishProjectRequest {
+//   public Branch?: string;
+
+//   public BuildScript?: string;
+
+//   public HostingOption?: string;
+
+//   public Organization?: string;
+
+//   public OutputFolder?: string;
+
+//   public ProjectName?: string;
+
+//   public Repository?: string;
+// }

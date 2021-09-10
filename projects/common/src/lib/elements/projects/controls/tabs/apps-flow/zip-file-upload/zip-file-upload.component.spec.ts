@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProjectItemComponent } from './project-item.component';
+import { ZipFileUploadComponent } from './zip-file-upload.component';
 
-describe('ProjectItemComponent', () => {
-  let component: ProjectItemComponent;
-  let fixture: ComponentFixture<ProjectItemComponent>;
+describe('ZipFileUploadComponent', () => {
+  let component: ZipFileUploadComponent;
+  let fixture: ComponentFixture<ZipFileUploadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ProjectItemComponent ]
+      declarations: [ ZipFileUploadComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProjectItemComponent);
+    fixture = TestBed.createComponent(ZipFileUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

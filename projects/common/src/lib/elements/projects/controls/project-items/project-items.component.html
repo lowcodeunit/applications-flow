@@ -1,0 +1,90 @@
+<div
+  [fxLayout]="SelectedProjectLookup ? 'row' : 'row wrap'"
+  [fxLayout.lt-md]="SelectedProjectLookup ? 'row' : 'column'"
+>
+  <div class="no-projects" fxFlex="100%" *ngIf="ProjectLookups?.length <= 0">
+    <!-- <h1 class="spread mat-display-1">No projects configured</h1> -->
+
+    <h2 class="spread mat-headline">
+      Create your first project to get started
+    </h2>
+  </div>
+
+  <div
+    [fxFlex]="SelectedProjectLookup ? '350px' : '30%'"
+    fxFlex.lt-md="100%"
+    *ngFor="let projectLookup of ProjectLookups"
+  >
+    <mat-card
+      class="spread"
+      [class.selected-project]="projectLookup == SelectedProjectLookup"
+      *ngIf="Projects[projectLookup]; let project"
+    >
+      <mat-card-header>
+        <img mat-card-avatar="/assets/images/project-icon.png" />
+
+        <mat-card-title
+          class="mat-subheading-2"
+          [matTooltip]="project.Project.Description"
+        >
+          {{ project.Project.Name }}
+        </mat-card-title>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="spread">
+          <span class="mat-body-2">{{ project.Hosts[0] }}</span>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <div class="data-app-actions">
+          <div fxFlex></div>
+
+          <a
+            mat-icon-button
+            href="https://{{ project.Hosts[0] }}"
+            target="_blank"
+            title="Launch"
+          >
+            <mat-icon>launch</mat-icon>
+          </a>
+
+          <button
+            mat-icon-button
+            color="accent"
+            (click)="ProjectSettings(projectLookup)"
+          >
+            <mat-icon matTooltip="Edit Project Settings">settings</mat-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            color="warn"
+            (click)="DeleteProject(projectLookup, project.Project.Name)"
+          >
+            <mat-icon matTooltip="Delete {{ project.Project.Name }}">
+              delete_forever
+            </mat-icon>
+          </button>
+        </div>
+
+        <div class="data-app-fakes">
+          <div fxFlex></div>
+
+          <button mat-icon-button disabled>
+            <mat-icon>fiber_manual_record</mat-icon>
+          </button>
+
+          <button mat-icon-button disabled>
+            <mat-icon>fiber_manual_record</mat-icon>
+          </button>
+
+          <button mat-icon-button disabled>
+            <mat-icon>fiber_manual_record</mat-icon>
+          </button>
+        </div>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

@@ -38,7 +38,7 @@ export class FormsService {
      * Storage reference for intial form values
      */
     // public formsInitialValues: Array<FormModel>;
-    public previousFormValues: Array<FormValuesModel>;
+    protected previousFormValues: Array<FormValuesModel>;
 
     /**
      * 

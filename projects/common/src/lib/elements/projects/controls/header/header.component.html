@@ -1,32 +1,91 @@
-<div 
-  fxLayout="row" 
-  fxLayout.lt-md="column">
-  <!-- Projects -->
-  <div
-    id="projects"
-    fxLayout="column"
-    fxFlex.gt-xs="50"
-    class="projects padding-top-3"
-    [ngClass.lt-sm]="'margin-bottom-2'"
-    [ngClass.gt-xs]="'margin-right-2'"
-  >
-    <div
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      class="title margin-bottom-4"
-    >
-      <mat-icon class="margin-right-2">language</mat-icon>
-
-      <span>Projects</span>
-    </div>
-
-    <lcu-project-items [projects]="Projects"></lcu-project-items>
+<div
+  [fxLayout]="HasProjects ? 'row' : 'column'"
+  fxLayout.lt-md="column"
+  fxLayoutAlign="center center"
+>
+  <div fxFlex="100%" [class.has-selected]="SelectedProjectLookup">
+    <lcu-project-items
+      [projects]="Projects"
+      [selected-project-lookup]="SelectedProjectLookup"
+    ></lcu-project-items>
   </div>
 
-  <!-- <div class="divider-fill-vert" [fxHide.lt-md]="true"></div> -->
+  <div fxFlex="250px" fxFlex.lt-md="100%">
+    <div class="divider-fill-vert margin-y-4"></div>
 
-  <!-- Builds -->
-  <div
+    <div class="extras" [fxLayout]="HasProjects ? 'column' : 'row'">
+      <mat-card class="spread">
+        <mat-card-header>
+          <mat-card-title>Create New Project</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <form
+            [formGroup]="ProjectFormGroup"
+            (ngSubmit)="CreateProject()"
+            *ngIf="CreatingProject"
+          >
+            <div class="margin-2">
+              <mat-form-field class="mat-full-width">
+                <input
+                  matInput
+                  placeholder="Project Name"
+                  formControlName="name"
+                  required
+                />
+              </mat-form-field>
+
+              <div>
+                <button
+                  mat-fab
+                  type="submit"
+                  color="primary"
+                  [disabled]="!ProjectFormGroup.valid"
+                >
+                  <mat-icon>save</mat-icon>
+                </button>
+              </div>
+            </div>
+          </form>
+
+          <div *ngIf="!CreatingProject">
+            <button
+              mat-fab
+              color="accent"
+              (click)="EnableCreatingProject()"
+              class="margin-top-4 margin-bottom-2"
+            >
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- <mat-card class="spread">
+        <mat-card-header>
+          <mat-card-title>Documentation</mat-card-title>
+        </mat-card-header>
+  
+        <mat-card-content>
+          <a
+            mat-fab
+            color="accent"
+            href="/docs"
+            target="_blank"
+            class="margin-top-4 margin-bottom-2"
+          >
+            <mat-icon>description</mat-icon>
+        </a>
+        </mat-card-content>
+      </mat-card> -->
+    </div>
+  </div>
+</div>
+
+<!-- <div class="divider-fill-vert" [fxHide.lt-md]="true"></div> -->
+
+<!-- Builds -->
+<!-- <div
     id="builds"
     fxFlex.gt-xs="25"
     fxLayout="column"
@@ -44,17 +103,16 @@
     </div>
 
     <lcu-builds [projects]="Projects"> </lcu-builds>
-  </div>
+  </div> -->
 
-  <!-- <div class="divider-fill-vert" fxShow [fxHide.lt-md]="true"></div> -->
+<!-- <div class="divider-fill-vert" fxShow [fxHide.lt-md]="true"></div> -->
 
-  <!-- Recent Activities -->
-  <div
+<!-- Recent Activities -->
+<!-- <div
     id="recent"
     fxLayout="column"
     fxFlex.gt-xs="25"
     class="padding-top-3"
-    style="background-color: cadetblue;"
   >
     <div
       fxLayout="row"
@@ -65,5 +123,4 @@
 
       <span>Recent Activities</span>
     </div>
-  </div>
-</div>
+  </div> -->

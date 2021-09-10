@@ -1,0 +1,713 @@
+<div>
+  <form
+    [formGroup]="ApplicationFormGroup"
+    (ngSubmit)="SaveApplication()"
+    *ngIf="EditingApplication"
+  >
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="center start"
+      fxLayout.lt-md="column"
+    >
+      <div class="form-card" fxFlex="70%" fxFlex.lt-md="100%">
+        <mat-card class="spread">
+          <mat-card-header>
+            <mat-card-title>
+              <ng-container *ngIf="EditingApplication?.Application">
+                Edit Application:
+                {{ EditingApplication.Application?.Name }}
+              </ng-container>
+
+              <ng-container *ngIf="!EditingApplication?.Application">
+                Create an Application
+              </ng-container>
+            </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                required
+              />
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width">
+              <textarea
+                matInput
+                placeholder="Description"
+                formControlName="description"
+                rows="3"
+                required
+              ></textarea>
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                placeholder="Route"
+                formControlName="route"
+                required
+              />
+            </mat-form-field>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="form-card" fxFlex="35%">
+        <mat-card class="spread">
+          <mat-card-header>
+            <mat-card-title> Processor Details </mat-card-title>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field class="mat-full-width">
+              <mat-select
+                placeholder="Type"
+                formControlName="procType"
+                (selectionChange)="ProcessorTypeChanged($event)"
+                required
+              >
+                <mat-option value="DFS">View Package</mat-option>
+
+                <mat-option value="Redirect">Redirect</mat-option>
+
+                <mat-option value="Proxy">Proxy</mat-option>
+
+                <mat-option value="OAuth">OAuth</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div [ngSwitch]="ProcessorType">
+              <div *ngSwitchCase="'DFS'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Default File"
+                    formControlName="defaultFile"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <mat-select
+                    placeholder="Type"
+                    formControlName="lcuType"
+                    (selectionChange)="LCUTypeChanged($event)"
+                    required
+                  >
+                    <mat-option value="NPM">NPM</mat-option>
+
+                    <mat-option value="GitHub">GitHub</mat-option>
+
+                    <!-- <mat-option value="Zip">Zip</mat-option> -->
+                  </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                  <div *ngSwitchCase="'GitHub'">
+                    <lcu-source-control-form-controls
+                      *ngIf="!HasBuildFormControl?.value"
+                      [form-group]="ApplicationFormGroup"
+                      [source-control]="DefaultSourceControl"
+                      [use-branches]="false"
+                    ></lcu-source-control-form-controls>
+
+                    <div *ngIf="HasBuildFormControl?.value">
+                      <h3>
+                        @{{
+                          SourceControlFormControls?.OrganizationFormControl
+                            ?.value || SourceControl?.Organization
+                        }}/{{
+                          SourceControlFormControls?.RepositoryFormControl
+                            ?.value || SourceControl?.Repository
+                        }}
+                      </h3>
+
+                      <p>
+                        Organization and Repository pulled from build settings
+                      </p>
+
+                      <mat-hint>
+                        CurrentBuild: {{ EditingApplication?.Processor?.LowCodeUnit?.CurrentBuild }}
+                      </mat-hint>
+                    </div>
+
+                    <mat-form-field
+                      class="mat-full-width"
+                      *ngIf="
+                        SourceControlFormControls?.RepositoryFormControl?.valid
+                      "
+                    >
+                      <input
+                        matInput
+                        placeholder="Build"
+                        formControlName="build"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngSwitchCase="'NPM'">
+                    <lcu-npm-package-select
+                      [npm-package]="
+                        EditingApplication?.Processor?.LowCodeUnit?.Package
+                      "
+                      [npm-package-version]="
+                        EditingApplication?.Processor?.LowCodeUnit?.Version
+                      "
+                      [form-group]="ApplicationFormGroup"
+                    ></lcu-npm-package-select>
+
+                    <mat-hint>
+                      CurrentVersion: {{ EditingApplication?.Processor?.LowCodeUnit?.CurrentVersion }}
+                    </mat-hint>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'OAuth'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Scopes (space separated)"
+                    formControlName="scopes"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Token Lookup"
+                    formControlName="tokenLookup"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <mat-select
+                    placeholder="Type"
+                    formControlName="lcuType"
+                    (selectionChange)="LCUTypeChanged($event)"
+                    required
+                  >
+                    <mat-option value="GitHubOAuth">GitHub</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                  <div *ngSwitchCase="'GitHubOAuth'">
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Client ID"
+                        formControlName="clientId"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Client Secret"
+                        formControlName="clientSecret"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'Proxy'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Inbound Path"
+                    formControlName="inboundPath"
+                    required
+                  />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                  <mat-select
+                    placeholder="Type"
+                    formControlName="lcuType"
+                    (selectionChange)="LCUTypeChanged($event)"
+                    required
+                  >
+                    <mat-option value="API">API</mat-option>
+
+                    <mat-option value="SPA">Single Page Application</mat-option>
+                  </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                  <div *ngSwitchCase="'API'">
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="API Root"
+                        formControlName="apiRoot"
+                        required
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Allowed Methods (separate with spaces)"
+                        formControlName="methods"
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="Security ({header}~{value})"
+                        formControlName="security"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div *ngSwitchCase="'SPA'">
+                    <mat-form-field class="mat-full-width">
+                      <input
+                        matInput
+                        placeholder="SPA Root"
+                        formControlName="spaRoot"
+                        required
+                      />
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+
+              <div *ngSwitchCase="'Redirect'">
+                <mat-form-field class="mat-full-width">
+                  <input
+                    matInput
+                    placeholder="Redirect URL"
+                    formControlName="redirect"
+                    required
+                  />
+                </mat-form-field>
+
+                <div>
+                  <mat-slide-toggle class="spread" formControlName="permanent">
+                    Is Permanent?
+                  </mat-slide-toggle>
+
+                  <mat-slide-toggle
+                    class="spread"
+                    formControlName="preserveMethod"
+                  >
+                    Preserve Method?
+                  </mat-slide-toggle>
+
+                  <mat-icon
+                    class="spread"
+                    matSuffix
+                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                  >
+                    info_outline
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card class="spread">
+          <mat-card-header>
+            <mat-card-title> Security Settings </mat-card-title>
+
+            <div fxFlex></div>
+
+            <mat-slide-toggle
+              formControlName="isPrivate"
+              matTooltip="Is Secure Application?"
+            >
+            </mat-slide-toggle>
+
+            <mat-icon
+              matSuffix
+              matTooltip="A Secured Application is one that requires the user to be authenticated to use the application. The application is hosted behind an identity wall."
+            >
+              info_outline
+            </mat-icon>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div>
+              <div *ngIf="IsPrivateFormControl.value">
+                <div>
+                  <mat-slide-toggle formControlName="isTriggerSignIn">
+                    Is Trigger Sign In Application?
+                  </mat-slide-toggle>
+
+                  <mat-icon
+                    matSuffix
+                    matTooltip="A Trigger Sign In Application will direct the user to sign in if they are not already."
+                  >
+                    info_outline
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="form-card" fxFlex="35%" *ngIf="ProcessorType != 'redirect'">
+        <mat-card class="spread">
+          <mat-card-header>
+            <mat-card-title *ngIf="!HasBuildFormControl.value">
+              Build & Source
+            </mat-card-title>
+
+            <mat-card-title *ngIf="HasBuildFormControl.value">
+              Source Control
+            </mat-card-title>
+
+            <div fxFlex></div>
+
+            <mat-slide-toggle
+              formControlName="hasBuild"
+              matTooltip="Has Build?"
+            >
+            </mat-slide-toggle>
+
+            <mat-icon
+              matSuffix
+              matTooltip="Configure source control, DevOps CI/CD, and artifacts."
+            >
+              info_outline
+            </mat-icon>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field
+              class="mat-full-width"
+              *ngIf="HasBuildFormControl.value"
+            >
+              <mat-select
+                formControlName="sourceControlLookup"
+                placeholder="Source Control"
+                (selectionChange)="SourceControlLookupChanged($event)"
+                [disabled]="
+                  SourceControlFormControls?.Loading || HostingDetails?.Loading
+                "
+              >
+                <ng-container
+                  *ngFor="let srcCtrlLookup of SourceControlLookups"
+                >
+                  <mat-option
+                    [value]="srcCtrlLookup"
+                    *ngIf="SourceControls[srcCtrlLookup]; let srcCtrl"
+                  >
+                    {{ srcCtrl.Name }}
+                  </mat-option>
+                </ng-container>
+
+                <mat-option value="">-- Create New --</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <lcu-source-control-form-controls
+              [branches-disabled]="HostingDetails?.Loading"
+              [form-group]="ApplicationFormGroup"
+              [org-disabled]="
+                SourceControlLookupFormControl.value != '' ||
+                HostingDetails?.Loading
+              "
+              [repo-disabled]="
+                SourceControlLookupFormControl.value != '' ||
+                HostingDetails?.Loading
+              "
+              [source-control]="SourceControl"
+              (branches-changed)="BranchesChanged($event)"
+              *ngIf="HasBuildFormControl.value"
+            ></lcu-source-control-form-controls>
+          </mat-card-content>
+        </mat-card>
+
+        <mat-card
+          class="spread"
+          *ngIf="
+            HasBuildFormControl.value &&
+            (SourceControlFormControls?.SelectedBranches?.length > 0 ||
+              SourceControl?.Branches?.length > 0)
+          "
+        >
+          <mat-card-header>
+            <mat-card-title> Build Pipeline </mat-card-title>
+
+            <mat-hint>
+              Changes made here are reflected for all sources using this
+              DevOpsAction
+            </mat-hint>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field class="mat-full-width">
+              <mat-select
+                formControlName="devOpsActionLookup"
+                placeholder="DevOps Action"
+                [disabled]="
+                  SourceControlLookupFormControl?.value ||
+                  SourceControlFormControls?.Loading ||
+                  HostingDetails?.Loading
+                "
+              >
+                <ng-container
+                  *ngFor="let devOpsActionLookup of DevOpsActionLookups"
+                >
+                  <mat-option
+                    [value]="devOpsActionLookup"
+                    *ngIf="DevOpsActions[devOpsActionLookup]; let devOpsAction"
+                  >
+                    {{ devOpsAction.Name }}
+                  </mat-option>
+                </ng-container>
+
+                <mat-option value="">-- Create New --</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <lcu-hosting-details-form-group
+              [artifact]="Artifact"
+              [details]="HostingDetails"
+              [formGroup]="ApplicationFormGroup"
+              [organization]="
+                SourceControlFormControls?.OrganizationFormControl?.value
+              "
+              [disabled]="
+                !!DevOpsActionLookupFormControl?.value ||
+                SourceControlFormControls?.Loading ||
+                HostingDetails?.Loading
+              "
+            ></lcu-hosting-details-form-group>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="spread">
+      <div fxFlex></div>
+
+      <button mat-button type="button" (click)="SetEditingApplication(null)">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+
+      <div fxFlex></div>
+
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!ApplicationFormGroup.valid || !ApplicationFormGroup.dirty"
+      >
+        <mat-icon>save</mat-icon> Save Application
+      </button>
+
+      <div fxFlex></div>
+    </div>
+  </form>
+
+  <div class="spread" *ngIf="!EditingApplication">
+    <span class="apps-actions">
+      <button mat-raised-button color="accent" (click)="CreateNewApplication()">
+        <mat-icon color="primary">add</mat-icon> Create New
+      </button>
+    </span>
+
+    <div class="spread" *ngIf="!CurrentApplicationRoute">
+      <div *ngIf="ApplicationRoutes?.length <= 0">
+        <h2>No applications created, create your first application.</h2>
+      </div>
+
+      <div *ngIf="ApplicationRoutes?.length > 0">
+        <h2>Project Routes</h2>
+
+        <div
+          fxLayout="row wrap"
+          fxLayout.lt-md="column"
+          *ngIf="ApplicationRoutes"
+        >
+          <div
+            fxFlex="30%"
+            fxFlex.lt-md="100%"
+            *ngFor="let appRoute of ApplicationRoutes"
+          >
+            <mat-card class="spread">
+              <mat-card-header>
+                <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
+
+                <mat-card-title
+                  class="mat-subheading-2"
+                  [matTooltip]="appRoute"
+                >
+                  {{ appRoute }}
+                </mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="spread"></div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <div class="data-app-actions">
+                  <div fxFlex></div>
+
+                  <a
+                    mat-icon-button
+                    href="https://{{ Project.Hosts[0] }}{{ appRoute }}"
+                    target="_blank"
+                    title="Launch"
+                  >
+                    <mat-icon>launch</mat-icon>
+                  </a>
+
+                  <button
+                    mat-icon-button
+                    color="accent"
+                    (click)="CurrentApplicationRoute = appRoute"
+                  >
+                    <mat-icon matTooltip="Edit Application Route">
+                      settings
+                    </mat-icon>
+                  </button>
+                </div>
+
+                <div class="data-app-fakes">
+                  <div fxFlex></div>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="CurrentApplicationRoute">
+      <h2>
+        <button
+          mat-icon-button
+          matTooltip="Back to Routes"
+          (click)="CurrentApplicationRoute = null"
+        >
+          <mat-icon>arrow_back</mat-icon>
+        </button>
+
+        {{ CurrentApplicationRoute }} Routes
+      </h2>
+
+      <div fxLayout="row wrap" fxLayout.lt-md="column">
+        <ng-container *ngFor="let appLookup of CurrentRouteApplicationLookups">
+          <div
+            fxFlex="30%"
+            fxFlex.lt-md="100%"
+            *ngIf="
+              RoutedApplications[CurrentApplicationRoute][appLookup];
+              let app
+            "
+          >
+            <mat-card class="spread">
+              <mat-card-header>
+                <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
+
+                <mat-card-title
+                  class="mat-subheading-2"
+                  [matTooltip]="app.Application.Description"
+                >
+                  {{ app.Application.Name }}
+                </mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="spread"></div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <div class="data-app-actions">
+                  <div fxFlex></div>
+
+                  <a
+                    mat-icon-button
+                    href="https://{{ Project.Hosts[0] }}{{
+                      app.LookupConfig.PathRegex.replace('.*', '')
+                    }}"
+                    target="_blank"
+                    title="Launch"
+                  >
+                    <mat-icon>launch</mat-icon>
+                  </a>
+
+                  <a
+                    mat-icon-button
+                    (click)="Unpack(appLookup, app.Application.Name)"
+                    target="_blank"
+                    matTooltip="Unpack Latest"
+                    title="Unpack Latest"
+                  >
+                    <mat-icon>cloud_upload</mat-icon>
+                  </a>
+
+                  <button
+                    mat-icon-button
+                    color="accent"
+                    (click)="SetEditingApplication(appLookup)"
+                  >
+                    <mat-icon matTooltip="Edit Application"> edit </mat-icon>
+                  </button>
+
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="DeleteApplication(appLookup, app.Application.Name)"
+                  >
+                    <mat-icon matTooltip="Delete {{ app.Application.Name }}">
+                      delete_forever
+                    </mat-icon>
+                  </button>
+                </div>
+
+                <div class="data-app-fakes">
+                  <div fxFlex></div>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
