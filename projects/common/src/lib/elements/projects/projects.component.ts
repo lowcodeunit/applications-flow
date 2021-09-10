@@ -28,6 +28,7 @@ import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
   EaCProjectAsCode,
+  EnterpriseAsCode,
 } from '../../models/eac.models';
 
 declare var window: Window;
@@ -185,13 +186,21 @@ export class ApplicationsFlowProjectsElementComponent
     projectLookup: string,
     project: EaCProjectAsCode
   ): Promise<void> {
-    if (!this.State.EaC.Projects) {
-      this.State.EaC.Projects = {};
-    }
+    // if (!this.State.EaC.Projects) {
+    //   this.State.EaC.Projects = {};
+    // }
 
-    this.State.EaC.Projects[projectLookup] = project;
+    // this.State.EaC.Projects[projectLookup] = project;
 
-    await this.projectService.SaveEnterpriseAsCode(this.State, this.State.EaC);
+    // await this.projectService.SaveEnterpriseAsCode(this.State, this.State.EaC);
+
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+    };
+
+    saveEaC[projectLookup] = project;
+
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
 
     this.appsFlowEventsSvc.SetEditProjectSettings(projectLookup);
   }

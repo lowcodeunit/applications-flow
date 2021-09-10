@@ -9,6 +9,7 @@
     &.selected-project {
       border: #4a918e solid 3px;
     }
+
     .mat-card-actions {
       .data-app-actions {
         display: none !important;
@@ -24,6 +25,18 @@
     }
 
     &:hover {
+      .mat-card-actions {
+        .data-app-actions {
+          display: flex !important;
+        }
+
+        .data-app-fakes {
+          display: none !important;
+        }
+      }
+    }
+
+    &.selected-project {
       .mat-card-actions {
         .data-app-actions {
           display: flex !important;
