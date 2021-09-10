@@ -1,10 +1,7 @@
 import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
 import { ProjectService } from './../../../../services/project.service';
 import {
-  ApplicationsFlowState,
-  GitHubLowCodeUnit,
   GitHubWorkflowRun,
-  ProjectState,
 } from './../../../../state/applications-flow.state';
 import {
   Component,
@@ -16,6 +13,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
+import { EaCLowCodeUnit, EaCProjectAsCode } from '../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-builds',
@@ -26,18 +24,8 @@ export class BuildsComponent implements OnInit, OnDestroy {
   //  Fields
 
   //  Properties
-  /**
-   * List of projects
-   */
-  private _projects: Array<ProjectState>;
   @Input('projects')
-  public set Projects(val: Array<ProjectState>) {
-    this._projects = val;
-  }
-
-  public get Projects(): Array<ProjectState> {
-    return this._projects;
-  }
+  public Projects: Array<EaCProjectAsCode>;
 
   constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
@@ -47,14 +35,14 @@ export class BuildsComponent implements OnInit, OnDestroy {
   }
 
   public DeployRun(lastrun: GitHubWorkflowRun): void {
-    this.appsFlowEventsSvc.DeployRun(lastrun);
+    // this.appsFlowEventsSvc.DeployRun(lastrun);
   }
 
   public RetrieveLCU(val: {
-    project: ProjectState;
+    project: EaCProjectAsCode;
     lcuID: string;
-  }): GitHubLowCodeUnit {
+  }): EaCLowCodeUnit {
     // this.RetrieveLCUEmitter.emit(lcu);
-    return val.project.LCUs.find((lcu) => lcu.ID === val.lcuID);
+    return {};//val.project.LCUs.find((lcu) => lcu.ID === val.lcuID);
   }
 }

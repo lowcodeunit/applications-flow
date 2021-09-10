@@ -162,3 +162,18 @@ body {
   // }
 }
 
+@media (max-width: 768px) {
+  .spread {
+    margin: 1em !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .spread {
+    margin: .5em !important;
+  }
+}
+
+.spinner-logo {
+  display: none !important;
+}

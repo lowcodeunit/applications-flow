@@ -2,7 +2,13 @@ import { DomainsComponent } from './../tabs/domains/domains.component';
 import { DynamicTabsModel } from './../../../../models/dynamic-tabs.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { GeneralComponent } from '../tabs/general/general.component';
-import { ProjectState } from '../../../../state/applications-flow.state';
+import {
+  EaCApplicationAsCode,
+  EaCEnvironmentAsCode,
+  EaCProjectAsCode,
+} from '../../../../models/eac.models';
+import { AppsFlowComponent } from '../tabs/apps-flow/apps-flow.component';
+import { EaCSourceControl } from '../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-project-tabs',
@@ -13,11 +19,24 @@ export class ProjectTabsComponent implements OnInit {
   //  Fields
 
   //  Properties
-  @Input('host-dns-instance')
-  public HostDNSInstance: string;
+  public get ApplicationLookups(): Array<string> {
+    return Object.keys(this.Applications || {});
+  }
+
+  @Input('applications')
+  public Applications: { [lookup: string]: EaCApplicationAsCode };
 
   @Input('project')
-  public Project: ProjectState;
+  public Project: EaCProjectAsCode;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
+
+  @Input('environment')
+  public Environment: EaCEnvironmentAsCode;
+
+  @Input('environment-lookup')
+  public EnvironmentLookup: string;
 
   public TabComponents: Array<DynamicTabsModel>;
 
@@ -30,16 +49,31 @@ export class ProjectTabsComponent implements OnInit {
   protected tabsComponents(): void {
     this.TabComponents = [
       new DynamicTabsModel({
+        Component: AppsFlowComponent,
+        Data: {
+          Project: this.Project,
+          ProjectLookup: this.ProjectLookup,
+          Applications: this.Applications,
+          Environment: this.Environment,
+          EnvironmentLookup: this.EnvironmentLookup
+        },
+        Label: 'Application Flow',
+        Icon: 'account_tree',
+      }),
+      new DynamicTabsModel({
         Component: GeneralComponent,
-        Data: { Project: this.Project },
+        Data: { Project: this.Project, ProjectLookup: this.ProjectLookup },
         Label: 'General',
-        Icon: 'pages'
+        Icon: 'pages',
       }),
       new DynamicTabsModel({
         Component: DomainsComponent,
-        Data: { Project: this.Project, HostDNSInstance: this.HostDNSInstance },
+        Data: {
+          Project: this.Project,
+          ProjectLookup: this.ProjectLookup,
+        },
         Label: 'Domains',
-        Icon: 'domain'
+        Icon: 'domain',
       }),
     ];
   }

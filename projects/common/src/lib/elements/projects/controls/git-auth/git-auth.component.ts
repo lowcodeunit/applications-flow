@@ -6,18 +6,19 @@ import { BaseResponse } from '@lcu/common';
 @Component({
   selector: 'lcu-git-auth',
   templateUrl: './git-auth.component.html',
-  styleUrls: ['./git-auth.component.scss']
+  styleUrls: ['./git-auth.component.scss'],
 })
 export class GitAuthComponent implements OnInit, AfterViewInit {
-  constructor() {
-   }
+  //  Properties
+  public ConnectClicked: boolean;
+
+  //  Constructors
+  constructor() {}
 
   //  Life Cycle
-  public ngAfterViewInit(): void {
-  }
+  public ngAfterViewInit(): void {}
 
-  public ngOnInit(): void {
-  }
+  public ngOnInit(): void {}
 
   /**
    * Connect Github Provider
@@ -26,10 +27,11 @@ export class GitAuthComponent implements OnInit, AfterViewInit {
     const reidrectUri = location.pathname + location.search;
 
     window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
+
+    this.ConnectClicked = true;
   }
 
   /**
    * Listen for State changes
    */
-
 }

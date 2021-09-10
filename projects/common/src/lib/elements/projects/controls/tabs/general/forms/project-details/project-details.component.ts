@@ -9,10 +9,8 @@ import {
 } from '@angular/forms';
 import { FormsService } from '../../../../../../../services/forms.service';
 import { CardFormConfigModel } from '../../../../../../../models/card-form-config.model';
-import {
-  ProjectState
-} from '../../../../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
+import { EaCProjectAsCode } from '../../../../../../../models/eac.models';
 
 @Component({
   selector: 'lcu-project-details',
@@ -58,14 +56,17 @@ export class ProjectNameComponent implements OnInit {
    * Input value for state
    */
   @Input('project')
-  public Project: ProjectState;
+  public Project: EaCProjectAsCode;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService) { }
+    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+  ) {}
 
   public ngOnInit(): void {
-
     this.formName = 'ProjectNameForm';
 
     this.setupForm();
@@ -107,19 +108,18 @@ export class ProjectNameComponent implements OnInit {
    * Setup form controls
    */
   protected setupForm(): void {
-
     this.Form = new FormGroup({
-      name: new FormControl(this.Project?.Name || '', {
+      name: new FormControl(this.Project?.Project?.Name || '', {
         validators: [Validators.required, Validators.minLength(1)],
         updateOn: 'change',
       }),
-      description: new FormControl(this.Project?.Description || '', {
+      description: new FormControl(this.Project?.Project?.Description || '', {
         validators: [Validators.required, Validators.minLength(1)],
         updateOn: 'change',
       }),
     });
 
-    this.formsService.Form = {Id: this.formName, Form: this.Form};
+    this.formsService.Form = { Id: this.formName, Form: this.Form };
 
     this.onChange();
   }
@@ -128,13 +128,22 @@ export class ProjectNameComponent implements OnInit {
    * Save form
    */
   protected save(): void {
-    this.appsFlowEventsSvc.SaveProject({
-      ...this.Project,
-      Description: this.Description.value,
-      Name: this.Name.value
+    this.appsFlowEventsSvc.SaveProjectAsCode({
+      ProjectLookup: this.ProjectLookup,
+      Project: {
+        ...this.Project,
+        Project: {
+          ...(this.Project || {}),
+          Description: this.Description.value,
+          Name: this.Name.value,
+        },
+      },
     });
 
-    this.formsService.UpdateValuesReference({ Id: this.formName, Form: this.Form });
+    this.formsService.UpdateValuesReference({
+      Id: this.formName,
+      Form: this.Form,
+    });
   }
 
   /**
@@ -152,13 +161,11 @@ export class ProjectNameComponent implements OnInit {
    */
   protected onChange(): void {
     this.Form.valueChanges.subscribe((val: object) => {
-
       if (this.formsService.ForRealThough(this.formName, this.Form)) {
         this.IsDirty = true;
         // disable all forms except the current form being edited
         this.formsService.DisableForms(this.formName);
       } else {
-
         this.IsDirty = false;
         // enable all forms
         this.formsService.DisableForms(false);

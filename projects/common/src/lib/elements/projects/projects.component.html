@@ -2,7 +2,23 @@
   [context]="{ Title: 'Projects', Icon: 'language' }"
 >
   <nav>
+    <mat-form-field
+      class="mat-full-width"
+      *ngIf="State.Enterprises?.length > 1"
+    >
+      <mat-select
+        placeholder="Active Enterprise ({{ State.ActiveEnterpriseLookup }})"
+        [value]="State.ActiveEnterpriseLookup"
+        (selectionChange)="ActiveEnterpriseChanged($event)"
+      >
+        <mat-option [value]="ent.Lookup" *ngFor="let ent of State.Enterprises">
+          {{ ent.Name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <a
+      mat-icon-button
       href="/docs/getting-started/projects"
       target="_blank"
       lcuEvent="click"
@@ -19,42 +35,35 @@
       fxLayoutAlign="center center"
       class="margin-bottom-4"
     >
-      <h2 class="mat-display-2 margin-y-2">
-        <span *ngIf="State.Projects?.length <= 0">
-          Thank you for signing up
-        </span>
+      <h2 class="mat-display-2 margin-y-2" *ngIf="ProjectLookups?.length <= 0">
+        <span> Thank you for signing up </span>
       </h2>
     </div>
 
     <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth>
 
     <ng-container *ngIf="State.GitHub.HasConnection">
-      <div *ngIf="CreatingProject">
+      <!-- <div *ngIf="!CreatingProject">
+        Creating
         <lcu-create-project-wizard></lcu-create-project-wizard>
-      </div>
+      </div> -->
 
-      <ng-container *ngIf="!CreatingProject">
+      <ng-container>
         <ng-container *ngIf="State">
           <lcu-projects-header
-            [projects]="State.Projects"
+            [projects]="State.EaC?.Projects"
+            [creating-project]="CreatingProject"
+            [selected-project-lookup]="EditingProjectLookup"
           ></lcu-projects-header>
-
-          <span fxLayoutAlign="end center" class="card-actions">
-            <button
-              mat-raised-button
-              color="accent"
-              (click)="ToggleCreateProject()"
-              class="margin-top-4 margin-bottom-2"
-            >
-              Create Project
-            </button>
-          </span>
 
           <div *ngIf="EditingProject">
             <div class="divider margin-bottom-3"></div>
             <lcu-project-tabs
+              [applications]="State.EaC?.Applications"
               [project]="EditingProject"
-              [host-dns-instance]="State.HostDNSInstance"
+              [project-lookup]="EditingProjectLookup"
+              [environment]="ActiveEnvironment"
+              [environment-lookup]="ActiveEnvironmentLookup"
               class="margin-top-3"
             >
             </lcu-project-tabs>
