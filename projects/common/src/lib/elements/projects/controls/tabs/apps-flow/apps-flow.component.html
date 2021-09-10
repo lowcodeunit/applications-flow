@@ -659,8 +659,7 @@
                     mat-icon-button
                     (click)="Unpack(appLookup, app.Application.Name)"
                     target="_blank"
-                    matTooltip="Unpack Latest"
-                    title="Unpack Latest"
+                    matTooltip="Unpack {{ app.Processor?.LowCodeUnit?.Version || app.Processor?.LowCodeUnit?.Build }}"
                   >
                     <mat-icon>cloud_upload</mat-icon>
                   </a>
