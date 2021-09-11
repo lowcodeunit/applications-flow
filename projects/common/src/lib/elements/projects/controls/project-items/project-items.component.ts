@@ -13,7 +13,7 @@ export class ProjectItemsComponent implements OnInit {
 
   //  Properties
   public get ProjectLookups(): Array<string> {
-    return Object.keys(this.Projects || {});
+    return Object.keys(this.Projects || {}).sort((a, b) => a.localeCompare(b));
   }
 
   /**

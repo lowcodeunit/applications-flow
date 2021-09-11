@@ -254,7 +254,7 @@ export class AppsFlowComponent implements OnInit {
       }
     });
 
-    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+    routeBases = routeBases.sort((a, b) => a.localeCompare(b));
 
     let workingAppLookups = [...(appLookups || [])];
 
@@ -612,7 +612,7 @@ export class AppsFlowComponent implements OnInit {
           app.Processor.LowCodeUnit.SourceControlLookup
         ] = source;
       }
-    } else {
+    } else if (app.Processor.LowCodeUnit) {
       app.Processor.LowCodeUnit.SourceControlLookup = null;
     }
 
