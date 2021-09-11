@@ -475,9 +475,9 @@ export class AppsFlowComponent implements OnInit {
         break;
 
       case 'Redirect':
-        processor.Permanent = this.PermanentFormControl.value;
+        processor.Permanent = !!this.PermanentFormControl.value;
 
-        processor.PreserveMethod = this.PreserveMethodFormControl.value;
+        processor.PreserveMethod = !!this.PreserveMethodFormControl.value;
 
         processor.Redirect = this.RedirectFormControl.value;
         break;
