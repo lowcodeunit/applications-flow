@@ -15,4 +15,8 @@
   .divider {
     @include divider(horizontal, 1px);
   }
+
+  .spinner-logo {
+    display: none !important;
+  }
 }
