@@ -303,7 +303,7 @@ export class AppsFlowComponent implements OnInit {
 
     routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
 
-    return routeSet;
+    return routeSetResult;
   }
 
   public get RouteFormControl(): AbstractControl {
