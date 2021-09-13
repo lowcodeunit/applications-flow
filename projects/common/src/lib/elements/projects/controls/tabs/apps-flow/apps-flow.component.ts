@@ -135,8 +135,17 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public get DevOpsActionLookup(): string {
+    if (!!this.DevOpsActionLookupFormControl?.value) {
+      return this.DevOpsActionLookupFormControl.value;
+    }
+
+    if (!!this.SourceControl?.DevOpsActionTriggerLookups) {
+      return this.SourceControl?.DevOpsActionTriggerLookups[0];
+    } else {
+      return null;
+    }
     return this.DevOpsActionLookupFormControl?.value ||
-      this.SourceControl?.DevOpsActionTriggerLookups
+      !!this.SourceControl?.DevOpsActionTriggerLookups
       ? this.SourceControl?.DevOpsActionTriggerLookups[0]
       : null;
   }
@@ -378,6 +387,10 @@ export class AppsFlowComponent implements OnInit {
     if (confirm(`Are you sure you want to delete application '${appName}'?`)) {
       this.appsFlowEventsSvc.DeleteApplication(appLookup);
     }
+  }
+
+  public DevOpsActionLookupChanged(event: MatSelectChange): void {
+    this.configureDevOpsAction();
   }
 
   public LCUTypeChanged(event: MatSelectChange): void {
@@ -677,6 +690,24 @@ export class AppsFlowComponent implements OnInit {
     this.cleanupLcuTypeSubForm();
   }
 
+  protected configureDevOpsAction(): void {
+    setTimeout(() => {
+      this.DevOpsActionLookupFormControl.setValue(this.DevOpsActionLookup);
+
+      setTimeout(() => {
+        const hostOption = this.HostingDetails?.HostingOptions?.find(
+          (ho) => ho.Path === this.DevOpsAction.Path
+        );
+
+        this.HostingDetailsFormControls?.BuildPipelineFormControl.setValue(
+          hostOption?.Lookup
+        );
+
+        this.HostingDetailsFormControls?.BuildPipelineChanged();
+      }, 0);
+    }, 0);
+  }
+
   protected loadProjectHostingDetails(): void {
     if (this.SourceControlFormControls?.SelectedBranches?.length > 0) {
       this.HostingDetails.Loading = true;
@@ -693,21 +724,7 @@ export class AppsFlowComponent implements OnInit {
 
             this.HostingDetails.Loading = false;
 
-            this.DevOpsActionLookupFormControl.setValue(
-              this.DevOpsActionLookup
-            );
-
-            setTimeout(() => {
-              const hostOption = this.HostingDetails?.HostingOptions?.find(
-                (ho) => ho.Path === this.DevOpsAction.Path
-              );
-
-              this.HostingDetailsFormControls?.BuildPipelineFormControl.setValue(
-                hostOption?.Lookup
-              );
-
-              this.HostingDetailsFormControls?.BuildPipelineChanged();
-            }, 0);
+            this.configureDevOpsAction();
           },
           (err) => {
             this.HostingDetails.Loading = false;
