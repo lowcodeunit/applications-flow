@@ -131,7 +131,11 @@
                       </p>
 
                       <mat-hint>
-                        CurrentBuild: {{ EditingApplication?.Processor?.LowCodeUnit?.CurrentBuild }}
+                        CurrentBuild:
+                        {{
+                          EditingApplication?.Processor?.LowCodeUnit
+                            ?.CurrentBuild
+                        }}
                       </mat-hint>
                     </div>
 
@@ -162,7 +166,11 @@
                     ></lcu-npm-package-select>
 
                     <mat-hint>
-                      CurrentVersion: {{ EditingApplication?.Processor?.LowCodeUnit?.CurrentVersion }}
+                      CurrentVersion:
+                      {{
+                        EditingApplication?.Processor?.LowCodeUnit
+                          ?.CurrentVersion
+                      }}
                     </mat-hint>
                   </div>
                 </div>
@@ -634,6 +642,20 @@
                 >
                   {{ app.Application.Name }}
                 </mat-card-title>
+
+                <mat-card-subtitle
+                  class="mat-subheading-1"
+                  [matTooltip]="
+                    app.Processor?.LowCodeUnit?.CurrentVersion ||
+                    app.Processor?.LowCodeUnit?.CurrentBuild
+                  "
+                >
+                  {{
+                    app.Processor?.LowCodeUnit?.CurrentVersion ||
+                      app.Processor?.LowCodeUnit?.CurrentBuild ||
+                      "No version deployed"
+                  }}
+                </mat-card-subtitle>
               </mat-card-header>
 
               <mat-card-content>
@@ -659,7 +681,10 @@
                     mat-icon-button
                     (click)="Unpack(appLookup, app.Application.Name)"
                     target="_blank"
-                    matTooltip="Unpack {{ app.Processor?.LowCodeUnit?.Version || app.Processor?.LowCodeUnit?.Build }}"
+                    matTooltip="Unpack {{
+                      app.Processor?.LowCodeUnit?.Version ||
+                        app.Processor?.LowCodeUnit?.Build
+                    }}"
                   >
                     <mat-icon>cloud_upload</mat-icon>
                   </a>
