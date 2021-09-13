@@ -10,7 +10,7 @@
       <ng-container
         *ngFor="let hostOption of Details?.HostingOptions; let i = index"
       >
-        <mat-option [value]="hostOption.Lookup">
+        <mat-option [value]="hostOption?.Lookup">
           {{ hostOption.Name }}
         </mat-option>
       </ng-container>
@@ -18,7 +18,7 @@
 
     <mat-hint>
       <ng-container *ngFor="let hostOption of Details?.HostingOptions">
-        <span *ngIf="BuildPipeline == hostOption.Lookup">
+        <span *ngIf="BuildPipeline == hostOption?.Lookup">
           {{ hostOption.Description }}
         </span>
       </ng-container>

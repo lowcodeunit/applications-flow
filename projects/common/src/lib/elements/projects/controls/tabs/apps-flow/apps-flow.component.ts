@@ -703,7 +703,7 @@ export class AppsFlowComponent implements OnInit {
               );
 
               this.HostingDetailsFormControls?.BuildPipelineFormControl.setValue(
-                hostOption.Lookup
+                hostOption?.Lookup
               );
 
               this.HostingDetailsFormControls?.BuildPipelineChanged();
