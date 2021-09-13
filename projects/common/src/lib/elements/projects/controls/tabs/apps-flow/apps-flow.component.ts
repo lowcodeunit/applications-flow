@@ -263,8 +263,6 @@ export class AppsFlowComponent implements OnInit {
       }
     });
 
-    routeBases = routeBases.sort((a, b) => a.localeCompare(b));
-
     let workingAppLookups = [...(appLookups || [])];
 
     const routeSet =
@@ -296,6 +294,14 @@ export class AppsFlowComponent implements OnInit {
 
         return routeMap;
       }, {}) || {};
+
+    let routeSetKeys = Object.keys(routeSet);
+
+    routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+    const routeSetResult = {};
+
+    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
 
     return routeSet;
   }
