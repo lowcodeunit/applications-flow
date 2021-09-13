@@ -470,6 +470,7 @@
                   SourceControlFormControls?.Loading ||
                   HostingDetails?.Loading
                 "
+                (selectionChange)="DevOpsActionLookupChanged($event)"
               >
                 <ng-container
                   *ngFor="let devOpsActionLookup of DevOpsActionLookups"
