@@ -69,6 +69,38 @@ export class ProjectService {
     });
   }
 
+  public DeleteDevOpsAction(
+    state: ApplicationsFlowState,
+    doaLookup: string
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.DeleteDevOpsAction(doaLookup).subscribe(
+        async (response: BaseResponse) => {
+          if (response.Status.Code === 0) {
+            const eac = await this.LoadEnterpriseAsCode(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
   public DeleteProject(
     state: ApplicationsFlowState,
     projectLookup: string
@@ -77,6 +109,38 @@ export class ProjectService {
       state.Loading = true;
 
       this.appsFlowSvc.DeleteProject(projectLookup).subscribe(
+        async (response: BaseResponse) => {
+          if (response.Status.Code === 0) {
+            const eac = await this.LoadEnterpriseAsCode(state);
+
+            resolve(eac);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
+  public DeleteSourceControl(
+    state: ApplicationsFlowState,
+    scLookup: string
+  ): Promise<EnterpriseAsCode> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.DeleteSourceControl(scLookup).subscribe(
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
             const eac = await this.LoadEnterpriseAsCode(state);

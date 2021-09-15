@@ -9,6 +9,7 @@ import {
 } from '../../../../models/eac.models';
 import { AppsFlowComponent } from '../tabs/apps-flow/apps-flow.component';
 import { EaCSourceControl } from '../../../../models/eac.models';
+import { DevOpsComponent } from '../tabs/devops/devops.component';
 
 @Component({
   selector: 'lcu-project-tabs',
@@ -54,11 +55,19 @@ export class ProjectTabsComponent implements OnInit {
           Project: this.Project,
           ProjectLookup: this.ProjectLookup,
           Applications: this.Applications,
-          Environment: this.Environment,
-          EnvironmentLookup: this.EnvironmentLookup
+          Environment: this.Environment
         },
         Label: 'Application Flow',
         Icon: 'account_tree',
+      }),
+      new DynamicTabsModel({
+        Component: DevOpsComponent,
+        Data: {
+          Environment: this.Environment,
+          EnvironmentLookup: this.EnvironmentLookup
+        },
+        Label: 'DevOps',
+        Icon: 'build',
       }),
       new DynamicTabsModel({
         Component: GeneralComponent,

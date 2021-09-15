@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
 import {
   ApplicationsFlowEventsService,
   SaveApplicationAsCodeEventRequest,
+  SaveEnvironmentAsCodeEventRequest,
 } from './../../services/applications-flow-events.service';
 import {
   EaCApplicationAsCode,
@@ -147,8 +148,6 @@ export class ApplicationsFlowProjectsElementComponent
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
       Applications: {},
-      DataTokens: {},
-      Environments: {},
       Projects: {},
     };
 
@@ -169,6 +168,18 @@ export class ApplicationsFlowProjectsElementComponent
     if (req.Application) {
       saveEaC.Applications[req.ApplicationLookup] = req.Application;
     }
+
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+  }
+
+  protected async handleSaveEnvironment(
+    req: SaveEnvironmentAsCodeEventRequest
+  ): Promise<void> {
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      DataTokens: {},
+      Environments: {},
+    };
 
     if (req.Environment) {
       saveEaC.Environments[req.EnvironmentLookup] = req.Environment;
@@ -204,9 +215,21 @@ export class ApplicationsFlowProjectsElementComponent
       }
     );
 
+    this.appsFlowEventsSvc.DeleteDevOpsActionEvent.subscribe(
+      async (doaLookup) => {
+        await this.projectService.DeleteDevOpsAction(this.State, doaLookup);
+      }
+    );
+
     this.appsFlowEventsSvc.DeleteProjectEvent.subscribe(
       async (projectLookup) => {
         await this.projectService.DeleteProject(this.State, projectLookup);
+      }
+    );
+
+    this.appsFlowEventsSvc.DeleteSourceControlEvent.subscribe(
+      async (scLookup) => {
+        await this.projectService.DeleteSourceControl(this.State, scLookup);
       }
     );
 
@@ -228,6 +251,10 @@ export class ApplicationsFlowProjectsElementComponent
 
     this.appsFlowEventsSvc.SaveApplicationAsCodeEvent.subscribe(async (req) => {
       await this.handleSaveApplication(req);
+    });
+
+    this.appsFlowEventsSvc.SaveEnvironmentAsCodeEvent.subscribe(async (req) => {
+      await this.handleSaveEnvironment(req);
     });
 
     this.appsFlowEventsSvc.SaveProjectAsCodeEvent.subscribe(async (req) => {

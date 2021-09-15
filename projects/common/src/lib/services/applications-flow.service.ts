@@ -61,9 +61,27 @@ export class ApplicationsFlowService {
     );
   }
 
+  public DeleteDevOpsAction(doaLookup: string): Observable<object> {
+    return this.http.delete(
+      `${this.apiRoot}/api/lowcodeunit/manage/devops-actions/${doaLookup}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public DeleteProject(projectLookup: string): Observable<object> {
     return this.http.delete(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectLookup}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public DeleteSourceControl(scLookup: string): Observable<object> {
+    return this.http.delete(
+      `${this.apiRoot}/api/lowcodeunit/manage/source-controls/${scLookup}`,
       {
         headers: this.loadHeaders(),
       }

@@ -109,7 +109,6 @@
                 <div [ngSwitch]="LCUType">
                   <div *ngSwitchCase="'GitHub'">
                     <lcu-source-control-form-controls
-                      *ngIf="!HasBuildFormControl?.value"
                       [form-group]="ApplicationFormGroup"
                       [source-control]="DefaultSourceControl"
                       [use-branches]="false"
@@ -328,7 +327,9 @@
             </div>
           </mat-card-content>
         </mat-card>
+      </div>
 
+      <div class="form-card" fxFlex="35%">
         <mat-card class="spread">
           <mat-card-header>
             <mat-card-title> Security Settings </mat-card-title>
@@ -368,10 +369,8 @@
             </div>
           </mat-card-content>
         </mat-card>
-      </div>
 
-      <div class="form-card" fxFlex="35%" *ngIf="ProcessorType != 'Redirect'">
-        <mat-card class="spread">
+        <mat-card class="spread" *ngIf="ProcessorType != 'Redirect'">
           <mat-card-header>
             <mat-card-title *ngIf="!HasBuildFormControl.value">
               Build & Source
@@ -420,86 +419,8 @@
                     {{ srcCtrl.Name }}
                   </mat-option>
                 </ng-container>
-
-                <mat-option value="">-- Create New --</mat-option>
               </mat-select>
             </mat-form-field>
-
-            <lcu-source-control-form-controls
-              [branches-disabled]="HostingDetails?.Loading"
-              [form-group]="ApplicationFormGroup"
-              [org-disabled]="
-                SourceControlLookupFormControl.value != '' ||
-                HostingDetails?.Loading
-              "
-              [repo-disabled]="
-                SourceControlLookupFormControl.value != '' ||
-                HostingDetails?.Loading
-              "
-              [source-control]="SourceControl"
-              (branches-changed)="BranchesChanged($event)"
-              *ngIf="HasBuildFormControl.value"
-            ></lcu-source-control-form-controls>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card
-          class="spread"
-          *ngIf="
-            HasBuildFormControl.value &&
-            (SourceControlFormControls?.SelectedBranches?.length > 0 ||
-              SourceControl?.Branches?.length > 0)
-          "
-        >
-          <mat-card-header>
-            <mat-card-title> Build Pipeline </mat-card-title>
-
-            <mat-hint>
-              Changes made here are reflected for all sources using this
-              DevOpsAction
-            </mat-hint>
-          </mat-card-header>
-
-          <mat-card-content>
-            <mat-form-field class="mat-full-width">
-              <mat-select
-                formControlName="devOpsActionLookup"
-                placeholder="DevOps Action"
-                [disabled]="
-                  SourceControlLookupFormControl?.value ||
-                  SourceControlFormControls?.Loading ||
-                  HostingDetails?.Loading
-                "
-                (selectionChange)="DevOpsActionLookupChanged($event)"
-              >
-                <ng-container
-                  *ngFor="let devOpsActionLookup of DevOpsActionLookups"
-                >
-                  <mat-option
-                    [value]="devOpsActionLookup"
-                    *ngIf="DevOpsActions[devOpsActionLookup]; let devOpsAction"
-                  >
-                    {{ devOpsAction.Name }}
-                  </mat-option>
-                </ng-container>
-
-                <mat-option value="">-- Create New --</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <lcu-hosting-details-form-group
-              [artifact]="Artifact"
-              [details]="HostingDetails"
-              [formGroup]="ApplicationFormGroup"
-              [organization]="
-                SourceControlFormControls?.OrganizationFormControl?.value
-              "
-              [disabled]="
-                !!DevOpsActionLookupFormControl?.value ||
-                SourceControlFormControls?.Loading ||
-                HostingDetails?.Loading
-              "
-            ></lcu-hosting-details-form-group>
           </mat-card-content>
         </mat-card>
       </div>
