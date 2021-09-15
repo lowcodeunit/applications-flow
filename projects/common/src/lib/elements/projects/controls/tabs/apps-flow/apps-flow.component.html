@@ -399,7 +399,7 @@
           <mat-card-content>
             <mat-form-field
               class="mat-full-width"
-              *ngIf="HasBuildFormControl.value"
+              *ngIf="HasBuildFormControl.value && SourceControlLookups?.length > 0"
             >
               <mat-select
                 formControlName="sourceControlLookup"
@@ -421,6 +421,10 @@
                 </ng-container>
               </mat-select>
             </mat-form-field>
+
+            <div *ngIf="SourceControlLookups?.length < 0">
+              <h3>First create source control locations under the DevOps tab above.</h3>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

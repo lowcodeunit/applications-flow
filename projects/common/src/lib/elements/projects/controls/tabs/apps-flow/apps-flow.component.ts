@@ -207,6 +207,8 @@ export class AppsFlowComponent implements OnInit {
 
     let workingAppLookups = [...(appLookups || [])];
 
+    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
     const routeSet =
       routeBases.reduce((prevRouteMap, currentRouteBase) => {
         const routeMap = {
