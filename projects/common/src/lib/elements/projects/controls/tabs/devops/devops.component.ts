@@ -152,7 +152,9 @@ export class DevOpsComponent implements OnInit {
   }
 
   public DeleteSourceControl(scLookup: string): void {
-    if (confirm(`Are you sure you want to delete source control '${scLookup}'?`)) {
+    if (
+      confirm(`Are you sure you want to delete source control '${scLookup}'?`)
+    ) {
       this.appsFlowEventsSvc.DeleteSourceControl(scLookup);
     }
   }
@@ -171,7 +173,7 @@ export class DevOpsComponent implements OnInit {
         Sources: this.Data.Environment.Sources || {},
       },
       EnvironmentLookup: this.Data.EnvironmentLookup,
-      EnterpriseDataTokens: {}
+      EnterpriseDataTokens: {},
     };
 
     let artifactLookup: string;
@@ -248,7 +250,12 @@ export class DevOpsComponent implements OnInit {
       Repository: this.SourceControlFormControls.RepositoryFormControl.value,
     };
 
-    saveEnvReq.Environment.Sources[this.EditingSourceControlLookup] = source;
+    const scLookup =
+      this.SourceControlLookups?.indexOf(this.EditingSourceControlLookup) < 0
+        ? `github://${source.Organization}/${source.Repository}`
+        : this.EditingSourceControlLookup;
+
+    saveEnvReq.Environment.Sources[scLookup] = source;
 
     this.appsFlowEventsSvc.SaveEnvironmentAsCode(saveEnvReq);
   }
