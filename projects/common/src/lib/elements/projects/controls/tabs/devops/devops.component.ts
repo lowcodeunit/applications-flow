@@ -250,10 +250,7 @@ export class DevOpsComponent implements OnInit {
       Repository: this.SourceControlFormControls.RepositoryFormControl.value,
     };
 
-    const scLookup =
-      this.SourceControlLookups?.indexOf(this.EditingSourceControlLookup) < 0
-        ? `github://${source.Organization}/${source.Repository}`
-        : this.EditingSourceControlLookup;
+    const scLookup = `github://${source.Organization}/${source.Repository}`;
 
     saveEnvReq.Environment.Sources[scLookup] = source;
 
