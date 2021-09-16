@@ -30,6 +30,7 @@ import { AppsFlowComponent } from './elements/projects/controls/tabs/apps-flow/a
 import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
+import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops
     SourceControlFormControlsComponent,
     AppsFlowComponent,
     DevOpsComponent,
+    DFSModifiersComponent,
     NpmPackageSelectComponent
   ],
   imports: [
@@ -85,6 +87,7 @@ import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops
     SourceControlFormControlsComponent,
     AppsFlowComponent,
     DevOpsComponent,
+    DFSModifiersComponent,
     NpmPackageSelectComponent
   ],
   entryComponents: [
@@ -106,6 +109,7 @@ import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops
     SourceControlFormControlsComponent,
     AppsFlowComponent,
     DevOpsComponent,
+    DFSModifiersComponent,
     NpmPackageSelectComponent
   ],
 })

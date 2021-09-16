@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { EaCEnvironmentAsCode } from '../models/eac.models';
+import { EaCDFSModifier, EaCEnvironmentAsCode } from '../models/eac.models';
 import {
   EaCApplicationAsCode,
   EaCArtifact,
@@ -21,6 +21,14 @@ export class SaveApplicationAsCodeEventRequest {
   public ApplicationLookup?: string;
 
   public ProjectLookup?: string;
+}
+
+export class SaveDFSModifierEventRequest {
+  public Modifier: EaCDFSModifier;
+
+  public ModifierLookup: string;
+
+  public ProjectLookup: string;
 }
 
 export class SaveEnvironmentAsCodeEventRequest {
@@ -60,6 +68,8 @@ export class ApplicationsFlowEventsService {
 
   public SaveApplicationAsCodeEvent: EventEmitter<SaveApplicationAsCodeEventRequest>;
 
+  public SaveDFSModifierEvent: EventEmitter<SaveDFSModifierEventRequest>;
+
   public SaveEnterpriseAsCodeEvent: EventEmitter<EnterpriseAsCode>;
 
   public SaveEnvironmentAsCodeEvent: EventEmitter<SaveEnvironmentAsCodeEventRequest>;
@@ -87,6 +97,8 @@ export class ApplicationsFlowEventsService {
     this.LoadEnterpriseAsCodeEvent = new EventEmitter();
 
     this.SaveApplicationAsCodeEvent = new EventEmitter();
+
+    this.SaveDFSModifierEvent = new EventEmitter();
 
     this.SaveEnterpriseAsCodeEvent = new EventEmitter();
 
@@ -132,6 +144,10 @@ export class ApplicationsFlowEventsService {
 
   public SaveApplicationAsCode(req: SaveApplicationAsCodeEventRequest): void {
     this.SaveApplicationAsCodeEvent.emit(req);
+  }
+
+  public SaveDFSModifier(req: SaveDFSModifierEventRequest): void {
+    this.SaveDFSModifierEvent.emit(req);
   }
 
   public SaveEnterpriseAsCode(eac: EnterpriseAsCode): void {

@@ -23,6 +23,7 @@ import { Subscription } from 'rxjs';
 import {
   ApplicationsFlowEventsService,
   SaveApplicationAsCodeEventRequest,
+  SaveDFSModifierEventRequest,
   SaveEnvironmentAsCodeEventRequest,
 } from './../../services/applications-flow-events.service';
 import {
@@ -172,6 +173,28 @@ export class ApplicationsFlowProjectsElementComponent
     await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
   }
 
+  protected async handleSaveDFSModifier(
+    req: SaveDFSModifierEventRequest
+  ): Promise<void> {
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      Modifiers: {},
+      Projects: {},
+    };
+
+    if (req.Modifier) {
+      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
+    }
+
+    if (req.ProjectLookup) {
+      saveEaC.Projects[req.ProjectLookup] = {
+        ModifierLookups: [req.ModifierLookup],
+      };
+    }
+
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+  }
+
   protected async handleSaveEnvironment(
     req: SaveEnvironmentAsCodeEventRequest
   ): Promise<void> {
@@ -251,6 +274,10 @@ export class ApplicationsFlowProjectsElementComponent
 
     this.appsFlowEventsSvc.SaveApplicationAsCodeEvent.subscribe(async (req) => {
       await this.handleSaveApplication(req);
+    });
+
+    this.appsFlowEventsSvc.SaveDFSModifierEvent.subscribe(async (req) => {
+      await this.handleSaveDFSModifier(req);
     });
 
     this.appsFlowEventsSvc.SaveEnvironmentAsCodeEvent.subscribe(async (req) => {

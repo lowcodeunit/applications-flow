@@ -45,9 +45,11 @@ export class EaCHost {
 }
 
 export class EaCDFSModifier {
-  public Details?: string;
+  public Details?: any;
 
   public Enabled?: boolean;
+
+  public Name?: string;
 
   public PathFilterRegex?: string;
 
