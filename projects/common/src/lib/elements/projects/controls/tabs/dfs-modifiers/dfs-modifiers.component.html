@@ -29,10 +29,6 @@
             />
           </mat-form-field>
 
-          <mat-slide-toggle class="spread" formControlName="enabled">
-            Is Enabled?
-          </mat-slide-toggle>
-
           <mat-form-field class="mat-full-width">
             <input
               matInput
@@ -54,7 +50,7 @@
             <mat-select
               formControlName="type"
               placeholder="DFS Modifier Type"
-              (selectionChange)="DevOpsActionLookupChanged($event)"
+              (selectionChange)="TypeChanged($event)"
             >
               <mat-option
                 value="LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
@@ -125,6 +121,10 @@
               />
             </mat-form-field>
           </ng-container>
+
+          <mat-slide-toggle class="spread" formControlName="enabled">
+            Is Enabled?
+          </mat-slide-toggle>
         </mat-card-content>
       </mat-card>
     </div>
@@ -144,7 +144,7 @@
         color="primary"
         [disabled]="!ModifierFormGroup.valid || !ModifierFormGroup.dirty"
       >
-        <mat-icon>save</mat-icon> Save Application
+        <mat-icon>save</mat-icon> Save DFS Modifier
       </button>
 
       <div fxFlex></div>
@@ -183,7 +183,7 @@
                   class="mat-subheading-2"
                   [matTooltip]="modifier.Name"
                 >
-                  {{ modifier.Name }}
+                  {{ modifier.Name || modifier.Lookup }}
                 </mat-card-title>
               </mat-card-header>
 

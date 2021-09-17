@@ -399,7 +399,9 @@
           <mat-card-content>
             <mat-form-field
               class="mat-full-width"
-              *ngIf="HasBuildFormControl.value && SourceControlLookups?.length > 0"
+              *ngIf="
+                HasBuildFormControl.value && SourceControlLookups?.length > 0
+              "
             >
               <mat-select
                 formControlName="sourceControlLookup"
@@ -423,7 +425,9 @@
             </mat-form-field>
 
             <div *ngIf="SourceControlLookups?.length < 0">
-              <h3>Create source control locations under the DevOps tab above.</h3>
+              <h3>
+                Create source control locations under the DevOps tab above.
+              </h3>
             </div>
           </mat-card-content>
         </mat-card>
@@ -579,6 +583,7 @@
                   @{{
                     app.Processor?.LowCodeUnit?.CurrentVersion ||
                       app.Processor?.LowCodeUnit?.CurrentBuild ||
+                      app.Processor?.Redirect ||
                       "No version deployed"
                   }}
                 </mat-card-subtitle>

@@ -45,7 +45,7 @@ export class EaCHost {
 }
 
 export class EaCDFSModifier {
-  public Details?: any;
+  public Details?: string;
 
   public Enabled?: boolean;
 
