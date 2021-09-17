@@ -81,7 +81,7 @@ export class ProjectTabsComponent implements OnInit {
           ProjectLookup: this.ProjectLookup,
         },
         Label: 'DFS Modifiers',
-        Icon: 'auto-fix-high',
+        Icon: 'auto_fix_high',
       }),
       new DynamicTabsModel({
         Component: GeneralComponent,

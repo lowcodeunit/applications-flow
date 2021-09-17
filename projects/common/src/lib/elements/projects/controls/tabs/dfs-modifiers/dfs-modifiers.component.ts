@@ -113,7 +113,7 @@ export class DFSModifiersComponent implements OnInit {
   }
 
   public get TypeFormControl(): AbstractControl {
-    return this.ModifierFormGroup?.controls.modifierType;
+    return this.ModifierFormGroup?.controls.type;
   }
 
   //  Constructors
@@ -154,28 +154,31 @@ export class DFSModifiersComponent implements OnInit {
         PathFilterRegex: this.PathFilterFormControl.value,
         Priority: this.PriorityFormControl.value,
         Type: this.CurrentType,
-        Details: {},
       },
       ModifierLookup: this.EditingModifierLookup,
-      ProjectLookup: this.Data.ProjectLookup
+      ProjectLookup: this.Data.ProjectLookup,
     };
+
+    const details = {};
 
     switch (this.CurrentType) {
       case 'LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
         break;
 
       case 'LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
-        saveMdfrReq.Modifier.Details['StateDataToken'] = this.StateDataTokenFormControl.value;
+        details['StateDataToken'] = this.StateDataTokenFormControl.value;
         break;
 
       case 'LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
-        saveMdfrReq.Modifier.Details['Location'] = this.LocationFormControl.value;
+        details['Location'] = this.LocationFormControl.value;
 
-        saveMdfrReq.Modifier.Details['Script'] = this.ScriptFormControl.value;
+        details['Script'] = this.ScriptFormControl.value;
 
-        saveMdfrReq.Modifier.Details['ScriptID'] = this.ScriptIDFormControl.value;
+        details['ScriptID'] = this.ScriptIDFormControl.value;
         break;
     }
+
+    saveMdfrReq.Modifier.Details = JSON.stringify(details);
 
     this.appsFlowEventsSvc.SaveDFSModifier(saveMdfrReq);
   }
@@ -195,9 +198,11 @@ export class DFSModifiersComponent implements OnInit {
   //  Helpers
   protected setupModifierForm(): void {
     if (this.EditingModifier != null) {
+      this.CurrentType = this.EditingModifier?.Type;
+
       this.ModifierFormGroup = this.formBldr.group({
         name: [this.EditingModifier?.Name, Validators.required],
-        type: [this.EditingModifier?.Type, Validators.required],
+        type: [this.CurrentType, Validators.required],
         priority: [this.EditingModifier?.Priority, Validators.required],
         enabled: [this.EditingModifier?.Enabled, Validators.required],
         useForProject: [this.EditingModifier?.Enabled, Validators.required],
@@ -218,6 +223,8 @@ export class DFSModifiersComponent implements OnInit {
     this.ModifierFormGroup.removeControl('script');
     this.ModifierFormGroup.removeControl('scriptId');
 
+    const details = JSON.parse(this.EditingModifier?.Details || '{}');
+
     switch (this.CurrentType) {
       case 'LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
         break;
@@ -225,33 +232,26 @@ export class DFSModifiersComponent implements OnInit {
       case 'LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
         this.ModifierFormGroup.addControl(
           'stateDataToken',
-          this.formBldr.control(
-            this.EditingModifier?.Details?.StateDataToken || '',
-            []
-          )
+          this.formBldr.control(details?.StateDataToken || '', [
+            Validators.required,
+          ])
         );
         break;
 
       case 'LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
         this.ModifierFormGroup.addControl(
           'location',
-          this.formBldr.control(
-            this.EditingModifier?.Details?.Location || '',
-            []
-          )
+          this.formBldr.control(details?.Location || '', [Validators.required])
         );
 
         this.ModifierFormGroup.addControl(
           'script',
-          this.formBldr.control(this.EditingModifier?.Details?.Script || '', [])
+          this.formBldr.control(details?.Script || '', [Validators.required])
         );
 
         this.ModifierFormGroup.addControl(
           'scriptId',
-          this.formBldr.control(
-            this.EditingModifier?.Details?.ScriptID || '',
-            []
-          )
+          this.formBldr.control(details?.ScriptID || '', [Validators.required])
         );
         break;
     }
