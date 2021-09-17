@@ -77,6 +77,7 @@ export class ProjectTabsComponent implements OnInit {
         Component: DFSModifiersComponent,
         Data: {
           Modifiers: this.DFSModifiers,
+          Project: this.Project,
           ProjectLookup: this.ProjectLookup,
         },
         Label: 'DFS Modifiers',

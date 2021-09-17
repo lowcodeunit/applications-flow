@@ -44,6 +44,7 @@ export class DFSModifiersComponent implements OnInit {
   @Input('data')
   public Data: {
     Modifiers: { [lookup: string]: EaCDFSModifier };
+    Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
 
@@ -93,6 +94,10 @@ export class DFSModifiersComponent implements OnInit {
 
   public get PriorityFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.priority;
+  }
+
+  public get Project(): EaCProjectAsCode {
+    return this.Data.Project || {};
   }
 
   public get ScriptFormControl(): AbstractControl {
@@ -195,6 +200,7 @@ export class DFSModifiersComponent implements OnInit {
         type: [this.EditingModifier?.Type, Validators.required],
         priority: [this.EditingModifier?.Priority, Validators.required],
         enabled: [this.EditingModifier?.Enabled, Validators.required],
+        useForProject: [this.EditingModifier?.Enabled, Validators.required],
         pathFilter: [
           this.EditingModifier?.PathFilterRegex,
           Validators.required,

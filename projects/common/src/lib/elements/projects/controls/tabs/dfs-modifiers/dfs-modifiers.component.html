@@ -144,7 +144,7 @@
         color="primary"
         [disabled]="!ModifierFormGroup.valid || !ModifierFormGroup.dirty"
       >
-        <mat-icon>save</mat-icon> Save Application
+        <mat-icon>save</mat-icon> Save DFS Modifier
       </button>
 
       <div fxFlex></div>
@@ -188,7 +188,11 @@
               </mat-card-header>
 
               <mat-card-content>
-                <div class="spread"></div>
+                <div class="spread">
+                  <mat-slide-toggle class="spread" [checked]="Project?.ModifierLookups.indexOf(modifierLookup) >= 0">
+                    Use for project?
+                  </mat-slide-toggle>
+                </div>
               </mat-card-content>
 
               <mat-card-actions>
