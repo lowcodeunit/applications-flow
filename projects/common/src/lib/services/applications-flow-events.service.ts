@@ -28,7 +28,7 @@ export class SaveDFSModifierEventRequest {
 
   public ModifierLookup: string;
 
-  public ProjectLookup: string;
+  public ProjectLookup?: string;
 }
 
 export class SaveEnvironmentAsCodeEventRequest {
