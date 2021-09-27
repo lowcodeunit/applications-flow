@@ -203,21 +203,20 @@ export class DevOpsComponent implements OnInit {
     if (!this.DevOpsActionLookup) {
       devOpsActionLookup = Guid.CreateRaw();
 
-      const secretLookup = 'npm-access-token';
-
       const doa: EaCDevOpsAction = {
         ...this.DevOpsAction,
         ArtifactLookups: [artifactLookup],
         Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
         Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
-        SecretLookups: [secretLookup],
         Templates:
           this.HostingDetailsFormControls.SelectedHostingOption.Templates,
       };
 
-      saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
-
       if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
+        const secretLookup = 'npm-access-token';
+
+        doa.SecretLookups = [secretLookup];
+
         saveEnvReq.Environment.Secrets[secretLookup] = {
           Name: 'NPM Access Token',
           DataTokenLookup: secretLookup,
@@ -230,6 +229,8 @@ export class DevOpsComponent implements OnInit {
           Value: this.HostingDetailsFormControls.NPMTokenFormControl.value,
         };
       }
+
+      saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     } else {
       devOpsActionLookup = this.DevOpsActionLookupFormControl.value;
     }
