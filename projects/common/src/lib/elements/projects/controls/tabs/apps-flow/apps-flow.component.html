@@ -100,7 +100,7 @@
                   >
                     <mat-option value="NPM">NPM</mat-option>
 
-                    <mat-option value="GitHub">GitHub</mat-option>
+                    <!-- <mat-option value="GitHub">GitHub</mat-option> -->
 
                     <!-- <mat-option value="Zip">Zip</mat-option> -->
                   </mat-select>
@@ -610,7 +610,7 @@
 
                   <a
                     mat-icon-button
-                    (click)="Unpack(appLookup, app.Application.Name)"
+                    (click)="Unpack(appLookup, app)"
                     target="_blank"
                     matTooltip="Unpack {{
                       app.Processor?.LowCodeUnit?.Version ||

@@ -73,16 +73,16 @@ export class ProjectTabsComponent implements OnInit {
         Label: 'DevOps',
         Icon: 'build',
       }),
-      new DynamicTabsModel({
-        Component: DFSModifiersComponent,
-        Data: {
-          Modifiers: this.DFSModifiers,
-          Project: this.Project,
-          ProjectLookup: this.ProjectLookup,
-        },
-        Label: 'DFS Modifiers',
-        Icon: 'auto_fix_high',
-      }),
+      // new DynamicTabsModel({
+      //   Component: DFSModifiersComponent,
+      //   Data: {
+      //     Modifiers: this.DFSModifiers,
+      //     Project: this.Project,
+      //     ProjectLookup: this.ProjectLookup,
+      //   },
+      //   Label: 'DFS Modifiers',
+      //   Icon: 'auto_fix_high',
+      // }),
       new DynamicTabsModel({
         Component: GeneralComponent,
         Data: { Project: this.Project, ProjectLookup: this.ProjectLookup },

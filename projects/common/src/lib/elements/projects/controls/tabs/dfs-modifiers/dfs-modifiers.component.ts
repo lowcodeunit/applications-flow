@@ -156,7 +156,7 @@ export class DFSModifiersComponent implements OnInit {
         Type: this.CurrentType,
       },
       ModifierLookup: this.EditingModifierLookup,
-      ProjectLookup: this.Data.ProjectLookup,
+      // ProjectLookup: this.Data.ProjectLookup,
     };
 
     const details = {};

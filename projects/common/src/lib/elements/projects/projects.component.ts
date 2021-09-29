@@ -308,7 +308,7 @@ export class ApplicationsFlowProjectsElementComponent
         confirm(
           `Are you sure you want to unpack application '${
             req.ApplicationName
-          }' with version '${req.Version || 'latest'}'?`
+          }' with version '${req.Version}'?`
         )
       ) {
         await this.projectService.UnpackLowCodeUnit(this.State, req);
