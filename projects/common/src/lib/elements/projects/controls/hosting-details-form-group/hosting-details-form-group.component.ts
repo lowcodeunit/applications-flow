@@ -119,7 +119,6 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       }
     }
 
-    debugger;
     this.FormGroup.addControl(
       'devOpsActionName',
       this.formBuilder.control(
