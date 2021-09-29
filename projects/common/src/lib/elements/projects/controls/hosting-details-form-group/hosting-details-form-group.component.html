@@ -56,8 +56,7 @@
         type="password"
         formControlName="npmToken"
         placeholder="NPM token"
-        required
-        [disabled]="Disabled"
+        [required]="!Disabled"
         style="-webkit-text-security: disc;"
       />
 

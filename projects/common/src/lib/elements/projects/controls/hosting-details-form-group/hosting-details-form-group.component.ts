@@ -101,16 +101,6 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       })
     );
 
-    this.ParentFormGroup.addControl(
-      'devOpsActionName',
-      this.formBuilder.group({
-        buildPipeline: [
-          this.DevOpsAction?.Name || this.SelectedHostingOption?.Name,
-          [Validators.required],
-        ],
-      })
-    );
-
     this.setupControlsForForm();
   }
 
@@ -124,14 +114,19 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   //  Helpers
   protected setupControlsForForm(): void {
     for (const ctrlName in this.FormGroup.controls) {
-      if (
-        ctrlName !== 'buildPipeline' &&
-        ctrlName !== 'devOpsAction' &&
-        ctrlName !== 'devOpsActionName'
-      ) {
+      if (ctrlName !== 'buildPipeline' && ctrlName !== 'devOpsAction') {
         this.FormGroup.removeControl(ctrlName);
       }
     }
+
+    debugger;
+    this.FormGroup.addControl(
+      'devOpsActionName',
+      this.formBuilder.control(
+        this.DevOpsAction?.Name || this.SelectedHostingOption?.Name || '',
+        [Validators.required]
+      )
+    );
 
     this.SelectedHostingOption?.Inputs?.forEach((input) => {
       const validators = input.Required ? [Validators.required] : [];
@@ -153,9 +148,10 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       if (!this.FormGroup.controls.npmToken) {
         this.FormGroup.addControl(
           'npmToken',
-          this.formBuilder.control(this.Disabled ? 'xxxxxxxx' : '', [
-            Validators.required,
-          ])
+          this.formBuilder.control(
+            '',
+            this.Disabled ? [] : [Validators.required]
+          )
         );
 
         if (this.Disabled) {
