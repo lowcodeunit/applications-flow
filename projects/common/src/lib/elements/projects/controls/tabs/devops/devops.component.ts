@@ -206,7 +206,7 @@ export class DevOpsComponent implements OnInit {
       const doa: EaCDevOpsAction = {
         ...this.DevOpsAction,
         ArtifactLookups: [artifactLookup],
-        Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+        Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
         Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
         Templates:
           this.HostingDetailsFormControls.SelectedHostingOption.Templates,

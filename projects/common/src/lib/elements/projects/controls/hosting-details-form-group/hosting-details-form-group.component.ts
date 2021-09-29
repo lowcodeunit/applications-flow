@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
-import { EaCArtifact } from '../../../../models/eac.models';
+import { EaCDevOpsAction, EaCArtifact } from '../../../../models/eac.models';
 import {
   ProjectHostingDetails,
   ProjectHostingOption,
@@ -33,6 +33,13 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
 
   @Input('details')
   public Details: ProjectHostingDetails;
+
+  @Input('devops-action')
+  public DevOpsAction: EaCDevOpsAction;
+
+  public get DevOpsActionNameFormControl(): AbstractControl {
+    return this.FormGroup.get('devOpsActionName');
+  }
 
   @Input('disabled')
   public Disabled: boolean;
@@ -94,6 +101,16 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       })
     );
 
+    this.ParentFormGroup.addControl(
+      'devOpsActionName',
+      this.formBuilder.group({
+        buildPipeline: [
+          this.DevOpsAction?.Name || this.SelectedHostingOption?.Name,
+          [Validators.required],
+        ],
+      })
+    );
+
     this.setupControlsForForm();
   }
 
@@ -107,7 +124,11 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   //  Helpers
   protected setupControlsForForm(): void {
     for (const ctrlName in this.FormGroup.controls) {
-      if (ctrlName !== 'buildPipeline' && ctrlName !== 'devOpsAction') {
+      if (
+        ctrlName !== 'buildPipeline' &&
+        ctrlName !== 'devOpsAction' &&
+        ctrlName !== 'devOpsActionName'
+      ) {
         this.FormGroup.removeControl(ctrlName);
       }
     }

@@ -25,6 +25,15 @@
     </mat-hint>
   </mat-form-field>
 
+  <mat-form-field class="mat-full-width">
+    <input
+      matInput
+      formControlName="devOpsActionName"
+      placeholder="Name of DevOps Action"
+      required="true"
+    />
+  </mat-form-field>
+
   <ng-container *ngFor="let input of SelectedHostingOption?.Inputs">
     <mat-form-field class="mat-full-width">
       <input
