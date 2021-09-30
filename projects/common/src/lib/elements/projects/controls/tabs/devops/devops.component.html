@@ -81,15 +81,12 @@
               </mat-select>
             </mat-form-field>
 
-            <ng-container
-              *ngIf="
-                DevOpsActions[DevOpsActionLookupFormControl?.value];
-                let devOpsAction
-              "
-            >
+            <ng-container>
               <lcu-hosting-details-form-group
                 [artifact]="Artifact"
-                [devops-action]="devOpsAction"
+                [devops-action]="
+                  DevOpsActions[DevOpsActionLookupFormControl?.value]
+                "
                 [details]="HostingDetails"
                 [formGroup]="DevOpsFormGroup"
                 [organization]="
