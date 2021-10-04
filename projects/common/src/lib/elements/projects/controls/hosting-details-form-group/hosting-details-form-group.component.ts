@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
-import { EaCArtifact } from '../../../../models/eac.models';
+import { EaCDevOpsAction, EaCArtifact } from '../../../../models/eac.models';
 import {
   ProjectHostingDetails,
   ProjectHostingOption,
@@ -33,6 +33,13 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
 
   @Input('details')
   public Details: ProjectHostingDetails;
+
+  @Input('devops-action')
+  public DevOpsAction: EaCDevOpsAction;
+
+  public get DevOpsActionNameFormControl(): AbstractControl {
+    return this.FormGroup.get('devOpsActionName');
+  }
 
   @Input('disabled')
   public Disabled: boolean;
@@ -112,6 +119,14 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       }
     }
 
+    this.FormGroup.addControl(
+      'devOpsActionName',
+      this.formBuilder.control(
+        this.DevOpsAction?.Name || this.SelectedHostingOption?.Name || '',
+        [Validators.required]
+      )
+    );
+
     this.SelectedHostingOption?.Inputs?.forEach((input) => {
       const validators = input.Required ? [Validators.required] : [];
 
@@ -132,9 +147,10 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
       if (!this.FormGroup.controls.npmToken) {
         this.FormGroup.addControl(
           'npmToken',
-          this.formBuilder.control(this.Disabled ? 'xxxxxxxx' : '', [
-            Validators.required,
-          ])
+          this.formBuilder.control(
+            '',
+            this.Disabled ? [] : [Validators.required]
+          )
         );
 
         if (this.Disabled) {

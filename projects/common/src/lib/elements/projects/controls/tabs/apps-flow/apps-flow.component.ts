@@ -439,7 +439,7 @@ export class AppsFlowComponent implements OnInit {
         PathRegex: `${this.RouteFormControl.value}.*`,
         QueryRegex: '',
         HeaderRegex: '',
-        AllowedMethods: this.MethodsFormControl?.value.split(' '),
+        AllowedMethods: this.MethodsFormControl?.value?.split(' ').filter((v: string) => !!v),
       },
       Processor: processor,
     };
@@ -500,12 +500,16 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.removeControl('apiRoot');
     this.ApplicationFormGroup.removeControl('security');
 
+    this.ApplicationFormGroup.removeControl('spaRoot');
+
     this.ApplicationFormGroup.removeControl('applicationId');
 
     this.ApplicationFormGroup.removeControl('build');
 
     this.ApplicationFormGroup.removeControl('clientId');
     this.ApplicationFormGroup.removeControl('clientSecret');
+    
+    this.ApplicationFormGroup.removeControl('zipFile');
   }
 
   protected cleanupProcessorTypeSubForm(): void {
@@ -700,10 +704,6 @@ export class AppsFlowComponent implements OnInit {
     // this.ApplicationFormGroup.removeControl('package');
     // this.ApplicationFormGroup.removeControl('version');
 
-    this.ApplicationFormGroup.removeControl('spaRoot');
-
-    this.ApplicationFormGroup.removeControl('zipFile');
-
     if (this.LCUType) {
       switch (this.LCUType) {
         case 'API':
@@ -801,6 +801,8 @@ export class AppsFlowComponent implements OnInit {
           break;
       }
     }
+
+    this.setupLcuTypeSubForm();
   }
 
   protected setupRedirectForm(): void {

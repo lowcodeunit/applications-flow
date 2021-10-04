@@ -206,7 +206,7 @@ export class DevOpsComponent implements OnInit {
       const doa: EaCDevOpsAction = {
         ...this.DevOpsAction,
         ArtifactLookups: [artifactLookup],
-        Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+        Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
         Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
         Templates:
           this.HostingDetailsFormControls.SelectedHostingOption.Templates,
@@ -233,6 +233,13 @@ export class DevOpsComponent implements OnInit {
       saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     } else {
       devOpsActionLookup = this.DevOpsActionLookupFormControl.value;
+
+      const doa: EaCDevOpsAction = {
+        ...this.DevOpsAction,
+        Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
+      };
+
+      saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     }
 
     let source: EaCSourceControl = {
