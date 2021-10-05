@@ -10,7 +10,7 @@ import {
 import { FormsService } from '../../../../../../../services/forms.service';
 import { CardFormConfigModel } from '../../../../../../../models/card-form-config.model';
 import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
-import { EaCProjectAsCode } from '../../../../../../../models/eac.models';
+import { EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-project-details',

@@ -31,7 +31,7 @@ import {
   EaCEnvironmentAsCode,
   EaCProjectAsCode,
   EnterpriseAsCode,
-} from '../../models/eac.models';
+} from '@semanticjs/common';
 
 declare var window: Window;
 

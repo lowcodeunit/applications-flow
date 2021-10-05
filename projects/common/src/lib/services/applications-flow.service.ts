@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { LCUServiceSettings, StateContext } from '@lcu/common';
 import { Observable, Subject } from 'rxjs';
-import { EaCProjectAsCode, EnterpriseAsCode } from '../models/eac.models';
+import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
 import {
   ApplicationsFlowState,
   UnpackLowCodeUnitRequest,

@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
-import { EaCHost, EaCProjectAsCode } from '../../../../../models/eac.models';
+import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-domains',

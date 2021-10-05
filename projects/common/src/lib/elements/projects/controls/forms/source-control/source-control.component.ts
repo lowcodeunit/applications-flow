@@ -28,7 +28,7 @@ import {
 } from '../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
-import { EaCSourceControl } from '../../../../../models/eac.models';
+import { EaCSourceControl } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-source-control-form-controls',

@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatRadioChange } from '@angular/material/radio';
-import { EaCDevOpsAction, EaCArtifact } from '../../../../models/eac.models';
+import { EaCDevOpsAction, EaCArtifact } from '@semanticjs/common';
 import {
   ProjectHostingDetails,
   ProjectHostingOption,

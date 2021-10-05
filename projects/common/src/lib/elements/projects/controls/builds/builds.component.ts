@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
-import { EaCLowCodeUnit, EaCProjectAsCode } from '../../../../models/eac.models';
+import { EaCLowCodeUnit, EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-builds',

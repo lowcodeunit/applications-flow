@@ -100,7 +100,7 @@
                   >
                     <mat-option value="NPM">NPM</mat-option>
 
-                    <!-- <mat-option value="GitHub">GitHub</mat-option> -->
+                    <mat-option value="GitHub">GitHub</mat-option>
 
                     <!-- <mat-option value="Zip">Zip</mat-option> -->
                   </mat-select>
@@ -150,6 +150,14 @@
                         formControlName="build"
                         required
                       />
+
+                      <mat-hint>
+                        Current Build:
+                        {{
+                          EditingApplication?.Processor?.LowCodeUnit
+                            ?.CurrentBuild
+                        }}
+                      </mat-hint>
                     </mat-form-field>
                   </div>
 
@@ -165,7 +173,7 @@
                     ></lcu-npm-package-select>
 
                     <mat-hint>
-                      CurrentVersion:
+                      Current Version:
                       {{
                         EditingApplication?.Processor?.LowCodeUnit
                           ?.CurrentVersion

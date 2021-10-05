@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse } from '@lcu/common';
 import { debug } from 'console';
-import { EaCProjectAsCode, EnterpriseAsCode } from '../models/eac.models';
+import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
 import {
   ApplicationsFlowState,
   GitHubWorkflowRun,

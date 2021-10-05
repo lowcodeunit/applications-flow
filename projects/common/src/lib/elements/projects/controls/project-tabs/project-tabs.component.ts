@@ -8,7 +8,7 @@ import {
   EaCEnvironmentAsCode,
   EaCHost,
   EaCProjectAsCode,
-} from '../../../../models/eac.models';
+} from '@semanticjs/common';
 import { AppsFlowComponent } from '../tabs/apps-flow/apps-flow.component';
 import { DevOpsComponent } from '../tabs/devops/devops.component';
 import { DFSModifiersComponent } from '../tabs/dfs-modifiers/dfs-modifiers.component';
