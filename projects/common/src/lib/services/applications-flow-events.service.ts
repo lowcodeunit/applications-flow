@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { EaCDFSModifier, EaCEnvironmentAsCode } from '../models/eac.models';
+import { EaCDFSModifier, EaCEnvironmentAsCode } from '@semanticjs/common';
 import {
   EaCApplicationAsCode,
   EaCArtifact,
@@ -8,8 +8,8 @@ import {
   EaCProjectAsCode,
   EaCSecret,
   EaCSourceControl,
-} from '../models/eac.models';
-import { EnterpriseAsCode } from '../models/eac.models';
+} from '@semanticjs/common';
+import { EnterpriseAsCode } from '@semanticjs/common';
 import {
   GitHubWorkflowRun,
   UnpackLowCodeUnitRequest,

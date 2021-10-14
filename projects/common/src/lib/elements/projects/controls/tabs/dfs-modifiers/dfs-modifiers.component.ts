@@ -22,7 +22,7 @@ import {
   EaCProcessor,
   EaCProjectAsCode,
   EaCSourceControl,
-} from '../../../../../models/eac.models';
+} from '@semanticjs/common';
 import { BaseModeledResponse, Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
 import { SourceControlFormControlsComponent } from '../../forms/source-control/source-control.component';

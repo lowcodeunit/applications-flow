@@ -81,19 +81,24 @@
               </mat-select>
             </mat-form-field>
 
-            <lcu-hosting-details-form-group
-              [artifact]="Artifact"
-              [details]="HostingDetails"
-              [formGroup]="DevOpsFormGroup"
-              [organization]="
-                SourceControlFormControls?.OrganizationFormControl?.value
-              "
-              [disabled]="
-                !!DevOpsActionLookupFormControl?.value ||
-                SourceControlFormControls?.Loading ||
-                HostingDetails?.Loading
-              "
-            ></lcu-hosting-details-form-group>
+            <ng-container>
+              <lcu-hosting-details-form-group
+                [artifact]="Artifact"
+                [devops-action]="
+                  DevOpsActions[DevOpsActionLookupFormControl?.value]
+                "
+                [details]="HostingDetails"
+                [formGroup]="DevOpsFormGroup"
+                [organization]="
+                  SourceControlFormControls?.OrganizationFormControl?.value
+                "
+                [disabled]="
+                  !!DevOpsActionLookupFormControl?.value ||
+                  SourceControlFormControls?.Loading ||
+                  HostingDetails?.Loading
+                "
+              ></lcu-hosting-details-form-group>
+            </ng-container>
           </mat-card-content>
         </mat-card>
       </div>

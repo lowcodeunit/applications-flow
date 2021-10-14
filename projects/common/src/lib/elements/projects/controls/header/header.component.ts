@@ -5,7 +5,7 @@ import { ApplicationsFlowEventsService } from './../../../../services/applicatio
 import {
   EaCApplicationAsCode,
   EaCProjectAsCode,
-} from '../../../../models/eac.models';
+} from '@semanticjs/common';
 import {
   AbstractControl,
   FormBuilder,

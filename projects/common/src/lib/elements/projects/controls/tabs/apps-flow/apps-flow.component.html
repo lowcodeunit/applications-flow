@@ -100,7 +100,7 @@
                   >
                     <mat-option value="NPM">NPM</mat-option>
 
-                    <!-- <mat-option value="GitHub">GitHub</mat-option> -->
+                    <mat-option value="GitHub">GitHub</mat-option>
 
                     <!-- <mat-option value="Zip">Zip</mat-option> -->
                   </mat-select>
@@ -109,9 +109,11 @@
                 <div [ngSwitch]="LCUType">
                   <div *ngSwitchCase="'GitHub'">
                     <lcu-source-control-form-controls
+                      [build-path]="EditingApplication?.Processor?.LowCodeUnit?.Path"
                       [form-group]="ApplicationFormGroup"
                       [source-control]="DefaultSourceControl"
                       [use-branches]="false"
+                      [use-build-path]="true"
                     ></lcu-source-control-form-controls>
 
                     <div *ngIf="HasBuildFormControl?.value">
@@ -150,6 +152,14 @@
                         formControlName="build"
                         required
                       />
+
+                      <mat-hint>
+                        Current Build:
+                        {{
+                          EditingApplication?.Processor?.LowCodeUnit
+                            ?.CurrentBuild
+                        }}
+                      </mat-hint>
                     </mat-form-field>
                   </div>
 
@@ -165,7 +175,7 @@
                     ></lcu-npm-package-select>
 
                     <mat-hint>
-                      CurrentVersion:
+                      Current Version:
                       {{
                         EditingApplication?.Processor?.LowCodeUnit
                           ?.CurrentVersion
