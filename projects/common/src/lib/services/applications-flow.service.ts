@@ -134,6 +134,19 @@ export class ApplicationsFlowService {
     );
   }
 
+  public ListBuildPaths(
+    organization: string,
+    repository: string,
+    branch: string = ''
+  ): Observable<object> {
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories/${repository}/build-paths?branch=${branch}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public ListEnterprises(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/manage/enterprises/list`,

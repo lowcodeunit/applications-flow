@@ -109,9 +109,11 @@
                 <div [ngSwitch]="LCUType">
                   <div *ngSwitchCase="'GitHub'">
                     <lcu-source-control-form-controls
+                      [build-path]="EditingApplication?.Processor?.LowCodeUnit?.Path"
                       [form-group]="ApplicationFormGroup"
                       [source-control]="DefaultSourceControl"
                       [use-branches]="false"
+                      [use-build-path]="true"
                     ></lcu-source-control-form-controls>
 
                     <div *ngIf="HasBuildFormControl?.value">
