@@ -31,7 +31,7 @@ import {
   EaCEnvironmentAsCode,
   EaCProjectAsCode,
   EnterpriseAsCode,
-} from '../../models/eac.models';
+} from '@semanticjs/common';
 
 declare var window: Window;
 
@@ -221,6 +221,7 @@ export class ApplicationsFlowProjectsElementComponent
   ): Promise<void> {
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      // Providers: this.State.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
       Projects: {},
     };
 

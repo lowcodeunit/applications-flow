@@ -21,7 +21,7 @@ import {
   EaCProcessor,
   EaCProjectAsCode,
   EaCSourceControl,
-} from '../../../../../models/eac.models';
+} from '@semanticjs/common';
 import { BaseModeledResponse, Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
 import { SourceControlFormControlsComponent } from '../../forms/source-control/source-control.component';
@@ -194,6 +194,8 @@ export class DevOpsComponent implements OnInit {
         Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
         NPMRegistry: 'https://registry.npmjs.org/',
       };
+    } else {
+      artifactLookup = this.ArtifactLookup;
     }
 
     saveEnvReq.Environment.Artifacts[artifactLookup] = artifact;
@@ -206,7 +208,7 @@ export class DevOpsComponent implements OnInit {
       const doa: EaCDevOpsAction = {
         ...this.DevOpsAction,
         ArtifactLookups: [artifactLookup],
-        Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+        Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
         Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
         Templates:
           this.HostingDetailsFormControls.SelectedHostingOption.Templates,
@@ -233,6 +235,13 @@ export class DevOpsComponent implements OnInit {
       saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     } else {
       devOpsActionLookup = this.DevOpsActionLookupFormControl.value;
+
+      const doa: EaCDevOpsAction = {
+        ...this.DevOpsAction,
+        Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
+      };
+
+      saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     }
 
     let source: EaCSourceControl = {

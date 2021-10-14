@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GitHubWorkflowRun } from '../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../services/applications-flow-events.service';
-import { EaCProjectAsCode } from '../../../../models/eac.models';
+import { EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-project-items',

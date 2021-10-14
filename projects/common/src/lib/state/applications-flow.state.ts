@@ -1,4 +1,4 @@
-import { EnterpriseAsCode } from '../models/eac.models';
+import { EnterpriseAsCode } from '@semanticjs/common';
 
 export class ApplicationsFlowState {
   public ActiveEnterpriseLookup?: string;

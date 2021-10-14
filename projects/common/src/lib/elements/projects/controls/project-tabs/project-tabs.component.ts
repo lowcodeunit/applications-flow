@@ -6,8 +6,9 @@ import {
   EaCApplicationAsCode,
   EaCDFSModifier,
   EaCEnvironmentAsCode,
+  EaCHost,
   EaCProjectAsCode,
-} from '../../../../models/eac.models';
+} from '@semanticjs/common';
 import { AppsFlowComponent } from '../tabs/apps-flow/apps-flow.component';
 import { DevOpsComponent } from '../tabs/devops/devops.component';
 import { DFSModifiersComponent } from '../tabs/dfs-modifiers/dfs-modifiers.component';
@@ -36,6 +37,9 @@ export class ProjectTabsComponent implements OnInit {
 
   @Input('environment-lookup')
   public EnvironmentLookup: string;
+
+  @Input('hosts')
+  public Hosts: { [lookup: string]: EaCHost };
 
   @Input('project')
   public Project: EaCProjectAsCode;
@@ -92,6 +96,7 @@ export class ProjectTabsComponent implements OnInit {
       new DynamicTabsModel({
         Component: DomainsComponent,
         Data: {
+          Hosts: this.Hosts,
           Project: this.Project,
           ProjectLookup: this.ProjectLookup,
         },
