@@ -1,5 +1,13 @@
 @import "../../../../../assets/common";
 
+.card-container{
+  width:245px;
+}
+.project-card{
+  width: 225px;
+  height: 280px;
+}
+
 :host ::ng-deep {
   .no-projects {
     text-align: center;

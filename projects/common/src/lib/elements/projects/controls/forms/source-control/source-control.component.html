@@ -94,22 +94,29 @@
         add_circle
       </mat-icon>
 
-      <mat-icon
-        matSuffix
-        color="primary"
-        (click)="SaveRepository()"
-        *ngIf="CreatingRepository && RepositoryFormControl?.valid"
-      >
-        save
-      </mat-icon>
+      <button mat-button type="button" 
+        (click)="SaveRepository()" 
+        *ngIf="CreatingRepository && RepositoryFormControl?.valid">
 
-      <mat-icon
-        matSuffix
+        <mat-icon
+          matSuffix
+          color="primary"
+        >
+          save
+        </mat-icon>
+      </button>
+
+      <button mat-button type="button" 
         (click)="CancelCreateRepository()"
-        *ngIf="CreatingRepository"
-      >
-        cancel
-      </mat-icon>
+        *ngIf="CreatingRepository">
+
+        <mat-icon
+          matSuffix
+          
+        >
+          cancel
+        </mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
