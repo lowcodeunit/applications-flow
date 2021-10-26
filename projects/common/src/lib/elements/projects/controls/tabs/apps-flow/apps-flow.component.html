@@ -116,30 +116,6 @@
                       [use-build-path]="true"
                     ></lcu-source-control-form-controls>
 
-                    <div *ngIf="HasBuildFormControl?.value">
-                      <h3>
-                        @{{
-                          SourceControlFormControls?.OrganizationFormControl
-                            ?.value || SourceControl?.Organization
-                        }}/{{
-                          SourceControlFormControls?.RepositoryFormControl
-                            ?.value || SourceControl?.Repository
-                        }}
-                      </h3>
-
-                      <p>
-                        Organization and Repository pulled from build settings
-                      </p>
-
-                      <mat-hint>
-                        CurrentBuild:
-                        {{
-                          EditingApplication?.Processor?.LowCodeUnit
-                            ?.CurrentBuild
-                        }}
-                      </mat-hint>
-                    </div>
-
                     <mat-form-field
                       class="mat-full-width"
                       *ngIf="
@@ -432,6 +408,31 @@
                   </mat-option>
                 </ng-container>
               </mat-select>
+              
+              <div *ngIf="HasBuildFormControl?.value">
+                <h3>
+                  @{{
+                    SourceControlFormControls?.OrganizationFormControl
+                      ?.value || SourceControl?.Organization
+                  }}/{{
+                    SourceControlFormControls?.RepositoryFormControl
+                      ?.value || SourceControl?.Repository
+                  }}
+                </h3>
+
+                <p>
+                  Organization and Repository pulled from build settings
+                </p>
+
+                <mat-hint>
+                  CurrentBuild:
+                  {{
+                    EditingApplication?.Processor?.LowCodeUnit
+                      ?.CurrentBuild
+                  }}
+                </mat-hint>
+              </div>
+
             </mat-form-field>
 
             <div *ngIf="SourceControlLookups?.length < 0">
