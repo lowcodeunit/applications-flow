@@ -109,7 +109,7 @@
                 <div [ngSwitch]="LCUType">
                   <div *ngSwitchCase="'GitHub'">
                     <lcu-source-control-form-controls
-                      [build-path]="EditingApplication?.Processor?.LowCodeUnit?.Path"
+                      [build-path]="EditingApplication?.LowCodeUnit?.Path"
                       [form-group]="ApplicationFormGroup"
                       [source-control]="DefaultSourceControl"
                       [use-branches]="false"
@@ -132,7 +132,7 @@
                       <mat-hint>
                         Current Build:
                         {{
-                          EditingApplication?.Processor?.LowCodeUnit
+                          EditingApplication?.LowCodeUnit
                             ?.CurrentBuild
                         }}
                       </mat-hint>
@@ -142,10 +142,10 @@
                   <div *ngSwitchCase="'NPM'">
                     <lcu-npm-package-select
                       [npm-package]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Package
+                        EditingApplication?.LowCodeUnit?.Package
                       "
                       [npm-package-version]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Version
+                        EditingApplication?.LowCodeUnit?.Version
                       "
                       [form-group]="ApplicationFormGroup"
                     ></lcu-npm-package-select>
@@ -153,7 +153,7 @@
                     <mat-hint>
                       Current Version:
                       {{
-                        EditingApplication?.Processor?.LowCodeUnit
+                        EditingApplication?.LowCodeUnit
                           ?.CurrentVersion
                       }}
                     </mat-hint>
@@ -427,7 +427,7 @@
                 <mat-hint>
                   CurrentBuild:
                   {{
-                    EditingApplication?.Processor?.LowCodeUnit
+                    EditingApplication?.LowCodeUnit
                       ?.CurrentBuild
                   }}
                 </mat-hint>
@@ -587,13 +587,13 @@
                 <mat-card-subtitle
                   class="mat-subheading-1"
                   [matTooltip]="
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                    app.Processor?.LowCodeUnit?.CurrentBuild
+                    app.LowCodeUnit?.CurrentVersion ||
+                    app.LowCodeUnit?.CurrentBuild
                   "
                 >
                   @{{
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                      app.Processor?.LowCodeUnit?.CurrentBuild ||
+                    app.LowCodeUnit?.CurrentVersion ||
+                      app.LowCodeUnit?.CurrentBuild ||
                       app.Processor?.Redirect ||
                       "No version deployed"
                   }}
@@ -624,8 +624,8 @@
                     (click)="Unpack(appLookup, app)"
                     target="_blank"
                     matTooltip="Unpack {{
-                      app.Processor?.LowCodeUnit?.Version ||
-                        app.Processor?.LowCodeUnit?.Build
+                      app.LowCodeUnit?.Version ||
+                        app.LowCodeUnit?.Build
                     }}"
                   >
                     <mat-icon>cloud_upload</mat-icon>
