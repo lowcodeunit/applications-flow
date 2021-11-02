@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { GitHubWorkflowRun } from '../../../../state/applications-flow.state';
 import { ApplicationsFlowEventsService } from '../../../../services/applications-flow-events.service';
 import { EaCProjectAsCode } from '@semanticjs/common';
+import { A } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'lcu-project-items',
@@ -13,7 +14,7 @@ export class ProjectItemsComponent implements OnInit {
 
   //  Properties
   public get ProjectLookups(): Array<string> {
-    return Object.keys(this.Projects || {}).sort((a, b) => a.localeCompare(b));
+    return Object.keys(this.Projects || {});
   }
 
   /**
@@ -31,7 +32,8 @@ export class ProjectItemsComponent implements OnInit {
   constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
 
   //  Life Cycle
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+  }
 
   //  API Methods
   public DeleteProject(projectLookup: string, projectName: string): void {
@@ -49,4 +51,6 @@ export class ProjectItemsComponent implements OnInit {
   public ProjectSettings(projectLookup: string): void {
     this.appsFlowEventsSvc.SetEditProjectSettings(projectLookup);
   }
+
+  //HELPERS
 }
