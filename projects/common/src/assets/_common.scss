@@ -155,12 +155,22 @@ body {
     border-radius: 4px;
   }
 
+  
+
   // .form-enabled {
   //   background-color: rgb(8, 228, 19);
   //   opacity: 0.5;
   //   border-radius: 4px;
   // }
 }
+
+::ng-deep input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+      transition: background-color 5000s ease-in-out 0s;
+      -webkit-text-fill-color: #FFFFFFDE;
+  }
 
 @media (max-width: 768px) {
   .spread {
