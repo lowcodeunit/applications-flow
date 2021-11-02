@@ -21,7 +21,7 @@ import {
   EaCProcessor,
   EaCProjectAsCode,
   EaCSourceControl,
-} from '../../../../../models/eac.models';
+} from '@semanticjs/common';
 import { BaseModeledResponse, Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
 import { SourceControlFormControlsComponent } from '../../forms/source-control/source-control.component';
@@ -360,6 +360,9 @@ export class AppsFlowComponent implements OnInit {
               this.SourceControlFormControls.RepositoryFormControl.value;
 
             processor.LowCodeUnit.Build = this.BuildFormControl.value;
+
+            processor.LowCodeUnit.Path =
+              this.SourceControlFormControls.BuildPathFormControl.value;
             break;
 
           case 'NPM':
@@ -439,7 +442,9 @@ export class AppsFlowComponent implements OnInit {
         PathRegex: `${this.RouteFormControl.value}.*`,
         QueryRegex: '',
         HeaderRegex: '',
-        AllowedMethods: this.MethodsFormControl?.value?.split(' ').filter((v: string) => !!v),
+        AllowedMethods: this.MethodsFormControl?.value
+          ?.split(' ')
+          .filter((v: string) => !!v),
       },
       Processor: processor,
     };
@@ -508,7 +513,7 @@ export class AppsFlowComponent implements OnInit {
 
     this.ApplicationFormGroup.removeControl('clientId');
     this.ApplicationFormGroup.removeControl('clientSecret');
-    
+
     this.ApplicationFormGroup.removeControl('zipFile');
   }
 

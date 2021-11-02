@@ -194,9 +194,7 @@
         </ng-container>
       </mat-select>
 
-      <mat-icon matSuffix (click)="RefreshOrganizations()">
-        refresh
-      </mat-icon>
+      <mat-icon matSuffix (click)="RefreshOrganizations()"> refresh </mat-icon>
 
       <a
         matSuffix
@@ -224,6 +222,41 @@
     </mat-form-field>
   </div>
 
+  <div
+    class="card"
+    *ngIf="
+      (BuildPathFormControl?.valid ||
+        (OrganizationFormControl?.valid &&
+          RepositoryFormControl?.valid &&
+          !Loading)) &&
+      !CreatingRepository &&
+      UseBuildPath
+    "
+  >
+    <mat-form-field class="mat-full-width with-hint">
+      <mat-icon class="org-icon" matPrefix>build</mat-icon>
+
+      <mat-select
+        [formControlName]="SourceControlRoot + 'buildPath'"
+        placeholder="Build Path"
+        [disabled]="Loading || BuildPathDisabled"
+        (selectionChange)="BuildPathChanged($event)"
+        required
+      >
+        <ng-container *ngFor="let buildPath of BuildPathOptions">
+          <mat-option [value]="buildPath">
+            {{ buildPath }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+
+      <mat-hint>
+        The build path identifies which build action to use for your
+        configuration.
+      </mat-hint>
+    </mat-form-field>
+  </div>
+
   <div *ngIf="Loading">
     <div class="spread">
       <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
@@ -247,6 +280,16 @@
           *ngIf="RepositoryFormControl?.valid && !BranchesFormControl?.valid"
         >
           Loading branches
+        </h4>
+
+        <h4
+          class="mat-title"
+          *ngIf="
+            (RepositoryFormControl?.valid || BranchesFormControl?.valid) &&
+            !BuildPathFormControl?.valid
+          "
+        >
+          Loading build paths
         </h4>
       </div>
     </div>

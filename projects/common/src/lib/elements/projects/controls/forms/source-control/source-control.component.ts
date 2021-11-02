@@ -28,7 +28,7 @@ import {
 } from '../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
-import { EaCSourceControl } from '../../../../../models/eac.models';
+import { EaCSourceControl } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-source-control-form-controls',
@@ -55,6 +55,18 @@ export class SourceControlFormControlsComponent
   public BranchesInput: ElementRef<HTMLInputElement>;
 
   public BranchOptions: GitHubBranch[];
+
+  @Input('build-path')
+  public BuildPath: string;
+
+  @Input('build-path-disabled')
+  public BuildPathDisabled: boolean;
+
+  public get BuildPathFormControl(): AbstractControl {
+    return this.FormGroup.get(this.SourceControlRoot + 'buildPath');
+  }
+
+  public BuildPathOptions: string[];
 
   public CreatingRepository: boolean;
 
@@ -98,6 +110,9 @@ export class SourceControlFormControlsComponent
   @Input('use-branches')
   public UseBranches: boolean;
 
+  @Input('use-build-path')
+  public UseBuildPath: boolean;
+
   //  Constructors
   constructor(
     protected formBuilder: FormBuilder,
@@ -137,6 +152,9 @@ export class SourceControlFormControlsComponent
 
   public BranchOptionSelected(event: MatAutocompleteSelectedEvent): void {
     this.addBranchOption(event.option.value);
+  }
+
+  public BuildPathChanged(event: MatSelectChange): void {
   }
 
   public CreateRepository(): void {
@@ -200,6 +218,10 @@ export class SourceControlFormControlsComponent
 
       this.listBranches();
     }
+
+    if (!this.UseBranches) {
+      this.listBuildPaths();
+    }
   }
 
   public SaveRepository(): void {
@@ -243,6 +265,8 @@ export class SourceControlFormControlsComponent
     );
 
     this.FormGroup.removeControl([this.SourceControlRoot, 'branches'].join(''));
+
+    this.FormGroup.removeControl([this.SourceControlRoot, 'buildPath'].join(''));
 
     this.SelectedBranches = [];
 
@@ -298,6 +322,29 @@ export class SourceControlFormControlsComponent
           }
 
           this.emitBranchesChanged();
+
+          this.listBuildPaths();
+        });
+    }
+  }
+
+  protected listBuildPaths(): void {
+    if (this.UseBuildPath) {
+      this.Loading = true;
+
+      this.appsFlowSvc
+        .ListBuildPaths(
+          this.OrganizationFormControl.value,
+          this.RepositoryFormControl.value
+        )
+        .subscribe((response: BaseModeledResponse<string[]>) => {
+          this.BuildPathOptions = response.Model;
+
+          this.Loading = false;
+
+          if (this.BuildPathOptions?.length === 1) {
+            this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
+          }
         });
     }
   }
@@ -339,6 +386,10 @@ export class SourceControlFormControlsComponent
             this.RepositoryFormControl.setValue(activeRepo);
 
             this.listBranches();
+
+            if (!this.UseBranches) {
+              this.listBuildPaths();
+            }
           }, 0);
         } else if (this.RepositoryOptions?.length <= 0) {
           this.CreatingRepository = true;
@@ -376,6 +427,13 @@ export class SourceControlFormControlsComponent
           this.SourceControl.MainBranch ?? '',
           Validators.required
         )
+      );
+    }
+
+    if (this.UseBuildPath) {
+      this.FormGroup.addControl(
+        [this.SourceControlRoot, 'buildPath'].join(''),
+        new FormControl(this.BuildPath ?? '', Validators.required)
       );
     }
   }

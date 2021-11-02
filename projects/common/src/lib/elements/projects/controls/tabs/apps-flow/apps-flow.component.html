@@ -100,7 +100,7 @@
                   >
                     <mat-option value="NPM">NPM</mat-option>
 
-                    <!-- <mat-option value="GitHub">GitHub</mat-option> -->
+                    <mat-option value="GitHub">GitHub</mat-option>
 
                     <!-- <mat-option value="Zip">Zip</mat-option> -->
                   </mat-select>
@@ -109,34 +109,12 @@
                 <div [ngSwitch]="LCUType">
                   <div *ngSwitchCase="'GitHub'">
                     <lcu-source-control-form-controls
+                      [build-path]="EditingApplication?.LowCodeUnit?.Path"
                       [form-group]="ApplicationFormGroup"
                       [source-control]="DefaultSourceControl"
                       [use-branches]="false"
+                      [use-build-path]="true"
                     ></lcu-source-control-form-controls>
-
-                    <div *ngIf="HasBuildFormControl?.value">
-                      <h3>
-                        @{{
-                          SourceControlFormControls?.OrganizationFormControl
-                            ?.value || SourceControl?.Organization
-                        }}/{{
-                          SourceControlFormControls?.RepositoryFormControl
-                            ?.value || SourceControl?.Repository
-                        }}
-                      </h3>
-
-                      <p>
-                        Organization and Repository pulled from build settings
-                      </p>
-
-                      <mat-hint>
-                        CurrentBuild:
-                        {{
-                          EditingApplication?.Processor?.LowCodeUnit
-                            ?.CurrentBuild
-                        }}
-                      </mat-hint>
-                    </div>
 
                     <mat-form-field
                       class="mat-full-width"
@@ -150,24 +128,32 @@
                         formControlName="build"
                         required
                       />
+
+                      <mat-hint>
+                        Current Build:
+                        {{
+                          EditingApplication?.LowCodeUnit
+                            ?.CurrentBuild
+                        }}
+                      </mat-hint>
                     </mat-form-field>
                   </div>
 
                   <div *ngSwitchCase="'NPM'">
                     <lcu-npm-package-select
                       [npm-package]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Package
+                        EditingApplication?.LowCodeUnit?.Package
                       "
                       [npm-package-version]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Version
+                        EditingApplication?.LowCodeUnit?.Version
                       "
                       [form-group]="ApplicationFormGroup"
                     ></lcu-npm-package-select>
 
                     <mat-hint>
-                      CurrentVersion:
+                      Current Version:
                       {{
-                        EditingApplication?.Processor?.LowCodeUnit
+                        EditingApplication?.LowCodeUnit
                           ?.CurrentVersion
                       }}
                     </mat-hint>
@@ -422,6 +408,31 @@
                   </mat-option>
                 </ng-container>
               </mat-select>
+              
+              <div *ngIf="HasBuildFormControl?.value">
+                <h3>
+                  @{{
+                    SourceControlFormControls?.OrganizationFormControl
+                      ?.value || SourceControl?.Organization
+                  }}/{{
+                    SourceControlFormControls?.RepositoryFormControl
+                      ?.value || SourceControl?.Repository
+                  }}
+                </h3>
+
+                <p>
+                  Organization and Repository pulled from build settings
+                </p>
+
+                <mat-hint>
+                  CurrentBuild:
+                  {{
+                    EditingApplication?.LowCodeUnit
+                      ?.CurrentBuild
+                  }}
+                </mat-hint>
+              </div>
+
             </mat-form-field>
 
             <div *ngIf="SourceControlLookups?.length < 0">
@@ -576,13 +587,13 @@
                 <mat-card-subtitle
                   class="mat-subheading-1"
                   [matTooltip]="
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                    app.Processor?.LowCodeUnit?.CurrentBuild
+                    app.LowCodeUnit?.CurrentVersion ||
+                    app.LowCodeUnit?.CurrentBuild
                   "
                 >
                   @{{
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                      app.Processor?.LowCodeUnit?.CurrentBuild ||
+                    app.LowCodeUnit?.CurrentVersion ||
+                      app.LowCodeUnit?.CurrentBuild ||
                       app.Processor?.Redirect ||
                       "No version deployed"
                   }}
@@ -613,8 +624,8 @@
                     (click)="Unpack(appLookup, app)"
                     target="_blank"
                     matTooltip="Unpack {{
-                      app.Processor?.LowCodeUnit?.Version ||
-                        app.Processor?.LowCodeUnit?.Build
+                      app.LowCodeUnit?.Version ||
+                        app.LowCodeUnit?.Build
                     }}"
                   >
                     <mat-icon>cloud_upload</mat-icon>
