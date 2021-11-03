@@ -290,7 +290,9 @@
                 </mat-form-field>
 
                 <div>
-                  <mat-slide-toggle class="spread" formControlName="permanent">
+                  <mat-slide-toggle 
+                    class="spread" 
+                    formControlName="permanent">
                     Is Permanent?
                   </mat-slide-toggle>
 
@@ -304,10 +306,49 @@
                   <mat-icon
                     class="spread"
                     matSuffix
-                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                    (mouseenter)="DetermineTooltipText()"
+                    matTooltip={{redirectTooltip}}
                   >
                     info_outline
                   </mat-icon>
+
+                  <!-- <mat-icon
+                  *ngIf="!IsPermanent && !IsPreserve"
+
+                    class="spread"
+                    matSuffix
+                    matTooltip="302 – Not Permanent and Not Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  <!-- <mat-icon
+                  *ngIf="!IsPermanent && IsPreserve"
+                    class="spread"
+                    matSuffix
+                    matTooltip="307 – Not Permanent and Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  <!-- <mat-icon
+                  *ngIf="IsPermanent && IsPreserve"
+                    class="spread"
+                    matSuffix
+                    matTooltip="308 – Permanent and Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  
+
+                  <!-- <mat-icon
+                    class="spread"
+                    matSuffix
+                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                  >
+                    info_outline
+                  </mat-icon> -->
                 </div>
               </div>
             </div>
