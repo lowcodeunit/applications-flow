@@ -104,8 +104,8 @@ export class AppsFlowComponent implements OnInit {
   public get DefaultSourceControl(): EaCSourceControl {
     return {
       Organization:
-        this.EditingApplication?.Processor?.LowCodeUnit?.Organization,
-      Repository: this.EditingApplication?.Processor?.LowCodeUnit?.Repository,
+        this.EditingApplication?.LowCodeUnit?.Organization,
+      Repository: this.EditingApplication?.LowCodeUnit?.Repository,
     };
   }
 
@@ -565,7 +565,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'hasBuild',
       this.formBldr.control(
-        !!this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
+        !!this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
           false,
         [Validators.required]
       )
@@ -574,7 +574,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'sourceControlLookup',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
+        this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
           '',
         []
       )
@@ -582,7 +582,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupDfsForm(): void {
-    this.LCUType = this.EditingApplication.Processor?.LowCodeUnit?.Type || '';
+    this.LCUType = this.EditingApplication.LowCodeUnit?.Type || '';
 
     this.ApplicationFormGroup.addControl(
       'defaultFile',
@@ -610,7 +610,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'apiRoot',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.APIRoot || '',
+        this.EditingApplication.LowCodeUnit?.APIRoot || '',
         [Validators.required]
       )
     );
@@ -618,7 +618,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'security',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.Security || '',
+        this.EditingApplication.LowCodeUnit?.Security || '',
         [Validators.required]
       )
     );
@@ -628,7 +628,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'applicationId',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ApplicationID || '',
+        this.EditingApplication.LowCodeUnit?.ApplicationID || '',
         [Validators.required]
       )
     );
@@ -638,7 +638,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'build',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.Build || '',
+        this.EditingApplication.LowCodeUnit?.Build || '',
         [Validators.required]
       )
     );
@@ -648,7 +648,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'clientId',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ClientID || '',
+        this.EditingApplication.LowCodeUnit?.ClientID || '',
         [Validators.required]
       )
     );
@@ -656,7 +656,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'clientSecret',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ClientSecret || '',
+        this.EditingApplication.LowCodeUnit?.ClientSecret || '',
         [Validators.required]
       )
     );
@@ -666,14 +666,14 @@ export class AppsFlowComponent implements OnInit {
     // this.ApplicationFormGroup.addControl(
     //   'package',
     //   this.formBldr.control(
-    //     this.EditingApplication.Processor?.LowCodeUnit?.Package || '',
+    //     this.EditingApplication.LowCodeUnit?.Package || '',
     //     [Validators.required]
     //   )
     // );
     // this.ApplicationFormGroup.addControl(
     //   'version',
     //   this.formBldr.control(
-    //     this.EditingApplication.Processor?.LowCodeUnit?.Version || '',
+    //     this.EditingApplication.LowCodeUnit?.Version || '',
     //     [Validators.required]
     //   )
     // );
@@ -683,7 +683,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'spaRoot',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.SPARoot || '',
+        this.EditingApplication.LowCodeUnit?.SPARoot || '',
         [Validators.required]
       )
     );
@@ -693,7 +693,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'zipFile',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ZipFile || '',
+        this.EditingApplication.LowCodeUnit?.ZipFile || '',
         [Validators.required]
       )
     );
@@ -739,7 +739,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupOAuthForm(): void {
-    this.LCUType = this.EditingApplication.Processor?.LowCodeUnit?.Type || '';
+    this.LCUType = this.EditingApplication.LowCodeUnit?.Type || '';
 
     this.ApplicationFormGroup.addControl(
       'scopes',
@@ -764,7 +764,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupProxyForm(): void {
-    this.LCUType = this.EditingApplication.Processor?.LowCodeUnit?.Type || '';
+    this.LCUType = this.EditingApplication.LowCodeUnit?.Type || '';
 
     this.ApplicationFormGroup.addControl(
       'inboundPath',
