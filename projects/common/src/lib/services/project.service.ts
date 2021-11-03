@@ -299,7 +299,6 @@ export class ProjectService {
 
       this.appsFlowSvc.LoadEnterpriseAsCode().subscribe(
         (response: BaseModeledResponse<EnterpriseAsCode>) => {
-          debugger;
           state.Loading = false;
 
           if (response.Status.Code === 0) {
