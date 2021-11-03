@@ -131,19 +131,14 @@
 
                       <mat-hint>
                         Current Build:
-                        {{
-                          EditingApplication?.LowCodeUnit
-                            ?.CurrentBuild
-                        }}
+                        {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
                       </mat-hint>
                     </mat-form-field>
                   </div>
 
                   <div *ngSwitchCase="'NPM'">
                     <lcu-npm-package-select
-                      [npm-package]="
-                        EditingApplication?.LowCodeUnit?.Package
-                      "
+                      [npm-package]="EditingApplication?.LowCodeUnit?.Package"
                       [npm-package-version]="
                         EditingApplication?.LowCodeUnit?.Version
                       "
@@ -152,10 +147,7 @@
 
                     <mat-hint>
                       Current Version:
-                      {{
-                        EditingApplication?.LowCodeUnit
-                          ?.CurrentVersion
-                      }}
+                      {{ EditingApplication?.LowCodeUnit?.CurrentVersion }}
                     </mat-hint>
                   </div>
                 </div>
@@ -408,31 +400,25 @@
                   </mat-option>
                 </ng-container>
               </mat-select>
-              
+
               <div *ngIf="HasBuildFormControl?.value">
                 <h3>
                   @{{
-                    SourceControlFormControls?.OrganizationFormControl
-                      ?.value || SourceControl?.Organization
+                    SourceControlFormControls?.OrganizationFormControl?.value ||
+                      SourceControl?.Organization
                   }}/{{
-                    SourceControlFormControls?.RepositoryFormControl
-                      ?.value || SourceControl?.Repository
+                    SourceControlFormControls?.RepositoryFormControl?.value ||
+                      SourceControl?.Repository
                   }}
                 </h3>
 
-                <p>
-                  Organization and Repository pulled from build settings
-                </p>
+                <p>Organization and Repository pulled from build settings</p>
 
                 <mat-hint>
                   CurrentBuild:
-                  {{
-                    EditingApplication?.LowCodeUnit
-                      ?.CurrentBuild
-                  }}
+                  {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
                 </mat-hint>
               </div>
-
             </mat-form-field>
 
             <div *ngIf="SourceControlLookups?.length < 0">
@@ -597,6 +583,8 @@
                       app.Processor?.Redirect ||
                       "No version deployed"
                   }}
+
+                  {{ app | json }}
                 </mat-card-subtitle>
               </mat-card-header>
 
@@ -624,8 +612,7 @@
                     (click)="Unpack(appLookup, app)"
                     target="_blank"
                     matTooltip="Unpack {{
-                      app.LowCodeUnit?.Version ||
-                        app.LowCodeUnit?.Build
+                      app.LowCodeUnit?.Version || app.LowCodeUnit?.Build
                     }}"
                   >
                     <mat-icon>cloud_upload</mat-icon>
