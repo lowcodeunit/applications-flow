@@ -354,6 +354,18 @@ export class AppsFlowComponent implements OnInit {
 
   }
 
+  public GetProcessorType(appLookup:any): string{
+    let processorType = "";
+    processorType = this.Applications[appLookup].Processor.Type ? this.Applications[appLookup].Processor.Type : "";
+    // console.log("Ptype = ", processorType);
+
+    return processorType;
+  }
+
+  public EditApplicationRouteClicked(appRoute:any){
+    this.CurrentApplicationRoute = appRoute;
+  }
+
   public SaveApplication(): void {
     const processor: EaCProcessor = {
       Type: this.ProcessorType,
@@ -559,6 +571,7 @@ export class AppsFlowComponent implements OnInit {
 
   protected setupApplicationForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
+    console.log("ProcessorType = ", this.ProcessorType);
 
     if (this.EditingApplication != null) {
       this.ApplicationFormGroup = this.formBldr.group({

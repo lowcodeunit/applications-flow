@@ -565,7 +565,7 @@
                   <button
                     mat-icon-button
                     color="accent"
-                    (click)="CurrentApplicationRoute = appRoute"
+                    (click)="EditApplicationRouteClicked(appRoute)"
                   >
                     <mat-icon matTooltip="Edit Application Route">
                       settings
@@ -661,6 +661,7 @@
                   </a>
 
                   <a
+                  *ngIf="GetProcessorType(appLookup) === 'DFS'"
                     mat-icon-button
                     (click)="Unpack(appLookup, app)"
                     target="_blank"
@@ -705,7 +706,8 @@
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
 
-                  <button mat-icon-button disabled>
+                  <button mat-icon-button disabled 
+                  *ngIf="GetProcessorType(appLookup) === 'DFS'">
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
                 </div>
