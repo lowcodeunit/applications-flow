@@ -3,6 +3,11 @@
 :host ::ng-deep {
   // text-align: center;
 
+  #app-back-button{
+    margin-left: -37px;
+    margin-top: 15px;
+  }
+
   .apps-actions {
     float: right;
   }

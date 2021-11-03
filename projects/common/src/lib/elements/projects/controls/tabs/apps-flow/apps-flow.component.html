@@ -4,11 +4,22 @@
     (ngSubmit)="SaveApplication()"
     *ngIf="EditingApplication"
   >
+
     <div
       fxLayout="row wrap"
       fxLayoutAlign="center start"
       fxLayout.lt-md="column"
     >
+    <h2 id="app-back-button">
+      <button
+        mat-icon-button
+        matTooltip="Back to Applications"
+        (click)="SetEditingApplication(null)"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      Applications
+    </h2>
       <div class="form-card" fxFlex="70%" fxFlex.lt-md="100%">
         <mat-card class="spread">
           <mat-card-header>
