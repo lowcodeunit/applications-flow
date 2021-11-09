@@ -83,8 +83,8 @@ body {
   background-color: var(--initial-dark-background);
 }
 
-.mat-tooltip{
-  font-size: 16px !important;
+::ng-deep .mat-tooltip{
+  font-size: 20px !important;
 }
 
 :host {
