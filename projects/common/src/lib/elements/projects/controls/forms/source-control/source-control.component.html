@@ -27,20 +27,21 @@
         href="/.oauth/github?oauth-force-edit=true"
         title="Re-authorize Organizations"
         target="_blank"
+        color="accent"
       >
-        <mat-icon> launch </mat-icon>
+        <mat-icon color="accent"> launch </mat-icon>
       </a>
 
       <mat-hint>
         If you don't have an organization or would like to create a new one,
         <a
+          color="primary"
           mat-button
           href="https://github.com/account/organizations/new"
           target="_blank"
         >
           start here
         </a>
-        .
       </mat-hint>
     </mat-form-field>
   </div>
@@ -94,22 +95,29 @@
         add_circle
       </mat-icon>
 
-      <mat-icon
-        matSuffix
-        color="primary"
-        (click)="SaveRepository()"
-        *ngIf="CreatingRepository && RepositoryFormControl?.valid"
-      >
-        save
-      </mat-icon>
+      <button mat-button type="button" 
+        (click)="SaveRepository()" 
+        *ngIf="CreatingRepository && RepositoryFormControl?.valid">
 
-      <mat-icon
-        matSuffix
+        <mat-icon
+          matSuffix
+          color="primary"
+        >
+          save
+        </mat-icon>
+      </button>
+
+      <button mat-button type="button" 
         (click)="CancelCreateRepository()"
-        *ngIf="CreatingRepository"
-      >
-        cancel
-      </mat-icon>
+        *ngIf="CreatingRepository">
+
+        <mat-icon
+          matSuffix
+          
+        >
+          cancel
+        </mat-icon>
+      </button>
     </mat-form-field>
   </div>
 
@@ -186,9 +194,7 @@
         </ng-container>
       </mat-select>
 
-      <mat-icon matSuffix (click)="RefreshOrganizations()">
-        refresh
-      </mat-icon>
+      <mat-icon matSuffix (click)="RefreshOrganizations()"> refresh </mat-icon>
 
       <a
         matSuffix
@@ -196,20 +202,57 @@
         href="/.oauth/github?oauth-force-edit=true"
         title="Re-authorize Organizations"
         target="_blank"
+        color="accent"
       >
-        <mat-icon> launch </mat-icon>
+        <mat-icon
+        color="accent"> launch </mat-icon>
       </a>
 
       <mat-hint>
         If you don't have an organization or would like to create a new one,
         <a
+          color="primary"
           mat-button
           href="https://github.com/account/organizations/new"
           target="_blank"
         >
           start here
         </a>
-        .
+      </mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div
+    class="card"
+    *ngIf="
+      (BuildPathFormControl?.valid ||
+        (OrganizationFormControl?.valid &&
+          RepositoryFormControl?.valid &&
+          !Loading)) &&
+      !CreatingRepository &&
+      UseBuildPath
+    "
+  >
+    <mat-form-field class="mat-full-width with-hint">
+      <mat-icon class="org-icon" matPrefix>build</mat-icon>
+
+      <mat-select
+        [formControlName]="SourceControlRoot + 'buildPath'"
+        placeholder="Build Path"
+        [disabled]="Loading || BuildPathDisabled"
+        (selectionChange)="BuildPathChanged($event)"
+        required
+      >
+        <ng-container *ngFor="let buildPath of BuildPathOptions">
+          <mat-option [value]="buildPath">
+            {{ buildPath }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+
+      <mat-hint>
+        The build path identifies which build action to use for your
+        configuration.
       </mat-hint>
     </mat-form-field>
   </div>
@@ -237,6 +280,16 @@
           *ngIf="RepositoryFormControl?.valid && !BranchesFormControl?.valid"
         >
           Loading branches
+        </h4>
+
+        <h4
+          class="mat-title"
+          *ngIf="
+            (RepositoryFormControl?.valid || BranchesFormControl?.valid) &&
+            !BuildPathFormControl?.valid
+          "
+        >
+          Loading build paths
         </h4>
       </div>
     </div>

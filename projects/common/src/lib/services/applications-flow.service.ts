@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
 import { LCUServiceSettings, StateContext } from '@lcu/common';
 import { Observable, Subject } from 'rxjs';
-import { EaCProjectAsCode, EnterpriseAsCode } from '../models/eac.models';
+import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
 import {
   ApplicationsFlowState,
   UnpackLowCodeUnitRequest,
@@ -61,9 +61,27 @@ export class ApplicationsFlowService {
     );
   }
 
+  public DeleteDevOpsAction(doaLookup: string): Observable<object> {
+    return this.http.delete(
+      `${this.apiRoot}/api/lowcodeunit/manage/devops-actions/${doaLookup}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public DeleteProject(projectLookup: string): Observable<object> {
     return this.http.delete(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectLookup}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public DeleteSourceControl(scLookup: string): Observable<object> {
+    return this.http.delete(
+      `${this.apiRoot}/api/lowcodeunit/manage/source-controls/${scLookup}`,
       {
         headers: this.loadHeaders(),
       }
@@ -110,6 +128,19 @@ export class ApplicationsFlowService {
   ): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories/${repository}/branches`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public ListBuildPaths(
+    organization: string,
+    repository: string,
+    branch: string = ''
+  ): Observable<object> {
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/github/organizations/${organization}/repositories/${repository}/build-paths?branch=${branch}`,
       {
         headers: this.loadHeaders(),
       }

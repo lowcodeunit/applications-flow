@@ -58,8 +58,11 @@
 
           <div *ngIf="EditingProject">
             <div class="divider margin-bottom-3"></div>
+            
             <lcu-project-tabs
               [applications]="State.EaC?.Applications"
+              [dfs-modifiers]="State.EaC?.Modifiers"
+              [hosts]="State.EaC?.Hosts"
               [project]="EditingProject"
               [project-lookup]="EditingProjectLookup"
               [environment]="ActiveEnvironment"
@@ -77,9 +80,9 @@
     <lcu-loader [loading]="State?.Loading"></lcu-loader>
 
     <div class="margin-3">
-      <p *ngIf="!State.UserEnterpriseLookup">Loading your projects</p>
+      <!-- <p *ngIf="!State.UserEnterpriseLookup">Loading your projects</p> -->
 
-      <p *ngIf="State.UserEnterpriseLookup">Loading your Dashboard.</p>
+      <!-- <p *ngIf="State.UserEnterpriseLookup">Loading your Dashboard.</p> -->
     </div>
   </div>
 

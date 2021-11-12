@@ -9,14 +9,18 @@
       Create your first project to get started
     </h2>
   </div>
-
+  
+  <!-- [fxFlex]="SelectedProjectLookup ? '350px' : '30%'"
+  fxFlex.lt-md="100%" vv-->
   <div
-    [fxFlex]="SelectedProjectLookup ? '350px' : '30%'"
-    fxFlex.lt-md="100%"
+    
     *ngFor="let projectLookup of ProjectLookups"
+    class="card-container"
   >
     <mat-card
-      class="spread"
+      class="spread project-card"
+      fxLayout="column"
+      fxLayoutAlign="space-between"
       [class.selected-project]="projectLookup == SelectedProjectLookup"
       *ngIf="Projects[projectLookup]; let project"
     >

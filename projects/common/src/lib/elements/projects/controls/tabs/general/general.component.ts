@@ -12,7 +12,7 @@ import {
 
 import { LcuElementComponent, LCUElementContext } from '@lcu/common';
 import { ApplicationsFlowService } from './../../../../../services/applications-flow.service';
-import { EaCProjectAsCode } from '../../../../../models/eac.models';
+import { EaCProjectAsCode } from '@semanticjs/common';
 
 export class ApplicationsFlowProjectsElementState {}
 

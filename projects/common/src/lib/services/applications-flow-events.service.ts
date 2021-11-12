@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable, Injector } from '@angular/core';
-import { EaCEnvironmentAsCode } from '../models/eac.models';
+import { EaCDFSModifier, EaCEnvironmentAsCode } from '@semanticjs/common';
 import {
   EaCApplicationAsCode,
   EaCArtifact,
@@ -8,8 +8,8 @@ import {
   EaCProjectAsCode,
   EaCSecret,
   EaCSourceControl,
-} from '../models/eac.models';
-import { EnterpriseAsCode } from '../models/eac.models';
+} from '@semanticjs/common';
+import { EnterpriseAsCode } from '@semanticjs/common';
 import {
   GitHubWorkflowRun,
   UnpackLowCodeUnitRequest,
@@ -20,13 +20,23 @@ export class SaveApplicationAsCodeEventRequest {
 
   public ApplicationLookup?: string;
 
+  public ProjectLookup?: string;
+}
+
+export class SaveDFSModifierEventRequest {
+  public Modifier: EaCDFSModifier;
+
+  public ModifierLookup: string;
+
+  public ProjectLookup?: string;
+}
+
+export class SaveEnvironmentAsCodeEventRequest {
   public EnterpriseDataTokens?: { [lookup: string]: EaCDataToken };
 
   public Environment?: EaCEnvironmentAsCode;
 
   public EnvironmentLookup?: string;
-
-  public ProjectLookup?: string;
 }
 
 export class SaveProjectAsCodeEventRequest {
@@ -44,7 +54,11 @@ export class ApplicationsFlowEventsService {
   //  Properties
   public DeleteApplicationEvent: EventEmitter<string>;
 
+  public DeleteDevOpsActionEvent: EventEmitter<string>;
+
   public DeleteProjectEvent: EventEmitter<string>;
+
+  public DeleteSourceControlEvent: EventEmitter<string>;
 
   public EnsureUserEnterpriseEvent: EventEmitter<any>;
 
@@ -54,7 +68,11 @@ export class ApplicationsFlowEventsService {
 
   public SaveApplicationAsCodeEvent: EventEmitter<SaveApplicationAsCodeEventRequest>;
 
+  public SaveDFSModifierEvent: EventEmitter<SaveDFSModifierEventRequest>;
+
   public SaveEnterpriseAsCodeEvent: EventEmitter<EnterpriseAsCode>;
+
+  public SaveEnvironmentAsCodeEvent: EventEmitter<SaveEnvironmentAsCodeEventRequest>;
 
   public SaveProjectAsCodeEvent: EventEmitter<SaveProjectAsCodeEventRequest>;
 
@@ -68,7 +86,11 @@ export class ApplicationsFlowEventsService {
   constructor() {
     this.DeleteApplicationEvent = new EventEmitter();
 
+    this.DeleteDevOpsActionEvent = new EventEmitter();
+
     this.DeleteProjectEvent = new EventEmitter();
+
+    this.DeleteSourceControlEvent = new EventEmitter();
 
     this.EnsureUserEnterpriseEvent = new EventEmitter();
 
@@ -76,7 +98,11 @@ export class ApplicationsFlowEventsService {
 
     this.SaveApplicationAsCodeEvent = new EventEmitter();
 
+    this.SaveDFSModifierEvent = new EventEmitter();
+
     this.SaveEnterpriseAsCodeEvent = new EventEmitter();
+
+    this.SaveEnvironmentAsCodeEvent = new EventEmitter();
 
     this.SaveProjectAsCodeEvent = new EventEmitter();
 
@@ -92,8 +118,16 @@ export class ApplicationsFlowEventsService {
     this.DeleteApplicationEvent.emit(appLookup);
   }
 
+  public DeleteDevOpsAction(doaLookup: string): void {
+    this.DeleteDevOpsActionEvent.emit(doaLookup);
+  }
+
   public DeleteProject(projectLookup: string): void {
     this.DeleteProjectEvent.emit(projectLookup);
+  }
+
+  public DeleteSourceControl(scLookup: string): void {
+    this.DeleteSourceControlEvent.emit(scLookup);
   }
 
   public EnsureUserEnterprise(): void {
@@ -112,8 +146,16 @@ export class ApplicationsFlowEventsService {
     this.SaveApplicationAsCodeEvent.emit(req);
   }
 
+  public SaveDFSModifier(req: SaveDFSModifierEventRequest): void {
+    this.SaveDFSModifierEvent.emit(req);
+  }
+
   public SaveEnterpriseAsCode(eac: EnterpriseAsCode): void {
     this.SaveEnterpriseAsCodeEvent.emit(eac);
+  }
+
+  public SaveEnvironmentAsCode(req: SaveEnvironmentAsCodeEventRequest): void {
+    this.SaveEnvironmentAsCodeEvent.emit(req);
   }
 
   public SaveProjectAsCode(req: SaveProjectAsCodeEventRequest): void {
