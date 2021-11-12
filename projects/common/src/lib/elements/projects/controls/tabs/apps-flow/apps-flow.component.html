@@ -109,35 +109,12 @@
                 <div [ngSwitch]="LCUType">
                   <div *ngSwitchCase="'GitHub'">
                     <lcu-source-control-form-controls
-                      *ngIf="!HasBuildFormControl?.value"
+                      [build-path]="EditingApplication?.LowCodeUnit?.Path"
                       [form-group]="ApplicationFormGroup"
                       [source-control]="DefaultSourceControl"
                       [use-branches]="false"
+                      [use-build-path]="true"
                     ></lcu-source-control-form-controls>
-
-                    <div *ngIf="HasBuildFormControl?.value">
-                      <h3>
-                        @{{
-                          SourceControlFormControls?.OrganizationFormControl
-                            ?.value || SourceControl?.Organization
-                        }}/{{
-                          SourceControlFormControls?.RepositoryFormControl
-                            ?.value || SourceControl?.Repository
-                        }}
-                      </h3>
-
-                      <p>
-                        Organization and Repository pulled from build settings
-                      </p>
-
-                      <mat-hint>
-                        CurrentBuild:
-                        {{
-                          EditingApplication?.Processor?.LowCodeUnit
-                            ?.CurrentBuild
-                        }}
-                      </mat-hint>
-                    </div>
 
                     <mat-form-field
                       class="mat-full-width"
@@ -151,26 +128,26 @@
                         formControlName="build"
                         required
                       />
+
+                      <mat-hint>
+                        Current Build:
+                        {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
+                      </mat-hint>
                     </mat-form-field>
                   </div>
 
                   <div *ngSwitchCase="'NPM'">
                     <lcu-npm-package-select
-                      [npm-package]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Package
-                      "
+                      [npm-package]="EditingApplication?.LowCodeUnit?.Package"
                       [npm-package-version]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Version
+                        EditingApplication?.LowCodeUnit?.Version
                       "
                       [form-group]="ApplicationFormGroup"
                     ></lcu-npm-package-select>
 
                     <mat-hint>
-                      CurrentVersion:
-                      {{
-                        EditingApplication?.Processor?.LowCodeUnit
-                          ?.CurrentVersion
-                      }}
+                      Current Version:
+                      {{ EditingApplication?.LowCodeUnit?.CurrentVersion }}
                     </mat-hint>
                   </div>
                 </div>
@@ -328,7 +305,9 @@
             </div>
           </mat-card-content>
         </mat-card>
+      </div>
 
+      <div class="form-card" fxFlex="35%">
         <mat-card class="spread">
           <mat-card-header>
             <mat-card-title> Security Settings </mat-card-title>
@@ -368,10 +347,8 @@
             </div>
           </mat-card-content>
         </mat-card>
-      </div>
 
-      <div class="form-card" fxFlex="35%" *ngIf="ProcessorType != 'Redirect'">
-        <mat-card class="spread">
+        <mat-card class="spread" *ngIf="ProcessorType != 'Redirect'">
           <mat-card-header>
             <mat-card-title *ngIf="!HasBuildFormControl.value">
               Build & Source
@@ -400,7 +377,9 @@
           <mat-card-content>
             <mat-form-field
               class="mat-full-width"
-              *ngIf="HasBuildFormControl.value"
+              *ngIf="
+                HasBuildFormControl.value && SourceControlLookups?.length > 0
+              "
             >
               <mat-select
                 formControlName="sourceControlLookup"
@@ -420,86 +399,33 @@
                     {{ srcCtrl.Name }}
                   </mat-option>
                 </ng-container>
-
-                <mat-option value="">-- Create New --</mat-option>
               </mat-select>
+
+              <div *ngIf="HasBuildFormControl?.value">
+                <h3>
+                  @{{
+                    SourceControlFormControls?.OrganizationFormControl?.value ||
+                      SourceControl?.Organization
+                  }}/{{
+                    SourceControlFormControls?.RepositoryFormControl?.value ||
+                      SourceControl?.Repository
+                  }}
+                </h3>
+
+                <p>Organization and Repository pulled from build settings</p>
+
+                <mat-hint>
+                  CurrentBuild:
+                  {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
+                </mat-hint>
+              </div>
             </mat-form-field>
 
-            <lcu-source-control-form-controls
-              [branches-disabled]="HostingDetails?.Loading"
-              [form-group]="ApplicationFormGroup"
-              [org-disabled]="
-                SourceControlLookupFormControl.value != '' ||
-                HostingDetails?.Loading
-              "
-              [repo-disabled]="
-                SourceControlLookupFormControl.value != '' ||
-                HostingDetails?.Loading
-              "
-              [source-control]="SourceControl"
-              (branches-changed)="BranchesChanged($event)"
-              *ngIf="HasBuildFormControl.value"
-            ></lcu-source-control-form-controls>
-          </mat-card-content>
-        </mat-card>
-
-        <mat-card
-          class="spread"
-          *ngIf="
-            HasBuildFormControl.value &&
-            (SourceControlFormControls?.SelectedBranches?.length > 0 ||
-              SourceControl?.Branches?.length > 0)
-          "
-        >
-          <mat-card-header>
-            <mat-card-title> Build Pipeline </mat-card-title>
-
-            <mat-hint>
-              Changes made here are reflected for all sources using this
-              DevOpsAction
-            </mat-hint>
-          </mat-card-header>
-
-          <mat-card-content>
-            <mat-form-field class="mat-full-width">
-              <mat-select
-                formControlName="devOpsActionLookup"
-                placeholder="DevOps Action"
-                [disabled]="
-                  SourceControlLookupFormControl?.value ||
-                  SourceControlFormControls?.Loading ||
-                  HostingDetails?.Loading
-                "
-                (selectionChange)="DevOpsActionLookupChanged($event)"
-              >
-                <ng-container
-                  *ngFor="let devOpsActionLookup of DevOpsActionLookups"
-                >
-                  <mat-option
-                    [value]="devOpsActionLookup"
-                    *ngIf="DevOpsActions[devOpsActionLookup]; let devOpsAction"
-                  >
-                    {{ devOpsAction.Name }}
-                  </mat-option>
-                </ng-container>
-
-                <mat-option value="">-- Create New --</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <lcu-hosting-details-form-group
-              [artifact]="Artifact"
-              [details]="HostingDetails"
-              [formGroup]="ApplicationFormGroup"
-              [organization]="
-                SourceControlFormControls?.OrganizationFormControl?.value
-              "
-              [disabled]="
-                !!DevOpsActionLookupFormControl?.value ||
-                SourceControlFormControls?.Loading ||
-                HostingDetails?.Loading
-              "
-            ></lcu-hosting-details-form-group>
+            <div *ngIf="SourceControlLookups?.length < 0">
+              <h3>
+                Create source control locations under the DevOps tab above.
+              </h3>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>
@@ -647,13 +573,14 @@
                 <mat-card-subtitle
                   class="mat-subheading-1"
                   [matTooltip]="
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                    app.Processor?.LowCodeUnit?.CurrentBuild
+                    app.LowCodeUnit?.CurrentVersion ||
+                    app.LowCodeUnit?.CurrentBuild
                   "
                 >
                   @{{
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                      app.Processor?.LowCodeUnit?.CurrentBuild ||
+                    app.LowCodeUnit?.CurrentVersion ||
+                      app.LowCodeUnit?.CurrentBuild ||
+                      app.Processor?.Redirect ||
                       "No version deployed"
                   }}
                 </mat-card-subtitle>
@@ -680,11 +607,10 @@
 
                   <a
                     mat-icon-button
-                    (click)="Unpack(appLookup, app.Application.Name)"
+                    (click)="Unpack(appLookup, app)"
                     target="_blank"
                     matTooltip="Unpack {{
-                      app.Processor?.LowCodeUnit?.Version ||
-                        app.Processor?.LowCodeUnit?.Build
+                      app.LowCodeUnit?.Version || app.LowCodeUnit?.Build
                     }}"
                   >
                     <mat-icon>cloud_upload</mat-icon>
@@ -692,7 +618,6 @@
 
                   <button
                     mat-icon-button
-                    color="accent"
                     (click)="SetEditingApplication(appLookup)"
                   >
                     <mat-icon matTooltip="Edit Application"> edit </mat-icon>

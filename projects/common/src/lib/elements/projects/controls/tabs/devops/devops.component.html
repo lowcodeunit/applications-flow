@@ -1,0 +1,213 @@
+<div>
+  <form
+    [formGroup]="DevOpsFormGroup"
+    (ngSubmit)="SaveEnvironment()"
+    *ngIf="EditingSourceControl"
+  >
+    <div
+      fxLayout="row wrap"
+      fxLayoutAlign="center start"
+      fxLayout.lt-md="column"
+    >
+      <div class="form-card" fxFlex="35%" fxFlex.lt-md="100%">
+        <mat-card class="spread">
+          <mat-card-header>
+            <mat-card-title> Source Control </mat-card-title>
+
+            <div fxFlex></div>
+
+            <mat-icon
+              matSuffix
+              matTooltip="Configure source control, DevOps CI/CD, and artifacts."
+            >
+              info_outline
+            </mat-icon>
+          </mat-card-header>
+
+          <mat-card-content>
+            <lcu-source-control-form-controls
+              [branches-disabled]="HostingDetails?.Loading"
+              [form-group]="DevOpsFormGroup"
+              [org-disabled]="HostingDetails?.Loading"
+              [repo-disabled]="HostingDetails?.Loading"
+              [source-control]="EditingSourceControl"
+              (branches-changed)="BranchesChanged($event)"
+            ></lcu-source-control-form-controls>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+      <div class="form-card" fxFlex="35%" fxFlex.lt-md="100%">
+        <mat-card
+          class="spread"
+          *ngIf="
+            SourceControlFormControls?.SelectedBranches?.length > 0 ||
+            EditingSourceControl?.Branches?.length > 0
+          "
+        >
+          <mat-card-header>
+            <mat-card-title> Build Pipeline </mat-card-title>
+
+            <mat-hint>
+              Changes made here are reflected for all sources using this
+              DevOpsAction
+            </mat-hint>
+          </mat-card-header>
+
+          <mat-card-content>
+            <mat-form-field class="mat-full-width">
+              <mat-select
+                formControlName="devOpsActionLookup"
+                placeholder="DevOps Action"
+                [disabled]="
+                  SourceControlLookupFormControl?.value ||
+                  SourceControlFormControls?.Loading ||
+                  HostingDetails?.Loading
+                "
+                (selectionChange)="DevOpsActionLookupChanged($event)"
+              >
+                <ng-container
+                  *ngFor="let devOpsActionLookup of DevOpsActionLookups"
+                >
+                  <mat-option
+                    [value]="devOpsActionLookup"
+                    *ngIf="DevOpsActions[devOpsActionLookup]; let devOpsAction"
+                  >
+                    {{ devOpsAction.Name }}
+                  </mat-option>
+                </ng-container>
+
+                <mat-option value="">-- Create New --</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <ng-container>
+              <lcu-hosting-details-form-group
+                [artifact]="Artifact"
+                [devops-action]="
+                  DevOpsActions[DevOpsActionLookupFormControl?.value]
+                "
+                [details]="HostingDetails"
+                [formGroup]="DevOpsFormGroup"
+                [organization]="
+                  SourceControlFormControls?.OrganizationFormControl?.value
+                "
+                [disabled]="
+                  !!DevOpsActionLookupFormControl?.value ||
+                  SourceControlFormControls?.Loading ||
+                  HostingDetails?.Loading
+                "
+              ></lcu-hosting-details-form-group>
+            </ng-container>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+
+    <div class="spread">
+      <div fxFlex></div>
+
+      <button mat-button type="button" (click)="SetEditingSourceControl(null)">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+
+      <div fxFlex></div>
+
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!DevOpsFormGroup.valid || !DevOpsFormGroup.dirty"
+      >
+        <mat-icon>save</mat-icon> Save Application
+      </button>
+
+      <div fxFlex></div>
+    </div>
+  </form>
+
+  <div class="spread" *ngIf="!EditingSourceControl">
+    <span class="apps-actions">
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="CreateNewSourceControl()"
+      >
+        <mat-icon color="primary">add</mat-icon> Create New
+      </button>
+    </span>
+
+    <div class="spread">
+      <div *ngIf="SourceControlLookups?.length <= 0">
+        <h2>No source controls created, create your first source control.</h2>
+      </div>
+
+      <div *ngIf="SourceControlLookups?.length > 0">
+        <h2>Source Controls</h2>
+
+        <div fxLayout="row wrap" fxLayout.lt-md="column">
+          <div
+            fxFlex="30%"
+            fxFlex.lt-md="100%"
+            *ngFor="let sourceControlLookup of SourceControlLookups"
+          >
+            <mat-card class="spread">
+              <mat-card-header>
+                <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
+
+                <mat-card-title
+                  class="mat-subheading-2"
+                  [matTooltip]="sourceControlLookup"
+                >
+                  {{ sourceControlLookup }}
+                </mat-card-title>
+              </mat-card-header>
+
+              <mat-card-content>
+                <div class="spread"></div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <div class="data-app-actions">
+                  <div fxFlex></div>
+
+                  <button
+                    mat-icon-button
+                    color="accent"
+                    (click)="SetEditingSourceControl(sourceControlLookup)"
+                  >
+                    <mat-icon matTooltip="Edit Source Control">
+                      settings
+                    </mat-icon>
+                  </button>
+
+                  <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="DeleteSourceControl(sourceControlLookup)"
+                  >
+                    <mat-icon matTooltip="Delete {{ sourceControlLookup }}">
+                      delete_forever
+                    </mat-icon>
+                  </button>
+                </div>
+
+                <div class="data-app-fakes">
+                  <div fxFlex></div>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+
+                  <button mat-icon-button disabled>
+                    <mat-icon>fiber_manual_record</mat-icon>
+                  </button>
+                </div>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

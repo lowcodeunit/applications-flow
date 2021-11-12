@@ -1,21 +1,16 @@
-@import "../../../../../assets/common";
-
-.card-container{
-  width:245px;
-}
-.project-card{
-  width: 225px;
-  height: 280px;
-}
+@import "../../../../../../assets/common";
 
 :host ::ng-deep {
-  .no-projects {
-    text-align: center;
+  // text-align: center;
+
+  .apps-actions {
+    float: right;
   }
 
   .mat-card {
-    &.selected-project {
-      border: #4a918e solid 3px;
+    .mat-card-content {
+      text-align: center;
+      overflow: hidden;
     }
 
     .mat-card-actions {
@@ -43,8 +38,29 @@
         }
       }
     }
+  }
 
-    &.selected-project {
+  .mat-subtitle {
+    .mat-chip-list {
+      display: inline-block;
+    }
+  }
+
+  .mat-form-field {
+    margin-top: .5em;
+    margin-bottom: .5em;
+
+    &.with-hint {
+      margin-bottom: 1em;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .form-card {
+      width: 100%;
+    }
+
+    .mat-card {
       .mat-card-actions {
         .data-app-actions {
           display: flex !important;
@@ -55,17 +71,10 @@
         }
       }
     }
+  }
 
-    @media (max-width: 768px) {
-      .mat-card-actions {
-        .data-app-actions {
-          display: flex !important;
-        }
-
-        .data-app-fakes {
-          display: none !important;
-        }
-      }
-    }
+  .domain-item {
+    border-radius: 5;
+    border: var(--theme-accent-500) solid 1px;
   }
 }

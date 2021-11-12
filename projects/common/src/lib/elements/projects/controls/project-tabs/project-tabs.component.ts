@@ -4,11 +4,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { GeneralComponent } from '../tabs/general/general.component';
 import {
   EaCApplicationAsCode,
+  EaCDFSModifier,
   EaCEnvironmentAsCode,
+  EaCHost,
   EaCProjectAsCode,
-} from '../../../../models/eac.models';
+} from '@semanticjs/common';
 import { AppsFlowComponent } from '../tabs/apps-flow/apps-flow.component';
-import { EaCSourceControl } from '../../../../models/eac.models';
+import { DevOpsComponent } from '../tabs/devops/devops.component';
+import { DFSModifiersComponent } from '../tabs/dfs-modifiers/dfs-modifiers.component';
 
 @Component({
   selector: 'lcu-project-tabs',
@@ -26,17 +29,23 @@ export class ProjectTabsComponent implements OnInit {
   @Input('applications')
   public Applications: { [lookup: string]: EaCApplicationAsCode };
 
-  @Input('project')
-  public Project: EaCProjectAsCode;
-
-  @Input('project-lookup')
-  public ProjectLookup: string;
+  @Input('dfs-modifiers')
+  public DFSModifiers: { [lookup: string]: EaCDFSModifier };
 
   @Input('environment')
   public Environment: EaCEnvironmentAsCode;
 
   @Input('environment-lookup')
   public EnvironmentLookup: string;
+
+  @Input('hosts')
+  public Hosts: { [lookup: string]: EaCHost };
+
+  @Input('project')
+  public Project: EaCProjectAsCode;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
 
   public TabComponents: Array<DynamicTabsModel>;
 
@@ -55,11 +64,29 @@ export class ProjectTabsComponent implements OnInit {
           ProjectLookup: this.ProjectLookup,
           Applications: this.Applications,
           Environment: this.Environment,
-          EnvironmentLookup: this.EnvironmentLookup
         },
         Label: 'Application Flow',
         Icon: 'account_tree',
       }),
+      new DynamicTabsModel({
+        Component: DevOpsComponent,
+        Data: {
+          Environment: this.Environment,
+          EnvironmentLookup: this.EnvironmentLookup,
+        },
+        Label: 'DevOps',
+        Icon: 'build',
+      }),
+      // new DynamicTabsModel({
+      //   Component: DFSModifiersComponent,
+      //   Data: {
+      //     Modifiers: this.DFSModifiers,
+      //     Project: this.Project,
+      //     ProjectLookup: this.ProjectLookup,
+      //   },
+      //   Label: 'DFS Modifiers',
+      //   Icon: 'auto_fix_high',
+      // }),
       new DynamicTabsModel({
         Component: GeneralComponent,
         Data: { Project: this.Project, ProjectLookup: this.ProjectLookup },
@@ -69,6 +96,7 @@ export class ProjectTabsComponent implements OnInit {
       new DynamicTabsModel({
         Component: DomainsComponent,
         Data: {
+          Hosts: this.Hosts,
           Project: this.Project,
           ProjectLookup: this.ProjectLookup,
         },

@@ -9,7 +9,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
-import { EaCHost, EaCProjectAsCode } from '../../../../../models/eac.models';
+import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-domains',
@@ -51,8 +51,20 @@ export class DomainsComponent implements OnInit {
     ProjectLookup: string;
   };
 
+  public get Host(): EaCHost {
+    return this.Data?.Hosts[this.HostLookup];
+  }
+
+  public get HostLookup(): string {
+    let hostKeys = Object.keys(this.Data?.Hosts || {});
+
+    hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
+
+    return hostKeys[0];
+  }
+
   public get HostDNSInstance(): string {
-    return this.Data?.Hosts ? this.Data?.Hosts[this.Project.Hosts[0]]?.HostDNSInstance : null;
+    return this.Host ? this.Host?.HostDNSInstance : null;
   }
 
   public get Project(): EaCProjectAsCode {
@@ -106,7 +118,7 @@ export class DomainsComponent implements OnInit {
 
   protected setupForm(): void {
     this.Form = new FormGroup({
-      domain: new FormControl(this.Project.Hosts[0] || '', {
+      domain: new FormControl(this.HostLookup || '', {
         validators: [Validators.required, Validators.minLength(3)],
         updateOn: 'change',
       }),

@@ -44,7 +44,7 @@ export class NpmPackageSelectComponent implements OnInit {
 
     this.FormGroup.addControl(
       'version',
-      new FormControl(this.NPMPackageVersion || '', [Validators.required])
+      new FormControl(this.NPMPackageVersion || 'latest', [Validators.required])
     );
 
     this.FormGroup.controls.package.valueChanges

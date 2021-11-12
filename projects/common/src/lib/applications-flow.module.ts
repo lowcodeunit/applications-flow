@@ -29,6 +29,8 @@ import { SourceControlFormControlsComponent } from './elements/projects/controls
 import { AppsFlowComponent } from './elements/projects/controls/tabs/apps-flow/apps-flow.component';
 import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
+import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
+import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     GitAuthComponent,
     SourceControlFormControlsComponent,
     AppsFlowComponent,
+    DevOpsComponent,
+    DFSModifiersComponent,
     NpmPackageSelectComponent
   ],
   imports: [
@@ -82,6 +86,8 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     GitAuthComponent,
     SourceControlFormControlsComponent,
     AppsFlowComponent,
+    DevOpsComponent,
+    DFSModifiersComponent,
     NpmPackageSelectComponent
   ],
   entryComponents: [
@@ -102,6 +108,8 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
     GitAuthComponent,
     SourceControlFormControlsComponent,
     AppsFlowComponent,
+    DevOpsComponent,
+    DFSModifiersComponent,
     NpmPackageSelectComponent
   ],
 })

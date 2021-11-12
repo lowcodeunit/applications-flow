@@ -23,13 +23,15 @@ import { Subscription } from 'rxjs';
 import {
   ApplicationsFlowEventsService,
   SaveApplicationAsCodeEventRequest,
+  SaveDFSModifierEventRequest,
+  SaveEnvironmentAsCodeEventRequest,
 } from './../../services/applications-flow-events.service';
 import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
   EaCProjectAsCode,
   EnterpriseAsCode,
-} from '../../models/eac.models';
+} from '@semanticjs/common';
 
 declare var window: Window;
 
@@ -147,8 +149,6 @@ export class ApplicationsFlowProjectsElementComponent
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
       Applications: {},
-      DataTokens: {},
-      Environments: {},
       Projects: {},
     };
 
@@ -170,6 +170,40 @@ export class ApplicationsFlowProjectsElementComponent
       saveEaC.Applications[req.ApplicationLookup] = req.Application;
     }
 
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+  }
+
+  protected async handleSaveDFSModifier(
+    req: SaveDFSModifierEventRequest
+  ): Promise<void> {
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      Modifiers: {},
+      Projects: {},
+    };
+
+    if (req.Modifier) {
+      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
+    }
+
+    if (req.ProjectLookup) {
+      saveEaC.Projects[req.ProjectLookup] = {
+        ModifierLookups: [req.ModifierLookup],
+      };
+    }
+
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+  }
+
+  protected async handleSaveEnvironment(
+    req: SaveEnvironmentAsCodeEventRequest
+  ): Promise<void> {
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      DataTokens: {},
+      Environments: {},
+    };
+
     if (req.Environment) {
       saveEaC.Environments[req.EnvironmentLookup] = req.Environment;
     }
@@ -187,6 +221,7 @@ export class ApplicationsFlowProjectsElementComponent
   ): Promise<void> {
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      // Providers: this.State.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
       Projects: {},
     };
 
@@ -204,9 +239,21 @@ export class ApplicationsFlowProjectsElementComponent
       }
     );
 
+    this.appsFlowEventsSvc.DeleteDevOpsActionEvent.subscribe(
+      async (doaLookup) => {
+        await this.projectService.DeleteDevOpsAction(this.State, doaLookup);
+      }
+    );
+
     this.appsFlowEventsSvc.DeleteProjectEvent.subscribe(
       async (projectLookup) => {
         await this.projectService.DeleteProject(this.State, projectLookup);
+      }
+    );
+
+    this.appsFlowEventsSvc.DeleteSourceControlEvent.subscribe(
+      async (scLookup) => {
+        await this.projectService.DeleteSourceControl(this.State, scLookup);
       }
     );
 
@@ -228,6 +275,14 @@ export class ApplicationsFlowProjectsElementComponent
 
     this.appsFlowEventsSvc.SaveApplicationAsCodeEvent.subscribe(async (req) => {
       await this.handleSaveApplication(req);
+    });
+
+    this.appsFlowEventsSvc.SaveDFSModifierEvent.subscribe(async (req) => {
+      await this.handleSaveDFSModifier(req);
+    });
+
+    this.appsFlowEventsSvc.SaveEnvironmentAsCodeEvent.subscribe(async (req) => {
+      await this.handleSaveEnvironment(req);
     });
 
     this.appsFlowEventsSvc.SaveProjectAsCodeEvent.subscribe(async (req) => {
@@ -254,7 +309,7 @@ export class ApplicationsFlowProjectsElementComponent
         confirm(
           `Are you sure you want to unpack application '${
             req.ApplicationName
-          }' with version '${req.Version || 'latest'}'?`
+          }' with version '${req.Version}'?`
         )
       ) {
         await this.projectService.UnpackLowCodeUnit(this.State, req);
