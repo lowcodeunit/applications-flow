@@ -1,6 +1,6 @@
 import { FormsService } from './services/forms.service';
 import { ProjectService } from './services/project.service';
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
@@ -31,6 +31,7 @@ import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
+import { KrakynDataFlowComponent } from './elements/projects/controls/krakyn-data-flow/krakyn-data-flow.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     AppsFlowComponent,
     DevOpsComponent,
     DFSModifiersComponent,
-    NpmPackageSelectComponent
+    NpmPackageSelectComponent,
+    KrakynDataFlowComponent
   ],
   imports: [
     FathymSharedModule,
@@ -88,8 +90,10 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     AppsFlowComponent,
     DevOpsComponent,
     DFSModifiersComponent,
-    NpmPackageSelectComponent
+    NpmPackageSelectComponent,
+    KrakynDataFlowComponent
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
     DynamicTabsComponent,
@@ -110,7 +114,8 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     AppsFlowComponent,
     DevOpsComponent,
     DFSModifiersComponent,
-    NpmPackageSelectComponent
+    NpmPackageSelectComponent,
+    KrakynDataFlowComponent
   ],
 })
 export class ApplicationsFlowModule {
