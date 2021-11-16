@@ -638,7 +638,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'build',
       this.formBldr.control(
-        this.EditingApplication.LowCodeUnit?.Build || '',
+        this.EditingApplication.LowCodeUnit?.Build || 'latest',
         [Validators.required]
       )
     );
