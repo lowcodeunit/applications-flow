@@ -1,15 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { 
-  FlowTool,
-  MenuTemplatesUtils,
   VariablesUtils,
-  EventsUtils,
   ConstantUtils,
-  NodeTemplates,
   DragItemsTemplates,
-  PositionUtils,
-  DragDropUtils,
-  RollUpTest } from '@semanticjs/krakyn';
+  DragDropUtils } from '@semanticjs/krakyn';
 import { DataFlowDataModel } from '@semanticjs/krakyn/dist/src/models/dataflow-data.model';
 import { MenuTemplateModel } from '@semanticjs/krakyn/dist/src/models/menu/menu-template.model';
 
@@ -41,8 +35,11 @@ export class KrakynDataFlowComponent implements OnInit {
     this.TabMenuItems = [
       { Label: 'Napkin IDE', Target: 'NapkinIDE', Class: 'selected' },
       { Label: 'Home', Target: 'Home' }];
+
     this.DefaultData = VariablesUtils.DataFlowModuleData[0];
+
     this.MenuItems = DragItemsTemplates.FLOW_DRAG_ITEMS(DragDropUtils.Drag);
-    this.Title = 'App Flow Krakyn';
+
+    this.Title = 'App Flow - Krakyn';
   }
 }
