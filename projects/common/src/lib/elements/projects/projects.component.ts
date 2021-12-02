@@ -29,6 +29,7 @@ import {
 import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
+  EaCHost,
   EaCProjectAsCode,
   EnterpriseAsCode,
 } from '@semanticjs/common';
@@ -219,9 +220,15 @@ export class ApplicationsFlowProjectsElementComponent
     projectLookup: string,
     project: EaCProjectAsCode
   ): Promise<void> {
+    const projHosts: { [lookup: string]: EaCHost } = {};
+
+    project?.Hosts?.forEach(host => {
+      projHosts[host] = this.State.EaC.Hosts;
+    });
+
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Hosts: this.State.EaC.Hosts,
+      Hosts: projHosts,
       // Providers: this.State.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
       Projects: {},
     };
