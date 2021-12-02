@@ -223,7 +223,7 @@ export class ApplicationsFlowProjectsElementComponent
     const projHosts: { [lookup: string]: EaCHost } = {};
 
     project?.Hosts?.forEach(host => {
-      projHosts[host] = this.State.EaC.Hosts;
+      projHosts[host] = this.State.EaC.Hosts[host];
     });
 
     const saveEaC: EnterpriseAsCode = {
