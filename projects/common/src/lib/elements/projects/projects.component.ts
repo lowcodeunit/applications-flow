@@ -228,6 +228,10 @@ export class ApplicationsFlowProjectsElementComponent
 
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      Enterprise: {
+        ...this.State.EaC.Enterprise,
+        PrimaryHost: project.Hosts[0]
+      },
       Hosts: projHosts,
       // Providers: this.State.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
       Projects: {},
