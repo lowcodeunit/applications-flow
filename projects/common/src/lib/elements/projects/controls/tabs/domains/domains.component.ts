@@ -160,7 +160,8 @@ export class DomainsComponent implements OnInit {
       ProjectLookup: this.ProjectLookup,
       Project: {
         ...this.Project,
-        Hosts: [...this.Project.Hosts, this.Domain.value],
+        // Hosts: [...this.Project.Hosts, this.Domain.value],
+        Hosts: [this.Domain.value],
       },
     });
     this.formsService.UpdateValuesReference({
