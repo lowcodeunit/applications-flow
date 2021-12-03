@@ -53,18 +53,20 @@
       <ng-container *ngIf="!State.Unleashed">
         <ng-container *ngIf="State">
           <lcu-projects-header
-            [projects]="State.EaC?.Projects"
             [creating-project]="CreatingProject"
+            [primary-host]="State.EaC?.Enterprise?.PrimaryHost"
+            [projects]="State.EaC?.Projects"
             [selected-project-lookup]="EditingProjectLookup"
           ></lcu-projects-header>
 
           <div *ngIf="EditingProject">
             <div class="divider margin-bottom-3"></div>
-            
+
             <lcu-project-tabs
               [applications]="State.EaC?.Applications"
               [dfs-modifiers]="State.EaC?.Modifiers"
               [hosts]="State.EaC?.Hosts"
+              [primary-host]="State.EaC?.Enterprise?.PrimaryHost"
               [project]="EditingProject"
               [project-lookup]="EditingProjectLookup"
               [environment]="ActiveEnvironment"

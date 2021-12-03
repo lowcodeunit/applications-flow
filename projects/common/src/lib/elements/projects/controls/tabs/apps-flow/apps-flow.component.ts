@@ -93,6 +93,7 @@ export class AppsFlowComponent implements OnInit {
   public Data: {
     Applications: { [lookup: string]: EaCApplicationAsCode };
     Environment: EaCEnvironmentAsCode;
+    PrimaryHost: string;
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };

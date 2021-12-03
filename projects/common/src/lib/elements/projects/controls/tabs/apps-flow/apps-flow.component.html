@@ -500,7 +500,7 @@
 
                   <a
                     mat-icon-button
-                    href="https://{{ Project.Hosts[0] }}{{ appRoute }}"
+                    href="https://{{ PrimaryHost }}{{ appRoute }}"
                     target="_blank"
                     title="Launch"
                   >
@@ -596,7 +596,7 @@
 
                   <a
                     mat-icon-button
-                    href="https://{{ Project.Hosts[0] }}{{
+                    href="https://{{ PrimaryHost }}{{
                       app.LookupConfig.PathRegex.replace('.*', '')
                     }}"
                     target="_blank"

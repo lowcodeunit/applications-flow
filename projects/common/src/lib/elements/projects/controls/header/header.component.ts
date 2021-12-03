@@ -31,6 +31,9 @@ export class HeaderComponent implements OnInit {
     return this.ProjectLookups && this.ProjectLookups.length > 0;
   }
 
+  @Input('primary-host')
+  public PrimaryHost: string;
+
   public ProjectFormGroup: FormGroup;
 
   public get ProjectLookups(): Array<string> {

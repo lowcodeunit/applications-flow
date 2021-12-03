@@ -12,6 +12,9 @@ export class ProjectItemsComponent implements OnInit {
   //  Fields
 
   //  Properties
+  @Input('primary-host')
+  public PrimaryHost: string;
+
   public get ProjectLookups(): Array<string> {
     return Object.keys(this.Projects || {}).sort((a, b) => a.localeCompare(b));
   }
