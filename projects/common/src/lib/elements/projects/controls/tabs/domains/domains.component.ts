@@ -47,6 +47,7 @@ export class DomainsComponent implements OnInit {
   @Input('data')
   public Data: {
     Hosts: { [lookup: string]: EaCHost };
+    PrimaryHost: string;
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
@@ -65,6 +66,10 @@ export class DomainsComponent implements OnInit {
 
   public get HostDNSInstance(): string {
     return this.Host ? this.Host?.HostDNSInstance : null;
+  }
+
+  public get PrimaryHost(): string {
+    return this.Data.PrimaryHost;
   }
 
   public get Project(): EaCProjectAsCode {

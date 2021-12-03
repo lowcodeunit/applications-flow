@@ -166,6 +166,10 @@ export class AppsFlowComponent implements OnInit {
     return this.ApplicationFormGroup?.controls.preserveMethod;
   }
 
+  public get PrimaryHost(): string {
+    return this.Data.PrimaryHost;
+  }
+
   public ProcessorType: string;
 
   public get Project(): EaCProjectAsCode {
