@@ -57,11 +57,12 @@ export class DomainsComponent implements OnInit {
   }
 
   public get HostLookup(): string {
-    let hostKeys = Object.keys(this.Data?.Hosts || {});
+    // let hostKeys = Object.keys(this.Data?.Hosts || {});
 
-    hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
+    // hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
 
-    return hostKeys[0];
+    // return hostKeys[0];
+    return this.PrimaryHost;
   }
 
   public get HostDNSInstance(): string {
