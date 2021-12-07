@@ -54,7 +54,6 @@
         <ng-container *ngIf="State">
           <lcu-projects-header
             [creating-project]="CreatingProject"
-            [primary-host]="State.EaC?.Enterprise?.PrimaryHost"
             [projects]="State.EaC?.Projects"
             [selected-project-lookup]="EditingProjectLookup"
           ></lcu-projects-header>
@@ -66,7 +65,6 @@
               [applications]="State.EaC?.Applications"
               [dfs-modifiers]="State.EaC?.Modifiers"
               [hosts]="State.EaC?.Hosts"
-              [primary-host]="State.EaC?.Enterprise?.PrimaryHost"
               [project]="EditingProject"
               [project-lookup]="EditingProjectLookup"
               [environment]="ActiveEnvironment"

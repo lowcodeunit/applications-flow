@@ -12,9 +12,6 @@ export class ProjectItemsComponent implements OnInit {
   //  Fields
 
   //  Properties
-  @Input('primary-host')
-  public PrimaryHost: string;
-
   public get ProjectLookups(): Array<string> {
     return Object.keys(this.Projects || {}).sort((a, b) => a.localeCompare(b));
   }
@@ -41,6 +38,10 @@ export class ProjectItemsComponent implements OnInit {
     if (confirm(`Are you sure you want to delete project '${projectName}'?`)) {
       this.appsFlowEventsSvc.DeleteProject(projectLookup);
     }
+  }
+
+  public GetPrimaryHost(project: EaCProjectAsCode): string {
+    return project.Hosts[project.Hosts.length - 1];
   }
 
   /**

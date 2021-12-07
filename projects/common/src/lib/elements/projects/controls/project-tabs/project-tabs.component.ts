@@ -41,8 +41,9 @@ export class ProjectTabsComponent implements OnInit {
   @Input('hosts')
   public Hosts: { [lookup: string]: EaCHost };
 
-  @Input('primary-host')
-  public PrimaryHost: string;
+  public get PrimaryHost(): string {
+    return this.Project.Hosts[this.Project.Hosts.length - 1];
+  }
 
   @Input('project')
   public Project: EaCProjectAsCode;
