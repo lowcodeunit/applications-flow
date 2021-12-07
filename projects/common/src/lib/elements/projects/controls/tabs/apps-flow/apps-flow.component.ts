@@ -93,6 +93,7 @@ export class AppsFlowComponent implements OnInit {
   public Data: {
     Applications: { [lookup: string]: EaCApplicationAsCode };
     Environment: EaCEnvironmentAsCode;
+    PrimaryHost: string;
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
@@ -163,6 +164,10 @@ export class AppsFlowComponent implements OnInit {
 
   public get PreserveMethodFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.preserveMethod;
+  }
+
+  public get PrimaryHost(): string {
+    return this.Data.PrimaryHost;
   }
 
   public ProcessorType: string;
@@ -638,7 +643,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'build',
       this.formBldr.control(
-        this.EditingApplication.LowCodeUnit?.Build || '',
+        this.EditingApplication.LowCodeUnit?.Build || 'latest',
         [Validators.required]
       )
     );
