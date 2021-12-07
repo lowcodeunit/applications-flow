@@ -47,6 +47,7 @@ export class DomainsComponent implements OnInit {
   @Input('data')
   public Data: {
     Hosts: { [lookup: string]: EaCHost };
+    PrimaryHost: string;
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
@@ -56,15 +57,20 @@ export class DomainsComponent implements OnInit {
   }
 
   public get HostLookup(): string {
-    let hostKeys = Object.keys(this.Data?.Hosts || {});
+    // let hostKeys = Object.keys(this.Data?.Hosts || {});
 
-    hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
+    // hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
 
-    return hostKeys[0];
+    // return hostKeys[0];
+    return this.PrimaryHost;
   }
 
   public get HostDNSInstance(): string {
     return this.Host ? this.Host?.HostDNSInstance : null;
+  }
+
+  public get PrimaryHost(): string {
+    return this.Data.PrimaryHost;
   }
 
   public get Project(): EaCProjectAsCode {
@@ -160,7 +166,8 @@ export class DomainsComponent implements OnInit {
       ProjectLookup: this.ProjectLookup,
       Project: {
         ...this.Project,
-        Hosts: [...this.Project.Hosts, this.Domain.value],
+        // Hosts: [...this.Project.Hosts, this.Domain.value],
+        Hosts: [this.Domain.value],
       },
     });
     this.formsService.UpdateValuesReference({

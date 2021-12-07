@@ -41,6 +41,10 @@ export class ProjectTabsComponent implements OnInit {
   @Input('hosts')
   public Hosts: { [lookup: string]: EaCHost };
 
+  public get PrimaryHost(): string {
+    return this.Project.Hosts[this.Project.Hosts.length - 1];
+  }
+
   @Input('project')
   public Project: EaCProjectAsCode;
 
@@ -64,6 +68,7 @@ export class ProjectTabsComponent implements OnInit {
           ProjectLookup: this.ProjectLookup,
           Applications: this.Applications,
           Environment: this.Environment,
+          PrimaryHost: this.PrimaryHost
         },
         Label: 'Application Flow',
         Icon: 'account_tree',
@@ -99,6 +104,7 @@ export class ProjectTabsComponent implements OnInit {
           Hosts: this.Hosts,
           Project: this.Project,
           ProjectLookup: this.ProjectLookup,
+          PrimaryHost: this.PrimaryHost
         },
         Label: 'Domains',
         Icon: 'domain',
