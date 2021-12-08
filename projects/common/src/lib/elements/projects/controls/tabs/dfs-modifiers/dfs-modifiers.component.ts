@@ -7,6 +7,7 @@ import {
   FormBuilder,
   FormControl,
   FormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import {
@@ -156,7 +157,7 @@ export class DFSModifiersComponent implements OnInit {
         Type: this.CurrentType,
       },
       ModifierLookup: this.EditingModifierLookup,
-      // ProjectLookup: this.Data.ProjectLookup,
+      ProjectLookup: this.Data.ProjectLookup,
     };
 
     const details = {};
@@ -204,8 +205,8 @@ export class DFSModifiersComponent implements OnInit {
         name: [this.EditingModifier?.Name, Validators.required],
         type: [this.CurrentType, Validators.required],
         priority: [this.EditingModifier?.Priority, Validators.required],
-        enabled: [this.EditingModifier?.Enabled, Validators.required],
-        useForProject: [this.EditingModifier?.Enabled, Validators.required],
+        enabled: [this.EditingModifier?.Enabled, []],
+        useForProject: [this.EditingModifier?.Enabled, []],
         pathFilter: [
           this.EditingModifier?.PathFilterRegex,
           Validators.required,
