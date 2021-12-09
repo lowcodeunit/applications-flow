@@ -10,6 +10,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import {
   ApplicationsFlowEventsService,
   SaveDFSModifierEventRequest,
@@ -146,7 +147,7 @@ export class DFSModifiersComponent implements OnInit {
     }
   }
 
-  public SaveModifier(): void {
+  public SaveModifier(projectLookup: string = null): void {
     const saveMdfrReq: SaveDFSModifierEventRequest = {
       Modifier: {
         ...this.EditingModifier,
@@ -157,7 +158,7 @@ export class DFSModifiersComponent implements OnInit {
         Type: this.CurrentType,
       },
       ModifierLookup: this.EditingModifierLookup,
-      ProjectLookup: this.Data.ProjectLookup,
+      ProjectLookup: projectLookup,
     };
 
     const details = {};
@@ -190,6 +191,12 @@ export class DFSModifiersComponent implements OnInit {
     this.setupModifierForm();
   }
 
+  public SetUseForProject(modifierLookup: string, change: MatSlideToggleChange): void {
+    this.SetEditingModifier(modifierLookup);
+
+    this.SaveModifier(this.Data.ProjectLookup);
+  }
+
   public TypeChanged(event: MatSelectChange): void {
     this.CurrentType = event.value;
 
@@ -206,7 +213,6 @@ export class DFSModifiersComponent implements OnInit {
         type: [this.CurrentType, Validators.required],
         priority: [this.EditingModifier?.Priority, Validators.required],
         enabled: [this.EditingModifier?.Enabled, []],
-        useForProject: [this.EditingModifier?.Enabled, []],
         pathFilter: [
           this.EditingModifier?.PathFilterRegex,
           Validators.required,
