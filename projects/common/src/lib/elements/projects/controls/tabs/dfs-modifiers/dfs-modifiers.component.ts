@@ -191,7 +191,10 @@ export class DFSModifiersComponent implements OnInit {
     this.setupModifierForm();
   }
 
-  public SetUseForProject(modifierLookup: string, change: MatSlideToggleChange): void {
+  public SetUseForProject(
+    modifierLookup: string,
+    change: MatSlideToggleChange
+  ): void {
     this.SetEditingModifier(modifierLookup);
 
     this.SaveModifier(this.Data.ProjectLookup);
