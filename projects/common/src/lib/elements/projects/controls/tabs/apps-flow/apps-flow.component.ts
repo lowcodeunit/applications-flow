@@ -85,6 +85,7 @@ export class AppsFlowComponent implements OnInit {
   public Data: {
     Applications: { [lookup: string]: EaCApplicationAsCode };
     Environment: EaCEnvironmentAsCode;
+    PrimaryHost: string;
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
@@ -96,8 +97,8 @@ export class AppsFlowComponent implements OnInit {
   public get DefaultSourceControl(): EaCSourceControl {
     return {
       Organization:
-        this.EditingApplication?.Processor?.LowCodeUnit?.Organization,
-      Repository: this.EditingApplication?.Processor?.LowCodeUnit?.Repository,
+        this.EditingApplication?.LowCodeUnit?.Organization,
+      Repository: this.EditingApplication?.LowCodeUnit?.Repository,
     };
   }
 
@@ -161,6 +162,10 @@ export class AppsFlowComponent implements OnInit {
 
   public get PreserveMethodFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.preserveMethod;
+  }
+
+  public get PrimaryHost(): string {
+    return this.Data.PrimaryHost;
   }
 
   public ProcessorType: string;
@@ -367,99 +372,6 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public SaveApplication(): void {
-    const processor: EaCProcessor = {
-      Type: this.ProcessorType,
-    };
-
-    switch (processor.Type) {
-      case 'DFS':
-        processor.BaseHref = `${this.RouteFormControl.value}/`.replace(
-          '//',
-          '/'
-        );
-
-        processor.DefaultFile =
-          this.DefaultFileFormControl.value || 'index.html';
-
-        processor.LowCodeUnit = {
-          Type: this.LCUType,
-        };
-
-        switch (processor.LowCodeUnit.Type) {
-          case 'GitHub':
-            processor.LowCodeUnit.Organization =
-              this.SourceControlFormControls.OrganizationFormControl.value;
-
-            processor.LowCodeUnit.Repository =
-              this.SourceControlFormControls.RepositoryFormControl.value;
-
-            processor.LowCodeUnit.Build = this.BuildFormControl.value;
-
-            processor.LowCodeUnit.Path =
-              this.SourceControlFormControls.BuildPathFormControl.value;
-            break;
-
-          case 'NPM':
-            processor.LowCodeUnit.Package = this.PackageFormControl.value;
-
-            processor.LowCodeUnit.Version = this.VersionFormControl.value;
-            break;
-
-          case 'Zip':
-            processor.LowCodeUnit.ZipFile = this.ZipFileFormControl.value;
-            break;
-        }
-        break;
-
-      case 'OAuth':
-        processor.Scopes = this.ScopesFormControl.value.split(' ');
-
-        processor.TokenLookup = this.TokenLookupFormControl.value;
-
-        processor.LowCodeUnit = {
-          Type: this.LCUType,
-        };
-
-        switch (processor.LowCodeUnit.Type) {
-          case 'GitHubOAuth':
-            processor.LowCodeUnit.ClientID = this.ClientIDFormControl.value;
-
-            processor.LowCodeUnit.ClientSecret =
-              this.ClientSecretFormControl.value;
-            break;
-        }
-        break;
-
-      case 'Proxy':
-        processor.InboundPath = this.InboundPathFormControl.value;
-
-        processor.LowCodeUnit = {
-          Type: this.LCUType,
-        };
-
-        switch (processor.LowCodeUnit.Type) {
-          case 'API':
-            processor.LowCodeUnit.APIRoot = this.APIRootFormControl.value;
-
-            processor.LowCodeUnit.Security = this.SecurityFormControl.value;
-
-            break;
-
-          case 'SPA':
-            processor.LowCodeUnit.SPARoot = this.SPARootFormControl.value;
-            break;
-        }
-        break;
-
-      case 'Redirect':
-        processor.Permanent = !!this.PermanentFormControl.value;
-
-        processor.PreserveMethod = !!this.PreserveMethodFormControl.value;
-
-        processor.Redirect = this.RedirectFormControl.value;
-        break;
-    }
-
     const app: EaCApplicationAsCode = {
       Application: {
         Name: this.NameFormControl.value,
@@ -480,8 +392,98 @@ export class AppsFlowComponent implements OnInit {
           ?.split(' ')
           .filter((v: string) => !!v),
       },
-      Processor: processor,
+      Processor: {
+        Type: this.ProcessorType,
+      },
     };
+
+    switch (app.Processor.Type) {
+      case 'DFS':
+        app.Processor.BaseHref = `${this.RouteFormControl.value}/`.replace(
+          '//',
+          '/'
+        );
+
+        app.Processor.DefaultFile =
+          this.DefaultFileFormControl.value || 'index.html';
+
+        app.LowCodeUnit = {
+          Type: this.LCUType,
+        };
+
+        switch (app.LowCodeUnit.Type) {
+          case 'GitHub':
+            app.LowCodeUnit.Organization =
+              this.SourceControlFormControls.OrganizationFormControl.value;
+
+            app.LowCodeUnit.Repository =
+              this.SourceControlFormControls.RepositoryFormControl.value;
+
+            app.LowCodeUnit.Build = this.BuildFormControl.value;
+
+            app.LowCodeUnit.Path =
+              this.SourceControlFormControls.BuildPathFormControl.value;
+            break;
+
+          case 'NPM':
+            app.LowCodeUnit.Package = this.PackageFormControl.value;
+
+            app.LowCodeUnit.Version = this.VersionFormControl.value;
+            break;
+
+          case 'Zip':
+            app.LowCodeUnit.ZipFile = this.ZipFileFormControl.value;
+            break;
+        }
+        break;
+
+      case 'OAuth':
+        app.Processor.Scopes = this.ScopesFormControl.value.split(' ');
+
+        app.Processor.TokenLookup = this.TokenLookupFormControl.value;
+
+        app.LowCodeUnit = {
+          Type: this.LCUType,
+        };
+
+        switch (app.LowCodeUnit.Type) {
+          case 'GitHubOAuth':
+            app.LowCodeUnit.ClientID = this.ClientIDFormControl.value;
+
+            app.LowCodeUnit.ClientSecret = this.ClientSecretFormControl.value;
+            break;
+        }
+        break;
+
+      case 'Proxy':
+        app.Processor.InboundPath = this.InboundPathFormControl.value;
+
+        app.LowCodeUnit = {
+          Type: this.LCUType,
+        };
+
+        switch (app.LowCodeUnit.Type) {
+          case 'API':
+            app.LowCodeUnit.APIRoot = this.APIRootFormControl.value;
+
+            app.LowCodeUnit.Security = this.SecurityFormControl.value;
+
+            break;
+
+          case 'SPA':
+            app.LowCodeUnit.SPARoot = this.SPARootFormControl.value;
+            break;
+        }
+        break;
+
+      case 'Redirect':
+        app.Processor.Permanent = !!this.PermanentFormControl.value;
+
+        app.Processor.PreserveMethod = !!this.PreserveMethodFormControl.value;
+
+        app.Processor.Redirect = this.RedirectFormControl.value;
+        break;
+    }
 
     if (!app.LookupConfig.PathRegex.startsWith('/')) {
       app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
@@ -494,12 +496,11 @@ export class AppsFlowComponent implements OnInit {
     };
 
     if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
-      if (app.Processor.LowCodeUnit != null) {
-        app.Processor.LowCodeUnit.SourceControlLookup =
-          this.SourceControlLookupFormControl.value;
+      if (app) {
+        app.SourceControlLookup = this.SourceControlLookupFormControl.value;
       }
-    } else if (app.Processor.LowCodeUnit) {
-      app.Processor.LowCodeUnit.SourceControlLookup = null;
+    } else if (app) {
+      app.SourceControlLookup = null;
     }
 
     this.appsFlowEventsSvc.SaveApplicationAsCode(saveAppReq);
@@ -526,10 +527,10 @@ export class AppsFlowComponent implements OnInit {
   public Unpack(appLookup: string, app: EaCApplicationAsCode): void {
     this.appsFlowEventsSvc.UnpackLowCodeUnit({
       ApplicationLookup: appLookup,
-      ApplicationName: app.Application.Name,
+      ApplicationName: app.Application?.Name,
       Version:
-        app.Processor?.LowCodeUnit?.Version ||
-        app.Processor?.LowCodeUnit?.Build,
+        app.LowCodeUnit?.Version ||
+        app.LowCodeUnit?.Build,
     });
   }
 
@@ -604,7 +605,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'hasBuild',
       this.formBldr.control(
-        !!this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
+        !!this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
           false,
         [Validators.required]
       )
@@ -613,7 +614,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'sourceControlLookup',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.SourceControlLookup ||
+        this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
           '',
         []
       )
@@ -621,7 +622,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupDfsForm(): void {
-    this.LCUType = this.EditingApplication.Processor?.LowCodeUnit?.Type || '';
+    this.LCUType = this.EditingApplication.LowCodeUnit?.Type || '';
 
     this.ApplicationFormGroup.addControl(
       'defaultFile',
@@ -649,7 +650,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'apiRoot',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.APIRoot || '',
+        this.EditingApplication.LowCodeUnit?.APIRoot || '',
         [Validators.required]
       )
     );
@@ -657,7 +658,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'security',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.Security || '',
+        this.EditingApplication.LowCodeUnit?.Security || '',
         [Validators.required]
       )
     );
@@ -667,7 +668,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'applicationId',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ApplicationID || '',
+        this.EditingApplication.LowCodeUnit?.ApplicationID || '',
         [Validators.required]
       )
     );
@@ -677,7 +678,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'build',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.Build || '',
+        this.EditingApplication.LowCodeUnit?.Build || 'latest',
         [Validators.required]
       )
     );
@@ -687,7 +688,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'clientId',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ClientID || '',
+        this.EditingApplication.LowCodeUnit?.ClientID || '',
         [Validators.required]
       )
     );
@@ -695,7 +696,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'clientSecret',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ClientSecret || '',
+        this.EditingApplication.LowCodeUnit?.ClientSecret || '',
         [Validators.required]
       )
     );
@@ -705,14 +706,14 @@ export class AppsFlowComponent implements OnInit {
     // this.ApplicationFormGroup.addControl(
     //   'package',
     //   this.formBldr.control(
-    //     this.EditingApplication.Processor?.LowCodeUnit?.Package || '',
+    //     this.EditingApplication.LowCodeUnit?.Package || '',
     //     [Validators.required]
     //   )
     // );
     // this.ApplicationFormGroup.addControl(
     //   'version',
     //   this.formBldr.control(
-    //     this.EditingApplication.Processor?.LowCodeUnit?.Version || '',
+    //     this.EditingApplication.LowCodeUnit?.Version || '',
     //     [Validators.required]
     //   )
     // );
@@ -722,7 +723,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'spaRoot',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.SPARoot || '',
+        this.EditingApplication.LowCodeUnit?.SPARoot || '',
         [Validators.required]
       )
     );
@@ -732,7 +733,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'zipFile',
       this.formBldr.control(
-        this.EditingApplication.Processor?.LowCodeUnit?.ZipFile || '',
+        this.EditingApplication.LowCodeUnit?.ZipFile || '',
         [Validators.required]
       )
     );
@@ -778,7 +779,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupOAuthForm(): void {
-    this.LCUType = this.EditingApplication.Processor?.LowCodeUnit?.Type || '';
+    this.LCUType = this.EditingApplication.LowCodeUnit?.Type || '';
 
     this.ApplicationFormGroup.addControl(
       'scopes',
@@ -803,7 +804,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   protected setupProxyForm(): void {
-    this.LCUType = this.EditingApplication.Processor?.LowCodeUnit?.Type || '';
+    this.LCUType = this.EditingApplication.LowCodeUnit?.Type || '';
 
     this.ApplicationFormGroup.addControl(
       'inboundPath',

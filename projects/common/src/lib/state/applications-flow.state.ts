@@ -15,6 +15,8 @@ export class ApplicationsFlowState {
 
   // public Projects?: ProjectState[];
 
+  public Unleashed?: boolean;
+
   public UserEnterpriseLookup?: string;
 
   constructor() {
