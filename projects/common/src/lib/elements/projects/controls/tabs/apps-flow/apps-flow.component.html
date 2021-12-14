@@ -4,11 +4,22 @@
     (ngSubmit)="SaveApplication()"
     *ngIf="EditingApplication"
   >
+
     <div
       fxLayout="row wrap"
       fxLayoutAlign="center start"
       fxLayout.lt-md="column"
     >
+    <h2 id="app-back-button">
+      <button
+        mat-icon-button
+        matTooltip="Back to Applications"
+        (click)="SetEditingApplication(null)"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      Applications
+    </h2>
       <div class="form-card" fxFlex="70%" fxFlex.lt-md="100%">
         <mat-card class="spread">
           <mat-card-header>
@@ -282,7 +293,9 @@
                 </mat-form-field>
 
                 <div>
-                  <mat-slide-toggle class="spread" formControlName="permanent">
+                  <mat-slide-toggle 
+                    class="spread" 
+                    formControlName="permanent">
                     Is Permanent?
                   </mat-slide-toggle>
 
@@ -296,10 +309,49 @@
                   <mat-icon
                     class="spread"
                     matSuffix
-                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                    (mouseenter)="DetermineTooltipText()"
+                    matTooltip={{redirectTooltip}}
                   >
                     info_outline
                   </mat-icon>
+
+                  <!-- <mat-icon
+                  *ngIf="!IsPermanent && !IsPreserve"
+
+                    class="spread"
+                    matSuffix
+                    matTooltip="302 – Not Permanent and Not Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  <!-- <mat-icon
+                  *ngIf="!IsPermanent && IsPreserve"
+                    class="spread"
+                    matSuffix
+                    matTooltip="307 – Not Permanent and Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  <!-- <mat-icon
+                  *ngIf="IsPermanent && IsPreserve"
+                    class="spread"
+                    matSuffix
+                    matTooltip="308 – Permanent and Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  
+
+                  <!-- <mat-icon
+                    class="spread"
+                    matSuffix
+                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                  >
+                    info_outline
+                  </mat-icon> -->
                 </div>
               </div>
             </div>
@@ -502,15 +554,14 @@
                     mat-icon-button
                     href="https://{{ PrimaryHost }}{{ appRoute }}"
                     target="_blank"
-                    title="Launch"
                   >
-                    <mat-icon>launch</mat-icon>
+                    <mat-icon matTooltip="Launch">launch</mat-icon>
                   </a>
 
                   <button
                     mat-icon-button
                     color="accent"
-                    (click)="CurrentApplicationRoute = appRoute"
+                    (click)="EditApplicationRouteClicked(appRoute)"
                   >
                     <mat-icon matTooltip="Edit Application Route">
                       settings
@@ -600,12 +651,12 @@
                       app.LookupConfig.PathRegex.replace('.*', '')
                     }}"
                     target="_blank"
-                    title="Launch"
                   >
-                    <mat-icon>launch</mat-icon>
+                    <mat-icon matTooltip="Launch">launch</mat-icon>
                   </a>
 
                   <a
+                  *ngIf="GetProcessorType(appLookup) === 'DFS'"
                     mat-icon-button
                     (click)="Unpack(appLookup, app)"
                     target="_blank"
@@ -649,7 +700,8 @@
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
 
-                  <button mat-icon-button disabled>
+                  <button mat-icon-button disabled 
+                  *ngIf="GetProcessorType(appLookup) === 'DFS'">
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
                 </div>
