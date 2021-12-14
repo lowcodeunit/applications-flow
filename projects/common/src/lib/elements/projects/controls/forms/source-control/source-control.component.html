@@ -4,7 +4,7 @@
       class="mat-full-width with-hint"
       *ngIf="OrganizationOptions?.length > 0"
     >
-      <mat-icon class="org-icon" matPrefix>groups</mat-icon>
+      <mat-icon class="org-icon" matPrefix>corporate_fare</mat-icon>
 
       <mat-select
         [formControlName]="SourceControlRoot + 'organization'"
@@ -20,16 +20,15 @@
         </ng-container>
       </mat-select>
 
-      <mat-icon matSuffix (click)="RefreshOrganizations()"> refresh </mat-icon>
+      <mat-icon matSuffix (click)="RefreshOrganizations()" matTooltip="Refresh Organization"> refresh </mat-icon>
 
       <a
         matSuffix
         href="/.oauth/github?oauth-force-edit=true"
-        title="Re-authorize Organizations"
         target="_blank"
         color="accent"
       >
-        <mat-icon color="accent"> launch </mat-icon>
+        <mat-icon color="accent" matTooltip="Re-authorize Organizations"> launch </mat-icon>
       </a>
 
       <mat-hint>
@@ -200,11 +199,12 @@
         matSuffix
         mat-icon-button
         href="/.oauth/github?oauth-force-edit=true"
-        title="Re-authorize Organizations"
+        
         target="_blank"
         color="accent"
       >
         <mat-icon
+        matTooltip="Re-authorize Organizations"
         color="accent"> launch </mat-icon>
       </a>
 
