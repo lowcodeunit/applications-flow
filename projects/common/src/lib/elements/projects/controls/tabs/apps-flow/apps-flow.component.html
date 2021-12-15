@@ -1,4 +1,17 @@
 <div>
+  <div *ngIf="EditingApplication?.Application">
+    <h2>
+      <button
+        mat-icon-button
+        matTooltip="Back to Routes"
+        (click)="SetEditingApplication(null)"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      {{ CurrentApplicationRoute }} Routes / {{ EditingApplication.Application?.Name }}
+    </h2>
+    </div>
   <form
     [formGroup]="ApplicationFormGroup"
     (ngSubmit)="SaveApplication()"
