@@ -1,5 +1,9 @@
 @import "../../../../../../assets/common";
 
+.flow-card{
+  background-color: #2f2f2f !important;
+}
+
 :host ::ng-deep {
   // text-align: center;
 
@@ -13,9 +17,7 @@
   }
 
   .mat-card {
-    .flow-card{
-      background-color: #2f2f2f !important;
-    }
+ 
     .mat-card-content {
       text-align: center;
       overflow: hidden;
