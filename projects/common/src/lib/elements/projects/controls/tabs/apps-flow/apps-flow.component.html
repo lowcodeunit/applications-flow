@@ -21,7 +21,7 @@
       Applications
     </h2>
       <div class="form-card" fxFlex="70%" fxFlex.lt-md="100%">
-        <mat-card class="spread">
+        <mat-card class="spread flow-card">
           <mat-card-header>
             <mat-card-title>
               <ng-container *ngIf="EditingApplication?.Application">
@@ -68,7 +68,7 @@
       </div>
 
       <div class="form-card" fxFlex="35%">
-        <mat-card class="spread">
+        <mat-card class="spread flow-card">
           <mat-card-header>
             <mat-card-title> Processor Details </mat-card-title>
           </mat-card-header>
@@ -360,7 +360,7 @@
       </div>
 
       <div class="form-card" fxFlex="35%">
-        <mat-card class="spread">
+        <mat-card class="spread flow-card">
           <mat-card-header>
             <mat-card-title> Security Settings </mat-card-title>
 
@@ -400,7 +400,7 @@
           </mat-card-content>
         </mat-card>
 
-        <mat-card class="spread" *ngIf="ProcessorType != 'Redirect'">
+        <mat-card class="spread flow-card" *ngIf="ProcessorType != 'Redirect'">
           <mat-card-header>
             <mat-card-title *ngIf="!HasBuildFormControl.value">
               Build & Source
@@ -526,11 +526,11 @@
           *ngIf="ApplicationRoutes"
         >
           <div
-            fxFlex="30%"
+            fxFlex="20%"
             fxFlex.lt-md="100%"
             *ngFor="let appRoute of ApplicationRoutes"
           >
-            <mat-card class="spread">
+            <mat-card class="spread flow-card">
               <mat-card-header>
                 <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
 
@@ -610,7 +610,7 @@
               let app
             "
           >
-            <mat-card class="spread">
+            <mat-card class="spread flow-card">
               <mat-card-header>
                 <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
 

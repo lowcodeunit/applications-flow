@@ -1,11 +1,12 @@
 @import "../../../../../assets/common";
 
 .card-container{
-  width:245px;
+  width:400px;
 }
 .project-card{
-  width: 225px;
+  width: 370px;
   height: 280px;
+  background-color: #2f2f2f !important;
 }
 
 :host ::ng-deep {
