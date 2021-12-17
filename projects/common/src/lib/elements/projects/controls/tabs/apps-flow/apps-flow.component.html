@@ -4,11 +4,22 @@
     (ngSubmit)="SaveApplication()"
     *ngIf="EditingApplication"
   >
+
     <div
       fxLayout="row wrap"
       fxLayoutAlign="center start"
       fxLayout.lt-md="column"
     >
+    <h2 id="app-back-button">
+      <button
+        mat-icon-button
+        matTooltip="Back to Applications"
+        (click)="SetEditingApplication(null)"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      Applications
+    </h2>
       <div class="form-card" fxFlex="70%" fxFlex.lt-md="100%">
         <mat-card class="spread">
           <mat-card-header>
@@ -109,7 +120,7 @@
                 <div [ngSwitch]="LCUType">
                   <div *ngSwitchCase="'GitHub'">
                     <lcu-source-control-form-controls
-                      [build-path]="EditingApplication?.Processor?.LowCodeUnit?.Path"
+                      [build-path]="EditingApplication?.LowCodeUnit?.Path"
                       [form-group]="ApplicationFormGroup"
                       [source-control]="DefaultSourceControl"
                       [use-branches]="false"
@@ -131,31 +142,23 @@
 
                       <mat-hint>
                         Current Build:
-                        {{
-                          EditingApplication?.Processor?.LowCodeUnit
-                            ?.CurrentBuild
-                        }}
+                        {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
                       </mat-hint>
                     </mat-form-field>
                   </div>
 
                   <div *ngSwitchCase="'NPM'">
                     <lcu-npm-package-select
-                      [npm-package]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Package
-                      "
+                      [npm-package]="EditingApplication?.LowCodeUnit?.Package"
                       [npm-package-version]="
-                        EditingApplication?.Processor?.LowCodeUnit?.Version
+                        EditingApplication?.LowCodeUnit?.Version
                       "
                       [form-group]="ApplicationFormGroup"
                     ></lcu-npm-package-select>
 
                     <mat-hint>
                       Current Version:
-                      {{
-                        EditingApplication?.Processor?.LowCodeUnit
-                          ?.CurrentVersion
-                      }}
+                      {{ EditingApplication?.LowCodeUnit?.CurrentVersion }}
                     </mat-hint>
                   </div>
                 </div>
@@ -290,7 +293,9 @@
                 </mat-form-field>
 
                 <div>
-                  <mat-slide-toggle class="spread" formControlName="permanent">
+                  <mat-slide-toggle 
+                    class="spread" 
+                    formControlName="permanent">
                     Is Permanent?
                   </mat-slide-toggle>
 
@@ -304,10 +309,49 @@
                   <mat-icon
                     class="spread"
                     matSuffix
-                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                    (mouseenter)="DetermineTooltipText()"
+                    matTooltip={{redirectTooltip}}
                   >
                     info_outline
                   </mat-icon>
+
+                  <!-- <mat-icon
+                  *ngIf="!IsPermanent && !IsPreserve"
+
+                    class="spread"
+                    matSuffix
+                    matTooltip="302 – Not Permanent and Not Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  <!-- <mat-icon
+                  *ngIf="!IsPermanent && IsPreserve"
+                    class="spread"
+                    matSuffix
+                    matTooltip="307 – Not Permanent and Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  <!-- <mat-icon
+                  *ngIf="IsPermanent && IsPreserve"
+                    class="spread"
+                    matSuffix
+                    matTooltip="308 – Permanent and Preserve"
+                  >
+                    info_outline
+                  </mat-icon> -->
+
+                  
+
+                  <!-- <mat-icon
+                    class="spread"
+                    matSuffix
+                    matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
+                  >
+                    info_outline
+                  </mat-icon> -->
                 </div>
               </div>
             </div>
@@ -408,31 +452,25 @@
                   </mat-option>
                 </ng-container>
               </mat-select>
-              
+
               <div *ngIf="HasBuildFormControl?.value">
                 <h3>
                   @{{
-                    SourceControlFormControls?.OrganizationFormControl
-                      ?.value || SourceControl?.Organization
+                    SourceControlFormControls?.OrganizationFormControl?.value ||
+                      SourceControl?.Organization
                   }}/{{
-                    SourceControlFormControls?.RepositoryFormControl
-                      ?.value || SourceControl?.Repository
+                    SourceControlFormControls?.RepositoryFormControl?.value ||
+                      SourceControl?.Repository
                   }}
                 </h3>
 
-                <p>
-                  Organization and Repository pulled from build settings
-                </p>
+                <p>Organization and Repository pulled from build settings</p>
 
                 <mat-hint>
                   CurrentBuild:
-                  {{
-                    EditingApplication?.Processor?.LowCodeUnit
-                      ?.CurrentBuild
-                  }}
+                  {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
                 </mat-hint>
               </div>
-
             </mat-form-field>
 
             <div *ngIf="SourceControlLookups?.length < 0">
@@ -514,17 +552,16 @@
 
                   <a
                     mat-icon-button
-                    href="https://{{ Project.Hosts[0] }}{{ appRoute }}"
+                    href="https://{{ PrimaryHost }}{{ appRoute }}"
                     target="_blank"
-                    title="Launch"
                   >
-                    <mat-icon>launch</mat-icon>
+                    <mat-icon matTooltip="Launch">launch</mat-icon>
                   </a>
 
                   <button
                     mat-icon-button
                     color="accent"
-                    (click)="CurrentApplicationRoute = appRoute"
+                    (click)="EditApplicationRouteClicked(appRoute)"
                   >
                     <mat-icon matTooltip="Edit Application Route">
                       settings
@@ -587,13 +624,13 @@
                 <mat-card-subtitle
                   class="mat-subheading-1"
                   [matTooltip]="
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                    app.Processor?.LowCodeUnit?.CurrentBuild
+                    app.LowCodeUnit?.CurrentVersion ||
+                    app.LowCodeUnit?.CurrentBuild
                   "
                 >
                   @{{
-                    app.Processor?.LowCodeUnit?.CurrentVersion ||
-                      app.Processor?.LowCodeUnit?.CurrentBuild ||
+                    app.LowCodeUnit?.CurrentVersion ||
+                      app.LowCodeUnit?.CurrentBuild ||
                       app.Processor?.Redirect ||
                       "No version deployed"
                   }}
@@ -610,22 +647,21 @@
 
                   <a
                     mat-icon-button
-                    href="https://{{ Project.Hosts[0] }}{{
+                    href="https://{{ PrimaryHost }}{{
                       app.LookupConfig.PathRegex.replace('.*', '')
                     }}"
                     target="_blank"
-                    title="Launch"
                   >
-                    <mat-icon>launch</mat-icon>
+                    <mat-icon matTooltip="Launch">launch</mat-icon>
                   </a>
 
                   <a
+                  *ngIf="GetProcessorType(appLookup) === 'DFS'"
                     mat-icon-button
                     (click)="Unpack(appLookup, app)"
                     target="_blank"
                     matTooltip="Unpack {{
-                      app.Processor?.LowCodeUnit?.Version ||
-                        app.Processor?.LowCodeUnit?.Build
+                      app.LowCodeUnit?.Version || app.LowCodeUnit?.Build
                     }}"
                   >
                     <mat-icon>cloud_upload</mat-icon>
@@ -664,7 +700,8 @@
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
 
-                  <button mat-icon-button disabled>
+                  <button mat-icon-button disabled 
+                  *ngIf="GetProcessorType(appLookup) === 'DFS'">
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
                 </div>

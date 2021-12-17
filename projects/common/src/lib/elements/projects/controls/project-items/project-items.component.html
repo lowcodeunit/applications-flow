@@ -37,7 +37,7 @@
 
       <mat-card-content>
         <div class="spread">
-          <span class="mat-body-2">{{ project.Hosts[0] }}</span>
+          <span class="mat-body-2">{{ GetPrimaryHost(project) }}</span>
         </div>
       </mat-card-content>
 
@@ -47,11 +47,11 @@
 
           <a
             mat-icon-button
-            href="https://{{ project.Hosts[0] }}"
+            href="https://{{ GetPrimaryHost(project) }}"
             target="_blank"
-            title="Launch"
+            
           >
-            <mat-icon>launch</mat-icon>
+            <mat-icon matTooltip="Launch">launch</mat-icon>
           </a>
 
           <button
