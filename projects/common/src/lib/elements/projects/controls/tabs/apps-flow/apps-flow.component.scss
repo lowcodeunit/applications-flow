@@ -1,13 +1,23 @@
 @import "../../../../../../assets/common";
 
+.flow-card{
+  background-color: #2f2f2f !important;
+}
+
 :host ::ng-deep {
   // text-align: center;
+
+  #app-back-button{
+    margin-left: -37px;
+    margin-top: 15px;
+  }
 
   .apps-actions {
     float: right;
   }
 
   .mat-card {
+ 
     .mat-card-content {
       text-align: center;
       overflow: hidden;
