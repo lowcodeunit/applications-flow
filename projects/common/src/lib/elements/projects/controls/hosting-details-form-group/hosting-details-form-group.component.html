@@ -48,7 +48,7 @@
   </ng-container>
 
   <div *ngIf="BuildPipeline == 'npm-release'">
-    <mat-form-field class="mat-full-width with-hint">
+    <mat-form-field class="mat-full-width with-hint padding-bottom-4">
       <mat-icon matPrefix>security</mat-icon>
 
       <input
@@ -60,10 +60,15 @@
         [required]="!Disabled"
         style="-webkit-text-security: disc;"
       />
-
       <mat-hint>
-        Securely publish to NPM, provide an NPM Personal Access Token (PAT) with
-        publish access to the organization used for your NPM packages.  <a mat-button href="#">Full Guide</a>
+        Securely publish to NPM, provide an NPM Personal Access Token (PAT) with publish access to the organization used for your NPM packages.              
+        Learn how to create and view access tokens 
+        <a
+          href="https://docs.npmjs.com/creating-and-viewing-access-tokens"
+          target="_blank"
+        >
+          here.
+        </a>
       </mat-hint>
     </mat-form-field>
   </div>
