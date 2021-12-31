@@ -68,7 +68,7 @@ export class ProjectTabsComponent implements OnInit {
           ProjectLookup: this.ProjectLookup,
           Applications: this.Applications,
           Environment: this.Environment,
-          PrimaryHost: this.PrimaryHost
+          PrimaryHost: this.PrimaryHost,
         },
         Label: 'Application Flow',
         Icon: 'account_tree',
@@ -82,16 +82,16 @@ export class ProjectTabsComponent implements OnInit {
         Label: 'DevOps',
         Icon: 'build',
       }),
-      // new DynamicTabsModel({
-      //   Component: DFSModifiersComponent,
-      //   Data: {
-      //     Modifiers: this.DFSModifiers,
-      //     Project: this.Project,
-      //     ProjectLookup: this.ProjectLookup,
-      //   },
-      //   Label: 'DFS Modifiers',
-      //   Icon: 'auto_fix_high',
-      // }),
+      new DynamicTabsModel({
+        Component: DFSModifiersComponent,
+        Data: {
+          Modifiers: this.DFSModifiers,
+          Project: this.Project,
+          ProjectLookup: this.ProjectLookup,
+        },
+        Label: 'Modifiers',
+        Icon: 'auto_fix_high',
+      }),
       new DynamicTabsModel({
         Component: GeneralComponent,
         Data: { Project: this.Project, ProjectLookup: this.ProjectLookup },
@@ -104,7 +104,7 @@ export class ProjectTabsComponent implements OnInit {
           Hosts: this.Hosts,
           Project: this.Project,
           ProjectLookup: this.ProjectLookup,
-          PrimaryHost: this.PrimaryHost
+          PrimaryHost: this.PrimaryHost,
         },
         Label: 'Domains',
         Icon: 'domain',
