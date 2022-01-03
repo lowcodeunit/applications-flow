@@ -1,11 +1,7 @@
-import { FormsService } from './../../../../../services/forms.service';
-import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
-import { DomainModel } from './../../../../../models/domain.model';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -15,19 +11,15 @@ import {
 } from '../../../../../services/applications-flow-events.service';
 import {
   EaCApplicationAsCode,
-  EaCArtifact,
-  EaCDevOpsAction,
   EaCEnvironmentAsCode,
   EaCProcessor,
   EaCProjectAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
-import { BaseModeledResponse, Guid } from '@lcu/common';
+import { Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
 import { SourceControlFormControlsComponent } from '../../forms/source-control/source-control.component';
-import { ProjectHostingDetails } from '../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
-import { HostingDetailsFormGroupComponent } from '../../hosting-details-form-group/hosting-details-form-group.component';
 
 @Component({
   selector: 'lcu-apps-flow',
@@ -157,6 +149,12 @@ export class AppsFlowComponent implements OnInit {
   public get PackageFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.package;
   }
+
+  public IsPermanent: boolean;
+
+  public IsPreserve: boolean;
+
+  public redirectTooltip: string;
 
   public get PermanentFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.permanent;
@@ -305,6 +303,11 @@ export class AppsFlowComponent implements OnInit {
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     this.EditingApplicationLookup = null;
+    this.redirectTooltip = "";
+    
+      // this.IsPermanent = false;
+    
+      // this.IsPreserve = false;
   }
 
   //  Life Cycle
@@ -335,6 +338,37 @@ export class AppsFlowComponent implements OnInit {
     this.ProcessorType = event.value;
 
     this.setupProcessorTypeSubForm();
+  }
+
+  public DetermineTooltipText(){
+    let permanentValue = this.PermanentFormControl.value;
+    let preserveValue = this.PreserveMethodFormControl.value;
+
+    if(permanentValue === true  && preserveValue === false){
+      this.redirectTooltip = "301 – Permanent and Not Preserve"
+    }
+    else if(permanentValue === false  && preserveValue === false){
+      this.redirectTooltip = "302 – Not Permanent and Not Preserve"
+    }
+    else if(permanentValue === false  && preserveValue === true){
+      this.redirectTooltip = "307 – Not Permanent and Preserve"
+    }
+    else if(permanentValue === true  && preserveValue === true){
+      this.redirectTooltip = "308 – Permanent and Preserve"
+    }
+
+  }
+
+  public GetProcessorType(appLookup:any): string{
+    let processorType = "";
+    processorType = this.Applications[appLookup].Processor.Type ? this.Applications[appLookup].Processor.Type : "";
+    // console.log("Ptype = ", processorType);
+
+    return processorType;
+  }
+
+  public EditApplicationRouteClicked(appRoute:any){
+    this.CurrentApplicationRoute = appRoute;
   }
 
   public SaveApplication(): void {
@@ -538,6 +572,7 @@ export class AppsFlowComponent implements OnInit {
 
   protected setupApplicationForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
+    console.log("ProcessorType = ", this.ProcessorType);
 
     if (this.EditingApplication != null) {
       this.ApplicationFormGroup = this.formBldr.group({
@@ -822,7 +857,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'permanent',
       this.formBldr.control(
-        this.EditingApplication.Processor?.Permanent || '',
+        this.EditingApplication.Processor?.Permanent || false,
         []
       )
     );
@@ -830,10 +865,11 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'preserveMethod',
       this.formBldr.control(
-        this.EditingApplication.Processor?.PreserveMethod || '',
+        this.EditingApplication.Processor?.PreserveMethod || false,
         []
       )
     );
+    this.DetermineTooltipText();
   }
 
   protected setupSecurityForm(): void {
