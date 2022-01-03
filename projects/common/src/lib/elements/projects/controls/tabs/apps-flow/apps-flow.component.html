@@ -1,4 +1,17 @@
 <div>
+  <div *ngIf="EditingApplication?.Application">
+    <h2>
+      <button
+        mat-icon-button
+        matTooltip="Back to Routes"
+        (click)="SetEditingApplication(null)"
+      >
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+
+      {{ CurrentApplicationRoute }} / {{ EditingApplication.Application?.Name }}
+    </h2>
+    </div>
   <form
     [formGroup]="ApplicationFormGroup"
     (ngSubmit)="SaveApplication()"
@@ -10,16 +23,6 @@
       fxLayoutAlign="center start"
       fxLayout.lt-md="column"
     >
-    <h2 id="app-back-button">
-      <button
-        mat-icon-button
-        matTooltip="Back to Applications"
-        (click)="SetEditingApplication(null)"
-      >
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      Applications
-    </h2>
       <div class="form-card" fxFlex="70%" fxFlex.lt-md="100%">
         <mat-card class="spread flow-card">
           <mat-card-header>
@@ -597,7 +600,7 @@
           <mat-icon>arrow_back</mat-icon>
         </button>
 
-        {{ CurrentApplicationRoute }} Routes
+        {{ CurrentApplicationRoute }}
       </h2>
 
       <div fxLayout="row wrap" fxLayout.lt-md="column">
