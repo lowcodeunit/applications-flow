@@ -1,0 +1,50 @@
+<p>enterprise works!</p>
+<lcu-three-column>
+    <div left>left</div>
+    <div>center</div>
+    <div right>
+          
+
+        <!-- Projects -->
+        <lcu-slotted-card
+        title="Projects"
+        icon="work"
+        [main-slot-description]="NumberOfProjects + ' project(s) configured'"
+        secondary-slot-description="Add new quick project"
+        >
+
+        <div class="main-slot" fxLayout="row" *ngFor="let projectKey of ProjectKeys">
+        <div *ngIf="State?.EaC?.Projects[projectKey]; let project;">
+            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+
+            <div fxLayout="column">
+                <h3 *ngIf="project.Project.Name">{{project.Project.Name}}</h3>
+                <p *ngIf="project.Project.Description">{{project.Project.Description}}</p>
+            </div>
+
+            <div>
+                
+                <!-- <div class="slot-actions" *ngFor="let action of s.actions">
+
+                    <ng-container *ngIf="action.ButtonType === ICON">
+                        <mat-icon [matTooltip]="action.Label" click="SlotActionClickEvent(action.ClickEventName)">{{ action.Icon }}</mat-icon>
+                    </ng-container>
+
+                    <ng-container *ngIf="action.ButtonType === BUTTON">
+                        <mat-button click="SlotActionClickEvent(action.ClickEventName)">{{ action.Label }}</mat-button>
+                    </ng-container>
+
+                </div> -->
+            </div>
+        </div>
+            
+
+        </div>
+
+        <div secondary>
+            
+        </div>
+
+        </lcu-slotted-card> 
+    </div>
+</lcu-three-column>

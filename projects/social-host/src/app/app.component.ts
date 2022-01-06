@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LCUServiceSettings } from '@lcu/common';
 
 @Component({
   selector: 'lcu-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'social-host';
+
+  // constructor(protected serviceSettings: LCUServiceSettings){
+
+  // }
 }
+
+

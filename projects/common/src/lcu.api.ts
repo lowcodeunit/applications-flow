@@ -22,3 +22,4 @@ export * from './lib/models/form.model';
 export * from './lib/models/form.values.model';
 export * from './lib/models/base-form-config.model';
 export * from './lib/elements/projects/controls/git-auth/git-auth.component';
+export * from './lib/elements/three-column/three-column.component';
