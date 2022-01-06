@@ -323,6 +323,11 @@
             "tsConfig": "projects/social-host/tsconfig.app.json",
             "aot": true,
             "assets": [
+              {
+                "glob": "package.json",
+                "input": "./projects/social-host/",
+                "output": "/"
+              },
               "projects/social-host/src/favicon.ico",
               "projects/social-host/src/assets"
             ],
