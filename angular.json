@@ -323,6 +323,11 @@
             "tsConfig": "projects/social-host/tsconfig.app.json",
             "aot": true,
             "assets": [
+              {
+                "glob": "package.json",
+                "input": "./projects/social-host/",
+                "output": "/"
+              },
               "projects/social-host/src/favicon.ico",
               "projects/social-host/src/assets"
             ],
@@ -350,12 +355,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+                  "maximumError": "6mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "6mb"
                 }
               ]
             }
