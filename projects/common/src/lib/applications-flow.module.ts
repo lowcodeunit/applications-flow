@@ -34,6 +34,7 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
 import { ColumnInfoCardComponent } from './elements/column-info-card/column-info-card.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
+import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { SlottedCardComponent } from './elements/slotted-card/slotted-card.compo
     NpmPackageSelectComponent,
     ThreeColumnComponent,
     ColumnInfoCardComponent,
-    SlottedCardComponent
+    SlottedCardComponent,
+    ProjectInfoCardComponent
   ],
   imports: [
     FathymSharedModule,
@@ -97,7 +99,8 @@ import { SlottedCardComponent } from './elements/slotted-card/slotted-card.compo
     NpmPackageSelectComponent,
     ThreeColumnComponent,
     ColumnInfoCardComponent,
-    SlottedCardComponent
+    SlottedCardComponent,
+    ProjectInfoCardComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -122,7 +125,8 @@ import { SlottedCardComponent } from './elements/slotted-card/slotted-card.compo
     NpmPackageSelectComponent,
     ThreeColumnComponent,
     ColumnInfoCardComponent,
-    SlottedCardComponent
+    SlottedCardComponent,
+    ProjectInfoCardComponent
   ],
 })
 export class ApplicationsFlowModule {

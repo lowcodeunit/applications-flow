@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'projects', component: ProjectsComponent },
   { path: 'routes', component: RoutesComponent},
   { path: 'settings', component: SettingsComponent},
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: '', redirectTo: 'enterprises', pathMatch: 'full' }
 ];
 
 @NgModule({

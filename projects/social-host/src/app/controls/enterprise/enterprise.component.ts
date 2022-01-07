@@ -13,10 +13,10 @@ export class EnterpriseComponent implements OnInit {
   public State: ApplicationsFlowState;
 
   public get NumberOfProjects(): number{
-    return this.ProjectKeys.length;
+    return this.ProjectLookups.length;
   }
 
-  public get ProjectKeys(): string[]{
+  public get ProjectLookups(): string[]{
     return Object.keys(this.State?.EaC?.Projects || {});
   }
 
@@ -41,6 +41,7 @@ export class EnterpriseComponent implements OnInit {
     if (this.State.Enterprises?.length > 0) {
       await this.projectService.GetActiveEnterprise(this.State);
     }
+
   }
 
 }

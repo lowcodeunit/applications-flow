@@ -1,0 +1,72 @@
+.project-info-card{
+    background-color: white;
+    margin:20px;
+    padding:0px;
+    border: 2px solid #d3d3d3;
+}
+
+.round-project-img{
+    background-color: #DFEFF2;
+    width: 75px;
+    height: 75px;
+    border-radius: 40px;
+    text-align: center;
+    margin-top: 20px;
+    border: 2px solid white;
+}
+
+.temp-icon{
+    height: 50px;
+    width: 50px;
+    font-size: 50px;
+    margin-top: 10px;
+}
+
+.project-card-header{
+    text-align: center;
+    margin-top: 50px;
+    
+}
+
+.host-anchor{
+    text-decoration: none;
+    color: #4A918E;
+}
+
+.header-img-container{
+    background-color: #A4BAB3;
+    height: 60px;
+    border-radius: 2px 2px 0px 0px;
+    margin-right: -1px;
+    justify-content: center;
+}
+
+.project-card-name{
+    font-size: 30px;
+    font-weight: 600;
+    // margin-bottom: 0px;
+}
+
+.carousel-container{
+    text-align: center;
+    border-top: 1px solid #d3d3d3;
+    border-bottom: 1px solid #d3d3d3;
+    height: 75px;
+
+}
+
+.promo-container{
+    border-bottom: 1px solid #d3d3d3;
+}
+
+mat-card-actions{
+    margin-bottom: -1px !important;
+    margin-left: 0px !important;
+    margin-right: -0.5px !important;
+}
+
+.info-card-btn{
+    width: 100%;
+    border-radius: 0px 0px 2px 2px;
+    border-top: 1px solid #d3d3d3;
+}

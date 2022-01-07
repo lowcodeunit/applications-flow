@@ -18,6 +18,7 @@ import { ApplicationsComponent } from './controls/applications/applications.comp
 import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
 import { ApplicationsFlowModule } from 'projects/common/src/lib/applications-flow.module';
 import {MatButtonModule} from '@angular/material/button';
+import {MatCardModule} from '@angular/material/card'
 import { environment } from '../environments/environment';
 
 
@@ -40,7 +41,8 @@ import { environment } from '../environments/environment';
     FathymSharedModule.forRoot(),
     ThemeBuilderModule,
     ApplicationsFlowModule.forRoot(),  
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule
   ],
   providers: [{
     provide: LCUServiceSettings,
