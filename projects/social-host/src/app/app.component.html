@@ -1,10 +1,68 @@
 <div fxLayout="column" fxFlexFill>
-  <mat-toolbar 
-    color="primary" 
-    fxLayout="row" 
-    fxLayoutAlign="space-between center">
-    <a mat-raised-button color="accent" href="projects">Projects</a>
-    <!-- <lcu-theme-picker dark-mode="true"></lcu-theme-picker> -->
+  <mat-toolbar
+    color="primary"
+    fxLayout="row"
+    fxFlex
+    fxLayoutAlign="space-between center"
+  >
+    <!-- <div fxLayout="row" fxLayoutAlign="start center">
+      <div
+        class="logo"
+        fxHide.lt-md="true"
+        [style.background-image]="
+          'url(' + (State.Logo || State.LogoMobile) + ')'
+        "
+        *ngIf="State.Logo || State.LogoMobile"
+      ></div>
+      <div
+        class="logo mobile"
+        fxHide
+        fxShow.lt-md="true"
+        [style.background-image]="
+          'url(' + (State.LogoMobile || State.Logo) + ')'
+        "
+        *ngIf="State.LogoMobile || State.Logo"
+      ></div>
+
+      <a
+        mat-button
+        href="/"
+        class="title margin-left-2"
+        [innerHTML]="State.Title"
+      >
+      </a>
+    </div>
+    <span fxHide.lt-md="true" style="background-color: blueviolet">
+      <ng-container *ngFor="let action of State.Actions">
+        <ng-container *ngIf="action.Align === 'start'">
+          <lcu-action
+            class="toolbar-action"
+            [action]="action"
+            (action-click)="ActionClicked($event)"
+          ></lcu-action>
+        </ng-container>
+      </ng-container>
+    </span>
+
+    <span fxHide.lt-md="true">
+      <ng-container *ngFor="let action of State.Actions">
+        <ng-container *ngIf="action.Align === 'end'">
+          <lcu-action
+            class="toolbar-action"
+            [action]="action"
+            (action-click)="ActionClicked($event)"
+          ></lcu-action>
+        </ng-container>
+      </ng-container>
+    </span>
+
+    <span fxHide fxHide.lt-md="false">
+      <lcu-hamburger-menu
+        class="margin-top-3"
+        [action]="MenuAction"
+      ></lcu-hamburger-menu>
+    </span> -->
   </mat-toolbar>
-    <router-outlet></router-outlet>
+
+  <router-outlet></router-outlet>
 </div>
