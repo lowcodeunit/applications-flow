@@ -386,8 +386,8 @@ export class AppsFlowComponent implements OnInit {
           ? this.IsTriggerSignInFormControl.value
           : false,
         PathRegex: `${this.RouteFormControl.value}.*`,
-        QueryRegex: '',
-        HeaderRegex: '',
+        QueryRegex: this.EditingApplication?.LookupConfig?.QueryRegex || '',
+        HeaderRegex: this.EditingApplication?.LookupConfig?.HeaderRegex || '',
         AllowedMethods: this.MethodsFormControl?.value
           ?.split(' ')
           .filter((v: string) => !!v),
