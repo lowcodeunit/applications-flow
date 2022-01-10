@@ -19,7 +19,11 @@
     height: 50px;
     width: 50px;
     font-size: 50px;
-    margin-top: 10px;
+   
+}
+
+.icon-btn-container{
+    margin: 5px;
 }
 
 .project-card-header{
@@ -37,7 +41,8 @@
     background-color: #A4BAB3;
     height: 60px;
     border-radius: 2px 2px 0px 0px;
-    margin-right: -1px;
+    margin-top: -0.5px !important;
+    margin-right: 0px;
     justify-content: center;
 }
 
@@ -47,22 +52,27 @@
     // margin-bottom: 0px;
 }
 
-.carousel-container{
-    text-align: center;
+
+.card-content-container{
+    margin-bottom: 0px !important;
+}
+
+.stats-container{
     border-top: 1px solid #d3d3d3;
     border-bottom: 1px solid #d3d3d3;
-    height: 75px;
-
 }
 
 .promo-container{
-    border-bottom: 1px solid #d3d3d3;
 }
 
 mat-card-actions{
     margin-bottom: -1px !important;
     margin-left: 0px !important;
     margin-right: -0.5px !important;
+}
+
+.actions-container{
+    padding: 0px !important;
 }
 
 .info-card-btn{

@@ -1,8 +1,51 @@
 <lcu-three-column>
     <!-- left column -->
     <div left>
+        <!-- [name]="Project.Project.Name"
+        [description]="Project.Project.Description"
+        [subtext]="Project.Hosts"
+        [image]="" -->
         <lcu-project-info-card
-        [project]=Project> 
+        name="LowCodeUnit"
+        description="This is a test description for formatting purposes"
+        subtext="www.lowcodeunit.com"
+
+        
+        (left-click-event)="HandleLeftClickEvent($event)"
+        (right-click-event)="HandleRightClickEvent($event)"
+        > 
+
+            <div stats class="carousel-container">
+                <div class="chevron-container" fxLayout="row">
+                    <button mat-icon-button class="chevron-button" id="left-chevron" (click)="LeftChevronClicked()">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+                    <button mat-icon-button class="chevron-button" id="right-chevron" (click)="RightChevronClicked()">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+                <ng-container *ngFor="let stat of Stats; let i = index">
+                        <div class="carousel-item" [id]="'carousel-'+i">
+                            <div class="carousel-title">{{stat.Name}}</div>
+                            <div class="carousel-stat">{{stat.Stat}}</div>
+                        </div>
+                </ng-container>
+                <div>More details</div>
+            </div>
+
+            <div promo class="promo-container" >
+                <div> Access exclusive tools & insights</div>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="gold-icon">emoji_events</mat-icon>
+                    <div class="upgrade-text" (click)="UpgradeClicked()">Upgrade to premium now</div>
+                </div>
+      
+            </div>
+
+            <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
+                <mat-icon>settings</mat-icon>
+                Project Settings
+              </button>
         </lcu-project-info-card>
     </div>
     <!-- center column -->
