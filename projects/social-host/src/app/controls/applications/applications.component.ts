@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ProjectService } from 'projects/common/src/lib/services/project.service';
+import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 
 @Component({
   selector: 'lcu-applications',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ApplicationsComponent implements OnInit {
 
-  constructor() { }
+  
 
-  ngOnInit(): void {
+  constructor() {
+
+
   }
+
+  public ngOnInit(): void {
+
+  }
+
 
 }

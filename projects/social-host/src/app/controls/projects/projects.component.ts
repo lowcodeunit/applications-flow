@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
@@ -10,8 +10,6 @@ import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 })
 export class ProjectsComponent implements OnInit {
 
-  @ViewChild('carousel-container') carousel: ElementRef;
-
   public routeData: any;
 
   public Stats: any[];
@@ -19,9 +17,6 @@ export class ProjectsComponent implements OnInit {
   public State: ApplicationsFlowState;
 
   protected carouselIndex: number;
-
-  protected ItemClassName: string;
-
 
   public get Project(): any{
     return this.State?.EaC?.Projects[this.routeData.projectLookup] || {};
@@ -48,10 +43,6 @@ export class ProjectsComponent implements OnInit {
     {Name: "Someother Rate", Stat: "5%"}];
 
     this.carouselIndex = 0;
-
-    this.ItemClassName = 'carousel-item';
- 
-
 
    }
 

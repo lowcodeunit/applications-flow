@@ -35,6 +35,7 @@ import { ThreeColumnComponent } from './elements/three-column/three-column.compo
 import { ColumnInfoCardComponent } from './elements/column-info-card/column-info-card.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
+import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { ProjectInfoCardComponent } from './elements/project-info-card/project-i
     ThreeColumnComponent,
     ColumnInfoCardComponent,
     SlottedCardComponent,
-    ProjectInfoCardComponent
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent
   ],
   imports: [
     FathymSharedModule,
@@ -100,7 +102,8 @@ import { ProjectInfoCardComponent } from './elements/project-info-card/project-i
     ThreeColumnComponent,
     ColumnInfoCardComponent,
     SlottedCardComponent,
-    ProjectInfoCardComponent
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -126,7 +129,8 @@ import { ProjectInfoCardComponent } from './elements/project-info-card/project-i
     ThreeColumnComponent,
     ColumnInfoCardComponent,
     SlottedCardComponent,
-    ProjectInfoCardComponent
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent
   ],
 })
 export class ApplicationsFlowModule {
