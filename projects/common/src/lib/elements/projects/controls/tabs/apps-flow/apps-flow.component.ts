@@ -373,6 +373,7 @@ export class AppsFlowComponent implements OnInit {
       Application: {
         Name: this.NameFormControl.value,
         Description: this.DescriptionFormControl.value,
+        PriorityShift: this.EditingApplication?.Application?.PriorityShift || 0
       },
       AccessRightLookups: [],
       DataTokens: {},
