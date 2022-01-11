@@ -96,8 +96,7 @@ export class AppsFlowComponent implements OnInit {
 
   public get DefaultSourceControl(): EaCSourceControl {
     return {
-      Organization:
-        this.EditingApplication?.LowCodeUnit?.Organization,
+      Organization: this.EditingApplication?.LowCodeUnit?.Organization,
       Repository: this.EditingApplication?.LowCodeUnit?.Repository,
     };
   }
@@ -303,11 +302,11 @@ export class AppsFlowComponent implements OnInit {
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     this.EditingApplicationLookup = null;
-    this.redirectTooltip = "";
-    
-      // this.IsPermanent = false;
-    
-      // this.IsPreserve = false;
+    this.redirectTooltip = '';
+
+    // this.IsPermanent = false;
+
+    // this.IsPreserve = false;
   }
 
   //  Life Cycle
@@ -340,34 +339,32 @@ export class AppsFlowComponent implements OnInit {
     this.setupProcessorTypeSubForm();
   }
 
-  public DetermineTooltipText(){
+  public DetermineTooltipText() {
     let permanentValue = this.PermanentFormControl.value;
     let preserveValue = this.PreserveMethodFormControl.value;
 
-    if(permanentValue === true  && preserveValue === false){
-      this.redirectTooltip = "301 – Permanent and Not Preserve"
+    if (permanentValue === true && preserveValue === false) {
+      this.redirectTooltip = '301 – Permanent and Not Preserve';
+    } else if (permanentValue === false && preserveValue === false) {
+      this.redirectTooltip = '302 – Not Permanent and Not Preserve';
+    } else if (permanentValue === false && preserveValue === true) {
+      this.redirectTooltip = '307 – Not Permanent and Preserve';
+    } else if (permanentValue === true && preserveValue === true) {
+      this.redirectTooltip = '308 – Permanent and Preserve';
     }
-    else if(permanentValue === false  && preserveValue === false){
-      this.redirectTooltip = "302 – Not Permanent and Not Preserve"
-    }
-    else if(permanentValue === false  && preserveValue === true){
-      this.redirectTooltip = "307 – Not Permanent and Preserve"
-    }
-    else if(permanentValue === true  && preserveValue === true){
-      this.redirectTooltip = "308 – Permanent and Preserve"
-    }
-
   }
 
-  public GetProcessorType(appLookup:any): string{
-    let processorType = "";
-    processorType = this.Applications[appLookup].Processor.Type ? this.Applications[appLookup].Processor.Type : "";
+  public GetProcessorType(appLookup: any): string {
+    let processorType = '';
+    processorType = this.Applications[appLookup].Processor.Type
+      ? this.Applications[appLookup].Processor.Type
+      : '';
     // console.log("Ptype = ", processorType);
 
     return processorType;
   }
 
-  public EditApplicationRouteClicked(appRoute:any){
+  public EditApplicationRouteClicked(appRoute: any) {
     this.CurrentApplicationRoute = appRoute;
   }
 
@@ -376,7 +373,7 @@ export class AppsFlowComponent implements OnInit {
       Application: {
         Name: this.NameFormControl.value,
         Description: this.DescriptionFormControl.value,
-        PriorityShift: this.EditingApplication?.Application?.PriorityShift || 0
+        PriorityShift: this.EditingApplication?.Application?.PriorityShift || 0,
       },
       AccessRightLookups: [],
       DataTokens: {},
@@ -529,9 +526,7 @@ export class AppsFlowComponent implements OnInit {
     this.appsFlowEventsSvc.UnpackLowCodeUnit({
       ApplicationLookup: appLookup,
       ApplicationName: app.Application?.Name,
-      Version:
-        app.LowCodeUnit?.Version ||
-        app.LowCodeUnit?.Build,
+      Version: app.LowCodeUnit?.Version || app.LowCodeUnit?.Build,
     });
   }
 
@@ -573,7 +568,7 @@ export class AppsFlowComponent implements OnInit {
 
   protected setupApplicationForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
-    console.log("ProcessorType = ", this.ProcessorType);
+    console.log('ProcessorType = ', this.ProcessorType);
 
     if (this.EditingApplication != null) {
       this.ApplicationFormGroup = this.formBldr.group({
@@ -606,8 +601,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'hasBuild',
       this.formBldr.control(
-        !!this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
-          false,
+        !!this.EditingApplication.LowCodeUnit?.SourceControlLookup || false,
         [Validators.required]
       )
     );
@@ -615,8 +609,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'sourceControlLookup',
       this.formBldr.control(
-        this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
-          '',
+        this.EditingApplication.LowCodeUnit?.SourceControlLookup || '',
         []
       )
     );
