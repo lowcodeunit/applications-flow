@@ -66,7 +66,7 @@ export class ProjectsComponent implements OnInit {
     console.log("Right Icon has been selected", event);
   }
 
-  public SettingsClecked(){
+  public SettingsClicked(){
     console.log("Settings Clicked")
   }
 
