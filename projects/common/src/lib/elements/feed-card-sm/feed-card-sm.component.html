@@ -1,0 +1,14 @@
+<mat-card class="social-card">
+    <div class="feed-card-container" fxLayout="row">
+        <mat-icon *ngIf="Icon" [style.color]="IconColor">{{Icon}}</mat-icon>
+        <div class="feed-card-main-content">
+            <mat-card-title *ngIf="Title">{{Title}}</mat-card-title>
+            <div *ngIf="Subtext">{{Subtext}}</div>
+            <div *ngIf="Description">{{Description}}</div>
+        </div>
+    </div>
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="end">
+      <ng-content select="[actions]"></ng-content>
+    </mat-card-actions>
+  </mat-card>
