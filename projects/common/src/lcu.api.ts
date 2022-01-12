@@ -1,4 +1,3 @@
-import { DynamicTabsComponent } from './lib/elements/dynamic-tabs/dynamic-tabs.component';
 export * from './lib/applications-flow.module';
 export * from './lib/services/applications-flow.service';
 export * from './lib/state/applications-flow-state.context';
@@ -24,3 +23,8 @@ export * from './lib/models/form.values.model';
 export * from './lib/models/base-form-config.model';
 export * from './lib/elements/projects/controls/git-auth/git-auth.component';
 export * from './lib/elements/dynamic-tabs/dynamic-tabs.component';
+export * from './lib/elements/projects/controls/project-items/project-items.component';
+export * from './lib/elements/projects/controls/header/header.component';
+export * from './lib/elements/projects/controls/tabs/domains/domains.component';
+export * from './lib/elements/projects/controls/tabs/apps-flow/apps-flow.component';
+
