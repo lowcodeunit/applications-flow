@@ -2,7 +2,6 @@ export * from './lib/applications-flow.module';
 export * from './lib/services/applications-flow.service';
 export * from './lib/state/applications-flow-state.context';
 export * from './lib/state/applications-flow.state';
-export * from './lib/elements/projects/projects.component';
 export * from './lib/elements/projects/controls/forms/source-control/source-control.component';
 export * from './lib/elements/projects/controls/create-project-wizard/create-project-wizard.component';
 export * from './lib/elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
@@ -27,4 +26,17 @@ export * from './lib/elements/projects/controls/project-items/project-items.comp
 export * from './lib/elements/projects/controls/header/header.component';
 export * from './lib/elements/projects/controls/tabs/domains/domains.component';
 export * from './lib/elements/projects/controls/tabs/apps-flow/apps-flow.component';
+export * from './lib/elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
+export * from './lib/elements/projects/controls/builds/builds.component';
+export * from './lib/elements/projects/controls/tabs/apps-flow/apps-flow.component';
+export * from './lib/elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
+export * from './lib/elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
+export * from './lib/elements/projects/controls/tabs/general/forms/project-details/project-details.component';
+export * from './lib/elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
+export * from './lib/elements/projects/controls/tabs/devops/devops.component';
+export * from './lib/elements/projects/controls/project-tabs/project-tabs.component';
+export * from './lib/elements/form-card/form-card.component';
+export * from './lib/elements/base-form/base-form.component';
+export * from './lib/elements/projects/controls/recent-activities/recent-activities.component';
+export * from './lib/elements/projects/projects.component';
 

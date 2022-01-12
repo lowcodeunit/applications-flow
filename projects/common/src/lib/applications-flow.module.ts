@@ -13,7 +13,6 @@ import { CreateProjectWizardComponent } from './elements/projects/controls/creat
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
-import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
 import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
 import { ProjectItemsComponent } from './elements/projects/controls/project-items/project-items.component';
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
@@ -40,7 +39,6 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -73,7 +71,6 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -95,7 +92,6 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
