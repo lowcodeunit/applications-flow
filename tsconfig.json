@@ -9,11 +9,11 @@
 		"experimentalDecorators": true,
 		"moduleResolution": "node",
 		"importHelpers": true,
-		"target": "es2015",
-		"module": "es2020",
+		"target": "es2017",
+		"module": "esnext",
 		"lib": [
-			"es2018",
-			"dom"
+			"es2020",
+      		"dom"
 		],
 		"paths": {
 			"@lowcodeunit/applications-flow-common": [
@@ -26,8 +26,8 @@
 	},
 	"angularCompilerOptions": {
 		"enableI18nLegacyMessageIdFormat": false,
-		"enableIvy": false,
 		"strictInjectionParameters": true,
+		"strictInputAccessModifiers": true,
 		"strictTemplates": true
 	}
 }
