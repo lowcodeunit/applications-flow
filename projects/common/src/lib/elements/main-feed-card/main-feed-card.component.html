@@ -1,0 +1,28 @@
+<mat-card class="social-card">
+    <mat-card-header fxLayout="row">
+        <div *ngIf="Avatar" mat-card-avatar class="example-header-image" [style.backgroundImage]="Avatar" fxFlex="10%"></div>
+        <div class="header-main-content-container" fxFlex="80%">
+            <mat-card-title *ngIf="Title">{{Title}}</mat-card-title>
+            <div *ngIf="Subtext">{{Subtext}}</div>
+            <div *ngIf="TimeAgo">{{TimeAgo}}</div>
+        </div>
+        <div fxFlex="10%">
+            <button mat-icon-button (click)="MoreClicked()" >
+                <mat-icon>more_horiz</mat-icon>
+            </button>
+        </div>
+
+      </mat-card-header>
+    
+    <div class="feed-card-container" fxLayout="row">
+        <div class="feed-card-main-content">
+            <ng-content select="[tabs]"></ng-content>
+        </div>
+    </div>
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+      <ng-content select="[actions]"></ng-content>
+        
+
+    </mat-card-actions>
+  </mat-card>

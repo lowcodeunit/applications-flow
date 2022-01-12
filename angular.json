@@ -116,6 +116,7 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
+            "optimization": true,
             "browserTarget": "lcu:build"
           },
           "configurations": {
@@ -244,6 +245,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "optimization": true,
             "browserTarget": "demo:build"
           },
           "configurations": {
@@ -369,6 +371,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "optimization": true,
             "browserTarget": "social-host:build"
           },
           "configurations": {

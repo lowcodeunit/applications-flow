@@ -56,7 +56,68 @@
 
     </div>
     <!-- center column -->
-    <div>center</div>
+    <div>
+        <lcu-gh-control></lcu-gh-control>
+
+        <lcu-feed-card-sm
+        title="Build 54"
+        subtext="main"
+        description="description for testing"
+        icon="cancel"
+
+        >
+        <div actions>
+            <button mat-icon-button >
+                <mat-icon>launch</mat-icon>
+            </button>
+            <button mat-raised-button>View Full Details</button>
+        </div>
+
+        </lcu-feed-card-sm>
+        <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
+        [title]="feedItm.Title"
+        [subtext]="feedItm.Author">
+
+        <div *ngIf="feedItm.Type === 'BUILD'"actions>
+            <button  mat-button>
+                <mat-icon>launch</mat-icon>
+                Preview
+              </button>
+              <button mat-button>
+                  <mat-icon >merge</mat-icon>
+                  Pull Request
+              </button>
+              <button  mat-button>
+                  <mat-icon >share</mat-icon>
+                  Share
+              </button>
+              <button  mat-button>
+                  <mat-icon >error_outline</mat-icon>
+                  Open Issue
+              </button>
+        </div>
+
+        <div *ngIf="feedItm.Type === 'ISSUE'"actions>
+            <button  mat-button>
+                <mat-icon>sentiment_satisfied_alt</mat-icon>
+                GitHub
+              </button>
+              <button mat-button>
+                  <mat-icon >add_comment</mat-icon>
+                  Comment
+              </button>
+              <button  mat-button>
+                  <mat-icon >share</mat-icon>
+                  Share
+              </button>
+              <button  mat-button>
+                  <mat-icon >error_outline</mat-icon>
+                  Close Issue
+              </button>
+        </div>
+
+        </lcu-main-feed-card>
+    </div>
     <!-- right column -->
     <div right>
         <lcu-slotted-card

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { MainFeedItemModel } from 'projects/common/src/lib/models/main-feed-item.model';
 
 @Component({
   selector: 'lcu-projects',
@@ -9,6 +10,8 @@ import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
+
+  public FeedItems: MainFeedItemModel[];
 
   public routeData: any;
 
@@ -41,6 +44,9 @@ export class ProjectsComponent implements OnInit {
     this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
     {Name: "Bounce Rate", Stat: "38%"}, 
     {Name: "Someother Rate", Stat: "5%"}];
+
+    this.FeedItems = [{Title: "Test Issue", Author: "Jackson", Type: "ISSUE"}, 
+    {Title: "Test Build", Author: "Mike", Type: "BUILD"}];
 
     this.carouselIndex = 0;
 
