@@ -29,7 +29,7 @@
 		"pack:styles": "concat-glob-cli -f \"dist/lcu/wc/styles.*.css\" -o dist/lcu/wc/applications-flow.lcu.css",
 		"start": "npm run clean && npm-run-all --parallel watch:*",
 		"start:demo": "ng serve demo --port=4201 --aot=false",
-		"start:social-host": "ng serve social-host --port=4200 --aot=false",
+		"start:social-host": "ng serve social-host --port=4200 --aot=true",
 		"watch:common": "ng build common --watch",
 		"watch:demo": "wait-on dist/common/lcu.api.d.ts && npm run start:demo",
 		"watch:social-host": "wait-on dist/common/lcu.api.d.ts && npm run start:social-host",
