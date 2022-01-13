@@ -1,3 +1,27 @@
+@import url(../../../../../common/src/assets/styles/social-card.scss);
+.enterprise-avatar-container{
+    background-color: white;
+}
+.enterprise-avatar{
+    background-image: url(../../../../../common/src/assets/images/Thinky-circle-red.png);
+    background-size: 136px;
+    background-repeat: no-repeat;
+    height: 136px;
+}
+
+.header-main-container{
+    padding: 15px 30px;
+    height: 170px;
+}
+
+.header-name{
+    font-size: 35px;
+}
+.header-description{
+    margin: 10px 0px;
+    font-size: 18px;
+}
+
 .main-slot-container{
     padding:10px;
 }

@@ -1,0 +1,11 @@
+<div class="col-container" fxLayout="row" fxLayout.lt-md="column">
+
+    <div class="col-left"  fxFlex="15%" >
+        <ng-content select="[left]"></ng-content>
+    </div>
+
+    <div class="col-center" fxFlex="85%">
+        <ng-content></ng-content>
+    </div>
+
+</div>

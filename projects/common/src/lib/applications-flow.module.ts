@@ -39,6 +39,7 @@ import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card
 import { FeedCardSmComponent } from './elements/feed-card-sm/feed-card-sm.component';
 import { GhControlComponent } from './elements/gh-control/gh-control.component';
 import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
+import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.
     AnalyticsCardComponent,
     FeedCardSmComponent,
     GhControlComponent,
-    MainFeedCardComponent
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent
   ],
   imports: [
     FathymSharedModule,
@@ -112,7 +114,8 @@ import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.
     AnalyticsCardComponent,
     FeedCardSmComponent,
     GhControlComponent,
-    MainFeedCardComponent
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -142,7 +145,8 @@ import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.
     AnalyticsCardComponent,
     FeedCardSmComponent,
     GhControlComponent,
-    MainFeedCardComponent
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent
   ],
 })
 export class ApplicationsFlowModule {
