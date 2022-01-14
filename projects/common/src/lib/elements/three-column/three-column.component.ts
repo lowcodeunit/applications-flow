@@ -1,3 +1,4 @@
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThreeColumnComponent implements OnInit {
 
-  constructor() { }
+  public SmallScreen:boolean;
+
+
+
+  constructor(public breakpointObserver: BreakpointObserver) { }
 
   ngOnInit(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 850px)'])
+      .subscribe((state: BreakpointState) => {
+        console.log("Breakpoint: ", state.matches)
+        if (state.matches) {
+          this.SmallScreen=true;
+        } else {
+          this.SmallScreen=false;
+        }
+        console.log("SmallScrren = " ,this.SmallScreen);
+      });
   }
 
 }

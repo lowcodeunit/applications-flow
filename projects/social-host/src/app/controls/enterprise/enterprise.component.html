@@ -1,13 +1,17 @@
 <lcu-two-column-header>
-    <mat-card left class="enterprise-avatar-container social-card">
-        <div class="enterprise-avatar"></div>
+
+    <mat-card left class="enterprise-avatar-container">
+      
+            <img class="enterprise-avatar" src="./Thinky-circle-red.png" alt="Enterprise Name">
+        
     </mat-card>
-    <mat-card class="header-main-container  social-card" fxLayout="row" fxLayoutAlign="space-between center">
+
+    <mat-card class="header-main-container  social-card" fxLayout="row" fxLayout.lt-md="column"fxLayoutAlign="space-between center">
         <div class="header-main-content">
             <div class="header-name">Enterprise Name</div>
             <div class="header-description">Enterprise Description</div>
             <div class="header-description"fxLayout="row" fxLayoutAlign="start center">
-                <div>Enterprise Type</div>
+                <div >Enterprise Type</div>
                 <span>&nbsp;  &#8226; &nbsp; </span>
                 <div>Enterprise Location</div>
                 <span>&nbsp; &#8226; &nbsp; </span>
@@ -16,6 +20,7 @@
         </div>
         <button mat-button>Upgrade to premium now</button>
     </mat-card>
+
 </lcu-two-column-header>
 
 <lcu-three-column>
