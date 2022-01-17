@@ -80,7 +80,16 @@ export class ProjectsComponent implements OnInit {
     console.log("Upgarde clicked");
   }
 
+  public LaunchBuildClicked(){
+    console.log("launch build clicked");
+  }
+
+  public ViewBuildDetails(){
+    console.log("View build details clicked");
+  }
+
   public LeftChevronClicked(){
+
 
   this.removeCarouselClasses();
 

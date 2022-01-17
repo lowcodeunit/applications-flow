@@ -33,7 +33,7 @@
                 <div>More details</div>
             </div>
 
-            <div promo class="promo-container" >
+            <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
                 <div> Access exclusive tools & insights</div>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="gold-icon">emoji_events</mat-icon>
@@ -67,10 +67,10 @@
 
         >
         <div actions>
-            <button mat-icon-button >
+            <button mat-icon-button  (click)="LaunchBuildClicked()">
                 <mat-icon>launch</mat-icon>
             </button>
-            <button mat-raised-button>View Full Details</button>
+            <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
         </div>
 
         </lcu-feed-card-sm>

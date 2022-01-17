@@ -50,6 +50,24 @@ export class RoutesComponent implements OnInit {
     this.buildCarousel();
   }
 
+
+  public LaunchRouteClicked(){
+    console.log("Launch Route clicked");
+  }
+
+  public EditRouteClicked(){
+    console.log("Edit Route clicked");
+  }
+
+  public UploadRouteClicked(){
+    console.log("Upload Route clicked");
+  }
+
+  public TrashRouteClicked(){
+    console.log("Trash Route clicked");
+  }
+
+
   public HandleLeftClickEvent(event: any){
     console.log("Left Icon has been selected", event);
   }

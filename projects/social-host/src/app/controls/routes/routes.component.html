@@ -28,7 +28,7 @@
                 <div>More details</div>
             </div>
 
-            <div promo class="promo-container" >
+            <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
                 <div> Access exclusive tools & insights</div>
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="gold-icon">emoji_events</mat-icon>
@@ -49,6 +49,34 @@
         </lcu-analytics-card>
         
     </div>
-    <div>center</div>
+    <div>
+        <div *ngFor="let route of Routes">
+            <lcu-feed-card-sm
+            [title]="route.Name"
+            [description]="route.Description">
+
+            <div actions fxLayout="row">
+
+                <button mat-icon-button  (click)="LaunchRouteClicked()" >
+                    <mat-icon>launch</mat-icon>
+                </button>
+
+                <button mat-icon-button  (click)="EditRouteClicked()" >
+                    <mat-icon>edit</mat-icon>
+                </button>
+
+                <button mat-icon-button  (click)="UploadRouteClicked()" >
+                    <mat-icon>cloud_upload</mat-icon>
+                </button>
+
+                <button mat-icon-button  (click)="TrashRouteClicked()" >
+                    <mat-icon>trash</mat-icon>
+                </button>
+
+            </div>
+
+            </lcu-feed-card-sm>
+        </div>
+    </div>
     <div right>right</div>
 </lcu-three-column>
