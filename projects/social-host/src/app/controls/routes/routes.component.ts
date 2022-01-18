@@ -12,6 +12,8 @@ export class RoutesComponent implements OnInit {
 
   public routeData: any;
 
+  public Routes: any;
+
   public Stats: any[];
 
   public State: ApplicationsFlowState;
