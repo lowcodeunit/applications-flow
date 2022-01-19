@@ -14,23 +14,25 @@ export class ProjectsComponent implements OnInit {
 
   public FeedItems: MainFeedItemModel[];
 
-  public routeData: any;
-
   public Stats: any[];
 
   public State: ApplicationsFlowState;
 
   protected carouselIndex: number;
 
+  protected routeData: any;
+
   public get Project(): any{
     return this.State?.EaC?.Projects[this.routeData.projectLookup] || {};
+  }
+
+  public get ProjectLookup(): any{
+    return this.routeData.projectLookup || {};
   }
 
   public get NumberOfRoutes(): number{
     return this.ApplicationLookups.length;
   }
-
-
 
   public get ApplicationLookups(): string[]{
     return Object.keys(this.Project.ApplicationLookups || {});

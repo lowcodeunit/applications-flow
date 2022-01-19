@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { EaCApplicationAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-routes',
@@ -10,7 +11,7 @@ import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 })
 export class RoutesComponent implements OnInit {
 
-  public routeData: any;
+  
 
   public Routes: any;
 
@@ -20,9 +21,112 @@ export class RoutesComponent implements OnInit {
 
   protected carouselIndex: number;
 
-  //TODO hook this up properly
-  public get Application(): any{
-    return this.State?.EaC?.Projects[this.routeData.applicationLookup] || {};
+  protected routeData: any;
+
+
+  
+
+
+  public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
+    return this.State?.EaC?.Applications || {};
+  }
+
+  public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
+    const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+    this.Project.ApplicationLookups.forEach((appLookup: string) => {
+      apps[appLookup] = this.ApplicationsBank[appLookup];
+    });
+    return apps;
+  }
+
+  public get CurrentApplicationRoute(): any{
+    return this.State?.EaC?.Applications[this.routeData.routeLookup] || {};
+  }
+
+  public get NumberOfApps(): number{
+    return this.Project.ApplicationLookups.length;
+  }
+
+  public get Project(): any{
+    return this.State?.EaC?.Projects[this.routeData.projectLookup]
+  }
+
+  public get RoutedApplications(): {
+    [route: string]: { [lookup: string]: EaCApplicationAsCode };
+  } {
+    const appLookups = Object.keys(this.Applications);
+
+    const apps = appLookups.map((appLookup) => this.Applications[appLookup]);
+
+    let appRoutes =
+      apps.map((app) => {
+        return app.LookupConfig?.PathRegex.replace('.*', '');
+      }) || [];
+
+    appRoutes = appRoutes.filter((ar) => ar != null);
+
+    let routeBases: string[] = [];
+
+    appRoutes.forEach((appRoute) => {
+      const appRouteParts = appRoute.split('/');
+
+      const appRouteBase = `/${appRouteParts[1]}`;
+
+      if (routeBases.indexOf(appRouteBase) < 0) {
+        routeBases.push(appRouteBase);
+      }
+    });
+
+    let workingAppLookups = [...(appLookups || [])];
+
+    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+    const routeSet =
+      routeBases.reduce((prevRouteMap, currentRouteBase) => {
+        const routeMap = {
+          ...prevRouteMap,
+        };
+
+        const filteredAppLookups = workingAppLookups.filter((wal) => {
+          const wa = this.Applications[wal];
+
+          return wa.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+        });
+
+        routeMap[currentRouteBase] =
+          filteredAppLookups.reduce((prevAppMap, appLookup) => {
+            const appMap = {
+              ...prevAppMap,
+            };
+
+            appMap[appLookup] = this.Applications[appLookup];
+
+            return appMap;
+          }, {}) || {};
+
+        workingAppLookups = workingAppLookups.filter((wa) => {
+          return filteredAppLookups.indexOf(wa) < 0;
+        });
+
+        return routeMap;
+      }, {}) || {};
+
+    let routeSetKeys = Object.keys(routeSet);
+
+    routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+    const routeSetResult = {};
+
+    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+    return routeSetResult;
+  }
+
+  public get CurrentRouteApplicationLookups(): Array<string> {
+    return Object.keys(
+      this.RoutedApplications[this.CurrentApplicationRoute] || {}
+    );
   }
 
   constructor(private router: Router,

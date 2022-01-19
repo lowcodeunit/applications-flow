@@ -10,9 +10,22 @@ import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 })
 export class ApplicationsComponent implements OnInit {
 
+  public get Application(): any{
+    return this.State?.EaC?.Applications[this.routeData.appLookup] || {};
+  }
+
+  public State: ApplicationsFlowState;
+
+  protected routeData: any;
+
   
 
-  constructor() {
+  constructor(private router: Router,
+    protected projectService: ProjectService) {
+
+   this.State = new ApplicationsFlowState();
+
+   this.routeData = this.router.getCurrentNavigation().extras.state;
 
 
   }

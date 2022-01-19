@@ -78,5 +78,63 @@
             </lcu-feed-card-sm>
         </div>
     </div>
-    <div right>right</div>
+    <div right>
+        <lcu-slotted-card
+        title="Applications"
+        icon="apps"
+        [main-slot-description]="NumberOfApps + ' applications(s) configured'"
+        secondary-slot-description="Add quick app"
+        action-text="Create Custom Application"
+        >
+
+        <div class="main-slot-container" fxLayout="row" *ngFor="let appLookup of CurrentRouteApplicationLookups">
+            <div class="slot-content" 
+                *ngIf="RoutedApplications[CurrentApplicationRoute][appLookup];
+                let app" 
+                fxLayout="row" 
+                fxLayoutAlign="space-around center">
+
+                <div class="slot-route-header-container" fxLayout="column" fxFlex="70%">
+                    <div class="slot-route-header" fxLayout="row" >
+                        <!-- this icon is a temp placeholder -->
+                        <mat-icon class="slot-icon">apps</mat-icon>
+                        <div *ngIf="app.Application.Name" class="slot-route-name">{{app.Application.Name}}</div>
+                    </div>
+
+                    <div>
+                        <div *ngIf="app.Application.Description" class="slot-project-description">{{app.Application.Description}}</div>
+                        <!-- <div *ngIf="!project.Project.Description" class="slot-project-description">I'm a temp placeholder description to see how this formats</div> -->
+                    </div>
+                </div>
+
+                <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
+                    <a class="slot-action-anchor" routerLink="/routes"  [state]="{ id:1 , appLookup:appLookup }">
+                        <mat-icon class="action-icon">edit</mat-icon>
+                        Edit Application
+                    </a>
+                </div>
+                    
+                    <!-- <div class="slot-actions" *ngFor="let action of s.actions">
+
+                        <ng-container *ngIf="action.ButtonType === ICON">
+                            <mat-icon [matTooltip]="action.Label" click="SlotActionClickEvent(action.ClickEventName)">{{ action.Icon }}</mat-icon>
+                        </ng-container>
+
+                        <ng-container *ngIf="action.ButtonType === BUTTON">
+                            <mat-button click="SlotActionClickEvent(action.ClickEventName)">{{ action.Label }}</mat-button>
+                        </ng-container>
+
+                    </div> -->
+                
+            </div>
+            
+
+        </div>
+
+        <div secondary>
+            
+        </div>
+
+        </lcu-slotted-card> 
+    </div>
 </lcu-three-column>
