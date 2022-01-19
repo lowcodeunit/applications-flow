@@ -1,33 +1,35 @@
 
 <div class="col-container" fxLayout="row" fxLayout.lt-md="column">
 
-    <div class="col-left"  fxFlex.gt-md="25%"  >
-        <ng-content select="[left]"></ng-content>
-    </div>
 
-    <div class="col-center" fxFlex.gt-md="50%" >
-        <ng-content></ng-content>
-    </div>
-    
-    <div class="col-right" fxFlex.gt-md="25%" >
-        <ng-content select="[right]"></ng-content>
-    </div>
+        <div class="col-left"  
+            fxFlexOrder="1" 
+            fxFlex.gt-md="25%"  
+             >
 
-</div>
-<!-- below doesn't work -->
-<!-- <div [hidden]="!SmallScreen" class="col-container" fxLayout="column">
-    <div fxLayout="row">
-        <div class="col-left"  fxFlex="50%" >
             <ng-content select="[left]"></ng-content>
+
         </div>
 
-        <div class="col-right" fxFlex="50%">
+        
+
+
+    <div class="col-center" 
+        fxFlex.gt-md="50%" 
+        fxFlexOrder.gt-md="2"
+        fxFlexOrder.lt-md="3">
+        <ng-content></ng-content>
+    </div>
+
+    <div class="col-right" 
+            fxFlexOrder.gt-md="3" 
+            fxFlex.gt-md="25%" 
+            fxFlexOrder.lt-md="2" 
+            >
+
             <ng-content select="[right]"></ng-content>
         </div>
-    </div>
+    
+    
 
-    <div class="col-center">
-        <ng-content></ng-content>
-    </div>
-
-</div> -->
+</div>
