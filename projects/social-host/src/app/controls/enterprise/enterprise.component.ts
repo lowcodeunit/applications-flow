@@ -20,6 +20,10 @@ export class EnterpriseComponent implements OnInit {
     return Object.keys(this.State?.EaC?.Projects || {});
   }
 
+  public get Enterprise():any{
+    return this.State?.EaC?.Enterprise;
+  }
+
 
 
   constructor(protected projectService: ProjectService) {

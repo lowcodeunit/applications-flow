@@ -8,8 +8,8 @@
 
     <mat-card class="header-main-container  social-card" fxLayout="row" fxLayout.lt-md="column"fxLayoutAlign="space-between center">
         <div class="header-main-content">
-            <div class="header-name">Enterprise Name</div>
-            <div class="header-description">Enterprise Description</div>
+            <div class="header-name" *ngIf="Enterprise?.Name">{{Enterprise.Name}}</div>
+            <div class="header-description" *ngIf="Enterprise?.Description">{{Enterprise.Description}}</div>
             <div class="header-description"fxLayout="row" fxLayoutAlign="start center">
                 <div >Enterprise Type</div>
                 <span>&nbsp;  &#8226; &nbsp; </span>
