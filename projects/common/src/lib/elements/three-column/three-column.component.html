@@ -3,9 +3,7 @@
 
 
         <div class="col-left"  
-            fxFlexOrder="1" 
-            fxFlex.gt-md="25%"  
-             >
+            fxFlex="25%">
 
             <ng-content select="[left]"></ng-content>
 
@@ -15,19 +13,19 @@
 
 
     <div class="col-center" 
-        fxFlex.gt-md="50%" 
-        fxFlexOrder.gt-md="2"
+        fxFlex="50%" 
         fxFlexOrder.lt-md="3">
+
         <ng-content></ng-content>
+
     </div>
 
     <div class="col-right" 
-            fxFlexOrder.gt-md="3" 
-            fxFlex.gt-md="25%" 
-            fxFlexOrder.lt-md="2" 
-            >
+            fxFlex="25%" 
+            fxFlexOrder.lt-md="2">
 
             <ng-content select="[right]"></ng-content>
+
         </div>
     
     

@@ -30,27 +30,3 @@ mat-card-actions{
     margin-left: 10px;
     cursor: pointer;
 }
-
-.carousel-container{
-    padding-top:20px;
-}
-
-.carousel-item.hidden {
-    display: none;
-}
-
-.carousel-item.active {
-    visibility: visible;
-  }
-
-  .chevron-button{
-      position: absolute;
-  }
-
-  #right-chevron{
-      right:5px;
-  }
-
-  #left-chevron{
-      left:5px;
-  }

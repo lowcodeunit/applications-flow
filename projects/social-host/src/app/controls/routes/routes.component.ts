@@ -11,21 +11,13 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class RoutesComponent implements OnInit {
 
-  
-
   public Routes: any;
 
   public Stats: any[];
 
   public State: ApplicationsFlowState;
 
-  protected carouselIndex: number;
-
   protected routeData: any;
-
-
-  
-
 
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
@@ -34,7 +26,7 @@ export class RoutesComponent implements OnInit {
   public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
     const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-    this.Project.ApplicationLookups.forEach((appLookup: string) => {
+    this.Project?.ApplicationLookups.forEach((appLookup: string) => {
       apps[appLookup] = this.ApplicationsBank[appLookup];
     });
     return apps;
@@ -45,7 +37,7 @@ export class RoutesComponent implements OnInit {
   }
 
   public get NumberOfApps(): number{
-    return this.Project.ApplicationLookups.length;
+    return this.Project?.ApplicationLookups?.length || {};
   }
 
   public get Project(): any{
@@ -140,8 +132,6 @@ export class RoutesComponent implements OnInit {
    {Name: "Bounce Rate", Stat: "38%"}, 
    {Name: "Someother Rate", Stat: "5%"}];
 
-   this.carouselIndex = 0;
-
   }
 
   public ngOnInit(): void {
@@ -150,10 +140,6 @@ export class RoutesComponent implements OnInit {
     
     console.log("route Data: ", this.routeData); 
 
-  }
-
-  public ngAfterViewInit(){
-    this.buildCarousel();
   }
 
 
@@ -190,62 +176,7 @@ export class RoutesComponent implements OnInit {
     console.log("Upgarde clicked");
   }
 
-  public LeftChevronClicked(){
-
-  this.removeCarouselClasses();
-
-    if(this.carouselIndex === 0){
-      this.carouselIndex = this.Stats.length-1;
-    }
-    else{
-      this.carouselIndex--;
-    }
-
-  this.assignCarouselClass();
-
-  }
-
-  public RightChevronClicked(){
-    this.removeCarouselClasses();
-
-    if(this.carouselIndex === this.Stats.length-1){
-      this.carouselIndex = 0;
-    }
-    else{
-      this.carouselIndex++;
-    }
-
-  this.assignCarouselClass();
-  }
-
   //HELPERS
-
-  protected removeCarouselClasses(){
-    for(let i=0; i<this.Stats.length; i++){
-      if(i === this.carouselIndex){
-        (<HTMLElement>document.getElementById("carousel-"+this.carouselIndex)).classList.remove('active');
-      }
-      else{
-        (<HTMLElement>document.getElementById("carousel-"+i)).classList.remove('hidden');
-      }
-    }
-  }
-
-  protected assignCarouselClass(){
-    for(let i=0; i<this.Stats.length; i++){
-      if(i === this.carouselIndex){
-        (<HTMLElement>document.getElementById("carousel-"+this.carouselIndex)).classList.add('active');
-      }
-      else{
-        (<HTMLElement>document.getElementById("carousel-"+i)).classList.add('hidden');
-      }
-    }
-  }
-
-  protected buildCarousel(){
-    this.assignCarouselClass();
-  }
-
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;

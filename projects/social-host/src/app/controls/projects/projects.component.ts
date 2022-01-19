@@ -18,8 +18,6 @@ export class ProjectsComponent implements OnInit {
 
   public State: ApplicationsFlowState;
 
-  protected carouselIndex: number;
-
   protected routeData: any;
 
   public get Project(): any{
@@ -138,8 +136,6 @@ export class ProjectsComponent implements OnInit {
     this.FeedItems = [{Title: "Test Issue", Author: "Jackson", Type: "ISSUE"}, 
     {Title: "Test Build", Author: "Mike", Type: "BUILD"}];
 
-    this.carouselIndex = 0;
-
    }
 
   public ngOnInit(): void {
@@ -148,10 +144,6 @@ export class ProjectsComponent implements OnInit {
     
     console.log("route Data: ", this.routeData); 
 
-  }
-
-  public ngAfterViewInit(){
-    this.buildCarousel();
   }
 
   public HandleLeftClickEvent(event: any){
@@ -177,64 +169,9 @@ export class ProjectsComponent implements OnInit {
   public ViewBuildDetails(){
     console.log("View build details clicked");
   }
-
-  public LeftChevronClicked(){
-
-
-  this.removeCarouselClasses();
-
-    if(this.carouselIndex === 0){
-      this.carouselIndex = this.Stats.length-1;
-    }
-    else{
-      this.carouselIndex--;
-    }
-
-  this.assignCarouselClass();
-
-  }
-
-  public RightChevronClicked(){
-    this.removeCarouselClasses();
-
-    if(this.carouselIndex === this.Stats.length-1){
-      this.carouselIndex = 0;
-    }
-    else{
-      this.carouselIndex++;
-    }
-
-  this.assignCarouselClass();
-  }
+ 
 
   //HELPERS
-
-  protected removeCarouselClasses(){
-    for(let i=0; i<this.Stats.length; i++){
-      if(i === this.carouselIndex){
-        (<HTMLElement>document.getElementById("carousel-"+this.carouselIndex)).classList.remove('active');
-      }
-      else{
-        (<HTMLElement>document.getElementById("carousel-"+i)).classList.remove('hidden');
-      }
-    }
-  }
-
-  protected assignCarouselClass(){
-    for(let i=0; i<this.Stats.length; i++){
-      if(i === this.carouselIndex){
-        (<HTMLElement>document.getElementById("carousel-"+this.carouselIndex)).classList.add('active');
-      }
-      else{
-        (<HTMLElement>document.getElementById("carousel-"+i)).classList.add('hidden');
-      }
-    }
-  }
-
-  protected buildCarousel(){
-    this.assignCarouselClass();
-  }
-
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;

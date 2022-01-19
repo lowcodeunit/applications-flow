@@ -16,12 +16,16 @@ export class ApplicationsComponent implements OnInit {
 
   public State: ApplicationsFlowState;
 
-  protected routeData: any;
+  public Stats: any;
 
-  
+  protected routeData: any;
 
   constructor(private router: Router,
     protected projectService: ProjectService) {
+
+      this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
+   {Name: "Bounce Rate", Stat: "38%"}, 
+   {Name: "Someother Rate", Stat: "5%"}];
 
    this.State = new ApplicationsFlowState();
 
@@ -31,6 +35,23 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+
+    this.handleStateChange().then((eac) => {});
+
+  }
+
+  //HELPERS
+
+  protected async handleStateChange(): Promise<void> {
+    this.State.Loading = true;
+
+    await this.projectService.HasValidConnection(this.State);
+
+    await this.projectService.ListEnterprises(this.State);
+
+    if (this.State.Enterprises?.length > 0) {
+      await this.projectService.GetActiveEnterprise(this.State);
+    }
 
   }
 

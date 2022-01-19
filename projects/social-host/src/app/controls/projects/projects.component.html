@@ -5,33 +5,18 @@
         [description]="Project.Project.Description"
         [subtext]="Project.Hosts"
         [image]="" -->
-        <lcu-project-info-card
-        name="LowCodeUnit"
-        description="This is a test description for formatting purposes"
-        subtext="www.lowcodeunit.com"
-
-        
+        <lcu-project-info-card 
+        name="test name"
+        description="test description"
+        subtext="test"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
 
-            <div stats class="carousel-container">
-                <div class="chevron-container" fxLayout="row">
-                    <button mat-icon-button class="chevron-button" id="left-chevron" (click)="LeftChevronClicked()">
-                        <mat-icon>chevron_left</mat-icon>
-                    </button>
-                    <button mat-icon-button class="chevron-button" id="right-chevron" (click)="RightChevronClicked()">
-                        <mat-icon>chevron_right</mat-icon>
-                    </button>
-                </div>
-                <ng-container *ngFor="let stat of Stats; let i = index">
-                        <div class="carousel-item" [id]="'carousel-'+i">
-                            <div class="carousel-title">{{stat.Name}}</div>
-                            <div class="carousel-stat">{{stat.Stat}}</div>
-                        </div>
-                </ng-container>
-                <div>More details</div>
-            </div>
+        <lcu-card-carousel
+        [stats]="Stats">
+
+        </lcu-card-carousel>
 
             <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
                 <div> Access exclusive tools & insights</div>
