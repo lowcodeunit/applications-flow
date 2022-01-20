@@ -242,9 +242,9 @@ export class ProjectService {
         async (response: BaseResponse) => {
           state.GitHub.HasConnection = response.Status.Code === 0;
 
-          if (state.GitHub.HasConnection || forceEnsureUser) {
-            const eac = await this.EnsureUserEnterprise(state);
+          const eac = await this.EnsureUserEnterprise(state);
 
+          if (state.GitHub.HasConnection || forceEnsureUser) {
             resolve(eac);
           } else {
             window.location.href = '/dashboard/create-project';
