@@ -39,4 +39,5 @@ export * from './lib/elements/form-card/form-card.component';
 export * from './lib/elements/base-form/base-form.component';
 export * from './lib/elements/projects/controls/recent-activities/recent-activities.component';
 export * from './lib/elements/projects/projects.component';
+export * from './lib/elements/flow-tool/flow-tool.component';
 

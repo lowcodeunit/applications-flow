@@ -11,6 +11,64 @@
       rel="stylesheet"
     />
 
+
+    <script type="module"></script>
+<!--     
+    <div id="demo"></div>
+    <script type="module">
+      import { html, render } from '/lit';
+      import { 
+        FlowTool,
+        MenuTemplatesUtils,
+        VariablesUtils,
+        EventsUtils,
+        ConstantUtils,
+        NodeTemplates,
+        DragItemsTemplates,
+        PositionUtils,
+        DragDropUtils } from './node_modules/@semanticjs/krakyn/dist/src/index.js';
+      import '../@semanticjs/krakyn/dist/src/krakyn-flow-tool.js';
+  
+      /**
+       * ../dist/src/index.js
+       * ../dist/src/krakyn-flow-tool.js
+       * Array for storing module data
+      */
+  
+      VariablesUtils.DataFlowModuleData =
+      [
+        ConstantUtils.NAPKIN_IDE_MODULE_DATA,
+        ConstantUtils.HOME_MODULE_DATA
+      ];
+  
+      const TabMenuItems = [
+        { Label: 'Napkin IDE', Target: 'NapkinIDE', Class: 'selected' },
+        { Label: 'Home', Target: 'Home' }
+      ];
+  
+      const title = 'Flow Tool';
+  
+      VariablesUtils.NodeClass = 'fathym-node';
+      VariablesUtils.ActiveModule = ConstantUtils.NAPKIN_IDE_MODULE_DATA.Module;
+  
+      render(
+        html`
+          <p>Krakyn Tool</p>
+          <krakyn-flow-tool 
+            .HeaderTitle = ${ title }
+            .FlowData = ${ VariablesUtils.DataFlowModuleData[0] } 
+            .SideMenuItems = ${ DragItemsTemplates.FLOW_DRAG_ITEMS(DragDropUtils.Drag) }
+            .TabMenuItems = ${ TabMenuItems }>
+            some light-dom
+          </krakyn-flow-tool>
+        `,
+        document.querySelector('#demo')
+      );
+    </script> -->
+
+
+
+
     <script id="lcu-reg">
       window.LCU = {
         APIRoot: "https://localhost:44358",

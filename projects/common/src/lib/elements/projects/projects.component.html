@@ -1,3 +1,5 @@
+<lcu-flow-tool></lcu-flow-tool>
+
 <app-host-dashboard-card-element
   [context]="{ Title: 'Projects', Icon: 'language' }"
 >
@@ -41,6 +43,7 @@
         <span> Thank you for signing up </span>
       </h2>
     </div>
+
 
     <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth>
 

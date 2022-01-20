@@ -95,7 +95,7 @@ export class ApplicationsFlowProjectsElementComponent
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     super(injector);
-
+   
     this.State = new ApplicationsFlowState();
 
     this.setServices();
