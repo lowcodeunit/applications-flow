@@ -247,7 +247,7 @@ export class ProjectService {
 
             resolve(eac);
           } else {
-            state.Loading = false;
+            window.location.href = '/dashboard/create-project';
 
             resolve({});
           }
