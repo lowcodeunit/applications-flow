@@ -106,6 +106,7 @@
     <!-- right column -->
     <div right>
         <lcu-slotted-card
+        
         title="Routes"
         icon="route"
         [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
@@ -113,23 +114,23 @@
         action-text="Create Custom Route"
         >
 
-        <div class="main-slot-container" fxLayout="row" *ngFor="let routeLookup of RoutedApplications">
-            <div class="slot-content" *ngIf="State?.EaC?.Applications[routeLookup]; let appRoute;" fxLayout="row" fxLayoutAlign="space-around center">
+        <div class="main-slot-container" fxLayout="row" *ngFor="let appRoute of ApplicationRoutes">
+            <div class="slot-content" fxLayout="row" fxLayoutAlign="space-around center">
                 <div class="slot-route-header-container" fxLayout="column" fxFlex="70%">
                     <div class="slot-route-header" fxLayout="row" >
                         <!-- this icon is a temp placeholder -->
                         <mat-icon class="slot-icon">route</mat-icon>
-                        <div *ngIf="appRoute.Application.Name" class="slot-route-name">{{appRoute.Application.Name}}</div>
+                        <div *ngIf="appRoute" class="slot-route-name">{{appRoute}}</div>
                     </div>
 
                     <div>
-                        <div *ngIf="appRoute.Application.Description" class="slot-project-description">{{appRoute.Application.Description}}</div>
+                        <div *ngIf="appRoute.Description" class="slot-project-description">{{appRoute.Description}}</div>
                         <!-- <div *ngIf="!project.Project.Description" class="slot-project-description">I'm a temp placeholder description to see how this formats</div> -->
                     </div>
                 </div>
 
                 <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
-                    <a class="slot-action-anchor" routerLink="/routes"  [state]="{ id:1 , routeLookup:routeLookup, projectLookup:ProjectLookup }">
+                    <a class="slot-action-anchor" routerLink="/routes"  [state]="{ id:1 , appRoute:appRoute, projectLookup:ProjectLookup }">
                         <mat-icon class="action-icon">edit</mat-icon>
                         Edit Route
                     </a>

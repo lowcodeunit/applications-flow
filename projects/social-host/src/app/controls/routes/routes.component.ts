@@ -33,7 +33,7 @@ export class RoutesComponent implements OnInit {
   }
 
   public get CurrentApplicationRoute(): any{
-    return this.State?.EaC?.Applications[this.routeData.routeLookup] || {};
+    return this.routeData?.appRoute || {};
   }
 
   public get NumberOfApps(): number{

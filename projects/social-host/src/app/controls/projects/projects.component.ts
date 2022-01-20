@@ -33,7 +33,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   public get ApplicationLookups(): string[]{
-    return Object.keys(this.Project.ApplicationLookups || {});
+    return Object.keys(this.Project?.ApplicationLookups || {});
   }
 
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
@@ -43,10 +43,14 @@ export class ProjectsComponent implements OnInit {
   public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
     const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-    this.Project.ApplicationLookups.forEach((appLookup: string) => {
+    this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
       apps[appLookup] = this.ApplicationsBank[appLookup];
     });
     return apps;
+  }
+
+  public get ApplicationRoutes(): Array<string> {
+    return Object.keys(this.RoutedApplications || {});
   }
 
   
