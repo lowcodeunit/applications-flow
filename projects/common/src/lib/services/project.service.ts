@@ -232,7 +232,7 @@ export class ProjectService {
   }
 
   public HasValidConnection(
-    state: ApplicationsFlowState, 
+    state: ApplicationsFlowState,
     forceEnsureUser: boolean = false
   ): Promise<EnterpriseAsCode> {
     return new Promise((resolve, reject) => {
@@ -311,6 +311,10 @@ export class ProjectService {
 
           this.CreatingProject =
             Object.keys(state?.EaC?.Projects || {}).length <= 0;
+
+          if (this.CreatingProject) {
+            window.location.href = '/dashboard/create-project';
+          }
 
           resolve(state.EaC);
 
