@@ -48,7 +48,7 @@
         title="Security Settings"
         icon="security">
 
-            <div *ngIf="IsPrivateFormControl.value">
+            <div *ngIf="IsPrivateFormControl?.value">
                 <div>
                   <mat-slide-toggle formControlName="isTriggerSignIn">
                     Is Trigger Sign In Application?

@@ -92,7 +92,7 @@ export class ApplicationsComponent implements OnInit {
 
     this.handleStateChange().then((eac) => {});
 
-    if (this.routeData.appLookup) {
+    if (this.routeData?.appLookup) {
       this.CreateNewApplication();
     }
 
@@ -116,7 +116,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public SettingsClicked(){
-    
+
   }
 
   public SetEditingApplication(appLookup: string): void {
