@@ -2,9 +2,9 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card 
-        [name]="CurrentApplicationRoute.Name"
-        [description]="CurrentApplicationRoute.Description"
-        [subtext]="CurrentApplicationRoute.Hosts"
+        [name]="Application.Name"
+        [description]="Application.Description"
+        [subtext]="Application.Hosts"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
@@ -34,6 +34,35 @@
             subtext="Text for testing purposes">
         </lcu-analytics-card>
     </div>
-    <div>center</div>
-    <div right>right</div>
+    <div>
+        <lcu-feed-card-sm
+        title="Processor Details"
+        subtext="main"
+        description="description  of the processor details for testing"
+        >
+        
+        </lcu-feed-card-sm>
+    </div>
+    <div right>
+        <lcu-slotted-card
+        title="Security Settings"
+        icon="security">
+
+            <!-- <div *ngIf="IsPrivateFormControl.value">
+                <div>
+                  <mat-slide-toggle formControlName="isTriggerSignIn">
+                    Is Trigger Sign In Application?
+                  </mat-slide-toggle>
+
+                  <mat-icon
+                    matSuffix
+                    matTooltip="A Trigger Sign In Application will direct the user to sign in if they are not already."
+                  >
+                    info_outline
+                  </mat-icon>
+                </div>
+            </div> -->
+
+        </lcu-slotted-card>
+    </div>
 </lcu-three-column>
