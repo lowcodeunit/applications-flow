@@ -18,6 +18,7 @@ import { ApplicationsComponent } from './controls/applications/applications.comp
 import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
 import { ApplicationsFlowModule } from 'projects/common/src/lib/applications-flow.module';
 import { environment } from '../environments/environment';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -36,6 +37,8 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     FlexLayoutModule,
     MaterialModule,
+    FormsModule,
+    ReactiveFormsModule,
     FathymSharedModule.forRoot(),
     ThemeBuilderModule,
     ApplicationsFlowModule.forRoot(),  
