@@ -235,22 +235,18 @@ export class ProjectService {
     state: ApplicationsFlowState,
     forceEnsureUser: boolean = false
   ): Promise<EnterpriseAsCode> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       state.Loading = true;
 
       this.appsFlowSvc.HasValidConnection().subscribe(
         async (response: BaseResponse) => {
           state.GitHub.HasConnection = response.Status.Code === 0;
 
-          const eac = await this.EnsureUserEnterprise(state);
-
           if (state.GitHub.HasConnection || forceEnsureUser) {
-            resolve(eac);
           } else {
-            window.location.href = '/dashboard/create-project';
-
-            resolve({});
           }
+
+          resolve({});
         },
         (err) => {
           state.Loading = false;
