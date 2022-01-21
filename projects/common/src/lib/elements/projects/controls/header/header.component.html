@@ -50,14 +50,23 @@
           </form>
 
           <div *ngIf="!CreatingProject">
-            <button
+            <a
+              mat-fab
+              color="accent"
+              href="/dashboard/create-project"
+              class="margin-top-4 margin-bottom-2"
+            >
+              <mat-icon>add</mat-icon>
+            </a>
+
+            <!-- <button
               mat-fab
               color="accent"
               (click)="EnableCreatingProject()"
               class="margin-top-4 margin-bottom-2"
             >
               <mat-icon>add</mat-icon>
-            </button>
+            </button> -->
           </div>
         </mat-card-content>
       </mat-card>

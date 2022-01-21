@@ -232,7 +232,7 @@ export class ProjectService {
   }
 
   public HasValidConnection(
-    state: ApplicationsFlowState, 
+    state: ApplicationsFlowState,
     forceEnsureUser: boolean = false
   ): Promise<EnterpriseAsCode> {
     return new Promise((resolve, reject) => {
@@ -242,12 +242,12 @@ export class ProjectService {
         async (response: BaseResponse) => {
           state.GitHub.HasConnection = response.Status.Code === 0;
 
-          if (state.GitHub.HasConnection || forceEnsureUser) {
-            const eac = await this.EnsureUserEnterprise(state);
+          const eac = await this.EnsureUserEnterprise(state);
 
+          if (state.GitHub.HasConnection || forceEnsureUser) {
             resolve(eac);
           } else {
-            state.Loading = false;
+            window.location.href = '/dashboard/create-project';
 
             resolve({});
           }
@@ -311,6 +311,10 @@ export class ProjectService {
 
           this.CreatingProject =
             Object.keys(state?.EaC?.Projects || {}).length <= 0;
+
+          if (this.CreatingProject) {
+            window.location.href = '/dashboard/create-project';
+          }
 
           resolve(state.EaC);
 
