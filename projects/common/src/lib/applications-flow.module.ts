@@ -31,6 +31,15 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
 import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
+import { ThreeColumnComponent } from './elements/three-column/three-column.component';
+import { ColumnInfoCardComponent } from './elements/column-info-card/column-info-card.component';
+import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
+import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
+import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
+import { FeedCardSmComponent } from './elements/feed-card-sm/feed-card-sm.component';
+import { GhControlComponent } from './elements/gh-control/gh-control.component';
+import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
+import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +64,16 @@ import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-    FlowToolComponent
+    FlowToolComponent,
+    ThreeColumnComponent,
+    ColumnInfoCardComponent,
+    SlottedCardComponent,
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent,
+    FeedCardSmComponent,
+    GhControlComponent,
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent
   ],
   imports: [
     FathymSharedModule,
@@ -88,7 +106,16 @@ import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-    FlowToolComponent
+    FlowToolComponent,
+    ThreeColumnComponent,
+    ColumnInfoCardComponent,
+    SlottedCardComponent,
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent,
+    FeedCardSmComponent,
+    GhControlComponent,
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -109,7 +136,16 @@ import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
     AppsFlowComponent,
     DevOpsComponent,
     DFSModifiersComponent,
-    NpmPackageSelectComponent
+    NpmPackageSelectComponent,
+    ThreeColumnComponent,
+    ColumnInfoCardComponent,
+    SlottedCardComponent,
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent,
+    FeedCardSmComponent,
+    GhControlComponent,
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates

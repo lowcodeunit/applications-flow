@@ -1,0 +1,22 @@
+@import "../../../common/src/assets/common";
+
+$header-height: 64px;
+
+:host ::ng-deep {
+  .mat-toolbar {
+    .logo {
+      height: 60px;
+      width: 160px;
+    //   @extend .logo-config;
+      &.mobile {
+        width: 75px;
+      }
+    }
+
+    .title {
+      @extend .mat-title;
+      margin: auto;
+      font-size: 20px;
+    }
+  }
+}

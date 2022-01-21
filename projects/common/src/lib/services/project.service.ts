@@ -232,7 +232,8 @@ export class ProjectService {
   }
 
   public HasValidConnection(
-    state: ApplicationsFlowState
+    state: ApplicationsFlowState, 
+    forceEnsureUser: boolean = false
   ): Promise<EnterpriseAsCode> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
@@ -241,7 +242,7 @@ export class ProjectService {
         async (response: BaseResponse) => {
           state.GitHub.HasConnection = response.Status.Code === 0;
 
-          if (state.GitHub.HasConnection) {
+          if (state.GitHub.HasConnection || forceEnsureUser) {
             const eac = await this.EnsureUserEnterprise(state);
 
             resolve(eac);

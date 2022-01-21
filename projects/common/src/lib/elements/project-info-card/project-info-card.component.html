@@ -1,0 +1,44 @@
+<mat-card class="project-info-card">
+
+    <div class="header-img-container" fxLayout="row" >
+        <div class="round-project-img" fxLayoutAlign="center center">
+            <mat-icon class="temp-icon">flutter_dash</mat-icon>
+        </div>
+    </div>
+
+    <div class="icon-btn-container" fxLayout="row" fxLayoutAlign="space-between center" >
+      <button mat-icon-button id="left-icon" (click)="LeftIconClicked()">
+        <mat-icon>settings</mat-icon>
+      </button>
+      <button mat-icon-button id="right-icon" (click)="RightIconClicked()">
+        <mat-icon>share</mat-icon>
+      </button>
+    </div>
+
+    <mat-card-header class="project-card-header" fxLayoutAlign="center center">
+
+      <mat-card-title class="project-card-name" *ngIf="Name">{{Name}}</mat-card-title>
+
+      <mat-card-subtitle class="project-card-description" *ngIf="Description">{{Description}}</mat-card-subtitle>
+
+      <mat-card-subtitle class="project-card-host">
+          <a class="host-anchor" *ngIf="Subtext" [href]="Subtext" target="_blank">{{Subtext}}</a>
+      </mat-card-subtitle>
+
+    </mat-card-header>
+    <mat-card-content class="card-content-container">
+      <div class="stats-container">
+        <ng-content  select="[stats]"></ng-content>
+      </div>
+
+      <div class="promo-container">
+        <ng-content  select="[promo]"></ng-content>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions class="actions-container">
+      <ng-content select="[action]"></ng-content>
+      
+    </mat-card-actions>
+  </mat-card>
+  

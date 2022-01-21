@@ -1,0 +1,93 @@
+<lcu-two-column-header>
+
+    <mat-card left class="enterprise-avatar-container">
+      
+            <img class="enterprise-avatar" src="./Thinky-circle-red.png" alt="Enterprise Name">
+        
+    </mat-card>
+
+    <mat-card class="header-main-container  social-card" fxLayout="row" fxLayout.lt-md="column"fxLayoutAlign="space-between center">
+        <div class="header-main-content">
+            <div class="header-name">Enterprise Name</div>
+            <div class="header-description">Enterprise Description</div>
+            <div class="header-description"fxLayout="row" fxLayoutAlign="start center">
+                <div >Enterprise Type</div>
+                <span>&nbsp;  &#8226; &nbsp; </span>
+                <div>Enterprise Location</div>
+                <span>&nbsp; &#8226; &nbsp; </span>
+                <div>Enterprise Followers</div>
+            </div>
+        </div>
+        <button mat-button>Upgrade to premium now</button>
+    </mat-card>
+
+</lcu-two-column-header>
+
+<lcu-three-column>
+    <div left>
+        <lcu-analytics-card
+            title="Temp Title"
+            subtext="Text for testing purposes">
+        </lcu-analytics-card>
+    </div>
+
+    <div>center</div>
+
+    <div right>
+          
+        <!-- Projects -->
+        <lcu-slotted-card
+        title="Projects"
+        icon="work_outline"
+        [main-slot-description]="NumberOfProjects + ' project(s) configured'"
+        secondary-slot-description="Add new quick project"
+        action-text="Create Custom Project"
+        >
+
+        <div class="main-slot-container" fxLayout="row" *ngFor="let projectLookup of ProjectLookups">
+            <div class="slot-content" *ngIf="State?.EaC?.Projects[projectLookup]; let project;" fxLayout="row" fxLayoutAlign="space-around center">
+                <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                <div class="slot-project-header-container" fxLayout="column" fxFlex="70%">
+                    <div class="slot-project-header" fxLayout="row" >
+                        <!-- this icon is a temp placeholder -->
+                        <mat-icon class="slot-icon">work_outline</mat-icon>
+                        <div *ngIf="project.Project.Name" class="slot-project-name">{{project.Project.Name}}</div>
+                    </div>
+
+                    <div>
+                        <div *ngIf="project.Project.Description" class="slot-project-description">{{project.Project.Description}}</div>
+                        <div *ngIf="!project.Project.Description" class="slot-project-description">I'm a temp placeholder description to see how this formats</div>
+                    </div>
+                </div>
+
+                <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
+                    <a class="slot-action-anchor" routerLink="/projects"  [state]="{ id:1 , projectLookup:projectLookup}">
+                        <mat-icon class="action-icon">edit</mat-icon>
+                        Edit Project
+                    </a>
+                </div>
+                    
+                    <!-- <div class="slot-actions" *ngFor="let action of s.actions">
+
+                        <ng-container *ngIf="action.ButtonType === ICON">
+                            <mat-icon [matTooltip]="action.Label" click="SlotActionClickEvent(action.ClickEventName)">{{ action.Icon }}</mat-icon>
+                        </ng-container>
+
+                        <ng-container *ngIf="action.ButtonType === BUTTON">
+                            <mat-button click="SlotActionClickEvent(action.ClickEventName)">{{ action.Label }}</mat-button>
+                        </ng-container>
+
+                    </div> -->
+                
+                </div>
+            
+
+        </div>
+
+        <div secondary>
+            
+        </div>
+
+        </lcu-slotted-card> 
+    </div>
+</lcu-three-column>

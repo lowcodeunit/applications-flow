@@ -40,4 +40,13 @@ export * from './lib/elements/base-form/base-form.component';
 export * from './lib/elements/projects/controls/recent-activities/recent-activities.component';
 export * from './lib/elements/projects/projects.component';
 export * from './lib/elements/flow-tool/flow-tool.component';
-
+export * from './lib/elements/column-info-card/column-info-card.component';
+export * from './lib/elements/slotted-card/slotted-card.component';
+export * from './lib/elements/analytics-card/analytics-card.component';
+export * from './lib/elements/feed-card-sm/feed-card-sm.component';
+export * from './lib/elements/three-column/three-column.component';
+export * from './lib/elements/gh-control/gh-control.component';
+export * from './lib/elements/gh-control/gh-control.component';
+export * from './lib/elements/main-feed-card/main-feed-card.component';
+export * from './lib/elements/project-info-card/project-info-card.component';
+export * from './lib/elements/two-column-header/two-column-header.component';

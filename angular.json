@@ -115,6 +115,7 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
+            "optimization": true,
             "browserTarget": "lcu:build"
           },
           "configurations": {
@@ -242,6 +243,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
+            "optimization": true,
             "browserTarget": "demo:build"
           },
           "configurations": {
@@ -295,6 +297,132 @@
           "configurations": {
             "production": {
               "devServerTarget": "demo:serve:production"
+            }
+          }
+        }
+      }
+    },
+    "social-host": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/social-host",
+      "sourceRoot": "projects/social-host/src",
+      "prefix": "lcu",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/social-host",
+            "index": "projects/social-host/src/index.html",
+            "main": "projects/social-host/src/main.ts",
+            "polyfills": "projects/social-host/src/polyfills.ts",
+            "tsConfig": "projects/social-host/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              {
+                "glob": "package.json",
+                "input": "./projects/social-host/",
+                "output": "/"
+              },
+              "projects/social-host/src/favicon.ico",
+              "projects/social-host/src/assets"
+            ],
+            "styles": [
+              "projects/social-host/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/social-host/src/environments/environment.ts",
+                  "with": "projects/social-host/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "6mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2mb",
+                  "maximumError": "6mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "optimization": true,
+            "browserTarget": "social-host:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "social-host:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "social-host:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/social-host/src/test.ts",
+            "polyfills": "projects/social-host/src/polyfills.ts",
+            "tsConfig": "projects/social-host/tsconfig.spec.json",
+            "karmaConfig": "projects/social-host/karma.conf.js",
+            "assets": [
+              "projects/social-host/src/favicon.ico",
+              "projects/social-host/src/assets"
+            ],
+            "styles": [
+              "projects/social-host/src/styles.scss"
+            ],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/social-host/tsconfig.app.json",
+              "projects/social-host/tsconfig.spec.json",
+              "projects/social-host/e2e/tsconfig.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/social-host/e2e/protractor.conf.js",
+            "devServerTarget": "social-host:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "social-host:serve:production"
             }
           }
         }

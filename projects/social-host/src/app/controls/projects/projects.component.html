@@ -1,0 +1,176 @@
+<lcu-three-column>
+    <!-- left column -->
+    <div left>
+        <!-- [name]="Project.Project.Name"
+        [description]="Project.Project.Description"
+        [subtext]="Project.Hosts"
+        [image]="" -->
+        <lcu-project-info-card
+        name="LowCodeUnit"
+        description="This is a test description for formatting purposes"
+        subtext="www.lowcodeunit.com"
+
+        
+        (left-click-event)="HandleLeftClickEvent($event)"
+        (right-click-event)="HandleRightClickEvent($event)"
+        > 
+
+            <div stats class="carousel-container">
+                <div class="chevron-container" fxLayout="row">
+                    <button mat-icon-button class="chevron-button" id="left-chevron" (click)="LeftChevronClicked()">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+                    <button mat-icon-button class="chevron-button" id="right-chevron" (click)="RightChevronClicked()">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
+                <ng-container *ngFor="let stat of Stats; let i = index">
+                        <div class="carousel-item" [id]="'carousel-'+i">
+                            <div class="carousel-title">{{stat.Name}}</div>
+                            <div class="carousel-stat">{{stat.Stat}}</div>
+                        </div>
+                </ng-container>
+                <div>More details</div>
+            </div>
+
+            <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
+                <div> Access exclusive tools & insights</div>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="gold-icon">emoji_events</mat-icon>
+                    <div class="upgrade-text" (click)="UpgradeClicked()">Upgrade to premium now</div>
+                </div>
+      
+            </div>
+
+            <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
+                <mat-icon>settings</mat-icon>
+                Project Settings
+              </button>
+        </lcu-project-info-card>
+
+
+        <lcu-analytics-card
+            title="Temp Title"
+            subtext="Text for testing purposes">
+        </lcu-analytics-card>
+
+    </div>
+    <!-- center column -->
+    <div>
+        <lcu-gh-control></lcu-gh-control>
+
+        <lcu-feed-card-sm
+        title="Build 54"
+        subtext="main"
+        description="description for testing"
+        icon="cancel"
+
+        >
+        <div actions>
+            <button mat-icon-button  (click)="LaunchBuildClicked()">
+                <mat-icon>launch</mat-icon>
+            </button>
+            <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
+        </div>
+
+        </lcu-feed-card-sm>
+        <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
+        [title]="feedItm.Title"
+        [subtext]="feedItm.Author">
+
+        <div *ngIf="feedItm.Type === 'BUILD'"actions>
+            <button  mat-button>
+                <mat-icon>launch</mat-icon>
+                Preview
+              </button>
+              <button mat-button>
+                  <mat-icon >merge</mat-icon>
+                  Pull Request
+              </button>
+              <button  mat-button>
+                  <mat-icon >share</mat-icon>
+                  Share
+              </button>
+              <button  mat-button>
+                  <mat-icon >error_outline</mat-icon>
+                  Open Issue
+              </button>
+        </div>
+
+        <div *ngIf="feedItm.Type === 'ISSUE'"actions>
+            <button  mat-button>
+                <mat-icon>sentiment_satisfied_alt</mat-icon>
+                GitHub
+              </button>
+              <button mat-button>
+                  <mat-icon >add_comment</mat-icon>
+                  Comment
+              </button>
+              <button  mat-button>
+                  <mat-icon >share</mat-icon>
+                  Share
+              </button>
+              <button  mat-button>
+                  <mat-icon >error_outline</mat-icon>
+                  Close Issue
+              </button>
+        </div>
+
+        </lcu-main-feed-card>
+    </div>
+    <!-- right column -->
+    <div right>
+        <lcu-slotted-card
+        title="Routes"
+        icon="route"
+        [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
+        secondary-slot-description="Add quick route"
+        action-text="Create Custom Route"
+        >
+
+        <div class="main-slot-container" fxLayout="row" *ngFor="let appLookup of ApplicationLookups">
+            <div class="slot-content" *ngIf="Project[appLookup]; let route;" fxLayout="row" fxLayoutAlign="space-around center">
+                <div class="slot-route-header-container" fxLayout="column" fxFlex="70%">
+                    <div class="slot-route-header" fxLayout="row" >
+                        <!-- this icon is a temp placeholder -->
+                        <mat-icon class="slot-icon">route</mat-icon>
+                        <div *ngIf="route.Name" class="slot-route-name">{{project.Project.Name}}</div>
+                    </div>
+
+                    <!-- <div>
+                        <div *ngIf="project.Project.Description" class="slot-project-description">{{project.Project.Description}}</div>
+                        <div *ngIf="!project.Project.Description" class="slot-project-description">I'm a temp placeholder description to see how this formats</div>
+                    </div> -->
+                </div>
+
+                <!-- <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
+                    <a class="slot-action-anchor" routerLink="/projects"  [state]="{ id:1 , projectLookup:projectLookup}">
+                        <mat-icon class="action-icon">edit</mat-icon>
+                        Edit Project
+                    </a>
+                </div> -->
+                    
+                    <!-- <div class="slot-actions" *ngFor="let action of s.actions">
+
+                        <ng-container *ngIf="action.ButtonType === ICON">
+                            <mat-icon [matTooltip]="action.Label" click="SlotActionClickEvent(action.ClickEventName)">{{ action.Icon }}</mat-icon>
+                        </ng-container>
+
+                        <ng-container *ngIf="action.ButtonType === BUTTON">
+                            <mat-button click="SlotActionClickEvent(action.ClickEventName)">{{ action.Label }}</mat-button>
+                        </ng-container>
+
+                    </div> -->
+                
+            </div>
+            
+
+        </div>
+
+        <div secondary>
+            
+        </div>
+
+        </lcu-slotted-card> 
+    </div>
+</lcu-three-column>
