@@ -311,7 +311,6 @@ export class ApplicationsComponent implements OnInit {
   }
 
   protected setupBuildForm(): void {
-    console.log("Made it here");
     this.ApplicationFormGroup.addControl(
       'hasBuild',
       this.formBldr.control(
@@ -330,7 +329,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   protected setupSecurityForm(): void {
-    console.log("Made it to security");
+    
     this.ApplicationFormGroup.addControl(
       'isPrivate',
       this.formBldr.control(
