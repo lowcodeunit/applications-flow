@@ -196,6 +196,7 @@ export class ProjectsComponent implements OnInit {
     await this.projectService.ListEnterprises(this.State);
 
     if (this.State.Enterprises?.length > 0) {
+      this.State.Loading = false;
       await this.projectService.GetActiveEnterprise(this.State);
     }
 
