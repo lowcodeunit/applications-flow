@@ -6,9 +6,9 @@
         [subtext]="Project.Hosts"
         [image]="" -->
         <lcu-project-info-card 
-        name="test name"
-        description="test description"
-        subtext="test"
+        [name]="Project?.Project?.Name"
+        [description]="Project?.Project?.Description"
+        [subtext]="Project?.Hosts"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
@@ -130,7 +130,7 @@
                 </div>
 
                 <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
-                    <a class="slot-action-anchor" routerLink="/routes"  [state]="{ id:1 , appRoute:appRoute, projectLookup:ProjectLookup }">
+                    <a class="slot-action-anchor" [routerLink]="['/routes', appRoute, ProjectLookup]"  >
                         <mat-icon class="action-icon">edit</mat-icon>
                         Edit Route
                     </a>

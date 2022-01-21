@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -26,10 +26,10 @@ export class ApplicationsComponent implements OnInit {
 
   public Stats: any;
 
-  protected routeData: any;
+  protected appLookup: any;
 
   public get Application(): any{
-    return this.State?.EaC?.Applications[this.routeData.appLookup] || {};
+    return this.State?.EaC?.Applications[this.appLookup] || {};
   }
 
   public get Applications(): any{
@@ -72,7 +72,7 @@ export class ApplicationsComponent implements OnInit {
     return this.ApplicationFormGroup?.controls.package;
   }
 
-  constructor(private router: Router,
+  constructor(private activatedRoute: ActivatedRoute,
     protected projectService: ProjectService,
     protected formBldr: FormBuilder) {
       this.EditingApplicationLookup = null;
@@ -83,7 +83,9 @@ export class ApplicationsComponent implements OnInit {
 
    this.State = new ApplicationsFlowState();
 
-   this.routeData = this.router.getCurrentNavigation().extras.state;
+   this.activatedRoute.params.subscribe(params => {
+    this.appLookup = params['appLookup'];
+  });
 
 
   }
@@ -92,7 +94,7 @@ export class ApplicationsComponent implements OnInit {
 
     this.handleStateChange().then((eac) => {});
 
-    if (this.routeData?.appLookup) {
+    if (this.appLookup) {
       this.CreateNewApplication();
     }
 
@@ -309,6 +311,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   protected setupBuildForm(): void {
+    console.log("Made it here");
     this.ApplicationFormGroup.addControl(
       'hasBuild',
       this.formBldr.control(
@@ -327,6 +330,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   protected setupSecurityForm(): void {
+    console.log("Made it to security");
     this.ApplicationFormGroup.addControl(
       'isPrivate',
       this.formBldr.control(

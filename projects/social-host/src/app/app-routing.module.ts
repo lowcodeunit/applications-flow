@@ -8,11 +8,11 @@ import { RoutesComponent } from './controls/routes/routes.component';
 import { SettingsComponent } from './controls/settings/settings.component';
 
 const routes: Routes = [
-  { path: 'applications', component: ApplicationsComponent },
+  { path: 'applications/:appLookup', component: ApplicationsComponent },
   { path: 'home', component: HomeComponent },
   { path: 'enterprises', component: EnterpriseComponent },
-  { path: 'projects', component: ProjectsComponent },
-  { path: 'routes', component: RoutesComponent },
+  { path: 'projects/:projectLookup', component: ProjectsComponent },
+  { path: 'routes/:appRoute/:projectLookup', component: RoutesComponent },
   { path: 'settings', component: SettingsComponent },
   { path: '', redirectTo: 'enterprises', pathMatch: 'full' }
 ];

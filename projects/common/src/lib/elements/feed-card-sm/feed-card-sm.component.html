@@ -5,6 +5,7 @@
             <mat-card-title *ngIf="Title">{{Title}}</mat-card-title>
             <div *ngIf="Subtext">{{Subtext}}</div>
             <div *ngIf="Description">{{Description}}</div>
+            <ng-content select="[more-details]"></ng-content>
         </div>
     </div>
 

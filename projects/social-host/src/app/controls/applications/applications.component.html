@@ -2,9 +2,9 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card 
-        [name]="Application.Name"
-        [description]="Application.Description"
-        [subtext]="Application.Hosts"
+        [name]="Application?.Application?.Name"
+        [description]="Application?.Application?.Description"
+        
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
@@ -37,9 +37,19 @@
     <div>
         <lcu-feed-card-sm
         title="Processor Details"
-        subtext="main"
-        description="description  of the processor details for testing"
         >
+        <div more-details *ngIf="Application?.Processor">
+            <div>Cache Control: {{Application.Processor.CacheControl}}</div>
+            <div>ModifierLookups: {{Application.Processor.ModifierLookups}}</div>
+            <div>Priority: {{Application.Processor.Priority}}</div>
+            <div>Type: {{Application.Processor.Type}}</div>
+            <div>Base Href: {{Application.Processor.BaseHref}}</div>
+            <div>Default File: {{Application.Processor.DefaultFile}}</div>
+            <div>ID: {{Application.Processor.ID}}</div>
+            <div>Label: {{Application.Processor.Label}}</div>
+            <div>Registry: {{Application.Processor.Registry}}</div>
+            <div>Tenant Lookup: {{Application.Processor.TenantLookup}}</div>
+        </div>
         
         </lcu-feed-card-sm>
     </div>

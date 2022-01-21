@@ -18,13 +18,13 @@ export class ThreeColumnComponent implements OnInit {
     this.breakpointObserver
       .observe(['(max-width: 850px)'])
       .subscribe((state: BreakpointState) => {
-        console.log("Breakpoint: ", state.matches)
+        // console.log("Breakpoint: ", state.matches)
         if (state.matches) {
           this.SmallScreen=true;
         } else {
           this.SmallScreen=false;
         }
-        console.log("SmallScrren = " ,this.SmallScreen);
+        // console.log("SmallScrren = " ,this.SmallScreen);
       });
   }
 

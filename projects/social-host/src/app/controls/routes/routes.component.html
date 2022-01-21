@@ -1,9 +1,8 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card 
-        [name]="CurrentApplicationRoute.Name"
-        [description]="CurrentApplicationRoute.Description"
-        [subtext]="CurrentApplicationRoute.Hosts"
+        [name]="CurrentApplicationRoute"
+        
 
         
         (left-click-event)="HandleLeftClickEvent($event)"
@@ -68,7 +67,7 @@
         <lcu-slotted-card
         title="Apps"
         icon="apps"
-        [main-slot-description]="NumberOfApps + ' applications(s) configured'"
+        [main-slot-description]="NumberOfApps + ' application(s) configured'"
         secondary-slot-description="Add quick app"
         action-text="Create Custom Application"
         >
@@ -94,7 +93,7 @@
                 </div>
 
                 <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
-                    <a class="slot-action-anchor" routerLink="/routes"  [state]="{ id:1 , appLookup:appLookup }">
+                    <a class="slot-action-anchor" [routerLink]="['/applications', appLookup]">
                         <mat-icon class="action-icon">edit</mat-icon>
                         Edit Application
                     </a>

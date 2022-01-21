@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 import { MainFeedItemModel } from 'projects/common/src/lib/models/main-feed-item.model';
@@ -18,14 +18,16 @@ export class ProjectsComponent implements OnInit {
 
   public State: ApplicationsFlowState;
 
-  protected routeData: any;
+  // protected routeData: any;
+
+  protected projectLookup: string;
 
   public get Project(): any{
-    return this.State?.EaC?.Projects[this.routeData.projectLookup] || {};
+    return this.State?.EaC?.Projects[this.projectLookup] || {};
   }
 
   public get ProjectLookup(): any{
-    return this.routeData.projectLookup || {};
+    return this.projectLookup || {};
   }
 
   public get NumberOfRoutes(): number{
@@ -124,14 +126,23 @@ export class ProjectsComponent implements OnInit {
 
     return routeSetResult;
   }
+
   
   
-  constructor(private router: Router,
+  
+  constructor( private activatedRoute: ActivatedRoute,
      protected projectService: ProjectService) {
 
     this.State = new ApplicationsFlowState();
 
-    this.routeData = this.router.getCurrentNavigation().extras.state;
+    this.activatedRoute.params.subscribe(params => {
+      this.projectLookup = params['projectLookup'];
+    });
+
+    console.log("param: ", this.projectLookup);
+      
+
+    // this.routeData = this.router.getCurrentNavigation().extras.state;
 
     this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
     {Name: "Bounce Rate", Stat: "38%"}, 
@@ -146,7 +157,7 @@ export class ProjectsComponent implements OnInit {
 
     this.handleStateChange().then((eac) => {});
     
-    console.log("route Data: ", this.routeData); 
+    // console.log("route Data: ", this.routeData); 
 
   }
 

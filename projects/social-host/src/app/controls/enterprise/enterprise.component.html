@@ -61,7 +61,7 @@
                 </div>
 
                 <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
-                    <a class="slot-action-anchor" routerLink="/projects"  [state]="{ id:1 , projectLookup:projectLookup}">
+                    <a class="slot-action-anchor" [routerLink]="['/projects', projectLookup]" >
                         <mat-icon class="action-icon">edit</mat-icon>
                         Edit Project
                     </a>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
@@ -11,13 +11,16 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class RoutesComponent implements OnInit {
 
+  protected appRoute: string;
+
+  protected projectLookup: string;
+
   public Routes: any;
 
   public Stats: any[];
 
   public State: ApplicationsFlowState;
 
-  protected routeData: any;
 
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
@@ -33,15 +36,15 @@ export class RoutesComponent implements OnInit {
   }
 
   public get CurrentApplicationRoute(): any{
-    return this.routeData?.appRoute || {};
+    return this.appRoute || {};
   }
 
-  public get NumberOfApps(): number{
-    return this.Project?.ApplicationLookups?.length || {};
+  public get NumberOfApps(): any{
+    return this.CurrentRouteApplicationLookups.length || {};
   }
 
   public get Project(): any{
-    return this.State?.EaC?.Projects[this.routeData.projectLookup]
+    return this.State?.EaC?.Projects[this.projectLookup]
   }
 
   public get RoutedApplications(): {
@@ -121,12 +124,17 @@ export class RoutesComponent implements OnInit {
     );
   }
 
-  constructor(private router: Router,
+  constructor(private activatedRoute: ActivatedRoute,
     protected projectService: ProjectService) {
 
    this.State = new ApplicationsFlowState();
 
-   this.routeData = this.router.getCurrentNavigation().extras.state;
+  //  this.routeData = this.router.getCurrentNavigation().extras.state;
+
+   this.activatedRoute.params.subscribe(params => {
+      this.appRoute = params['appRoute']
+      this.projectLookup = params['projectLookup'];
+  });
 
    this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
    {Name: "Bounce Rate", Stat: "38%"}, 
@@ -138,7 +146,7 @@ export class RoutesComponent implements OnInit {
 
     this.handleStateChange().then((eac) => {});
     
-    console.log("route Data: ", this.routeData); 
+    // console.log("route Data: ", this.routeData); 
 
   }
 
