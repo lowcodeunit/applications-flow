@@ -9,6 +9,7 @@ import { ConstantUtils, DragDropUtils, DragItemsTemplates, VariablesUtils } from
   styleUrls: ['./flow-tool.component.scss']
 })
 
+
 export class FlowToolComponent implements OnInit {
 
   // Array<{Module: string, Data: Array<any>}>
