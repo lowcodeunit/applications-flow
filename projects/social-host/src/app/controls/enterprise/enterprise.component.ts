@@ -40,6 +40,8 @@ export class EnterpriseComponent implements OnInit {
 
     await this.projectService.HasValidConnection(this.State);
 
+    await this.projectService.EnsureUserEnterprise(this.State);
+
     await this.projectService.ListEnterprises(this.State);
 
     if (this.State.Enterprises?.length > 0) {
