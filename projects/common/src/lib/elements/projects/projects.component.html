@@ -42,9 +42,10 @@
       </h2>
     </div>
 
-    <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth>
+    <!-- <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth> -->
 
-    <ng-container *ngIf="State.GitHub.HasConnection">
+    <!-- *ngIf="State.GitHub.HasConnection" -->
+    <ng-container> 
       <!-- <div *ngIf="!CreatingProject">
         Creating
         <lcu-create-project-wizard></lcu-create-project-wizard>
