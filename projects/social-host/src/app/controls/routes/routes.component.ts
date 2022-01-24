@@ -185,13 +185,6 @@ export class RoutesComponent implements OnInit {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.HasValidConnection(this.State);
-
-    await this.projectService.ListEnterprises(this.State);
-
-    if (this.State.Enterprises?.length > 0) {
-      this.State.Loading = false;
-      await this.projectService.GetActiveEnterprise(this.State);
-    }
+    await this.projectService.EnsureUserEnterprise(this.State);
   }
 }
