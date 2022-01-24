@@ -7,10 +7,9 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 @Component({
   selector: 'lcu-routes',
   templateUrl: './routes.component.html',
-  styleUrls: ['./routes.component.scss']
+  styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
-
   protected appRoute: string;
 
   protected projectLookup: string;
@@ -20,7 +19,6 @@ export class RoutesComponent implements OnInit {
   public Stats: any[];
 
   public State: ApplicationsFlowState;
-
 
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
@@ -35,16 +33,16 @@ export class RoutesComponent implements OnInit {
     return apps;
   }
 
-  public get CurrentApplicationRoute(): any{
+  public get CurrentApplicationRoute(): any {
     return this.appRoute || {};
   }
 
-  public get NumberOfApps(): any{
+  public get NumberOfApps(): any {
     return this.CurrentRouteApplicationLookups.length || {};
   }
 
-  public get Project(): any{
-    return this.State?.EaC?.Projects[this.projectLookup]
+  public get Project(): any {
+    return this.State?.EaC?.Projects[this.projectLookup];
   }
 
   public get RoutedApplications(): {
@@ -124,64 +122,62 @@ export class RoutesComponent implements OnInit {
     );
   }
 
-  constructor(private activatedRoute: ActivatedRoute,
-    protected projectService: ProjectService) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    protected projectService: ProjectService
+  ) {
+    this.State = new ApplicationsFlowState();
 
-   this.State = new ApplicationsFlowState();
+    //  this.routeData = this.router.getCurrentNavigation().extras.state;
 
-  //  this.routeData = this.router.getCurrentNavigation().extras.state;
-
-   this.activatedRoute.params.subscribe(params => {
-      this.appRoute = params['appRoute']
+    this.activatedRoute.params.subscribe((params) => {
+      this.appRoute = params['appRoute'];
       this.projectLookup = params['projectLookup'];
-  });
+    });
 
-   this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
-   {Name: "Bounce Rate", Stat: "38%"}, 
-   {Name: "Someother Rate", Stat: "5%"}];
-
+    this.Stats = [
+      { Name: 'Retention Rate', Stat: '85%' },
+      { Name: 'Bounce Rate', Stat: '38%' },
+      { Name: 'Someother Rate', Stat: '5%' },
+    ];
   }
 
   public ngOnInit(): void {
-
     this.handleStateChange().then((eac) => {});
-    
-    // console.log("route Data: ", this.routeData); 
 
+    // console.log("route Data: ", this.routeData);
   }
 
-
-  public LaunchRouteClicked(){
-    console.log("Launch Route clicked");
+  public LaunchRouteClicked() {
+    console.log('Launch Route clicked');
   }
 
-  public EditRouteClicked(){
-    console.log("Edit Route clicked");
+  public EditRouteClicked() {
+    console.log('Edit Route clicked');
   }
 
-  public UploadRouteClicked(){
-    console.log("Upload Route clicked");
+  public UploadRouteClicked() {
+    console.log('Upload Route clicked');
   }
 
-  public TrashRouteClicked(){
-    console.log("Trash Route clicked");
+  public TrashRouteClicked() {
+    console.log('Trash Route clicked');
   }
 
-
-  public HandleLeftClickEvent(event: any){
-    console.log("Left Icon has been selected", event);
+  public HandleLeftClickEvent(event: any) {
+    console.log('Left Icon has been selected', event);
   }
 
-  public HandleRightClickEvent(event: any){
-    console.log("Right Icon has been selected", event);
+  public HandleRightClickEvent(event: any) {
+    console.log('Right Icon has been selected', event);
   }
 
-  public SettingsClicked(){
-    console.log("Settings Clicked")
+  public SettingsClicked() {
+    console.log('Settings Clicked');
   }
 
-  public UpgradeClicked(){
-    console.log("Upgarde clicked");
+  public UpgradeClicked() {
+    console.log('Upgarde clicked');
   }
 
   //HELPERS
@@ -197,7 +193,5 @@ export class RoutesComponent implements OnInit {
       this.State.Loading = false;
       await this.projectService.GetActiveEnterprise(this.State);
     }
-
   }
-
 }
