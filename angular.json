@@ -102,7 +102,7 @@
                   "with": "projects/lcu/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -115,7 +115,7 @@
         "serve": {
           "builder": "ngx-build-plus:dev-server",
           "options": {
-            "optimization": true,
+            
             "browserTarget": "lcu:build"
           },
           "configurations": {
@@ -203,6 +203,11 @@
                 "output": "/"
               },
               {
+                "glob": "**/*",
+                "input": "node_modules/@semanticjs/krakyn/assets/styles",
+                "output":"/assets/styles"
+              },
+              {
 								"glob": "**/*",
 								"input": "node_modules/sass.js/dist",
 								"output": "/assets"
@@ -230,7 +235,7 @@
                   "with": "projects/demo/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -243,7 +248,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "optimization": true,
+            
             "browserTarget": "demo:build"
           },
           "configurations": {
@@ -344,7 +349,7 @@
                   "with": "projects/social-host/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -369,7 +374,7 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "optimization": true,
+            
             "browserTarget": "social-host:build"
           },
           "configurations": {
