@@ -10,3 +10,49 @@ mat-card-actions{
     margin-left: 0px !important;
     margin-right: -0.5px !important;
 }
+
+.main-slot-container{
+    padding:10px;
+}
+
+
+.slot-header{
+    align-items: center;
+}
+
+.slot-content{
+    width: 100%;
+}
+
+.slot-name{
+    font-size: 22px;
+    font-weight: 600;
+    padding-left:5px;
+}
+
+.slot-description{
+    font-size: 12px;
+    margin-right: 10px;
+}
+
+.slot-action-anchor{
+    font-size: 10px;
+    text-decoration: none;
+    color: black;
+}
+
+.action-icon{
+    height: 25px;
+    width: 25px;
+    font-size: 25px;
+}
+
+.gold-icon{
+    color:#d4af37;
+}
+
+.upgrade-text{
+    font-weight: bold;
+    margin-left: 10px;
+    cursor: pointer;
+}

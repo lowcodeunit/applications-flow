@@ -1,3 +1,5 @@
+@import "../../../../../common/src/assets/styles/social-card.scss";
+
 .promo-container{
     
     margin: 10px;
@@ -15,12 +17,3 @@ mat-card-actions{
     border-top: 1px solid #d3d3d3;
 }
 
-.gold-icon{
-    color:#d4af37;
-}
-
-.upgrade-text{
-    font-weight: bold;
-    margin-left: 10px;
-    cursor: pointer;
-}

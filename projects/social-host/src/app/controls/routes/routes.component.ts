@@ -145,6 +145,8 @@ export class RoutesComponent implements OnInit {
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
 
+    console.log("app:", this.RoutedApplications[this.CurrentApplicationRoute][this.CurrentRouteApplicationLookups[0]])
+
     // console.log("route Data: ", this.routeData);
   }
 
@@ -170,6 +172,7 @@ export class RoutesComponent implements OnInit {
 
   public HandleRightClickEvent(event: any) {
     console.log('Right Icon has been selected', event);
+    console.log("app:", this.RoutedApplications[this.CurrentApplicationRoute][this.CurrentRouteApplicationLookups[0]])
   }
 
   public SettingsClicked() {
@@ -185,13 +188,7 @@ export class RoutesComponent implements OnInit {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.HasValidConnection(this.State);
+    await this.projectService.EnsureUserEnterprise(this.State);
 
-    await this.projectService.ListEnterprises(this.State);
-
-    if (this.State.Enterprises?.length > 0) {
-      this.State.Loading = false;
-      await this.projectService.GetActiveEnterprise(this.State);
-    }
   }
 }
