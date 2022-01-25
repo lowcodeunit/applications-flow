@@ -16,9 +16,7 @@ import { ApplicationsFlowEventsService } from '../../services/applications-flow-
   styleUrls: ['./flow-tool.component.scss']
 })
 
-
-export class FlowToolComponent extends LcuElementComponent<ApplicationsFlowProjectsContext>
-implements OnInit  {
+export class FlowToolComponent implements OnInit  {
 
   public State: ApplicationsFlowState;
 
@@ -37,7 +35,7 @@ implements OnInit  {
     protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
 
-    super(injector);
+    // super(injector);
 
     console.log('CONSTRUCTOR');
 
@@ -65,7 +63,7 @@ implements OnInit  {
    // Lifecycle hooks
   public ngOnInit(): void {
 
-    super.ngOnInit();
+    // super.ngOnInit();
 
     this.handleStateChange()
     .then((eac) => {});
