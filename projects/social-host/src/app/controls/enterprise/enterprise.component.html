@@ -71,7 +71,7 @@
                     <a class="slot-action-anchor" [routerLink]="['/projects', projectLookup]" >
                         <mat-icon class="action-icon">edit</mat-icon>
                     </a>
-                    <a class="slot-action-anchor"  [href]="project.Hosts[0]" target="_blank">
+                    <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a>
                 </div>
