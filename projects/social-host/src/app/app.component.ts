@@ -27,8 +27,6 @@ export class AppComponent {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.HasValidConnection(this.State);
-
     await this.projectService.EnsureUserEnterprise(this.State);
 
     await this.projectService.ListEnterprises(this.State);

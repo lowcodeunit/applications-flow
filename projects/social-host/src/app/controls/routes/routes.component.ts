@@ -189,6 +189,5 @@ export class RoutesComponent implements OnInit {
     this.State.Loading = true;
 
     await this.projectService.EnsureUserEnterprise(this.State);
-
   }
 }
