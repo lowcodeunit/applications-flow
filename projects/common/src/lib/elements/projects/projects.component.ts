@@ -2,24 +2,17 @@ import {
   Component,
   OnInit,
   Injector,
-  ViewChild,
-  Inject,
-  AfterViewInit,
   OnDestroy,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { MatStepper } from '@angular/material/stepper';
 import {
   LCUElementContext,
   LcuElementComponent,
   BaseResponse,
-  BaseModeledResponse,
 } from '@lcu/common';
 import { ApplicationsFlowState } from './../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { ProjectService } from '../../services/project.service';
-import { Subscription } from 'rxjs';
 import {
   ApplicationsFlowEventsService,
   SaveApplicationAsCodeEventRequest,
@@ -27,7 +20,6 @@ import {
   SaveEnvironmentAsCodeEventRequest,
 } from './../../services/applications-flow-events.service';
 import {
-  EaCApplicationAsCode,
   EaCEnvironmentAsCode,
   EaCHost,
   EaCProjectAsCode,
