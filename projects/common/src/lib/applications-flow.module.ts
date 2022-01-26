@@ -41,6 +41,10 @@ import { GhControlComponent } from './elements/gh-control/gh-control.component';
 import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
 import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
 import { CardCarouselComponent } from './elements/card-carousel/card-carousel.component';
+import { SecurityToggleComponent } from './controls/security-toggle/security-toggle.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
 
 @NgModule({
   declarations: [
@@ -75,7 +79,9 @@ import { CardCarouselComponent } from './elements/card-carousel/card-carousel.co
     GhControlComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
-    CardCarouselComponent
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent
   ],
   imports: [
     FathymSharedModule,
@@ -84,6 +90,8 @@ import { CardCarouselComponent } from './elements/card-carousel/card-carousel.co
     FlexLayoutModule,
     MaterialModule,
     AppHostModule,
+    MatTooltipModule,
+    MatSlideToggleModule
     // LazyElementModule,
   ],
   exports: [
@@ -118,7 +126,9 @@ import { CardCarouselComponent } from './elements/card-carousel/card-carousel.co
     GhControlComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
-    CardCarouselComponent
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -150,7 +160,9 @@ import { CardCarouselComponent } from './elements/card-carousel/card-carousel.co
     GhControlComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
-    CardCarouselComponent
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent
   ],
 })
 export class ApplicationsFlowModule {

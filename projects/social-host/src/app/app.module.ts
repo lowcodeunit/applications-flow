@@ -18,8 +18,13 @@ import { ApplicationsComponent } from './controls/applications/applications.comp
 import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
 import { ApplicationsFlowModule } from 'projects/common/src/lib/applications-flow.module';
 import { environment } from '../environments/environment';
+import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppHostModule } from '@lowcodeunit/app-host-common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 
 
@@ -35,15 +40,20 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     FlexLayoutModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    MatCardModule,
     MaterialModule,
     FormsModule,
     ReactiveFormsModule,
     FathymSharedModule.forRoot(),
     ThemeBuilderModule,
     AppHostModule,
-    ApplicationsFlowModule.forRoot(),  
+    ApplicationsFlowModule.forRoot(), 
+     
     
   ],
   providers: [{

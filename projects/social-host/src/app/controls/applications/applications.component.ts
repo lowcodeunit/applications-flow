@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
 import { Guid } from '@lcu/common';
 
 
@@ -34,6 +34,13 @@ export class ApplicationsComponent implements OnInit {
 
   public get Applications(): any{
     return this.State?.EaC?.Applications;
+  }
+
+  public get DefaultSourceControl(): EaCSourceControl {
+    return {
+      Organization: this.EditingApplication?.LowCodeUnit?.Organization,
+      Repository: this.EditingApplication?.LowCodeUnit?.Repository,
+    };
   }
 
   public get DescriptionFormControl(): AbstractControl {

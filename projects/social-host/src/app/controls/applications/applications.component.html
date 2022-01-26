@@ -4,7 +4,6 @@
         <lcu-project-info-card 
         [name]="Application?.Application?.Name"
         [description]="Application?.Application?.Description"
-        
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
@@ -34,9 +33,14 @@
         </lcu-analytics-card>
     </div>
     <div>
+
+
         <lcu-feed-card-sm
         title="Processor Details"
         >
+
+        
+
         <div more-details *ngIf="Application?.Processor">
             <div>Cache Control: {{Application.Processor.CacheControl}}</div>
             <div>ModifierLookups: {{Application.Processor.ModifierLookups}}</div>
@@ -51,26 +55,28 @@
         </div>
         
         </lcu-feed-card-sm>
+
+        <lcu-feed-card-sm>
+            <lcu-processor-details-form
+                more-details
+                [editing-application]="EditingApplication">
+            </lcu-processor-details-form>
+        </lcu-feed-card-sm>
+
+        
+
     </div>
     <div right>
         <lcu-slotted-card
         title="Security Settings"
         icon="security">
 
-            <div *ngIf="IsPrivateFormControl?.value">
-                <div>
-                  <mat-slide-toggle formControlName="isTriggerSignIn">
-                    Is Trigger Sign In Application?
-                  </mat-slide-toggle>
-
-                  <mat-icon
-                    matSuffix
-                    matTooltip="A Trigger Sign In Application will direct the user to sign in if they are not already."
-                  >
-                    info_outline
-                  </mat-icon>
-                </div>
-            </div>
+            <!-- <div *ngIf="IsPrivateFormControl?.value"> -->
+                <lcu-security-toggle
+                [editing-application]="EditingApplication">
+                </lcu-security-toggle>
+                 
+            <!-- </div> -->
 
         </lcu-slotted-card>
     </div>

@@ -34,5 +34,6 @@ export class AppComponent {
     if (this.State.Enterprises?.length > 0) {
       await this.projectService.GetActiveEnterprise(this.State);
     }
+    console.log("STATE = ", this.State);
   }
 }

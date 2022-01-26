@@ -1,0 +1,46 @@
+<form class="security-form" [formGroup]="SecurityFormGroup" (ngSubmit)="SecuritySubmit()">
+    <mat-card class="spread flow-card">
+        <mat-card-header>
+          <mat-card-title> Security Settings </mat-card-title>
+
+        <div fxFlex></div>
+
+        <mat-slide-toggle
+              formControlName="isPrivate"
+              matTooltip="Is Secure Application?"
+            >
+        </mat-slide-toggle>
+
+            <mat-icon
+              matSuffix
+              matTooltip="A Secured Application is one that requires the user to be authenticated to use the application. The application is hosted behind an identity wall."
+            >
+              info_outline
+            </mat-icon>
+          </mat-card-header>
+
+          <mat-card-content>
+            <div>
+              <div *ngIf="IsPrivateFormControl.value">
+                <div>
+                  <mat-slide-toggle formControlName="isTriggerSignIn">
+                    Is Trigger Sign In Application?
+                  </mat-slide-toggle>
+
+                  <mat-icon
+                    matSuffix
+                    matTooltip="A Trigger Sign In Application will direct the user to sign in if they are not already."
+                  >
+                    info_outline
+                  </mat-icon>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        
+        <mat-card-actions>
+            <!-- [disabled]="!SecurityFormGroup.valid || !SecurityFormGroup.dirty" -->
+            <button mat-raised-button type="submit" >Save Security Settings</button>
+        </mat-card-actions>
+    </mat-card>
+</form>
