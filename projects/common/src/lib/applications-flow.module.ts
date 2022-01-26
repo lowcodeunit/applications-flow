@@ -45,6 +45,7 @@ import { SecurityToggleComponent } from './controls/security-toggle/security-tog
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
+import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
 
 @NgModule({
   declarations: [
@@ -81,7 +82,8 @@ import { ProcessorDetailsFormComponent } from './controls/processor-details-form
     TwoColumnHeaderComponent,
     CardCarouselComponent,
     SecurityToggleComponent,
-    ProcessorDetailsFormComponent
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent
   ],
   imports: [
     FathymSharedModule,
@@ -128,7 +130,8 @@ import { ProcessorDetailsFormComponent } from './controls/processor-details-form
     TwoColumnHeaderComponent,
     CardCarouselComponent,
     SecurityToggleComponent,
-    ProcessorDetailsFormComponent
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -162,7 +165,8 @@ import { ProcessorDetailsFormComponent } from './controls/processor-details-form
     TwoColumnHeaderComponent,
     CardCarouselComponent,
     SecurityToggleComponent,
-    ProcessorDetailsFormComponent
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent
   ],
 })
 export class ApplicationsFlowModule {

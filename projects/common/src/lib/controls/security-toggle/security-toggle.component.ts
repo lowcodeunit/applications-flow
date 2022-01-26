@@ -32,23 +32,23 @@ export class SecurityToggleComponent implements OnInit {
   protected setupSecurityFormGroup(){
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
     if (this.EditingApplication != null) {
-      this.SecurityFormGroup = this.formBldr.group({
-        name: [this.EditingApplication.Application?.Name, Validators.required],
-        description: [
-          this.EditingApplication.Application?.Description,
-          Validators.required,
-        ],
-        route: [
-          this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
-            '/',
-          Validators.required,
-        ],
-        // priority: [
-        //   this.EditingApplication.Application?.Priority || 10000,
-        //   Validators.required,
-        // ],
-        procType: [this.ProcessorType, [Validators.required]],
-      });
+      // this.SecurityFormGroup = this.formBldr.group({
+      //   name: [this.EditingApplication.Application?.Name, Validators.required],
+      //   description: [
+      //     this.EditingApplication.Application?.Description,
+      //     Validators.required,
+      //   ],
+      //   route: [
+      //     this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
+      //       '/',
+      //     Validators.required,
+      //   ],
+      //   // priority: [
+      //   //   this.EditingApplication.Application?.Priority || 10000,
+      //   //   Validators.required,
+      //   // ],
+      //   procType: [this.ProcessorType, [Validators.required]],
+      // });
 
   }
   this.setupSecurityForm();

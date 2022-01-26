@@ -1,7 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { LCUServiceSettings } from '@lcu/common';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { PalettePickerService, ThemeBuilderConstants, ThemeBuilderService, ThemePickerModel } from '@lowcodeunit/lcu-theme-builder-common';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
+
+declare var Sass: any;
 
 @Component({
   selector: 'lcu-root',
@@ -12,16 +17,60 @@ export class AppComponent {
   title = 'social-host';
 
   public State: ApplicationsFlowState;
+  public ThemeClass: BehaviorSubject<string>;
+  public Themes: Array<any>;
 
   constructor(
     protected serviceSettings: LCUServiceSettings,
-    protected projectService: ProjectService
+    protected projectService: ProjectService,
+    protected http: HttpClient,
+    protected themeBuilderService: ThemeBuilderService,
+    protected palettePickerService: PalettePickerService
   ) {
     this.State = new ApplicationsFlowState();
   }
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
+    // this.themeBuilderService.MaterialTheme = 'https://www.iot-ensemble.com/assets/theming/theming.scss';
+    this.themeBuilderService.MaterialTheme = './assets/test.scss';
+
+    this.setupThemes();
+  }
+
+
+  /**
+   * Setup array of themes
+   */
+   protected setupThemes(): void {
+    const themes: Array<ThemePickerModel> = [
+      new ThemePickerModel(
+        {
+          ID: 'Fathym Brand',
+          Primary: ThemeBuilderConstants.document.getPropertyValue('--initial-primary'),
+          Accent: ThemeBuilderConstants.document.getPropertyValue('--initial-accent'),
+          Warn: ThemeBuilderConstants.document.getPropertyValue('--initial-warn')
+        }
+      ),
+      new ThemePickerModel(
+        {
+          ID: 'Yellow', 
+          Primary: '#ffcc11',
+          Accent: '#06a5ff',
+          Warn: '#990000'
+        }
+      ),
+      new ThemePickerModel(
+        {
+          ID: 'Pink',
+          Primary: '#a83271',
+          Accent: '#6103ff',
+          Warn: '#b9f013'
+        }
+      )
+    ];
+
+    this.themeBuilderService.SetThemes(themes);
   }
 
   protected async handleStateChange(): Promise<void> {

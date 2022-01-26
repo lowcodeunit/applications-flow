@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { Guid } from '@lcu/common';
 
 
@@ -26,7 +26,11 @@ export class ApplicationsComponent implements OnInit {
 
   public Stats: any;
 
-  protected appLookup: any;
+  public SourceControlData: any;
+
+  protected appLookup: string;
+
+  protected projectLookup: string;
 
   public get Application(): any{
     return this.State?.EaC?.Applications[this.appLookup] || {};
@@ -45,6 +49,10 @@ export class ApplicationsComponent implements OnInit {
 
   public get DescriptionFormControl(): AbstractControl {
     return this.ApplicationFormGroup?.controls.description;
+  }
+
+  public get Environment(): EaCEnvironmentAsCode {
+    return this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment];
   }
 
   public get IsPrivateFormControl(): AbstractControl {
@@ -92,6 +100,7 @@ export class ApplicationsComponent implements OnInit {
 
    this.activatedRoute.params.subscribe(params => {
     this.appLookup = params['appLookup'];
+    this.projectLookup = params['projectLookup'];
   });
 
 
@@ -271,6 +280,7 @@ export class ApplicationsComponent implements OnInit {
   // }
 
   //HELPERS
+
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;

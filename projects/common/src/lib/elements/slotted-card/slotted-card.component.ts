@@ -23,6 +23,9 @@ export class SlottedCardComponent implements OnInit {
   @Input('action-text') 
   public ActionText: string;
 
+  @Input('action-path')
+  public ActionPath: string;
+
   @Output('main-action-clicked') 
   public MainActionClicked: EventEmitter<{}>;
 

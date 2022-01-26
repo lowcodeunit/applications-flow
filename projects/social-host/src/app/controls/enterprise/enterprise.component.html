@@ -45,6 +45,7 @@
         [main-slot-description]="NumberOfProjects + ' project(s) configured'"
         secondary-slot-description="Add new quick project"
         action-text="Create Custom Project"
+        action-path="/dashboard/create-project"
         >
 
         <div class="main-slot-container" 
@@ -60,7 +61,7 @@
                 <div class="slot-header-container">
                     <div class="slot-header" fxLayout="row" >
                         <!-- this icon is a temp placeholder -->
-                        <mat-icon class="slot-icon">work_outline</mat-icon>
+                        <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                         <div *ngIf="project.Project.Name" class="slot-name">{{project.Project.Name}}</div>
                     </div>
 

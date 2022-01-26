@@ -1,0 +1,87 @@
+<form class="source-control-form" [formGroup]="SourceControlFormGroup" (ngSubmit)="SubmitSourceControl()">
+
+<mat-card class="spread flow-card" *ngIf="ProcessorType != 'Redirect'">
+    <mat-card-header>
+      <mat-card-title *ngIf="!HasBuildFormControl.value">
+        Build & Source
+      </mat-card-title>
+
+      <mat-card-title *ngIf="HasBuildFormControl.value">
+        Source Control
+      </mat-card-title>
+
+      <div fxFlex></div>
+
+      <mat-slide-toggle
+        formControlName="hasBuild"
+        matTooltip="Has Build?"
+      >
+      </mat-slide-toggle>
+
+      <mat-icon
+        matSuffix
+        matTooltip="Configure source control, DevOps CI/CD, and artifacts."
+      >
+        info_outline
+      </mat-icon>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field
+        class="mat-full-width"
+        *ngIf="
+          HasBuildFormControl.value && SourceControlLookups?.length > 0
+        "
+      >
+        <mat-select
+          formControlName="sourceControlLookup"
+          placeholder="Source Control"
+          (selectionChange)="SourceControlLookupChanged($event)"
+          [disabled]="
+            SourceControlFormControls?.Loading || HostingDetails?.Loading
+          "
+        >
+          <ng-container
+            *ngFor="let srcCtrlLookup of SourceControlLookups"
+          >
+            <mat-option
+              [value]="srcCtrlLookup"
+              *ngIf="SourceControls[srcCtrlLookup]; let srcCtrl"
+            >
+              {{ srcCtrl.Name }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+
+        <div *ngIf="HasBuildFormControl?.value">
+          <h3>
+            @{{
+              SourceControlFormControls?.OrganizationFormControl?.value ||
+                SourceControl?.Organization
+            }}/{{
+              SourceControlFormControls?.RepositoryFormControl?.value ||
+                SourceControl?.Repository
+            }}
+          </h3>
+
+          <p>Organization and Repository pulled from build settings</p>
+
+          <mat-hint>
+            CurrentBuild:
+            {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
+          </mat-hint>
+        </div>
+      </mat-form-field>
+
+      <div *ngIf="SourceControlLookups?.length < 0">
+        <h3>
+          Create source control locations under the DevOps tab above.
+        </h3>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+        <!-- [disabled]="!SourceControlFormGroup.valid || !SourceControlFormGroup.dirty" -->
+        <button mat-raised-button type="submit" >Save</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

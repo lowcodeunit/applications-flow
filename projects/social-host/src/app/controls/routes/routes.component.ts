@@ -12,7 +12,7 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 export class RoutesComponent implements OnInit {
   protected appRoute: string;
 
-  protected projectLookup: string;
+  public ProjectLookup: string;
 
   public Routes: any;
 
@@ -42,7 +42,7 @@ export class RoutesComponent implements OnInit {
   }
 
   public get Project(): any {
-    return this.State?.EaC?.Projects[this.projectLookup];
+    return this.State?.EaC?.Projects[this.ProjectLookup];
   }
 
   public get RoutedApplications(): {
@@ -132,7 +132,7 @@ export class RoutesComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params) => {
       this.appRoute = params['appRoute'];
-      this.projectLookup = params['projectLookup'];
+      this.ProjectLookup = params['projectLookup'];
     });
 
     this.Stats = [

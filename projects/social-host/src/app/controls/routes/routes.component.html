@@ -69,6 +69,7 @@
         [main-slot-description]="NumberOfApps + ' application(s) configured'"
         secondary-slot-description="Add quick app"
         action-text="Create Custom Application"
+        [action-path]="'/dashboard/create-project?projectId=' + ProjectLookup"
         >
 
         <div class="main-slot-container" 
@@ -85,7 +86,7 @@
                 <div class="slot-header-container" fxLayout="column">
                     <div class="slot-header" fxLayout="row" >
                         <!-- this icon is a temp placeholder -->
-                        <mat-icon class="slot-icon">apps</mat-icon>
+                        <!-- <mat-icon class="slot-icon">apps</mat-icon> -->
                         <div *ngIf="app.Application.Name" class="slot-name">{{app.Application.Name}}</div>
                     </div>
 
@@ -96,7 +97,7 @@
                 </div>
 
                 <div class="slot-actions-container" fxLayout="row" fxLayoutAlign="space-around center" >
-                    <a class="slot-action-anchor" [routerLink]="['/applications', appLookup]">
+                    <a class="slot-action-anchor" [routerLink]="['/applications', appLookup, ProjectLookup]">
                         <mat-icon class="action-icon">edit</mat-icon>
                     </a>
                     <!-- TODO fix href to add on  app.LookupConfig.PathRegex removing the .* -->

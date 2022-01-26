@@ -56,29 +56,28 @@
         
         </lcu-feed-card-sm>
 
-        <lcu-feed-card-sm>
+        <!-- <lcu-feed-card-sm> -->
             <lcu-processor-details-form
                 more-details
                 [editing-application]="EditingApplication">
             </lcu-processor-details-form>
-        </lcu-feed-card-sm>
+        <!-- </lcu-feed-card-sm> -->
 
         
 
     </div>
     <div right>
-        <lcu-slotted-card
-        title="Security Settings"
-        icon="security">
-
-            <!-- <div *ngIf="IsPrivateFormControl?.value"> -->
-                <lcu-security-toggle
-                [editing-application]="EditingApplication">
-                </lcu-security-toggle>
+        
+        <lcu-security-toggle
+            [editing-application]="EditingApplication">
+        </lcu-security-toggle>
                  
-            <!-- </div> -->
-
-        </lcu-slotted-card>
+            
+        <lcu-source-control-form
+            [editing-application]="EditingApplication"
+            [environment]="Environment">
+        </lcu-source-control-form>
     </div>
+    
 </lcu-three-column>
 </ng-container>

@@ -8,7 +8,7 @@ import { RoutesComponent } from './controls/routes/routes.component';
 import { SettingsComponent } from './controls/settings/settings.component';
 
 const routes: Routes = [
-  { path: 'applications/:appLookup', component: ApplicationsComponent },
+  { path: 'applications/:appLookup/:projectLookup', component: ApplicationsComponent },
   { path: 'home', component: HomeComponent },
   { path: 'enterprises', component: EnterpriseComponent },
   { path: 'projects/:projectLookup', component: ProjectsComponent },
