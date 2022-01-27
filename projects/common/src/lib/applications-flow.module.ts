@@ -46,6 +46,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
 import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
+import { EaCService } from './services/eac.service';
 
 @NgModule({
   declarations: [
@@ -180,6 +181,7 @@ export class ApplicationsFlowModule {
         NPMService,
         FormsService,
         ApplicationsFlowEventsService,
+        EaCService
       ],
     };
   }

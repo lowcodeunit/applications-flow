@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectService } from 'projects/common/src/lib/services/project.service';
-import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { Guid } from '@lcu/common';
@@ -22,7 +21,9 @@ export class ApplicationsComponent implements OnInit {
 
   public ProcessorType: string;
   
-  public State: ApplicationsFlowState;
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
 
   public Stats: any;
 
@@ -88,15 +89,13 @@ export class ApplicationsComponent implements OnInit {
   }
 
   constructor(private activatedRoute: ActivatedRoute,
-    protected projectService: ProjectService,
+    protected eacSvc: EaCService,
     protected formBldr: FormBuilder) {
       this.EditingApplicationLookup = null;
 
       this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
    {Name: "Bounce Rate", Stat: "38%"}, 
    {Name: "Someother Rate", Stat: "5%"}];
-
-   this.State = new ApplicationsFlowState();
 
    this.activatedRoute.params.subscribe(params => {
     this.appLookup = params['appLookup'];
@@ -285,8 +284,7 @@ export class ApplicationsComponent implements OnInit {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.EnsureUserEnterprise(this.State);
-
+    await this.eacSvc.EnsureUserEnterprise();
   }
 
 
