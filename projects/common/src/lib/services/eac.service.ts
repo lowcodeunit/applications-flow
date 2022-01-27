@@ -1,13 +1,11 @@
-import { FormValuesModel } from '../models/form.values.model';
-import { FormModel } from '../models/form.model';
+
 import { Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { Subject } from 'rxjs';
 import {
   ApplicationsFlowEventsService,
   SaveApplicationAsCodeEventRequest,
   SaveDFSModifierEventRequest,
   SaveEnvironmentAsCodeEventRequest,
+  SaveProjectAsCodeEventRequest,
 } from './applications-flow-events.service';
 import { ProjectService } from './project.service';
 import {
@@ -47,17 +45,74 @@ export class EaCService {
     }
   }
 
+  public async DeleteDevOpsAction(doaLookup: string): Promise<void> {
+    if (confirm(`Are you sure you want to delete DevOps action '${doaLookup}'?`)) {
+
+      await this.projectService.DeleteDevOpsAction(this.State, doaLookup);
+    }
+  }
+
+  public async DeleteProject(projectLookup: string): Promise<void> {
+    if (confirm(`Are you sure you want to delete Project '${projectLookup}'?`)) {
+
+      await this.projectService.DeleteProject(this.State, projectLookup);
+    }
+  }
+
+  public async DeleteSourceControl(scLookup: string): Promise<void> {
+    if (confirm(`Are you sure you want to delete Source Control '${scLookup}'?`)) {
+
+      await this.projectService.DeleteSourceControl(this.State, scLookup);
+    }
+  }
+
+  // this.appsFlowEventsSvc.EnsureUserEnterpriseEvent.subscribe(async () => {
+  //   await this.projectService.EnsureUserEnterprise(this.State);
+  // });
+  
+
   public async EnsureUserEnterprise(
     appLookup: string,
     appName: string
   ): Promise<void> {
-    return await this.projectService.EnsureUserEnterprise(this.State);
+    await this.projectService.EnsureUserEnterprise(this.State);
+  }
+
+  public async LoadEnterpriseAsCode(): Promise<void>{
+    await this.projectService.LoadEnterpriseAsCode(this.State);
   }
 
   public async SaveApplicationAsCode(
     req: SaveApplicationAsCodeEventRequest
   ): Promise<void> {
     await this.handleSaveApplication(req);
+  }
+
+  public async SaveDFSModifierEvent(req: SaveDFSModifierEventRequest): Promise<void> {
+    await this.handleSaveDFSModifier(req);
+  }
+
+  public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<void>  {
+    await this.projectService.SaveEnterpriseAsCode(this.State, eac);
+  }
+
+  public async SaveEnvironmentAsCode(req: SaveEnvironmentAsCodeEventRequest): Promise<void>{
+    await this.handleSaveEnvironment(req);
+  }
+
+  public async  SaveProjectAsCode(req: SaveProjectAsCodeEventRequest): Promise<void>{
+    await this.handleSaveProject(req.ProjectLookup, req.Project);
+  }
+
+  public async SetCreatingProject(creatingProject: boolean): Promise<void>{
+      this.projectService.SetCreatingProject(creatingProject);
+  }
+
+  public async SetEditProjectSettings(projectLookup: string): Promise<void>{
+      await this.projectService.SetEditProjectSettings(
+        this.State,
+        projectLookup
+      );
   }
 
   public async UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): Promise<void> {
@@ -71,66 +126,10 @@ export class EaCService {
   }
 
   protected setServices(): void {
-    this.appsFlowEventsSvc.DeleteDevOpsActionEvent.subscribe(
-      async (doaLookup) => {
-        await this.projectService.DeleteDevOpsAction(this.State, doaLookup);
-      }
-    );
-
-    this.appsFlowEventsSvc.DeleteProjectEvent.subscribe(
-      async (projectLookup) => {
-        await this.projectService.DeleteProject(this.State, projectLookup);
-      }
-    );
-
-    this.appsFlowEventsSvc.DeleteSourceControlEvent.subscribe(
-      async (scLookup) => {
-        await this.projectService.DeleteSourceControl(this.State, scLookup);
-      }
-    );
-
-    this.appsFlowEventsSvc.EnsureUserEnterpriseEvent.subscribe(async () => {
-      await this.projectService.EnsureUserEnterprise(this.State);
-    });
-
+    
     // this.appsFlowEventsSvc.ListProjectsEvent.subscribe((withLoading) => {
     //   this.projectService.ListProjects(this.State, withLoading);
     // });
-
-    this.appsFlowEventsSvc.LoadEnterpriseAsCodeEvent.subscribe(async () => {
-      await this.projectService.LoadEnterpriseAsCode(this.State);
-    });
-
-    this.appsFlowEventsSvc.SaveEnterpriseAsCodeEvent.subscribe(async (eac) => {
-      await this.projectService.SaveEnterpriseAsCode(this.State, eac);
-    });
-
-    this.appsFlowEventsSvc.SaveDFSModifierEvent.subscribe(async (req) => {
-      await this.handleSaveDFSModifier(req);
-    });
-
-    this.appsFlowEventsSvc.SaveEnvironmentAsCodeEvent.subscribe(async (req) => {
-      await this.handleSaveEnvironment(req);
-    });
-
-    this.appsFlowEventsSvc.SaveProjectAsCodeEvent.subscribe(async (req) => {
-      await this.handleSaveProject(req.ProjectLookup, req.Project);
-    });
-
-    this.appsFlowEventsSvc.SetCreatingProjectEvent.subscribe(
-      (creatingProject) => {
-        this.projectService.SetCreatingProject(creatingProject);
-      }
-    );
-
-    this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe(
-      async (projectLookup) => {
-        await this.projectService.SetEditProjectSettings(
-          this.State,
-          projectLookup
-        );
-      }
-    );
   }
 
   //  Helpers

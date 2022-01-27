@@ -43,10 +43,12 @@ import { TwoColumnHeaderComponent } from './elements/two-column-header/two-colum
 import { CardCarouselComponent } from './elements/card-carousel/card-carousel.component';
 import { SecurityToggleComponent } from './controls/security-toggle/security-toggle.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { EaCService } from './services/eac.service';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
 import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
-import { EaCService } from './services/eac.service';
+import { BuildPipelineFormComponent } from './controls/build-pipeline-form/build-pipeline-form.component';
+import { DevopsSourceControlFormComponent } from './controls/devops-source-control-form/devops-source-control-form.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,9 @@ import { EaCService } from './services/eac.service';
     CardCarouselComponent,
     SecurityToggleComponent,
     ProcessorDetailsFormComponent,
-    SourceControlFormComponent
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent
   ],
   imports: [
     FathymSharedModule,
@@ -132,7 +136,9 @@ import { EaCService } from './services/eac.service';
     CardCarouselComponent,
     SecurityToggleComponent,
     ProcessorDetailsFormComponent,
-    SourceControlFormComponent
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -167,7 +173,9 @@ import { EaCService } from './services/eac.service';
     CardCarouselComponent,
     SecurityToggleComponent,
     ProcessorDetailsFormComponent,
-    SourceControlFormComponent
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent
   ],
 })
 export class ApplicationsFlowModule {

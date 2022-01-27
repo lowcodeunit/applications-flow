@@ -522,7 +522,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public Unpack(appLookup: string, app: EaCApplicationAsCode): void {
-    this.appsFlowEventsSvc.UnpackLowCodeUnit({
+    this.eacSvc.UnpackLowCodeUnit({
       ApplicationLookup: appLookup,
       ApplicationName: app.Application?.Name,
       Version: app.LowCodeUnit?.Version || app.LowCodeUnit?.Build,
