@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectService } from 'projects/common/src/lib/services/project.service';
-import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { ActivatedRoute } from '@angular/router';
+import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
 @Component({
@@ -10,16 +9,6 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
   styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
-  protected appRoute: string;
-
-  public ProjectLookup: string;
-
-  public Routes: any;
-
-  public Stats: any[];
-
-  public State: ApplicationsFlowState;
-
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
   }
@@ -35,6 +24,24 @@ export class RoutesComponent implements OnInit {
 
   public get CurrentApplicationRoute(): any {
     return this.appRoute || {};
+  }
+
+  public get CurrentRouteApplicationLookups(): Array<string> {
+    return Object.keys(
+      this.RoutedApplications[this.CurrentApplicationRoute] || {}
+    );
+  }
+
+  protected appRoute: string;
+
+  public ProjectLookup: string;
+
+  public Routes: any;
+
+  public Stats: any[];
+
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
   }
 
   public get NumberOfApps(): any {
@@ -116,17 +123,12 @@ export class RoutesComponent implements OnInit {
     return routeSetResult;
   }
 
-  public get CurrentRouteApplicationLookups(): Array<string> {
-    return Object.keys(
-      this.RoutedApplications[this.CurrentApplicationRoute] || {}
-    );
-  }
+  
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    protected projectService: ProjectService
+    protected eacSvc: EaCService
   ) {
-    this.State = new ApplicationsFlowState();
 
     //  this.routeData = this.router.getCurrentNavigation().extras.state;
 
@@ -188,6 +190,6 @@ export class RoutesComponent implements OnInit {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.EnsureUserEnterprise(this.State);
+    await this.eacSvc.EnsureUserEnterprise();
   }
 }

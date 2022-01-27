@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectService } from 'projects/common/src/lib/services/project.service';
-import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { ActivatedRoute } from '@angular/router';
+import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { MainFeedItemModel } from 'projects/common/src/lib/models/main-feed-item.model';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
@@ -11,28 +10,6 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements OnInit {
-
-  public FeedItems: MainFeedItemModel[];
-
-  public Stats: any[];
-
-  public State: ApplicationsFlowState;
-
-  // protected routeData: any;
-
-  protected projectLookup: string;
-
-  public get Project(): any{
-    return this.State?.EaC?.Projects[this.projectLookup] || {};
-  }
-
-  public get ProjectLookup(): any{
-    return this.projectLookup || {};
-  }
-
-  public get NumberOfRoutes(): number{
-    return this.ApplicationLookups.length;
-  }
 
   public get ApplicationLookups(): string[]{
     return Object.keys(this.Project?.ApplicationLookups || {});
@@ -53,6 +30,29 @@ export class ProjectsComponent implements OnInit {
 
   public get ApplicationRoutes(): Array<string> {
     return Object.keys(this.RoutedApplications || {});
+  }
+
+  public FeedItems: MainFeedItemModel[];
+
+  public Stats: any[];
+
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
+  // protected routeData: any;
+
+  protected projectLookup: string;
+
+  public get Project(): any{
+    return this.State?.EaC?.Projects[this.projectLookup] || {};
+  }
+
+  public get ProjectLookup(): any{
+    return this.projectLookup || {};
+  }
+
+  public get NumberOfRoutes(): number{
+    return this.ApplicationLookups.length;
   }
 
   
@@ -131,9 +131,7 @@ export class ProjectsComponent implements OnInit {
   
   
   constructor( private activatedRoute: ActivatedRoute,
-     protected projectService: ProjectService) {
-
-    this.State = new ApplicationsFlowState();
+     protected eacSvc: EaCService) {
 
     this.activatedRoute.params.subscribe(params => {
       this.projectLookup = params['projectLookup'];
@@ -191,7 +189,7 @@ export class ProjectsComponent implements OnInit {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.EnsureUserEnterprise(this.State);
+    await this.eacSvc.EnsureUserEnterprise(this.State);
 
   }
 

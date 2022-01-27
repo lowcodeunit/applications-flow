@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { LCUServiceSettings } from '@lcu/common';
-import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { PalettePickerService, ThemeBuilderConstants, ThemeBuilderService, ThemePickerModel } from '@lowcodeunit/lcu-theme-builder-common';
-import { ProjectService } from 'projects/common/src/lib/services/project.service';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 declare var Sass: any;
@@ -16,18 +15,20 @@ declare var Sass: any;
 export class AppComponent {
   title = 'social-host';
 
-  public State: ApplicationsFlowState;
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
+
   public ThemeClass: BehaviorSubject<string>;
   public Themes: Array<any>;
 
   constructor(
     protected serviceSettings: LCUServiceSettings,
-    protected projectService: ProjectService,
+    protected eacSvc: EaCService,
     protected http: HttpClient,
     protected themeBuilderService: ThemeBuilderService,
     protected palettePickerService: PalettePickerService
   ) {
-    this.State = new ApplicationsFlowState();
   }
 
   public ngOnInit(): void {
@@ -76,13 +77,12 @@ export class AppComponent {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.EnsureUserEnterprise(this.State);
+    await this.eacSvc.EnsureUserEnterprise();
 
-    await this.projectService.ListEnterprises(this.State);
+    await this.eacSvc.ListEnterprises();
 
     if (this.State.Enterprises?.length > 0) {
-      await this.projectService.GetActiveEnterprise(this.State);
+      await this.eacSvc.GetActiveEnterprise();
     }
-    console.log("STATE = ", this.State);
   }
 }

@@ -13,12 +13,9 @@ import {
 } from '@lcu/common';
 import { ApplicationsFlowState } from './../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
-import { ProjectService } from '../../services/project.service';
 import {
   EaCEnvironmentAsCode,
-  EaCHost,
   EaCProjectAsCode,
-  EnterpriseAsCode,
 } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
 
@@ -56,7 +53,7 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public get CreatingProject(): boolean {
-    return this.projectService.CreatingProject;
+    return this.eacSvc.CreatingProject;
   }
 
   public get EditingProject(): EaCProjectAsCode {
@@ -66,7 +63,7 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public get EditingProjectLookup(): string {
-    return this.projectService.EditingProjectLookup;
+    return this.eacSvc.EditingProjectLookup;
   }
 
   public get ProjectLookups(): Array<string> {
@@ -81,7 +78,6 @@ export class ApplicationsFlowProjectsElementComponent
   constructor(
     protected injector: Injector,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected projectService: ProjectService,
     protected eacSvc: EaCService
   ) {
     super(injector);
@@ -100,7 +96,7 @@ export class ApplicationsFlowProjectsElementComponent
 
   //  API Methods
   public async ActiveEnterpriseChanged(event: MatSelectChange): Promise<void> {
-    await this.projectService.SetActiveEnterprise(this.State, event.value);
+    await this.eacSvc.SetActiveEnterprise(event.value);
   }
 
   public ConfigureDevOpsAction(devOpsActionLookup: string): void {
@@ -110,7 +106,7 @@ export class ApplicationsFlowProjectsElementComponent
       .ConfigureDevOpsAction(devOpsActionLookup)
       .subscribe((response: BaseResponse) => {
         if (response.Status.Code === 0) {
-          this.projectService.LoadEnterpriseAsCode(this.State);
+          this.eacSvc.LoadEnterpriseAsCode();
         } else {
           this.State.Loading = false;
         }
@@ -121,14 +117,14 @@ export class ApplicationsFlowProjectsElementComponent
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.HasValidConnection(this.State);
+    await this.eacSvc.HasValidConnection();
 
-    await this.projectService.EnsureUserEnterprise(this.State);
+    await this.eacSvc.EnsureUserEnterprise();
 
-    await this.projectService.ListEnterprises(this.State);
+    await this.eacSvc.ListEnterprises();
 
     if (this.State.Enterprises?.length > 0) {
-      await this.projectService.GetActiveEnterprise(this.State);
+      await this.eacSvc.GetActiveEnterprise();
     }
   }
 }

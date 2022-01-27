@@ -5,10 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  ApplicationsFlowEventsService,
-  SaveApplicationAsCodeEventRequest,
-} from '../../../../../services/applications-flow-events.service';
+import {EaCService, SaveApplicationAsCodeEventRequest} from '../../../../../services/eac.service';
 import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
@@ -20,7 +17,6 @@ import { Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
 import { SourceControlFormControlsComponent } from '../../forms/source-control/source-control.component';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
-import { EaCService } from '../../../../../services/eac.service';
 
 @Component({
   selector: 'lcu-apps-flow',

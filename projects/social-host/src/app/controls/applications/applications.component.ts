@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';

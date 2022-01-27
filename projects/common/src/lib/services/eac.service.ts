@@ -1,22 +1,49 @@
 
 import { Injectable } from '@angular/core';
-import {
-  ApplicationsFlowEventsService,
-  SaveApplicationAsCodeEventRequest,
-  SaveDFSModifierEventRequest,
-  SaveEnvironmentAsCodeEventRequest,
-  SaveProjectAsCodeEventRequest,
-} from './applications-flow-events.service';
 import { ProjectService } from './project.service';
 import {
   ApplicationsFlowState,
   UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
 import {
+  EaCApplicationAsCode,
+  EaCDataToken,
+  EaCDFSModifier,
+  EaCEnvironmentAsCode,
   EaCHost,
   EaCProjectAsCode,
   EnterpriseAsCode,
 } from '@semanticjs/common';
+
+export class SaveApplicationAsCodeEventRequest {
+  public Application?: EaCApplicationAsCode;
+
+  public ApplicationLookup?: string;
+
+  public ProjectLookup?: string;
+}
+
+export class SaveDFSModifierEventRequest {
+  public Modifier: EaCDFSModifier;
+
+  public ModifierLookup: string;
+
+  public ProjectLookup?: string;
+}
+
+export class SaveEnvironmentAsCodeEventRequest {
+  public EnterpriseDataTokens?: { [lookup: string]: EaCDataToken };
+
+  public Environment?: EaCEnvironmentAsCode;
+
+  public EnvironmentLookup?: string;
+}
+
+export class SaveProjectAsCodeEventRequest {
+  public Project?: EaCProjectAsCode;
+
+  public ProjectLookup?: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -27,15 +54,17 @@ export class EaCService {
 
   //  Constructors
   constructor(
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService,
     protected projectService: ProjectService
   ) {
     this.State = new ApplicationsFlowState();
-
-    this.setServices();
   }
 
   //  API Methods
+
+  public get CreatingProject(): boolean {
+    return this.projectService.CreatingProject;
+  }
+
   public async DeleteApplication(
     appLookup: string,
     appName: string
@@ -71,11 +100,24 @@ export class EaCService {
   // });
   
 
-  public async EnsureUserEnterprise(
-    appLookup: string,
-    appName: string
-  ): Promise<void> {
+  public async EnsureUserEnterprise(): Promise<void> {
     await this.projectService.EnsureUserEnterprise(this.State);
+  }
+
+  public async GetActiveEnterprise(): Promise<void> {
+    await this.projectService.GetActiveEnterprise(this.State);
+  }
+
+  public get EditingProjectLookup(): string {
+    return this.projectService.EditingProjectLookup;
+  }
+
+  public async HasValidConnection(): Promise<void>{
+    await this.projectService.HasValidConnection(this.State);
+  }
+
+  public async ListEnterprises(): Promise<void> {
+    await this.projectService.ListEnterprises(this.State);
   }
 
   public async LoadEnterpriseAsCode(): Promise<void>{
@@ -100,8 +142,12 @@ export class EaCService {
     await this.handleSaveEnvironment(req);
   }
 
-  public async  SaveProjectAsCode(req: SaveProjectAsCodeEventRequest): Promise<void>{
+  public async SaveProjectAsCode(req: SaveProjectAsCodeEventRequest): Promise<void>{
     await this.handleSaveProject(req.ProjectLookup, req.Project);
+  }
+
+  public async SetActiveEnterprise(eventValue: any): Promise<void>{
+    this.projectService.SetActiveEnterprise(this.State, eventValue);
   }
 
   public async SetCreatingProject(creatingProject: boolean): Promise<void>{
@@ -125,12 +171,6 @@ export class EaCService {
     }
   }
 
-  protected setServices(): void {
-    
-    // this.appsFlowEventsSvc.ListProjectsEvent.subscribe((withLoading) => {
-    //   this.projectService.ListProjects(this.State, withLoading);
-    // });
-  }
 
   //  Helpers
   protected async handleSaveApplication(
@@ -230,6 +270,6 @@ export class EaCService {
 
     await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
 
-    this.appsFlowEventsSvc.SetEditProjectSettings(projectLookup);
+    this.SetEditProjectSettings(projectLookup);
   }
 }

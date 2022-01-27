@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'projects/common/src/lib/services/project.service';
-import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { ApplicationsFlowState,  EaCService } from '@lowcodeunit/applications-flow-common';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -10,7 +9,9 @@ import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 export class EnterpriseComponent implements OnInit {
 
 
-  public State: ApplicationsFlowState;
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
 
   public get NumberOfProjects(): number{
     return this.ProjectLookups.length;
@@ -26,10 +27,7 @@ export class EnterpriseComponent implements OnInit {
 
 
 
-  constructor(protected projectService: ProjectService) {
-    this.State = new ApplicationsFlowState();
-    
-   }
+  constructor(protected eacSvc: EaCService) {}
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
@@ -38,7 +36,7 @@ export class EnterpriseComponent implements OnInit {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.EnsureUserEnterprise(this.State);
+    await this.eacSvc.EnsureUserEnterprise(this.State);
 
   }
 

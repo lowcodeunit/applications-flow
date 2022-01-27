@@ -21,7 +21,6 @@ import { RecentActivitiesComponent } from './elements/projects/controls/recent-a
 import { FormCardComponent } from './elements/form-card/form-card.component';
 import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-details/project-details.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
-import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
 import { BaseFormComponent } from './elements/base-form/base-form.component';
 import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
 import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth.component';
@@ -188,7 +187,6 @@ export class ApplicationsFlowModule {
         ProjectService,
         NPMService,
         FormsService,
-        ApplicationsFlowEventsService,
         EaCService
       ],
     };
