@@ -130,7 +130,7 @@ export class EaCService {
     await this.handleSaveApplication(req);
   }
 
-  public async SaveDFSModifierEvent(req: SaveDFSModifierEventRequest): Promise<void> {
+  public async SaveDFSModifier(req: SaveDFSModifierEventRequest): Promise<void> {
     await this.handleSaveDFSModifier(req);
   }
 

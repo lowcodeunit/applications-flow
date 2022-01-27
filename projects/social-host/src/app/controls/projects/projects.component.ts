@@ -189,7 +189,7 @@ export class ProjectsComponent implements OnInit {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.eacSvc.EnsureUserEnterprise(this.State);
+    await this.eacSvc.EnsureUserEnterprise();
 
   }
 

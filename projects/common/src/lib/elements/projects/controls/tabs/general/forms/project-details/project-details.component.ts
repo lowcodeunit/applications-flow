@@ -1,6 +1,5 @@
-import { FormValuesModel } from './../../../../../../../models/form.values.model';
-import { FormModel } from './../../../../../../../models/form.model';
-import { Component, DebugNode, Input, OnInit } from '@angular/core';
+
+import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,7 +8,7 @@ import {
 } from '@angular/forms';
 import { FormsService } from '../../../../../../../services/forms.service';
 import { CardFormConfigModel } from '../../../../../../../models/card-form-config.model';
-import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
+import { EaCService } from '../../../../../../../services/eac.service';
 import { EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
@@ -63,7 +62,7 @@ export class ProjectNameComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {}
 
   public ngOnInit(): void {
@@ -128,7 +127,7 @@ export class ProjectNameComponent implements OnInit {
    * Save form
    */
   protected save(): void {
-    this.appsFlowEventsSvc.SaveProjectAsCode({
+    this.eacSvc.SaveProjectAsCode({
       ProjectLookup: this.ProjectLookup,
       Project: {
         ...this.Project,

@@ -1,7 +1,6 @@
 import { BaseFormConfigModel } from './../../models/base-form-config.model';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { ApplicationsFlowEventsService } from '../../services/applications-flow-events.service';
+import { EaCService } from '../../services/eac.service';
 import { FormsService } from '../../services/forms.service';
 
 @Component({
@@ -30,7 +29,7 @@ export class BaseFormComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eac: EaCService
   ) { }
 
   public ngOnInit(): void {
