@@ -1,4 +1,4 @@
-<lcu-loader [loading]="State?.Loading"></lcu-loader>
+<!-- <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
 <ng-container *ngIf="!State?.Loading">
     
 <lcu-two-column-header>
@@ -99,6 +99,10 @@
         </div>
 
         </lcu-slotted-card> 
+
+        <lcu-devops-source-control-form
+        [environment]="Environment">
+        </lcu-devops-source-control-form>
     </div>
 </lcu-three-column>
 </ng-container>

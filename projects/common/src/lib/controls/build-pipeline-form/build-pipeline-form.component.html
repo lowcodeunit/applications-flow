@@ -1,1 +1,29 @@
-<p>build-pipeline-form works!</p>
+<div class="form-card" fxFlex="35%" fxFlex.lt-md="100%">
+    <mat-card
+      class="spread"
+      *ngIf="EditingSourceControl?.Branches?.length > 0"
+    >
+      <mat-card-header>
+        <mat-card-title> Build Pipeline </mat-card-title>
+
+        <mat-hint>
+          Changes made here are reflected for all sources using this
+          DevOpsAction
+        </mat-hint>
+      </mat-card-header>
+
+      <mat-card-content>
+
+        <ng-container>
+          <lcu-hosting-details-form-group
+            [artifact]="Artifact"
+            [devops-action]="DevOpsActions[DevOpsActionLookup]"
+            [details]="HostingDetails"
+            [formGroup]="DevOpsFormGroup"
+            [organization]="Organization"
+            [disabled]="HostingDetails?.Loading"
+          ></lcu-hosting-details-form-group>
+        </ng-container>
+      </mat-card-content>
+    </mat-card>
+  </div>

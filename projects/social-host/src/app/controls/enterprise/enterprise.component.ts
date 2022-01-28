@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApplicationsFlowState,  EaCService } from '@lowcodeunit/applications-flow-common';
+import { EaCEnvironmentAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -8,11 +9,15 @@ import { ApplicationsFlowState,  EaCService } from '@lowcodeunit/applications-fl
 })
 export class EnterpriseComponent implements OnInit {
 
-
-  public get State(): ApplicationsFlowState {
-    return this.eacSvc.State;
+  public get Enterprise():any{
+    return this.State?.EaC?.Enterprise;
   }
 
+  public get Environment(): EaCEnvironmentAsCode {
+    return this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment];
+  }
+
+  
   public get NumberOfProjects(): number{
     return this.ProjectLookups.length;
   }
@@ -21,10 +26,9 @@ export class EnterpriseComponent implements OnInit {
     return Object.keys(this.State?.EaC?.Projects || {});
   }
 
-  public get Enterprise():any{
-    return this.State?.EaC?.Enterprise;
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
   }
-
 
 
   constructor(protected eacSvc: EaCService) {}
