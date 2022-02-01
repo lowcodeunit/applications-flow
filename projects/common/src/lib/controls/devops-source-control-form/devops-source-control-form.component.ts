@@ -4,9 +4,10 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSelectChange } from '@angular/material/select';
-import { BaseModeledResponse, BaseResponse } from '@lcu/common';
+import { BaseModeledResponse, BaseResponse, Guid } from '@lcu/common';
 import { EaCDevOpsAction, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
+import { EaCService, SaveEnvironmentAsCodeEventRequest } from '../../services/eac.service';
 import { GitHubBranch, GitHubOrganization, GitHubRepository, ProjectHostingDetails } from '../../state/applications-flow.state';
 
 @Component({
@@ -86,6 +87,7 @@ export class DevopsSourceControlFormComponent
     return sc;
   }
 
+  @Input('editing-source-control-lookup')
   public EditingSourceControlLookup: string;
 
   @Input('environment')
@@ -131,9 +133,12 @@ export class DevopsSourceControlFormComponent
   constructor(
     protected formBuilder: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
+    protected eacSvc: EaCService
   ) {
 
     this.BuildPath = null;
+
+    // this.EditingSourceControlLookup = null;
 
     this.HostingDetails = new ProjectHostingDetails();
 
@@ -144,6 +149,8 @@ export class DevopsSourceControlFormComponent
     this.UseBranches = true;
 
     this.UseBuildPath = false;
+
+
   }
 
   //  Life Cycle
@@ -154,7 +161,20 @@ export class DevopsSourceControlFormComponent
   }
 
   public ngOnInit(): void {
-    this.setupFormControls();
+    console.log("org: ", this.EditingSourceControl);
+    console.log("lookup: ", this.EditingSourceControlLookup)
+
+    if (this.EditingSourceControlLookup === null) {
+      this.CreateNewSourceControl();
+    }
+    console.log("org: ", this.EditingSourceControl);
+
+    if (this.EditingSourceControl != null) {
+      this.DevOpsSourceControlFormGroup = this.formBuilder.group({});
+
+      this.setupFormControls();
+    }
+    
 
     this.RefreshOrganizations();
   }
@@ -175,6 +195,10 @@ export class DevopsSourceControlFormComponent
   }
 
   public BuildPathChanged(event: MatSelectChange): void {
+  }
+
+  public CreateNewSourceControl(): void {
+    this.SetEditingSourceControl(Guid.CreateRaw());
   }
 
   public CreateRepository(): void {
@@ -270,7 +294,121 @@ export class DevopsSourceControlFormComponent
       });
   }
 
+  public SetEditingSourceControl(scLookup: string): void {
+    this.EditingSourceControlLookup = scLookup;
+  }
+
+  public SubmitSourceControl(){
+    console.log("source control submitted");
+
+  }
+
+  // public SaveSourceControl(): void {
+  //   const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
+  //     Environment: {
+  //       ...this.Environment,
+  //       Artifacts: this.Environment.Artifacts || {},
+  //       DevOpsActions: this.Environment.DevOpsActions || {},
+  //       Secrets: this.Environment.Secrets || {},
+  //       Sources: this.Environment.Sources || {},
+  //     },
+  //     EnvironmentLookup: this.EnvironmentLookup,
+  //     EnterpriseDataTokens: {},
+  //   };
+
+  //   let artifactLookup: string;
+
+  //   // let artifact: EaCArtifact = {
+  //   //   ...this.Artifact,
+  //   //   ...this.HostingDetailsFormControls
+  //   //     .SelectedHostingOptionInputControlValues,
+  //   // };
+
+  //   if (!this.ArtifactLookup) {
+  //     artifactLookup = Guid.CreateRaw();
+
+  //     artifact = {
+  //       ...artifact,
+  //       Type: this.HostingDetailsFormControls.SelectedHostingOption
+  //         .ArtifactType,
+  //       Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+  //       NPMRegistry: 'https://registry.npmjs.org/',
+  //     };
+  //   } else {
+  //     artifactLookup = this.ArtifactLookup;
+  //   }
+
+  //   saveEnvReq.Environment.Artifacts[artifactLookup] = artifact;
+
+  //   let devOpsActionLookup: string;
+
+  //   if (!this.DevOpsActionLookup) {
+  //     devOpsActionLookup = Guid.CreateRaw();
+
+  //     // const doa: EaCDevOpsAction = {
+  //     //   ...this.DevOpsAction,
+  //     //   ArtifactLookups: [artifactLookup],
+  //     //   Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
+  //     //   Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
+  //     //   Templates:
+  //     //     this.HostingDetailsFormControls.SelectedHostingOption.Templates,
+  //     // };
+
+  //     if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
+  //       const secretLookup = 'npm-access-token';
+
+  //       doa.SecretLookups = [secretLookup];
+
+  //       saveEnvReq.Environment.Secrets[secretLookup] = {
+  //         Name: 'NPM Access Token',
+  //         DataTokenLookup: secretLookup,
+  //         KnownAs: 'NPM_TOKEN',
+  //       };
+
+  //       saveEnvReq.EnterpriseDataTokens[secretLookup] = {
+  //         Name: saveEnvReq.Environment.Secrets[secretLookup].Name,
+  //         Description: saveEnvReq.Environment.Secrets[secretLookup].Name,
+  //         Value: this.NPMTokenFormControl.value,
+  //       };
+  //     }
+
+  //     saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
+  //   } else {
+  //     devOpsActionLookup = this.DevOpsActionLookupFormControl.value;
+
+  //     const doa: EaCDevOpsAction = {
+  //       ...this.DevOpsAction,
+  //       Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
+  //     };
+
+  //     saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
+  //   }
+
+  //   let source: EaCSourceControl = {
+  //     ...this.EditingSourceControl,
+  //     Branches: this.SelectedBranches,
+  //     MainBranch: this.MainBranchFormControl.value,
+  //   };
+
+  //   source = {
+  //     ...source,
+  //     Type: 'GitHub',
+  //     Name: this.EditingSourceControlLookup,
+  //     DevOpsActionTriggerLookups: [devOpsActionLookup],
+  //     Organization:
+  //       this.OrganizationFormControl.value,
+  //     Repository: this.RepositoryFormControl.value,
+  //   };
+
+  //   const scLookup = `github://${source.Organization}/${source.Repository}`;
+
+  //   saveEnvReq.Environment.Sources[scLookup] = source;
+
+  //   this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
+  // }
+
   //  Helpers
+  
   protected addBranchOption(value: string): void {
     value = (value || '').trim();
 
@@ -453,12 +591,15 @@ export class DevopsSourceControlFormComponent
   }
 
   protected setupFormControls(): void {
-    this.destroyFormControls();
+
+    // this.destroyFormControls();
 
     this.DevOpsSourceControlFormGroup.addControl(
       'devOpsActionLookup',
       new FormControl(this.DevOpsActionLookup || '', [])
     );
+
+    
 
     this.DevOpsSourceControlFormGroup.addControl(
       [this.SourceControlRoot, 'organization'].join(''),

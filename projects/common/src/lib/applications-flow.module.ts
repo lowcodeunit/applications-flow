@@ -48,6 +48,8 @@ import { ProcessorDetailsFormComponent } from './controls/processor-details-form
 import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
 import { BuildPipelineFormComponent } from './controls/build-pipeline-form/build-pipeline-form.component';
 import { DevopsSourceControlFormComponent } from './controls/devops-source-control-form/devops-source-control-form.component';
+import { SourceControlDialogComponent } from './dialogs/source-control-dialog/source-control-dialog.component';
+import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 
 @NgModule({
   declarations: [
@@ -87,7 +89,9 @@ import { DevopsSourceControlFormComponent } from './controls/devops-source-contr
     ProcessorDetailsFormComponent,
     SourceControlFormComponent,
     BuildPipelineFormComponent,
-    DevopsSourceControlFormComponent
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent
   ],
   imports: [
     FathymSharedModule,
@@ -137,7 +141,9 @@ import { DevopsSourceControlFormComponent } from './controls/devops-source-contr
     ProcessorDetailsFormComponent,
     SourceControlFormComponent,
     BuildPipelineFormComponent,
-    DevopsSourceControlFormComponent
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -174,7 +180,9 @@ import { DevopsSourceControlFormComponent } from './controls/devops-source-contr
     ProcessorDetailsFormComponent,
     SourceControlFormComponent,
     BuildPipelineFormComponent,
-    DevopsSourceControlFormComponent
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent
   ],
 })
 export class ApplicationsFlowModule {

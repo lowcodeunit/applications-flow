@@ -67,14 +67,14 @@ public get EditingSourceControl(): EaCSourceControl {
 
   public HostingDetails: ProjectHostingDetails;
 
-  @Input('main-branch')
-  public MainBranch: string;
+  // @Input('main-branch')
+  // public MainBranch: string;
 
-  @Input('organization')
-  public Organization: string;
+  // @Input('organization')
+  // public Organization: string;
 
-  @Input('repository')
-  public Repository: string;
+  // @Input('repository')
+  // public Repository: string;
 
   public get SourceControlLookups(): Array<string> {
     return Object.keys(this.SourceControls || {});
@@ -96,28 +96,28 @@ public get EditingSourceControl(): EaCSourceControl {
 //API METHODS
   
 //HELPERS
-protected loadProjectHostingDetails(): void {
-    this.HostingDetails.Loading = true;
+// protected loadProjectHostingDetails(): void {
+//     this.HostingDetails.Loading = true;
 
-    this.appsFlowSvc
-      .LoadProjectHostingDetails(
-        this.Organization,
-        this.Repository,
-        this.MainBranch
-      )
-      .subscribe(
-        (response: BaseModeledResponse<ProjectHostingDetails>) => {
-          this.HostingDetails = response.Model;
+//     this.appsFlowSvc
+//       .LoadProjectHostingDetails(
+//         this.Organization,
+//         this.Repository,
+//         this.MainBranch
+//       )
+//       .subscribe(
+//         (response: BaseModeledResponse<ProjectHostingDetails>) => {
+//           this.HostingDetails = response.Model;
 
-          this.HostingDetails.Loading = false;
+//           this.HostingDetails.Loading = false;
 
-        },
-        (err) => {
-          this.HostingDetails.Loading = false;
-        }
-      );
+//         },
+//         (err) => {
+//           this.HostingDetails.Loading = false;
+//         }
+//       );
   
-}
+// }
  
 
 }

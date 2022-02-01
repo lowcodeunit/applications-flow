@@ -15,13 +15,16 @@
       <mat-card-content>
 
         <ng-container>
+          <!-- [details]="HostingDetails" 
+          [organization]="Organization"
+        [formGroup]="DevOpsFormGroup"-->
+
           <lcu-hosting-details-form-group
             [artifact]="Artifact"
             [devops-action]="DevOpsActions[DevOpsActionLookup]"
-            [details]="HostingDetails"
-            [formGroup]="DevOpsFormGroup"
-            [organization]="Organization"
-            [disabled]="HostingDetails?.Loading"
+            
+            
+            [disabled]="false"
           ></lcu-hosting-details-form-group>
         </ng-container>
       </mat-card-content>

@@ -9,7 +9,7 @@
 		"build:common": "ng build common",
 		"build:demo": "ng build demo --prod",
 		"build:lcu": "ng build lcu --prod --single-bundle && npm run pack",
-		"build:social-host": "ng build social-host --prod",
+		"build:social-host": "ng build social-host",
 		"clean": "rimraf dist",
 		"demo": "npm run build:common && npm run start:demo",
 		"demo:social-host": "npm run build:common && npm run build:social-host && npm run start:social-host",
