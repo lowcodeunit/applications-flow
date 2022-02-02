@@ -37,10 +37,10 @@
     </div>
 
     <div>center
-        <!-- <lcu-build-pipeline-form
+        <lcu-build-pipeline-form
         [devops-action-lookup]="DevOpsActionLookups[0]"
         [environment]="Environment">
-    </lcu-build-pipeline-form> -->
+    </lcu-build-pipeline-form>
     </div>
 
     <div right>
@@ -52,7 +52,7 @@
         [main-slot-description]="NumberOfProjects + ' project(s) configured'"
         secondary-slot-description="Add new quick project"
         action-text="Create Custom Project"
-        action-path="/dashboard/create-project"
+        (main-action-clicked)="RouteToPath('/dashboard/create-project')"
         >
 
         <div class="main-slot-container" 
@@ -108,11 +108,12 @@
         </lcu-slotted-card> 
 
         <lcu-slotted-card
-        title="Devops Source Controls"
+        title="Source Controls"
         icon="build"
         [main-slot-description]="NumberOfSourceControls + ' source control(s) configured'"
         secondary-slot-description="Add new source control"
-        action-text="Create New Source Control">
+        action-text="Create New Source Control"
+        (main-action-clicked)="OpenSourceControlDialog(null)">
 
         <div class="main-slot-container" 
             fxLayout="row" 
@@ -150,16 +151,10 @@
 
         </div>
 
-        <!-- <lcu-devops-source-control-form
-        [environment]="Environment"
-        [editing-source-control-lookup]="EditingSourceControlLookup">
-
-        </lcu-devops-source-control-form> -->
-
         </lcu-slotted-card>
 
         <lcu-slotted-card
-        title="Devops Build Pipeline"
+        title="Build Pipeline"
         icon="plumbing"
         [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
         secondary-slot-description="Add new pipeline"

@@ -5,6 +5,7 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog
 import { DevopsSourceControlFormComponent } from 'projects/common/src/lib/controls/devops-source-control-form/devops-source-control-form.component';
 import { SourceControlDialogComponent } from 'projects/common/src/lib/dialogs/source-control-dialog/source-control-dialog.component';
 import { BuildPipelineDialogComponent } from 'projects/common/src/lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -14,7 +15,7 @@ import { BuildPipelineDialogComponent } from 'projects/common/src/lib/dialogs/bu
 export class EnterpriseComponent implements OnInit {
 
   public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
-    console.log("DEV ACTIONS: ", this.Environment?.DevOpsActions)
+    // console.log("DEV ACTIONS: ", this.Environment?.DevOpsActions)
     return this.Environment?.DevOpsActions || {};
   }
 
@@ -29,11 +30,6 @@ export class EnterpriseComponent implements OnInit {
   public get Environment(): EaCEnvironmentAsCode {
     // console.log("Ent Environment var: ", this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
     return this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment];
-  }
-
-  public get EditingSourceControlLookup(): string {
-    console.log("editingSource lookup: ", this.SourceControlLookups[0]);
-    return  this.SourceControlLookups[0];
   }
 
   
@@ -67,8 +63,11 @@ export class EnterpriseComponent implements OnInit {
   }
 
 
-  constructor(protected eacSvc: EaCService,
-    public dialog: MatDialog) {}
+  constructor(
+    public dialog: MatDialog,
+    protected eacSvc: EaCService,
+    private router: Router
+    ) {}
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
@@ -80,14 +79,14 @@ export class EnterpriseComponent implements OnInit {
       width: '600px',
       data: {
         devopsActionLookup: doaLookup, 
-        environment: this.Environment 
+        environment: this.Environment ,
+        buildPipeline: doaLookup
       }
   
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.animal = result;
       console.log("result:", result)
     });
   }
@@ -100,9 +99,13 @@ export class EnterpriseComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      // this.animal = result;
       console.log("result:", result)
     });
+  }
+
+
+  public RouteToPath(path: string){
+    this.router.navigate([path]);
   }
 
   

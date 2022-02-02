@@ -5,6 +5,7 @@ import { EaCEnvironmentAsCode } from '@semanticjs/common';
 export interface BPDialogData {
   devopsActionLookup: string;
   environment: EaCEnvironmentAsCode;
+  buildPipeline: string;
   // mainBranch: string;
   // organization: string;
   // repository: string;

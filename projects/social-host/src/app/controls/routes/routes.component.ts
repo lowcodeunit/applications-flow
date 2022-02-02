@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
@@ -127,7 +127,8 @@ export class RoutesComponent implements OnInit {
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    protected eacSvc: EaCService
+    protected eacSvc: EaCService,
+    private router: Router
   ) {
 
     //  this.routeData = this.router.getCurrentNavigation().extras.state;
@@ -183,6 +184,11 @@ export class RoutesComponent implements OnInit {
 
   public UpgradeClicked() {
     console.log('Upgarde clicked');
+  }
+
+  public RouteToPath(){
+    let path = '/dashboard/create-project?projectId=' + this.ProjectLookup;
+    this.router.navigate([path]);
   }
 
   //HELPERS

@@ -29,7 +29,8 @@
     </mat-card-content>
 
     <mat-card-actions *ngIf="ActionText" fxLayoutAlign="center">
-      <a mat-button class="slotted-card-action-btn" [href]="ActionPath">{{ ActionText }}</a>
+      <a mat-button *ngIf="ActionPath" class="slotted-card-action-btn" [href]="ActionPath">{{ ActionText }}</a>
+      <a mat-button *ngIf="!ActionPath" class="slotted-card-action-btn" (click)="MainActionClickEvent()">{{ ActionText }}</a>
     </mat-card-actions>
 
   </mat-card>

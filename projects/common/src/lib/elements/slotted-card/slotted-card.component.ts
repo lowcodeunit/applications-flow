@@ -30,7 +30,9 @@ export class SlottedCardComponent implements OnInit {
   public MainActionClicked: EventEmitter<{}>;
 
 
-  constructor() { }
+  constructor() { 
+    this.MainActionClicked = new EventEmitter;
+  }
 
   public ngOnInit(): void {
   }
