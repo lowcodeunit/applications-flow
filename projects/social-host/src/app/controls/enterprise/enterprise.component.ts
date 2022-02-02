@@ -14,6 +14,17 @@ import { Router } from '@angular/router';
 })
 export class EnterpriseComponent implements OnInit {
 
+  public get ActiveEnvironment(): EaCEnvironmentAsCode {
+    return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+  }
+
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
+  }
+
   public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
     // console.log("DEV ACTIONS: ", this.Environment?.DevOpsActions)
     return this.Environment?.DevOpsActions || {};
@@ -80,6 +91,7 @@ export class EnterpriseComponent implements OnInit {
       data: {
         devopsActionLookup: doaLookup, 
         environment: this.Environment ,
+        environmentLookup: this.ActiveEnvironmentLookup,
         buildPipeline: doaLookup
       }
   

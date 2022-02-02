@@ -318,25 +318,25 @@ export class DevopsSourceControlFormComponent
 
   //   let artifactLookup: string;
 
-  //   // let artifact: EaCArtifact = {
-  //   //   ...this.Artifact,
-  //   //   ...this.HostingDetailsFormControls
-  //   //     .SelectedHostingOptionInputControlValues,
-  //   // };
+  //   let artifact: EaCArtifact = {
+  //     ...this.Artifact,
+  //     ...this.HostingDetailsFormControls
+  //       .SelectedHostingOptionInputControlValues,
+  //   };
 
-  //   if (!this.ArtifactLookup) {
-  //     artifactLookup = Guid.CreateRaw();
+  //   // if (!this.ArtifactLookup) {
+  //   //   artifactLookup = Guid.CreateRaw();
 
-  //     artifact = {
-  //       ...artifact,
-  //       Type: this.HostingDetailsFormControls.SelectedHostingOption
-  //         .ArtifactType,
-  //       Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
-  //       NPMRegistry: 'https://registry.npmjs.org/',
-  //     };
-  //   } else {
-  //     artifactLookup = this.ArtifactLookup;
-  //   }
+  //   //   artifact = {
+  //   //     ...artifact,
+  //   //     Type: this.HostingDetailsFormControls.SelectedHostingOption
+  //   //       .ArtifactType,
+  //   //     Name: this.HostingDetailsFormControls.SelectedHostingOption.Name,
+  //   //     NPMRegistry: 'https://registry.npmjs.org/',
+  //   //   };
+  //   // } else {
+  //   //   artifactLookup = this.ArtifactLookup;
+  //   // }
 
   //   saveEnvReq.Environment.Artifacts[artifactLookup] = artifact;
 
