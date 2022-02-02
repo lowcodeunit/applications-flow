@@ -222,16 +222,12 @@ protected loadProjectHostingDetails(): void {
     // this.Repository,
     // this.MainBranch
 
-    // 'powhound4',
+    //     "powhound4",
     //     "RedwoodCrystals",
     //     "master"
 
     this.appsFlowSvc
-      .LoadProjectHostingDetails(
-        'powhound4',
-        "RedwoodCrystals",
-        "master"
-      )
+      .NewLoadProjectHostingDetails()
       .subscribe(
         (response: BaseModeledResponse<ProjectHostingDetails>) => {
           this.HostingDetails = response.Model;

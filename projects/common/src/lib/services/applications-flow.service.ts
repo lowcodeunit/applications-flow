@@ -195,6 +195,20 @@ export class ApplicationsFlowService {
     );
   }
 
+  public NewLoadProjectHostingDetails(): Observable<object> {
+    return this.http.get(
+
+      `${this.apiRoot}/api/lowcodeunit/manage/projects/hosting/details`,
+
+      {
+
+        headers: this.loadHeaders(),
+
+      }
+
+    );
+  }
+
   public SaveEnterpriseAsCode(eac: EnterpriseAsCode): Observable<object> {
     return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/eac`, eac, {
       headers: this.loadHeaders(),
