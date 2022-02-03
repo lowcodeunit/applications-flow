@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
@@ -12,15 +12,24 @@ export class SecurityToggleComponent implements OnInit {
   @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
 
+  @Output('save-form-event')
+  public SaveFormEvent: EventEmitter<{}>;
+
   public get IsPrivateFormControl(): AbstractControl {
     return this.SecurityFormGroup?.controls.isPrivate;
+  }
+
+  public get IsTriggerSignInFormControl(): AbstractControl {
+    return this.SecurityFormGroup?.controls.isTriggerSignIn;
   }
 
   public SecurityFormGroup: FormGroup;
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder) { }
+  constructor(protected formBldr: FormBuilder) { 
+    this.SaveFormEvent = new EventEmitter;
+  }
 
   public ngOnInit(): void {
     this.setupSecurityFormGroup();
@@ -28,7 +37,8 @@ export class SecurityToggleComponent implements OnInit {
 
   public SecuritySubmit() {
     //save the security settings
-    console.log("submitting values: ", this.SecurityFormGroup.value);
+    console.log("submitting security values: ", this.SecurityFormGroup.value);
+    this.SaveFormEvent.emit(this.SecurityFormGroup.value);
   }
 
   protected setupSecurityFormGroup() {

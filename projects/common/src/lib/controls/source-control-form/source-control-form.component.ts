@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCProjectAsCode, EaCSourceControl } from '@semanticjs/common';
@@ -17,8 +17,8 @@ export class SourceControlFormComponent implements OnInit {
   @Input('environment')
   public Environment: EaCEnvironmentAsCode;
 
-  @ViewChild(SourceControlFormControlsComponent)
-  public SourceControlFormControls: SourceControlFormControlsComponent;
+  @Output('save-form-event')
+  public SaveFormEvent: EventEmitter<{}>
 
   public get HasBuildFormControl(): AbstractControl {
     return this.SourceControlFormGroup?.controls.hasBuild;
@@ -40,7 +40,9 @@ export class SourceControlFormComponent implements OnInit {
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder) { }
+  constructor(protected formBldr: FormBuilder) {
+    this.SaveFormEvent = new EventEmitter;
+   }
 
   public ngOnInit(): void {
     this.setupSourceControlForm();
@@ -53,6 +55,8 @@ export class SourceControlFormComponent implements OnInit {
 
   public SubmitSourceControl() {
     console.log("submitting source control: ", this.SourceControlFormGroup.value);
+    this.SaveFormEvent.emit(this.SourceControlFormGroup.value);
+
   }
 
 

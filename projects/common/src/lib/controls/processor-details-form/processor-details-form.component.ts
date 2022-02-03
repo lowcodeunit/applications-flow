@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Guid } from '@lcu/common';
@@ -21,8 +21,18 @@ export class ProcessorDetailsFormComponent implements OnInit {
   @Input('editing-application-lookup')
   public EditingApplicationLookup: string;
 
+  @Input('project-lookup')
+  public ProjectLookup: string;
+
+  @Output('save-form-event')
+  public SaveFormEvent: EventEmitter<{}>
+
   @ViewChild(SourceControlFormControlsComponent)
   public SourceControlFormControls: SourceControlFormControlsComponent;
+
+  public get APIRootFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.apiRoot;
+  }
 
   public get BuildFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.build;
@@ -30,6 +40,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
   
   public get ClientIDFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.clientId;
+  }
+
+  public get ClientSecretFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.clientSecret;
   }
 
   public get DefaultFileFormControl(): AbstractControl {
@@ -45,10 +59,22 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public get InboundPathFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.inboundPath;
+  }  
+
+  public get MethodsFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.methods;
+  }
+ 
+  public get PackageFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.package;
   }
 
-  public get TokenLookupFormControl(): AbstractControl {
-    return this.ProcessorDetailsFormGroup?.controls.tokenLookup;
+  public get PermanentFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.permanent;
+  }
+
+  public get PreserveMethodFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.preserveMethod;
   }
 
   public get RedirectFormControl(): AbstractControl {
@@ -67,13 +93,19 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.spaRoot;
   }
 
-  public get PermanentFormControl(): AbstractControl {
-    return this.ProcessorDetailsFormGroup?.controls.permanent;
+  public get TokenLookupFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.tokenLookup;
   }
 
-  public get PreserveMethodFormControl(): AbstractControl {
-    return this.ProcessorDetailsFormGroup?.controls.preserveMethod;
+
+  public get VersionFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.version;
   }
+
+  public get ZipFileFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.zipFile;
+  }
+
 
   public IsPermanent: boolean;
 
@@ -91,6 +123,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
     protected eacSvc: EaCService) {
 
     this.redirectTooltip = '';
+
+    this.SaveFormEvent = new EventEmitter;
 
    }
 
@@ -131,7 +165,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
   }
 
   public SubmitProcessorDetails(){
-    console.log("submitting proc details: ", this.ProcessorDetailsFormGroup.value)
+    console.log("submitting proc details: ", this.ProcessorDetailsFormGroup.value);
+    this.SaveFormEvent.emit(this.ProcessorDetailsFormGroup.value);
   }
 
   public ProcessorTypeChanged(event: MatSelectChange): void {
@@ -453,140 +488,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.setupLcuTypeSubForm();
   }
 
-  // protected SaveApplication(): void {
-  //   const app: EaCApplicationAsCode = {
-  //     // Application: {
-  //     //   Name: this.NameFormControl.value,
-  //     //   Description: this.DescriptionFormControl.value,
-  //     //   PriorityShift: this.EditingApplication?.Application?.PriorityShift || 0,
-  //     // },
-  //     AccessRightLookups: [],
-  //     DataTokens: {},
-  //     LicenseConfigurationLookups: [],
-  //     LookupConfig: {
-  //       IsPrivate: this.IsPrivateFormControl.value,
-  //       IsTriggerSignIn: this.IsPrivateFormControl.value
-  //         ? this.IsTriggerSignInFormControl.value
-  //         : false,
-  //       PathRegex: `${this.RouteFormControl.value}.*`,
-  //       QueryRegex: this.EditingApplication?.LookupConfig?.QueryRegex || '',
-  //       HeaderRegex: this.EditingApplication?.LookupConfig?.HeaderRegex || '',
-  //       AllowedMethods: this.MethodsFormControl?.value
-  //         ?.split(' ')
-  //         .filter((v: string) => !!v),
-  //     },
-  //     Processor: {
-  //       Type: this.ProcessorType,
-  //     },
-  //   };
-
-  //   switch (app.Processor.Type) {
-  //     case 'DFS':
-  //       app.Processor.BaseHref = `${this.RouteFormControl.value}/`.replace(
-  //         '//',
-  //         '/'
-  //       );
-
-  //       app.Processor.DefaultFile =
-  //         this.DefaultFileFormControl.value || 'index.html';
-
-  //       app.LowCodeUnit = {
-  //         Type: this.LCUType,
-  //       };
-
-  //       switch (app.LowCodeUnit.Type) {
-  //         case 'GitHub':
-  //           app.LowCodeUnit.Organization =
-  //             this.SourceControlFormControls.OrganizationFormControl.value;
-
-  //           app.LowCodeUnit.Repository =
-  //             this.SourceControlFormControls.RepositoryFormControl.value;
-
-  //           app.LowCodeUnit.Build = this.BuildFormControl.value;
-
-  //           app.LowCodeUnit.Path =
-  //             this.SourceControlFormControls.BuildPathFormControl.value;
-  //           break;
-
-  //         case 'NPM':
-  //           app.LowCodeUnit.Package = this.PackageFormControl.value;
-
-  //           app.LowCodeUnit.Version = this.VersionFormControl.value;
-  //           break;
-
-  //         case 'Zip':
-  //           app.LowCodeUnit.ZipFile = this.ZipFileFormControl.value;
-  //           break;
-  //       }
-  //       break;
-
-  //     case 'OAuth':
-  //       app.Processor.Scopes = this.ScopesFormControl.value.split(' ');
-
-  //       app.Processor.TokenLookup = this.TokenLookupFormControl.value;
-
-  //       app.LowCodeUnit = {
-  //         Type: this.LCUType,
-  //       };
-
-  //       switch (app.LowCodeUnit.Type) {
-  //         case 'GitHubOAuth':
-  //           app.LowCodeUnit.ClientID = this.ClientIDFormControl.value;
-
-  //           app.LowCodeUnit.ClientSecret = this.ClientSecretFormControl.value;
-  //           break;
-  //       }
-  //       break;
-
-  //     case 'Proxy':
-  //       app.Processor.InboundPath = this.InboundPathFormControl.value;
-
-  //       app.LowCodeUnit = {
-  //         Type: this.LCUType,
-  //       };
-
-  //       switch (app.LowCodeUnit.Type) {
-  //         case 'API':
-  //           app.LowCodeUnit.APIRoot = this.APIRootFormControl.value;
-
-  //           app.LowCodeUnit.Security = this.SecurityFormControl.value;
-
-  //           break;
-
-  //         case 'SPA':
-  //           app.LowCodeUnit.SPARoot = this.SPARootFormControl.value;
-  //           break;
-  //       }
-  //       break;
-
-  //     case 'Redirect':
-  //       app.Processor.Permanent = !!this.PermanentFormControl.value;
-
-  //       app.Processor.PreserveMethod = !!this.PreserveMethodFormControl.value;
-
-  //       app.Processor.Redirect = this.RedirectFormControl.value;
-  //       break;
-  //   }
-
-  //   if (!app.LookupConfig.PathRegex.startsWith('/')) {
-  //     app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
-  //   }
-
-  //   const saveAppReq: SaveApplicationAsCodeEventRequest = {
-  //     ProjectLookup: this.ProjectLookup,
-  //     Application: app,
-  //     ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
-  //   };
-
-  //   if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
-  //     if (app) {
-  //       app.SourceControlLookup = this.SourceControlLookupFormControl.value;
-  //     }
-  //   } else if (app) {
-  //     app.SourceControlLookup = null;
-  //   }
-
-  //   this.eacSvc.SaveApplicationAsCode(saveAppReq);
-  // }
+  
 
 }

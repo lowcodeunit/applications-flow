@@ -102,7 +102,7 @@ export class EnterpriseComponent implements OnInit {
 
   public OpenSourceControlDialog(scLookup: string) {
     const dialogRef = this.dialog.open(SourceControlDialogComponent, {
-      width: '600px',
+      width: '550px',
       data: { environment: this.Environment, scLookup: scLookup },
     });
 
