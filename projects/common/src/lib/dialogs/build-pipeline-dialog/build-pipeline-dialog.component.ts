@@ -7,9 +7,6 @@ export interface BPDialogData {
   environment: EaCEnvironmentAsCode;
   environmentLookup: string;
   buildPipeline: string;
-  // mainBranch: string;
-  // organization: string;
-  // repository: string;
 }
 
 @Component({
@@ -19,12 +16,10 @@ export interface BPDialogData {
 })
 export class BuildPipelineDialogComponent implements OnInit {
 
-
-
 constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
   @Inject(MAT_DIALOG_DATA) public data: BPDialogData) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
 }

@@ -14,27 +14,27 @@ import { ProjectHostingDetails, ProjectHostingOption } from '../../state/applica
 export class BuildPipelineFormComponent implements OnInit {
 
 
-//PROPERTIES
+  //PROPERTIES
 
-@Input('build-pipeline')
-public BuildPipeline: string;
+  @Input('build-pipeline')
+  public BuildPipeline: string;
 
-// @Input('details')
-// public Details: ProjectHostingDetails;
+  // @Input('details')
+  // public Details: ProjectHostingDetails;
 
-@Input('devops-action-lookup')
-public DevOpsActionLookup: string;
+  @Input('devops-action-lookup')
+  public DevOpsActionLookup: string;
 
-@Input('disabled')
-public Disabled: boolean;
+  @Input('disabled')
+  public Disabled: boolean;
 
-@Input('environment')
-public Environment: EaCEnvironmentAsCode;
+  @Input('environment')
+  public Environment: EaCEnvironmentAsCode;
 
-@Input('environment-lookup')
-public EnvironmentLookup: string;
+  @Input('environment-lookup')
+  public EnvironmentLookup: string;
 
- // @Input('main-branch')
+  // @Input('main-branch')
   // public MainBranch: string;
 
   // @Input('organization')
@@ -44,45 +44,43 @@ public EnvironmentLookup: string;
   // public Repository: string;
 
 
-public get Artifact(): EaCArtifact {
-  console.log("ARTIFACT: ", this.Environment?.Artifacts[this.ArtifactLookup]);
-  return this.Environment?.Artifacts && this.ArtifactLookup
-    ? this.Environment?.Artifacts[this.ArtifactLookup] || {}
-    : {};
-}
+  public get Artifact(): EaCArtifact {
+    console.log("ARTIFACT: ", this.Environment?.Artifacts[this.ArtifactLookup]);
+    return this.Environment?.Artifacts && this.ArtifactLookup
+      ? this.Environment?.Artifacts[this.ArtifactLookup] || {}
+      : {};
+  }
 
-public get ArtifactLookup(): string {
-  const artLookup = this.DevOpsAction?.ArtifactLookups
-    ? this.DevOpsAction?.ArtifactLookups[0]
-    : null;
+  public get ArtifactLookup(): string {
+    const artLookup = this.DevOpsAction?.ArtifactLookups
+      ? this.DevOpsAction?.ArtifactLookups[0]
+      : null;
 
-  return artLookup;
-}
+    return artLookup;
+  }
 
   public get BuildPipelineFormControl(): AbstractControl {
-    
+
     return this.BuildPipelineFormGroup?.controls.buildPipeline;
   }
 
   public BuildPipelineFormGroup: FormGroup;
 
-public get DevOpsAction(): EaCDevOpsAction {
-  return this.Environment.DevOpsActions && this.DevOpsActionLookup
-    ? this.Environment.DevOpsActions[this.DevOpsActionLookup] || {}
-    : {};
-}
+  public get DevOpsAction(): EaCDevOpsAction {
+    return this.Environment.DevOpsActions && this.DevOpsActionLookup
+      ? this.Environment.DevOpsActions[this.DevOpsActionLookup] || {}
+      : {};
+  }
 
+  public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
+    return this.Environment.DevOpsActions || {};
+  }
 
+  public get DevOpsActionNameFormControl(): AbstractControl {
+    return this.BuildPipelineFormGroup.get('devOpsActionName');
+  }
 
-public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
-  return this.Environment.DevOpsActions || {};
-}
-
-public get DevOpsActionNameFormControl(): AbstractControl {
-  return this.BuildPipelineFormGroup.get('devOpsActionName');
-}
-
-public get EditingSourceControl(): EaCSourceControl {
+  public get EditingSourceControl(): EaCSourceControl {
     let sc = this.Environment?.Sources
       ? this.Environment?.Sources[this.EditingSourceControlLookup]
       : null;
@@ -94,8 +92,6 @@ public get EditingSourceControl(): EaCSourceControl {
     return sc;
   }
 
- 
-
   public EditingSourceControlLookup: string;
 
   public HostingDetails: ProjectHostingDetails;
@@ -104,8 +100,7 @@ public get EditingSourceControl(): EaCSourceControl {
     return this.BuildPipelineFormGroup.get('npmToken');
   }
 
- 
-// (ho) => ho.Lookup === this.BuildPipeline
+  // (ho) => ho.Lookup === this.BuildPipeline
   public get SelectedHostingOption(): ProjectHostingOption {
     return this.HostingDetails?.HostingOptions?.find(
       (ho) => ho.Lookup === this.BuildPipeline
@@ -138,18 +133,11 @@ public get EditingSourceControl(): EaCSourceControl {
     protected formBuilder: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService) {
     this.HostingDetails = new ProjectHostingDetails();
-   }
+  }
 
   public ngOnInit(): void {
 
     this.BuildPipelineFormGroup = this.formBuilder.group({});
-
-    
-
-    console.log("ARTIFACT: ", this.Artifact);
-    // this.BuildPipeline ||
-    // github-artifacts-release is  this.HostingDetails?.HostingOptions[0]?.Lookup
-    
 
     if (this.BuildPipelineFormGroup != null) {
       this.BuildPipelineFormGroup.removeControl('hostingDetails');
@@ -164,195 +152,192 @@ public get EditingSourceControl(): EaCSourceControl {
 
     this.loadProjectHostingDetails();
 
-    // this.setupControlsForForm();
-    
   }
 
-//API METHODS
+  //API METHODS
 
-public BuildPipelineChanged(): void {
-  console.log("build pipeline value: ",this.BuildPipelineFormControl?.value)
-  this.BuildPipeline = this.BuildPipelineFormControl?.value;
+  public BuildPipelineChanged(): void {
+    console.log("build pipeline value: ", this.BuildPipelineFormControl?.value)
+    this.BuildPipeline = this.BuildPipelineFormControl?.value;
 
-  this.setupControlsForForm();
-}
-
-public SubmitBuildPipeline(){
-
-}
-
-public SaveEnvironment(): void {
-  const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
-    Environment: {
-      ...this.Environment,
-      Artifacts: this.Environment.Artifacts || {},
-      DevOpsActions: this.Environment.DevOpsActions || {},
-      Secrets: this.Environment.Secrets || {},
-      Sources: this.Environment.Sources || {},
-    },
-    EnvironmentLookup: this.EnvironmentLookup,
-    EnterpriseDataTokens: {},
-  };
-
-  let artifactLookup: string;
-
-  let artifact: EaCArtifact = {
-    ...this.Artifact,
-    ...this.SelectedHostingOptionInputControlValues,
-  };
-
-  if (!this.ArtifactLookup) {
-    artifactLookup = Guid.CreateRaw();
-
-    artifact = {
-      ...artifact,
-      Type: this.SelectedHostingOption
-        .ArtifactType,
-      Name: this.SelectedHostingOption.Name,
-      NPMRegistry: 'https://registry.npmjs.org/',
-    };
-  } else {
-    artifactLookup = this.ArtifactLookup;
+    this.setupControlsForForm();
   }
 
-  saveEnvReq.Environment.Artifacts[artifactLookup] = artifact;
+  public SubmitBuildPipeline() {
+    console.log("submitting build pipeline: ", this.BuildPipelineFormGroup.value);
+  }
 
-  let devOpsActionLookup: string;
-
-  if (!this.DevOpsActionLookup) {
-    devOpsActionLookup = Guid.CreateRaw();
-
-    const doa: EaCDevOpsAction = {
-      ...this.DevOpsAction,
-      ArtifactLookups: [artifactLookup],
-      Name: this.DevOpsActionNameFormControl.value,
-      Path: this.SelectedHostingOption.Path,
-      Templates:
-        this.SelectedHostingOption.Templates,
+  public SaveEnvironment(): void {
+    const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
+      Environment: {
+        ...this.Environment,
+        Artifacts: this.Environment.Artifacts || {},
+        DevOpsActions: this.Environment.DevOpsActions || {},
+        Secrets: this.Environment.Secrets || {},
+        Sources: this.Environment.Sources || {},
+      },
+      EnvironmentLookup: this.EnvironmentLookup,
+      EnterpriseDataTokens: {},
     };
 
-    if (this.NPMTokenFormControl?.value) {
-      const secretLookup = 'npm-access-token';
+    let artifactLookup: string;
 
-      doa.SecretLookups = [secretLookup];
+    let artifact: EaCArtifact = {
+      ...this.Artifact,
+      ...this.SelectedHostingOptionInputControlValues,
+    };
 
-      saveEnvReq.Environment.Secrets[secretLookup] = {
-        Name: 'NPM Access Token',
-        DataTokenLookup: secretLookup,
-        KnownAs: 'NPM_TOKEN',
+    if (!this.ArtifactLookup) {
+      artifactLookup = Guid.CreateRaw();
+
+      artifact = {
+        ...artifact,
+        Type: this.SelectedHostingOption
+          .ArtifactType,
+        Name: this.SelectedHostingOption.Name,
+        NPMRegistry: 'https://registry.npmjs.org/',
       };
-
-      saveEnvReq.EnterpriseDataTokens[secretLookup] = {
-        Name: saveEnvReq.Environment.Secrets[secretLookup].Name,
-        Description: saveEnvReq.Environment.Secrets[secretLookup].Name,
-        Value: this.NPMTokenFormControl.value,
-      };
+    } else {
+      artifactLookup = this.ArtifactLookup;
     }
 
-    saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
-  } else {
-    devOpsActionLookup = this.DevOpsActionLookup;
+    saveEnvReq.Environment.Artifacts[artifactLookup] = artifact;
 
-    const doa: EaCDevOpsAction = {
-      ...this.DevOpsAction,
-      Name: this.DevOpsActionNameFormControl.value,
-    };
+    let devOpsActionLookup: string;
 
-    saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
-  }
+    if (!this.DevOpsActionLookup) {
+      devOpsActionLookup = Guid.CreateRaw();
 
-  // let source: EaCSourceControl = {
-  //   ...this.EditingSourceControl,
-  //   Branches: this.SourceControlFormControls.SelectedBranches,
-  //   MainBranch: this.SourceControlFormControls.MainBranchFormControl.value,
-  // };
+      const doa: EaCDevOpsAction = {
+        ...this.DevOpsAction,
+        ArtifactLookups: [artifactLookup],
+        Name: this.DevOpsActionNameFormControl.value,
+        Path: this.SelectedHostingOption.Path,
+        Templates:
+          this.SelectedHostingOption.Templates,
+      };
 
-  // source = {
-  //   ...source,
-  //   Type: 'GitHub',
-  //   Name: this.EditingSourceControlLookup,
-  //   DevOpsActionTriggerLookups: [devOpsActionLookup],
-  //   Organization:
-  //     this.SourceControlFormControls.OrganizationFormControl.value,
-  //   Repository: this.SourceControlFormControls.RepositoryFormControl.value,
-  // };
+      if (this.NPMTokenFormControl?.value) {
+        const secretLookup = 'npm-access-token';
 
-  // const scLookup = `github://${source.Organization}/${source.Repository}`;
+        doa.SecretLookups = [secretLookup];
 
-  // saveEnvReq.Environment.Sources[scLookup] = source;
+        saveEnvReq.Environment.Secrets[secretLookup] = {
+          Name: 'NPM Access Token',
+          DataTokenLookup: secretLookup,
+          KnownAs: 'NPM_TOKEN',
+        };
 
-  this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
-}
-  
-//  Helpers
-protected setupControlsForForm(): void {
-  for (const ctrlName in this.BuildPipelineFormGroup.controls) {
-//devOpsAction doesn't exist
-//removes hosting details
-    if (ctrlName !== 'buildPipeline' && ctrlName !== 'devOpsAction') {
-      console.log("removing control: ", ctrlName)
-      this.BuildPipelineFormGroup.removeControl(ctrlName);
+        saveEnvReq.EnterpriseDataTokens[secretLookup] = {
+          Name: saveEnvReq.Environment.Secrets[secretLookup].Name,
+          Description: saveEnvReq.Environment.Secrets[secretLookup].Name,
+          Value: this.NPMTokenFormControl.value,
+        };
+      }
+
+      saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
+    } else {
+      devOpsActionLookup = this.DevOpsActionLookup;
+
+      const doa: EaCDevOpsAction = {
+        ...this.DevOpsAction,
+        Name: this.DevOpsActionNameFormControl.value,
+      };
+
+      saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     }
+
+    // let source: EaCSourceControl = {
+    //   ...this.EditingSourceControl,
+    //   Branches: this.SourceControlFormControls.SelectedBranches,
+    //   MainBranch: this.SourceControlFormControls.MainBranchFormControl.value,
+    // };
+
+    // source = {
+    //   ...source,
+    //   Type: 'GitHub',
+    //   Name: this.EditingSourceControlLookup,
+    //   DevOpsActionTriggerLookups: [devOpsActionLookup],
+    //   Organization:
+    //     this.SourceControlFormControls.OrganizationFormControl.value,
+    //   Repository: this.SourceControlFormControls.RepositoryFormControl.value,
+    // };
+
+    // const scLookup = `github://${source.Organization}/${source.Repository}`;
+
+    // saveEnvReq.Environment.Sources[scLookup] = source;
+
+    this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
   }
 
-  this.BuildPipelineFormGroup.addControl(
-    'devOpsActionName',
-    this.formBuilder.control(
-      this.DevOpsAction?.Name || this.SelectedHostingOption?.Name || '',
-      [Validators.required]
-    )
-  );
-
-  this.SelectedHostingOption?.Inputs?.forEach((input) => {
-    const validators = input.Required ? [Validators.required] : [];
+  //  Helpers
+  protected setupControlsForForm(): void {
+    for (const ctrlName in this.BuildPipelineFormGroup.controls) {
+      //devOpsAction doesn't exist
+      //removes hosting details
+      if (ctrlName !== 'buildPipeline' && ctrlName !== 'devOpsAction') {
+        console.log("removing control: ", ctrlName)
+        this.BuildPipelineFormGroup.removeControl(ctrlName);
+      }
+    }
 
     this.BuildPipelineFormGroup.addControl(
-      input.Lookup,
+      'devOpsActionName',
       this.formBuilder.control(
-        this.Artifact[input.Lookup] || input.DefaultValue || '',
-        validators
+        this.DevOpsAction?.Name || this.SelectedHostingOption?.Name || '',
+        [Validators.required]
       )
     );
 
-    // if (this.Disabled) {
-    //   this.FormGroup.controls[input.Lookup].disable();
-    // }
-  });
+    this.SelectedHostingOption?.Inputs?.forEach((input) => {
+      const validators = input.Required ? [Validators.required] : [];
 
-  if (this.BuildPipelineFormControl?.value === 'npm-release') {
-
-    if (!this.BuildPipelineFormGroup.controls.npmToken) {
       this.BuildPipelineFormGroup.addControl(
-        'npmToken',
+        input.Lookup,
         this.formBuilder.control(
-          '',
-          this.Disabled ? [] : [Validators.required]
+          this.Artifact[input.Lookup] || input.DefaultValue || '',
+          validators
         )
       );
 
-      if (this.Disabled) {
-        this.BuildPipelineFormGroup.controls.npmToken.disable();
+      // if (this.Disabled) {
+      //   this.FormGroup.controls[input.Lookup].disable();
+      // }
+    });
+
+    if (this.BuildPipelineFormControl?.value === 'npm-release') {
+
+      if (!this.BuildPipelineFormGroup.controls.npmToken) {
+        this.BuildPipelineFormGroup.addControl(
+          'npmToken',
+          this.formBuilder.control(
+            '',
+            this.Disabled ? [] : [Validators.required]
+          )
+        );
+
+        if (this.Disabled) {
+          this.BuildPipelineFormGroup.controls.npmToken.disable();
+        }
+      }
+    } else if (
+      this.BuildPipelineFormControl?.value === 'github-artifacts-release'
+    ) {
+      if (this.BuildPipelineFormGroup.controls.npmToken) {
+        this.BuildPipelineFormGroup.removeControl('npmToken');
       }
     }
-  } else if (
-    this.BuildPipelineFormControl?.value === 'github-artifacts-release'
-  ) {
-    if (this.BuildPipelineFormGroup.controls.npmToken) {
-      this.BuildPipelineFormGroup.removeControl('npmToken');
-    }
   }
-}
 
-
-protected loadProjectHostingDetails(): void {
+  protected loadProjectHostingDetails(): void {
     this.HostingDetails.Loading = true;
     // this.Organization,
     // this.Repository,
     // this.MainBranch
 
-        // "powhound4",
-        // "RedwoodCrystals",
-        // "master"
+    // "powhound4",
+    // "RedwoodCrystals",
+    // "master"
 
     this.appsFlowSvc
       .NewLoadProjectHostingDetails()
@@ -363,7 +348,7 @@ protected loadProjectHostingDetails(): void {
           this.HostingDetails.Loading = false;
 
           this.BuildPipeline =
-              this.HostingDetails?.HostingOptions
+            this.HostingDetails?.HostingOptions
               ? this.HostingDetails?.HostingOptions[0]?.Lookup
               : '';
 
@@ -373,16 +358,14 @@ protected loadProjectHostingDetails(): void {
 
         },
         (err) => {
-          
-          console.log("hosting details LOADING EERR: ", this.HostingDetails);
+
           console.log("ERR: ", err);
           this.HostingDetails.Loading = false;
 
         }
       );
-      console.log("HOSTING DETAILS: ", this.HostingDetails);
-  
-}
- 
+    console.log("HOSTING DETAILS: ", this.HostingDetails);
+
+  }
 
 }

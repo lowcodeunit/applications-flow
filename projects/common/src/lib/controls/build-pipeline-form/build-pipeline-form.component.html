@@ -104,8 +104,17 @@
         </ng-container>
       </mat-card-content>
       <mat-card-actions fxLayoutAlign="center center">
-        <!-- [disabled]="!SecurityFormGroup.valid || !SecurityFormGroup.dirty" -->
-        <button mat-raised-button type="submit">Save</button>
-      </mat-card-actions>
+
+        <button 
+          mat-raised-button 
+          type="submit" 
+          fxFlex="100%" 
+          color="primary" 
+          [disabled]="!BuildPipelineFormGroup.valid || !BuildPipelineFormGroup.dirty">
+          <mat-icon>save</mat-icon>
+          Save Build Pipeline
+        </button>
+        
+    </mat-card-actions>
     </mat-card>
 </form>

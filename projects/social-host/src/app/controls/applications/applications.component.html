@@ -7,7 +7,7 @@
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
-
+<!-- Commented out until implemented -->
         <!-- <lcu-card-carousel
         [stats]="Stats">
         </lcu-card-carousel> -->
@@ -27,43 +27,20 @@
               </button>
         </lcu-project-info-card>
 
-        <lcu-analytics-card
+        <!-- Commented out until implemented -->
+        <!-- <lcu-analytics-card
             title="Application Stats"
             subtext="Text for testing purposes">
-        </lcu-analytics-card>
+        </lcu-analytics-card> -->
+
     </div>
     <div>
 
-
-        <lcu-feed-card-sm
-        title="Processor Details"
-        >
-
-        
-
-        <div more-details *ngIf="Application?.Processor">
-            <div>Cache Control: {{Application.Processor.CacheControl}}</div>
-            <div>ModifierLookups: {{Application.Processor.ModifierLookups}}</div>
-            <div>Priority: {{Application.Processor.Priority}}</div>
-            <div>Type: {{Application.Processor.Type}}</div>
-            <div>Base Href: {{Application.Processor.BaseHref}}</div>
-            <div>Default File: {{Application.Processor.DefaultFile}}</div>
-            <div>ID: {{Application.Processor.ID}}</div>
-            <div>Label: {{Application.Processor.Label}}</div>
-            <div>Registry: {{Application.Processor.Registry}}</div>
-            <div>Tenant Lookup: {{Application.Processor.TenantLookup}}</div>
-        </div>
-        
-        </lcu-feed-card-sm>
-
-        <!-- <lcu-feed-card-sm> -->
             <lcu-processor-details-form
                 more-details
-                [editing-application]="EditingApplication">
+                [editing-application]="EditingApplication"
+                [editing-application-lookup]="EditingApplicationLookup">
             </lcu-processor-details-form>
-        <!-- </lcu-feed-card-sm> -->
-
-        
 
     </div>
     <div right>

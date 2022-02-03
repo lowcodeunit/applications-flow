@@ -11,22 +11,18 @@ import { SourceControlFormControlsComponent } from '../../elements/projects/cont
 })
 export class SourceControlFormComponent implements OnInit {
 
-  @Input('editing-application') 
+  @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
 
   @Input('environment')
   public Environment: EaCEnvironmentAsCode;
 
-  public SourceControlFormGroup: FormGroup;
-
-  public ProcessorType: string;
+  @ViewChild(SourceControlFormControlsComponent)
+  public SourceControlFormControls: SourceControlFormControlsComponent;
 
   public get HasBuildFormControl(): AbstractControl {
     return this.SourceControlFormGroup?.controls.hasBuild;
   }
-
-  @ViewChild(SourceControlFormControlsComponent)
-  public SourceControlFormControls: SourceControlFormControlsComponent;
 
   public get SourceControlLookupFormControl(): AbstractControl {
     return this.SourceControlFormGroup?.controls.sourceControlLookup;
@@ -37,9 +33,12 @@ export class SourceControlFormComponent implements OnInit {
   }
 
   public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-    console.log("Environment: ", this.Environment);
     return this.Environment.Sources || {};
   }
+
+  public SourceControlFormGroup: FormGroup;
+
+  public ProcessorType: string;
 
   constructor(protected formBldr: FormBuilder) { }
 
@@ -52,8 +51,8 @@ export class SourceControlFormComponent implements OnInit {
     console.log("sourceControlLookupChanged: ", event);
   }
 
-  public SubmitSourceControl(){
-
+  public SubmitSourceControl() {
+    console.log("submitting source control: ", this.SourceControlFormGroup.value);
   }
 
 
@@ -62,7 +61,9 @@ export class SourceControlFormComponent implements OnInit {
   protected setupSourceControlForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
-      this.setupBuildForm();
+    this.SourceControlFormGroup = this.formBldr.group({});
+
+    this.setupBuildForm();
 
   }
 

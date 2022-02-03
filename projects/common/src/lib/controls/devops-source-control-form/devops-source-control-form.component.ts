@@ -15,21 +15,18 @@ import { GitHubBranch, GitHubOrganization, GitHubRepository, ProjectHostingDetai
   templateUrl: './devops-source-control-form.component.html',
   styleUrls: ['./devops-source-control-form.component.scss']
 })
-export class DevopsSourceControlFormComponent 
-  implements AfterViewInit, OnDestroy, OnInit
-{
+export class DevopsSourceControlFormComponent
+  implements AfterViewInit, OnDestroy, OnInit {
   //  Fields
 
-  //  Properties
-  public get BranchesFormControl(): AbstractControl {
-    return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'branches');
-  }
+  @Input('editing-source-control-lookup')
+  public EditingSourceControlLookup: string;
 
+  @Input('environment')
+  public Environment: EaCEnvironmentAsCode;
 
   @ViewChild('branches')
   public BranchesInput: ElementRef<HTMLInputElement>;
-
-  public BranchOptions: GitHubBranch[];
 
   //Optional input not being used setting to 
   // @Input('build-path')
@@ -39,6 +36,27 @@ export class DevopsSourceControlFormComponent
   // @Input('build-path-disabled')
   public BuildPathDisabled: boolean;
 
+  // this input is not being used anywhere
+  // @Input('source-control-root')
+  public SourceControlRoot: string;
+
+  //not being used set to true by default
+  // @Input('use-branches')
+  public UseBranches: boolean;
+
+  //not being used set to false by default
+  // @Input('use-build-path')
+  public UseBuildPath: boolean;
+
+
+  //  Properties
+  public get BranchesFormControl(): AbstractControl {
+    return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'branches');
+  }
+
+  public BranchOptions: GitHubBranch[];
+
+
   public get BuildPathFormControl(): AbstractControl {
     return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'buildPath');
   }
@@ -46,8 +64,6 @@ export class DevopsSourceControlFormComponent
   public BuildPathOptions: string[];
 
   public CreatingRepository: boolean;
-
-
 
   public get DevOpsActionLookups(): Array<string> {
     return Object.keys(this.DevOpsActions || {});
@@ -87,12 +103,6 @@ export class DevopsSourceControlFormComponent
     return sc;
   }
 
-  @Input('editing-source-control-lookup')
-  public EditingSourceControlLookup: string;
-
-  @Input('environment')
-  public Environment: EaCEnvironmentAsCode;
-
   public HostingDetails: ProjectHostingDetails;
 
   public Loading: boolean;
@@ -117,28 +127,14 @@ export class DevopsSourceControlFormComponent
 
   public readonly SeparatorKeysCodes = [ENTER, COMMA] as const;
 
-  // this input is not being used anywhere
-  // @Input('source-control-root')
-  public SourceControlRoot: string;
-
-  //not being used set to true by default
-  // @Input('use-branches')
-  public UseBranches: boolean;
-
-  //not being used set to false by default
-  // @Input('use-build-path')
-  public UseBuildPath: boolean;
-
   //  Constructors
   constructor(
-    protected formBuilder: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected eacSvc: EaCService
+    protected eacSvc: EaCService,
+    protected formBuilder: FormBuilder,
   ) {
 
     this.BuildPath = null;
-
-    // this.EditingSourceControlLookup = null;
 
     this.HostingDetails = new ProjectHostingDetails();
 
@@ -150,37 +146,33 @@ export class DevopsSourceControlFormComponent
 
     this.UseBuildPath = false;
 
-
   }
 
   //  Life Cycle
-  public ngAfterViewInit(): void {}
+  public ngAfterViewInit(): void { }
 
   public ngOnDestroy(): void {
     this.destroyFormControls();
   }
 
   public ngOnInit(): void {
-    console.log("org: ", this.EditingSourceControl);
-    console.log("lookup: ", this.EditingSourceControlLookup)
 
     if (this.EditingSourceControlLookup === null) {
       this.CreateNewSourceControl();
     }
-    console.log("org: ", this.EditingSourceControl);
 
     if (this.EditingSourceControl != null) {
       this.DevOpsSourceControlFormGroup = this.formBuilder.group({});
 
       this.setupFormControls();
     }
-    
 
     this.RefreshOrganizations();
   }
 
   //  API Methods
   public AddBranchOption(event: MatChipInputEvent): void {
+
     this.addBranchOption(event.value);
 
     event.input.value = '';
@@ -195,6 +187,7 @@ export class DevopsSourceControlFormComponent
   }
 
   public BuildPathChanged(event: MatSelectChange): void {
+    //do something??
   }
 
   public CreateNewSourceControl(): void {
@@ -298,8 +291,8 @@ export class DevopsSourceControlFormComponent
     this.EditingSourceControlLookup = scLookup;
   }
 
-  public SubmitSourceControl(){
-    console.log("source control submitted");
+  public SubmitSourceControl() {
+    console.log("source control submitted: ", this.DevOpsSourceControlFormGroup.value);
 
   }
 
@@ -408,7 +401,7 @@ export class DevopsSourceControlFormComponent
   // }
 
   //  Helpers
-  
+
   protected addBranchOption(value: string): void {
     value = (value || '').trim();
 
@@ -599,7 +592,7 @@ export class DevopsSourceControlFormComponent
       new FormControl(this.DevOpsActionLookup || '', [])
     );
 
-    
+
 
     this.DevOpsSourceControlFormGroup.addControl(
       [this.SourceControlRoot, 'organization'].join(''),

@@ -1,7 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { Guid } from '@lcu/common';
+import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
+import { SourceControlFormControlsComponent } from '../../elements/projects/controls/forms/source-control/source-control.component';
+import { EaCService } from '../../services/eac.service';
 
 @Component({
   selector: 'lcu-processor-details-form',
@@ -10,15 +13,20 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class ProcessorDetailsFormComponent implements OnInit {
 
-  public LCUType: string;
+  
 
   @Input('editing-application') 
   public EditingApplication: EaCApplicationAsCode;
 
+  @Input('editing-application-lookup')
+  public EditingApplicationLookup: string;
+
+  @ViewChild(SourceControlFormControlsComponent)
+  public SourceControlFormControls: SourceControlFormControlsComponent;
+
   public get BuildFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.build;
   }
-  
   
   public get ClientIDFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.clientId;
@@ -26,6 +34,13 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public get DefaultFileFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.defaultFile;
+  }
+
+  public get DefaultSourceControl(): EaCSourceControl {
+    return {
+      Organization: this.EditingApplication?.LowCodeUnit?.Organization,
+      Repository: this.EditingApplication?.LowCodeUnit?.Repository,
+    };
   }
 
   public get InboundPathFormControl(): AbstractControl {
@@ -59,9 +74,12 @@ export class ProcessorDetailsFormComponent implements OnInit {
   public get PreserveMethodFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.preserveMethod;
   }
+
   public IsPermanent: boolean;
 
   public IsPreserve: boolean;
+
+  public LCUType: string;
   
   public redirectTooltip: string;
 
@@ -69,14 +87,26 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder) {
-    // this.EditingApplicationLookup = null;
+  constructor(protected formBldr: FormBuilder, 
+    protected eacSvc: EaCService) {
+
     this.redirectTooltip = '';
+
    }
 
   public ngOnInit(): void {
 
-    this.setupProcessorDetailsForm();
+    if(!this.EditingApplication){
+      this.CreateNewApplication();
+    }
+    else{
+      this.setupProcessorDetailsForm();
+    }
+
+  }
+
+  public CreateNewApplication(): void {
+    this.SetEditingApplication(Guid.CreateRaw());
   }
 
   public DetermineTooltipText() {
@@ -94,8 +124,14 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
   }
 
-  public SubmitProcessorDetails(){
+  public SetEditingApplication(appLookup: string): void {
+    this.EditingApplicationLookup = appLookup;
 
+    this.setupProcessorDetailsForm();
+  }
+
+  public SubmitProcessorDetails(){
+    console.log("submitting proc details: ", this.ProcessorDetailsFormGroup.value)
   }
 
   public ProcessorTypeChanged(event: MatSelectChange): void {
@@ -190,24 +226,17 @@ export class ProcessorDetailsFormComponent implements OnInit {
   protected setupProcessorDetailsForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
+    console.log("EDITING APP = ", this.EditingApplication);
+
     if (this.EditingApplication != null) {
       this.ProcessorDetailsFormGroup = this.formBldr.group({
-        name: [this.EditingApplication.Application?.Name, Validators.required],
-        description: [
-          this.EditingApplication.Application?.Description,
-          Validators.required,
-        ],
-        route: [
-          this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
-            '/',
-          Validators.required,
-        ],
-        // priority: [
-        //   this.EditingApplication.Application?.Priority || 10000,
-        //   Validators.required,
-        // ],
-        procType: [this.ProcessorType, [Validators.required]],
+
+        procType: [this.ProcessorType, [Validators.required]]
+
       });
+      this.setupDfsForm();
+
+      this.setupLcuTypeSubForm();
 
     }
   }
@@ -232,7 +261,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     );
   }
 
-  protected setupLCUNPMForm(): void {
+  // protected setupLCUNPMForm(): void {
     // this.ApplicationFormGroup.addControl(
     //   'package',
     //   this.formBldr.control(
@@ -247,7 +276,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     //     [Validators.required]
     //   )
     // );
-  }
+  // }
 
   protected setupLCUSPAForm(): void {
     this.ProcessorDetailsFormGroup.addControl(
@@ -423,5 +452,141 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     this.setupLcuTypeSubForm();
   }
+
+  // protected SaveApplication(): void {
+  //   const app: EaCApplicationAsCode = {
+  //     // Application: {
+  //     //   Name: this.NameFormControl.value,
+  //     //   Description: this.DescriptionFormControl.value,
+  //     //   PriorityShift: this.EditingApplication?.Application?.PriorityShift || 0,
+  //     // },
+  //     AccessRightLookups: [],
+  //     DataTokens: {},
+  //     LicenseConfigurationLookups: [],
+  //     LookupConfig: {
+  //       IsPrivate: this.IsPrivateFormControl.value,
+  //       IsTriggerSignIn: this.IsPrivateFormControl.value
+  //         ? this.IsTriggerSignInFormControl.value
+  //         : false,
+  //       PathRegex: `${this.RouteFormControl.value}.*`,
+  //       QueryRegex: this.EditingApplication?.LookupConfig?.QueryRegex || '',
+  //       HeaderRegex: this.EditingApplication?.LookupConfig?.HeaderRegex || '',
+  //       AllowedMethods: this.MethodsFormControl?.value
+  //         ?.split(' ')
+  //         .filter((v: string) => !!v),
+  //     },
+  //     Processor: {
+  //       Type: this.ProcessorType,
+  //     },
+  //   };
+
+  //   switch (app.Processor.Type) {
+  //     case 'DFS':
+  //       app.Processor.BaseHref = `${this.RouteFormControl.value}/`.replace(
+  //         '//',
+  //         '/'
+  //       );
+
+  //       app.Processor.DefaultFile =
+  //         this.DefaultFileFormControl.value || 'index.html';
+
+  //       app.LowCodeUnit = {
+  //         Type: this.LCUType,
+  //       };
+
+  //       switch (app.LowCodeUnit.Type) {
+  //         case 'GitHub':
+  //           app.LowCodeUnit.Organization =
+  //             this.SourceControlFormControls.OrganizationFormControl.value;
+
+  //           app.LowCodeUnit.Repository =
+  //             this.SourceControlFormControls.RepositoryFormControl.value;
+
+  //           app.LowCodeUnit.Build = this.BuildFormControl.value;
+
+  //           app.LowCodeUnit.Path =
+  //             this.SourceControlFormControls.BuildPathFormControl.value;
+  //           break;
+
+  //         case 'NPM':
+  //           app.LowCodeUnit.Package = this.PackageFormControl.value;
+
+  //           app.LowCodeUnit.Version = this.VersionFormControl.value;
+  //           break;
+
+  //         case 'Zip':
+  //           app.LowCodeUnit.ZipFile = this.ZipFileFormControl.value;
+  //           break;
+  //       }
+  //       break;
+
+  //     case 'OAuth':
+  //       app.Processor.Scopes = this.ScopesFormControl.value.split(' ');
+
+  //       app.Processor.TokenLookup = this.TokenLookupFormControl.value;
+
+  //       app.LowCodeUnit = {
+  //         Type: this.LCUType,
+  //       };
+
+  //       switch (app.LowCodeUnit.Type) {
+  //         case 'GitHubOAuth':
+  //           app.LowCodeUnit.ClientID = this.ClientIDFormControl.value;
+
+  //           app.LowCodeUnit.ClientSecret = this.ClientSecretFormControl.value;
+  //           break;
+  //       }
+  //       break;
+
+  //     case 'Proxy':
+  //       app.Processor.InboundPath = this.InboundPathFormControl.value;
+
+  //       app.LowCodeUnit = {
+  //         Type: this.LCUType,
+  //       };
+
+  //       switch (app.LowCodeUnit.Type) {
+  //         case 'API':
+  //           app.LowCodeUnit.APIRoot = this.APIRootFormControl.value;
+
+  //           app.LowCodeUnit.Security = this.SecurityFormControl.value;
+
+  //           break;
+
+  //         case 'SPA':
+  //           app.LowCodeUnit.SPARoot = this.SPARootFormControl.value;
+  //           break;
+  //       }
+  //       break;
+
+  //     case 'Redirect':
+  //       app.Processor.Permanent = !!this.PermanentFormControl.value;
+
+  //       app.Processor.PreserveMethod = !!this.PreserveMethodFormControl.value;
+
+  //       app.Processor.Redirect = this.RedirectFormControl.value;
+  //       break;
+  //   }
+
+  //   if (!app.LookupConfig.PathRegex.startsWith('/')) {
+  //     app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
+  //   }
+
+  //   const saveAppReq: SaveApplicationAsCodeEventRequest = {
+  //     ProjectLookup: this.ProjectLookup,
+  //     Application: app,
+  //     ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
+  //   };
+
+  //   if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
+  //     if (app) {
+  //       app.SourceControlLookup = this.SourceControlLookupFormControl.value;
+  //     }
+  //   } else if (app) {
+  //     app.SourceControlLookup = null;
+  //   }
+
+  //   this.eacSvc.SaveApplicationAsCode(saveAppReq);
+  // }
 
 }

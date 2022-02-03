@@ -9,12 +9,13 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class SecurityToggleComponent implements OnInit {
 
-  @Input('editing-application') 
+  @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
-  
+
   public get IsPrivateFormControl(): AbstractControl {
     return this.SecurityFormGroup?.controls.isPrivate;
   }
+
   public SecurityFormGroup: FormGroup;
 
   public ProcessorType: string;
@@ -25,33 +26,15 @@ export class SecurityToggleComponent implements OnInit {
     this.setupSecurityFormGroup();
   }
 
-  public SecuritySubmit(){
-    console.log("submitting values")
+  public SecuritySubmit() {
+    //save the security settings
+    console.log("submitting values: ", this.SecurityFormGroup.value);
   }
 
-  protected setupSecurityFormGroup(){
+  protected setupSecurityFormGroup() {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
-    if (this.EditingApplication != null) {
-      // this.SecurityFormGroup = this.formBldr.group({
-      //   name: [this.EditingApplication.Application?.Name, Validators.required],
-      //   description: [
-      //     this.EditingApplication.Application?.Description,
-      //     Validators.required,
-      //   ],
-      //   route: [
-      //     this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
-      //       '/',
-      //     Validators.required,
-      //   ],
-      //   // priority: [
-      //   //   this.EditingApplication.Application?.Priority || 10000,
-      //   //   Validators.required,
-      //   // ],
-      //   procType: [this.ProcessorType, [Validators.required]],
-      // });
-
-  }
-  this.setupSecurityForm();
+    this.SecurityFormGroup = this.formBldr.group({});
+    this.setupSecurityForm();
   }
 
   protected setupSecurityForm(): void {
