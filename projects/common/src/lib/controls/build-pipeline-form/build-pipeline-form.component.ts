@@ -45,7 +45,7 @@ export class BuildPipelineFormComponent implements OnInit {
 
 
   public get Artifact(): EaCArtifact {
-    console.log("ARTIFACT: ", this.Environment?.Artifacts[this.ArtifactLookup]);
+    // console.log("ARTIFACT: ", this.Environment?.Artifacts[this.ArtifactLookup]);
     return this.Environment?.Artifacts && this.ArtifactLookup
       ? this.Environment?.Artifacts[this.ArtifactLookup] || {}
       : {};
@@ -165,6 +165,7 @@ export class BuildPipelineFormComponent implements OnInit {
 
   public SubmitBuildPipeline() {
     console.log("submitting build pipeline: ", this.BuildPipelineFormGroup.value);
+    this.SaveEnvironment();
   }
 
   public SaveEnvironment(): void {
@@ -247,25 +248,25 @@ export class BuildPipelineFormComponent implements OnInit {
       saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     }
 
-    // let source: EaCSourceControl = {
-    //   ...this.EditingSourceControl,
-    //   Branches: this.SourceControlFormControls.SelectedBranches,
-    //   MainBranch: this.SourceControlFormControls.MainBranchFormControl.value,
-    // };
+    let source: EaCSourceControl = {
+      ...this.EditingSourceControl,
+      Branches: this.EditingSourceControl.SelectedBranches,
+      MainBranch: this.EditingSourceControl.MainBranchFormControl.value,
+    };
 
-    // source = {
-    //   ...source,
-    //   Type: 'GitHub',
-    //   Name: this.EditingSourceControlLookup,
-    //   DevOpsActionTriggerLookups: [devOpsActionLookup],
-    //   Organization:
-    //     this.SourceControlFormControls.OrganizationFormControl.value,
-    //   Repository: this.SourceControlFormControls.RepositoryFormControl.value,
-    // };
+    source = {
+      ...source,
+      Type: 'GitHub',
+      Name: this.EditingSourceControlLookup,
+      DevOpsActionTriggerLookups: [devOpsActionLookup],
+      Organization:
+        this.EditingSourceControl.OrganizationFormControl.value,
+      Repository: this.EditingSourceControl.RepositoryFormControl.value,
+    };
 
-    // const scLookup = `github://${source.Organization}/${source.Repository}`;
+    const scLookup = `github://${source.Organization}/${source.Repository}`;
 
-    // saveEnvReq.Environment.Sources[scLookup] = source;
+    saveEnvReq.Environment.Sources[scLookup] = source;
 
     this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
   }
