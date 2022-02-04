@@ -4,6 +4,7 @@ import { EaCEnvironmentAsCode } from '@semanticjs/common';
 
 export interface SCDialogData {
   environment: EaCEnvironmentAsCode;
+  environmentLookup: string;
   scLookup: string;
 }
 

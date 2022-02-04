@@ -38,7 +38,7 @@
         <div>
             <lcu-edit-application-form 
                 [editing-application]="Application"
-                (save-form-event)="HandleSaveFormEvent($event)">
+                (save-form-event)="SaveApplication($event)">
             </lcu-edit-application-form>
 
             <lcu-processor-details-form 
@@ -46,7 +46,7 @@
                 [editing-application]="Application"
                 [editing-application-lookup]="ApplicationLookup" 
                 [project-lookup]="ProjectLookup"
-                (save-form-event)="HandleSaveFormEvent($event)">
+                (save-form-event)="SaveProcessorDetails($event)">
             </lcu-processor-details-form>
 
         </div>
@@ -54,15 +54,15 @@
 
             <lcu-security-toggle 
                 [editing-application]="Application" 
-                (save-form-event)="HandleSaveFormEvent($event)">
+                (save-form-event)="SaveSecuritySettings($event)">
             </lcu-security-toggle>
 
 
-            <lcu-source-control-form 
+            <!-- <lcu-source-control-form 
                 [editing-application]="Application" 
                 [environment]="Environment"
-                (save-form-event)="HandleSaveFormEvent($event)">
-            </lcu-source-control-form>
+                (save-form-event)="SaveSourceControl($event)">
+            </lcu-source-control-form> -->
         </div>
 
     </lcu-three-column>

@@ -25,6 +25,9 @@ export class DevopsSourceControlFormComponent
   @Input('environment')
   public Environment: EaCEnvironmentAsCode;
 
+  @Input('environment-lookup')
+  public EnvironmentLookup: string;
+
   @ViewChild('branches')
   public BranchesInput: ElementRef<HTMLInputElement>;
 
@@ -54,16 +57,11 @@ export class DevopsSourceControlFormComponent
     return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'branches');
   }
 
-  public BranchOptions: GitHubBranch[];
-
 
   public get BuildPathFormControl(): AbstractControl {
     return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'buildPath');
   }
 
-  public BuildPathOptions: string[];
-
-  public CreatingRepository: boolean;
 
   public get DevOpsActionLookups(): Array<string> {
     return Object.keys(this.DevOpsActions || {});
@@ -89,8 +87,6 @@ export class DevopsSourceControlFormComponent
     return this.Environment.DevOpsActions || {};
   }
 
-  public DevOpsSourceControlFormGroup: FormGroup;
-
   public get EditingSourceControl(): EaCSourceControl {
     let sc = this.Environment?.Sources
       ? this.Environment?.Sources[this.EditingSourceControlLookup]
@@ -103,10 +99,6 @@ export class DevopsSourceControlFormComponent
     return sc;
   }
 
-  public HostingDetails: ProjectHostingDetails;
-
-  public Loading: boolean;
-
   public get MainBranchFormControl(): AbstractControl {
     return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'mainBranch');
   }
@@ -115,11 +107,23 @@ export class DevopsSourceControlFormComponent
     return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'organization');
   }
 
-  public OrganizationOptions: GitHubOrganization[];
-
   public get RepositoryFormControl(): AbstractControl {
     return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'repository');
   }
+
+  public BranchOptions: GitHubBranch[];
+
+  public BuildPathOptions: string[];
+
+  public CreatingRepository: boolean;
+
+  public DevOpsSourceControlFormGroup: FormGroup;
+
+  public HostingDetails: ProjectHostingDetails;
+
+  public Loading: boolean;
+
+  public OrganizationOptions: GitHubOrganization[];
 
   public RepositoryOptions: GitHubRepository[];
 
@@ -297,7 +301,9 @@ export class DevopsSourceControlFormComponent
   }
 
   // public SaveSourceControl(): void {
-  //   const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
+  //   const saveEnvReq: SaveEnvironmentAsCodeEventRequest =  this.Environment;
+
+  //   {
   //     Environment: {
   //       ...this.Environment,
   //       Artifacts: this.Environment.Artifacts || {},
