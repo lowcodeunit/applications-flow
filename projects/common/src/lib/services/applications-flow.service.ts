@@ -237,6 +237,16 @@ export class ApplicationsFlowService {
     );
   }
 
+  public UserFeed(): Observable<object> {
+    return this.http.post(
+      `${this.apiRoot}/api/lowcodeunit/userfeed`,
+      {},
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   //  Helpers
   protected loadHeaders(): { [header: string]: string | string[] } {
     return {};
