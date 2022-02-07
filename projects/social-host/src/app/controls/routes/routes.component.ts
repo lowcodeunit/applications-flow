@@ -9,6 +9,7 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
   styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
+
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
   }
@@ -23,7 +24,7 @@ export class RoutesComponent implements OnInit {
   }
 
   public get CurrentApplicationRoute(): any {
-    return this.appRoute || {};
+    return this.AppRoute || {};
   }
 
   public get CurrentRouteApplicationLookups(): Array<string> {
@@ -31,14 +32,6 @@ export class RoutesComponent implements OnInit {
       this.RoutedApplications[this.CurrentApplicationRoute] || {}
     );
   }
-
-  protected appRoute: string;
-
-  public ProjectLookup: string;
-
-  public Routes: any;
-
-  public Stats: any[];
 
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
@@ -123,18 +116,23 @@ export class RoutesComponent implements OnInit {
     return routeSetResult;
   }
 
-  
+
+  public AppRoute: string;
+
+  public ProjectLookup: string;
+
+  public Routes: any;
+
+  public Stats: any[];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    protected activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    private router: Router
+    protected router: Router
   ) {
 
-    //  this.routeData = this.router.getCurrentNavigation().extras.state;
-
     this.activatedRoute.params.subscribe((params) => {
-      this.appRoute = params['appRoute'];
+      this.AppRoute = params['appRoute'];
       this.ProjectLookup = params['projectLookup'];
     });
 
@@ -146,27 +144,13 @@ export class RoutesComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+
     this.handleStateChange().then((eac) => {});
 
-    console.log("app:", this.RoutedApplications[this.CurrentApplicationRoute][this.CurrentRouteApplicationLookups[0]])
-
-    // console.log("route Data: ", this.routeData);
-  }
-
-  public LaunchRouteClicked() {
-    console.log('Launch Route clicked');
   }
 
   public EditRouteClicked() {
     console.log('Edit Route clicked');
-  }
-
-  public UploadRouteClicked() {
-    console.log('Upload Route clicked');
-  }
-
-  public TrashRouteClicked() {
-    console.log('Trash Route clicked');
   }
 
   public HandleLeftClickEvent(event: any) {
@@ -178,17 +162,29 @@ export class RoutesComponent implements OnInit {
     console.log("app:", this.RoutedApplications[this.CurrentApplicationRoute][this.CurrentRouteApplicationLookups[0]])
   }
 
+  public LaunchRouteClicked() {
+    console.log('Launch Route clicked');
+  }
+
+  public RouteToPath(){
+    let path = '/dashboard/create-project?projectId=' + this.ProjectLookup;
+    this.router.navigate([path]);
+  }
+
   public SettingsClicked() {
     console.log('Settings Clicked');
+  }
+
+  public TrashRouteClicked() {
+    console.log('Trash Route clicked');
   }
 
   public UpgradeClicked() {
     console.log('Upgarde clicked');
   }
 
-  public RouteToPath(){
-    let path = '/dashboard/create-project?projectId=' + this.ProjectLookup;
-    this.router.navigate([path]);
+  public UploadRouteClicked() {
+    console.log('Upload Route clicked');
   }
 
   //HELPERS

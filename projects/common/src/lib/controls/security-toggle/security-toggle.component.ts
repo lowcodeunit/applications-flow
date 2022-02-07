@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
@@ -9,49 +9,42 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class SecurityToggleComponent implements OnInit {
 
-  @Input('editing-application') 
+  @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
-  
+
+  @Output('save-form-event')
+  public SaveFormEvent: EventEmitter<{}>;
+
   public get IsPrivateFormControl(): AbstractControl {
     return this.SecurityFormGroup?.controls.isPrivate;
   }
+
+  public get IsTriggerSignInFormControl(): AbstractControl {
+    return this.SecurityFormGroup?.controls.isTriggerSignIn;
+  }
+
   public SecurityFormGroup: FormGroup;
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder) { }
+  constructor(protected formBldr: FormBuilder) { 
+    this.SaveFormEvent = new EventEmitter;
+  }
 
   public ngOnInit(): void {
     this.setupSecurityFormGroup();
   }
 
-  public SecuritySubmit(){
-    console.log("submitting values")
+  public SecuritySubmit() {
+    //save the security settings
+    console.log("submitting security values: ", this.SecurityFormGroup.value);
+    this.SaveFormEvent.emit(this.SecurityFormGroup.value);
   }
 
-  protected setupSecurityFormGroup(){
+  protected setupSecurityFormGroup() {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
-    if (this.EditingApplication != null) {
-      // this.SecurityFormGroup = this.formBldr.group({
-      //   name: [this.EditingApplication.Application?.Name, Validators.required],
-      //   description: [
-      //     this.EditingApplication.Application?.Description,
-      //     Validators.required,
-      //   ],
-      //   route: [
-      //     this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
-      //       '/',
-      //     Validators.required,
-      //   ],
-      //   // priority: [
-      //   //   this.EditingApplication.Application?.Priority || 10000,
-      //   //   Validators.required,
-      //   // ],
-      //   procType: [this.ProcessorType, [Validators.required]],
-      // });
-
-  }
-  this.setupSecurityForm();
+    this.SecurityFormGroup = this.formBldr.group({});
+    this.setupSecurityForm();
   }
 
   protected setupSecurityForm(): void {

@@ -50,6 +50,7 @@ import { BuildPipelineFormComponent } from './controls/build-pipeline-form/build
 import { DevopsSourceControlFormComponent } from './controls/devops-source-control-form/devops-source-control-form.component';
 import { SourceControlDialogComponent } from './dialogs/source-control-dialog/source-control-dialog.component';
 import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
+import { EditApplicationFormComponent } from './controls/edit-application-form/edit-application-form.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/bu
     BuildPipelineFormComponent,
     DevopsSourceControlFormComponent,
     SourceControlDialogComponent,
-    BuildPipelineDialogComponent
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent
   ],
   imports: [
     FathymSharedModule,
@@ -143,7 +145,8 @@ import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/bu
     BuildPipelineFormComponent,
     DevopsSourceControlFormComponent,
     SourceControlDialogComponent,
-    BuildPipelineDialogComponent
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -182,7 +185,8 @@ import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/bu
     BuildPipelineFormComponent,
     DevopsSourceControlFormComponent,
     SourceControlDialogComponent,
-    BuildPipelineDialogComponent
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent
   ],
 })
 export class ApplicationsFlowModule {

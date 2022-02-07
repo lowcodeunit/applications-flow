@@ -11,7 +11,7 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class ProjectsComponent implements OnInit {
 
-  public get ApplicationLookups(): string[]{
+  public get ApplicationLookups(): string[] {
     return Object.keys(this.Project?.ApplicationLookups || {});
   }
 
@@ -32,30 +32,19 @@ export class ProjectsComponent implements OnInit {
     return Object.keys(this.RoutedApplications || {});
   }
 
-  public FeedItems: MainFeedItemModel[];
-
-  public Stats: any[];
-
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
-  // protected routeData: any;
 
-  protected projectLookup: string;
-
-  public get Project(): any{
-    return this.State?.EaC?.Projects[this.projectLookup] || {};
+  public get Project(): any {
+    return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 
-  public get ProjectLookup(): any{
-    return this.projectLookup || {};
-  }
-
-  public get NumberOfRoutes(): number{
+  public get NumberOfRoutes(): number {
     return this.ApplicationLookups.length;
   }
 
-  
+
   public get RoutedApplications(): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
   } {
@@ -127,62 +116,58 @@ export class ProjectsComponent implements OnInit {
     return routeSetResult;
   }
 
-  
-  
-  
-  constructor( private activatedRoute: ActivatedRoute,
-     protected eacSvc: EaCService) {
+  public FeedItems: MainFeedItemModel[];
+
+  public Stats: any[];
+
+  public ProjectLookup: string;
+
+  constructor(private activatedRoute: ActivatedRoute,
+    protected eacSvc: EaCService) {
 
     this.activatedRoute.params.subscribe(params => {
-      this.projectLookup = params['projectLookup'];
+      this.ProjectLookup = params['projectLookup'];
     });
 
-    console.log("param: ", this.projectLookup);
-      
+    this.Stats = [{ Name: "Retention Rate", Stat: "85%" },
+    { Name: "Bounce Rate", Stat: "38%" },
+    { Name: "Someother Rate", Stat: "5%" }];
 
-    // this.routeData = this.router.getCurrentNavigation().extras.state;
+    this.FeedItems = [{ Title: "Test Issue", Author: "Jackson", Type: "ISSUE" },
+    { Title: "Test Build", Author: "Mike", Type: "BUILD" }];
 
-    this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
-    {Name: "Bounce Rate", Stat: "38%"}, 
-    {Name: "Someother Rate", Stat: "5%"}];
-
-    this.FeedItems = [{Title: "Test Issue", Author: "Jackson", Type: "ISSUE"}, 
-    {Title: "Test Build", Author: "Mike", Type: "BUILD"}];
-
-   }
+  }
 
   public ngOnInit(): void {
 
-    this.handleStateChange().then((eac) => {});
-    
-    // console.log("route Data: ", this.routeData); 
+    this.handleStateChange().then((eac) => { });
 
   }
 
-  public HandleLeftClickEvent(event: any){
+  public HandleLeftClickEvent(event: any) {
     console.log("Left Icon has been selected", event);
   }
 
-  public HandleRightClickEvent(event: any){
+  public HandleRightClickEvent(event: any) {
     console.log("Right Icon has been selected", event);
   }
 
-  public SettingsClicked(){
+  public SettingsClicked() {
     console.log("Settings Clicked")
   }
 
-  public UpgradeClicked(){
+  public UpgradeClicked() {
     console.log("Upgarde clicked");
   }
 
-  public LaunchBuildClicked(){
+  public LaunchBuildClicked() {
     console.log("launch build clicked");
   }
 
-  public ViewBuildDetails(){
+  public ViewBuildDetails() {
     console.log("View build details clicked");
   }
- 
+
 
   //HELPERS
 

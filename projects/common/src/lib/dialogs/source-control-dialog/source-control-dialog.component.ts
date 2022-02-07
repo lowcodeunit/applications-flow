@@ -4,6 +4,7 @@ import { EaCEnvironmentAsCode } from '@semanticjs/common';
 
 export interface SCDialogData {
   environment: EaCEnvironmentAsCode;
+  environmentLookup: string;
   scLookup: string;
 }
 
@@ -17,7 +18,7 @@ export class SourceControlDialogComponent implements OnInit {
   constructor( public dialogRef: MatDialogRef<SourceControlDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SCDialogData) { }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
   }
 
 }

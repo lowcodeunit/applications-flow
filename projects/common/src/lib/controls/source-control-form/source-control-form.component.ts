@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCProjectAsCode, EaCSourceControl } from '@semanticjs/common';
@@ -11,22 +11,18 @@ import { SourceControlFormControlsComponent } from '../../elements/projects/cont
 })
 export class SourceControlFormComponent implements OnInit {
 
-  @Input('editing-application') 
+  @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
 
   @Input('environment')
   public Environment: EaCEnvironmentAsCode;
 
-  public SourceControlFormGroup: FormGroup;
-
-  public ProcessorType: string;
+  @Output('save-form-event')
+  public SaveFormEvent: EventEmitter<{}>
 
   public get HasBuildFormControl(): AbstractControl {
     return this.SourceControlFormGroup?.controls.hasBuild;
   }
-
-  @ViewChild(SourceControlFormControlsComponent)
-  public SourceControlFormControls: SourceControlFormControlsComponent;
 
   public get SourceControlLookupFormControl(): AbstractControl {
     return this.SourceControlFormGroup?.controls.sourceControlLookup;
@@ -37,11 +33,16 @@ export class SourceControlFormComponent implements OnInit {
   }
 
   public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-    console.log("Environment: ", this.Environment);
     return this.Environment.Sources || {};
   }
 
-  constructor(protected formBldr: FormBuilder) { }
+  public SourceControlFormGroup: FormGroup;
+
+  public ProcessorType: string;
+
+  constructor(protected formBldr: FormBuilder) {
+    this.SaveFormEvent = new EventEmitter;
+   }
 
   public ngOnInit(): void {
     this.setupSourceControlForm();
@@ -52,7 +53,9 @@ export class SourceControlFormComponent implements OnInit {
     console.log("sourceControlLookupChanged: ", event);
   }
 
-  public SubmitSourceControl(){
+  public SubmitSourceControl() {
+    console.log("submitting source control: ", this.SourceControlFormGroup.value);
+    this.SaveFormEvent.emit(this.SourceControlFormGroup.value);
 
   }
 
@@ -62,7 +65,9 @@ export class SourceControlFormComponent implements OnInit {
   protected setupSourceControlForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
-      this.setupBuildForm();
+    this.SourceControlFormGroup = this.formBldr.group({});
+
+    this.setupBuildForm();
 
   }
 

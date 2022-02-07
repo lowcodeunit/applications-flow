@@ -9,7 +9,7 @@
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
-
+<!-- Commented out until implemented -->
         <!-- <lcu-card-carousel
         [stats]="Stats">
         </lcu-card-carousel> -->
@@ -26,7 +26,8 @@
             <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
                 <mat-icon>settings</mat-icon>
                 Project Settings
-              </button>
+            </button>
+
         </lcu-project-info-card>
 
 
@@ -56,11 +57,12 @@
         </div>
 
         </lcu-feed-card-sm>
-        <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
-        [title]="feedItm.Title"
-        [subtext]="feedItm.Author">
+<!-- Commented out until implemented -->
+        <!-- <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
+            [title]="feedItm.Title"
+            [subtext]="feedItm.Author"> -->
 
-        <div *ngIf="feedItm.Type === 'BUILD'"actions>
+        <!-- <div *ngIf="feedItm.Type === 'BUILD'"actions>
             <button  mat-button>
                 <mat-icon>launch</mat-icon>
                 Preview
@@ -77,9 +79,9 @@
                   <mat-icon >error_outline</mat-icon>
                   Open Issue
               </button>
-        </div>
+        </div> -->
 
-        <div *ngIf="feedItm.Type === 'ISSUE'"actions>
+        <!-- <div *ngIf="feedItm.Type === 'ISSUE'"actions>
             <button  mat-button>
                 <mat-icon>sentiment_satisfied_alt</mat-icon>
                 GitHub
@@ -96,19 +98,21 @@
                   <mat-icon >error_outline</mat-icon>
                   Close Issue
               </button>
-        </div>
+        </div> -->
 
-        </lcu-main-feed-card>
+        <!-- </lcu-main-feed-card> -->
+
     </div>
+
     <!-- right column -->
     <div right>
+
         <lcu-slotted-card
-        
-        title="Routes"
-        icon="route"
-        [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
-        secondary-slot-description="Add quick route"
-        action-text="Create Custom Route"
+            title="Routes"
+            icon="route"
+            [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
+            secondary-slot-description="Add quick route"
+            action-text="Create Custom Route"
         >
 
         <div class="main-slot-container" 

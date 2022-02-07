@@ -287,9 +287,18 @@
         </div>
       </div>
     </mat-card-content>
-    <mat-card-actions>
-        <!-- [disabled]="!SecurityFormGroup.valid || !SecurityFormGroup.dirty" -->
-        <button mat-raised-button type="submit" >Save</button>
+    <mat-card-actions fxLayoutAlign="center center">
+
+        <button 
+          mat-raised-button 
+          type="submit" 
+          fxFlex="100%" 
+          color="primary" 
+          [disabled]="!ProcessorDetailsFormGroup.valid || !ProcessorDetailsFormGroup.dirty">
+          <mat-icon>save</mat-icon>
+          Save Processor Details
+        </button>
+
     </mat-card-actions>
 </mat-card>
 </form>

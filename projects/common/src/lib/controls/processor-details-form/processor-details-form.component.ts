@@ -1,7 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { Guid } from '@lcu/common';
+import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
+import { SourceControlFormControlsComponent } from '../../elements/projects/controls/forms/source-control/source-control.component';
+import { EaCService } from '../../services/eac.service';
 
 @Component({
   selector: 'lcu-processor-details-form',
@@ -10,30 +13,68 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class ProcessorDetailsFormComponent implements OnInit {
 
-  public LCUType: string;
+  
 
   @Input('editing-application') 
   public EditingApplication: EaCApplicationAsCode;
+
+  @Input('editing-application-lookup')
+  public EditingApplicationLookup: string;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
+
+  @Output('save-form-event')
+  public SaveFormEvent: EventEmitter<{}>
+
+  @ViewChild(SourceControlFormControlsComponent)
+  public SourceControlFormControls: SourceControlFormControlsComponent;
+
+  public get APIRootFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.apiRoot;
+  }
 
   public get BuildFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.build;
   }
   
-  
   public get ClientIDFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.clientId;
+  }
+
+  public get ClientSecretFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.clientSecret;
   }
 
   public get DefaultFileFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.defaultFile;
   }
 
-  public get InboundPathFormControl(): AbstractControl {
-    return this.ProcessorDetailsFormGroup?.controls.inboundPath;
+  public get DefaultSourceControl(): EaCSourceControl {
+    return {
+      Organization: this.EditingApplication?.LowCodeUnit?.Organization,
+      Repository: this.EditingApplication?.LowCodeUnit?.Repository,
+    };
   }
 
-  public get TokenLookupFormControl(): AbstractControl {
-    return this.ProcessorDetailsFormGroup?.controls.tokenLookup;
+  public get InboundPathFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.inboundPath;
+  }  
+
+  public get MethodsFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.methods;
+  }
+ 
+  public get PackageFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.package;
+  }
+
+  public get PermanentFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.permanent;
+  }
+
+  public get PreserveMethodFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.preserveMethod;
   }
 
   public get RedirectFormControl(): AbstractControl {
@@ -52,16 +93,25 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.spaRoot;
   }
 
-  public get PermanentFormControl(): AbstractControl {
-    return this.ProcessorDetailsFormGroup?.controls.permanent;
+  public get TokenLookupFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.tokenLookup;
   }
 
-  public get PreserveMethodFormControl(): AbstractControl {
-    return this.ProcessorDetailsFormGroup?.controls.preserveMethod;
+
+  public get VersionFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.version;
   }
+
+  public get ZipFileFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.zipFile;
+  }
+
+
   public IsPermanent: boolean;
 
   public IsPreserve: boolean;
+
+  public LCUType: string;
   
   public redirectTooltip: string;
 
@@ -69,14 +119,28 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder) {
-    // this.EditingApplicationLookup = null;
+  constructor(protected formBldr: FormBuilder, 
+    protected eacSvc: EaCService) {
+
     this.redirectTooltip = '';
+
+    this.SaveFormEvent = new EventEmitter;
+
    }
 
   public ngOnInit(): void {
 
-    this.setupProcessorDetailsForm();
+    if(!this.EditingApplication){
+      this.CreateNewApplication();
+    }
+    else{
+      this.setupProcessorDetailsForm();
+    }
+
+  }
+
+  public CreateNewApplication(): void {
+    this.SetEditingApplication(Guid.CreateRaw());
   }
 
   public DetermineTooltipText() {
@@ -94,8 +158,15 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
   }
 
-  public SubmitProcessorDetails(){
+  public SetEditingApplication(appLookup: string): void {
+    this.EditingApplicationLookup = appLookup;
 
+    this.setupProcessorDetailsForm();
+  }
+
+  public SubmitProcessorDetails(){
+    console.log("submitting proc details: ", this.ProcessorDetailsFormGroup.value);
+    this.SaveFormEvent.emit(this.ProcessorDetailsFormGroup.value);
   }
 
   public ProcessorTypeChanged(event: MatSelectChange): void {
@@ -190,24 +261,17 @@ export class ProcessorDetailsFormComponent implements OnInit {
   protected setupProcessorDetailsForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
+    console.log("EDITING APP = ", this.EditingApplication);
+
     if (this.EditingApplication != null) {
       this.ProcessorDetailsFormGroup = this.formBldr.group({
-        name: [this.EditingApplication.Application?.Name, Validators.required],
-        description: [
-          this.EditingApplication.Application?.Description,
-          Validators.required,
-        ],
-        route: [
-          this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
-            '/',
-          Validators.required,
-        ],
-        // priority: [
-        //   this.EditingApplication.Application?.Priority || 10000,
-        //   Validators.required,
-        // ],
-        procType: [this.ProcessorType, [Validators.required]],
+
+        procType: [this.ProcessorType, [Validators.required]]
+
       });
+      this.setupDfsForm();
+
+      this.setupLcuTypeSubForm();
 
     }
   }
@@ -232,7 +296,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     );
   }
 
-  protected setupLCUNPMForm(): void {
+  // protected setupLCUNPMForm(): void {
     // this.ApplicationFormGroup.addControl(
     //   'package',
     //   this.formBldr.control(
@@ -247,7 +311,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     //     [Validators.required]
     //   )
     // );
-  }
+  // }
 
   protected setupLCUSPAForm(): void {
     this.ProcessorDetailsFormGroup.addControl(
@@ -423,5 +487,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     this.setupLcuTypeSubForm();
   }
+
+  
 
 }

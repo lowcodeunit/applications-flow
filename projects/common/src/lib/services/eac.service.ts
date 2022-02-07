@@ -229,7 +229,7 @@ export class EaCService {
     req: SaveEnvironmentAsCodeEventRequest
   ): Promise<void> {
     const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      EnterpriseLookup: this.State?.EaC?.EnterpriseLookup,
       DataTokens: {},
       Environments: {},
     };

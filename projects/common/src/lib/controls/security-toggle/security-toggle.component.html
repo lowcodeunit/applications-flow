@@ -37,10 +37,20 @@
               </div>
             </div>
           </mat-card-content>
+
+          <mat-card-actions fxLayoutAlign="center center">
+
+            <button 
+              mat-raised-button 
+              type="submit" 
+              fxFlex="100%" 
+              color="primary" 
+              [disabled]="!SecurityFormGroup.valid || !SecurityFormGroup.dirty">
+              <mat-icon>save</mat-icon>
+              Save Settings
+            </button>
+
+          </mat-card-actions>
         
-        <mat-card-actions>
-            <!-- [disabled]="!SecurityFormGroup.valid || !SecurityFormGroup.dirty" -->
-            <button mat-raised-button type="submit" >Save Security Settings</button>
-        </mat-card-actions>
     </mat-card>
 </form>

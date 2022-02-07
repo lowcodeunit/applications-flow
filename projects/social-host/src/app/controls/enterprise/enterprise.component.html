@@ -30,13 +30,14 @@
 
 <lcu-three-column>
     <div left>
-        <lcu-analytics-card
+        <!-- Commented out until implemented -->
+        <!-- <lcu-analytics-card
             title="Temp Title"
             subtext="Text for testing purposes">
-        </lcu-analytics-card>
+        </lcu-analytics-card> -->
     </div>
 
-    <div>center
+    <div>
         <lcu-build-pipeline-form
         [devops-action-lookup]="DevOpsActionLookups[0]"
         [environment]="Environment">
@@ -158,7 +159,8 @@
         icon="plumbing"
         [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
         secondary-slot-description="Add new pipeline"
-        action-text="Create New Pipeline">
+        action-text="Create New Pipeline"
+        (main-action-clicked)="OpenBuildPipelineDialog(null)">
 
         <div class="main-slot-container" 
             fxLayout="row" 
@@ -174,16 +176,21 @@
                     <div class="slot-header" fxLayout="row" >
                         <!-- this icon is a temp placeholder -->
                         <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                        <div *ngIf="doa.Name.length > 18" class="slot-name">{{ doa.Name | slice:0:15 }}...</div>
-                        <div *ngIf="doa.Name.length < 18 || doa.Name.length == 18" class="slot-name">{{ doa.Name }}</div>
+                        <div *ngIf="doa?.Name?.length > 18" class="slot-name">{{ doa?.Name | slice:0:15 }}...</div>
+                        <div *ngIf="doa?.Name?.length < 18 || doa?.Name?.length == 18" class="slot-name">{{ doa?.Name }}</div>
 
                     </div>
 
                     <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
                 </div>
 
-                <div class="slot-actions-container" fxLayout="row" fxLayoutAlign="space-around center" >
-                     <a class="slot-action-anchor" (click)="OpenBuildPipelineDialog(doaLookup)" >
+                <div class="slot-actions-container" 
+                    fxLayout="row" 
+                    fxLayoutAlign="space-around center" >
+
+                     <a class="slot-action-anchor" 
+                        (click)="OpenBuildPipelineDialog(doaLookup)" >
+
                         <mat-icon class="action-icon">edit</mat-icon>
                     </a>
                     <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
