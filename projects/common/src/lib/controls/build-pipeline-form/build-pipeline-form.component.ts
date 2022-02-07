@@ -80,19 +80,19 @@ export class BuildPipelineFormComponent implements OnInit {
     return this.BuildPipelineFormGroup.get('devOpsActionName');
   }
 
-  public get EditingSourceControl(): EaCSourceControl {
-    let sc = this.Environment?.Sources
-      ? this.Environment?.Sources[this.EditingSourceControlLookup]
-      : null;
+  // public get EditingSourceControl(): EaCSourceControl {
+  //   let sc = this.Environment?.Sources
+  //     ? this.Environment?.Sources[this.EditingSourceControlLookup]
+  //     : null;
 
-    if (sc == null && this.EditingSourceControlLookup) {
-      sc = {};
-    }
+  //   if (sc == null && this.EditingSourceControlLookup) {
+  //     sc = {};
+  //   }
 
-    return sc;
-  }
+  //   return sc;
+  // }
 
-  public EditingSourceControlLookup: string;
+  // public EditingSourceControlLookup: string;
 
   public HostingDetails: ProjectHostingDetails;
 
@@ -248,25 +248,25 @@ export class BuildPipelineFormComponent implements OnInit {
       saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     }
 
-    let source: EaCSourceControl = {
-      ...this.EditingSourceControl,
-      Branches: this.EditingSourceControl.SelectedBranches,
-      MainBranch: this.EditingSourceControl.MainBranchFormControl.value,
-    };
+    // let source: EaCSourceControl = {
+    //   ...this.EditingSourceControl,
+    //   Branches: this.EditingSourceControl.SelectedBranches,
+    //   MainBranch: this.EditingSourceControl.MainBranchFormControl.value,
+    // };
 
-    source = {
-      ...source,
-      Type: 'GitHub',
-      Name: this.EditingSourceControlLookup,
-      DevOpsActionTriggerLookups: [devOpsActionLookup],
-      Organization:
-        this.EditingSourceControl.OrganizationFormControl.value,
-      Repository: this.EditingSourceControl.RepositoryFormControl.value,
-    };
+    // source = {
+    //   ...source,
+    //   Type: 'GitHub',
+    //   Name: this.EditingSourceControlLookup,
+    //   DevOpsActionTriggerLookups: [devOpsActionLookup],
+    //   Organization:
+    //     this.EditingSourceControl.OrganizationFormControl.value,
+    //   Repository: this.EditingSourceControl.RepositoryFormControl.value,
+    // };
 
-    const scLookup = `github://${source.Organization}/${source.Repository}`;
+    // const scLookup = `github://${source.Organization}/${source.Repository}`;
 
-    saveEnvReq.Environment.Sources[scLookup] = source;
+    // saveEnvReq.Environment.Sources[scLookup] = source;
 
     this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
   }
