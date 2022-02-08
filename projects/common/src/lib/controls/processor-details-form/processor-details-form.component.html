@@ -44,6 +44,8 @@
 
               <mat-option value="GitHub">GitHub</mat-option>
 
+              <mat-option value="WordPress">WordPress</mat-option>
+
               <!-- <mat-option value="Zip">Zip</mat-option> -->
             </mat-select>
           </mat-form-field>
@@ -91,6 +93,17 @@
                 Current Version:
                 {{ EditingApplication?.LowCodeUnit?.CurrentVersion }}
               </mat-hint>
+            </div>
+
+            <div *ngSwitchCase="'WordPress'">
+              <mat-form-field class="mat-full-width">
+                <input
+                  matInput
+                  placeholder="API Root"
+                  formControlName="apiRoot"
+                  required
+                />
+              </mat-form-field>
             </div>
           </div>
         </div>
