@@ -236,9 +236,8 @@ export class ApplicationsFlowService {
   }
 
   public UserFeed(): Observable<object> {
-    return this.http.post(
+    return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/userfeed`,
-      {},
       {
         headers: this.loadHeaders(),
       }
