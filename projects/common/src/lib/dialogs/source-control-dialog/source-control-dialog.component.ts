@@ -21,4 +21,8 @@ export class SourceControlDialogComponent implements OnInit {
   public ngOnInit(): void {
   }
 
+  public CloseDialog(){
+    this.dialogRef.close();
+  }
+
 }

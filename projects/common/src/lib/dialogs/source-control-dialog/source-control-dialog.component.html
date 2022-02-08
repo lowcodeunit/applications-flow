@@ -1,4 +1,10 @@
 
+<div class="dialog-header" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="CloseDialog()">
+                <mat-icon>cancel</mat-icon>
+        </button>
+</div>
+
 <div fxLayoutAlign="center center">
         <lcu-devops-source-control-form
                 [environment]="data.environment"

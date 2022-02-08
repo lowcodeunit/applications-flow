@@ -1,5 +1,4 @@
 <div fxLayout="column" fxFlexFill>
-<!-- <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
 
   <mat-toolbar
     class="social-toolbar"
@@ -7,8 +6,8 @@
     fxLayout="row"
     fxLayoutAlign="space-between center"
   >
-    <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="35%" >
-      <img class="toolbar-logo" src="../assets/svgs/logo.svg">
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="40%" >
+      <img class="logo" src="../assets/svgs/logo.svg">
       <div class="toolbar-title">LowCodeUnit Beta</div>
     </div>
     <div class="toolbar-actions-container" fxLayout="row" fxLayoutAlign="space-around center" fxFlex="25%">
@@ -76,6 +75,9 @@
     </span> -->
 
   </mat-toolbar>
+
+  <lcu-loader [loading]="State?.Loading"></lcu-loader>
+
 
   <router-outlet ></router-outlet>
 </div>

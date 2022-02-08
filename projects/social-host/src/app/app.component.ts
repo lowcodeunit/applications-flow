@@ -84,5 +84,6 @@ export class AppComponent {
     if (this.State.Enterprises?.length > 0) {
       await this.eacSvc.GetActiveEnterprise();
     }
+
   }
 }

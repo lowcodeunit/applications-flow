@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { LCUServiceSettings, StateContext } from '@lcu/common';
-import { Observable, Subject } from 'rxjs';
-import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
+import { Injectable } from '@angular/core';
+import { LCUServiceSettings } from '@lcu/common';
+import { Observable } from 'rxjs';
+import { EnterpriseAsCode } from '@semanticjs/common';
 import {
-  ApplicationsFlowState,
   UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
-import { GitHubWorkflowRun } from './../state/applications-flow.state';
 
 @Injectable({
   providedIn: 'root',

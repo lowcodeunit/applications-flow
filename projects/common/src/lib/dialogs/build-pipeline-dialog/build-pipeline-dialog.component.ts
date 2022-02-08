@@ -22,4 +22,8 @@ constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
   public ngOnInit(): void {
   }
 
+  public CloseDialog(){
+    this.dialogRef.close();
+  }
+
 }

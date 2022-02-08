@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { SourceControlDialogComponent } from 'projects/common/src/lib/dialogs/source-control-dialog/source-control-dialog.component';
 import { BuildPipelineDialogComponent } from 'projects/common/src/lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 import { Router } from '@angular/router';
+import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
+import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -25,7 +27,6 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
-    // console.log("DEV ACTIONS: ", this.Environment?.DevOpsActions)
     return this.Environment?.DevOpsActions || {};
   }
 
@@ -48,7 +49,7 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-    return this.Environment.Sources || {};
+    return this.Environment?.Sources || {};
   }
 
   public get NumberOfSourceControls(): number {
@@ -71,15 +72,24 @@ export class EnterpriseComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public Feed: UserFeedResponseModel;
+
 
   constructor(
+    protected appSvc: ApplicationsFlowService,
     protected dialog: MatDialog,
     protected eacSvc: EaCService,
     protected router: Router
-  ) { }
+  ) {
+    this.Feed = new UserFeedResponseModel;
+   }
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => { });
+
+    this.getFeedInfo();
+    
+
   }
 
   public OpenBuildPipelineDialog(doaLookup: string) {
@@ -103,7 +113,11 @@ export class EnterpriseComponent implements OnInit {
   public OpenSourceControlDialog(scLookup: string) {
     const dialogRef = this.dialog.open(SourceControlDialogComponent, {
       width: '550px',
-      data: { environment: this.Environment, scLookup: scLookup },
+      data: { 
+        environment: this.Environment, 
+        environmentLookup: this.ActiveEnvironmentLookup, 
+        scLookup: scLookup 
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -119,6 +133,21 @@ export class EnterpriseComponent implements OnInit {
 
 
   //HELPERS
+
+  protected async getFeedInfo(): Promise<void> {
+
+    setInterval(() => {
+
+     this.appSvc.UserFeed()
+        .subscribe((resp: UserFeedResponseModel) => {
+       this.Feed = resp;
+       console.log("FEED: ", this.Feed.Runs)
+     });
+
+    }, 30000);
+
+
+  }
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
