@@ -61,6 +61,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.inboundPath;
   }  
 
+  public get IncludeRequestFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.includeRequest;
+  }
+
   public get MethodsFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.methods;
   }
@@ -212,6 +216,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.ProcessorDetailsFormGroup.removeControl('inboundPath');
     this.ProcessorDetailsFormGroup.removeControl('proxyLcuType');
 
+    this.ProcessorDetailsFormGroup.removeControl('includeRequest');
     this.ProcessorDetailsFormGroup.removeControl('redirect');
     this.ProcessorDetailsFormGroup.removeControl('permanent');
     this.ProcessorDetailsFormGroup.removeControl('preserveMethod');
@@ -407,6 +412,15 @@ export class ProcessorDetailsFormComponent implements OnInit {
         []
       )
     );
+
+    this.ProcessorDetailsFormGroup.addControl(
+      'includeRequest',
+      this.formBldr.control(
+        this.EditingApplication.Processor?.IncludeRequest || false,
+        []
+      )
+    );
+    
     this.DetermineTooltipText();
   }
 
