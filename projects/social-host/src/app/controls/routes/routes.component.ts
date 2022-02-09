@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
+import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
+import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
 
 @Component({
   selector: 'lcu-routes',
@@ -12,6 +14,10 @@ export class RoutesComponent implements OnInit {
 
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
+  }
+
+  public get ApplicationRoutes(): Array<string> {
+    return Object.keys(this.RoutedApplications || {});
   }
 
   public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
@@ -33,6 +39,10 @@ export class RoutesComponent implements OnInit {
     );
   }
 
+  public get Enterprise(): any {
+    return this.State?.EaC?.Enterprise;
+  }
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
@@ -43,6 +53,14 @@ export class RoutesComponent implements OnInit {
 
   public get Project(): any {
     return this.State?.EaC?.Projects[this.ProjectLookup];
+  }
+  
+  public get ProjectLookups(): string[] {
+    return Object.keys(this.State?.EaC?.Projects || {});
+  }
+
+  public get Projects(): any {
+    return this.State?.EaC?.Projects || {};
   }
 
   public get RoutedApplications(): {
@@ -119,6 +137,8 @@ export class RoutesComponent implements OnInit {
 
   public AppRoute: string;
 
+  public Feed: UserFeedResponseModel;
+
   public ProjectLookup: string;
 
   public Routes: any;
@@ -126,6 +146,7 @@ export class RoutesComponent implements OnInit {
   public Stats: any[];
 
   constructor(
+    protected appSvc: ApplicationsFlowService,
     protected activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
     protected router: Router
@@ -146,6 +167,8 @@ export class RoutesComponent implements OnInit {
   public ngOnInit(): void {
 
     this.handleStateChange().then((eac) => {});
+
+    this.getFeedInfo();
 
   }
 
@@ -188,6 +211,22 @@ export class RoutesComponent implements OnInit {
   }
 
   //HELPERS
+
+  protected async getFeedInfo(): Promise<void> {
+
+    // setInterval(() => {
+
+     this.appSvc.UserFeed(1,25)
+        .subscribe((resp: UserFeedResponseModel) => {
+       this.Feed = resp;
+       console.log("FEED: ", this.Feed.Runs)
+     });
+
+    // }, 30000);
+
+
+  }
+
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;

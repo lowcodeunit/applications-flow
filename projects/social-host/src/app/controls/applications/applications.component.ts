@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from '@lcu/common';
+import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
 import { ApplicationsFlowState, EaCService, SaveApplicationAsCodeEventRequest } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { EditApplicationFormComponent } from 'projects/common/src/lib/controls/edit-application-form/edit-application-form.component';
 import { ProcessorDetailsFormComponent } from 'projects/common/src/lib/controls/processor-details-form/processor-details-form.component';
 import { SecurityToggleComponent } from 'projects/common/src/lib/controls/security-toggle/security-toggle.component';
 import { SourceControlFormComponent } from 'projects/common/src/lib/controls/source-control-form/source-control-form.component';
+import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
 
 
 @Component({
@@ -36,6 +38,16 @@ export class ApplicationsComponent implements OnInit {
     return this.State?.EaC?.Applications;
   }
 
+  public get ApplicationLookups(): Array<string> {
+    return Object.keys(
+      this.RoutedApplications[this.CurrentApplicationRoute] || {}
+    );
+  }
+
+  public get Enterprise(): any {
+    return this.State?.EaC?.Enterprise;
+  }
+
   public get Environment(): EaCEnvironmentAsCode {
     return this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment];
   }
@@ -47,17 +59,101 @@ export class ApplicationsComponent implements OnInit {
     };
   }
 
+  public get Project(): any {
+    return this.State?.EaC?.Projects[this.ProjectLookup] || {};
+  }
+
+  public get Projects(): any {
+    return this.State?.EaC?.Projects || {};
+  }
+
+  public get RoutedApplications(): {
+    [route: string]: { [lookup: string]: EaCApplicationAsCode };
+  } {
+    const appLookups = Object.keys(this.Applications);
+
+    const apps = appLookups.map((appLookup) => this.Applications[appLookup]);
+
+    let appRoutes =
+      apps.map((app) => {
+        return app.LookupConfig?.PathRegex.replace('.*', '');
+      }) || [];
+
+    appRoutes = appRoutes.filter((ar) => ar != null);
+
+    let routeBases: string[] = [];
+
+    appRoutes.forEach((appRoute) => {
+      const appRouteParts = appRoute.split('/');
+
+      const appRouteBase = `/${appRouteParts[1]}`;
+
+      if (routeBases.indexOf(appRouteBase) < 0) {
+        routeBases.push(appRouteBase);
+      }
+    });
+
+    let workingAppLookups = [...(appLookups || [])];
+
+    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+    const routeSet =
+      routeBases.reduce((prevRouteMap, currentRouteBase) => {
+        const routeMap = {
+          ...prevRouteMap,
+        };
+
+        const filteredAppLookups = workingAppLookups.filter((wal) => {
+          const wa = this.Applications[wal];
+
+          return wa.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+        });
+
+        routeMap[currentRouteBase] =
+          filteredAppLookups.reduce((prevAppMap, appLookup) => {
+            const appMap = {
+              ...prevAppMap,
+            };
+
+            appMap[appLookup] = this.Applications[appLookup];
+
+            return appMap;
+          }, {}) || {};
+
+        workingAppLookups = workingAppLookups.filter((wa) => {
+          return filteredAppLookups.indexOf(wa) < 0;
+        });
+
+        return routeMap;
+      }, {}) || {};
+
+    let routeSetKeys = Object.keys(routeSet);
+
+    routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+    const routeSetResult = {};
+
+    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+    return routeSetResult;
+  }
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
 
   public ApplicationLookup: string;
 
+  public CurrentApplicationRoute: string;
+
+  public Feed: UserFeedResponseModel;
+
   public Stats: any;
 
   public ProjectLookup: string;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(protected appSvc: ApplicationsFlowService,
+    private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
   ) {
 
@@ -67,6 +163,7 @@ export class ApplicationsComponent implements OnInit {
 
     this.activatedRoute.params.subscribe(params => {
       this.ApplicationLookup = params['appLookup'];
+      this.CurrentApplicationRoute = params['appRoute']
       this.ProjectLookup = params['projectLookup'];
     });
 
@@ -76,9 +173,26 @@ export class ApplicationsComponent implements OnInit {
 
     this.handleStateChange().then((eac) => { });
 
+    this.getFeedInfo();
+
   }
 
   //  API Methods
+
+  public async getFeedInfo(): Promise<void> {
+
+    // setInterval(() => {
+
+     this.appSvc.UserFeed(1,25)
+        .subscribe((resp: UserFeedResponseModel) => {
+       this.Feed = resp;
+       console.log("FEED: ", this.Feed.Runs)
+     });
+
+    // }, 30000);
+
+
+  }
 
   public HandleLeftClickEvent(event: any) {
 

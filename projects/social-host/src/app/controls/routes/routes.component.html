@@ -1,5 +1,13 @@
 <ng-container *ngIf="!State?.Loading">
 
+    <lcu-breadcrumb
+    [enterprise]="Enterprise"
+    [project-lookup]="ProjectLookup"
+    [selected-route]="CurrentApplicationRoute"
+    >
+
+    </lcu-breadcrumb>  
+
 <lcu-three-column>
     <div left>
         <lcu-project-info-card 
@@ -34,6 +42,27 @@
         
     </div>
     <div>
+
+        <div *ngFor="let run of Feed.Runs">
+
+            <lcu-feed-card-sm
+            [title]="run.RunNumber"
+            [subtext]="run.Committer"
+            [description]="run.CommitMessage"
+            [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
+    
+            >
+            <!-- <div actions>
+                <button mat-icon-button  (click)="LaunchBuildClicked()">
+                    <mat-icon>launch</mat-icon>
+                </button>
+                <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
+            </div> -->
+    
+            </lcu-feed-card-sm>
+    
+        </div>
+        
         <div *ngFor="let route of Routes">
             <lcu-feed-card-sm
             [title]="route.Name"
@@ -97,7 +126,7 @@
                 </div>
 
                 <div class="slot-actions-container" fxLayout="row" fxLayoutAlign="space-around center" >
-                    <a class="slot-action-anchor" [routerLink]="['/applications', appLookup, ProjectLookup]">
+                    <a class="slot-action-anchor" [routerLink]="['/applications', appLookup, CurrentApplicationRoute, ProjectLookup]">
                         <mat-icon class="action-icon">edit</mat-icon>
                     </a>
                     <!-- TODO fix href to add on  app.LookupConfig.PathRegex removing the .* -->

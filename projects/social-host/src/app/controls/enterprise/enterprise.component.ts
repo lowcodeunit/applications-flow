@@ -88,18 +88,21 @@ export class EnterpriseComponent implements OnInit {
     this.handleStateChange().then((eac) => { });
 
     this.getFeedInfo();
+
+    console.log("FEED on init: ", this.Feed)
     
 
   }
 
   public OpenBuildPipelineDialog(doaLookup: string) {
+  
     const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {
       width: '600px',
       data: {
         devopsActionLookup: doaLookup,
         environment: this.Environment,
         environmentLookup: this.ActiveEnvironmentLookup,
-        buildPipeline: doaLookup
+        // buildPipeline: doaLookup
       }
 
     });
@@ -136,15 +139,15 @@ export class EnterpriseComponent implements OnInit {
 
   protected async getFeedInfo(): Promise<void> {
 
-    setInterval(() => {
+    // setInterval(() => {
 
-     this.appSvc.UserFeed()
+     this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
        console.log("FEED: ", this.Feed.Runs)
      });
 
-    }, 30000);
+    // }, 30000);
 
 
   }

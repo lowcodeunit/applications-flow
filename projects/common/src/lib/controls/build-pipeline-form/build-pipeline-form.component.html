@@ -13,7 +13,6 @@
 
       <mat-card-content>
 
-        <ng-container>
 
         <div  *ngIf="!HostingDetails?.Loading">
           <mat-form-field class="mat-full-width">
@@ -27,7 +26,7 @@
               <ng-container
                 *ngFor="let hostOption of HostingDetails?.HostingOptions; let i = index"
               >
-                <mat-option [value]="hostOption?.Lookup">
+                <mat-option [value]="hostOption.Lookup">
                   {{ hostOption.Name }}
                 </mat-option>
               </ng-container>
@@ -100,7 +99,6 @@
             </div>
           </div>
         </div>
-        </ng-container>
       </mat-card-content>
       <mat-card-actions fxLayoutAlign="center center">
 

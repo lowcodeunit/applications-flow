@@ -1,4 +1,12 @@
 <ng-container *ngIf="!State?.Loading">
+
+    <lcu-breadcrumb
+    [enterprise]="Enterprise"
+    [project-lookup]="ProjectLookup"
+    >
+
+    </lcu-breadcrumb>  
+
 <lcu-three-column>
     <!-- left column -->
     <div left>
@@ -57,6 +65,26 @@
         </div>
 
         </lcu-feed-card-sm>
+
+        <div *ngFor="let run of Feed.Runs">
+
+            <lcu-feed-card-sm
+            [title]="run.RunNumber"
+            [subtext]="run.Committer"
+            [description]="run.CommitMessage"
+            [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
+    
+            >
+            <!-- <div actions>
+                <button mat-icon-button  (click)="LaunchBuildClicked()">
+                    <mat-icon>launch</mat-icon>
+                </button>
+                <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
+            </div> -->
+    
+            </lcu-feed-card-sm>
+    
+        </div>
 <!-- Commented out until implemented -->
         <!-- <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
             [title]="feedItm.Title"

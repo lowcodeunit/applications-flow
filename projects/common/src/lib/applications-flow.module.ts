@@ -51,6 +51,7 @@ import { DevopsSourceControlFormComponent } from './controls/devops-source-contr
 import { SourceControlDialogComponent } from './dialogs/source-control-dialog/source-control-dialog.component';
 import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 import { EditApplicationFormComponent } from './controls/edit-application-form/edit-application-form.component';
+import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -93,7 +94,8 @@ import { EditApplicationFormComponent } from './controls/edit-application-form/e
     DevopsSourceControlFormComponent,
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
-    EditApplicationFormComponent
+    EditApplicationFormComponent,
+    BreadcrumbComponent
   ],
   imports: [
     FathymSharedModule,
@@ -146,7 +148,8 @@ import { EditApplicationFormComponent } from './controls/edit-application-form/e
     DevopsSourceControlFormComponent,
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
-    EditApplicationFormComponent
+    EditApplicationFormComponent,
+    BreadcrumbComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -186,7 +189,8 @@ import { EditApplicationFormComponent } from './controls/edit-application-form/e
     DevopsSourceControlFormComponent,
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
-    EditApplicationFormComponent
+    EditApplicationFormComponent,
+    BreadcrumbComponent
   ],
 })
 export class ApplicationsFlowModule {

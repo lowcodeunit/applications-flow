@@ -1,5 +1,11 @@
 <!-- <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
 <ng-container *ngIf="!State?.Loading">
+
+    <lcu-breadcrumb
+    [enterprise]="Enterprise"
+    >
+
+    </lcu-breadcrumb>    
     
 <lcu-two-column-header>
 
@@ -37,25 +43,25 @@
         </lcu-analytics-card> -->
     </div>
     <!-- CENTER FEED -->
-    <!-- <div *ngFor="let run of Feed.Runs">
+    <div *ngFor="let run of Feed.Runs">
 
         <lcu-feed-card-sm
         [title]="run.RunNumber"
         [subtext]="run.Committer"
         [description]="run.CommitMessage"
-        [icon]="run.Conclusion === 'success'? check : cancel"
+        [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
 
         >
-        <div actions>
+        <!-- <div actions>
             <button mat-icon-button  (click)="LaunchBuildClicked()">
                 <mat-icon>launch</mat-icon>
             </button>
             <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
-        </div>
+        </div> -->
 
         </lcu-feed-card-sm>
 
-    </div> -->
+    </div>
 
     <div right>
           

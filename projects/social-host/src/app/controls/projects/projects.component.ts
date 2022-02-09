@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
 import { MainFeedItemModel } from 'projects/common/src/lib/models/main-feed-item.model';
 import { EaCApplicationAsCode } from '@semanticjs/common';
+import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
+import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
 
 @Component({
   selector: 'lcu-projects',
@@ -32,12 +34,25 @@ export class ProjectsComponent implements OnInit {
     return Object.keys(this.RoutedApplications || {});
   }
 
+  public get Enterprise(): any {
+    return this.State?.EaC?.Enterprise;
+  }
+
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
 
   public get Project(): any {
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
+  }
+
+  public get ProjectLookups(): string[] {
+    return Object.keys(this.State?.EaC?.Projects || {});
+  }
+
+  public get Projects(): any {
+    return this.State?.EaC?.Projects || {};
   }
 
   public get NumberOfRoutes(): number {
@@ -116,13 +131,16 @@ export class ProjectsComponent implements OnInit {
     return routeSetResult;
   }
 
-  public FeedItems: MainFeedItemModel[];
+  public Feed: UserFeedResponseModel;
+
+  // public FeedItems: MainFeedItemModel[];
 
   public Stats: any[];
 
   public ProjectLookup: string;
 
-  constructor(private activatedRoute: ActivatedRoute,
+  constructor(protected appSvc: ApplicationsFlowService,
+    private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService) {
 
     this.activatedRoute.params.subscribe(params => {
@@ -133,14 +151,16 @@ export class ProjectsComponent implements OnInit {
     { Name: "Bounce Rate", Stat: "38%" },
     { Name: "Someother Rate", Stat: "5%" }];
 
-    this.FeedItems = [{ Title: "Test Issue", Author: "Jackson", Type: "ISSUE" },
-    { Title: "Test Build", Author: "Mike", Type: "BUILD" }];
+    // this.FeedItems = [{ Title: "Test Issue", Author: "Jackson", Type: "ISSUE" },
+    // { Title: "Test Build", Author: "Mike", Type: "BUILD" }];
 
   }
 
   public ngOnInit(): void {
 
     this.handleStateChange().then((eac) => { });
+
+    this.getFeedInfo();
 
   }
 
@@ -170,6 +190,22 @@ export class ProjectsComponent implements OnInit {
 
 
   //HELPERS
+
+  protected async getFeedInfo(): Promise<void> {
+
+    // setInterval(() => {
+
+     this.appSvc.UserFeed(1,25)
+        .subscribe((resp: UserFeedResponseModel) => {
+       this.Feed = resp;
+       console.log("FEED: ", this.Feed.Runs)
+     });
+
+    // }, 30000);
+
+
+  }
+
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;

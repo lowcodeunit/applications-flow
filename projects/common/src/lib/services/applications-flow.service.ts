@@ -235,13 +235,10 @@ export class ApplicationsFlowService {
     );
   }
 
-  public UserFeed(): Observable<object> {
-    return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/userfeed`,
+  public UserFeed(page: number, pageSize: number): Observable<object> {
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}`,
       {},
-      {
-        headers: this.loadHeaders(),
-      }
     );
   }
 

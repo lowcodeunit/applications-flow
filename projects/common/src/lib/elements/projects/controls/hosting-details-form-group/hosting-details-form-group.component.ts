@@ -85,7 +85,6 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
 
   public ngOnInit(): void {
 
-    console.log("made it to hosting details")
 
     this.BuildPipeline =
       this.BuildPipeline || this.Details?.HostingOptions

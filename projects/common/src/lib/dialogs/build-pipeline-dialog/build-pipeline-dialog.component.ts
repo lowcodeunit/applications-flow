@@ -2,11 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
 
+
 export interface BPDialogData {
   devopsActionLookup: string;
   environment: EaCEnvironmentAsCode;
   environmentLookup: string;
-  buildPipeline: string;
+  // buildPipeline: string;
 }
 
 @Component({
@@ -15,6 +16,8 @@ export interface BPDialogData {
   styleUrls: ['./build-pipeline-dialog.component.scss']
 })
 export class BuildPipelineDialogComponent implements OnInit {
+
+  
 
 constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
   @Inject(MAT_DIALOG_DATA) public data: BPDialogData) { }
@@ -26,4 +29,5 @@ constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
     this.dialogRef.close();
   }
 
+ 
 }

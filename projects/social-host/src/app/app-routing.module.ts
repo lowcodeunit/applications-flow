@@ -6,7 +6,7 @@ import { ProjectsComponent } from './controls/projects/projects.component';
 import { RoutesComponent } from './controls/routes/routes.component';
 
 const routes: Routes = [
-  { path: 'applications/:appLookup/:projectLookup', component: ApplicationsComponent },
+  { path: 'applications/:appLookup/:appRoute/:projectLookup', component: ApplicationsComponent },
   { path: 'enterprises', component: EnterpriseComponent },
   { path: 'projects/:projectLookup', component: ProjectsComponent },
   { path: 'routes/:appRoute/:projectLookup', component: RoutesComponent },
