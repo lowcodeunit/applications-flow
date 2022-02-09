@@ -22,7 +22,10 @@ export class AppComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
-    this.themeBuilderService.MaterialTheme = 'https://www.iot-ensemble.com/assets/theming/theming.scss';
+    // this.themeBuilderService.MaterialTheme = 'https://www.iot-ensemble.com/assets/theming/theming.scss';
+
+    // really need to fix the theming, maybe dump the theme builder for now? - shannon
+    this.themeBuilderService.MaterialTheme = '../assets/styles/angular-material-theme.scss';
     this.setupThemes();
   }
 

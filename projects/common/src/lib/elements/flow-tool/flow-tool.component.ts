@@ -22,8 +22,7 @@ export class FlowToolComponent implements OnInit  {
 
 
   // Array<{Module: string, Data: Array<any>}>
-  public Data: any;
-  public DataTest: any;
+  public KrakynData: any;
   public SideMenuItems: any;
   public Title: string;
   public TabMenuItems: Array<{Label: string, Target: string, Class?: string}>;
@@ -41,19 +40,20 @@ export class FlowToolComponent implements OnInit  {
 
     this.State = new ApplicationsFlowState();
 
-    VariablesUtils.DataFlowModuleData =
-    [
-      ConstantUtils.NAPKIN_IDE_MODULE_DATA,
-      ConstantUtils.HOME_MODULE_DATA
-    ];
+    // VariablesUtils.DataFlowModuleData =
+    // [
+    //   ConstantUtils.NAPKIN_IDE_MODULE_DATA,
+    //   ConstantUtils.HOME_MODULE_DATA
+    // ];
 
     this.Title = 'The Krakyn Tool';
 
     this.SideMenuItems = DragItemsTemplates.FLOW_DRAG_ITEMS(DragDropUtils.Drag);
 
     this.TabMenuItems = [
-      { Label: 'Napkin IDE', Target: 'NapkinIDE', Class: 'selected' },
-      { Label: 'Home', Target: 'Home' }
+      { Label: 'External Data Test', Target: 'ExternalData', Class: 'selected' },
+      { Label: 'Original Data', Target: 'OriginalData', Class: '' }
+    //   { Label: 'Home', Target: 'Home' }
     ];
 
     // this.Data = VariablesUtils.DataFlowModuleData[0];
@@ -62,8 +62,6 @@ export class FlowToolComponent implements OnInit  {
 
    // Lifecycle hooks
   public ngOnInit(): void {
-
-    // super.ngOnInit();
 
     this.handleStateChange()
     .then((eac) => {});
@@ -74,19 +72,27 @@ export class FlowToolComponent implements OnInit  {
    */
   protected importData(): void {
 
-    console.log('IMPORT DATA');
-    this.Title = 'Import Data for Krakyn Tool';
-
     const eaCNapkinIDEFlowImporter: EaCNapkinIDEFlowImporter = new EaCNapkinIDEFlowImporter();
-    const model: EnterpriseAsCode = new EnterpriseAsCode();
 
-    console.log('STATE', this.State);
-    console.log('KRAKYN', this.State.EaC);
+    this.Title = 'Imported data for Krakyn';
 
-    this.Data = eaCNapkinIDEFlowImporter.Import(this.State.EaC);
-    this.DataTest = eaCNapkinIDEFlowImporter.Import(this.State.EaC);
+    const externalData: { Module: string, Data: any } = {
+      Module: 'ExternalData',
+      Data: eaCNapkinIDEFlowImporter.Import(this.State.EaC)
+    };
 
-    console.log('KRAKYN  DATA SET!!!!!!!', this.Data);
+    const dataIndex: number = 0;
+
+    VariablesUtils.DataFlowModuleData = [
+      ConstantUtils.MapData('ExternalData', externalData.Data),
+      ConstantUtils.MapData('OriginalData', ConstantUtils.ORIGINAL_TEST_DATA)
+    ];
+
+    VariablesUtils.ActiveModule = VariablesUtils.DataFlowModuleData[dataIndex].Module;
+
+    this.KrakynData = VariablesUtils.DataFlowModuleData[dataIndex];
+
+    console.log('KRAKYN - DATA SET!!!!!!!', this.KrakynData);
 
   }
 
