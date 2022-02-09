@@ -1,5 +1,17 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Guid } from '@lcu/common';
 import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
@@ -9,13 +21,10 @@ import { EaCService } from '../../services/eac.service';
 @Component({
   selector: 'lcu-processor-details-form',
   templateUrl: './processor-details-form.component.html',
-  styleUrls: ['./processor-details-form.component.scss']
+  styleUrls: ['./processor-details-form.component.scss'],
 })
 export class ProcessorDetailsFormComponent implements OnInit {
-
-  
-
-  @Input('editing-application') 
+  @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
 
   @Input('editing-application-lookup')
@@ -25,7 +34,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
   public ProjectLookup: string;
 
   @Output('save-form-event')
-  public SaveFormEvent: EventEmitter<{}>
+  public SaveFormEvent: EventEmitter<{}>;
 
   @ViewChild(SourceControlFormControlsComponent)
   public SourceControlFormControls: SourceControlFormControlsComponent;
@@ -37,7 +46,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
   public get BuildFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.build;
   }
-  
+
   public get ClientIDFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.clientId;
   }
@@ -59,12 +68,16 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public get InboundPathFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.inboundPath;
-  }  
+  }
+
+  public get IncludeRequestFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.includeRequest;
+  }
 
   public get MethodsFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.methods;
   }
- 
+
   public get PackageFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.package;
   }
@@ -97,7 +110,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.tokenLookup;
   }
 
-
   public get VersionFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.version;
   }
@@ -106,37 +118,30 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.zipFile;
   }
 
-
   public IsPermanent: boolean;
 
   public IsPreserve: boolean;
 
   public LCUType: string;
-  
+
   public redirectTooltip: string;
 
   public ProcessorDetailsFormGroup: FormGroup;
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder, 
-    protected eacSvc: EaCService) {
-
+  constructor(protected formBldr: FormBuilder, protected eacSvc: EaCService) {
     this.redirectTooltip = '';
 
-    this.SaveFormEvent = new EventEmitter;
-
-   }
+    this.SaveFormEvent = new EventEmitter();
+  }
 
   public ngOnInit(): void {
-
-    if(!this.EditingApplication){
+    if (!this.EditingApplication) {
       this.CreateNewApplication();
-    }
-    else{
+    } else {
       this.setupProcessorDetailsForm();
     }
-
   }
 
   public CreateNewApplication(): void {
@@ -164,8 +169,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.setupProcessorDetailsForm();
   }
 
-  public SubmitProcessorDetails(){
-    console.log("submitting proc details: ", this.ProcessorDetailsFormGroup.value);
+  public SubmitProcessorDetails() {
+    console.log(
+      'submitting proc details: ',
+      this.ProcessorDetailsFormGroup.value
+    );
     this.SaveFormEvent.emit(this.ProcessorDetailsFormGroup.value);
   }
 
@@ -212,6 +220,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.ProcessorDetailsFormGroup.removeControl('inboundPath');
     this.ProcessorDetailsFormGroup.removeControl('proxyLcuType');
 
+    this.ProcessorDetailsFormGroup.removeControl('includeRequest');
     this.ProcessorDetailsFormGroup.removeControl('redirect');
     this.ProcessorDetailsFormGroup.removeControl('permanent');
     this.ProcessorDetailsFormGroup.removeControl('preserveMethod');
@@ -243,6 +252,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
           this.setupLCUGitHubOAuthForm();
           break;
 
+        case 'WordPress':
+          this.setupLCUWordPressForm();
+          break;
+
         // case 'NPM':
         //   this.setupLCUNPMForm();
         //   break;
@@ -261,18 +274,15 @@ export class ProcessorDetailsFormComponent implements OnInit {
   protected setupProcessorDetailsForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
-    console.log("EDITING APP = ", this.EditingApplication);
+    console.log('EDITING APP = ', this.EditingApplication);
 
     if (this.EditingApplication != null) {
       this.ProcessorDetailsFormGroup = this.formBldr.group({
-
-        procType: [this.ProcessorType, [Validators.required]]
-
+        procType: [this.ProcessorType, [Validators.required]],
       });
       this.setupDfsForm();
 
       this.setupLcuTypeSubForm();
-
     }
   }
 
@@ -297,20 +307,20 @@ export class ProcessorDetailsFormComponent implements OnInit {
   }
 
   // protected setupLCUNPMForm(): void {
-    // this.ApplicationFormGroup.addControl(
-    //   'package',
-    //   this.formBldr.control(
-    //     this.EditingApplication.LowCodeUnit?.Package || '',
-    //     [Validators.required]
-    //   )
-    // );
-    // this.ApplicationFormGroup.addControl(
-    //   'version',
-    //   this.formBldr.control(
-    //     this.EditingApplication.LowCodeUnit?.Version || '',
-    //     [Validators.required]
-    //   )
-    // );
+  // this.ApplicationFormGroup.addControl(
+  //   'package',
+  //   this.formBldr.control(
+  //     this.EditingApplication.LowCodeUnit?.Package || '',
+  //     [Validators.required]
+  //   )
+  // );
+  // this.ApplicationFormGroup.addControl(
+  //   'version',
+  //   this.formBldr.control(
+  //     this.EditingApplication.LowCodeUnit?.Version || '',
+  //     [Validators.required]
+  //   )
+  // );
   // }
 
   protected setupLCUSPAForm(): void {
@@ -367,6 +377,16 @@ export class ProcessorDetailsFormComponent implements OnInit {
     );
   }
 
+  protected setupLCUWordPressForm(): void {
+    this.ProcessorDetailsFormGroup.addControl(
+      'apiRoot',
+      this.formBldr.control(
+        this.EditingApplication.LowCodeUnit?.APIRoot || '',
+        [Validators.required]
+      )
+    );
+  }
+
   protected setupProxyForm(): void {
     this.LCUType = this.EditingApplication.LowCodeUnit?.Type || '';
 
@@ -407,6 +427,15 @@ export class ProcessorDetailsFormComponent implements OnInit {
         []
       )
     );
+
+    this.ProcessorDetailsFormGroup.addControl(
+      'includeRequest',
+      this.formBldr.control(
+        this.EditingApplication.Processor?.IncludeRequest || false,
+        []
+      )
+    );
+
     this.DetermineTooltipText();
   }
 
@@ -487,7 +516,4 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     this.setupLcuTypeSubForm();
   }
-
-  
-
 }

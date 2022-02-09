@@ -44,6 +44,8 @@
 
               <mat-option value="GitHub">GitHub</mat-option>
 
+              <mat-option value="WordPress">WordPress</mat-option>
+
               <!-- <mat-option value="Zip">Zip</mat-option> -->
             </mat-select>
           </mat-form-field>
@@ -91,6 +93,17 @@
                 Current Version:
                 {{ EditingApplication?.LowCodeUnit?.CurrentVersion }}
               </mat-hint>
+            </div>
+
+            <div *ngSwitchCase="'WordPress'">
+              <mat-form-field class="mat-full-width">
+                <input
+                  matInput
+                  placeholder="API Root"
+                  formControlName="apiRoot"
+                  required
+                />
+              </mat-form-field>
             </div>
           </div>
         </div>
@@ -283,6 +296,22 @@
             >
               info_outline
             </mat-icon> -->
+          </div>
+          
+          <div>
+            <mat-slide-toggle 
+              class="spread" 
+              formControlName="includeRequest">
+              Include Path and Query?
+            </mat-slide-toggle>
+
+            <mat-icon
+              class="spread"
+              matSuffix
+              matTooltip="Should the redirect include the path and query?"
+            >
+              info_outline
+            </mat-icon>
           </div>
         </div>
       </div>
