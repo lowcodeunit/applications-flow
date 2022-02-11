@@ -91,6 +91,7 @@
             *ngIf="State?.EaC?.Projects[projectLookup]; let project"
             fxLayout="row"
             fxLayoutAlign="space-between center"
+            [title]="project.Project.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
@@ -162,6 +163,7 @@
             *ngIf="DevOpsActions[doaLookup]; let doa"
             fxLayout="row"
             fxLayoutAlign="space-between center"
+            [title]="doa?.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
@@ -221,6 +223,7 @@
             *ngIf="SourceControls[scLookup]; let sc"
             fxLayout="row"
             fxLayoutAlign="space-between center"
+            [title]="sc.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
