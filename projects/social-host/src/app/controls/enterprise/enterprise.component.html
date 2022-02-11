@@ -230,11 +230,11 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="sc.Name.length > 18" class="slot-name">
-                  {{ sc.Name | slice: 0:15 }}...
+                <div *ngIf="sc.Name.length > 21" class="slot-name">
+                  {{ sc.Name | slice: 0:18 }}...
                 </div>
                 <div
-                  *ngIf="sc.Name.length < 18 || sc.Name.length == 18"
+                  *ngIf="sc.Name.length < 21 || sc.Name.length == 21"
                   class="slot-name"
                 >
                   {{ sc.Name }}
