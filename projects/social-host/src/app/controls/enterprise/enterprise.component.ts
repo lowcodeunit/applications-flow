@@ -129,9 +129,8 @@ export class EnterpriseComponent implements OnInit {
     });
   }
 
-
   public RouteToPath(path: string) {
-    this.router.navigate([path]);
+    window.location.href = path;
   }
 
 
