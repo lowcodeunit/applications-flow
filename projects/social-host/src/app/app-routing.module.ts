@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'enterprises', component: EnterpriseComponent },
   { path: 'projects/:projectLookup', component: ProjectsComponent },
   { path: 'routes/:appRoute/:projectLookup', component: RoutesComponent },
-  { path: '', redirectTo: 'enterprises', pathMatch: 'full' }
+  // { path: '', redirectTo: 'enterprises', pathMatch: 'full' }
 ];
 
 @NgModule({
