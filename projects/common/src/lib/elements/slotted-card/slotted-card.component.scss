@@ -1,15 +1,16 @@
 .col-info-card{
-    // background-color: white;
     margin:20px;
     padding:0px;
 }
 
 .header-icon{
-    margin-right: 10px;
+    height: 30px;
+    width: 30px;
+    font-size: 30px;
 }
 
 .card-title{
-    font-size: 30px;
+    font-size: 25px;
     margin-bottom: 0px;
 }
 
@@ -25,6 +26,4 @@ mat-card-actions{
 }
 .slotted-card-action-btn{
     width: 100%;
-    // border-radius: 0px 0px 2px 2px;
-    // border-top: 1px solid #d3d3d3;
 }

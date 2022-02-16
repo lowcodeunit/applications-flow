@@ -52,6 +52,8 @@ import { SourceControlDialogComponent } from './dialogs/source-control-dialog/so
 import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 import { EditApplicationFormComponent } from './controls/edit-application-form/edit-application-form.component';
 import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component';
+import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/custom-domain-dialog.component';
+import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
 
 @NgModule({
   declarations: [
@@ -95,7 +97,9 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
   imports: [
     FathymSharedModule,
@@ -149,7 +153,9 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -190,7 +196,9 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
 })
 export class ApplicationsFlowModule {

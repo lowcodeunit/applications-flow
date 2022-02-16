@@ -323,7 +323,7 @@
             "main": "projects/social-host/src/main.ts",
             "polyfills": "projects/social-host/src/polyfills.ts",
             "tsConfig": "projects/social-host/tsconfig.app.json",
-            "aot": true,
+            "aot": false,
             "assets": [
               {
 								"glob": "**/*",

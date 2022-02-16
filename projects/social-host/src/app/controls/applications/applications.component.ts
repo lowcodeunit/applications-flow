@@ -17,6 +17,8 @@ import { ProcessorDetailsFormComponent } from 'projects/common/src/lib/controls/
 import { SecurityToggleComponent } from 'projects/common/src/lib/controls/security-toggle/security-toggle.component';
 import { SourceControlFormComponent } from 'projects/common/src/lib/controls/source-control-form/source-control-form.component';
 import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
+import { MatDialog } from '@angular/material/dialog';
+import { EditApplicationDialogComponent } from 'projects/common/src/lib/dialogs/edit-application-dialog/edit-application-dialog.component';
 
 @Component({
   selector: 'lcu-applications',
@@ -164,6 +166,7 @@ export class ApplicationsComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
+    protected dialog: MatDialog,
   ) {
     this.Stats = [
       { Name: 'Retention Rate', Stat: '85%' },
@@ -190,13 +193,31 @@ export class ApplicationsComponent implements OnInit {
 
   
 
-  public HandleLeftClickEvent(event: any) {}
+  public HandleLeftClickEvent(event: any) {
+     this.OpenEditAppModal();
+
+  }
 
   public HandleRightClickEvent(event: any) {}
 
   public HandleSaveFormEvent(formValue: any) {
     console.log('Recieved Save Event: ', formValue);
     this.SaveApplication();
+  }
+
+  public OpenEditAppModal(){
+    const dialogRef = this.dialog.open(EditApplicationDialogComponent, {
+      width: '600px',
+      data: {
+        application: this.Application
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log("result:", result)
+    });
   }
 
   public UpgradeClicked() {}

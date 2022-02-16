@@ -170,11 +170,11 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="doa?.Name?.length > 18" class="slot-name">
-                  {{ doa?.Name | slice: 0:15 }}...
+                <div *ngIf="doa?.Name?.length > 28" class="slot-name">
+                  {{ doa?.Name | slice: 0:25 }}...
                 </div>
                 <div
-                  *ngIf="doa?.Name?.length < 18 || doa?.Name?.length == 18"
+                  *ngIf="doa?.Name?.length < 28 || doa?.Name?.length == 28"
                   class="slot-name"
                 >
                   {{ doa?.Name }}
@@ -230,11 +230,11 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="sc.Name.length > 21" class="slot-name">
-                  {{ sc.Name | slice: 0:18 }}...
+                <div *ngIf="sc.Name.length > 28" class="slot-name">
+                  {{ sc.Name | slice: 0:25 }}...
                 </div>
                 <div
-                  *ngIf="sc.Name.length < 21 || sc.Name.length == 21"
+                  *ngIf="sc.Name.length < 28 || sc.Name.length == 28"
                   class="slot-name"
                 >
                   {{ sc.Name }}
