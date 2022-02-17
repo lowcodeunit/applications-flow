@@ -2,10 +2,7 @@ import {
   Component,
   OnInit,
   Injector,
-<<<<<<< HEAD
-=======
   
->>>>>>> origin/feature/lets-get-social-ish
   OnDestroy,
 } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
@@ -16,18 +13,7 @@ import {
 } from '@lcu/common';
 import { ApplicationsFlowState } from './../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
-<<<<<<< HEAD
-import { ProjectService } from '../../services/project.service';
 import {
-  ApplicationsFlowEventsService,
-  SaveApplicationAsCodeEventRequest,
-  SaveDFSModifierEventRequest,
-  SaveEnvironmentAsCodeEventRequest,
-} from './../../services/applications-flow-events.service';
-import {
-=======
-import {
->>>>>>> origin/feature/lets-get-social-ish
   EaCEnvironmentAsCode,
   EaCProjectAsCode,
 } from '@semanticjs/common';
@@ -95,13 +81,6 @@ export class ApplicationsFlowProjectsElementComponent
     protected eacSvc: EaCService
   ) {
     super(injector);
-<<<<<<< HEAD
-   
-    this.State = new ApplicationsFlowState();
-
-    this.setServices();
-=======
->>>>>>> origin/feature/lets-get-social-ish
   }
 
   //  Life Cycle

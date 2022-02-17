@@ -5,8 +5,6 @@ import { ConstantUtils, DragDropUtils, DragItemsTemplates, VariablesUtils } from
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { ProjectService } from '../../services/project.service';
-import { ApplicationsFlowEventsService } from '../../services/applications-flow-events.service';
-
 @Component({
   selector: 'lcu-flow-tool',
   templateUrl: './flow-tool.component.html',
@@ -28,8 +26,7 @@ export class FlowToolComponent implements OnInit  {
   constructor(
     protected injector: Injector,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected projectService: ProjectService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected projectService: ProjectService
   ) {
 
     // super(injector);

@@ -326,7 +326,7 @@
             "main": "projects/social-host/src/main.ts",
             "polyfills": "projects/social-host/src/polyfills.ts",
             "tsConfig": "projects/social-host/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               {
 								"glob": "**/*",
@@ -351,6 +351,15 @@
             ]
           },
           "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": false
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -389,6 +398,9 @@
           "configurations": {
             "production": {
               "browserTarget": "social-host:build:production"
+            },
+            "development": {
+              "browserTarget": "social-host:build:development"
             }
           }
         },
