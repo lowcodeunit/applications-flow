@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectService } from 'projects/common/src/lib/services/project.service';
-import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
+import { EaCDevOpsAction, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
+import { MatDialog } from '@angular/material/dialog';
+import { SourceControlDialogComponent } from 'projects/common/src/lib/dialogs/source-control-dialog/source-control-dialog.component';
+import { BuildPipelineDialogComponent } from 'projects/common/src/lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
+import { Router } from '@angular/router';
+import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
+import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -9,38 +15,146 @@ import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
 })
 export class EnterpriseComponent implements OnInit {
 
+  public get ActiveEnvironment(): EaCEnvironmentAsCode {
+    return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+  }
 
-  public State: ApplicationsFlowState;
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
-  public get NumberOfProjects(): number{
+    return envLookups[0];
+  }
+
+  public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
+    return this.Environment?.DevOpsActions || {};
+  }
+
+  public get DevOpsActionLookups(): Array<string> {
+    return Object.keys(this.DevOpsActions || {});
+  }
+
+  public get Enterprise(): any {
+    return this.State?.EaC?.Enterprise;
+  }
+
+  public get Environment(): EaCEnvironmentAsCode {
+    // console.log("Ent Environment var: ", this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
+    return this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment];
+  }
+
+
+  public get SourceControlLookups(): Array<string> {
+    return Object.keys(this.SourceControls || {});
+  }
+
+  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    return this.Environment?.Sources || {};
+  }
+
+  public get NumberOfSourceControls(): number {
+    return this.SourceControlLookups.length;
+  }
+
+  public get NumberOfPipelines(): number {
+    return this.DevOpsActionLookups.length;
+  }
+
+  public get NumberOfProjects(): number {
     return this.ProjectLookups.length;
   }
 
-  public get ProjectLookups(): string[]{
+  public get ProjectLookups(): string[] {
     return Object.keys(this.State?.EaC?.Projects || {});
   }
 
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
+
+  public Feed: UserFeedResponseModel;
 
 
-  constructor(protected projectService: ProjectService) {
-    this.State = new ApplicationsFlowState();
-    
+  constructor(
+    protected appSvc: ApplicationsFlowService,
+    protected dialog: MatDialog,
+    protected eacSvc: EaCService,
+    protected router: Router
+  ) {
+    this.Feed = new UserFeedResponseModel;
    }
 
   public ngOnInit(): void {
-    this.handleStateChange().then((eac) => {});
+    this.handleStateChange().then((eac) => { });
+
+    this.getFeedInfo();
+
+    console.log("FEED on init: ", this.Feed)
+    
+
+  }
+
+  public OpenBuildPipelineDialog(doaLookup: string) {
+  
+    const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {
+      width: '600px',
+      data: {
+        devopsActionLookup: doaLookup,
+        environment: this.Environment,
+        environmentLookup: this.ActiveEnvironmentLookup,
+        // buildPipeline: doaLookup
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log("result:", result)
+    });
+  }
+
+  public OpenSourceControlDialog(scLookup: string) {
+    const dialogRef = this.dialog.open(SourceControlDialogComponent, {
+      width: '550px',
+      data: { 
+        environment: this.Environment, 
+        environmentLookup: this.ActiveEnvironmentLookup, 
+        scLookup: scLookup 
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log("result:", result)
+    });
+  }
+
+  public RouteToPath(path: string) {
+    window.location.href = path;
+  }
+
+
+  //HELPERS
+
+  protected async getFeedInfo(): Promise<void> {
+
+    // setInterval(() => {
+
+     this.appSvc.UserFeed(1,25)
+        .subscribe((resp: UserFeedResponseModel) => {
+       this.Feed = resp;
+       console.log("FEED: ", this.Feed.Runs)
+     });
+
+    // }, 30000);
+
+
   }
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.HasValidConnection(this.State);
-
-    await this.projectService.ListEnterprises(this.State);
-
-    if (this.State.Enterprises?.length > 0) {
-      await this.projectService.GetActiveEnterprise(this.State);
-    }
+    await this.eacSvc.EnsureUserEnterprise();
 
   }
 

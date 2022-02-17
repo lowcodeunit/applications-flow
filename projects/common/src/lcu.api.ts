@@ -17,6 +17,7 @@ export * from './lib/elements/projects/controls/tabs/general/forms/project-detai
 export * from './lib/elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
 export * from './lib/models/card-form-config.model';
 export * from './lib/services/forms.service';
+export * from './lib/services/eac.service';
 export * from './lib/models/form.model';
 export * from './lib/models/form.values.model';
 export * from './lib/models/base-form-config.model';

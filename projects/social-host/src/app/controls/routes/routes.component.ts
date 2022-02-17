@@ -1,159 +1,236 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ProjectService } from 'projects/common/src/lib/services/project.service';
-import { ApplicationsFlowState } from '@lowcodeunit/applications-flow-common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
+import { EaCApplicationAsCode } from '@semanticjs/common';
+import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
+import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
 
 @Component({
   selector: 'lcu-routes',
   templateUrl: './routes.component.html',
-  styleUrls: ['./routes.component.scss']
+  styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
 
-  public routeData: any;
+  public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
+    return this.State?.EaC?.Applications || {};
+  }
+
+  public get ApplicationRoutes(): Array<string> {
+    return Object.keys(this.RoutedApplications || {});
+  }
+
+  public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
+    const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+    this.Project?.ApplicationLookups.forEach((appLookup: string) => {
+      apps[appLookup] = this.ApplicationsBank[appLookup];
+    });
+    return apps;
+  }
+
+  public get CurrentApplicationRoute(): any {
+    return this.AppRoute || {};
+  }
+
+  public get CurrentRouteApplicationLookups(): Array<string> {
+    return Object.keys(
+      this.RoutedApplications[this.CurrentApplicationRoute] || {}
+    );
+  }
+
+  public get Enterprise(): any {
+    return this.State?.EaC?.Enterprise;
+  }
+
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
+
+  public get NumberOfApps(): any {
+    return this.CurrentRouteApplicationLookups.length || {};
+  }
+
+  public get Project(): any {
+    return this.State?.EaC?.Projects[this.ProjectLookup];
+  }
+  
+  public get ProjectLookups(): string[] {
+    return Object.keys(this.State?.EaC?.Projects || {});
+  }
+
+  public get Projects(): any {
+    return this.State?.EaC?.Projects || {};
+  }
+
+  public get RoutedApplications(): {
+    [route: string]: { [lookup: string]: EaCApplicationAsCode };
+  } {
+    const appLookups = Object.keys(this.Applications);
+
+    const apps = appLookups.map((appLookup) => this.Applications[appLookup]);
+
+    let appRoutes =
+      apps.map((app) => {
+        return app.LookupConfig?.PathRegex.replace('.*', '');
+      }) || [];
+
+    appRoutes = appRoutes.filter((ar) => ar != null);
+
+    let routeBases: string[] = [];
+
+    appRoutes.forEach((appRoute) => {
+      const appRouteParts = appRoute.split('/');
+
+      const appRouteBase = `/${appRouteParts[1]}`;
+
+      if (routeBases.indexOf(appRouteBase) < 0) {
+        routeBases.push(appRouteBase);
+      }
+    });
+
+    let workingAppLookups = [...(appLookups || [])];
+
+    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+    const routeSet =
+      routeBases.reduce((prevRouteMap, currentRouteBase) => {
+        const routeMap = {
+          ...prevRouteMap,
+        };
+
+        const filteredAppLookups = workingAppLookups.filter((wal) => {
+          const wa = this.Applications[wal];
+
+          return wa.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+        });
+
+        routeMap[currentRouteBase] =
+          filteredAppLookups.reduce((prevAppMap, appLookup) => {
+            const appMap = {
+              ...prevAppMap,
+            };
+
+            appMap[appLookup] = this.Applications[appLookup];
+
+            return appMap;
+          }, {}) || {};
+
+        workingAppLookups = workingAppLookups.filter((wa) => {
+          return filteredAppLookups.indexOf(wa) < 0;
+        });
+
+        return routeMap;
+      }, {}) || {};
+
+    let routeSetKeys = Object.keys(routeSet);
+
+    routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+    const routeSetResult = {};
+
+    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+    return routeSetResult;
+  }
+
+
+  public AppRoute: string;
+
+  public Feed: UserFeedResponseModel;
+
+  public ProjectLookup: string;
 
   public Routes: any;
 
   public Stats: any[];
 
-  public State: ApplicationsFlowState;
+  constructor(
+    protected appSvc: ApplicationsFlowService,
+    protected activatedRoute: ActivatedRoute,
+    protected eacSvc: EaCService,
+    protected router: Router
+  ) {
 
-  protected carouselIndex: number;
+    this.activatedRoute.params.subscribe((params) => {
+      this.AppRoute = params['appRoute'];
+      this.ProjectLookup = params['projectLookup'];
+    });
 
-  //TODO hook this up properly
-  public get Application(): any{
-    return this.State?.EaC?.Projects[this.routeData.applicationLookup] || {};
-  }
-
-  constructor(private router: Router,
-    protected projectService: ProjectService) {
-
-   this.State = new ApplicationsFlowState();
-
-   this.routeData = this.router.getCurrentNavigation().extras.state;
-
-   this.Stats = [{Name: "Retention Rate", Stat: "85%"}, 
-   {Name: "Bounce Rate", Stat: "38%"}, 
-   {Name: "Someother Rate", Stat: "5%"}];
-
-   this.carouselIndex = 0;
-
+    this.Stats = [
+      { Name: 'Retention Rate', Stat: '85%' },
+      { Name: 'Bounce Rate', Stat: '38%' },
+      { Name: 'Someother Rate', Stat: '5%' },
+    ];
   }
 
   public ngOnInit(): void {
 
     this.handleStateChange().then((eac) => {});
-    
-    console.log("route Data: ", this.routeData); 
+
+    this.getFeedInfo();
 
   }
 
-  public ngAfterViewInit(){
-    this.buildCarousel();
+  public EditRouteClicked() {
+    console.log('Edit Route clicked');
   }
 
-
-  public LaunchRouteClicked(){
-    console.log("Launch Route clicked");
+  public HandleLeftClickEvent(event: any) {
+    console.log('Left Icon has been selected', event);
   }
 
-  public EditRouteClicked(){
-    console.log("Edit Route clicked");
+  public HandleRightClickEvent(event: any) {
+    console.log('Right Icon has been selected', event);
+    console.log("app:", this.RoutedApplications[this.CurrentApplicationRoute][this.CurrentRouteApplicationLookups[0]])
   }
 
-  public UploadRouteClicked(){
-    console.log("Upload Route clicked");
+  public LaunchRouteClicked() {
+    console.log('Launch Route clicked');
   }
 
-  public TrashRouteClicked(){
-    console.log("Trash Route clicked");
+  public RouteToPath(){
+    let path = '/dashboard/create-project?projectId=' + this.ProjectLookup;
+    this.router.navigate([path]);
   }
 
-
-  public HandleLeftClickEvent(event: any){
-    console.log("Left Icon has been selected", event);
+  public SettingsClicked() {
+    console.log('Settings Clicked');
   }
 
-  public HandleRightClickEvent(event: any){
-    console.log("Right Icon has been selected", event);
+  public TrashRouteClicked() {
+    console.log('Trash Route clicked');
   }
 
-  public SettingsClicked(){
-    console.log("Settings Clicked")
+  public UpgradeClicked() {
+    console.log('Upgarde clicked');
   }
 
-  public UpgradeClicked(){
-    console.log("Upgarde clicked");
-  }
-
-  public LeftChevronClicked(){
-
-  this.removeCarouselClasses();
-
-    if(this.carouselIndex === 0){
-      this.carouselIndex = this.Stats.length-1;
-    }
-    else{
-      this.carouselIndex--;
-    }
-
-  this.assignCarouselClass();
-
-  }
-
-  public RightChevronClicked(){
-    this.removeCarouselClasses();
-
-    if(this.carouselIndex === this.Stats.length-1){
-      this.carouselIndex = 0;
-    }
-    else{
-      this.carouselIndex++;
-    }
-
-  this.assignCarouselClass();
+  public UploadRouteClicked() {
+    console.log('Upload Route clicked');
   }
 
   //HELPERS
 
-  protected removeCarouselClasses(){
-    for(let i=0; i<this.Stats.length; i++){
-      if(i === this.carouselIndex){
-        (<HTMLElement>document.getElementById("carousel-"+this.carouselIndex)).classList.remove('active');
-      }
-      else{
-        (<HTMLElement>document.getElementById("carousel-"+i)).classList.remove('hidden');
-      }
-    }
-  }
+  protected async getFeedInfo(): Promise<void> {
 
-  protected assignCarouselClass(){
-    for(let i=0; i<this.Stats.length; i++){
-      if(i === this.carouselIndex){
-        (<HTMLElement>document.getElementById("carousel-"+this.carouselIndex)).classList.add('active');
-      }
-      else{
-        (<HTMLElement>document.getElementById("carousel-"+i)).classList.add('hidden');
-      }
-    }
-  }
+    // setInterval(() => {
 
-  protected buildCarousel(){
-    this.assignCarouselClass();
+     this.appSvc.UserFeed(1,25)
+        .subscribe((resp: UserFeedResponseModel) => {
+       this.Feed = resp;
+       console.log("FEED: ", this.Feed.Runs)
+     });
+
+    // }, 30000);
+
+
   }
 
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.projectService.HasValidConnection(this.State);
-
-    await this.projectService.ListEnterprises(this.State);
-
-    if (this.State.Enterprises?.length > 0) {
-      await this.projectService.GetActiveEnterprise(this.State);
-    }
-
+    await this.eacSvc.EnsureUserEnterprise();
   }
-
 }

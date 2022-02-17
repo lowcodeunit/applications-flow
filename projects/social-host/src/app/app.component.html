@@ -1,39 +1,50 @@
 <div fxLayout="column" fxFlexFill>
+
   <mat-toolbar
+    class="social-toolbar"
     color="primary"
     fxLayout="row"
-    fxFlex
     fxLayoutAlign="space-between center"
   >
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="40%" >
+      <img class="logo" src="./assets/svgs/logo.svg">
+      <!-- <div class="toolbar-title">LowCodeUnit Beta</div> -->
+    </div>
+    <div class="toolbar-actions-container" fxLayout="row" fxLayoutAlign="space-around center" fxFlex="25%">
+      <!-- <lcu-theme-picker dark-mode="true"></lcu-theme-picker> -->
+      <a class="toolbar-action" href="/docs">Docs</a>
+      <a class="toolbar-action" href="/blog">Blog</a>
+      <a class="toolbar-action" href="/.oauth/logout">Logout</a>
+    </div>
     <!-- <div fxLayout="row" fxLayoutAlign="start center">
       <div
         class="logo"
         fxHide.lt-md="true"
         [style.background-image]="
-          'url(' + (State.Logo || State.LogoMobile) + ')'
+          'url(' + (State?.Logo || State?.LogoMobile) + ')'
         "
-        *ngIf="State.Logo || State.LogoMobile"
+        *ngIf="State?.Logo || State?.LogoMobile"
       ></div>
       <div
         class="logo mobile"
         fxHide
         fxShow.lt-md="true"
         [style.background-image]="
-          'url(' + (State.LogoMobile || State.Logo) + ')'
+          'url(' + (State?.LogoMobile || State?.Logo) + ')'
         "
-        *ngIf="State.LogoMobile || State.Logo"
+        *ngIf="State?.LogoMobile || State?.Logo"
       ></div>
 
       <a
         mat-button
         href="/"
         class="title margin-left-2"
-        [innerHTML]="State.Title"
+        [innerHTML]="State?.Title"
       >
       </a>
     </div>
     <span fxHide.lt-md="true" style="background-color: blueviolet">
-      <ng-container *ngFor="let action of State.Actions">
+      <ng-container *ngFor="let action of State?.Actions">
         <ng-container *ngIf="action.Align === 'start'">
           <lcu-action
             class="toolbar-action"
@@ -45,7 +56,7 @@
     </span>
 
     <span fxHide.lt-md="true">
-      <ng-container *ngFor="let action of State.Actions">
+      <ng-container *ngFor="let action of State?.Actions">
         <ng-container *ngIf="action.Align === 'end'">
           <lcu-action
             class="toolbar-action"
@@ -62,7 +73,11 @@
         [action]="MenuAction"
       ></lcu-hamburger-menu>
     </span> -->
+
   </mat-toolbar>
 
-  <router-outlet></router-outlet>
+  <lcu-loader [loading]="State?.Loading"></lcu-loader>
+
+
+  <router-outlet ></router-outlet>
 </div>

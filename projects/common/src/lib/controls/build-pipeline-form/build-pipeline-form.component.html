@@ -1,0 +1,117 @@
+<form class="form-card" [formGroup]="BuildPipelineFormGroup" (ngSubmit)="SubmitBuildPipeline()">
+    <mat-card
+      class="spread"  
+    >
+      <mat-card-header>
+        <mat-card-title> Build Pipeline </mat-card-title>
+
+        <mat-hint>
+          Changes made here are reflected for all sources using this
+          DevOpsAction
+        </mat-hint>
+      </mat-card-header>
+
+      <mat-card-content>
+
+
+        <div  *ngIf="!HostingDetails?.Loading">
+          <mat-form-field class="mat-full-width">
+            <mat-select
+              formControlName="buildPipeline"
+              placeholder="Build Pipeline"
+              [disabled]="Disabled"
+              (selectionChange)="BuildPipelineChanged()"
+              required
+            >
+              <ng-container
+                *ngFor="let hostOption of HostingDetails?.HostingOptions; let i = index"
+              >
+                <mat-option [value]="hostOption.Lookup">
+                  {{ hostOption.Name }}
+                </mat-option>
+              </ng-container>
+            </mat-select>
+        
+            <mat-hint>
+              <ng-container *ngFor="let hostOption of HostingDetails?.HostingOptions">
+                <span *ngIf="BuildPipeline == hostOption?.Lookup">
+                  {{ hostOption.Description }}
+                </span>
+              </ng-container>
+            </mat-hint>
+          </mat-form-field>
+        
+          <mat-form-field class="mat-full-width">
+            <input
+              matInput
+              formControlName="devOpsActionName"
+              placeholder="Name of DevOps Action"
+              required="true"
+            />
+          </mat-form-field>
+        
+          <ng-container *ngFor="let input of SelectedHostingOption?.Inputs">
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                [formControlName]="input.Lookup"
+                [placeholder]="input.Placeholder"
+                [required]="input.Required"
+              />
+        
+              <mat-hint>{{ input.Hint }}</mat-hint>
+            </mat-form-field>
+          </ng-container>
+        
+          <div *ngIf="BuildPipeline == 'npm-release'">
+            <mat-form-field class="mat-full-width with-hint padding-bottom-4">
+              <mat-icon matPrefix>security</mat-icon>
+        
+              <input
+                id="npm-token"
+                matInput
+                type="text"
+                formControlName="npmToken"
+                placeholder="NPM token"
+                [required]="!Disabled"
+                style="-webkit-text-security: disc;"
+              />
+              <mat-hint>
+                Securely publish to NPM, provide an NPM Personal Access Token (PAT) with publish access to the organization used for your NPM packages.              
+                Learn how to create and view access tokens 
+                <a
+                  href="https://docs.npmjs.com/creating-and-viewing-access-tokens"
+                  target="_blank"
+                >
+                  here.
+                </a>
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        </div>
+        
+        <div *ngIf="HostingDetails?.Loading">
+          <div class="spread">
+            <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
+        
+            <div class="margin-3">
+              <h4 class="mat-title">Loading hosting details</h4>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions fxLayoutAlign="center center">
+
+        <button 
+          mat-raised-button 
+          type="submit" 
+          fxFlex="100%" 
+          color="primary" 
+          [disabled]="!BuildPipelineFormGroup.valid || !BuildPipelineFormGroup.dirty">
+          <mat-icon>save</mat-icon>
+          Save Build Pipeline
+        </button>
+        
+    </mat-card-actions>
+    </mat-card>
+</form>

@@ -20,7 +20,6 @@ import { RecentActivitiesComponent } from './elements/projects/controls/recent-a
 import { FormCardComponent } from './elements/form-card/form-card.component';
 import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-details/project-details.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
-import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
 import { BaseFormComponent } from './elements/base-form/base-form.component';
 import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
 import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth.component';
@@ -40,6 +39,21 @@ import { FeedCardSmComponent } from './elements/feed-card-sm/feed-card-sm.compon
 import { GhControlComponent } from './elements/gh-control/gh-control.component';
 import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
 import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
+import { CardCarouselComponent } from './elements/card-carousel/card-carousel.component';
+import { SecurityToggleComponent } from './controls/security-toggle/security-toggle.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EaCService } from './services/eac.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
+import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
+import { BuildPipelineFormComponent } from './controls/build-pipeline-form/build-pipeline-form.component';
+import { DevopsSourceControlFormComponent } from './controls/devops-source-control-form/devops-source-control-form.component';
+import { SourceControlDialogComponent } from './dialogs/source-control-dialog/source-control-dialog.component';
+import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
+import { EditApplicationFormComponent } from './controls/edit-application-form/edit-application-form.component';
+import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component';
+import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/custom-domain-dialog.component';
+import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +87,19 @@ import { TwoColumnHeaderComponent } from './elements/two-column-header/two-colum
     FeedCardSmComponent,
     GhControlComponent,
     MainFeedCardComponent,
-    TwoColumnHeaderComponent
+    TwoColumnHeaderComponent,
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent,
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
   imports: [
     FathymSharedModule,
@@ -82,6 +108,8 @@ import { TwoColumnHeaderComponent } from './elements/two-column-header/two-colum
     FlexLayoutModule,
     MaterialModule,
     AppHostModule,
+    MatTooltipModule,
+    MatSlideToggleModule
     // LazyElementModule,
   ],
   exports: [
@@ -115,7 +143,19 @@ import { TwoColumnHeaderComponent } from './elements/two-column-header/two-colum
     FeedCardSmComponent,
     GhControlComponent,
     MainFeedCardComponent,
-    TwoColumnHeaderComponent
+    TwoColumnHeaderComponent,
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent,
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -145,7 +185,19 @@ import { TwoColumnHeaderComponent } from './elements/two-column-header/two-colum
     FeedCardSmComponent,
     GhControlComponent,
     MainFeedCardComponent,
-    TwoColumnHeaderComponent
+    TwoColumnHeaderComponent,
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent,
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
@@ -161,7 +213,7 @@ export class ApplicationsFlowModule {
         ProjectService,
         NPMService,
         FormsService,
-        ApplicationsFlowEventsService,
+        EaCService
       ],
     };
   }

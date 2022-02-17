@@ -1,37 +1,26 @@
+<ng-container *ngIf="!State?.Loading">
+
+    <lcu-breadcrumb
+    [enterprise]="Enterprise"
+    [project-lookup]="ProjectLookup"
+    >
+
+    </lcu-breadcrumb>  
+
 <lcu-three-column>
     <!-- left column -->
     <div left>
-        <!-- [name]="Project.Project.Name"
-        [description]="Project.Project.Description"
-        [subtext]="Project.Hosts"
-        [image]="" -->
-        <lcu-project-info-card
-        name="LowCodeUnit"
-        description="This is a test description for formatting purposes"
-        subtext="www.lowcodeunit.com"
-
-        
+        <lcu-project-info-card 
+        [name]="Project?.Project?.Name"
+        [description]="Project?.Project?.Description"
+        [subtext]="Project?.Hosts[Project?.Hosts.length-1]"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
-
-            <div stats class="carousel-container">
-                <div class="chevron-container" fxLayout="row">
-                    <button mat-icon-button class="chevron-button" id="left-chevron" (click)="LeftChevronClicked()">
-                        <mat-icon>chevron_left</mat-icon>
-                    </button>
-                    <button mat-icon-button class="chevron-button" id="right-chevron" (click)="RightChevronClicked()">
-                        <mat-icon>chevron_right</mat-icon>
-                    </button>
-                </div>
-                <ng-container *ngFor="let stat of Stats; let i = index">
-                        <div class="carousel-item" [id]="'carousel-'+i">
-                            <div class="carousel-title">{{stat.Name}}</div>
-                            <div class="carousel-stat">{{stat.Stat}}</div>
-                        </div>
-                </ng-container>
-                <div>More details</div>
-            </div>
+<!-- Commented out until implemented -->
+        <!-- <lcu-card-carousel
+        [stats]="Stats">
+        </lcu-card-carousel> -->
 
             <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
                 <div> Access exclusive tools & insights</div>
@@ -45,21 +34,23 @@
             <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
                 <mat-icon>settings</mat-icon>
                 Project Settings
-              </button>
+            </button>
+
         </lcu-project-info-card>
 
 
-        <lcu-analytics-card
+        <!-- <lcu-analytics-card
             title="Temp Title"
             subtext="Text for testing purposes">
-        </lcu-analytics-card>
+        </lcu-analytics-card> -->
 
     </div>
     <!-- center column -->
     <div>
-        <lcu-gh-control></lcu-gh-control>
+        <!-- Commented out until github api is hooked up -->
+        <!-- <lcu-gh-control></lcu-gh-control> -->
 
-        <lcu-feed-card-sm
+        <!-- <lcu-feed-card-sm
         title="Build 54"
         subtext="main"
         description="description for testing"
@@ -73,12 +64,33 @@
             <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
         </div>
 
-        </lcu-feed-card-sm>
-        <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
-        [title]="feedItm.Title"
-        [subtext]="feedItm.Author">
+        </lcu-feed-card-sm> -->
 
-        <div *ngIf="feedItm.Type === 'BUILD'"actions>
+        <div *ngFor="let run of Feed.Runs">
+
+            <lcu-feed-card-sm
+            [title]="run.RunNumber"
+            [subtext]="run.Committer"
+            [description]="run.CommitMessage"
+            [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
+    
+            >
+            <!-- <div actions>
+                <button mat-icon-button  (click)="LaunchBuildClicked()">
+                    <mat-icon>launch</mat-icon>
+                </button>
+                <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
+            </div> -->
+    
+            </lcu-feed-card-sm>
+    
+        </div>
+<!-- Commented out until implemented -->
+        <!-- <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
+            [title]="feedItm.Title"
+            [subtext]="feedItm.Author"> -->
+
+        <!-- <div *ngIf="feedItm.Type === 'BUILD'"actions>
             <button  mat-button>
                 <mat-icon>launch</mat-icon>
                 Preview
@@ -95,9 +107,9 @@
                   <mat-icon >error_outline</mat-icon>
                   Open Issue
               </button>
-        </div>
+        </div> -->
 
-        <div *ngIf="feedItm.Type === 'ISSUE'"actions>
+        <!-- <div *ngIf="feedItm.Type === 'ISSUE'"actions>
             <button  mat-button>
                 <mat-icon>sentiment_satisfied_alt</mat-icon>
                 GitHub
@@ -114,41 +126,48 @@
                   <mat-icon >error_outline</mat-icon>
                   Close Issue
               </button>
-        </div>
+        </div> -->
 
-        </lcu-main-feed-card>
+        <!-- </lcu-main-feed-card> -->
+
     </div>
+
     <!-- right column -->
     <div right>
+
         <lcu-slotted-card
-        title="Routes"
-        icon="route"
-        [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
-        secondary-slot-description="Add quick route"
-        action-text="Create Custom Route"
+            title="Routes"
+            icon="route"
+            [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
+            secondary-slot-description="Add quick route"
+            action-text="Create Custom Route"
         >
 
-        <div class="main-slot-container" fxLayout="row" *ngFor="let appLookup of ApplicationLookups">
-            <div class="slot-content" *ngIf="Project[appLookup]; let route;" fxLayout="row" fxLayoutAlign="space-around center">
-                <div class="slot-route-header-container" fxLayout="column" fxFlex="70%">
-                    <div class="slot-route-header" fxLayout="row" >
+        <div class="main-slot-container" 
+            fxLayout="row" 
+            *ngFor="let appRoute of ApplicationRoutes">
+            <div class="slot-content" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="slot-header-container" fxLayout="column">
+                    <div class="slot-header" fxLayout="row" >
                         <!-- this icon is a temp placeholder -->
-                        <mat-icon class="slot-icon">route</mat-icon>
-                        <div *ngIf="route.Name" class="slot-route-name">{{project.Project.Name}}</div>
+                        <!-- <mat-icon class="slot-icon">route</mat-icon> -->
+                        <div *ngIf="appRoute" class="slot-name">{{appRoute}}</div>
                     </div>
 
-                    <!-- <div>
-                        <div *ngIf="project.Project.Description" class="slot-project-description">{{project.Project.Description}}</div>
-                        <div *ngIf="!project.Project.Description" class="slot-project-description">I'm a temp placeholder description to see how this formats</div>
-                    </div> -->
+                    <div>
+                        <div *ngIf="appRoute.Description" class="slot-description">{{appRoute.Description}}</div>
+                        <!-- <div *ngIf="!project.Project.Description" class="slot-project-description">I'm a temp placeholder description to see how this formats</div> -->
+                    </div>
                 </div>
 
-                <!-- <div class="slot-actions-container" fxLayout="column" fxFlex="30%">
-                    <a class="slot-action-anchor" routerLink="/projects"  [state]="{ id:1 , projectLookup:projectLookup}">
+                <div class="slot-actions-container" fxLayout="row" fxLayoutAlign="space-around center">
+                    <a class="slot-action-anchor" [routerLink]="['/routes', appRoute, ProjectLookup]"  >
                         <mat-icon class="action-icon">edit</mat-icon>
-                        Edit Project
                     </a>
-                </div> -->
+                    <a class="slot-action-anchor"  [href]="Project.Hosts[Project.Hosts.length-1] + appRoute" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a>
+                </div>
                     
                     <!-- <div class="slot-actions" *ngFor="let action of s.actions">
 
@@ -172,5 +191,41 @@
         </div>
 
         </lcu-slotted-card> 
+
+        <lcu-slotted-card
+            title="Custom Domain"
+            icon="domain"
+            main-slot-description="Current Domain"
+            action-text="Add Custom Domain"
+        >
+
+        <div class="main-slot-container" 
+            fxLayout="row" 
+            >
+            <div class="slot-content" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="slot-header-container" fxLayout="column">
+                    <div class="slot-header" fxLayout="row" >
+                        
+                        <div class="slot-name">{{Project?.Hosts[Project?.Hosts.length-1]}}</div>
+                    </div>
+                </div>
+
+                <div class="slot-actions-container" fxLayout="row" fxLayoutAlign="space-around center">
+                    <a class="slot-action-anchor" (click)="EditCustomDomain()"  >
+                        <mat-icon class="action-icon">edit</mat-icon>
+                    </a>
+                    <!-- <a class="slot-action-anchor"  [href]="Project.Hosts[Project.Hosts.length-1] + appRoute" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a> -->
+                </div>
+                    
+                
+            </div>
+            
+
+        </div>
+
+        </lcu-slotted-card> 
     </div>
 </lcu-three-column>
+</ng-container>

@@ -1,7 +1,6 @@
 @import "../../../../../common/src/assets/styles/social-card.scss";
 .enterprise-avatar-container{
     background-color: white;
-    border: 2px solid #d3d3d3;
     margin: 20px;
     // height: 166px;
     // padding: 0px;
@@ -22,47 +21,19 @@
 }
 
 .header-name{
-    font-size: 35px;
+    font-size: 30px;
 }
 .header-description{
     margin: 10px 0px;
     font-size: 18px;
 }
-
-.main-slot-container{
-    padding:10px;
-}
-
-.slot-icon{
-    
-}
-
-.slot-project-header{
-    align-items: center;
-}
-
-.slot-project-name{
-    font-size: 22px;
-    font-weight: 600;
-    padding-left:5px;
-}
-
-.slot-project-description{
-    font-size: 12px;
-    margin-right: 10px;
-}
-
-.slot-action-anchor{
-    font-size: 10px;
-    text-decoration: none;
-    color: black;
-}
-
 .action-icon{
-    height: 12px;
-    width: 12px;
-    font-size: 12px;
+    cursor: pointer;
 }
+
+
+
+
 
 @media only screen and (max-width: 850px) {
 

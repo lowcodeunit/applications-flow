@@ -1,13 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { LCUServiceSettings, StateContext } from '@lcu/common';
-import { Observable, Subject } from 'rxjs';
-import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
+import { Injectable } from '@angular/core';
+import { LCUServiceSettings } from '@lcu/common';
+import { Observable } from 'rxjs';
+import { EnterpriseAsCode } from '@semanticjs/common';
 import {
-  ApplicationsFlowState,
   UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
-import { GitHubWorkflowRun } from './../state/applications-flow.state';
 
 @Injectable({
   providedIn: 'root',
@@ -195,6 +193,20 @@ export class ApplicationsFlowService {
     );
   }
 
+  public NewLoadProjectHostingDetails(): Observable<object> {
+    return this.http.get(
+
+      `${this.apiRoot}/api/lowcodeunit/manage/projects/hosting/details`,
+
+      {
+
+        headers: this.loadHeaders(),
+
+      }
+
+    );
+  }
+
   public SaveEnterpriseAsCode(eac: EnterpriseAsCode): Observable<object> {
     return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/eac`, eac, {
       headers: this.loadHeaders(),
@@ -220,6 +232,13 @@ export class ApplicationsFlowService {
       {
         headers: this.loadHeaders(),
       }
+    );
+  }
+
+  public UserFeed(page: number, pageSize: number): Observable<object> {
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}`,
+      {},
     );
   }
 

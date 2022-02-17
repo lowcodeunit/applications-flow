@@ -1,37 +1,47 @@
 <mat-card class="col-info-card">
-    <mat-card-header fxLayoutAlign="space-between center">
-      <mat-card-title class="card-title">{{ Title }}</mat-card-title>
-      <mat-icon class="header-icon">{{ Icon }}</mat-icon>
-    </mat-card-header>
+  <mat-card-header >
+      <!-- How are these two getting switched?? -->
+    <mat-icon class="header-icon">{{ Icon }}</mat-icon>
+    <mat-card-title class="card-title">{{ Title }}</mat-card-title>
     
-    <mat-card-content>
+  </mat-card-header>
 
-        <div class="slot-main-container">
+  <mat-card-content>
+    <div class="slot-main-container">
+      <div class="header-description">{{ MainSlotDescription }}</div>
 
-            <div class="header-description">{{ MainSlotDescription }}</div>
+      <div class="slot-main">
+        <ng-content></ng-content>
+      </div>
+    </div>
 
-            <div class="slot-main">
-                <ng-content></ng-content>
-            </div>
-        
-        </div>
+    <div *ngIf="SecondarySlotDescription" class="slot-secondary-container">
+      <div class="header-description">{{ SecondarySlotDescription }}</div>
 
-        <div *ngIf="SecondarySlotDescription" class="slot-secondary-container">
+      <div class="slot-secondary">
+        <ng-content select="[secondary]"></ng-content>
+      </div>
+    </div>
+  </mat-card-content>
 
-            <div class="header-description">{{ SecondarySlotDescription }}</div>
+  <mat-card-actions *ngIf="ActionText" fxLayoutAlign="center">
+    <a
+      mat-button
+      *ngIf="ActionPath"
+      class="slotted-card-action-btn"
+      [href]="ActionPath"
+      color="primary"
+      >{{ ActionText }}
+    </a>
 
-            <div class="slot-secondary">
-                <ng-content select="[secondary]"></ng-content>
-            </div>
-        
-        </div>
-      
-    </mat-card-content>
-
-    <mat-card-actions *ngIf="ActionText" fxLayoutAlign="center">
-      <button mat-button class="slotted-card-action-btn" click="MainActionClickEvent()">{{ ActionText }}</button>
-    </mat-card-actions>
-
-  </mat-card>
-
-
+    <a
+      mat-button
+      *ngIf="!ActionPath"
+      class="slotted-card-action-btn"
+      (click)="MainActionClickEvent()"
+      color="primary"
+    >
+      {{ ActionText }}
+    </a>
+  </mat-card-actions>
+</mat-card>

@@ -1,0 +1,13 @@
+<div class="dialog-header" fxLayoutAlign="end center">
+    <button mat-icon-button (click)="CloseDialog()">
+            <mat-icon>cancel</mat-icon>
+    </button>
+</div>
+
+<lcu-build-pipeline-form 
+    [devops-action-lookup]="data.devopsActionLookup"
+    [environment]="data.environment" 
+    [environment-lookup]="data.environmentLookup"
+    >
+
+</lcu-build-pipeline-form>

@@ -1,8 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { GitHubWorkflowRun } from '../../../../state/applications-flow.state';
-import { ApplicationsFlowEventsService } from '../../../../services/applications-flow-events.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { EaCService } from '../../../../services/eac.service';
 import { EaCProjectAsCode } from '@semanticjs/common';
-import { A } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'lcu-project-items',
@@ -29,7 +27,7 @@ export class ProjectItemsComponent implements OnInit {
   public SelectedProjectLookup: string;
 
   //  Constructors
-  constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
+  constructor(protected eacSvc: EaCService) {}
 
   //  Life Cycle
   public ngOnInit(): void {
@@ -38,7 +36,7 @@ export class ProjectItemsComponent implements OnInit {
   //  API Methods
   public DeleteProject(projectLookup: string, projectName: string): void {
     if (confirm(`Are you sure you want to delete project '${projectName}'?`)) {
-      this.appsFlowEventsSvc.DeleteProject(projectLookup);
+      this.eacSvc.DeleteProject(projectLookup);
     }
   }
 
@@ -53,7 +51,7 @@ export class ProjectItemsComponent implements OnInit {
    * Event to edit project settings
    */
   public ProjectSettings(projectLookup: string): void {
-    this.appsFlowEventsSvc.SetEditProjectSettings(projectLookup);
+    this.eacSvc.SetEditProjectSettings(projectLookup);
   }
 
   //HELPERS

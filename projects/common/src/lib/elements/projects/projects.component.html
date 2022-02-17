@@ -25,7 +25,7 @@
 
     <a
       mat-icon-button
-      href="/docs/getting-started/projects"
+      href="/docs/getting-started/setup"
       target="_blank"
       lcuEvent="click"
       label="Projects"
@@ -46,10 +46,15 @@
       </h2>
     </div>
 
+<<<<<<< HEAD
 
     <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth>
+=======
+    <!-- <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth> -->
+>>>>>>> origin/feature/lets-get-social-ish
 
-    <ng-container *ngIf="State.GitHub.HasConnection">
+    <!-- *ngIf="State.GitHub.HasConnection" -->
+    <ng-container> 
       <!-- <div *ngIf="!CreatingProject">
         Creating
         <lcu-create-project-wizard></lcu-create-project-wizard>

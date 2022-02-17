@@ -1,9 +1,6 @@
-import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
+import { Component, Input, OnInit} from '@angular/core';
+import { EaCService } from './../../../../services/eac.service';
 import {
-  EaCApplicationAsCode,
   EaCProjectAsCode,
 } from '@semanticjs/common';
 import {
@@ -13,7 +10,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { Guid, LCUServiceSettings } from '@lcu/common';
-import { ProjectItemsComponent } from '../project-items/project-items.component';
 
 @Component({
   selector: 'lcu-projects-header',
@@ -51,7 +47,7 @@ export class HeaderComponent implements OnInit {
   public constructor(
     protected formBuilder: FormBuilder,
     protected lcuSettings: LCUServiceSettings,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {}
 
   //  Life Cycle
@@ -83,14 +79,14 @@ export class HeaderComponent implements OnInit {
       },
     };
 
-    this.appsFlowEventsSvc.SaveProjectAsCode({
+    this.eacSvc.SaveProjectAsCode({
       ProjectLookup: Guid.CreateRaw(),
       Project: proj,
     });
   }
 
   public EnableCreatingProject(): void {
-    this.appsFlowEventsSvc.SetCreatingProject(true);
+    this.eacSvc.SetCreatingProject(true);
   }
 
   //  Helpers

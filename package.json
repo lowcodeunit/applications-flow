@@ -12,7 +12,7 @@
 		"build:social-host": "ng build social-host --configuration production",
 		"clean": "rimraf dist",
 		"demo": "npm run build:common && npm run start:demo",
-		"demo:social-host": "npm run build:common && npm run start:social-host",
+		"demo:social-host": "npm run build:common && npm run build:social-host && npm run start:social-host",
 		"demo:lcu": "npm run build:common && npm run build:lcu && npm run start:demo",
 		"deploy": "npm version patch && npm run deploy:all",
 		"deploy:all": "npm run deploy:common && npm run deploy:lcu && npm run deploy:demo && npm run deploy:social-host",

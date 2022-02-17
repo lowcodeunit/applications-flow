@@ -1,8 +1,4 @@
-.carousel-container{
-    text-align: center;
-    height: 75px;
-
-}
+@import "../../../../../common/src/assets/styles/social-card.scss";
 
 .promo-container{
     
@@ -21,36 +17,5 @@ mat-card-actions{
     border-top: 1px solid #d3d3d3;
 }
 
-.gold-icon{
-    color:#d4af37;
-}
 
-.upgrade-text{
-    font-weight: bold;
-    margin-left: 10px;
-    cursor: pointer;
-}
 
-.carousel-container{
-    padding-top:20px;
-}
-
-.carousel-item.hidden {
-    display: none;
-}
-
-.carousel-item.active {
-    visibility: visible;
-  }
-
-  .chevron-button{
-      position: absolute;
-  }
-
-  #right-chevron{
-      right:5px;
-  }
-
-  #left-chevron{
-      left:5px;
-  }

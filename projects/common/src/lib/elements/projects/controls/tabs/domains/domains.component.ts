@@ -1,6 +1,5 @@
 import { FormsService } from './../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
-import { DomainModel } from './../../../../../models/domain.model';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -8,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
+import { EaCService } from '../../../../../services/eac.service';
 import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
@@ -83,7 +82,7 @@ export class DomainsComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {}
 
   public ngOnInit(): void {
@@ -162,7 +161,7 @@ export class DomainsComponent implements OnInit {
    * Save changes
    */
   protected save(): void {
-    this.appsFlowEventsSvc.SaveProjectAsCode({
+    this.eacSvc.SaveProjectAsCode({
       ProjectLookup: this.ProjectLookup,
       Project: {
         ...this.Project,

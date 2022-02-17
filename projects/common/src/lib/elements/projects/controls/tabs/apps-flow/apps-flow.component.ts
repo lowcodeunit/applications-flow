@@ -5,10 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  ApplicationsFlowEventsService,
-  SaveApplicationAsCodeEventRequest,
-} from '../../../../../services/applications-flow-events.service';
+import {EaCService, SaveApplicationAsCodeEventRequest} from '../../../../../services/eac.service';
 import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
@@ -299,7 +296,7 @@ export class AppsFlowComponent implements OnInit {
   constructor(
     protected formBldr: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {
     this.EditingApplicationLookup = null;
     this.redirectTooltip = '';
@@ -322,9 +319,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public DeleteApplication(appLookup: string, appName: string): void {
-    if (confirm(`Are you sure you want to delete application '${appName}'?`)) {
-      this.appsFlowEventsSvc.DeleteApplication(appLookup);
-    }
+    this.eacSvc.DeleteApplication(appLookup, appName);
   }
 
   public LCUTypeChanged(event: MatSelectChange): void {
@@ -501,7 +496,7 @@ export class AppsFlowComponent implements OnInit {
       app.SourceControlLookup = null;
     }
 
-    this.appsFlowEventsSvc.SaveApplicationAsCode(saveAppReq);
+    this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
   public SetEditingApplication(appLookup: string): void {
@@ -523,7 +518,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public Unpack(appLookup: string, app: EaCApplicationAsCode): void {
-    this.appsFlowEventsSvc.UnpackLowCodeUnit({
+    this.eacSvc.UnpackLowCodeUnit({
       ApplicationLookup: appLookup,
       ApplicationName: app.Application?.Name,
       Version: app.LowCodeUnit?.Version || app.LowCodeUnit?.Build,

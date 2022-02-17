@@ -5,7 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatRadioChange } from '@angular/material/radio';
 import { EaCDevOpsAction, EaCArtifact } from '@semanticjs/common';
 import {
   ProjectHostingDetails,
@@ -85,6 +84,8 @@ export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
   public ngOnChanges(): void {}
 
   public ngOnInit(): void {
+
+
     this.BuildPipeline =
       this.BuildPipeline || this.Details?.HostingOptions
         ? this.Details?.HostingOptions[0]?.Lookup

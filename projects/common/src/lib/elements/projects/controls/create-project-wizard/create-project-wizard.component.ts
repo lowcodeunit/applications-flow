@@ -1,12 +1,11 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatSelectChange } from '@angular/material/select';
+import { FormGroup, FormBuilder} from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { BaseResponse, BaseModeledResponse } from '@lcu/common';
+import { BaseModeledResponse } from '@lcu/common';
+import { EaCService } from '../../../../services/eac.service';
 import { ApplicationsFlowService } from '../../../../services/applications-flow.service';
 import { ProjectHostingDetails } from '../../../../state/applications-flow.state';
 import { SourceControlFormControlsComponent } from '../forms/source-control/source-control.component';
-import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 
 @Component({
   selector: 'lcu-create-project-wizard',
@@ -57,7 +56,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
   constructor(
     protected formBuilder: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {
     this.HostingDetails = new ProjectHostingDetails();
   }
@@ -75,7 +74,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
 
   //  API Methods
   public Cancel() {
-    this.appsFlowEventsSvc.SetCreatingProject(false);
+    this.eacSvc.SetCreatingProject(false);
   }
 
   public ConfigureRepository() {

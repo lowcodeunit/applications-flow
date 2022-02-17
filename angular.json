@@ -326,8 +326,13 @@
             "main": "projects/social-host/src/main.ts",
             "polyfills": "projects/social-host/src/polyfills.ts",
             "tsConfig": "projects/social-host/tsconfig.app.json",
-            "aot": true,
+            "aot": false,
             "assets": [
+              {
+								"glob": "**/*",
+								"input": "node_modules/sass.js/dist",
+								"output": "/assets"
+							  },
               {
                 "glob": "package.json",
                 "input": "./projects/social-host/",
@@ -339,7 +344,11 @@
             "styles": [
               "projects/social-host/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": 
+            [
+              "./node_modules/sass.js/dist/sass.js",
+							"./node_modules/sass.js/dist/sass.worker.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -360,12 +369,12 @@
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
-                  "maximumError": "6mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "2mb",
-                  "maximumError": "6mb"
+                  "maximumError": "10mb"
                 }
               ]
             }

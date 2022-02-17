@@ -1,0 +1,10 @@
+<div class="dialog-header" fxLayoutAlign="end center">
+    <button mat-icon-button (click)="CloseDialog()">
+            <mat-icon>cancel</mat-icon>
+    </button>
+</div>
+
+<lcu-edit-application-form 
+    [editing-application]="data.application"
+    (save-form-event)="SaveApplication($event)">
+</lcu-edit-application-form>

@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SettingsComponent } from './settings.component';
+import { CustomDomainDialogComponent } from './custom-domain-dialog.component';
 
-describe('SettingsComponent', () => {
-  let component: SettingsComponent;
-  let fixture: ComponentFixture<SettingsComponent>;
+describe('CustomDomainDialogComponent', () => {
+  let component: CustomDomainDialogComponent;
+  let fixture: ComponentFixture<CustomDomainDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SettingsComponent ]
+      declarations: [ CustomDomainDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsComponent);
+    fixture = TestBed.createComponent(CustomDomainDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
