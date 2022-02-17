@@ -30,6 +30,10 @@
                 In order to use a custom domain, create a CNAME dns record pointing
                 desired subdomain to <strong>{{ HostDNSInstance }}</strong>.
               </mat-hint>
+
+              <button mat-icon-button [cdkCopyToClipboard]="HostDNSInstance" >content_copy</button>
+
+
               
               
               <mat-error *ngIf="Domain.hasError('required')">

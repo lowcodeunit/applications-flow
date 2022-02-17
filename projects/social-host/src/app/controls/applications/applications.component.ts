@@ -158,6 +158,8 @@ export class ApplicationsComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public LoadingFeed: boolean;
+
   public Stats: any;
 
   public ProjectLookup: string;
@@ -420,15 +422,14 @@ export class ApplicationsComponent implements OnInit {
 
   protected async getFeedInfo(): Promise<void> {
 
-    // setInterval(() => {
-
+    this.LoadingFeed = true;
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
+       this.LoadingFeed = false;
        console.log("FEED: ", this.Feed.Runs)
      });
 
-    // }, 30000);
 
 
   }

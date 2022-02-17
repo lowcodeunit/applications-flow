@@ -139,6 +139,8 @@ export class RoutesComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public LoadingFeed: boolean;
+
   public ProjectLookup: string;
 
   public Routes: any;
@@ -215,10 +217,11 @@ export class RoutesComponent implements OnInit {
   protected async getFeedInfo(): Promise<void> {
 
     // setInterval(() => {
-
+    this.LoadingFeed = true;
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
+       this.LoadingFeed = false;
        console.log("FEED: ", this.Feed.Runs)
      });
 

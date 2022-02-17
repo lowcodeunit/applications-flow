@@ -69,6 +69,10 @@
 
         </lcu-feed-card-sm> -->
 
+        <lcu-loader [loading]="LoadingFeed"></lcu-loader>
+
+            <ng-container *ngIf="!LoadingFeed">
+
         <div *ngFor="let run of Feed.Runs">
 
             <lcu-feed-card-sm
@@ -88,6 +92,7 @@
             </lcu-feed-card-sm>
     
         </div>
+        </ng-container>
 <!-- Commented out until implemented -->
         <!-- <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
             [title]="feedItm.Title"

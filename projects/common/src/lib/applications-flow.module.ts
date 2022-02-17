@@ -10,6 +10,7 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
@@ -100,6 +101,7 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     EditApplicationDialogComponent
   ],
   imports: [
+    ClipboardModule,
     FathymSharedModule,
     FormsModule,
     ReactiveFormsModule,

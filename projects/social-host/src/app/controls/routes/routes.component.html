@@ -44,6 +44,9 @@
         
     </div>
     <div>
+        <lcu-loader [loading]="LoadingFeed"></lcu-loader>
+
+            <ng-container *ngIf="!LoadingFeed">
 
         <div *ngFor="let run of Feed.Runs">
 
@@ -64,6 +67,7 @@
             </lcu-feed-card-sm>
     
         </div>
+            </ng-container>
         
         <div *ngFor="let route of Routes">
             <lcu-feed-card-sm

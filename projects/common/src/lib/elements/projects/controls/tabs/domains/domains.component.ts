@@ -82,7 +82,8 @@ export class DomainsComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected eacSvc: EaCService
+    protected eacSvc: EaCService,
+    
   ) {}
 
   public ngOnInit(): void {

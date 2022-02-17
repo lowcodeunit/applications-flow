@@ -61,6 +61,10 @@
                 (save-form-event)="SaveProcessorDetails($event)">
             </lcu-processor-details-form>
 
+            <lcu-loader [loading]="LoadingFeed"></lcu-loader>
+
+            <ng-container *ngIf="!LoadingFeed">
+
             <div *ngFor="let run of Feed.Runs">
 
                 <lcu-feed-card-sm
@@ -80,6 +84,7 @@
                 </lcu-feed-card-sm>
         
             </div>
+        </ng-container>
 
         </div>
         <div right>
