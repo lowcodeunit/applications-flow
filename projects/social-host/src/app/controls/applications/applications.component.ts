@@ -202,7 +202,7 @@ export class ApplicationsComponent implements OnInit {
 
   public HandleSaveFormEvent(formValue: any) {
     console.log('Recieved Save Event: ', formValue);
-    this.SaveApplication();
+    // this.SaveApplication();
   }
 
   public OpenEditAppModal(){
@@ -216,7 +216,8 @@ export class ApplicationsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      console.log("result:", result)
+      console.log("result:", result.event)
+      this.SaveApplication(result.event);
     });
   }
 
@@ -224,21 +225,22 @@ export class ApplicationsComponent implements OnInit {
 
   public SettingsClicked() {}
 
-  public SaveApplication(): void {
+  public SaveApplication(appInfo: any): void {
+
     const app: EaCApplicationAsCode = this.Application;
     app.Application = {
-      Name: this.ApplicationFormControls.NameFormControl.value,
-      Description: this.ApplicationFormControls.DescriptionFormControl.value,
+      Name: appInfo.name,
+      Description: appInfo.description,
       PriorityShift: this.Application?.Application?.PriorityShift || 0,
     };
 
-    app.LookupConfig.PathRegex = `${this.ApplicationFormControls.RouteFormControl.value}.*`;
+    app.LookupConfig.PathRegex = `${appInfo.route}.*`;
 
     switch (app.Processor.Type) {
       case 'DFS':
         //will need to replace with this.RouteFormControl.value if other form added
         app.Processor.BaseHref =
-          `${this.ApplicationFormControls.RouteFormControl.value}/`.replace(
+          `${appInfo.route}/`.replace(
             '//',
             '/'
           );

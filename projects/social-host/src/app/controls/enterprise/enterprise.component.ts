@@ -94,6 +94,13 @@ export class EnterpriseComponent implements OnInit {
 
   }
 
+  public HandleLeftClickEvent(event: any){
+
+  }
+  public HandleRightClickEvent(event: any){
+    
+  }
+
   public OpenBuildPipelineDialog(doaLookup: string) {
   
     const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {

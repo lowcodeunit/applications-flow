@@ -11,7 +11,9 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card 
-        [name]="CurrentApplicationRoute"        
+        [name]="CurrentApplicationRoute"  
+        is-editable="false"      
+        [loading]="State?.Loading"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 

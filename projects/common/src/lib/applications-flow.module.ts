@@ -31,7 +31,6 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
-import { ColumnInfoCardComponent } from './elements/column-info-card/column-info-card.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
 import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
@@ -80,7 +79,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
@@ -136,7 +134,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
@@ -179,7 +176,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
