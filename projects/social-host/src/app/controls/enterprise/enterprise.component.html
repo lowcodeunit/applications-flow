@@ -7,43 +7,36 @@
 
     </lcu-breadcrumb>    
     
-<lcu-two-column-header>
-
-    <mat-card left class="enterprise-avatar-container">
-      <img
-        class="enterprise-avatar"
-        src="./assets/images/Thinky-circle-red.png"
-        alt="Enterprise Name"
-      />
-    </mat-card>
-
-    <mat-card
-      class="header-main-container social-card"
-      fxLayout="row"
-      fxLayout.lt-md="column"
-      fxLayoutAlign="space-between center"
-    >
-      <div class="header-main-content">
-        <div class="header-name" *ngIf="Enterprise?.Name">
-          {{ Enterprise.Name }}
-        </div>
-        <div class="header-description" *ngIf="Enterprise?.Description">
-          {{ Enterprise.Description }}
-        </div>
-        <!-- <div class="header-description"fxLayout="row" fxLayoutAlign="start center">
-                <div >Enterprise Type</div>
-                <span>&nbsp;  &#8226; &nbsp; </span>
-                <div>Enterprise Location</div>
-                <span>&nbsp; &#8226; &nbsp; </span>
-                <div>Enterprise Followers</div>
-            </div> -->
-      </div>
-      <!-- <button mat-button>Upgrade to premium now</button> -->
-    </mat-card>
-  </lcu-two-column-header>
 
   <lcu-three-column>
     <div left>
+      <lcu-project-info-card 
+        [name]="Enterprise?.Name"  
+        is-editable="true"      
+        image="./assets/images/Thinky-circle-red.png"
+        [loading]="State?.Loading"
+        (left-click-event)="HandleLeftClickEvent($event)"
+        (right-click-event)="HandleRightClickEvent($event)"
+        > 
+
+        <!-- <lcu-card-carousel
+        [stats]="Stats">
+        </lcu-card-carousel> -->
+
+            <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
+                <div> Access exclusive tools & insights</div>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="gold-icon">emoji_events</mat-icon>
+                    <div class="upgrade-text" (click)="UpgradeClicked()">Upgrade to premium now</div>
+                </div>
+      
+            </div>
+
+            <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
+                <mat-icon>outbox</mat-icon>
+                Unpack
+              </button>
+        </lcu-project-info-card>
       <!-- Commented out until implemented -->
       <!-- <lcu-analytics-card
             title="Temp Title"
@@ -51,6 +44,9 @@
         </lcu-analytics-card> -->
     </div>
     <!-- CENTER FEED -->
+    <lcu-loader [loading]="LoadingFeed"></lcu-loader>
+
+    <ng-container *ngIf="!LoadingFeed">
     <div *ngFor="let run of Feed.Runs">
 
         <lcu-feed-card-sm
@@ -70,6 +66,7 @@
         </lcu-feed-card-sm>
 
     </div>
+  </ng-container>
 
     <div right>
       <!-- Projects -->

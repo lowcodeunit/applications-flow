@@ -1,13 +1,18 @@
 <mat-card class="project-info-card">
 
+  <lcu-loader [loading]="Loading"></lcu-loader>
+
+<ng-container *ngIf="!Loading">
+
     <div class="header-img-container" fxLayout="row" >
         <div class="round-project-img" fxLayoutAlign="center center">
-            <mat-icon class="temp-icon">flutter_dash</mat-icon>
+            <mat-icon *ngIf="!Image" class="temp-icon">flutter_dash</mat-icon>
+            <img [src]="Image" [alt]="Name">
         </div>
     </div>
 
     <div class="icon-btn-container" fxLayout="row" fxLayoutAlign="space-between center" >
-      <button mat-icon-button id="left-icon" (click)="LeftIconClicked()">
+      <button *ngIf="IsEditable" mat-icon-button id="left-icon" (click)="LeftIconClicked()">
         <mat-icon>edit</mat-icon>
       </button>
       <button mat-icon-button id="right-icon" (click)="RightIconClicked()">
@@ -40,5 +45,6 @@
       <ng-content select="[action]"></ng-content>
       
     </mat-card-actions>
+  </ng-container>
   </mat-card>
   

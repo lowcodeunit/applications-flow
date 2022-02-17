@@ -138,6 +138,8 @@ export class ProjectsComponent implements OnInit {
 
   // public FeedItems: MainFeedItemModel[];
 
+  public LoadingFeed: boolean;
+
   public Stats: any[];
 
   public ProjectLookup: string;
@@ -220,9 +222,12 @@ export class ProjectsComponent implements OnInit {
 
     // setInterval(() => {
 
+    this.LoadingFeed = true;
+
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
+       this.LoadingFeed = false;
        console.log("FEED: ", this.Feed.Runs)
      });
 

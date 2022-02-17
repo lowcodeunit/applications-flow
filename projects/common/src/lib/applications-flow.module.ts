@@ -10,6 +10,7 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
@@ -31,7 +32,6 @@ import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
 import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
-import { ColumnInfoCardComponent } from './elements/column-info-card/column-info-card.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
 import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
@@ -80,7 +80,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     NpmPackageSelectComponent,
     FlowToolComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
@@ -102,6 +101,7 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     EditApplicationDialogComponent
   ],
   imports: [
+    ClipboardModule,
     FathymSharedModule,
     FormsModule,
     ReactiveFormsModule,
@@ -136,7 +136,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     NpmPackageSelectComponent,
     FlowToolComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
@@ -178,7 +177,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,

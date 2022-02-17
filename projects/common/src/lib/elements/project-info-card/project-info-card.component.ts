@@ -13,6 +13,12 @@ export class ProjectInfoCardComponent implements OnInit {
   @Input('image')
   public Image: string;
 
+  @Input('is-editable')
+  public IsEditable: boolean;
+
+  @Input('loading')
+  public Loading: boolean;
+
   @Input('name')
   public Name: string;
 
@@ -32,8 +38,10 @@ export class ProjectInfoCardComponent implements OnInit {
     this.RightClickEvent = new EventEmitter();
    }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    console.log("loading = ", this.Loading)
   }
+
 
 
   public LeftIconClicked(){

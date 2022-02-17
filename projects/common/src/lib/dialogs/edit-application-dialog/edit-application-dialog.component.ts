@@ -24,9 +24,9 @@ export class EditApplicationDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  public SaveApplication(event: any){
-    console.log("event to save: ", event);
-    this.dialogRef.close({event:'Save'});
+  public SaveApplication(appEvent: any){
+    console.log("event to save: ", appEvent);
+    this.dialogRef.close({event: appEvent});
   }
 
 }

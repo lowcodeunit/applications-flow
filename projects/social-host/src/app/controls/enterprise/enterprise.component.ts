@@ -74,6 +74,8 @@ export class EnterpriseComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public LoadingFeed: boolean;
+
 
   constructor(
     protected appSvc: ApplicationsFlowService,
@@ -91,6 +93,13 @@ export class EnterpriseComponent implements OnInit {
 
     console.log("FEED on init: ", this.Feed)
     
+
+  }
+
+  public HandleLeftClickEvent(event: any){
+
+  }
+  public HandleRightClickEvent(event: any){
 
   }
 
@@ -139,10 +148,12 @@ export class EnterpriseComponent implements OnInit {
   protected async getFeedInfo(): Promise<void> {
 
     // setInterval(() => {
+      this.LoadingFeed = true;
 
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
+       this.LoadingFeed = false;
        console.log("FEED: ", this.Feed.Runs)
      });
 
