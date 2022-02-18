@@ -13,8 +13,8 @@
         <lcu-project-info-card 
         [name]="Project?.Project?.Name"
         [description]="Project?.Project?.Description"
-        is-editable="true"
-        is-shareable="false"
+        [is-editable]="IsInfoCardEditable"
+        [is-shareable]="IsInfoCardShareable"
         [loading]="State?.Loading"
         [subtext]="Project?.Hosts[Project?.Hosts.length-1]"
         (left-click-event)="HandleLeftClickEvent($event)"

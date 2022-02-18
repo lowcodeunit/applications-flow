@@ -74,6 +74,10 @@ export class EnterpriseComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
   public LoadingFeed: boolean;
 
 
@@ -84,6 +88,9 @@ export class EnterpriseComponent implements OnInit {
     protected router: Router
   ) {
     this.Feed = new UserFeedResponseModel;
+
+    this.IsInfoCardEditable = false;
+    this.IsInfoCardShareable = false;
    }
 
   public ngOnInit(): void {
@@ -91,7 +98,7 @@ export class EnterpriseComponent implements OnInit {
 
     this.getFeedInfo();
 
-    console.log("FEED on init: ", this.Feed)
+    // console.log("FEED on init: ", this.Feed)
     
 
   }
@@ -117,8 +124,8 @@ export class EnterpriseComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log("result:", result)
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
     });
   }
 
@@ -133,8 +140,8 @@ export class EnterpriseComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log("result:", result)
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
     });
   }
 
@@ -154,7 +161,7 @@ export class EnterpriseComponent implements OnInit {
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
        this.LoadingFeed = false;
-       console.log("FEED: ", this.Feed.Runs)
+      //  console.log("FEED: ", this.Feed.Runs)
      });
 
     // }, 30000);

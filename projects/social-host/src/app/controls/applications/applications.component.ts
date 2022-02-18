@@ -166,6 +166,10 @@ export class ApplicationsComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
   public LoadingFeed: boolean;
 
   public Stats: any;
@@ -189,6 +193,9 @@ export class ApplicationsComponent implements OnInit {
       this.CurrentApplicationRoute = params['appRoute']
       this.ProjectLookup = params['projectLookup'];
     });
+
+    this.IsInfoCardEditable = true;
+    this.IsInfoCardShareable = false;
   }
 
   public ngOnInit(): void {
@@ -211,7 +218,7 @@ export class ApplicationsComponent implements OnInit {
   public HandleRightClickEvent(event: any) {}
 
   public HandleSaveFormEvent(formValue: any) {
-    console.log('Recieved Save Event: ', formValue);
+    // console.log('Recieved Save Event: ', formValue);
     // this.SaveApplication();
   }
 
@@ -225,8 +232,8 @@ export class ApplicationsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log("result:", result.event)
+      // console.log('The dialog was closed');
+      // console.log("result:", result.event)
       this.SaveApplication(result.event);
     });
   }
@@ -280,7 +287,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public SaveProcessorDetails(formValue: any): void {
-    console.log('Recieved Save Event: ', formValue);
+    // console.log('Recieved Save Event: ', formValue);
 
     const app: EaCApplicationAsCode = this.Application;
     app.LookupConfig.AllowedMethods =
@@ -312,7 +319,7 @@ export class ApplicationsComponent implements OnInit {
 
             app.LowCodeUnit.Path = this.Environment.DevOpsActions[
             this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].DevOpsActionTriggerLookups[0]].Path;
-            console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
+            // console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
 
             app.LowCodeUnit.SourceControlLookup = this.ProcessorDetailsFormControls.SourceControlFormControl.value;
             break;
@@ -413,7 +420,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public SaveSecuritySettings(formValue: any): void {
-    console.log('Recieved Save Event: ', formValue);
+    // console.log('Recieved Save Event: ', formValue);
 
     const app: EaCApplicationAsCode = this.Application;
 
@@ -446,7 +453,7 @@ export class ApplicationsComponent implements OnInit {
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
        this.LoadingFeed = false;
-       console.log("FEED: ", this.Feed.Runs)
+      //  console.log("FEED: ", this.Feed.Runs)
      });
 
 

@@ -12,10 +12,10 @@
     </div>
 
     <div class="icon-btn-container" fxLayout="row" fxLayoutAlign="space-between center" >
-      <button *ngIf="IsEditable === true" mat-icon-button id="left-icon" (click)="LeftIconClicked()">
+      <button *ngIf="IsEditable" mat-icon-button id="left-icon" (click)="LeftIconClicked()">
         <mat-icon>edit</mat-icon>
       </button>
-      <button *ngIf="IsShareable === true" mat-icon-button id="right-icon" (click)="RightIconClicked()">
+      <button *ngIf="IsShareable" mat-icon-button id="right-icon" (click)="RightIconClicked()">
         <mat-icon>share</mat-icon>
       </button>
     </div>

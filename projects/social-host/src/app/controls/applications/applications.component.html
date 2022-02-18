@@ -14,8 +14,8 @@
             <lcu-project-info-card 
                 [name]="Application?.Application?.Name"
                 [description]="Application?.Application?.Description" 
-                is-editabe="true"
-                is-shareable="false"
+                [is-editable]="IsInfoCardEditable"
+                [is-shareable]="IsInfoCardShareable"
                 [loading]="State?.Loading"
                 (left-click-event)="HandleLeftClickEvent($event)"
                 (right-click-event)="HandleRightClickEvent($event)">

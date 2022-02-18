@@ -139,6 +139,10 @@ export class RoutesComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
   public LoadingFeed: boolean;
 
   public ProjectLookup: string;
@@ -164,6 +168,9 @@ export class RoutesComponent implements OnInit {
       { Name: 'Bounce Rate', Stat: '38%' },
       { Name: 'Someother Rate', Stat: '5%' },
     ];
+
+    this.IsInfoCardEditable = false;
+    this.IsInfoCardShareable = false;
   }
 
   public ngOnInit(): void {
@@ -222,7 +229,7 @@ export class RoutesComponent implements OnInit {
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
        this.LoadingFeed = false;
-       console.log("FEED: ", this.Feed.Runs)
+      //  console.log("FEED: ", this.Feed.Runs)
      });
 
     // }, 30000);

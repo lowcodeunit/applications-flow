@@ -12,8 +12,8 @@
     <div left>
       <lcu-project-info-card 
         [name]="Enterprise?.Name"  
-        is-editable="true" 
-        is-shareable="false"     
+        [is-editable]="IsInfoCardEditable"
+        [is-shareable]="IsInfoCardShareable"     
         image="./assets/images/Thinky-circle-red.png"
         [loading]="State?.Loading"
         (left-click-event)="HandleLeftClickEvent($event)"

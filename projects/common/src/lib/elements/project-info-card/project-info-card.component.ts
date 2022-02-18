@@ -42,8 +42,9 @@ export class ProjectInfoCardComponent implements OnInit {
    }
 
   public ngOnInit(): void {
-    console.log("loading = ", this.Loading)
-    console.log("is shareable: ", this.IsShareable)
+    // console.log("loading = ", this.Loading)
+    // console.log("is shareable: ", this.IsShareable);
+    // console.log("is editable: ", this.IsEditable);
   }
 
 

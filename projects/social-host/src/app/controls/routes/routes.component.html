@@ -12,8 +12,8 @@
     <div left>
         <lcu-project-info-card 
         [name]="CurrentApplicationRoute"  
-        is-editable="false" 
-        is-shareable="false"     
+        [is-editable]="IsInfoCardEditable"
+        [is-shareable]="IsInfoCardShareable"     
         [loading]="State?.Loading"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
