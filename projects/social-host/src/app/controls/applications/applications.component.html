@@ -1,4 +1,4 @@
-<ng-container *ngIf="!State?.Loading">
+<!-- <ng-container *ngIf="!State?.Loading"> -->
 
     <lcu-breadcrumb
     [enterprise]="Enterprise"
@@ -15,6 +15,7 @@
                 [name]="Application?.Application?.Name"
                 [description]="Application?.Application?.Description" 
                 is-editabe="true"
+                is-shareable="false"
                 [loading]="State?.Loading"
                 (left-click-event)="HandleLeftClickEvent($event)"
                 (right-click-event)="HandleRightClickEvent($event)">
@@ -34,9 +35,12 @@
 
                 </div>
 
-                <button action mat-button class="info-card-btn" (click)="SettingsClicked()">
+                <button *ngIf="Application.Processor.Type === 'DFS'" 
+                action mat-button class="info-card-btn" 
+                (click)="SettingsClicked()"
+                matTooltip="Update your application to the latest package">
                     <mat-icon>outbox</mat-icon>
-                    Unpack
+                    Update Package
                 </button>
             </lcu-project-info-card>
 
@@ -57,6 +61,8 @@
                 more-details 
                 [editing-application]="Application"
                 [editing-application-lookup]="ApplicationLookup" 
+                [loading]="State?.Loading"
+                [source-control-lookups]="SourceControlLookups"
                 [project-lookup]="ProjectLookup"
                 (save-form-event)="SaveProcessorDetails($event)">
             </lcu-processor-details-form>
@@ -91,6 +97,7 @@
 
             <lcu-security-toggle 
                 [editing-application]="Application" 
+                [loading]="State?.Loading"
                 (save-form-event)="SaveSecuritySettings($event)">
             </lcu-security-toggle>
 
@@ -103,4 +110,4 @@
         </div>
 
     </lcu-three-column>
-</ng-container>
+<!-- </ng-container> -->

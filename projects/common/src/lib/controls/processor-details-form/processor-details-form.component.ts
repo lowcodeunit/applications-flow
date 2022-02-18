@@ -4,7 +4,6 @@ import {
   Input,
   OnInit,
   Output,
-  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -15,7 +14,6 @@ import {
 import { MatSelectChange } from '@angular/material/select';
 import { Guid } from '@lcu/common';
 import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
-import { SourceControlFormControlsComponent } from '../../elements/projects/controls/forms/source-control/source-control.component';
 import { EaCService } from '../../services/eac.service';
 
 @Component({
@@ -30,14 +28,21 @@ export class ProcessorDetailsFormComponent implements OnInit {
   @Input('editing-application-lookup')
   public EditingApplicationLookup: string;
 
+  @Input('loading')
+  public Loading: boolean;
+
+  @Input('source-control-lookups')
+  public SourceControlLookups: Array<string>;
+
   @Input('project-lookup')
   public ProjectLookup: string;
 
   @Output('save-form-event')
   public SaveFormEvent: EventEmitter<{}>;
 
-  @ViewChild(SourceControlFormControlsComponent)
-  public SourceControlFormControls: SourceControlFormControlsComponent;
+  // @ViewChild(SourceControlFormControlsComponent)
+  // public SourceControlFormControls: SourceControlFormControlsComponent;
+  
 
   public get APIRootFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.apiRoot;
@@ -102,6 +107,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.security;
   }
 
+  public get SourceControlFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.sourceControl;
+  }
+
   public get SPARootFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.spaRoot;
   }
@@ -142,6 +151,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     } else {
       this.setupProcessorDetailsForm();
     }
+    
   }
 
   public CreateNewApplication(): void {
@@ -199,6 +209,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.ProcessorDetailsFormGroup.removeControl('spaRoot');
 
     this.ProcessorDetailsFormGroup.removeControl('applicationId');
+    this.ProcessorDetailsFormGroup.removeControl('sourceControl');
 
     this.ProcessorDetailsFormGroup.removeControl('build');
 
@@ -287,6 +298,17 @@ export class ProcessorDetailsFormComponent implements OnInit {
   }
 
   protected setupLCUGitHubForm(): void {
+    console.log("EditingApplication: ",this.EditingApplication )
+
+    this.ProcessorDetailsFormGroup.addControl(
+      'sourceControl',
+      this.formBldr.control(
+        this.EditingApplication.LowCodeUnit.SourceControlLookup || '',
+        [Validators.required]
+      )
+    );
+
+
     this.ProcessorDetailsFormGroup.addControl(
       'build',
       this.formBldr.control(

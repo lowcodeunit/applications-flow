@@ -1,5 +1,8 @@
 <form class="security-form" [formGroup]="SecurityFormGroup" (ngSubmit)="SecuritySubmit()">
     <mat-card class="spread flow-card">
+      <lcu-loader [loading]="Loading"></lcu-loader>
+
+      <ng-container *ngIf="!Loading">
         <mat-card-header>
           <mat-card-title> Security Settings </mat-card-title>
 
@@ -51,6 +54,6 @@
             </button>
 
           </mat-card-actions>
-        
+        </ng-container>
     </mat-card>
 </form>

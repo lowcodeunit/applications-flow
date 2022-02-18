@@ -148,6 +148,14 @@ export class ApplicationsComponent implements OnInit {
     return routeSetResult;
   }
 
+  public get SourceControlLookups(): Array<string> {
+    return Object.keys(this.Environment?.Sources || {});
+  }
+
+  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    return this.Environment?.Sources || {};
+  }
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
@@ -223,6 +231,14 @@ export class ApplicationsComponent implements OnInit {
     });
   }
 
+  public Unpack(): void {
+    this.eacSvc.UnpackLowCodeUnit({
+      ApplicationLookup: this.ApplicationLookup,
+      ApplicationName: this.Application.Application?.Name,
+      Version: this.Application.LowCodeUnit?.Version || this.Application.LowCodeUnit?.Build,
+    });
+  }
+
   public UpgradeClicked() {}
 
   public SettingsClicked() {}
@@ -286,16 +302,19 @@ export class ApplicationsComponent implements OnInit {
         switch (app.LowCodeUnit.Type) {
           case 'GitHub':
             app.LowCodeUnit.Organization =
-              this.ProcessorDetailsFormControls.SourceControlFormControls.OrganizationFormControl.value;
+            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].Organization;
 
             app.LowCodeUnit.Repository =
-              this.ProcessorDetailsFormControls.SourceControlFormControls.RepositoryFormControl.value;
+            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].Repository;
 
             app.LowCodeUnit.Build =
               this.ProcessorDetailsFormControls.BuildFormControl.value;
 
-            app.LowCodeUnit.Path =
-              this.ProcessorDetailsFormControls.SourceControlFormControls.BuildPathFormControl.value;
+            app.LowCodeUnit.Path = this.Environment.DevOpsActions[
+            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].DevOpsActionTriggerLookups[0]].Path;
+            console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
+
+            app.LowCodeUnit.SourceControlLookup = this.ProcessorDetailsFormControls.SourceControlFormControl.value;
             break;
 
           case 'NPM':

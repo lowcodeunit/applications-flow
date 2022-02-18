@@ -60,7 +60,7 @@
 		"@lowcodeunit/lcu-documentation-common": "^1.6.38",
 		"@lowcodeunit/lcu-icons-common": "^1.2.56",
 		"@lowcodeunit/lcu-theme-builder-common": "^1.3.62-integration",
-		"@semanticjs/common": "^0.50.0",
+		"@semanticjs/common": "^0.52.0",
 		"@webcomponents/custom-elements": "^1.4.3",
 		"@webcomponents/webcomponentsjs": "^2.5.0",
 		"hammerjs": "^2.0.8",

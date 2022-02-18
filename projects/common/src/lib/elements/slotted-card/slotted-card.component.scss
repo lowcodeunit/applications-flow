@@ -3,15 +3,20 @@
     padding:0px;
 }
 
+.slotted-card-header{
+    padding: 5px;
+}
+
 .header-icon{
     height: 30px;
     width: 30px;
     font-size: 30px;
+    
 }
 
 .card-title{
     font-size: 25px;
-    margin-bottom: 0px;
+    margin-bottom: 0px !important;
 }
 
 .header-description{

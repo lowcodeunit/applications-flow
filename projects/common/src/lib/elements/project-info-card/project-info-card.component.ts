@@ -16,6 +16,9 @@ export class ProjectInfoCardComponent implements OnInit {
   @Input('is-editable')
   public IsEditable: boolean;
 
+  @Input('is-shareable')
+  public IsShareable: boolean;
+
   @Input('loading')
   public Loading: boolean;
 
@@ -40,6 +43,7 @@ export class ProjectInfoCardComponent implements OnInit {
 
   public ngOnInit(): void {
     console.log("loading = ", this.Loading)
+    console.log("is shareable: ", this.IsShareable)
   }
 
 
@@ -49,6 +53,7 @@ export class ProjectInfoCardComponent implements OnInit {
   }
 
   public RightIconClicked(){
+    console.log("share clicked")
     this.RightClickEvent.emit({});
   }
 
