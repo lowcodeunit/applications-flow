@@ -17,6 +17,8 @@ import { ProcessorDetailsFormComponent } from 'projects/common/src/lib/controls/
 import { SecurityToggleComponent } from 'projects/common/src/lib/controls/security-toggle/security-toggle.component';
 import { SourceControlFormComponent } from 'projects/common/src/lib/controls/source-control-form/source-control-form.component';
 import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
+import { MatDialog } from '@angular/material/dialog';
+import { EditApplicationDialogComponent } from 'projects/common/src/lib/dialogs/edit-application-dialog/edit-application-dialog.component';
 
 @Component({
   selector: 'lcu-applications',
@@ -146,6 +148,14 @@ export class ApplicationsComponent implements OnInit {
     return routeSetResult;
   }
 
+  public get SourceControlLookups(): Array<string> {
+    return Object.keys(this.Environment?.Sources || {});
+  }
+
+  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    return this.Environment?.Sources || {};
+  }
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
@@ -156,6 +166,12 @@ export class ApplicationsComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
+  public LoadingFeed: boolean;
+
   public Stats: any;
 
   public ProjectLookup: string;
@@ -164,6 +180,7 @@ export class ApplicationsComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
+    protected dialog: MatDialog,
   ) {
     this.Stats = [
       { Name: 'Retention Rate', Stat: '85%' },
@@ -176,6 +193,9 @@ export class ApplicationsComponent implements OnInit {
       this.CurrentApplicationRoute = params['appRoute']
       this.ProjectLookup = params['projectLookup'];
     });
+
+    this.IsInfoCardEditable = true;
+    this.IsInfoCardShareable = false;
   }
 
   public ngOnInit(): void {
@@ -190,34 +210,62 @@ export class ApplicationsComponent implements OnInit {
 
   
 
-  public HandleLeftClickEvent(event: any) {}
+  public HandleLeftClickEvent(event: any) {
+     this.OpenEditAppModal();
+
+  }
 
   public HandleRightClickEvent(event: any) {}
 
   public HandleSaveFormEvent(formValue: any) {
-    console.log('Recieved Save Event: ', formValue);
-    this.SaveApplication();
+    // console.log('Recieved Save Event: ', formValue);
+    // this.SaveApplication();
+  }
+
+  public OpenEditAppModal(){
+    const dialogRef = this.dialog.open(EditApplicationDialogComponent, {
+      width: '600px',
+      data: {
+        application: this.Application
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result.event)
+      this.SaveApplication(result.event);
+    });
+  }
+
+  public Unpack(): void {
+    this.eacSvc.UnpackLowCodeUnit({
+      ApplicationLookup: this.ApplicationLookup,
+      ApplicationName: this.Application.Application?.Name,
+      Version: this.Application.LowCodeUnit?.Version || this.Application.LowCodeUnit?.Build,
+    });
   }
 
   public UpgradeClicked() {}
 
   public SettingsClicked() {}
 
-  public SaveApplication(): void {
+  public SaveApplication(appInfo: any): void {
+
     const app: EaCApplicationAsCode = this.Application;
     app.Application = {
-      Name: this.ApplicationFormControls.NameFormControl.value,
-      Description: this.ApplicationFormControls.DescriptionFormControl.value,
+      Name: appInfo.name,
+      Description: appInfo.description,
       PriorityShift: this.Application?.Application?.PriorityShift || 0,
     };
 
-    app.LookupConfig.PathRegex = `${this.ApplicationFormControls.RouteFormControl.value}.*`;
+    app.LookupConfig.PathRegex = `${appInfo.route}.*`;
 
     switch (app.Processor.Type) {
       case 'DFS':
         //will need to replace with this.RouteFormControl.value if other form added
         app.Processor.BaseHref =
-          `${this.ApplicationFormControls.RouteFormControl.value}/`.replace(
+          `${appInfo.route}/`.replace(
             '//',
             '/'
           );
@@ -239,7 +287,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public SaveProcessorDetails(formValue: any): void {
-    console.log('Recieved Save Event: ', formValue);
+    // console.log('Recieved Save Event: ', formValue);
 
     const app: EaCApplicationAsCode = this.Application;
     app.LookupConfig.AllowedMethods =
@@ -261,16 +309,19 @@ export class ApplicationsComponent implements OnInit {
         switch (app.LowCodeUnit.Type) {
           case 'GitHub':
             app.LowCodeUnit.Organization =
-              this.ProcessorDetailsFormControls.SourceControlFormControls.OrganizationFormControl.value;
+            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].Organization;
 
             app.LowCodeUnit.Repository =
-              this.ProcessorDetailsFormControls.SourceControlFormControls.RepositoryFormControl.value;
+            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].Repository;
 
             app.LowCodeUnit.Build =
               this.ProcessorDetailsFormControls.BuildFormControl.value;
 
-            app.LowCodeUnit.Path =
-              this.ProcessorDetailsFormControls.SourceControlFormControls.BuildPathFormControl.value;
+            app.LowCodeUnit.Path = this.Environment.DevOpsActions[
+            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].DevOpsActionTriggerLookups[0]].Path;
+            // console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
+
+            app.LowCodeUnit.SourceControlLookup = this.ProcessorDetailsFormControls.SourceControlFormControl.value;
             break;
 
           case 'NPM':
@@ -369,7 +420,7 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public SaveSecuritySettings(formValue: any): void {
-    console.log('Recieved Save Event: ', formValue);
+    // console.log('Recieved Save Event: ', formValue);
 
     const app: EaCApplicationAsCode = this.Application;
 
@@ -397,15 +448,14 @@ export class ApplicationsComponent implements OnInit {
 
   protected async getFeedInfo(): Promise<void> {
 
-    // setInterval(() => {
-
+    this.LoadingFeed = true;
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
-       console.log("FEED: ", this.Feed.Runs)
+       this.LoadingFeed = false;
+      //  console.log("FEED: ", this.Feed.Runs)
      });
 
-    // }, 30000);
 
 
   }

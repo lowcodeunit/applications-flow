@@ -82,7 +82,8 @@ export class DomainsComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected eacSvc: EaCService
+    protected eacSvc: EaCService,
+    
   ) {}
 
   public ngOnInit(): void {
@@ -98,7 +99,7 @@ export class DomainsComponent implements OnInit {
       Icon: 'head',
       Title: 'Domains',
       Subtitle:
-        'These domains are assigned to your deployments. Optionally, a different Git branch or a redirection to another domain can be configured for each one.',
+        'In order to use a custom domain, create a CNAME dns record pointing desired subdomain to ' + this.HostDNSInstance + '.',
       FormActions: {
         Message: 'Changes will be applied to your next deployment',
         Actions: [

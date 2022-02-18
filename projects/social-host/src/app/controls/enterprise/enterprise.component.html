@@ -1,83 +1,43 @@
 <!-- <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
-<ng-container *ngIf="!State?.Loading">
-  <lcu-breadcrumb [enterprise]="Enterprise"> </lcu-breadcrumb>
+<!-- <ng-container *ngIf="!State?.Loading"> -->
 
-  <!-- <lcu-two-column-header>
-    <mat-card left class="enterprise-avatar-container">
-      <img
-        class="enterprise-avatar"
-        src="./assets/images/Thinky-circle-red.png"
-        alt="Enterprise Name"
-      />
-    </mat-card>
-
-    <mat-card
-      class="header-main-container social-card"
-      fxLayout="row"
-      fxLayout.lt-md="column"
-      fxLayoutAlign="space-between center"
+    <lcu-breadcrumb
+    [enterprise]="Enterprise"
     >
-      <div class="header-main-content">
-        <div class="header-name" *ngIf="Enterprise?.Name">
-          {{ Enterprise.Name }}
-        </div>
-        <div class="header-description" *ngIf="Enterprise?.Description">
-          {{ Enterprise.Description }}
-        </div>
-        <div class="header-description"fxLayout="row" fxLayoutAlign="start center">
-                <div >Enterprise Type</div>
-                <span>&nbsp;  &#8226; &nbsp; </span>
-                <div>Enterprise Location</div>
-                <span>&nbsp; &#8226; &nbsp; </span>
-                <div>Enterprise Followers</div>
-            </div>
-      </div>
-      <button mat-button>Upgrade to premium now</button>
-    </mat-card>
-  </lcu-two-column-header> -->
+
+    </lcu-breadcrumb>    
+    
 
   <lcu-three-column>
     <div left>
-      <lcu-project-info-card
-        [name]="Enterprise?.Name"
-        [description]="Enterprise?.Description"
+      <lcu-project-info-card 
+        [name]="Enterprise?.Name"  
+        [is-editable]="IsInfoCardEditable"
+        [is-shareable]="IsInfoCardShareable"     
+        image="./assets/images/Thinky-circle-red.png"
+        [loading]="State?.Loading"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
-      >
-        <!-- Commented out until implemented -->
+        > 
+
         <!-- <lcu-card-carousel
-                        [stats]="Stats">
-                    </lcu-card-carousel> -->
+        [stats]="Stats">
+        </lcu-card-carousel> -->
 
-        <div
-          promo
-          class="promo-container"
-          fxLayout="column"
-          fxLayoutAlign="center center"
-          fxLayout.lt-md="row"
-          fxLayoutAlign.lt-md="space-around center"
-        >
-          <div>Access exclusive tools & insights</div>
-
-          <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon class="gold-icon">emoji_events</mat-icon>
-
-            <div class="upgrade-text" (click)="UpgradeClicked()">
-              Upgrade to premium now
+            <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
+                <div> Access exclusive tools & insights</div>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="gold-icon">emoji_events</mat-icon>
+                    <div class="upgrade-text" (click)="UpgradeClicked()">Upgrade to premium now</div>
+                </div>
+      
             </div>
-          </div>
-        </div>
 
-        <!-- <button
-          action
-          mat-button
-          class="info-card-btn"
-          (click)="SettingsClicked()"
-        >
-          <mat-icon>outbox</mat-icon>
-          Unpack
-        </button> -->
-      </lcu-project-info-card>
+            <!-- <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
+                <mat-icon>outbox</mat-icon>
+                Unpack
+            </button> -->
+        </lcu-project-info-card>
       <!-- Commented out until implemented -->
       <!-- <lcu-analytics-card
             title="Temp Title"
@@ -86,6 +46,9 @@
     </div>
     
     <!-- CENTER FEED -->
+    <lcu-loader [loading]="LoadingFeed"></lcu-loader>
+
+    <ng-container *ngIf="!LoadingFeed">
     <div *ngFor="let run of Feed.Runs">
       <lcu-feed-card-sm
         [title]="run.RunNumber"
@@ -101,12 +64,14 @@
         </div> -->
       </lcu-feed-card-sm>
     </div>
+  </ng-container>
 
     <div right>
       <!-- Projects -->
       <lcu-slotted-card
         title="Projects"
         icon="work_outline"
+        [loading]="State?.Loading"
         [main-slot-description]="NumberOfProjects + ' project(s) configured'"
         secondary-slot-description="Add new quick project"
         action-text="Create Custom Project"
@@ -152,7 +117,7 @@
               </a>
               <a
                 class="slot-action-anchor"
-                [href]="project.Hosts[project.Hosts.length - 1]"
+                [href]="'https://' + project.Hosts[project.Hosts.length - 1]"
                 target="_blank"
               >
                 <mat-icon class="action-icon">launch</mat-icon>
@@ -179,6 +144,7 @@
       <lcu-slotted-card
         title="Build Pipeline"
         icon="plumbing"
+        [loading]="State?.Loading"
         [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
         secondary-slot-description="Add new pipeline"
         action-text="Create New Pipeline"
@@ -201,11 +167,11 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="doa?.Name?.length > 18" class="slot-name">
-                  {{ doa?.Name | slice: 0:15 }}...
+                <div *ngIf="doa?.Name?.length > 28" class="slot-name">
+                  {{ doa?.Name | slice: 0:25 }}...
                 </div>
                 <div
-                  *ngIf="doa?.Name?.length < 18 || doa?.Name?.length == 18"
+                  *ngIf="doa?.Name?.length < 28 || doa?.Name?.length == 28"
                   class="slot-name"
                 >
                   {{ doa?.Name }}
@@ -237,6 +203,7 @@
       <lcu-slotted-card
         title="Source Controls"
         icon="build"
+        [loading]="State?.Loading"
         [main-slot-description]="
           NumberOfSourceControls + ' source control(s) configured'
         "
@@ -261,11 +228,11 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="sc.Name.length > 21" class="slot-name">
-                  {{ sc.Name | slice: 0:18 }}...
+                <div *ngIf="sc.Name.length > 28" class="slot-name">
+                  {{ sc.Name | slice: 0:25 }}...
                 </div>
                 <div
-                  *ngIf="sc.Name.length < 21 || sc.Name.length == 21"
+                  *ngIf="sc.Name.length < 28 || sc.Name.length == 28"
                   class="slot-name"
                 >
                   {{ sc.Name }}
@@ -295,4 +262,4 @@
       </lcu-slotted-card>
     </div>
   </lcu-three-column>
-</ng-container>
+<!-- </ng-container> -->

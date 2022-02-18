@@ -5,6 +5,8 @@ import { MainFeedItemModel } from 'projects/common/src/lib/models/main-feed-item
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
 import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
+import { MatDialog } from '@angular/material/dialog';
+import { CustomDomainDialogComponent } from 'projects/common/src/lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
 
 @Component({
   selector: 'lcu-projects',
@@ -135,13 +137,20 @@ export class ProjectsComponent implements OnInit {
 
   // public FeedItems: MainFeedItemModel[];
 
+  public LoadingFeed: boolean;
+
   public Stats: any[];
 
   public ProjectLookup: string;
 
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
   constructor(protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
-    protected eacSvc: EaCService) {
+    protected eacSvc: EaCService,
+    protected dialog: MatDialog) {
 
     this.activatedRoute.params.subscribe(params => {
       this.ProjectLookup = params['projectLookup'];
@@ -151,8 +160,8 @@ export class ProjectsComponent implements OnInit {
     { Name: "Bounce Rate", Stat: "38%" },
     { Name: "Someother Rate", Stat: "5%" }];
 
-    // this.FeedItems = [{ Title: "Test Issue", Author: "Jackson", Type: "ISSUE" },
-    // { Title: "Test Build", Author: "Mike", Type: "BUILD" }];
+    this.IsInfoCardEditable = false;
+    this.IsInfoCardShareable = false;
 
   }
 
@@ -161,6 +170,27 @@ export class ProjectsComponent implements OnInit {
     this.handleStateChange().then((eac) => { });
 
     this.getFeedInfo();
+
+  }
+
+  public EditCustomDomain(){
+
+    const dialogRef = this.dialog.open(CustomDomainDialogComponent, {
+      width: '600px',
+      data: {
+        hosts: this.State.EaC.Hosts,
+        primaryHost: this.State.EaC.Enterprise.PrimaryHost,
+        project: this.Project,
+        projectLookup: this.ProjectLookup
+        
+      }
+
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log('The domains dialog was closed');
+      // console.log("result:", result)
+    });
 
   }
 
@@ -195,10 +225,13 @@ export class ProjectsComponent implements OnInit {
 
     // setInterval(() => {
 
+    this.LoadingFeed = true;
+
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
-       console.log("FEED: ", this.Feed.Runs)
+       this.LoadingFeed = false;
+      //  console.log("FEED: ", this.Feed.Runs)
      });
 
     // }, 30000);

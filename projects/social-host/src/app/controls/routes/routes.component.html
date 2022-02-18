@@ -1,4 +1,4 @@
-<ng-container *ngIf="!State?.Loading">
+<!-- <ng-container *ngIf="!State?.Loading"> -->
 
     <lcu-breadcrumb
     [enterprise]="Enterprise"
@@ -11,7 +11,10 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card 
-        [name]="CurrentApplicationRoute"        
+        [name]="CurrentApplicationRoute"  
+        [is-editable]="IsInfoCardEditable"
+        [is-shareable]="IsInfoCardShareable"     
+        [loading]="State?.Loading"
         (left-click-event)="HandleLeftClickEvent($event)"
         (right-click-event)="HandleRightClickEvent($event)"
         > 
@@ -29,10 +32,10 @@
       
             </div>
 
-            <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
+            <!-- <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
                 <mat-icon>outbox</mat-icon>
                 Unpack
-              </button>
+              </button> -->
         </lcu-project-info-card>
 
         <!-- <lcu-analytics-card
@@ -42,6 +45,9 @@
         
     </div>
     <div>
+        <lcu-loader [loading]="LoadingFeed"></lcu-loader>
+
+            <ng-container *ngIf="!LoadingFeed">
 
         <div *ngFor="let run of Feed.Runs">
 
@@ -62,6 +68,7 @@
             </lcu-feed-card-sm>
     
         </div>
+            </ng-container>
         
         <div *ngFor="let route of Routes">
             <lcu-feed-card-sm
@@ -95,6 +102,7 @@
         <lcu-slotted-card
         title="Apps"
         icon="apps"
+        [loading]="State?.Loading"
         [main-slot-description]="NumberOfApps + ' application(s) configured'"
         secondary-slot-description="Add quick app"
         action-text="Create Custom Application"
@@ -130,7 +138,7 @@
                         <mat-icon class="action-icon">edit</mat-icon>
                     </a>
                     <!-- TODO fix href to add on  app.LookupConfig.PathRegex removing the .* -->
-                    <a class="slot-action-anchor"  [href]="Project.Hosts[Project.Hosts.length-1]" target="_blank">
+                    <a class="slot-action-anchor"  [href]="'https://'+Project.Hosts[Project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a>
                 </div>
@@ -159,4 +167,4 @@
         </lcu-slotted-card> 
     </div>
 </lcu-three-column>
-</ng-container>
+<!-- </ng-container> -->

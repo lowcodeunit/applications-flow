@@ -326,10 +326,10 @@
             "aot": true,
             "assets": [
               {
-								"glob": "**/*",
-								"input": "node_modules/sass.js/dist",
-								"output": "/assets"
-							  },
+                                "glob": "**/*",
+                                "input": "node_modules/sass.js/dist",
+                                "output": "/assets"
+                              },
               {
                 "glob": "package.json",
                 "input": "./projects/social-host/",
@@ -344,10 +344,19 @@
             "scripts": 
             [
               "./node_modules/sass.js/dist/sass.js",
-							"./node_modules/sass.js/dist/sass.worker.js"
+                            "./node_modules/sass.js/dist/sass.worker.js"
             ]
           },
           "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": false
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -355,7 +364,6 @@
                   "with": "projects/social-host/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -380,12 +388,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "optimization": true,
             "browserTarget": "social-host:build"
           },
           "configurations": {
             "production": {
               "browserTarget": "social-host:build:production"
+            },
+            "development": {
+              "browserTarget": "social-host:build:development"
             }
           }
         },

@@ -490,10 +490,10 @@ export class AppsFlowComponent implements OnInit {
 
     if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
       if (app) {
-        app.SourceControlLookup = this.SourceControlLookupFormControl.value;
+        app.LowCodeUnit.SourceControlLookup = this.SourceControlLookupFormControl.value;
       }
     } else if (app) {
-      app.SourceControlLookup = null;
+      app.LowCodeUnit.SourceControlLookup = null;
     }
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq);

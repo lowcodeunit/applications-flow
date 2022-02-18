@@ -1,8 +1,13 @@
 <mat-card class="col-info-card">
-  <mat-card-header fxLayoutAlign="space-between center">
-    <mat-card-title class="card-title">{{ Title }}</mat-card-title>
+  <mat-card-header class="slotted-card-header" fxLayoutAlign="start center">
+      <!-- How are these two getting switched?? -->
     <mat-icon mat-card-avatar class="header-icon">{{ Icon }}</mat-icon>
+    <mat-card-title class="card-title">{{ Title }}</mat-card-title>
+    
   </mat-card-header>
+  <lcu-loader [loading]="Loading"></lcu-loader>
+  
+  <ng-container *ngIf="!Loading">
 
   <mat-card-content>
     <div class="slot-main-container">
@@ -42,4 +47,5 @@
       {{ ActionText }}
     </a>
   </mat-card-actions>
+</ng-container>
 </mat-card>

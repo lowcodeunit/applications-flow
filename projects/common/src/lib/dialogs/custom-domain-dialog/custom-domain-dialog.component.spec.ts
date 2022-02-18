@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ColumnInfoCardComponent } from './column-info-card.component';
+import { CustomDomainDialogComponent } from './custom-domain-dialog.component';
 
-describe('ColumnInfoCardComponent', () => {
-  let component: ColumnInfoCardComponent;
-  let fixture: ComponentFixture<ColumnInfoCardComponent>;
+describe('CustomDomainDialogComponent', () => {
+  let component: CustomDomainDialogComponent;
+  let fixture: ComponentFixture<CustomDomainDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ColumnInfoCardComponent ]
+      declarations: [ CustomDomainDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ColumnInfoCardComponent);
+    fixture = TestBed.createComponent(CustomDomainDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

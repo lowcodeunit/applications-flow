@@ -10,6 +10,7 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
@@ -31,7 +32,6 @@ import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/app
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
-import { ColumnInfoCardComponent } from './elements/column-info-card/column-info-card.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
 import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
@@ -52,6 +52,8 @@ import { SourceControlDialogComponent } from './dialogs/source-control-dialog/so
 import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 import { EditApplicationFormComponent } from './controls/edit-application-form/edit-application-form.component';
 import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component';
+import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/custom-domain-dialog.component';
+import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +80,6 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
@@ -95,9 +96,12 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
   imports: [
+    ClipboardModule,
     FathymSharedModule,
     FormsModule,
     ReactiveFormsModule,
@@ -132,7 +136,6 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
@@ -149,7 +152,9 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -173,7 +178,6 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     ThreeColumnComponent,
-    ColumnInfoCardComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
@@ -190,7 +194,9 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
-    BreadcrumbComponent
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent
   ],
 })
 export class ApplicationsFlowModule {

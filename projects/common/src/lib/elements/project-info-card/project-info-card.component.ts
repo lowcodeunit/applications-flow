@@ -13,6 +13,15 @@ export class ProjectInfoCardComponent implements OnInit {
   @Input('image')
   public Image: string;
 
+  @Input('is-editable')
+  public IsEditable: boolean;
+
+  @Input('is-shareable')
+  public IsShareable: boolean;
+
+  @Input('loading')
+  public Loading: boolean;
+
   @Input('name')
   public Name: string;
 
@@ -32,8 +41,12 @@ export class ProjectInfoCardComponent implements OnInit {
     this.RightClickEvent = new EventEmitter();
    }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    // console.log("loading = ", this.Loading)
+    // console.log("is shareable: ", this.IsShareable);
+    // console.log("is editable: ", this.IsEditable);
   }
+
 
 
   public LeftIconClicked(){
@@ -41,6 +54,7 @@ export class ProjectInfoCardComponent implements OnInit {
   }
 
   public RightIconClicked(){
+    console.log("share clicked")
     this.RightClickEvent.emit({});
   }
 

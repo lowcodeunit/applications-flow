@@ -4,6 +4,10 @@
       <mat-card-title> Processor Details </mat-card-title>
     </mat-card-header>
 
+    <lcu-loader [loading]="Loading"></lcu-loader>
+
+    <ng-container *ngIf="!Loading">
+
     <mat-card-content>
       <mat-form-field class="mat-full-width">
         <mat-select
@@ -52,18 +56,35 @@
 
           <div [ngSwitch]="LCUType">
             <div *ngSwitchCase="'GitHub'">
-              <lcu-source-control-form-controls
+              <!-- <lcu-source-control-form-controls
                 [build-path]="EditingApplication?.LowCodeUnit?.Path"
                 [form-group]="ProcessorDetailsFormGroup"
                 [source-control]="DefaultSourceControl"
                 [use-branches]="false"
                 [use-build-path]="true"
-              ></lcu-source-control-form-controls>
+              ></lcu-source-control-form-controls> -->
+
+              <mat-form-field class="mat-full-width">
+                <mat-select
+                  placeholder="Source Control"
+                  formControlName="sourceControl"
+                  required
+                >
+                  <mat-option 
+                    *ngFor="let scLookup of SourceControlLookups" 
+                    [value]="scLookup">
+                     {{scLookup}}
+                  </mat-option>
+                  
+    
+                  <!-- <mat-option value="Zip">Zip</mat-option> -->
+                </mat-select>
+              </mat-form-field>
 
               <mat-form-field
                 class="mat-full-width"
                 *ngIf="
-                  SourceControlFormControls?.RepositoryFormControl?.valid
+                  SourceControlFormControl?.valid
                 "
               >
                 <input
@@ -329,6 +350,9 @@
         </button>
 
     </mat-card-actions>
+
+  </ng-container>
+  
 </mat-card>
 </form>
   

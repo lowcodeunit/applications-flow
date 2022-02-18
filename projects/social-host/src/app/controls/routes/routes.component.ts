@@ -139,6 +139,12 @@ export class RoutesComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
+  public LoadingFeed: boolean;
+
   public ProjectLookup: string;
 
   public Routes: any;
@@ -162,6 +168,9 @@ export class RoutesComponent implements OnInit {
       { Name: 'Bounce Rate', Stat: '38%' },
       { Name: 'Someother Rate', Stat: '5%' },
     ];
+
+    this.IsInfoCardEditable = false;
+    this.IsInfoCardShareable = false;
   }
 
   public ngOnInit(): void {
@@ -215,11 +224,12 @@ export class RoutesComponent implements OnInit {
   protected async getFeedInfo(): Promise<void> {
 
     // setInterval(() => {
-
+    this.LoadingFeed = true;
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
-       console.log("FEED: ", this.Feed.Runs)
+       this.LoadingFeed = false;
+      //  console.log("FEED: ", this.Feed.Runs)
      });
 
     // }, 30000);

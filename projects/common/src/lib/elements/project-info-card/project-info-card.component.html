@@ -1,16 +1,21 @@
 <mat-card class="project-info-card">
 
+  <lcu-loader [loading]="Loading"></lcu-loader>
+
+<ng-container *ngIf="!Loading">
+
     <div class="header-img-container" fxLayout="row" >
         <div class="round-project-img" fxLayoutAlign="center center">
-            <mat-icon class="temp-icon">flutter_dash</mat-icon>
+            <mat-icon *ngIf="!Image" class="temp-icon">flutter_dash</mat-icon>
+            <img *ngIf="Image" [src]="Image" [alt]="Name" style="width:75px; height:75px">
         </div>
     </div>
 
     <div class="icon-btn-container" fxLayout="row" fxLayoutAlign="space-between center" >
-      <button mat-icon-button id="left-icon" (click)="LeftIconClicked()">
-        <mat-icon>settings</mat-icon>
+      <button *ngIf="IsEditable" mat-icon-button id="left-icon" (click)="LeftIconClicked()">
+        <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button id="right-icon" (click)="RightIconClicked()">
+      <button *ngIf="IsShareable" mat-icon-button id="right-icon" (click)="RightIconClicked()">
         <mat-icon>share</mat-icon>
       </button>
     </div>
@@ -22,7 +27,7 @@
       <mat-card-subtitle class="project-card-description" *ngIf="Description">{{Description}}</mat-card-subtitle>
 
       <mat-card-subtitle class="project-card-host">
-          <a class="host-anchor" *ngIf="Subtext" [href]="Subtext" target="_blank">{{Subtext}}</a>
+          <a class="host-anchor" *ngIf="Subtext" [href]="'https://'+Subtext" target="_blank">{{Subtext}}</a>
       </mat-card-subtitle>
 
     </mat-card-header>
@@ -40,5 +45,6 @@
       <ng-content select="[action]"></ng-content>
       
     </mat-card-actions>
+  </ng-container>
   </mat-card>
   

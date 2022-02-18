@@ -74,6 +74,12 @@ export class EnterpriseComponent implements OnInit {
 
   public Feed: UserFeedResponseModel;
 
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
+  public LoadingFeed: boolean;
+
 
   constructor(
     protected appSvc: ApplicationsFlowService,
@@ -82,6 +88,9 @@ export class EnterpriseComponent implements OnInit {
     protected router: Router
   ) {
     this.Feed = new UserFeedResponseModel;
+
+    this.IsInfoCardEditable = false;
+    this.IsInfoCardShareable = false;
    }
 
   public ngOnInit(): void {
@@ -89,8 +98,15 @@ export class EnterpriseComponent implements OnInit {
 
     this.getFeedInfo();
 
-    console.log("FEED on init: ", this.Feed)
+    // console.log("FEED on init: ", this.Feed)
     
+
+  }
+
+  public HandleLeftClickEvent(event: any){
+
+  }
+  public HandleRightClickEvent(event: any){
 
   }
 
@@ -108,8 +124,8 @@ export class EnterpriseComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log("result:", result)
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
     });
   }
 
@@ -124,13 +140,17 @@ export class EnterpriseComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log("result:", result)
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
     });
   }
 
   public RouteToPath(path: string) {
     window.location.href = path;
+  }
+
+  public UpgradeClicked(){
+    
   }
 
 
@@ -139,11 +159,13 @@ export class EnterpriseComponent implements OnInit {
   protected async getFeedInfo(): Promise<void> {
 
     // setInterval(() => {
+      this.LoadingFeed = true;
 
      this.appSvc.UserFeed(1,25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
-       console.log("FEED: ", this.Feed.Runs)
+       this.LoadingFeed = false;
+      //  console.log("FEED: ", this.Feed.Runs)
      });
 
     // }, 30000);
