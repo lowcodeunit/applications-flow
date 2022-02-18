@@ -1,14 +1,8 @@
 <!-- <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
 <ng-container *ngIf="!State?.Loading">
+  <lcu-breadcrumb [enterprise]="Enterprise"> </lcu-breadcrumb>
 
-    <lcu-breadcrumb
-    [enterprise]="Enterprise"
-    >
-
-    </lcu-breadcrumb>    
-    
-<lcu-two-column-header>
-
+  <!-- <lcu-two-column-header>
     <mat-card left class="enterprise-avatar-container">
       <img
         class="enterprise-avatar"
@@ -30,45 +24,82 @@
         <div class="header-description" *ngIf="Enterprise?.Description">
           {{ Enterprise.Description }}
         </div>
-        <!-- <div class="header-description"fxLayout="row" fxLayoutAlign="start center">
+        <div class="header-description"fxLayout="row" fxLayoutAlign="start center">
                 <div >Enterprise Type</div>
                 <span>&nbsp;  &#8226; &nbsp; </span>
                 <div>Enterprise Location</div>
                 <span>&nbsp; &#8226; &nbsp; </span>
                 <div>Enterprise Followers</div>
-            </div> -->
+            </div>
       </div>
-      <!-- <button mat-button>Upgrade to premium now</button> -->
+      <button mat-button>Upgrade to premium now</button>
     </mat-card>
-  </lcu-two-column-header>
+  </lcu-two-column-header> -->
 
   <lcu-three-column>
     <div left>
+      <lcu-project-info-card
+        [name]="Enterprise?.Name"
+        [description]="Enterprise?.Description"
+        (left-click-event)="HandleLeftClickEvent($event)"
+        (right-click-event)="HandleRightClickEvent($event)"
+      >
+        <!-- Commented out until implemented -->
+        <!-- <lcu-card-carousel
+                        [stats]="Stats">
+                    </lcu-card-carousel> -->
+
+        <div
+          promo
+          class="promo-container"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          fxLayout.lt-md="row"
+          fxLayoutAlign.lt-md="space-around center"
+        >
+          <div>Access exclusive tools & insights</div>
+
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="gold-icon">emoji_events</mat-icon>
+
+            <div class="upgrade-text" (click)="UpgradeClicked()">
+              Upgrade to premium now
+            </div>
+          </div>
+        </div>
+
+        <!-- <button
+          action
+          mat-button
+          class="info-card-btn"
+          (click)="SettingsClicked()"
+        >
+          <mat-icon>outbox</mat-icon>
+          Unpack
+        </button> -->
+      </lcu-project-info-card>
       <!-- Commented out until implemented -->
       <!-- <lcu-analytics-card
             title="Temp Title"
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
     </div>
+    
     <!-- CENTER FEED -->
     <div *ngFor="let run of Feed.Runs">
-
-        <lcu-feed-card-sm
+      <lcu-feed-card-sm
         [title]="run.RunNumber"
         [subtext]="run.Committer"
         [description]="run.CommitMessage"
         [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
-
-        >
+      >
         <!-- <div actions>
             <button mat-icon-button  (click)="LaunchBuildClicked()">
                 <mat-icon>launch</mat-icon>
             </button>
             <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
         </div> -->
-
-        </lcu-feed-card-sm>
-
+      </lcu-feed-card-sm>
     </div>
 
     <div right>
