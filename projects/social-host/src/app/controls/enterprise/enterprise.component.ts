@@ -149,6 +149,10 @@ export class EnterpriseComponent implements OnInit {
     window.location.href = path;
   }
 
+  public UpgradeClicked(){
+    
+  }
+
 
   //HELPERS
 
