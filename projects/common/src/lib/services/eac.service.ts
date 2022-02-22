@@ -173,8 +173,8 @@ export class EaCService {
     }
   }
 
-  public async UserFeed(): Promise<void> {
-    await this.projectService.ListEnterprises(this.State);
+  public async UserFeed(page: number, pageSize: number): Promise<void> {
+    await this.projectService.UserFeed(page, pageSize, this.State);
   }
 
   //  Helpers

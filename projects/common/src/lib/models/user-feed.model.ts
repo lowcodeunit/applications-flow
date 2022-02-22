@@ -1,6 +1,6 @@
-import { Status } from "@lcu/common";
+import { BaseResponse, Status } from '@lcu/common';
 
-export class UserFeedResponse {
+export class UserFeedResponse extends BaseResponse {
   public Items: Array<FeedItem>;
 }
 

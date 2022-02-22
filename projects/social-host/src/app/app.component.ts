@@ -4,7 +4,7 @@ import { LCUServiceSettings } from '@lcu/common';
 import {
   ApplicationsFlowState,
   EaCService,
-  UserFeedResponse
+  UserFeedResponse,
 } from '@lowcodeunit/applications-flow-common';
 import {
   PalettePickerService,
@@ -52,13 +52,9 @@ export class AppComponent {
 
   protected async getFeedInfo(): Promise<void> {
     // setInterval(() => {
-    // this.LoadingFeed = true;
-    // this.eacSvc.UserFeed(1, 25).subscribe((resp: UserFeedResponse) => {
-    //   this.Feed = resp;
-    //   this.LoadingFeed = false;
-    //   //  console.log("FEED: ", this.Feed.Runs)
-    // });
+    this.State.LoadingFeed = true;
 
+    await this.eacSvc.UserFeed(1, 25);
     // }, 30000);
   }
 }

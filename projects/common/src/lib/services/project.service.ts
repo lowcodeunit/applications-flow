@@ -8,6 +8,7 @@ import {
   UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
 import { ApplicationsFlowService } from './applications-flow.service';
+import { FeedItem, UserFeedResponse } from '../models/user-feed.model';
 
 @Injectable({
   providedIn: 'root',
@@ -468,18 +469,18 @@ export class ProjectService {
     });
   }
 
-  public async UserFeed(page: number, pageSize: number, state: ApplicationsFlowState): Promise<any[]> {
+  public async UserFeed(page: number, pageSize: number, state: ApplicationsFlowState): Promise<Array<FeedItem>> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 
       this.appsFlowSvc.UserFeed(page, pageSize).subscribe(
-        async (response: BaseModeledResponse<Array<any>>) => {
+        async (response: UserFeedResponse) => {
           state.Loading = false;
 
           if (response.Status.Code === 0) {
-            state.Enterprises = response.Model;
+            state.Feed = response.Items;
 
-            resolve(response.Model);
+            resolve(response.Items);
           } else {
             reject(response.Status);
 
