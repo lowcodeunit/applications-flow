@@ -11,7 +11,7 @@ import {
   OnInit, 
   ViewChild, 
   ViewContainerRef } from '@angular/core';
-  import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'lcu-dynamic-tabs',

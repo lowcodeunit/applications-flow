@@ -7,16 +7,16 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class FeedCardSmComponent implements OnInit {
 
-  @Input("icon")
+  @Input('icon')
   public Icon: string;
 
-  @Input("title")
+  @Input('title')
   public Title: string;
 
-  @Input("subtext")
+  @Input('subtext')
   public Subtext: string;
 
-  @Input("description")
+  @Input('description')
   public Description: string;
 
   public IconColor: string;
@@ -27,15 +27,15 @@ export class FeedCardSmComponent implements OnInit {
     this.determineIconColor();
   }
 
-  //HELPERS
-  protected determineIconColor(){
-    if(this.Icon === "check_circle"){
+  // HELPERS
+  protected determineIconColor(): void{
+    if (this.Icon === 'check_circle'){
 
-      this.IconColor = "green";
-    
+      this.IconColor = 'green';
+
     }
-    else if(this.Icon === "cancel"){
-      this.IconColor = "red";
+    else if (this.Icon === 'cancel'){
+      this.IconColor = 'red';
     }
   }
 
