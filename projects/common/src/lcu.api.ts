@@ -15,6 +15,10 @@ export * from './lib/controls/edit-application-form/edit-application-form.compon
 export * from './lib/controls/processor-details-form/processor-details-form.component';
 export * from './lib/controls/security-toggle/security-toggle.component';
 export * from './lib/controls/source-control-form/source-control-form.component';
+export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
+export * from './lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
+export * from './lib/dialogs/edit-application-dialog/edit-application-dialog.component';
+export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/services/project.service';
 export * from './lib/services/npm.service';
 export * from './lib/models/actions.model';

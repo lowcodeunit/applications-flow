@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import {
   ApplicationsFlowState,
   EaCService,
-  MainFeedItemModel,
   ApplicationsFlowService,
   CustomDomainDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
