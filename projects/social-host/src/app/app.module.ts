@@ -14,7 +14,7 @@ import { RoutesComponent } from './controls/routes/routes.component';
 import { EnterpriseComponent } from './controls/enterprise/enterprise.component';
 import { ApplicationsComponent } from './controls/applications/applications.component';
 import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
-import { ApplicationsFlowModule } from 'projects/common/src/lib/applications-flow.module';
+import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
 import { environment } from '../environments/environment';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';

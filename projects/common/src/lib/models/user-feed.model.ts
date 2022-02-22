@@ -1,27 +1,67 @@
+import { Status } from "@lcu/common";
+
 export class UserFeedResponse {
   public Items: Array<FeedItem>;
 }
 
 export class FeedItem {
-  public Committer: string;
+  [key: string]: any;
 
-  public CommitMessage: string;
+  public Actions: Array<FeedItemAction>;
 
-  public CommittedAt: Date;
+  public Avatar: string;
+
+  public Badge: string;
+
+  public Contributors: Array<FeedItemContributor>;
+
+  public IsPinned: boolean;
+
+  public IsShortForm: boolean;
+
+  public Status: Status;
+
+  public Subtitle: string;
+
+  public Tabs: Array<FeedItemTab>;
+
+  public Timestamp: Date;
+
+  public Title: string;
+
+  public Type: string;
 }
 
-export class GitHubWorkflowRun {
-  public Conclusion: string;
-
-  public CreatedAt: Date;
-
-  public ID: number;
-
-  public RunNumber: number;
+export class FeedItemContributor {
+  [key: string]: any;
 
   public Status: string;
 
-  public Workflow: string;
+  public StatusIcon: string;
 
-  public UpdatedAt: Date;
+  public UserImage: string;
+
+  public Username: string;
+}
+
+export class FeedItemAction {
+  [key: string]: any;
+
+  public Action: string;
+
+  public ActionType: string;
+
+  public Color: string;
+
+  public Icon: string;
+
+  public Text: string;
+}
+
+export class FeedItemTab {
+  [key: string]: any;
+
+  public Data: { [key: string]: any };
+
+  public Title: string;
 }

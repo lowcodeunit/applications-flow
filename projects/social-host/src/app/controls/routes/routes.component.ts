@@ -3,10 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   ApplicationsFlowState,
   EaCService,
+  ApplicationsFlowService,
 } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
-import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
-import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
 
 @Component({
   selector: 'lcu-routes',

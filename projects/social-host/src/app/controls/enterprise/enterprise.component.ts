@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {
   ApplicationsFlowState,
   EaCService,
+  SourceControlDialogComponent,
+  BuildPipelineDialogComponent,
+  ApplicationsFlowService,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCDevOpsAction,
@@ -9,11 +12,7 @@ import {
   EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
-import { SourceControlDialogComponent } from 'projects/common/src/lib/dialogs/source-control-dialog/source-control-dialog.component';
-import { BuildPipelineDialogComponent } from 'projects/common/src/lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 import { Router } from '@angular/router';
-import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
-import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -89,7 +88,6 @@ export class EnterpriseComponent implements OnInit {
     protected eacSvc: EaCService,
     protected router: Router
   ) {
-
     this.IsInfoCardEditable = false;
     this.IsInfoCardShareable = false;
   }

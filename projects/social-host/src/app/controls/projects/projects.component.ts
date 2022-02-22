@@ -3,13 +3,12 @@ import { ActivatedRoute } from '@angular/router';
 import {
   ApplicationsFlowState,
   EaCService,
+  MainFeedItemModel,
+  ApplicationsFlowService,
+  CustomDomainDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
-import { MainFeedItemModel } from 'projects/common/src/lib/models/main-feed-item.model';
 import { EaCApplicationAsCode } from '@semanticjs/common';
-import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
-import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
 import { MatDialog } from '@angular/material/dialog';
-import { CustomDomainDialogComponent } from 'projects/common/src/lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
 
 @Component({
   selector: 'lcu-projects',

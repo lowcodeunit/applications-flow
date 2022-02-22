@@ -4,7 +4,7 @@ import { LCUServiceSettings } from '@lcu/common';
 import {
   ApplicationsFlowState,
   EaCService,
-  UserFeedResponseModel,
+  UserFeedResponse
 } from '@lowcodeunit/applications-flow-common';
 import {
   PalettePickerService,
@@ -26,18 +26,11 @@ export class AppComponent {
     return this.eacSvc.State;
   }
 
-  public Feed: UserFeedResponseModel;
-
-  // public FeedItems: MainFeedItemModel[];
-
-  public LoadingFeed: boolean;
   constructor(
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
     protected http: HttpClient
-  ) {
-    this.Feed = new UserFeedResponseModel();
-  }
+  ) {}
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
@@ -59,12 +52,12 @@ export class AppComponent {
 
   protected async getFeedInfo(): Promise<void> {
     // setInterval(() => {
-    this.LoadingFeed = true;
-    this.eacSvc.UserFeed(1, 25).subscribe((resp: UserFeedResponseModel) => {
-      this.Feed = resp;
-      this.LoadingFeed = false;
-      //  console.log("FEED: ", this.Feed.Runs)
-    });
+    // this.LoadingFeed = true;
+    // this.eacSvc.UserFeed(1, 25).subscribe((resp: UserFeedResponse) => {
+    //   this.Feed = resp;
+    //   this.LoadingFeed = false;
+    //   //  console.log("FEED: ", this.Feed.Runs)
+    // });
 
     // }, 30000);
   }

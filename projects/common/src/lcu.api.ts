@@ -9,6 +9,12 @@ export * from './lib/elements/projects/controls/hosting-details-form-group/hosti
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
 export * from './lib/models/user-feed.model';
+export * from './lib/controls/build-pipeline-form/build-pipeline-form.component';
+export * from './lib/controls/devops-source-control-form/devops-source-control-form.component';
+export * from './lib/controls/edit-application-form/edit-application-form.component';
+export * from './lib/controls/processor-details-form/processor-details-form.component';
+export * from './lib/controls/security-toggle/security-toggle.component';
+export * from './lib/controls/source-control-form/source-control-form.component';
 export * from './lib/services/project.service';
 export * from './lib/services/npm.service';
 export * from './lib/models/actions.model';

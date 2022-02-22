@@ -1,24 +1,23 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from '@lcu/common';
-import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
 import {
   ApplicationsFlowState,
   EaCService,
   SaveApplicationAsCodeEventRequest,
+  ApplicationsFlowService,
+  EditApplicationFormComponent,
+  ProcessorDetailsFormComponent,
+  SecurityToggleComponent,
+  SourceControlFormComponent,
+  EditApplicationDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
-import { EditApplicationFormComponent } from 'projects/common/src/lib/controls/edit-application-form/edit-application-form.component';
-import { ProcessorDetailsFormComponent } from 'projects/common/src/lib/controls/processor-details-form/processor-details-form.component';
-import { SecurityToggleComponent } from 'projects/common/src/lib/controls/security-toggle/security-toggle.component';
-import { SourceControlFormComponent } from 'projects/common/src/lib/controls/source-control-form/source-control-form.component';
-import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
 import { MatDialog } from '@angular/material/dialog';
-import { EditApplicationDialogComponent } from 'projects/common/src/lib/dialogs/edit-application-dialog/edit-application-dialog.component';
 
 @Component({
   selector: 'lcu-applications',
