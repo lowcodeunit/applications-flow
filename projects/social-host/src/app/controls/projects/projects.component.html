@@ -158,6 +158,11 @@
             secondary-slot-description="Add quick route"
             action-text="Create Custom Route"
         >
+        <div
+          class="main-slot-container"
+          fxLayout="row"
+          *ngFor="let appRoute of ApplicationRoutes"
+        >
           <div
             class="slot-content"
             fxLayout="row"
