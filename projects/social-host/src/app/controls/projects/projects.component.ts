@@ -4,7 +4,7 @@ import {
   ApplicationsFlowState,
   EaCService,
   ApplicationsFlowService,
-  CustomDomainDialogComponent,
+  CustomDomainDialogComponent
 } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';

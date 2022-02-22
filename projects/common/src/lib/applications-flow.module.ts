@@ -1,6 +1,6 @@
 import { FormsService } from './services/forms.service';
 import { ProjectService } from './services/project.service';
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
@@ -14,7 +14,6 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
-import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
 import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
 import { ProjectItemsComponent } from './elements/projects/controls/project-items/project-items.component';
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
@@ -31,6 +30,7 @@ import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
+import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
@@ -63,7 +63,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -79,6 +78,7 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
+    FlowToolComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
@@ -119,7 +119,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -135,6 +134,7 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
+    FlowToolComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
@@ -161,7 +161,6 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -198,6 +197,9 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     CustomDomainDialogComponent,
     EditApplicationDialogComponent
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
+  ]
 })
 export class ApplicationsFlowModule {
   static forRoot(): ModuleWithProviders<ApplicationsFlowModule> {

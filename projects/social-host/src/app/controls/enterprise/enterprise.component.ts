@@ -118,7 +118,7 @@ export class EnterpriseComponent implements OnInit {
     });
   }
 
-  public OpenSourceControlDialog(scLookup: string) {
+  public OpenSourceControlDialog(scLookup: string): void {
     const dialogRef = this.dialog.open(SourceControlDialogComponent, {
       width: '550px',
       data: {
@@ -134,7 +134,7 @@ export class EnterpriseComponent implements OnInit {
     });
   }
 
-  public RouteToPath(path: string) {
+  public RouteToPath(path: string): void {
     window.location.href = path;
   }
 
