@@ -59,7 +59,7 @@
 		"@lowcodeunit/lazy-element": "1.21.85-angular-13",
 		"@lowcodeunit/lcu-documentation-common": "1.6.59-angular-13",
 		"@lowcodeunit/lcu-icons-common": "1.2.77-angular-13",
-		"@lowcodeunit/lcu-theme-builder-common": "1.5.104-angular-13",
+		"@lowcodeunit/lcu-theme-builder-common": "1.5.106-angular-13",
 		"@semanticjs/common": "^0.50.0",
 		"@semanticjs/krakyn": "0.57.26-external-data",
 		"@semanticjs/napkin-ide": "^0.12.0",

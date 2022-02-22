@@ -41,7 +41,6 @@ export * from './lib/elements/base-form/base-form.component';
 export * from './lib/elements/projects/controls/recent-activities/recent-activities.component';
 export * from './lib/elements/projects/projects.component';
 export * from './lib/elements/flow-tool/flow-tool.component';
-export * from './lib/elements/column-info-card/column-info-card.component';
 export * from './lib/elements/slotted-card/slotted-card.component';
 export * from './lib/elements/analytics-card/analytics-card.component';
 export * from './lib/elements/feed-card-sm/feed-card-sm.component';
