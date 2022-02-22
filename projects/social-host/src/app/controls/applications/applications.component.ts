@@ -164,13 +164,9 @@ export class ApplicationsComponent implements OnInit {
 
   public CurrentApplicationRoute: string;
 
-  public Feed: UserFeedResponseModel;
-
   public IsInfoCardEditable: boolean;
 
   public IsInfoCardShareable: boolean;
-
-  public LoadingFeed: boolean;
 
   public Stats: any;
 
@@ -180,7 +176,7 @@ export class ApplicationsComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    protected dialog: MatDialog,
+    protected dialog: MatDialog
   ) {
     this.Stats = [
       { Name: 'Retention Rate', Stat: '85%' },
@@ -190,7 +186,7 @@ export class ApplicationsComponent implements OnInit {
 
     this.activatedRoute.params.subscribe((params) => {
       this.ApplicationLookup = params['appLookup'];
-      this.CurrentApplicationRoute = params['appRoute']
+      this.CurrentApplicationRoute = params['appRoute'];
       this.ProjectLookup = params['projectLookup'];
     });
 
@@ -199,20 +195,13 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-
-    this.handleStateChange().then((eac) => { });
-
-    this.getFeedInfo();
-
+    this.handleStateChange().then((eac) => {});
   }
 
   //  API Methods
 
-  
-
   public HandleLeftClickEvent(event: any) {
-     this.OpenEditAppModal();
-
+    this.OpenEditAppModal();
   }
 
   public HandleRightClickEvent(event: any) {}
@@ -222,16 +211,15 @@ export class ApplicationsComponent implements OnInit {
     // this.SaveApplication();
   }
 
-  public OpenEditAppModal(){
+  public OpenEditAppModal() {
     const dialogRef = this.dialog.open(EditApplicationDialogComponent, {
       width: '600px',
       data: {
-        application: this.Application
-      }
-
+        application: this.Application,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       // console.log('The dialog was closed');
       // console.log("result:", result.event)
       this.SaveApplication(result.event);
@@ -242,7 +230,9 @@ export class ApplicationsComponent implements OnInit {
     this.eacSvc.UnpackLowCodeUnit({
       ApplicationLookup: this.ApplicationLookup,
       ApplicationName: this.Application.Application?.Name,
-      Version: this.Application.LowCodeUnit?.Version || this.Application.LowCodeUnit?.Build,
+      Version:
+        this.Application.LowCodeUnit?.Version ||
+        this.Application.LowCodeUnit?.Build,
     });
   }
 
@@ -251,7 +241,6 @@ export class ApplicationsComponent implements OnInit {
   public SettingsClicked() {}
 
   public SaveApplication(appInfo: any): void {
-
     const app: EaCApplicationAsCode = this.Application;
     app.Application = {
       Name: appInfo.name,
@@ -264,11 +253,7 @@ export class ApplicationsComponent implements OnInit {
     switch (app.Processor.Type) {
       case 'DFS':
         //will need to replace with this.RouteFormControl.value if other form added
-        app.Processor.BaseHref =
-          `${appInfo.route}/`.replace(
-            '//',
-            '/'
-          );
+        app.Processor.BaseHref = `${appInfo.route}/`.replace('//', '/');
 
         break;
     }
@@ -309,19 +294,28 @@ export class ApplicationsComponent implements OnInit {
         switch (app.LowCodeUnit.Type) {
           case 'GitHub':
             app.LowCodeUnit.Organization =
-            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].Organization;
+              this.SourceControls[
+                this.ProcessorDetailsFormControls.SourceControlFormControl.value
+              ].Organization;
 
             app.LowCodeUnit.Repository =
-            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].Repository;
+              this.SourceControls[
+                this.ProcessorDetailsFormControls.SourceControlFormControl.value
+              ].Repository;
 
             app.LowCodeUnit.Build =
               this.ProcessorDetailsFormControls.BuildFormControl.value;
 
-            app.LowCodeUnit.Path = this.Environment.DevOpsActions[
-            this.SourceControls[this.ProcessorDetailsFormControls.SourceControlFormControl.value].DevOpsActionTriggerLookups[0]].Path;
+            app.LowCodeUnit.Path =
+              this.Environment.DevOpsActions[
+                this.SourceControls[
+                  this.ProcessorDetailsFormControls.SourceControlFormControl.value
+                ].DevOpsActionTriggerLookups[0]
+              ].Path;
             // console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
 
-            app.LowCodeUnit.SourceControlLookup = this.ProcessorDetailsFormControls.SourceControlFormControl.value;
+            app.LowCodeUnit.SourceControlLookup =
+              this.ProcessorDetailsFormControls.SourceControlFormControl.value;
             break;
 
           case 'NPM':
@@ -445,24 +439,5 @@ export class ApplicationsComponent implements OnInit {
   }
 
   //HELPERS
-
-  protected async getFeedInfo(): Promise<void> {
-
-    this.LoadingFeed = true;
-     this.appSvc.UserFeed(1,25)
-        .subscribe((resp: UserFeedResponseModel) => {
-       this.Feed = resp;
-       this.LoadingFeed = false;
-      //  console.log("FEED: ", this.Feed.Runs)
-     });
-
-
-
-  }
-
-  protected async handleStateChange(): Promise<void> {
-    this.State.Loading = true;
-
-    await this.eacSvc.EnsureUserEnterprise();
-  }
+  protected async handleStateChange(): Promise<void> {}
 }

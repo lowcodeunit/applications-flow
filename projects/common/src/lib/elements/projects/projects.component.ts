@@ -116,15 +116,5 @@ export class ApplicationsFlowProjectsElementComponent
   //  Helpers
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
-
-    await this.eacSvc.HasValidConnection();
-
-    await this.eacSvc.EnsureUserEnterprise();
-
-    await this.eacSvc.ListEnterprises();
-
-    if (this.State.Enterprises?.length > 0) {
-      await this.eacSvc.GetActiveEnterprise();
-    }
   }
 }

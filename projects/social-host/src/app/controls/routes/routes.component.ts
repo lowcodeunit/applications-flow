@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
+import {
+  ApplicationsFlowState,
+  EaCService,
+} from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
 import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
@@ -11,7 +14,6 @@ import { ApplicationsFlowService } from 'projects/common/src/lib/services/applic
   styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
-
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
   }
@@ -54,7 +56,7 @@ export class RoutesComponent implements OnInit {
   public get Project(): any {
     return this.State?.EaC?.Projects[this.ProjectLookup];
   }
-  
+
   public get ProjectLookups(): string[] {
     return Object.keys(this.State?.EaC?.Projects || {});
   }
@@ -134,16 +136,11 @@ export class RoutesComponent implements OnInit {
     return routeSetResult;
   }
 
-
   public AppRoute: string;
-
-  public Feed: UserFeedResponseModel;
 
   public IsInfoCardEditable: boolean;
 
   public IsInfoCardShareable: boolean;
-
-  public LoadingFeed: boolean;
 
   public ProjectLookup: string;
 
@@ -157,7 +154,6 @@ export class RoutesComponent implements OnInit {
     protected eacSvc: EaCService,
     protected router: Router
   ) {
-
     this.activatedRoute.params.subscribe((params) => {
       this.AppRoute = params['appRoute'];
       this.ProjectLookup = params['projectLookup'];
@@ -174,11 +170,7 @@ export class RoutesComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-
     this.handleStateChange().then((eac) => {});
-
-    this.getFeedInfo();
-
   }
 
   public EditRouteClicked() {
@@ -191,14 +183,19 @@ export class RoutesComponent implements OnInit {
 
   public HandleRightClickEvent(event: any) {
     console.log('Right Icon has been selected', event);
-    console.log("app:", this.RoutedApplications[this.CurrentApplicationRoute][this.CurrentRouteApplicationLookups[0]])
+    console.log(
+      'app:',
+      this.RoutedApplications[this.CurrentApplicationRoute][
+        this.CurrentRouteApplicationLookups[0]
+      ]
+    );
   }
 
   public LaunchRouteClicked() {
     console.log('Launch Route clicked');
   }
 
-  public RouteToPath(){
+  public RouteToPath() {
     let path = '/dashboard/create-project?projectId=' + this.ProjectLookup;
     this.router.navigate([path]);
   }
@@ -220,27 +217,5 @@ export class RoutesComponent implements OnInit {
   }
 
   //HELPERS
-
-  protected async getFeedInfo(): Promise<void> {
-
-    // setInterval(() => {
-    this.LoadingFeed = true;
-     this.appSvc.UserFeed(1,25)
-        .subscribe((resp: UserFeedResponseModel) => {
-       this.Feed = resp;
-       this.LoadingFeed = false;
-      //  console.log("FEED: ", this.Feed.Runs)
-     });
-
-    // }, 30000);
-
-
-  }
-
-
-  protected async handleStateChange(): Promise<void> {
-    this.State.Loading = true;
-
-    await this.eacSvc.EnsureUserEnterprise();
-  }
+  protected async handleStateChange(): Promise<void> {}
 }

@@ -1,34 +1,34 @@
 export class UserFeedResponseModel{
     
-    public Runs: Array<AdjustedGitHubWorkflowRun>;
+    // public Runs: Array<AdjustedGitHubWorkflowRun>;
 
 }
 
-export class AdjustedGitHubWorkflowRun {
+// export class AdjustedGitHubWorkflowRun {
 
-    public Committer: string;
+//     public Committer: string;
 
-    public CommitMessage: string;
+//     public CommitMessage: string;
 
-    public CommittedAt: Date;
+//     public CommittedAt: Date;
 
-}
+// }
 
 
-export class GitHubWorkflowRun {
+// export class GitHubWorkflowRun {
 
-    public Conclusion: string;
+//     public Conclusion: string;
 
-    public CreatedAt: Date;
+//     public CreatedAt: Date;
 
-    public ID: number;
+//     public ID: number;
 
-    public  RunNumber: number;
+//     public  RunNumber: number;
 
-    public Status: string;
+//     public Status: string;
 
-    public Workflow: string;
+//     public Workflow: string;
 
-    public UpdatedAt: Date;
-}
+//     public UpdatedAt: Date;
+// }
 

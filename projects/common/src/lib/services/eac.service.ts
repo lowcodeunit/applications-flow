@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { ProjectService } from './project.service';
 import {
@@ -53,9 +52,7 @@ export class EaCService {
   public State: ApplicationsFlowState;
 
   //  Constructors
-  constructor(
-    protected projectService: ProjectService
-  ) {
+  constructor(protected projectService: ProjectService) {
     this.State = new ApplicationsFlowState();
   }
 
@@ -75,22 +72,25 @@ export class EaCService {
   }
 
   public async DeleteDevOpsAction(doaLookup: string): Promise<void> {
-    if (confirm(`Are you sure you want to delete DevOps action '${doaLookup}'?`)) {
-
+    if (
+      confirm(`Are you sure you want to delete DevOps action '${doaLookup}'?`)
+    ) {
       await this.projectService.DeleteDevOpsAction(this.State, doaLookup);
     }
   }
 
   public async DeleteProject(projectLookup: string): Promise<void> {
-    if (confirm(`Are you sure you want to delete Project '${projectLookup}'?`)) {
-
+    if (
+      confirm(`Are you sure you want to delete Project '${projectLookup}'?`)
+    ) {
       await this.projectService.DeleteProject(this.State, projectLookup);
     }
   }
 
   public async DeleteSourceControl(scLookup: string): Promise<void> {
-    if (confirm(`Are you sure you want to delete Source Control '${scLookup}'?`)) {
-
+    if (
+      confirm(`Are you sure you want to delete Source Control '${scLookup}'?`)
+    ) {
       await this.projectService.DeleteSourceControl(this.State, scLookup);
     }
   }
@@ -98,7 +98,6 @@ export class EaCService {
   // this.appsFlowEventsSvc.EnsureUserEnterpriseEvent.subscribe(async () => {
   //   await this.projectService.EnsureUserEnterprise(this.State);
   // });
-  
 
   public async EnsureUserEnterprise(): Promise<void> {
     await this.projectService.EnsureUserEnterprise(this.State);
@@ -112,7 +111,7 @@ export class EaCService {
     return this.projectService.EditingProjectLookup;
   }
 
-  public async HasValidConnection(): Promise<void>{
+  public async HasValidConnection(): Promise<void> {
     await this.projectService.HasValidConnection(this.State);
   }
 
@@ -120,7 +119,7 @@ export class EaCService {
     await this.projectService.ListEnterprises(this.State);
   }
 
-  public async LoadEnterpriseAsCode(): Promise<void>{
+  public async LoadEnterpriseAsCode(): Promise<void> {
     await this.projectService.LoadEnterpriseAsCode(this.State);
   }
 
@@ -130,35 +129,38 @@ export class EaCService {
     await this.handleSaveApplication(req);
   }
 
-  public async SaveDFSModifier(req: SaveDFSModifierEventRequest): Promise<void> {
+  public async SaveDFSModifier(
+    req: SaveDFSModifierEventRequest
+  ): Promise<void> {
     await this.handleSaveDFSModifier(req);
   }
 
-  public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<void>  {
+  public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<void> {
     await this.projectService.SaveEnterpriseAsCode(this.State, eac);
   }
 
-  public async SaveEnvironmentAsCode(req: SaveEnvironmentAsCodeEventRequest): Promise<void>{
+  public async SaveEnvironmentAsCode(
+    req: SaveEnvironmentAsCodeEventRequest
+  ): Promise<void> {
     await this.handleSaveEnvironment(req);
   }
 
-  public async SaveProjectAsCode(req: SaveProjectAsCodeEventRequest): Promise<void>{
+  public async SaveProjectAsCode(
+    req: SaveProjectAsCodeEventRequest
+  ): Promise<void> {
     await this.handleSaveProject(req.ProjectLookup, req.Project);
   }
 
-  public async SetActiveEnterprise(eventValue: any): Promise<void>{
+  public async SetActiveEnterprise(eventValue: any): Promise<void> {
     this.projectService.SetActiveEnterprise(this.State, eventValue);
   }
 
-  public async SetCreatingProject(creatingProject: boolean): Promise<void>{
-      this.projectService.SetCreatingProject(creatingProject);
+  public async SetCreatingProject(creatingProject: boolean): Promise<void> {
+    this.projectService.SetCreatingProject(creatingProject);
   }
 
-  public async SetEditProjectSettings(projectLookup: string): Promise<void>{
-      await this.projectService.SetEditProjectSettings(
-        this.State,
-        projectLookup
-      );
+  public async SetEditProjectSettings(projectLookup: string): Promise<void> {
+    await this.projectService.SetEditProjectSettings(this.State, projectLookup);
   }
 
   public async UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): Promise<void> {
@@ -170,7 +172,6 @@ export class EaCService {
       await this.projectService.UnpackLowCodeUnit(this.State, req);
     }
   }
-
 
   //  Helpers
   protected async handleSaveApplication(

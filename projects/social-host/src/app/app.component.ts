@@ -1,8 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { LCUServiceSettings } from '@lcu/common';
-import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
-import { PalettePickerService, ThemeBuilderConstants, ThemeBuilderService, ThemePickerModel } from '@lowcodeunit/lcu-theme-builder-common';
+import {
+  ApplicationsFlowState,
+  EaCService,
+  UserFeedResponseModel,
+} from '@lowcodeunit/applications-flow-common';
+import {
+  PalettePickerService,
+  ThemeBuilderConstants,
+  ThemeBuilderService,
+  ThemePickerModel,
+} from '@lowcodeunit/lcu-theme-builder-common';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 declare var Sass: any;
@@ -13,53 +22,31 @@ declare var Sass: any;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'social-host';
-
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
 
-  public ThemeClass: BehaviorSubject<string>;
-  public Themes: Array<any>;
+  public Feed: UserFeedResponseModel;
 
+  // public FeedItems: MainFeedItemModel[];
+
+  public LoadingFeed: boolean;
   constructor(
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
-    protected http: HttpClient,
-    protected themeBuilderService: ThemeBuilderService,
-    protected palettePickerService: PalettePickerService
+    protected http: HttpClient
   ) {
+    this.Feed = new UserFeedResponseModel();
   }
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
-    // this.themeBuilderService.MaterialTheme = 'https://www.iot-ensemble.com/assets/theming/theming.scss';
-    this.themeBuilderService.MaterialTheme = './assets/test.scss';
-
-    this.setupThemes();
-  }
-
-
-  /**
-   * Setup array of themes
-   */
-   protected setupThemes(): void {
-    const themes: Array<ThemePickerModel> = [
-      new ThemePickerModel(
-        {
-          ID: 'Fathym Brand',
-          Primary: ThemeBuilderConstants.document.getPropertyValue('--initial-primary'),
-          Accent: ThemeBuilderConstants.document.getPropertyValue('--initial-accent'),
-          Warn: ThemeBuilderConstants.document.getPropertyValue('--initial-warn')
-        }
-      ),
-    ];
-
-    this.themeBuilderService.SetThemes(themes);
   }
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
+
+    await this.eacSvc.HasValidConnection();
 
     await this.eacSvc.EnsureUserEnterprise();
 
@@ -68,6 +55,17 @@ export class AppComponent {
     if (this.State.Enterprises?.length > 0) {
       await this.eacSvc.GetActiveEnterprise();
     }
+  }
 
+  protected async getFeedInfo(): Promise<void> {
+    // setInterval(() => {
+    this.LoadingFeed = true;
+    this.eacSvc.UserFeed(1, 25).subscribe((resp: UserFeedResponseModel) => {
+      this.Feed = resp;
+      this.LoadingFeed = false;
+      //  console.log("FEED: ", this.Feed.Runs)
+    });
+
+    // }, 30000);
   }
 }

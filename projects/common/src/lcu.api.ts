@@ -8,6 +8,7 @@ export * from './lib/elements/projects/controls/create-project-wizard/create-pro
 export * from './lib/elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
+export * from './lib/models/user-feed.model';
 export * from './lib/services/project.service';
 export * from './lib/services/npm.service';
 export * from './lib/models/actions.model';
