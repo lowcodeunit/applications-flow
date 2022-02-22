@@ -1,34 +1,27 @@
-export class UserFeedResponseModel{
-    
-    // public Runs: Array<AdjustedGitHubWorkflowRun>;
-
+export class UserFeedResponse {
+  public Items: Array<FeedItem>;
 }
 
-// export class AdjustedGitHubWorkflowRun {
+export class FeedItem {
+  public Committer: string;
 
-//     public Committer: string;
+  public CommitMessage: string;
 
-//     public CommitMessage: string;
+  public CommittedAt: Date;
+}
 
-//     public CommittedAt: Date;
+export class GitHubWorkflowRun {
+  public Conclusion: string;
 
-// }
+  public CreatedAt: Date;
 
+  public ID: number;
 
-// export class GitHubWorkflowRun {
+  public RunNumber: number;
 
-//     public Conclusion: string;
+  public Status: string;
 
-//     public CreatedAt: Date;
+  public Workflow: string;
 
-//     public ID: number;
-
-//     public  RunNumber: number;
-
-//     public Status: string;
-
-//     public Workflow: string;
-
-//     public UpdatedAt: Date;
-// }
-
+  public UpdatedAt: Date;
+}

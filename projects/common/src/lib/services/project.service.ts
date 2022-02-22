@@ -467,4 +467,33 @@ export class ProjectService {
       );
     });
   }
+
+  public async UserFeed(page: number, pageSize: number, state: ApplicationsFlowState): Promise<any[]> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.UserFeed(page, pageSize).subscribe(
+        async (response: BaseModeledResponse<Array<any>>) => {
+          state.Loading = false;
+
+          if (response.Status.Code === 0) {
+            state.Enterprises = response.Model;
+
+            resolve(response.Model);
+          } else {
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
 }

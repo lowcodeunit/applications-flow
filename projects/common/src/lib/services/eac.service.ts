@@ -173,6 +173,10 @@ export class EaCService {
     }
   }
 
+  public async UserFeed(): Promise<void> {
+    await this.projectService.ListEnterprises(this.State);
+  }
+
   //  Helpers
   protected async handleSaveApplication(
     req: SaveApplicationAsCodeEventRequest
