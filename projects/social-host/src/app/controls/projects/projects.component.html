@@ -177,9 +177,15 @@
           fxLayout="row"
           fxLayoutAlign="space-around center"
         >
-          <a
-            class="slot-action-anchor"
-            [routerLink]="['/routes', appRoute, ProjectLookup]"
+        <div
+          class="main-slot-container"
+          fxLayout="row"
+          *ngFor="let appRoute of ApplicationRoutes"
+        >
+          <div
+            class="slot-content"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
           >
             <mat-icon class="action-icon">edit</mat-icon>
           </a>
