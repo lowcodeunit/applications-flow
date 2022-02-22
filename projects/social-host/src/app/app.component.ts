@@ -7,7 +7,6 @@ import {
   EaCService,
 } from '@lowcodeunit/applications-flow-common';
 
-
 @Component({
   selector: 'lcu-root',
   templateUrl: './app.component.html',
@@ -22,17 +21,15 @@ export class AppComponent {
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
     protected http: HttpClient,
-    protected router: Router) {
-      
-
-    }
+    protected router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
-    
+
     this.router.events.subscribe((val) => {
-      let changed = val instanceof NavigationEnd; 
-      if(changed){
+      let changed = val instanceof NavigationEnd;
+      if (changed) {
         this.eacSvc.LoadEnterpriseAsCode();
         this.getFeedInfo();
       }
