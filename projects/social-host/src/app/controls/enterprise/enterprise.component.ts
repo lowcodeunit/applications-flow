@@ -39,7 +39,7 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get Environment(): EaCEnvironmentAsCode {
-    // console.log("Ent Environment var: ", this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
+    // console.log('Ent Environment var: ', this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
     return this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment];
   }
 
@@ -98,20 +98,18 @@ export class EnterpriseComponent implements OnInit {
 
     this.getFeedInfo();
 
-    // console.log("FEED on init: ", this.Feed)
-    
+    console.log('FEED on init this: ', this);
+  }
+
+  public HandleLeftClickEvent(event: any): void{
+
+  }
+  public HandleRightClickEvent(event: any): void{
 
   }
 
-  public HandleLeftClickEvent(event: any){
+  public OpenBuildPipelineDialog(doaLookup: string): void{
 
-  }
-  public HandleRightClickEvent(event: any){
-
-  }
-
-  public OpenBuildPipelineDialog(doaLookup: string) {
-  
     const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {
       width: '600px',
       data: {
@@ -129,13 +127,13 @@ export class EnterpriseComponent implements OnInit {
     });
   }
 
-  public OpenSourceControlDialog(scLookup: string) {
+  public OpenSourceControlDialog(scLookup: string): void {
     const dialogRef = this.dialog.open(SourceControlDialogComponent, {
       width: '550px',
-      data: { 
-        environment: this.Environment, 
-        environmentLookup: this.ActiveEnvironmentLookup, 
-        scLookup: scLookup 
+      data: {
+        environment: this.Environment,
+        environmentLookup: this.ActiveEnvironmentLookup,
+        scLookup
       }
     });
 
@@ -145,7 +143,7 @@ export class EnterpriseComponent implements OnInit {
     });
   }
 
-  public RouteToPath(path: string) {
+  public RouteToPath(path: string): void {
     window.location.href = path;
   }
 
@@ -154,14 +152,14 @@ export class EnterpriseComponent implements OnInit {
   }
 
 
-  //HELPERS
+  // HELPERS
 
   protected async getFeedInfo(): Promise<void> {
 
     // setInterval(() => {
       this.LoadingFeed = true;
 
-     this.appSvc.UserFeed(1,25)
+      this.appSvc.UserFeed(1, 25)
         .subscribe((resp: UserFeedResponseModel) => {
        this.Feed = resp;
        this.LoadingFeed = false;
