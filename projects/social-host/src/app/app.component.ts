@@ -1,20 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { LCUServiceSettings } from '@lcu/common';
 import {
   ApplicationsFlowState,
   EaCService,
-  UserFeedResponse,
 } from '@lowcodeunit/applications-flow-common';
-import {
-  PalettePickerService,
-  ThemeBuilderConstants,
-  ThemeBuilderService,
-  ThemePickerModel,
-} from '@lowcodeunit/lcu-theme-builder-common';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
-declare var Sass: any;
 
 @Component({
   selector: 'lcu-root',
@@ -29,11 +21,22 @@ export class AppComponent {
   constructor(
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
-    protected http: HttpClient
-  ) {}
+    protected http: HttpClient,
+    protected router: Router) {
+      
+
+    }
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
+    
+    this.router.events.subscribe((val) => {
+      let changed = val instanceof NavigationEnd; 
+      if(changed){
+        this.eacSvc.LoadEnterpriseAsCode();
+        this.getFeedInfo();
+      }
+    });
   }
 
   protected async handleStateChange(): Promise<void> {
@@ -51,10 +54,8 @@ export class AppComponent {
   }
 
   protected async getFeedInfo(): Promise<void> {
-    // setInterval(() => {
     this.State.LoadingFeed = true;
 
     await this.eacSvc.UserFeed(1, 25);
-    // }, 30000);
   }
 }

@@ -46,10 +46,10 @@
     </div>
     
     <!-- CENTER FEED -->
-    <lcu-loader [loading]="LoadingFeed"></lcu-loader>
+    <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
 
-    <ng-container *ngIf="!LoadingFeed">
-    <div *ngFor="let run of Feed.Runs">
+    <ng-container *ngIf="!State?.LoadingFeed">
+    <div *ngFor="let run of State?.Feed?.Runs">
       <lcu-feed-card-sm
         [title]="run.RunNumber"
         [subtext]="run.Committer"
