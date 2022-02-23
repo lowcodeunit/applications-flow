@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ApplicationsFlowState,
   EaCService,
   ApplicationsFlowService,
+  NewApplicationDialogComponent
 } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
@@ -13,6 +15,14 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
   styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
+
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
+  }
+
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
   }
@@ -151,7 +161,8 @@ export class RoutesComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     protected activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    protected router: Router
+    protected router: Router,
+    protected dialog: MatDialog
   ) {
     this.activatedRoute.params.subscribe((params) => {
       this.AppRoute = params['appRoute'];
@@ -189,9 +200,26 @@ export class RoutesComponent implements OnInit {
       ]
     );
   }
-
+  
   public LaunchRouteClicked() {
     console.log('Launch Route clicked');
+  }
+
+  public OpenNewAppDialog(event: any){
+
+    const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
+      width: '600px',
+      data: {
+        projectLookup: this.ProjectLookup,
+        environmentLookup: this.ActiveEnvironmentLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+
   }
 
   public RouteToPath() {

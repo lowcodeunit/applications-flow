@@ -134,7 +134,8 @@
       [loading]="State?.Loading"
       [main-slot-description]="NumberOfRoutes + ' route(s) configured'" 
       secondary-slot-description="Add quick route"
-      action-text="Create Custom Route"
+      (main-action-clicked)="OpenNewAppDialog($event)"
+      action-text="Create New Application"
     >
       <div
           class="main-slot-container"

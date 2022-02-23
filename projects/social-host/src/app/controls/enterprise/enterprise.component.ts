@@ -20,6 +20,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./enterprise.component.scss'],
 })
 export class EnterpriseComponent implements OnInit {
+  
   public get ActiveEnvironment(): EaCEnvironmentAsCode {
     return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
   }

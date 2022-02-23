@@ -28,6 +28,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
   @Input('editing-application-lookup')
   public EditingApplicationLookup: string;
 
+  @Input('has-save-button')
+  public HasSaveButton: boolean;
+
   @Input('loading')
   public Loading: boolean;
 
@@ -142,6 +145,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
   constructor(protected formBldr: FormBuilder, protected eacSvc: EaCService) {
     this.redirectTooltip = '';
 
+    this.HasSaveButton = true;
+
     this.SaveFormEvent = new EventEmitter();
   }
 
@@ -174,6 +179,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
   }
 
   public SetEditingApplication(appLookup: string): void {
+    this.EditingApplication = new EaCApplicationAsCode;
     this.EditingApplicationLookup = appLookup;
 
     this.setupProcessorDetailsForm();

@@ -105,8 +105,8 @@
         [loading]="State?.Loading"
         [main-slot-description]="NumberOfApps + ' application(s) configured'"
         secondary-slot-description="Add quick app"
-        action-text="Create Custom Application"
-        [action-path]="'/dashboard/create-project?projectId=' + ProjectLookup"
+        action-text="Create New Application"
+        (main-action-clicked)="OpenNewAppDialog($event)"
         >
 
         <div class="main-slot-container" 

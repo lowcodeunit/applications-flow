@@ -5,16 +5,15 @@
 </div>
 
 <lcu-edit-application-form 
-    [editing-application]="data.application"
     [has-save-button]="HasSaveButton"
 >
 </lcu-edit-application-form>
 
 <lcu-processor-details-form 
-    [editing-application]="data.application"
-    [editing-application-lookup]="data.applicationLookup" 
     [has-save-button]="HasSaveButton"
-    [source-control-lookups]="data.sourceControlLookups"
+    [source-control-lookups]="SourceControlLookups"
     [project-lookup]="data.projectLookup"
 >
 </lcu-processor-details-form>
+
+<button mat-raised-button class="new-app-submit" (click)="SaveApplication()">Save Application</button>

@@ -4,9 +4,10 @@ import {
   ApplicationsFlowState,
   EaCService,
   ApplicationsFlowService,
-  CustomDomainDialogComponent
+  CustomDomainDialogComponent,
+  NewApplicationDialogComponent
 } from '@lowcodeunit/applications-flow-common';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -15,6 +16,14 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit {
+
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
+  }
+
   public get ApplicationLookups(): string[] {
     return Object.keys(this.Project?.ApplicationLookups || {});
   }
@@ -186,6 +195,23 @@ export class ProjectsComponent implements OnInit {
 
   public HandleRightClickEvent(event: any) {
     console.log('Right Icon has been selected', event);
+  }
+
+  public OpenNewAppDialog(event: any){
+
+    const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
+      width: '600px',
+      data: {
+        projectLookup: this.ProjectLookup,
+        environmentLookup: this.ActiveEnvironmentLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+
   }
 
   public SettingsClicked() {
