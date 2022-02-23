@@ -1,4 +1,4 @@
-export class FeedItemContributorModel implements MetadataInterface {
+export class FeedItemContributorModel {
     [key: string]: any;
 
     public Status: string;

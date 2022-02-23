@@ -1,4 +1,4 @@
-export class FeedItemTabModel implements MetadataInterface {
+export class FeedItemTabModel {
     [key: string]: any;
 
     public Data: { [key: string]: object };

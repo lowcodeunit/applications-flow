@@ -1,4 +1,4 @@
-export class FeedItemActionModel implements MetadataInterface {
+export class FeedItemActionModel {
     [key: string]: any;
 
     public Action: string;

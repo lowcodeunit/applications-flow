@@ -12,7 +12,7 @@ export class FeedCardComponent implements OnInit {
   @Input('feed-data')
   public set FeedData(val: MainFeedModel) {
 
-    val.FeedItem.Avatar = 'https://material.angular.io/assets/img/examples/shiba1.jpg';
+    // val.FeedItem.Avatar = 'https://material.angular.io/assets/img/examples/shiba1.jpg';
     this._feedData = val;
   }
 
