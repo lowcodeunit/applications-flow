@@ -1,17 +1,26 @@
 <div class="breadcrumb-container" fxLayout="row">
 
-    <div *ngIf="Enterprise" fxLayout="row" fxLayoutAlign="center center">
-        <div class="crumb-name" [routerLink]="['/enterprises']">{{Enterprise?.Name}}</div>
+    
 
-        <button mat-icon-button [matMenuTriggerFor]="enterpriseMenu">
-            <mat-icon>expand_more</mat-icon>
-        </button>
+    <div  fxLayout="row" fxLayoutAlign="center center">
 
-        <mat-menu #enterpriseMenu="matMenu" xPosition="before">
-            <button mat-menu-item [routerLink]="['/enterprises']">
-            <span>{{Enterprise?.Name}}</span>
+        <ng-container *ngIf="State?.Loading">
+            <div skeleton-text [effect]="SkeletonEffect">Enterprise Name</div>
+        </ng-container>
+
+        <ng-container *ngIf="!State?.Loading && Enterprise">
+            <div class="crumb-name" [routerLink]="['/enterprises']">{{Enterprise?.Name}}</div>
+
+            <button mat-icon-button [matMenuTriggerFor]="enterpriseMenu">
+                <mat-icon>expand_more</mat-icon>
             </button>
-        </mat-menu>
+
+            <mat-menu #enterpriseMenu="matMenu" xPosition="before">
+                <button mat-menu-item [routerLink]="['/enterprises']">
+                <span>{{Enterprise?.Name}}</span>
+                </button>
+            </mat-menu>
+        </ng-container>
 
     </div>
 
@@ -19,7 +28,18 @@
 
         <span class="seperator">/</span>
 
-        <div class="crumb-name" [routerLink]="['/projects', ProjectLookup]">{{SelectedProject?.Project?.Name}}</div>
+        <ng-container *ngIf="State?.Loading">
+            <div skeleton-text [effect]="SkeletonEffect">Project Name</div>
+        </ng-container>
+
+        <ng-container *ngIf="!State?.Loading">
+
+        <div 
+            class="crumb-name" 
+            [routerLink]="['/projects', ProjectLookup]"
+        >
+            {{SelectedProject?.Project?.Name}}
+        </div>
 
         <button mat-icon-button [matMenuTriggerFor]="projectMenu">
             <mat-icon>expand_more</mat-icon>
@@ -28,28 +48,45 @@
         
         
             <mat-menu #projectMenu="matMenu" xPosition="before">
-                    <button mat-menu-item *ngFor="let projectLookup of ProjectLookups" [routerLink]="['/projects', projectLookup]">
+                    <button 
+                        mat-menu-item 
+                        *ngFor="let projectLookup of ProjectLookups" 
+                        [routerLink]="['/projects', projectLookup]"
+                    >
                         <span *ngIf="Projects[projectLookup]; let pro;">{{pro.Project?.Name}}</span>
                     </button>
             </mat-menu>
 
+        </ng-container>
+
     </div>
 
     <div *ngIf="SelectedRoute" fxLayout="row" fxLayoutAlign="center center">
+
         <span class="seperator">/</span>
 
-        <div class="crumb-name" [routerLink]="['/routes', SelectedRoute, ProjectLookup]">{{SelectedRoute}}</div>
+        <ng-container *ngIf="State?.Loading">
+            <div skeleton-text [effect]="SkeletonEffect">Route Name</div>
+        </ng-container>
 
-        <button mat-icon-button [matMenuTriggerFor]="routeMenu">
-            <mat-icon>expand_more</mat-icon>
-        </button>
-        
+        <ng-container *ngIf="!State?.Loading">
+            <div 
+                class="crumb-name" 
+                [routerLink]="['/routes', SelectedRoute, ProjectLookup]"
+            >
+                {{SelectedRoute}}
+            </div>
+
+            <button mat-icon-button [matMenuTriggerFor]="routeMenu">
+                <mat-icon>expand_more</mat-icon>
+            </button>
         
             <mat-menu #routeMenu="matMenu" xPosition="before">
                     <button mat-menu-item *ngFor="let appRoute of Routes" [routerLink]="['/routes', appRoute, ProjectLookup]">
                         <span *ngIf="appRoute">{{appRoute}}</span>
                     </button>
             </mat-menu>
+        </ng-container>
 
     </div>
 
@@ -57,13 +94,21 @@
 
         <span class="seperator">/</span>
 
-        <div class="crumb-name" 
-            [routerLink]="['/applications', ApplicationLookup, SelectedRoute, ProjectLookup]">
-            {{SelectedApplication?.Application?.Name}}</div>
+        <ng-container *ngIf="State?.Loading">
+            <div skeleton-text [effect]="SkeletonEffect">Application Name</div>
+        </ng-container>
 
-        <button mat-icon-button [matMenuTriggerFor]="applicationMenu">
-            <mat-icon>expand_more</mat-icon>
-        </button>
+        <ng-container *ngIf="!State?.Loading">
+
+            <div class="crumb-name" 
+                [routerLink]="['/applications', ApplicationLookup, SelectedRoute, ProjectLookup]"
+            >
+                {{SelectedApplication?.Application?.Name}}
+            </div>
+
+            <button mat-icon-button [matMenuTriggerFor]="applicationMenu">
+                <mat-icon>expand_more</mat-icon>
+            </button>
         
             <mat-menu #applicationMenu="matMenu" xPosition="before">
                     <button mat-menu-item *ngFor="let appLookup of CurrentRouteApplicationLookups"
@@ -72,6 +117,7 @@
                         let app">{{app.Application?.Name}}</span>
                     </button>
             </mat-menu>
+        </ng-container>
 
     </div>
 

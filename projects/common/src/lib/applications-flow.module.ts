@@ -56,6 +56,8 @@ import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/cust
 import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
 import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/new-application-dialog.component';
 import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dialog/processor-details-dialog.component';
+import { SkeletonElementsModule } from 'skeleton-elements/angular';
+
 
 @NgModule({
   declarations: [
@@ -113,7 +115,9 @@ import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dia
     MaterialModule,
     AppHostModule,
     MatTooltipModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    SkeletonElementsModule
+
     // LazyElementModule,
   ],
   exports: [

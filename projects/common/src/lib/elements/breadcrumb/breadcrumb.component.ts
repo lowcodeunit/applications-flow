@@ -28,7 +28,7 @@ export class BreadcrumbComponent implements OnInit {
   public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
     const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-    this.SelectedProject?.ApplicationLookups.forEach((appLookup: string) => {
+    this.SelectedProject?.ApplicationLookups?.forEach((appLookup: string) => {
       apps[appLookup] = this.ApplicationsBank[appLookup];
     });
     return apps;
@@ -70,7 +70,7 @@ export class BreadcrumbComponent implements OnInit {
 
     let routeBases: string[] = [];
 
-    appRoutes.forEach((appRoute) => {
+    appRoutes?.forEach((appRoute) => {
       const appRouteParts = appRoute.split('/');
 
       const appRouteBase = `/${appRouteParts[1]}`;
@@ -120,7 +120,7 @@ export class BreadcrumbComponent implements OnInit {
 
     const routeSetResult = {};
 
-    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+    routeSetKeys?.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
 
     return routeSetResult;
   }
@@ -133,7 +133,11 @@ export class BreadcrumbComponent implements OnInit {
     return this.eacSvc.State;
   }
 
-  constructor(protected eacSvc: EaCService) {}
+  public SkeletonEffect: string;
+
+  constructor(protected eacSvc: EaCService) {
+    this.SkeletonEffect = 'wave';
+  }
 
   ngOnInit(): void {
     this.handleStateChange().then((eac) => {});

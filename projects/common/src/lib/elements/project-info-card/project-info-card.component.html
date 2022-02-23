@@ -1,6 +1,62 @@
 <mat-card class="project-info-card">
 
-  <lcu-loader [loading]="Loading"></lcu-loader>
+  <!-- SKELETON CONTENT -->
+  <ng-container *ngIf="Loading">
+    <div class="header-img-container" fxLayout="row" >
+      <skeleton-avatar class="round-project-img" [effect]="SkeletonEffect" [size]="75" ></skeleton-avatar >
+  </div>
+
+  <!-- <div class="icon-btn-container" fxLayout="row" fxLayoutAlign="space-between center" >
+    <button *ngIf="IsEditable" mat-icon-button id="left-icon" (click)="LeftIconClicked()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button *ngIf="IsShareable" mat-icon-button id="right-icon" (click)="RightIconClicked()">
+      <mat-icon>share</mat-icon>
+    </button>
+  </div> -->
+
+  <mat-card-header class="project-card-header" fxLayoutAlign="center center">
+
+    <mat-card-title skeleton-text  [effect]="SkeletonEffect"class="project-card-name" >Name of card</mat-card-title>
+
+    <mat-card-subtitle skeleton-text [effect]="SkeletonEffect" class="project-card-description" >Description Text</mat-card-subtitle>
+
+    <mat-card-subtitle class="project-card-host">
+        <div skeleton-text [effect]="SkeletonEffect" class="host-anchor" >https://www.fathym.com</div>
+    </mat-card-subtitle>
+
+  </mat-card-header>
+  <mat-card-content class="card-content-container">
+    <div skeleton-block [effect]="SkeletonEffect" class="stats-container">
+    </div>
+
+    <div class="promo-container" 
+          fxLayout="column" 
+          fxLayoutAlign="center center" 
+          fxLayout.lt-md="row"
+          fxLayoutAlign.lt-md="space-around center"
+        >
+        
+        <div skeleton-text [effect]="SkeletonEffect">Access exclusive tools & insights</div>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon skeleton-text [effect]="SkeletonEffect" class="gold-icon">emoji_events</mat-icon>
+
+          <div skeleton-text [effect]="SkeletonEffect" class="upgrade-text" >
+            Upgrade to premium now
+          </div>
+        </div>
+      </div>
+
+  </mat-card-content>
+  <mat-card-actions class="actions-container">
+    <ng-content select="[action]"></ng-content>
+    
+  </mat-card-actions>
+  </ng-container>
+  <!-- END SKELETON CONTENT -->
+
+  <!-- ACTUAL CONTENT -->
 
 <ng-container *ngIf="!Loading">
 
@@ -36,9 +92,26 @@
         <ng-content  select="[stats]"></ng-content>
       </div>
 
-      <div class="promo-container">
-        <ng-content  select="[promo]"></ng-content>
+      <!-- <div class="promo-container"> -->
+        <!-- <ng-content  select="[promo]"></ng-content> -->
+        <div class="promo-container" 
+          fxLayout="column" 
+          fxLayoutAlign="center center" 
+          fxLayout.lt-md="row"
+          fxLayoutAlign.lt-md="space-around center"
+        >
+        
+        <div>Access exclusive tools & insights</div>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="gold-icon">emoji_events</mat-icon>
+
+          <div class="upgrade-text" (click)="UpgradeClicked()">
+            Upgrade to premium now
+          </div>
+        </div>
       </div>
+      <!-- </div> -->
 
     </mat-card-content>
     <mat-card-actions class="actions-container">

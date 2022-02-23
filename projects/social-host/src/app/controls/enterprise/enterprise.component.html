@@ -21,14 +21,7 @@
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-            <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
-                <div> Access exclusive tools & insights</div>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon class="gold-icon">emoji_events</mat-icon>
-                    <div class="upgrade-text" (click)="UpgradeClicked()">Upgrade to premium now</div>
-                </div>
-      
-            </div>
+            
 
             <!-- <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
                 <mat-icon>outbox</mat-icon>
@@ -68,7 +61,6 @@
       <lcu-slotted-card
         title="Projects"
         icon="work_outline"
-        [loading]="State?.Loading"
         [main-slot-description]="NumberOfProjects + ' project(s) configured'"
         secondary-slot-description="Add new quick project"
         action-text="Create Custom Project"
@@ -141,7 +133,6 @@
       <lcu-slotted-card
         title="Build Pipeline"
         icon="plumbing"
-        [loading]="State?.Loading"
         [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
         secondary-slot-description="Add new pipeline"
         action-text="Create New Pipeline"
@@ -200,7 +191,6 @@
       <lcu-slotted-card
         title="Source Controls"
         icon="build"
-        [loading]="State?.Loading"
         [main-slot-description]="
           NumberOfSourceControls + ' source control(s) configured'
         "
