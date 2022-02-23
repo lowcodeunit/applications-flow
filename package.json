@@ -28,7 +28,7 @@
 		"pack:pollyfills": "concat-glob-cli -f \"dist/lcu/scripts.*.js\" -o dist/lcu/wc/lcu.pollyfills.js",
 		"pack:styles": "concat-glob-cli -f \"dist/lcu/wc/styles.*.css\" -o dist/lcu/wc/applications-flow.lcu.css",
 		"start": "npm run clean && npm-run-all --parallel watch:*",
-		"start:demo": "ng serve demo --port=4201 --aot=false",
+		"start:demo": "ng serve demo --port=4200",
 		"start:social-host": "ng serve social-host --configuration development",
 		"watch:common": "ng build common --watch",
 		"watch:demo": "wait-on dist/common/lcu.api.d.ts && npm run start:demo",

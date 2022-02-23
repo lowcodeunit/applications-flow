@@ -12,6 +12,9 @@ export class EditApplicationFormComponent implements OnInit {
   @Input('editing-application') 
   public EditingApplication: EaCApplicationAsCode;
 
+  @Input('has-save-button')
+  public HasSaveButton: boolean;
+
   @Output('save-form-event')
   public SaveFormEvent: EventEmitter<{}>
 
@@ -31,6 +34,7 @@ export class EditApplicationFormComponent implements OnInit {
 
   constructor(protected formBldr: FormBuilder) {
     this.SaveFormEvent = new EventEmitter;
+    this.HasSaveButton = true;
    }
 
   public ngOnInit(): void {

@@ -49,7 +49,7 @@ export class RoutesComponent implements OnInit {
   }
 
   public get NumberOfApps(): any {
-    return this.CurrentRouteApplicationLookups.length || {};
+    return this.CurrentRouteApplicationLookups?.length || {};
   }
 
   public get Project(): any {

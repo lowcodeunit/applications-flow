@@ -57,7 +57,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   public get NumberOfRoutes(): number {
-    return this.ApplicationLookups.length;
+    return this.ApplicationLookups?.length;
   }
 
   public get RoutedApplications(): {

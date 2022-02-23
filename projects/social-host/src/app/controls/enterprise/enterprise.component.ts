@@ -59,15 +59,15 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get NumberOfSourceControls(): number {
-    return this.SourceControlLookups.length;
+    return this.SourceControlLookups?.length;
   }
 
   public get NumberOfPipelines(): number {
-    return this.DevOpsActionLookups.length;
+    return this.DevOpsActionLookups?.length;
   }
 
   public get NumberOfProjects(): number {
-    return this.ProjectLookups.length;
+    return this.ProjectLookups?.length;
   }
 
   public get ProjectLookups(): string[] {

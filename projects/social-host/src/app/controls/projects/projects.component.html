@@ -1,5 +1,10 @@
 <!-- <ng-container *ngIf="!State?.Loading"> -->
 
+  <lcu-breadcrumb 
+    [enterprise]="Enterprise"
+    [project-lookup]="ProjectLookup">
+  </lcu-breadcrumb> 
+
 <lcu-three-column>
   <!-- left column -->
   <div left>
@@ -155,7 +160,6 @@
               <div *ngIf="appRoute.Description" class="slot-description">
                 {{ appRoute.Description }}
               </div>
-              <!-- <div *ngIf="!project.Project.Description" class="slot-project-description">I'm a temp placeholder description to see how this formats</div> -->
             </div>
           </div>
 
@@ -164,27 +168,31 @@
             fxLayout="row" 
             fxLayoutAlign="space-around center"
           >
-            <div 
+            <!-- <div 
               class="main-slot-container" 
               fxLayout="row" 
               *ngFor="let appRoute of ApplicationRoutes"
-            >
+            > -->
               <div 
                 class="slot-content" 
                 fxLayout="row" 
                 fxLayoutAlign="space-between center"
               >
-                <mat-icon class="action-icon">edit</mat-icon>
-
+                <a
+                  class="slot-action-anchor"
+                  [routerLink]="['/routes', appRoute, ProjectLookup]"
+                >
+                  <mat-icon class="action-icon">edit</mat-icon>
+                </a>
                 <a class="slot-action-anchor" 
-                [href]="
-                  'https://' + Project.Hosts[Project.Hosts.length - 1] + appRoute
-                " 
-                target="_blank">
-                  <mat-icon class="action-icon">launch</mat-icon>
+                  [href]="
+                    'https://' + Project?.Hosts[Project?.Hosts?.length - 1] + appRoute
+                  " 
+                  target="_blank">
+                    <mat-icon class="action-icon">launch</mat-icon>
                 </a>
               </div>
-            </div>
+            <!-- </div> -->
           </div>
         </div>
       </div>
@@ -211,7 +219,7 @@
           >
             <div class="slot-header" fxLayout="row">
               <div class="slot-name">
-                {{ Project?.Hosts[Project?.Hosts.length - 1] }}
+                {{ Project?.Hosts[Project?.Hosts?.length - 1] }}
               </div>
             </div>
           </div>

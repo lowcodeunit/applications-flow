@@ -22,18 +22,22 @@ export class AppComponent {
     protected eacSvc: EaCService,
     protected http: HttpClient,
     protected router: Router
-  ) {}
+  ) {
+    router.events.subscribe((val) => {
+      let changed = val instanceof NavigationEnd;
+      if (changed) {
+
+        if(this.State?.EaC){
+          this.eacSvc.LoadEnterpriseAsCode();
+          this.getFeedInfo();
+        }
+      }
+    });
+  }
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
-
-    this.router.events.subscribe((val) => {
-      let changed = val instanceof NavigationEnd;
-      if (changed) {
-        this.eacSvc.LoadEnterpriseAsCode();
-        this.getFeedInfo();
-      }
-    });
+   
   }
 
   protected async handleStateChange(): Promise<void> {
@@ -53,7 +57,6 @@ export class AppComponent {
   }
 
   protected async getFeedInfo(): Promise<void> {
-    this.State.LoadingFeed = true;
 
     await this.eacSvc.UserFeed(1, 25);
   }

@@ -138,9 +138,14 @@ export class BreadcrumbComponent implements OnInit {
   ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
 
-    console.log('Selected project: ', this.SelectedProject.Project);
+    // console.log("state: ", this.State)
 
-    console.log('SelectedRoute:', this.SelectedRoute);
+    // console.log("selected enterprise: ", this.Enterprise)
+
+
+    // console.log('Selected project: ', this.SelectedProject.Project);
+
+    // console.log('SelectedRoute:', this.SelectedRoute);
   }
 
   protected async handleStateChange(): Promise<void> {

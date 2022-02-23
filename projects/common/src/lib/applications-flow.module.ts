@@ -54,6 +54,7 @@ import { EditApplicationFormComponent } from './controls/edit-application-form/e
 import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component';
 import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/custom-domain-dialog.component';
 import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
+import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/new-application-dialog.component';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,8 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     EditApplicationFormComponent,
     BreadcrumbComponent,
     CustomDomainDialogComponent,
-    EditApplicationDialogComponent
+    EditApplicationDialogComponent,
+    NewApplicationDialogComponent
   ],
   imports: [
     ClipboardModule,
@@ -154,7 +156,8 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
     EditApplicationFormComponent,
     BreadcrumbComponent,
     CustomDomainDialogComponent,
-    EditApplicationDialogComponent
+    EditApplicationDialogComponent,
+    NewApplicationDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,

@@ -16,6 +16,7 @@ export * from './lib/controls/security-toggle/security-toggle.component';
 export * from './lib/controls/source-control-form/source-control-form.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
+export * from './lib/dialogs/new-application-dialog/new-application-dialog.component';
 export * from './lib/dialogs/edit-application-dialog/edit-application-dialog.component';
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/services/project.service';
