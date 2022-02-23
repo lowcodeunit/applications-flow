@@ -4,9 +4,9 @@
       <mat-card-title> Processor Details </mat-card-title>
     </mat-card-header>
 
-    <lcu-loader [loading]="Loading"></lcu-loader>
+    <lcu-loader [loading]="State?.Loading"></lcu-loader>
 
-    <ng-container *ngIf="!Loading">
+    <ng-container *ngIf="!State?.Loading">
 
     <mat-card-content>
       <mat-form-field class="mat-full-width">

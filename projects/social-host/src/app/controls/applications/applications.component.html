@@ -52,20 +52,6 @@
 
         </div>
         <div>
-            <!-- <lcu-edit-application-form 
-                [editing-application]="Application"
-                (save-form-event)="SaveApplication($event)">
-            </lcu-edit-application-form> -->
-
-            <lcu-processor-details-form 
-                more-details 
-                [editing-application]="Application"
-                [editing-application-lookup]="ApplicationLookup" 
-                [loading]="State?.Loading"
-                [source-control-lookups]="SourceControlLookups"
-                [project-lookup]="ProjectLookup"
-                (save-form-event)="SaveProcessorDetails($event)">
-            </lcu-processor-details-form>
 
             <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
 
@@ -101,12 +87,60 @@
                 (save-form-event)="SaveSecuritySettings($event)">
             </lcu-security-toggle>
 
+            <lcu-slotted-card
+        title="Processor Details"
+        icon="developer_board"
+        [loading]="State?.Loading"
+        [main-slot-description]="Application?.Processor?.Label"
+        action-text="Edit Processor Details"
+        (main-action-clicked)="OpenProcessorDetailsDialog($event)"
+      >
+        <div
+          class="main-slot-container"
+          fxLayout="row"
+        >
+          
+            <div class="slot-header-container">
 
-            <!-- <lcu-source-control-form 
-                [editing-application]="Application" 
-                [environment]="Environment"
-                (save-form-event)="SaveSourceControl($event)">
-            </lcu-source-control-form> -->
+              <div class="slot-header" fxLayout="column" fxLayoutAlign="center start">
+
+                <div *ngIf="Application?.Processor?.Type">
+                    <strong>Type: </strong>
+                    {{Application?.Processor?.Type}}
+                </div>
+
+                <div *ngIf="Application?.Processor?.DefaultFile">
+                    <strong>Default File: </strong>
+                    {{Application?.Processor?.DefaultFile}}
+                </div>
+
+                <div *ngIf="Application?.Processor?.Priority">
+                    <strong>Priority: </strong> 
+                    {{Application?.Processor?.Priority}}
+                </div>
+              </div>
+
+              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+            </div>
+
+            <!-- <div
+              class="slot-actions-container"
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+            > -->
+              <!-- <a
+                class="slot-action-anchor"
+                (click)="OpenProcessorDetailsDialog(null)"
+              >
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a> -->
+              
+            <!-- </div> -->
+          
+        </div>
+      </lcu-slotted-card>
+
+
         </div>
 
     </lcu-three-column>
