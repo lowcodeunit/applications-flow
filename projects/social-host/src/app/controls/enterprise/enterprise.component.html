@@ -1,51 +1,56 @@
 <!-- <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
 <!-- <ng-container *ngIf="!State?.Loading"> -->
 
-    <lcu-breadcrumb [enterprise]="Enterprise">
-    </lcu-breadcrumb>    
-    
+<lcu-breadcrumb> </lcu-breadcrumb>
 
-  <lcu-three-column>
-    <div left>
-      <lcu-project-info-card 
-        [name]="Enterprise?.Name"  
-        [is-editable]="IsInfoCardEditable"
-        [is-shareable]="IsInfoCardShareable"     
-        image="./assets/images/Thinky-circle-red.png"
-        [loading]="State?.Loading"
-        (left-click-event)="HandleLeftClickEvent($event)"
-        (right-click-event)="HandleRightClickEvent($event)"
-        > 
-
-        <!-- <lcu-card-carousel
+<lcu-three-column>
+  <div left>
+    <lcu-project-info-card
+      [name]="Enterprise?.Name"
+      [is-editable]="IsInfoCardEditable"
+      [is-shareable]="IsInfoCardShareable"
+      image="./assets/images/Thinky-circle-red.png"
+      [loading]="State?.Loading"
+      (left-click-event)="HandleLeftClickEvent($event)"
+      (right-click-event)="HandleRightClickEvent($event)"
+    >
+      <!-- <lcu-card-carousel
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-            <div promo class="promo-container"  fxLayout="column" fxLayoutAlign="center center"  fxLayout.lt-md="row" fxLayoutAlign.lt-md="space-around center">
-                <div> Access exclusive tools & insights</div>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon class="gold-icon">emoji_events</mat-icon>
-                    <div class="upgrade-text" (click)="UpgradeClicked()">Upgrade to premium now</div>
-                </div>
-      
-            </div>
+      <div
+        promo
+        class="promo-container"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayout.lt-md="row"
+        fxLayoutAlign.lt-md="space-around center"
+      >
+        <div>Access exclusive tools & insights</div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="gold-icon">emoji_events</mat-icon>
+          <div class="upgrade-text" (click)="UpgradeClicked()">
+            Upgrade to premium now
+          </div>
+        </div>
+      </div>
 
-            <!-- <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
+      <!-- <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
                 <mat-icon>outbox</mat-icon>
                 Unpack
             </button> -->
-        </lcu-project-info-card>
-      <!-- Commented out until implemented -->
-      <!-- <lcu-analytics-card
+    </lcu-project-info-card>
+    <!-- Commented out until implemented -->
+    <!-- <lcu-analytics-card
             title="Temp Title"
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
-    </div>
-    
-    <!-- CENTER FEED -->
-    <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
+  </div>
 
-    <ng-container *ngIf="!State?.LoadingFeed">
+  <!-- CENTER FEED -->
+  <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
+
+  <ng-container *ngIf="!State?.LoadingFeed">
     <div *ngFor="let run of State?.Feed?.Runs">
       <lcu-feed-card-sm
         [title]="run.RunNumber"
@@ -63,65 +68,65 @@
     </div>
   </ng-container>
 
-    <div right>
-      <!-- Projects -->
-      <lcu-slotted-card
-        title="Projects"
-        icon="work_outline"
-        [loading]="State?.Loading"
-        [main-slot-description]="NumberOfProjects + ' project(s) configured'"
-        secondary-slot-description="Add new quick project"
-        action-text="Create Custom Project"
-        (main-action-clicked)="RouteToPath('/dashboard/create-project')"
+  <div right>
+    <!-- Projects -->
+    <lcu-slotted-card
+      title="Projects"
+      icon="work_outline"
+      [loading]="State?.Loading"
+      [main-slot-description]="NumberOfProjects + ' project(s) configured'"
+      secondary-slot-description="Add new quick project"
+      action-text="Create Custom Project"
+      (main-action-clicked)="RouteToPath('/dashboard/create-project')"
+    >
+      <div
+        class="main-slot-container"
+        fxLayout="row"
+        *ngFor="let projectLookup of ProjectLookups"
       >
         <div
-          class="main-slot-container"
+          class="slot-content"
+          *ngIf="State?.EaC?.Projects[projectLookup]; let project"
           fxLayout="row"
-          *ngFor="let projectLookup of ProjectLookups"
+          fxLayoutAlign="space-between center"
+          [title]="project.Project.Name"
         >
+          <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+          <div class="slot-header-container">
+            <div class="slot-header" fxLayout="row">
+              <!-- this icon is a temp placeholder -->
+              <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+              <div *ngIf="project.Project.Name" class="slot-name">
+                {{ project.Project.Name }}
+              </div>
+            </div>
+
+            <div *ngIf="project.Project.Description" class="slot-description">
+              {{ project.Project.Description }}
+            </div>
+          </div>
+
           <div
-            class="slot-content"
-            *ngIf="State?.EaC?.Projects[projectLookup]; let project"
+            class="slot-actions-container"
             fxLayout="row"
-            fxLayoutAlign="space-between center"
-            [title]="project.Project.Name"
+            fxLayoutAlign="space-around center"
           >
-            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
-            <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row">
-                <!-- this icon is a temp placeholder -->
-                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="project.Project.Name" class="slot-name">
-                  {{ project.Project.Name }}
-                </div>
-              </div>
-
-              <div *ngIf="project.Project.Description" class="slot-description">
-                {{ project.Project.Description }}
-              </div>
-            </div>
-
-            <div
-              class="slot-actions-container"
-              fxLayout="row"
-              fxLayoutAlign="space-around center"
+            <a
+              class="slot-action-anchor"
+              [routerLink]="['/projects', projectLookup]"
             >
-              <a
-                class="slot-action-anchor"
-                [routerLink]="['/projects', projectLookup]"
-              >
-                <mat-icon class="action-icon">edit</mat-icon>
-              </a>
-              <a
-                class="slot-action-anchor"
-                [href]="'https://' + project?.Hosts[project?.Hosts?.length - 1]"
-                target="_blank"
-              >
-                <mat-icon class="action-icon">launch</mat-icon>
-              </a>
-            </div>
+              <mat-icon class="action-icon">edit</mat-icon>
+            </a>
+            <a
+              class="slot-action-anchor"
+              [href]="'https://' + project?.Hosts[project?.Hosts?.length - 1]"
+              target="_blank"
+            >
+              <mat-icon class="action-icon">launch</mat-icon>
+            </a>
+          </div>
 
-            <!-- <div class="slot-actions" *ngFor="let action of s.actions">
+          <!-- <div class="slot-actions" *ngFor="let action of s.actions">
 
                         <ng-container *ngIf="action.ButtonType === ICON">
                             <mat-icon [matTooltip]="action.Label" click="SlotActionClickEvent(action.ClickEventName)">{{ action.Icon }}</mat-icon>
@@ -132,131 +137,131 @@
                         </ng-container>
 
                     </div> -->
-          </div>
         </div>
+      </div>
 
-        <div secondary></div>
-      </lcu-slotted-card>
+      <div secondary></div>
+    </lcu-slotted-card>
 
-      <lcu-slotted-card
-        title="Build Pipeline"
-        icon="plumbing"
-        [loading]="State?.Loading"
-        [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
-        secondary-slot-description="Add new pipeline"
-        action-text="Create New Pipeline"
-        (main-action-clicked)="OpenBuildPipelineDialog(null)"
+    <lcu-slotted-card
+      title="Build Pipeline"
+      icon="plumbing"
+      [loading]="State?.Loading"
+      [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
+      secondary-slot-description="Add new pipeline"
+      action-text="Create New Pipeline"
+      (main-action-clicked)="OpenBuildPipelineDialog(null)"
+    >
+      <div
+        class="main-slot-container"
+        fxLayout="row"
+        *ngFor="let doaLookup of DevOpsActionLookups"
       >
         <div
-          class="main-slot-container"
+          class="slot-content"
+          *ngIf="DevOpsActions[doaLookup]; let doa"
           fxLayout="row"
-          *ngFor="let doaLookup of DevOpsActionLookups"
+          fxLayoutAlign="space-between center"
+          [title]="doa?.Name"
         >
-          <div
-            class="slot-content"
-            *ngIf="DevOpsActions[doaLookup]; let doa"
-            fxLayout="row"
-            fxLayoutAlign="space-between center"
-            [title]="doa?.Name"
-          >
-            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
-            <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row">
-                <!-- this icon is a temp placeholder -->
-                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="doa?.Name?.length > 28" class="slot-name">
-                  {{ doa?.Name | slice: 0:25 }}...
-                </div>
-                <div
-                  *ngIf="doa?.Name?.length < 28 || doa?.Name?.length == 28"
-                  class="slot-name"
-                >
-                  {{ doa?.Name }}
-                </div>
+          <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+          <div class="slot-header-container">
+            <div class="slot-header" fxLayout="row">
+              <!-- this icon is a temp placeholder -->
+              <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+              <div *ngIf="doa?.Name?.length > 28" class="slot-name">
+                {{ doa?.Name | slice: 0:25 }}...
               </div>
-
-              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+              <div
+                *ngIf="doa?.Name?.length < 28 || doa?.Name?.length == 28"
+                class="slot-name"
+              >
+                {{ doa?.Name }}
+              </div>
             </div>
 
-            <div
-              class="slot-actions-container"
-              fxLayout="row"
-              fxLayoutAlign="space-around center"
+            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+          </div>
+
+          <div
+            class="slot-actions-container"
+            fxLayout="row"
+            fxLayoutAlign="space-around center"
+          >
+            <a
+              class="slot-action-anchor"
+              (click)="OpenBuildPipelineDialog(doaLookup)"
             >
-              <a
-                class="slot-action-anchor"
-                (click)="OpenBuildPipelineDialog(doaLookup)"
-              >
-                <mat-icon class="action-icon">edit</mat-icon>
-              </a>
-              <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+              <mat-icon class="action-icon">edit</mat-icon>
+            </a>
+            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a> -->
-            </div>
           </div>
         </div>
-      </lcu-slotted-card>
+      </div>
+    </lcu-slotted-card>
 
-      <lcu-slotted-card
-        title="Source Controls"
-        icon="build"
-        [loading]="State?.Loading"
-        [main-slot-description]="
-          NumberOfSourceControls + ' source control(s) configured'
-        "
-        secondary-slot-description="Add new source control"
-        action-text="Create New Source Control"
-        (main-action-clicked)="OpenSourceControlDialog(null)"
+    <lcu-slotted-card
+      title="Source Controls"
+      icon="build"
+      [loading]="State?.Loading"
+      [main-slot-description]="
+        NumberOfSourceControls + ' source control(s) configured'
+      "
+      secondary-slot-description="Add new source control"
+      action-text="Create New Source Control"
+      (main-action-clicked)="OpenSourceControlDialog(null)"
+    >
+      <div
+        class="main-slot-container"
+        fxLayout="row"
+        *ngFor="let scLookup of SourceControlLookups"
       >
         <div
-          class="main-slot-container"
+          class="slot-content"
+          *ngIf="SourceControls[scLookup]; let sc"
           fxLayout="row"
-          *ngFor="let scLookup of SourceControlLookups"
+          fxLayoutAlign="space-between center"
+          [title]="sc.Name"
         >
-          <div
-            class="slot-content"
-            *ngIf="SourceControls[scLookup]; let sc"
-            fxLayout="row"
-            fxLayoutAlign="space-between center"
-            [title]="sc.Name"
-          >
-            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
-            <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row">
-                <!-- this icon is a temp placeholder -->
-                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="sc.Name?.length > 28" class="slot-name">
-                  {{ sc.Name | slice: 0:25 }}...
-                </div>
-                <div
-                  *ngIf="sc.Name?.length < 28 || sc.Name.length == 28"
-                  class="slot-name"
-                >
-                  {{ sc.Name }}
-                </div>
+          <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+          <div class="slot-header-container">
+            <div class="slot-header" fxLayout="row">
+              <!-- this icon is a temp placeholder -->
+              <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+              <div *ngIf="sc.Name?.length > 28" class="slot-name">
+                {{ sc.Name | slice: 0:25 }}...
               </div>
-
-              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+              <div
+                *ngIf="sc.Name?.length < 28 || sc.Name.length == 28"
+                class="slot-name"
+              >
+                {{ sc.Name }}
+              </div>
             </div>
 
-            <div
-              class="slot-actions-container"
-              fxLayout="row"
-              fxLayoutAlign="space-around center"
+            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+          </div>
+
+          <div
+            class="slot-actions-container"
+            fxLayout="row"
+            fxLayoutAlign="space-around center"
+          >
+            <a
+              class="slot-action-anchor"
+              (click)="OpenSourceControlDialog(sc.Lookup)"
             >
-              <a
-                class="slot-action-anchor"
-                (click)="OpenSourceControlDialog(sc.Lookup)"
-              >
-                <mat-icon class="action-icon">edit</mat-icon>
-              </a>
-              <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+              <mat-icon class="action-icon">edit</mat-icon>
+            </a>
+            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a> -->
-            </div>
           </div>
         </div>
-      </lcu-slotted-card>
-    </div>
-  </lcu-three-column>
+      </div>
+    </lcu-slotted-card>
+  </div>
+</lcu-three-column>
 <!-- </ng-container> -->

@@ -1,24 +1,33 @@
 <!-- <ng-container *ngIf="!State?.Loading"> -->
 
-  <lcu-breadcrumb 
-    [enterprise]="Enterprise"
-    [project-lookup]="ProjectLookup">
-  </lcu-breadcrumb> 
+<lcu-breadcrumb [project-lookup]="ProjectLookup"> </lcu-breadcrumb>
 
 <lcu-three-column>
   <!-- left column -->
   <div left>
-    <lcu-project-info-card [name]="Project?.Project?.Name" [description]="Project?.Project?.Description"
-      [is-editable]="IsInfoCardEditable" [is-shareable]="IsInfoCardShareable" [loading]="State?.Loading"
-      [subtext]="Project?.Hosts[Project?.Hosts.length - 1]" (left-click-event)="HandleLeftClickEvent($event)"
-      (right-click-event)="HandleRightClickEvent($event)">
+    <lcu-project-info-card
+      [name]="Project?.Project?.Name"
+      [description]="Project?.Project?.Description"
+      [is-editable]="IsInfoCardEditable"
+      [is-shareable]="IsInfoCardShareable"
+      [loading]="State?.Loading"
+      [subtext]="Project?.Hosts[Project?.Hosts.length - 1]"
+      (left-click-event)="HandleLeftClickEvent($event)"
+      (right-click-event)="HandleRightClickEvent($event)"
+    >
       <!-- Commented out until implemented -->
       <!-- <lcu-card-carousel
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-      <div promo class="promo-container" fxLayout="column" fxLayoutAlign="center center" fxLayout.lt-md="row"
-        fxLayoutAlign.lt-md="space-around center">
+      <div
+        promo
+        class="promo-container"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayout.lt-md="row"
+        fxLayoutAlign.lt-md="space-around center"
+      >
         <div>Access exclusive tools & insights</div>
 
         <div fxLayout="row" fxLayoutAlign="start center">
@@ -30,7 +39,12 @@
         </div>
       </div>
 
-      <button action mat-button class="info-card-btn" (click)="SettingsClicked()">
+      <button
+        action
+        mat-button
+        class="info-card-btn"
+        (click)="SettingsClicked()"
+      >
         <mat-icon>settings</mat-icon>
         Project Settings
       </button>
@@ -69,8 +83,12 @@
 
     <ng-container *ngIf="!State?.LoadingFeed">
       <div *ngFor="let run of State?.Feed?.Runs">
-        <lcu-feed-card-sm [title]="run.RunNumber" [subtext]="run.Committer" [description]="run.CommitMessage"
-          [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'">
+        <lcu-feed-card-sm
+          [title]="run.RunNumber"
+          [subtext]="run.Committer"
+          [description]="run.CommitMessage"
+          [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
+        >
           <!-- <div actions>
                     <button mat-icon-button  (click)="LaunchBuildClicked()">
                         <mat-icon>launch</mat-icon>
@@ -128,29 +146,26 @@
 
   <!-- right column -->
   <div right>
-    <lcu-slotted-card 
-      title="Routes" 
-      icon="route" 
+    <lcu-slotted-card
+      title="Routes"
+      icon="route"
       [loading]="State?.Loading"
-      [main-slot-description]="NumberOfRoutes + ' route(s) configured'" 
+      [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
       secondary-slot-description="Add quick route"
       (main-action-clicked)="OpenNewAppDialog($event)"
       action-text="Create New Application"
     >
       <div
-          class="main-slot-container"
+        class="main-slot-container"
+        fxLayout="row"
+        *ngFor="let appRoute of ApplicationRoutes"
+      >
+        <div
+          class="slot-content"
           fxLayout="row"
-          *ngFor="let appRoute of ApplicationRoutes"
-        >
-        <div 
-          class="slot-content" 
-          fxLayout="row" 
           fxLayoutAlign="space-between center"
         >
-          <div 
-            class="slot-header-container" 
-            fxLayout="column"
-          >
+          <div class="slot-header-container" fxLayout="column">
             <div class="slot-header" fxLayout="row">
               <!-- this icon is a temp placeholder -->
               <!-- <mat-icon class="slot-icon">route</mat-icon> -->
@@ -164,9 +179,9 @@
             </div>
           </div>
 
-          <div 
-            class="slot-actions-container" 
-            fxLayout="row" 
+          <div
+            class="slot-actions-container"
+            fxLayout="row"
             fxLayoutAlign="space-around center"
           >
             <!-- <div 
@@ -174,50 +189,48 @@
               fxLayout="row" 
               *ngFor="let appRoute of ApplicationRoutes"
             > -->
-              <div 
-                class="slot-content" 
-                fxLayout="row" 
-                fxLayoutAlign="space-between center"
+            <div
+              class="slot-content"
+              fxLayout="row"
+              fxLayoutAlign="space-between center"
+            >
+              <a
+                class="slot-action-anchor"
+                [routerLink]="['/routes', appRoute, ProjectLookup]"
               >
-                <a
-                  class="slot-action-anchor"
-                  [routerLink]="['/routes', appRoute, ProjectLookup]"
-                >
-                  <mat-icon class="action-icon">edit</mat-icon>
-                </a>
-                <a class="slot-action-anchor" 
-                  [href]="
-                    'https://' + Project?.Hosts[Project?.Hosts?.length - 1] + appRoute
-                  " 
-                  target="_blank">
-                    <mat-icon class="action-icon">launch</mat-icon>
-                </a>
-              </div>
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+              <a
+                class="slot-action-anchor"
+                [href]="
+                  'https://' +
+                  Project?.Hosts[Project?.Hosts?.length - 1] +
+                  appRoute
+                "
+                target="_blank"
+              >
+                <mat-icon class="action-icon">launch</mat-icon>
+              </a>
+            </div>
             <!-- </div> -->
           </div>
         </div>
       </div>
     </lcu-slotted-card>
 
-    <lcu-slotted-card 
-      title="Custom Domain" 
-      icon="domain" 
+    <lcu-slotted-card
+      title="Custom Domain"
+      icon="domain"
       [loading]="State?.Loading"
       main-slot-description="Current Domain"
     >
-      <div 
-        class="main-slot-container" 
-        fxLayout="row"
-      >
-        <div 
-          class="slot-content" 
-          fxLayout="row" 
+      <div class="main-slot-container" fxLayout="row">
+        <div
+          class="slot-content"
+          fxLayout="row"
           fxLayoutAlign="space-between center"
         >
-          <div 
-            class="slot-header-container" 
-            fxLayout="column"
-          >
+          <div class="slot-header-container" fxLayout="column">
             <div class="slot-header" fxLayout="row">
               <div class="slot-name">
                 {{ Project?.Hosts[Project?.Hosts?.length - 1] }}
@@ -225,15 +238,16 @@
             </div>
           </div>
 
-          <div 
-            class="slot-actions-container" 
-            fxLayout="row" 
+          <div
+            class="slot-actions-container"
+            fxLayout="row"
             fxLayoutAlign="space-around center"
           >
             <a class="slot-action-anchor" (click)="EditCustomDomain()">
-              <mat-icon class="action-icon" matTooltip="Edit Custom Domain">edit</mat-icon>
+              <mat-icon class="action-icon" matTooltip="Edit Custom Domain"
+                >edit</mat-icon
+              >
             </a>
-
           </div>
         </div>
       </div>

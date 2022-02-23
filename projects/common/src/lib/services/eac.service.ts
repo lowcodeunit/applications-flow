@@ -151,8 +151,8 @@ export class EaCService {
     await this.handleSaveProject(req.ProjectLookup, req.Project);
   }
 
-  public async SetActiveEnterprise(eventValue: any): Promise<void> {
-    this.projectService.SetActiveEnterprise(this.State, eventValue);
+  public async SetActiveEnterprise(entLookup: any): Promise<void> {
+    this.projectService.SetActiveEnterprise(this.State, entLookup);
   }
 
   public async SetCreatingProject(creatingProject: boolean): Promise<void> {

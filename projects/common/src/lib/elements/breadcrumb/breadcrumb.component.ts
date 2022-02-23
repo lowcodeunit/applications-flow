@@ -9,8 +9,13 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-  @Input('enterprise')
-  public Enterprise: any;
+  public get Enterprise(): any {
+    return (
+      this.State.Enterprises?.find(
+        (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
+      ) ?? this.State.Enterprises ? this.State.Enterprises[0] : null
+    );
+  }
 
   @Input('application-lookup')
   public ApplicationLookup: string;
@@ -142,12 +147,14 @@ export class BreadcrumbComponent implements OnInit {
 
     // console.log("selected enterprise: ", this.Enterprise)
 
-
     // console.log('Selected project: ', this.SelectedProject.Project);
 
     // console.log('SelectedRoute:', this.SelectedRoute);
   }
 
-  protected async handleStateChange(): Promise<void> {
+  public SetActiveEnterprise(entLookup: string): void {
+    this.eacSvc.SetActiveEnterprise(entLookup).then(() => {});
   }
+
+  protected async handleStateChange(): Promise<void> {}
 }

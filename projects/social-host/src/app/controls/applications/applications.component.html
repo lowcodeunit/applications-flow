@@ -1,113 +1,114 @@
 <!-- <ng-container *ngIf="!State?.Loading"> -->
 
-    <lcu-breadcrumb
-    [enterprise]="Enterprise"
-    [project-lookup]="ProjectLookup"
-    [application-lookup]="ApplicationLookup"
-    [selected-route]="CurrentApplicationRoute"
+<lcu-breadcrumb
+  [project-lookup]="ProjectLookup"
+  [application-lookup]="ApplicationLookup"
+  [selected-route]="CurrentApplicationRoute"
+>
+</lcu-breadcrumb>
+
+<lcu-three-column>
+  <div left>
+    <lcu-project-info-card
+      [name]="Application?.Application?.Name"
+      [description]="Application?.Application?.Description"
+      [is-editable]="IsInfoCardEditable"
+      [is-shareable]="IsInfoCardShareable"
+      [loading]="State?.Loading"
+      (left-click-event)="HandleLeftClickEvent($event)"
+      (right-click-event)="HandleRightClickEvent($event)"
     >
-
-    </lcu-breadcrumb> 
-
-    <lcu-three-column>
-        <div left>
-            <lcu-project-info-card 
-                [name]="Application?.Application?.Name"
-                [description]="Application?.Application?.Description" 
-                [is-editable]="IsInfoCardEditable"
-                [is-shareable]="IsInfoCardShareable"
-                [loading]="State?.Loading"
-                (left-click-event)="HandleLeftClickEvent($event)"
-                (right-click-event)="HandleRightClickEvent($event)">
-
-                <!-- Commented out until implemented -->
-                <!-- <lcu-card-carousel
+      <!-- Commented out until implemented -->
+      <!-- <lcu-card-carousel
                         [stats]="Stats">
                     </lcu-card-carousel> -->
 
-                <div promo class="promo-container" fxLayout="column" fxLayoutAlign="center center" fxLayout.lt-md="row"
-                    fxLayoutAlign.lt-md="space-around center">
-                    <div> Access exclusive tools & insights</div>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <mat-icon class="gold-icon">emoji_events</mat-icon>
-                        <div class="upgrade-text" (click)="UpgradeClicked()">Upgrade to premium now</div>
-                    </div>
+      <div
+        promo
+        class="promo-container"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayout.lt-md="row"
+        fxLayoutAlign.lt-md="space-around center"
+      >
+        <div>Access exclusive tools & insights</div>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="gold-icon">emoji_events</mat-icon>
+          <div class="upgrade-text" (click)="UpgradeClicked()">
+            Upgrade to premium now
+          </div>
+        </div>
+      </div>
 
-                </div>
+      <button
+        *ngIf="Application.Processor.Type === 'DFS'"
+        action
+        mat-button
+        class="info-card-btn"
+        (click)="SettingsClicked()"
+        matTooltip="Update your application to the latest package"
+      >
+        <mat-icon>outbox</mat-icon>
+        Update Package
+      </button>
+    </lcu-project-info-card>
 
-                <button *ngIf="Application.Processor.Type === 'DFS'" 
-                action mat-button class="info-card-btn" 
-                (click)="SettingsClicked()"
-                matTooltip="Update your application to the latest package">
-                    <mat-icon>outbox</mat-icon>
-                    Update Package
-                </button>
-            </lcu-project-info-card>
-
-            <!-- Commented out until implemented -->
-            <!-- <lcu-analytics-card
+    <!-- Commented out until implemented -->
+    <!-- <lcu-analytics-card
             title="Application Stats"
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
-
-        </div>
-        <div>
-            <!-- <lcu-edit-application-form 
+  </div>
+  <div>
+    <!-- <lcu-edit-application-form 
                 [editing-application]="Application"
                 (save-form-event)="SaveApplication($event)">
             </lcu-edit-application-form> -->
 
-            <lcu-processor-details-form 
-                more-details 
-                [editing-application]="Application"
-                [editing-application-lookup]="ApplicationLookup" 
-                [loading]="State?.Loading"
-                [source-control-lookups]="SourceControlLookups"
-                [project-lookup]="ProjectLookup"
-                (save-form-event)="SaveProcessorDetails($event)">
-            </lcu-processor-details-form>
+    <lcu-processor-details-form
+      more-details
+      [editing-application]="Application"
+      [editing-application-lookup]="ApplicationLookup"
+      [loading]="State?.Loading"
+      [source-control-lookups]="SourceControlLookups"
+      [project-lookup]="ProjectLookup"
+      (save-form-event)="SaveProcessorDetails($event)"
+    >
+    </lcu-processor-details-form>
 
-            <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
+    <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
 
-            <ng-container *ngIf="!State?.LoadingFeed">
-
-            <div *ngFor="let run of State?.Feed?.Runs">
-
-                <lcu-feed-card-sm
-                [title]="run.RunNumber"
-                [subtext]="run.Committer"
-                [description]="run.CommitMessage"
-                [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
-        
-                >
-                <!-- <div actions>
+    <ng-container *ngIf="!State?.LoadingFeed">
+      <div *ngFor="let run of State?.Feed?.Runs">
+        <lcu-feed-card-sm
+          [title]="run.RunNumber"
+          [subtext]="run.Committer"
+          [description]="run.CommitMessage"
+          [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
+        >
+          <!-- <div actions>
                     <button mat-icon-button  (click)="LaunchBuildClicked()">
                         <mat-icon>launch</mat-icon>
                     </button>
                     <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
                 </div> -->
-        
-                </lcu-feed-card-sm>
-        
-            </div>
-        </ng-container>
+        </lcu-feed-card-sm>
+      </div>
+    </ng-container>
+  </div>
+  <div right>
+    <lcu-security-toggle
+      [editing-application]="Application"
+      [loading]="State?.Loading"
+      (save-form-event)="SaveSecuritySettings($event)"
+    >
+    </lcu-security-toggle>
 
-        </div>
-        <div right>
-
-            <lcu-security-toggle 
-                [editing-application]="Application" 
-                [loading]="State?.Loading"
-                (save-form-event)="SaveSecuritySettings($event)">
-            </lcu-security-toggle>
-
-
-            <!-- <lcu-source-control-form 
+    <!-- <lcu-source-control-form 
                 [editing-application]="Application" 
                 [environment]="Environment"
                 (save-form-event)="SaveSourceControl($event)">
             </lcu-source-control-form> -->
-        </div>
-
-    </lcu-three-column>
+  </div>
+</lcu-three-column>
 <!-- </ng-container> -->
