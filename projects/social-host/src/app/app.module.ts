@@ -13,7 +13,6 @@ import { ProjectsComponent } from './controls/projects/projects.component';
 import { RoutesComponent } from './controls/routes/routes.component';
 import { EnterpriseComponent } from './controls/enterprise/enterprise.component';
 import { ApplicationsComponent } from './controls/applications/applications.component';
-import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
 import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
 import { environment } from '../environments/environment';
 import { MatCardModule } from '@angular/material/card';
@@ -46,7 +45,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FormsModule,
     ReactiveFormsModule,
     FathymSharedModule.forRoot(),
-    ThemeBuilderModule,
     AppHostModule,
     ApplicationsFlowModule.forRoot(), 
      

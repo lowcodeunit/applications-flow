@@ -1,6 +1,8 @@
 @import '../../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
 @import '../../../../node_modules/@lcu/common/assets/theming/common-theme';
 
+@include theme-setup($global-theme);
+
 /**
   * mixin to set vertical or horizontal dividers
   */
