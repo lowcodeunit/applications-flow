@@ -1,8 +1,18 @@
 <mat-card class="col-info-card">
-  <mat-card-header class="slotted-card-header" fxLayoutAlign="start center">
-    <!-- How are these two getting switched?? -->
-    <mat-icon mat-card-avatar class="header-icon">{{ Icon }}</mat-icon>
-    <mat-card-title class="card-title">{{ Title }}</mat-card-title>
+  <mat-card-header class="slotted-card-header" fxLayoutAlign="space-between center">
+    <div mat-card-avatar fxLayout="row" fxLayoutAlign="start center">
+      <mat-icon  class="header-icon">{{ Icon }}</mat-icon>
+      <div class="card-title">{{ Title }}</div>
+    </div>
+
+    <mat-icon 
+      *ngIf="!ActionPath" 
+      class="header-icon" 
+      (click)="MainActionClickEvent()"
+    >
+      add
+    </mat-icon>
+
   </mat-card-header>
 
   <!-- SKELETON CONTENT -->
