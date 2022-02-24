@@ -46,20 +46,9 @@
     <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
 
     <ng-container *ngIf="!State?.LoadingFeed">
-      <div *ngFor="let run of State?.Feed?.Runs">
-        <lcu-feed-card-sm
-          [title]="run.RunNumber"
-          [subtext]="run.Committer"
-          [description]="run.CommitMessage"
-          [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
-        >
-          <!-- <div actions>
-                    <button mat-icon-button  (click)="LaunchBuildClicked()">
-                        <mat-icon>launch</mat-icon>
-                    </button>
-                    <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
-                </div> -->
-        </lcu-feed-card-sm>
+      <div *ngFor="let feedItem of State?.Feed">
+        <lcu-main-feed-card [feed-item]="feedItem">
+        </lcu-main-feed-card>
       </div>
     </ng-container>
   </div>

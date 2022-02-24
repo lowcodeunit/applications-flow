@@ -1,28 +1,35 @@
 <mat-card class="social-card">
-    <mat-card-header fxLayout="row">
-        <div *ngIf="Avatar" mat-card-avatar class="example-header-image" [style.backgroundImage]="Avatar" fxFlex="10%"></div>
-        <div class="header-main-content-container" fxFlex="80%">
-            <mat-card-title *ngIf="Title">{{Title}}</mat-card-title>
-            <div *ngIf="Subtext">{{Subtext}}</div>
-            <div *ngIf="TimeAgo">{{TimeAgo}}</div>
-        </div>
-        <div fxFlex="10%">
-            <button mat-icon-button (click)="MoreClicked()" >
-                <mat-icon>more_horiz</mat-icon>
-            </button>
-        </div>
+  <mat-card-header>
+    <img
+      mat-card-avatar
+      class="example-header-image"
+      [src]="FeedItem.Avatar"
+      *ngIf="FeedItem.Avatar"
+    />
 
-      </mat-card-header>
-    
-    <div class="feed-card-container" fxLayout="row">
+    <mat-card-title *ngIf="FeedItem.Title">{{ FeedItem.Title }}</mat-card-title>
+
+    <mat-card-subtitle>
+      <div *ngIf="FeedItem.Subtitle">{{ FeedItem.Subtitle }}</div>
+      <div *ngIf="FeedItem.Status">
+        <mat-icon *ngIf="Icon" [style.color]="IconColor">{{ Icon }}</mat-icon>
+
+        <div *ngIf="FeedItem.Timestamp">{{ FeedItem.Timestamp }}</div>
+      </div>
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <div *ngIf="!FeedItem.IsShortForm">
+    <!-- <div class="feed-card-container">
         <div class="feed-card-main-content">
-            <ng-content select="[tabs]"></ng-content>
+            The tab content (only 1 'tab' for now)...  So really we don't need to worry about tabs until a future iteration
+
+            The tabs property will contain a data structure that will vary by the FeedItem.Type...  That structure can be used to render the content
         </div>
-    </div>
+    </div> -->
+  </div>
 
-    <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
-      <ng-content select="[actions]"></ng-content>
-        
-
-    </mat-card-actions>
-  </mat-card>
+  <!-- <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+      Actions will be provided
+  </mat-card-actions> -->
+</mat-card>

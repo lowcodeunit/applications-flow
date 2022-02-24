@@ -65,66 +65,12 @@
     <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
 
     <ng-container *ngIf="!State?.LoadingFeed">
-      <div *ngFor="let run of State?.Feed?.Runs">
-        <lcu-feed-card-sm
-          [title]="run.RunNumber"
-          [subtext]="run.Committer"
-          [description]="run.CommitMessage"
-          [icon]="run.Conclusion === 'success' ? 'check' : 'cancel'"
-        >
-          <!-- <div actions>
-                    <button mat-icon-button  (click)="LaunchBuildClicked()">
-                        <mat-icon>launch</mat-icon>
-                    </button>
-                    <button mat-raised-button (click)="ViewBuildDetails()">View Full Details</button>
-                </div> -->
-        </lcu-feed-card-sm>
+      <div *ngFor="let feedItem of State?.Feed">
+        <lcu-main-feed-card [feed-item]="feedItem">
+        </lcu-main-feed-card>
       </div>
     </ng-container>
     <!-- Commented out until implemented -->
-    <!-- <lcu-main-feed-card *ngFor="let feedItm of FeedItems"
-            [title]="feedItm.Title"
-            [subtext]="feedItm.Author"> -->
-
-    <!-- <div *ngIf="feedItm.Type === 'BUILD'"actions>
-            <button  mat-button>
-                <mat-icon>launch</mat-icon>
-                Preview
-              </button>
-              <button mat-button>
-                  <mat-icon >merge</mat-icon>
-                  Pull Request
-              </button>
-              <button  mat-button>
-                  <mat-icon >share</mat-icon>
-                  Share
-              </button>
-              <button  mat-button>
-                  <mat-icon >error_outline</mat-icon>
-                  Open Issue
-              </button>
-        </div> -->
-
-    <!-- <div *ngIf="feedItm.Type === 'ISSUE'"actions>
-            <button  mat-button>
-                <mat-icon>sentiment_satisfied_alt</mat-icon>
-                GitHub
-              </button>
-              <button mat-button>
-                  <mat-icon >add_comment</mat-icon>
-                  Comment
-              </button>
-              <button  mat-button>
-                  <mat-icon >share</mat-icon>
-                  Share
-              </button>
-              <button  mat-button>
-                  <mat-icon >error_outline</mat-icon>
-                  Close Issue
-              </button>
-        </div> -->
-
-    <!-- </lcu-main-feed-card> -->
   </div>
 
   <!-- right column -->

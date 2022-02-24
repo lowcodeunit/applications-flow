@@ -1,15 +1,18 @@
 <mat-card class="social-card">
-    <div class="feed-card-container" fxLayout="row">
-        <mat-icon *ngIf="Icon" [style.color]="IconColor">{{Icon}}</mat-icon>
-        <div class="feed-card-main-content">
-            <mat-card-title *ngIf="Title">{{Title}}</mat-card-title>
-            <div *ngIf="Subtext">{{Subtext}}</div>
-            <div *ngIf="Description">{{Description}}</div>
-            <ng-content select="[more-details]"></ng-content>
-        </div>
-    </div>
+  <div class="feed-card-container" fxLayout="row">
+    <mat-icon *ngIf="Icon" [style.color]="IconColor">{{ Icon }}</mat-icon>
+    <div class="feed-card-main-content">
+      <mat-card-title *ngIf="FeedItem.Title">
+        {{ FeedItem.Title }}
+      </mat-card-title>
 
-    <mat-card-actions fxLayout="row" fxLayoutAlign="end">
-      <ng-content select="[actions]"></ng-content>
-    </mat-card-actions>
-  </mat-card>
+      <div *ngIf="FeedItem.Subtitle">{{ FeedItem.Subtitle }}</div>
+
+      <ng-content select="[more-details]"></ng-content>
+    </div>
+  </div>
+
+  <mat-card-actions fxLayout="row" fxLayoutAlign="end">
+    <ng-content select="[actions]"></ng-content>
+  </mat-card-actions>
+</mat-card>

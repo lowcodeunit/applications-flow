@@ -1,30 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FeedItem, FeedItemAction } from '../../models/user-feed.model';
 
 @Component({
   selector: 'lcu-main-feed-card',
   templateUrl: './main-feed-card.component.html',
-  styleUrls: ['./main-feed-card.component.scss']
+  styleUrls: ['./main-feed-card.component.scss'],
 })
 export class MainFeedCardComponent implements OnInit {
-  @Input('avatar')
-  public Avatar: string;
+  @Input('feed-item')
+  public FeedItem: FeedItem;
 
-  @Input('title')
-  public Title: string;
+  constructor() {}
 
-  @Input('subtext')
-  public Subtext: string;
+  public ngOnInit(): void {}
 
-  @Input('time-ago')
-  public TimeAgo: string;
-
-  constructor() { }
-
-  public ngOnInit(): void {
+  public HandleAction(action: FeedItemAction) {
+    console.log('Action clicked');
   }
-
-  public MoreClicked(){
-    console.log("More clicked");
-  }
-
 }
