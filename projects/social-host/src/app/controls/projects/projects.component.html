@@ -14,7 +14,7 @@
       [is-editable]="IsInfoCardEditable" 
       [is-shareable]="IsInfoCardShareable" 
       [loading]="State?.Loading"
-      [subtext]="Project?.Hosts[Project?.Hosts.length - 1]" 
+      [subtext]="Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : '' " 
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)">
 
@@ -179,7 +179,7 @@
                 >
                   <mat-icon class="action-icon">edit</mat-icon>
                 </a>
-                <a class="slot-action-anchor" 
+                <a *ngIf="Project?.Hosts" class="slot-action-anchor" 
                   [href]="
                     'https://' + Project?.Hosts[Project?.Hosts?.length - 1] + appRoute
                   " 
@@ -212,7 +212,7 @@
             fxLayout="column"
           >
             <div class="slot-header" fxLayout="row">
-              <div class="slot-name">
+              <div *ngIf="Project?.Hosts" class="slot-name" >
                 {{ Project?.Hosts[Project?.Hosts?.length - 1] }}
               </div>
             </div>

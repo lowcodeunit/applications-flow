@@ -1,19 +1,18 @@
 
-<div class="col-container" fxLayout="row" fxLayout.lt-md="column">
+<div class="col-container" fxLayout="row" fxLayout.lt-md="column" fxLayoutAlign.lt-md="space-evenly center">
 
 
-        <div class="col-left"  
-            fxFlex="25%">
+    <div class="col-left"  
+            fxFlex.gt-md="25%"
+            fxFlexOrder.lt-md="1"
+            >
 
-            <ng-content select="[left]"></ng-content>
+         <ng-content select="[left]"></ng-content>
 
-        </div>
-
-        
-
+    </div>
 
     <div class="col-center" 
-        fxFlex="50%" 
+        fxFlex.gt-md="50%" 
         fxFlexOrder.lt-md="3">
 
         <ng-content></ng-content>
@@ -21,12 +20,12 @@
     </div>
 
     <div class="col-right" 
-            fxFlex="25%" 
-            fxFlexOrder.lt-md="2">
+        fxFlex.gt-md="25%" 
+        fxFlexOrder.lt-md="2">
 
-            <ng-content select="[right]"></ng-content>
+        <ng-content select="[right]"></ng-content>
 
-        </div>
+    </div>
     
     
 

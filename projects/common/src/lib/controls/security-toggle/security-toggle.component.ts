@@ -30,8 +30,11 @@ export class SecurityToggleComponent implements OnInit {
 
   public ProcessorType: string;
 
+  public SkeletonEffect: string;
+
   constructor(protected formBldr: FormBuilder) { 
     this.SaveFormEvent = new EventEmitter;
+    this.SkeletonEffect = 'wave';
   }
 
   public ngOnInit(): void {

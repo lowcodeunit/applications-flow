@@ -27,7 +27,7 @@
 
                 
 
-                <button *ngIf="Application.Processor.Type === 'DFS'" 
+                <button *ngIf="Application?.Processor?.Type === 'DFS'" 
                 action mat-button class="info-card-btn" 
                 (click)="SettingsClicked()"
                 matTooltip="Update your application to the latest package">

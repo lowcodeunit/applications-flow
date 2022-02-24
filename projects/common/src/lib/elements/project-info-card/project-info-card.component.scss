@@ -79,12 +79,24 @@ mat-card-actions{
     margin-right: -0.5px !important;
 }
 
+.promo-container-skeleton{
+    margin:5px;
+}
+
 .actions-container{
     padding: 0px !important;
+}
+.actions-container-skeleton{
+    padding: 0px !important;
+    border-top: 1px solid #d3d3d3;
 }
 
 .info-card-btn{
     width: 100%;
     border-radius: 0px 0px 2px 2px;
     border-top: 1px solid #d3d3d3;
+}
+
+.skeleton-item{
+    margin: 5px;
 }
