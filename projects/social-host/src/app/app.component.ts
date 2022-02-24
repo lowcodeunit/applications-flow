@@ -26,8 +26,7 @@ export class AppComponent {
     router.events.subscribe((val) => {
       let changed = val instanceof NavigationEnd;
       if (changed) {
-
-        if(this.State?.EaC){
+        if (this.State?.EaC) {
           this.eacSvc.LoadEnterpriseAsCode();
           this.getFeedInfo();
         }
@@ -37,27 +36,25 @@ export class AppComponent {
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
-   
   }
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await this.eacSvc.HasValidConnection();
+    await Promise.all([
+      this.eacSvc.HasValidConnection(),
+      this.eacSvc.EnsureUserEnterprise(),
+    ]);
 
-    await this.eacSvc.EnsureUserEnterprise();
-
-    await this.eacSvc.ListEnterprises();
-
-    if (this.State.Enterprises?.length > 0) {
-      await this.eacSvc.GetActiveEnterprise();
-    }
+    await Promise.all([
+      this.eacSvc.ListEnterprises(),
+      this.eacSvc.GetActiveEnterprise(),
+    ]);
 
     await this.getFeedInfo();
   }
 
   protected async getFeedInfo(): Promise<void> {
-
     await this.eacSvc.UserFeed(1, 25);
   }
 }
