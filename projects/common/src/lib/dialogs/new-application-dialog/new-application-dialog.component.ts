@@ -61,6 +61,7 @@ export class NewApplicationDialogComponent implements OnInit {
   public ngOnInit(): void {
 
     this.SetupApplication(Guid.CreateRaw());
+    
   }
 
   public CloseDialog(){
