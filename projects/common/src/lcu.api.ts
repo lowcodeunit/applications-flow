@@ -28,6 +28,7 @@ export * from './lib/models/dev-settings-preset.model';
 export * from './lib/models/domain.model';
 export * from './lib/elements/projects/controls/tabs/general/forms/project-details/project-details.component';
 export * from './lib/elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
+export * from './lib/elements/skeleton-feed-card/skeleton-feed-card.component';
 export * from './lib/models/card-form-config.model';
 export * from './lib/services/forms.service';
 export * from './lib/services/eac.service';
