@@ -19,10 +19,14 @@
     margin-bottom: 0px !important;
 }
 
+.pointer{
+    cursor:pointer;
+}
+
 .header-description{
     background-color: #b9dddd;
     padding: 10px;
-    margin-left: -2px;
+    // margin-left: -2px;
 }
 mat-card-actions{
     margin-bottom: 0px !important;

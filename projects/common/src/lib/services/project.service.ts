@@ -78,6 +78,7 @@ export class ProjectService {
       state.Loading = true;
 
       this.appsFlowSvc.DeleteDevOpsAction(doaLookup).subscribe(
+        
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
             const eac = await this.LoadEnterpriseAsCode(state);
@@ -477,12 +478,12 @@ export class ProjectService {
 
           if (response.Status.Code === 0) {
             state.Feed = response.Items;
+            console.log("ITEMZ: ", response.Items)
 
             resolve(response.Items);
           } else {
             reject(response.Status);
 
-            console.log(response);
           }
         },
         (err) => {
@@ -492,7 +493,8 @@ export class ProjectService {
 
           console.log(err);
         }
-      );
+      
+    );
     });
   }
 }

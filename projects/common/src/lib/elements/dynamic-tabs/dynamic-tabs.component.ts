@@ -4,9 +4,6 @@ import { DynamicTabsModel } from './../../models/dynamic-tabs.model';
 import { 
   AfterViewInit, 
   Component, 
-  ComponentFactory, 
-  ComponentFactoryResolver, 
-  ComponentRef, 
   Input, 
   OnInit, 
   ViewChild, 
@@ -50,7 +47,7 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
   public TabComponents: Array<DynamicTabsModel>;
 
   constructor(
-    protected componentFactoryResolver: ComponentFactoryResolver, 
+    protected viewContainerRef: ViewContainerRef,
     protected formsService: FormsService) { }
 
   // Lifecycle hook
@@ -89,13 +86,14 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
       if (!this.TabComponents) {
         return;
       }
+      const componentRef = this.viewContainerRef.createComponent(this.TabComponents[index].Component);
 
       // factory for creating a dynamic component
-      const factory: ComponentFactory<any> = this.componentFactoryResolver
-      .resolveComponentFactory(this.TabComponents[index].Component);
+      // const factory: ComponentFactory<any> = this.componentFactoryResolver
+      // .resolveComponentFactory(this.TabComponents[index].Component);
 
       // component created by a factory
-      const componentRef: ComponentRef<any> = this.viewContainer.createComponent(factory);
+      // const componentRef: ComponentRef<any> = this.viewContainer.createComponent(factory);
 
       // current component instance
       const instance: DynamicTabsComponent = componentRef.instance as DynamicTabsComponent;

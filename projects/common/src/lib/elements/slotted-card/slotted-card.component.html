@@ -6,9 +6,17 @@
     </div>
 
     <mat-icon 
-      *ngIf="!ActionPath" 
-      class="header-icon" 
+      *ngIf="!ActionPath && !State?.Loading" 
+      class="header-icon pointer"
       (click)="MainActionClickEvent()"
+    >
+      add
+    </mat-icon>
+    <mat-icon 
+      *ngIf="State?.Loading" 
+      skeleton-text 
+      [effect]="SkeletonEffect"
+      class="header-icon "
     >
       add
     </mat-icon>
