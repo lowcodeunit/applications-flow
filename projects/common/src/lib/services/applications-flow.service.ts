@@ -3,9 +3,7 @@ import { Injectable } from '@angular/core';
 import { LCUServiceSettings } from '@lcu/common';
 import { Observable } from 'rxjs';
 import { EnterpriseAsCode } from '@semanticjs/common';
-import {
-  UnpackLowCodeUnitRequest,
-} from '../state/applications-flow.state';
+import { UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
 
 @Injectable({
   providedIn: 'root',
@@ -195,15 +193,11 @@ export class ApplicationsFlowService {
 
   public NewLoadProjectHostingDetails(): Observable<object> {
     return this.http.get(
-
       `${this.apiRoot}/api/lowcodeunit/manage/projects/hosting/details`,
 
       {
-
         headers: this.loadHeaders(),
-
       }
-
     );
   }
 
@@ -238,7 +232,9 @@ export class ApplicationsFlowService {
   public UserFeed(page: number, pageSize: number): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}`,
-      {},
+      {
+        headers: this.loadHeaders(),
+      }
     );
   }
 

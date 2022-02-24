@@ -1,20 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
-import { MainFeedItemModel } from 'projects/common/src/lib/models/main-feed-item.model';
-import { EaCApplicationAsCode } from '@semanticjs/common';
-import { UserFeedResponseModel } from 'projects/common/src/lib/models/user-feed.model';
-import { ApplicationsFlowService } from 'projects/common/src/lib/services/applications-flow.service';
+import {
+  ApplicationsFlowState,
+  EaCService,
+  ApplicationsFlowService,
+  CustomDomainDialogComponent,
+  NewApplicationDialogComponent
+} from '@lowcodeunit/applications-flow-common';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
-import { ThemeBuilderConstants } from '@lowcodeunit/lcu-theme-builder-common';
-import { CustomDomainDialogComponent } from 'projects/common/src/lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
 
 @Component({
   selector: 'lcu-projects',
   templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.scss']
+  styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit {
+
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
+  }
 
   public get ApplicationLookups(): string[] {
     return Object.keys(this.Project?.ApplicationLookups || {});
@@ -41,7 +49,6 @@ export class ProjectsComponent implements OnInit {
     return this.State?.EaC?.Enterprise;
   }
 
-
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
@@ -59,9 +66,8 @@ export class ProjectsComponent implements OnInit {
   }
 
   public get NumberOfRoutes(): number {
-    return this.ApplicationLookups.length;
+    return this.ApplicationLookups?.length;
   }
-
 
   public get RoutedApplications(): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
@@ -134,114 +140,96 @@ export class ProjectsComponent implements OnInit {
     return routeSetResult;
   }
 
-  public Feed: UserFeedResponseModel;
-
-  // public FeedItems: MainFeedItemModel[];
-
-  public LoadingFeed: boolean;
-
   public Stats: any[];
 
   public ProjectLookup: string;
 
-  constructor(protected appSvc: ApplicationsFlowService,
+  public IsInfoCardEditable: boolean;
+
+  public IsInfoCardShareable: boolean;
+
+  constructor(
+    protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    protected dialog: MatDialog) {
-
-    this.activatedRoute.params.subscribe(params => {
+    protected dialog: MatDialog
+  ) {
+    this.activatedRoute.params.subscribe((params) => {
       this.ProjectLookup = params['projectLookup'];
     });
 
-    this.Stats = [{ Name: "Retention Rate", Stat: "85%" },
-    { Name: "Bounce Rate", Stat: "38%" },
-    { Name: "Someother Rate", Stat: "5%" }];
+    this.Stats = [
+      { Name: 'Retention Rate', Stat: '85%' },
+      { Name: 'Bounce Rate', Stat: '38%' },
+      { Name: 'Someother Rate', Stat: '5%' },
+    ];
 
-    // this.FeedItems = [{ Title: "Test Issue", Author: "Jackson", Type: "ISSUE" },
-    // { Title: "Test Build", Author: "Mike", Type: "BUILD" }];
-
+    this.IsInfoCardEditable = false;
+    this.IsInfoCardShareable = false;
   }
 
   public ngOnInit(): void {
-
-    this.handleStateChange().then((eac) => { });
-
-    this.getFeedInfo();
-
+    this.handleStateChange().then((eac) => {});
   }
 
-  public EditCustomDomain(){
-
+  public EditCustomDomain() {
     const dialogRef = this.dialog.open(CustomDomainDialogComponent, {
       width: '600px',
       data: {
         hosts: this.State.EaC.Hosts,
         primaryHost: this.State.EaC.Enterprise.PrimaryHost,
         project: this.Project,
-        projectLookup: this.ProjectLookup
-        
-      }
-
+        projectLookup: this.ProjectLookup,
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The domains dialog was closed');
-      console.log("result:", result)
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The domains dialog was closed');
+      // console.log("result:", result)
     });
-
   }
 
   public HandleLeftClickEvent(event: any) {
-    console.log("Left Icon has been selected", event);
+    console.log('Left Icon has been selected', event);
   }
 
   public HandleRightClickEvent(event: any) {
-    console.log("Right Icon has been selected", event);
+    console.log('Right Icon has been selected', event);
+  }
+
+  public OpenNewAppDialog(event: any){
+
+    const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
+      width: '600px',
+      data: {
+        projectLookup: this.ProjectLookup,
+        environmentLookup: this.ActiveEnvironmentLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+
   }
 
   public SettingsClicked() {
-    console.log("Settings Clicked")
+    console.log('Settings Clicked');
   }
 
   public UpgradeClicked() {
-    console.log("Upgarde clicked");
+    console.log('Upgarde clicked');
   }
 
   public LaunchBuildClicked() {
-    console.log("launch build clicked");
+    console.log('launch build clicked');
   }
 
   public ViewBuildDetails() {
-    console.log("View build details clicked");
+    console.log('View build details clicked');
   }
-
 
   //HELPERS
-
-  protected async getFeedInfo(): Promise<void> {
-
-    // setInterval(() => {
-
-    this.LoadingFeed = true;
-
-     this.appSvc.UserFeed(1,25)
-        .subscribe((resp: UserFeedResponseModel) => {
-       this.Feed = resp;
-       this.LoadingFeed = false;
-       console.log("FEED: ", this.Feed.Runs)
-     });
-
-    // }, 30000);
-
-
-  }
-
-
-  protected async handleStateChange(): Promise<void> {
-    this.State.Loading = true;
-
-    await this.eacSvc.EnsureUserEnterprise();
-
-  }
-
+  protected async handleStateChange(): Promise<void> {}
 }

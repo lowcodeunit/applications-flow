@@ -329,10 +329,10 @@
             "aot": true,
             "assets": [
               {
-								"glob": "**/*",
-								"input": "node_modules/sass.js/dist",
-								"output": "/assets"
-							  },
+                                "glob": "**/*",
+                                "input": "node_modules/sass.js/dist",
+                                "output": "/assets"
+                              },
               {
                 "glob": "package.json",
                 "input": "./projects/social-host/",
@@ -347,7 +347,7 @@
             "scripts": 
             [
               "./node_modules/sass.js/dist/sass.js",
-							"./node_modules/sass.js/dist/sass.worker.js"
+                            "./node_modules/sass.js/dist/sass.worker.js"
             ]
           },
           "configurations": {

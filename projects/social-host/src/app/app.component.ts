@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { LCUServiceSettings } from '@lcu/common';
-import { ApplicationsFlowState, EaCService } from '@lowcodeunit/applications-flow-common';
-import { PalettePickerService, ThemeBuilderConstants, ThemeBuilderService, ThemePickerModel } from '@lowcodeunit/lcu-theme-builder-common';
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
-
-declare var Sass: any;
+import {
+  ApplicationsFlowState,
+  EaCService,
+} from '@lowcodeunit/applications-flow-common';
 
 @Component({
   selector: 'lcu-root',
@@ -13,53 +13,37 @@ declare var Sass: any;
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'social-host';
-
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
-
-  public ThemeClass: BehaviorSubject<string>;
-  public Themes: Array<any>;
 
   constructor(
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
     protected http: HttpClient,
-    protected themeBuilderService: ThemeBuilderService,
-    protected palettePickerService: PalettePickerService
+    protected router: Router
   ) {
+    router.events.subscribe((val) => {
+      let changed = val instanceof NavigationEnd;
+      if (changed) {
+
+        if(this.State?.EaC){
+          this.eacSvc.LoadEnterpriseAsCode();
+          this.getFeedInfo();
+        }
+      }
+    });
   }
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
-    // this.themeBuilderService.MaterialTheme = 'https://www.iot-ensemble.com/assets/theming/theming.scss';
-    this.themeBuilderService.MaterialTheme = './assets/test.scss';
-
-    this.setupThemes();
-  }
-
-
-  /**
-   * Setup array of themes
-   */
-   protected setupThemes(): void {
-    const themes: Array<ThemePickerModel> = [
-      new ThemePickerModel(
-        {
-          ID: 'Fathym Brand',
-          Primary: ThemeBuilderConstants.document.getPropertyValue('--initial-primary'),
-          Accent: ThemeBuilderConstants.document.getPropertyValue('--initial-accent'),
-          Warn: ThemeBuilderConstants.document.getPropertyValue('--initial-warn')
-        }
-      ),
-    ];
-
-    this.themeBuilderService.SetThemes(themes);
+   
   }
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
+
+    await this.eacSvc.HasValidConnection();
 
     await this.eacSvc.EnsureUserEnterprise();
 
@@ -69,5 +53,11 @@ export class AppComponent {
       await this.eacSvc.GetActiveEnterprise();
     }
 
+    await this.getFeedInfo();
+  }
+
+  protected async getFeedInfo(): Promise<void> {
+
+    await this.eacSvc.UserFeed(1, 25);
   }
 }

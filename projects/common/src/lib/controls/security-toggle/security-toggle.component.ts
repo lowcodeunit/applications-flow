@@ -12,6 +12,9 @@ export class SecurityToggleComponent implements OnInit {
   @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
 
+  @Input('loading')
+  public Loading: boolean;
+
   @Output('save-form-event')
   public SaveFormEvent: EventEmitter<{}>;
 

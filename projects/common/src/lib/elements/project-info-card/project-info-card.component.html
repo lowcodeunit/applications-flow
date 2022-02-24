@@ -7,7 +7,7 @@
     <div class="header-img-container" fxLayout="row" >
         <div class="round-project-img" fxLayoutAlign="center center">
             <mat-icon *ngIf="!Image" class="temp-icon">flutter_dash</mat-icon>
-            <!-- <img [src]="Image" [alt]="Name"> -->
+            <img *ngIf="Image" [src]="Image" [alt]="Name" style="width:75px; height:75px">
         </div>
     </div>
 
@@ -15,7 +15,7 @@
       <button *ngIf="IsEditable" mat-icon-button id="left-icon" (click)="LeftIconClicked()">
         <mat-icon>edit</mat-icon>
       </button>
-      <button mat-icon-button id="right-icon" (click)="RightIconClicked()">
+      <button *ngIf="IsShareable" mat-icon-button id="right-icon" (click)="RightIconClicked()">
         <mat-icon>share</mat-icon>
       </button>
     </div>
@@ -27,7 +27,7 @@
       <mat-card-subtitle class="project-card-description" *ngIf="Description">{{Description}}</mat-card-subtitle>
 
       <mat-card-subtitle class="project-card-host">
-          <a class="host-anchor" *ngIf="Subtext" [href]="Subtext" target="_blank">{{Subtext}}</a>
+          <a class="host-anchor" *ngIf="Subtext" [href]="'https://'+Subtext" target="_blank">{{Subtext}}</a>
       </mat-card-subtitle>
 
     </mat-card-header>

@@ -1,34 +1,67 @@
-export class UserFeedResponseModel{
-    
-    public Runs: Array<AdjustedGitHubWorkflowRun>;
+import { BaseResponse, Status } from '@lcu/common';
 
+export class UserFeedResponse extends BaseResponse {
+  public Items: Array<FeedItem>;
 }
 
-export class AdjustedGitHubWorkflowRun {
+export class FeedItem {
+  [key: string]: any;
 
-    public Committer: string;
+  public Actions: Array<FeedItemAction>;
 
-    public CommitMessage: string;
+  public Avatar: string;
 
-    public CommittedAt: Date;
+  public Badge: string;
 
+  public Contributors: Array<FeedItemContributor>;
+
+  public IsPinned: boolean;
+
+  public IsShortForm: boolean;
+
+  public Status: Status;
+
+  public Subtitle: string;
+
+  public Tabs: Array<FeedItemTab>;
+
+  public Timestamp: Date;
+
+  public Title: string;
+
+  public Type: string;
 }
 
+export class FeedItemContributor {
+  [key: string]: any;
 
-export class GitHubWorkflowRun {
+  public Status: string;
 
-    public Conclusion: string;
+  public StatusIcon: string;
 
-    public CreatedAt: Date;
+  public UserImage: string;
 
-    public ID: number;
-
-    public  RunNumber: number;
-
-    public Status: string;
-
-    public Workflow: string;
-
-    public UpdatedAt: Date;
+  public Username: string;
 }
 
+export class FeedItemAction {
+  [key: string]: any;
+
+  public Action: string;
+
+  public ActionType: string;
+
+  public Color: string;
+
+  public Icon: string;
+
+  public Text: string;
+}
+
+export class FeedItemTab {
+  [key: string]: any;
+
+  public Data: { [key: string]: any };
+
+  public Title: string;
+}

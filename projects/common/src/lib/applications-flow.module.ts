@@ -55,6 +55,7 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
 import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/custom-domain-dialog.component';
 import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
 import { FeedCardComponent } from './elements/feed-card/feed-card.component';
+import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/new-application-dialog.component';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,8 @@ import { FeedCardComponent } from './elements/feed-card/feed-card.component';
     BreadcrumbComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
-    FeedCardComponent
+    FeedCardComponent,
+    NewApplicationDialogComponent
   ],
   imports: [
     ClipboardModule,
@@ -157,7 +159,8 @@ import { FeedCardComponent } from './elements/feed-card/feed-card.component';
     BreadcrumbComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
-    FeedCardComponent
+    FeedCardComponent,
+    NewApplicationDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,

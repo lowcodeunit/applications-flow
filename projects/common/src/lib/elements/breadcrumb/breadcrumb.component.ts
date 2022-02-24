@@ -6,12 +6,16 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 @Component({
   selector: 'lcu-breadcrumb',
   templateUrl: './breadcrumb.component.html',
-  styleUrls: ['./breadcrumb.component.scss']
+  styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-
-  @Input('enterprise')
-  public Enterprise: any;
+  public get Enterprise(): any {
+    return (
+      this.State.Enterprises?.find(
+        (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
+      ) ?? this.State.Enterprises ? this.State.Enterprises[0] : null
+    );
+  }
 
   @Input('application-lookup')
   public ApplicationLookup: string;
@@ -21,8 +25,6 @@ export class BreadcrumbComponent implements OnInit {
 
   @Input('selected-route')
   public SelectedRoute: string;
-
-  
 
   public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
     return this.State?.EaC?.Applications || {};
@@ -42,9 +44,7 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   public get CurrentRouteApplicationLookups(): Array<string> {
-    return Object.keys(
-      this.RoutedApplications[this.SelectedRoute] || {}
-    );
+    return Object.keys(this.RoutedApplications[this.SelectedRoute] || {});
   }
 
   public get Projects(): any {
@@ -138,23 +138,23 @@ export class BreadcrumbComponent implements OnInit {
     return this.eacSvc.State;
   }
 
-  constructor( protected eacSvc: EaCService) { }
+  constructor(protected eacSvc: EaCService) {}
 
   ngOnInit(): void {
+    this.handleStateChange().then((eac) => {});
 
-    this.handleStateChange().then((eac) => { });
+    // console.log("state: ", this.State)
 
-    console.log("Selected project: ", this.SelectedProject.Project)
-    
-    console.log("SelectedRoute:", this.SelectedRoute)
-    
+    // console.log("selected enterprise: ", this.Enterprise)
 
+    // console.log('Selected project: ', this.SelectedProject.Project);
+
+    // console.log('SelectedRoute:', this.SelectedRoute);
   }
 
-  protected async handleStateChange(): Promise<void> {
-    this.State.Loading = true;
-
-    await this.eacSvc.EnsureUserEnterprise();
+  public SetActiveEnterprise(entLookup: string): void {
+    this.eacSvc.SetActiveEnterprise(entLookup).then(() => {});
   }
 
+  protected async handleStateChange(): Promise<void> {}
 }
