@@ -11,6 +11,7 @@ import {
   SecurityToggleComponent,
   SourceControlFormComponent,
   EditApplicationDialogComponent,
+  ProcessorDetailsDialogComponent
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCApplicationAsCode,
@@ -59,6 +60,13 @@ export class ApplicationsComponent implements OnInit {
     return this.State?.EaC?.Environments[
       this.State?.EaC?.Enterprise?.PrimaryEnvironment
     ];
+  }
+
+  public get EnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
   }
 
   public get DefaultSourceControl(): EaCSourceControl {
@@ -225,6 +233,23 @@ export class ApplicationsComponent implements OnInit {
     });
   }
 
+  public OpenProcessorDetailsDialog(event: any){
+    const dialogRef = this.dialog.open(ProcessorDetailsDialogComponent, {
+      width: '600px',
+      data: {
+        applicationLookup: this.ApplicationLookup,
+        environmentLookup: this.EnvironmentLookup,
+        projectLookup: this.ProjectLookup
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result.event)
+      // this.SaveApplication(result.event);
+    });
+  }
+
   public Unpack(): void {
     this.eacSvc.UnpackLowCodeUnit({
       ApplicationLookup: this.ApplicationLookup,
@@ -270,147 +295,7 @@ export class ApplicationsComponent implements OnInit {
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
-  public SaveProcessorDetails(formValue: any): void {
-    // console.log('Recieved Save Event: ', formValue);
-
-    const app: EaCApplicationAsCode = this.Application;
-    app.LookupConfig.AllowedMethods =
-      this.ProcessorDetailsFormControls.MethodsFormControl?.value
-        ?.split(' ')
-        .filter((v: string) => !!v);
-    app.Processor.Type = this.ProcessorDetailsFormControls.ProcessorType;
-
-    switch (app.Processor.Type) {
-      case 'DFS':
-        app.Processor.DefaultFile =
-          this.ProcessorDetailsFormControls.DefaultFileFormControl.value ||
-          'index.html';
-
-        app.LowCodeUnit = {
-          Type: this.ProcessorDetailsFormControls.LCUType,
-        };
-
-        switch (app.LowCodeUnit.Type) {
-          case 'GitHub':
-            app.LowCodeUnit.Organization =
-              this.SourceControls[
-                this.ProcessorDetailsFormControls.SourceControlFormControl.value
-              ].Organization;
-
-            app.LowCodeUnit.Repository =
-              this.SourceControls[
-                this.ProcessorDetailsFormControls.SourceControlFormControl.value
-              ].Repository;
-
-            app.LowCodeUnit.Build =
-              this.ProcessorDetailsFormControls.BuildFormControl.value;
-
-            app.LowCodeUnit.Path =
-              this.Environment.DevOpsActions[
-                this.SourceControls[
-                  this.ProcessorDetailsFormControls.SourceControlFormControl.value
-                ].DevOpsActionTriggerLookups[0]
-              ].Path;
-            // console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
-
-            app.LowCodeUnit.SourceControlLookup =
-              this.ProcessorDetailsFormControls.SourceControlFormControl.value;
-            break;
-
-          case 'NPM':
-            app.LowCodeUnit.Package =
-              this.ProcessorDetailsFormControls.PackageFormControl.value;
-
-            app.LowCodeUnit.Version =
-              this.ProcessorDetailsFormControls.VersionFormControl.value;
-            break;
-
-          case 'WordPress':
-            app.LowCodeUnit.APIRoot =
-              this.ProcessorDetailsFormControls.APIRootFormControl.value;
-            break;
-
-          case 'Zip':
-            app.LowCodeUnit.ZipFile =
-              this.ProcessorDetailsFormControls.ZipFileFormControl.value;
-            break;
-        }
-        break;
-
-      case 'OAuth':
-        app.Processor.Scopes =
-          this.ProcessorDetailsFormControls.ScopesFormControl.value.split(' ');
-
-        app.Processor.TokenLookup =
-          this.ProcessorDetailsFormControls.TokenLookupFormControl.value;
-
-        app.LowCodeUnit = {
-          Type: this.ProcessorDetailsFormControls.LCUType,
-        };
-
-        switch (app.LowCodeUnit.Type) {
-          case 'GitHubOAuth':
-            app.LowCodeUnit.ClientID =
-              this.ProcessorDetailsFormControls.ClientIDFormControl.value;
-
-            app.LowCodeUnit.ClientSecret =
-              this.ProcessorDetailsFormControls.ClientSecretFormControl.value;
-            break;
-        }
-        break;
-
-      case 'Proxy':
-        app.Processor.InboundPath =
-          this.ProcessorDetailsFormControls.InboundPathFormControl.value;
-
-        app.LowCodeUnit = {
-          Type: this.ProcessorDetailsFormControls.LCUType,
-        };
-
-        switch (app.LowCodeUnit.Type) {
-          case 'API':
-            app.LowCodeUnit.APIRoot =
-              this.ProcessorDetailsFormControls.APIRootFormControl.value;
-
-            app.LowCodeUnit.Security =
-              this.ProcessorDetailsFormControls.SecurityFormControl.value;
-
-            break;
-
-          case 'SPA':
-            app.LowCodeUnit.SPARoot =
-              this.ProcessorDetailsFormControls.SPARootFormControl.value;
-            break;
-        }
-        break;
-
-      case 'Redirect':
-        app.Processor.IncludeRequest =
-          !!this.ProcessorDetailsFormControls.IncludeRequestFormControl.value;
-
-        app.Processor.Permanent =
-          !!this.ProcessorDetailsFormControls.PermanentFormControl.value;
-
-        app.Processor.PreserveMethod =
-          !!this.ProcessorDetailsFormControls.PreserveMethodFormControl.value;
-
-        app.Processor.Redirect =
-          this.ProcessorDetailsFormControls.RedirectFormControl.value;
-        break;
-    }
-
-    if (!app.LookupConfig.PathRegex.startsWith('/')) {
-      app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
-    }
-
-    const saveAppReq: SaveApplicationAsCodeEventRequest = {
-      ProjectLookup: this.ProjectLookup,
-      Application: app,
-      ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
-    };
-
-    this.eacSvc.SaveApplicationAsCode(saveAppReq);
-  }
+  
 
   public SaveSecuritySettings(formValue: any): void {
     // console.log('Recieved Save Event: ', formValue);

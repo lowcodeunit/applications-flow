@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EaCApplicationAsCode } from '@semanticjs/common';
+import { EaCService } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-security-toggle',
@@ -11,9 +13,6 @@ export class SecurityToggleComponent implements OnInit {
 
   @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
-
-  @Input('loading')
-  public Loading: boolean;
 
   @Output('save-form-event')
   public SaveFormEvent: EventEmitter<{}>;
@@ -26,12 +25,20 @@ export class SecurityToggleComponent implements OnInit {
     return this.SecurityFormGroup?.controls.isTriggerSignIn;
   }
 
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
+
   public SecurityFormGroup: FormGroup;
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder) { 
+  public SkeletonEffect: string;
+
+  constructor(protected eacSvc: EaCService,
+    protected formBldr: FormBuilder) { 
     this.SaveFormEvent = new EventEmitter;
+    this.SkeletonEffect = 'wave';
   }
 
   public ngOnInit(): void {

@@ -1,30 +1,32 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Guid } from '@lcu/common';
-import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl, EnterpriseAsCode } from '@semanticjs/common';
-import { EditApplicationFormComponent } from '../../controls/edit-application-form/edit-application-form.component';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
 import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
-export interface NewApplicationDialogData {
+
+export interface ProcessorDetailsDialogData {
+  applicationLookup: string;
   environmentLookup: string;
   projectLookup: string;
 }
 
 @Component({
-  selector: 'lcu-new-application-dialog',
-  templateUrl: './new-application-dialog.component.html',
-  styleUrls: ['./new-application-dialog.component.scss']
+  selector: 'lcu-processor-details-dialog',
+  templateUrl: './processor-details-dialog.component.html',
+  styleUrls: ['./processor-details-dialog.component.scss']
 })
 
-export class NewApplicationDialogComponent implements OnInit {
-
-  @ViewChild(EditApplicationFormComponent)
-  public ApplicationFormControls: EditApplicationFormComponent;
+export class ProcessorDetailsDialogComponent implements OnInit {
 
   @ViewChild(ProcessorDetailsFormComponent)
   public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
+
+  public get Application(): EaCApplicationAsCode {
+    return this.State?.EaC?.Applications[this.data.applicationLookup] || {};
+  }
 
   public get Environment(): EaCEnvironmentAsCode {
     return this.State?.EaC?.Environments[this.data.environmentLookup];
@@ -35,55 +37,27 @@ export class NewApplicationDialogComponent implements OnInit {
   }
 
   public get SourceControlLookups(): Array<string> {
-    return Object.keys(this.Environment.Sources || {});
+    return Object.keys(this.Environment?.Sources || {});
   }
 
-  public get State(): ApplicationsFlowState{
+  public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
 
-
-  public HasSaveButton: boolean;
-
-  public NewApplication: EaCApplicationAsCode;
-
-  public NewApplicationLookup: string;
-
-
-  constructor(
-    protected eacSvc: EaCService, 
-    public dialogRef: MatDialogRef<NewApplicationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: NewApplicationDialogData) { 
-
-    this.HasSaveButton = false
-  }
+  constructor(protected eacSvc: EaCService, 
+    public dialogRef: MatDialogRef<ProcessorDetailsDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: ProcessorDetailsDialogData) { }
 
   public ngOnInit(): void {
-
-    this.SetupApplication(Guid.CreateRaw());
   }
 
   public CloseDialog(){
     this.dialogRef.close();
   }
 
-  public SetupApplication(appLookup: string){
-    this.NewApplication = new EaCApplicationAsCode;
-    this.NewApplicationLookup = appLookup;
+  public SaveProcessorDetails(event: any): void {
 
-  }
-
-  public SaveApplication(): void {
-
-    const app: EaCApplicationAsCode = new EaCApplicationAsCode;
-
-    app.Application = {
-      Name: this.ApplicationFormControls.NameFormControl.value,
-      Description: this.ApplicationFormControls.DescriptionFormControl.value,
-      PriorityShift: 0,
-    };
-
-    app.LookupConfig.PathRegex = `${this.ApplicationFormControls.RouteFormControl.value}.*`;
+    const app: EaCApplicationAsCode = this.Application;
     app.LookupConfig.AllowedMethods =
       this.ProcessorDetailsFormControls.MethodsFormControl?.value
         ?.split(' ')
@@ -95,8 +69,6 @@ export class NewApplicationDialogComponent implements OnInit {
         app.Processor.DefaultFile =
           this.ProcessorDetailsFormControls.DefaultFileFormControl.value ||
           'index.html';
-
-          app.Processor.BaseHref = `${this.ApplicationFormControls.RouteFormControl.value}/`.replace('//', '/');
 
         app.LowCodeUnit = {
           Type: this.ProcessorDetailsFormControls.LCUType,
@@ -218,7 +190,7 @@ export class NewApplicationDialogComponent implements OnInit {
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ProjectLookup: this.data.projectLookup,
       Application: app,
-      ApplicationLookup: Guid.CreateRaw(),
+      ApplicationLookup: this.data.applicationLookup || Guid.CreateRaw(),
     };
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq);

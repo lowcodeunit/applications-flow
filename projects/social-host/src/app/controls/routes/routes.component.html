@@ -12,7 +12,6 @@
       [name]="CurrentApplicationRoute"
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
-      [loading]="State?.Loading"
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)"
     >
@@ -20,22 +19,7 @@
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-      <div
-        promo
-        class="promo-container"
-        fxLayout="column"
-        fxLayoutAlign="center center"
-        fxLayout.lt-md="row"
-        fxLayoutAlign.lt-md="space-around center"
-      >
-        <div>Access exclusive tools & insights</div>
-        <div fxLayout="row" fxLayoutAlign="start center">
-          <mat-icon class="gold-icon">emoji_events</mat-icon>
-          <div class="upgrade-text" (click)="UpgradeClicked()">
-            Upgrade to premium now
-          </div>
-        </div>
-      </div>
+            
 
       <!-- <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
                 <mat-icon>outbox</mat-icon>
@@ -84,7 +68,6 @@
     <lcu-slotted-card
       title="Apps"
       icon="apps"
-      [loading]="State?.Loading"
       [main-slot-description]="NumberOfApps + ' application(s) configured'"
       secondary-slot-description="Add quick app"
       action-text="Create New Application"

@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { EaCService } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-project-info-card',
@@ -19,9 +21,6 @@ export class ProjectInfoCardComponent implements OnInit {
   @Input('is-shareable')
   public IsShareable: boolean;
 
-  @Input('loading')
-  public Loading: boolean;
-
   @Input('name')
   public Name: string;
 
@@ -34,11 +33,19 @@ export class ProjectInfoCardComponent implements OnInit {
   @Output('right-click-event')
   public RightClickEvent: EventEmitter<{}>;
 
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
 
-  constructor() {
+  public SkeletonEffect: string;
+
+
+  constructor(protected eacSvc: EaCService) {
     this.LeftClickEvent = new EventEmitter();
 
     this.RightClickEvent = new EventEmitter();
+
+    this.SkeletonEffect = 'wave';
    }
 
   public ngOnInit(): void {

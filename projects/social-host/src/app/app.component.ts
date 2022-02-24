@@ -6,6 +6,10 @@ import {
   ApplicationsFlowState,
   EaCService,
 } from '@lowcodeunit/applications-flow-common';
+import {
+  BreakpointObserver,
+  BreakpointState
+} from '@angular/cdk/layout';
 
 @Component({
   selector: 'lcu-root',
@@ -17,7 +21,10 @@ export class AppComponent {
     return this.eacSvc.State;
   }
 
+  public IsSmScreen: boolean;
+
   constructor(
+    public breakpointObserver: BreakpointObserver,
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
     protected http: HttpClient,
@@ -35,6 +42,15 @@ export class AppComponent {
   }
 
   public ngOnInit(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 959px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.IsSmScreen = true;
+        } else {
+          this.IsSmScreen = false;
+        }
+      });
     this.handleStateChange().then((eac) => {});
   }
 

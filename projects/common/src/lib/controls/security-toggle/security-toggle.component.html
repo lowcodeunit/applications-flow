@@ -1,8 +1,57 @@
 <form class="security-form" [formGroup]="SecurityFormGroup" (ngSubmit)="SecuritySubmit()">
-    <mat-card class="spread flow-card">
-      <lcu-loader [loading]="Loading"></lcu-loader>
+    <mat-card class="flow-card">
 
-      <ng-container *ngIf="!Loading">
+      <!-- SKELETON LOADING -->
+      <ng-container *ngIf="State?.Loading">
+        <mat-card-header fxLayoutAlign="space-between center">
+          <mat-card-title 
+            skeleton-text 
+            [effect]="SkeletonEffect" 
+          > 
+            Security Settings 
+          </mat-card-title>
+          <div fxLayoutAlign="space-around center">
+            <div
+              skeleton-text 
+              [effect]="SkeletonEffect"   
+            >
+            XXX
+            </div>
+
+              <mat-icon
+              skeleton-text 
+              [effect]="SkeletonEffect" 
+              >
+                info_outline
+              </mat-icon>
+            </div>
+        </mat-card-header>
+
+          <mat-card-actions fxLayoutAlign="center center">
+
+            <div 
+              fxFlex="100%" 
+              skeleton-text 
+              [effect]="SkeletonEffect"
+              fxLayoutAlign="center center" 
+            >
+              <mat-icon 
+                skeleton-text 
+                [effect]="SkeletonEffect" 
+              >
+                save
+              </mat-icon>
+
+              Save Settings
+          </div>
+
+          </mat-card-actions>
+      </ng-container>
+      <!-- END SKELETON LOADING -->
+
+      <!-- BEGIN ACTUAL CONTENT -->
+
+      <ng-container *ngIf="!State?.Loading">
         <mat-card-header>
           <mat-card-title> Security Settings </mat-card-title>
 
