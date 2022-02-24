@@ -47,6 +47,10 @@ export class BreadcrumbComponent implements OnInit {
     return Object.keys(this.RoutedApplications[this.SelectedRoute] || {});
   }
 
+  public get Loading(): boolean {
+    return this.State?.LoadingActiveEnterprise || this.State?.LoadingEnterprises;
+  }
+
   public get Projects(): any {
     return this.State?.EaC?.Projects || {};
   }

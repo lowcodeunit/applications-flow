@@ -20,61 +20,54 @@
   <ng-container *ngIf="State?.Loading">
     <mat-card-content>
       <div class="slot-main-container">
-        <div skeleton-text [effect]="SkeletonEffect" class="header-description">Descrption text</div>
+        <div skeleton-text [effect]="SkeletonEffect" class="header-description">
+          Descrption text
+        </div>
 
-        <div  class="slot-main">
+        <div class="slot-main">
           <ng-content skeleton-block [effect]="SkeletonEffect"></ng-content>
         </div>
       </div>
 
-      
-
-        <div class="slot-secondary" fxLayout="row" fxLayoutAlign="space-between center">
-
-          <div class="slot-header-container">
-            <div class="slot-header">
-              <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
-                Name of the content
-              </div>
-            </div>
-
+      <div
+        class="slot-secondary"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+      >
+        <div class="slot-header-container">
+          <div class="slot-header">
             <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
-              Description
+              Name of the content
             </div>
           </div>
 
-          <div
-            class="slot-actions-container"
-            fxLayout="row"
-            
-          >
-            
-              <mat-icon 
-                skeleton-text 
-                [effect]="SkeletonEffect" 
-                class="skeleton-item"
-              >
-                edit
-              </mat-icon>
-            
+          <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
+            Description
           </div>
-
         </div>
 
-        <div *ngIf="SecondarySlotDescription" class="slot-secondary-container">
-          <div skeleton-text [effect]="SkeletonEffect" class="header-description">{{ SecondarySlotDescription }}</div>
+        <div class="slot-actions-container" fxLayout="row">
+          <mat-icon
+            skeleton-text
+            [effect]="SkeletonEffect"
+            class="skeleton-item"
+          >
+            edit
+          </mat-icon>
         </div>
+      </div>
+
+      <div *ngIf="SecondarySlotDescription" class="slot-secondary-container">
+        <div skeleton-text [effect]="SkeletonEffect" class="header-description">
+          {{ SecondarySlotDescription }}
+        </div>
+      </div>
     </mat-card-content>
 
-    <mat-card-actions  fxLayoutAlign="center center">
-      <div
-        skeleton-text 
-        [effect]="SkeletonEffect"
-        class="skeleton-item"
-        
-        >{{ ActionText }}
-    </div>
-      
+    <mat-card-actions fxLayoutAlign="center center">
+      <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
+        {{ ActionText }}
+      </div>
     </mat-card-actions>
   </ng-container>
   <!-- END SKELETON CONTENT -->

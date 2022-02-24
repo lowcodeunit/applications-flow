@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FeedItem, FeedItemAction } from '../../models/user-feed.model';
+import moment from 'moment';
 
 @Component({
   selector: 'lcu-main-feed-card',
@@ -13,6 +14,11 @@ export class MainFeedCardComponent implements OnInit {
   constructor() {}
 
   public ngOnInit(): void {}
+
+  //  API Methods
+  public CalculateTimelapse(timestamp: Date) {
+    return moment(timestamp).fromNow();
+  }
 
   public HandleAction(action: FeedItemAction) {
     console.log('Action clicked');
