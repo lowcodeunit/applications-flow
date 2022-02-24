@@ -7,7 +7,6 @@ export * from './lib/elements/projects/controls/create-project-wizard/create-pro
 export * from './lib/elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
-export * from './lib/models/user-feed.model';
 export * from './lib/controls/build-pipeline-form/build-pipeline-form.component';
 export * from './lib/controls/devops-source-control-form/devops-source-control-form.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
@@ -74,3 +73,4 @@ export * from './lib/dialogs/source-control-dialog/source-control-dialog.compone
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/elements/breadcrumb/breadcrumb.component';
+export * from './lib/elements/feed-card/feed-card.component';
