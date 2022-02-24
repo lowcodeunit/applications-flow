@@ -2,7 +2,7 @@
     <mat-card class="flow-card">
 
       <!-- SKELETON LOADING -->
-      <ng-container *ngIf="Loading">
+      <ng-container *ngIf="State?.Loading">
         <mat-card-header fxLayoutAlign="space-between center">
           <mat-card-title 
             skeleton-text 
@@ -51,7 +51,7 @@
 
       <!-- BEGIN ACTUAL CONTENT -->
 
-      <ng-container *ngIf="!Loading">
+      <ng-container *ngIf="!State?.Loading">
         <mat-card-header>
           <mat-card-title> Security Settings </mat-card-title>
 

@@ -1,4 +1,3 @@
-<!-- <ng-container *ngIf="!State?.Loading"> -->
 
 <lcu-breadcrumb
   [project-lookup]="ProjectLookup"
@@ -14,7 +13,6 @@
       [description]="Application?.Application?.Description"
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
-      [loading]="State?.Loading"
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)"
     >
@@ -57,7 +55,6 @@
 
             <lcu-security-toggle 
                 [editing-application]="Application" 
-                [loading]="State?.Loading"
                 (save-form-event)="SaveSecuritySettings($event)">
             </lcu-security-toggle>
 

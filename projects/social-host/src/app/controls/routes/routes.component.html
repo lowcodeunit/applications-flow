@@ -12,7 +12,6 @@
       [name]="CurrentApplicationRoute"
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
-      [loading]="State?.Loading"
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)"
     >
@@ -69,7 +68,6 @@
     <lcu-slotted-card
       title="Apps"
       icon="apps"
-      [loading]="State?.Loading"
       [main-slot-description]="NumberOfApps + ' application(s) configured'"
       secondary-slot-description="Add quick app"
       action-text="Create New Application"

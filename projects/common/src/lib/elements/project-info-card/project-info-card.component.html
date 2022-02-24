@@ -1,7 +1,7 @@
 <mat-card class="project-info-card">
 
   <!-- SKELETON CONTENT -->
-  <ng-container *ngIf="Loading">
+  <ng-container *ngIf="State?.Loading">
     <div class="header-img-container" fxLayout="row" >
       <skeleton-avatar class="round-project-img" [effect]="SkeletonEffect" [size]="75" ></skeleton-avatar >
   </div>
@@ -75,7 +75,7 @@
 
   <!-- ACTUAL CONTENT -->
 
-<ng-container *ngIf="!Loading">
+<ng-container *ngIf="!State?.Loading">
 
     <div class="header-img-container" fxLayout="row" >
         <div class="round-project-img" fxLayoutAlign="center center">

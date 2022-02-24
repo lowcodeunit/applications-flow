@@ -1,5 +1,4 @@
-<!-- <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
-<!-- <ng-container *ngIf="!State?.Loading"> -->
+
 
 <lcu-breadcrumb> </lcu-breadcrumb>
 
@@ -10,7 +9,6 @@
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
       image="./assets/images/thinky.png"
-      [loading]="State?.Loading"
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)"
     >
@@ -235,4 +233,3 @@
     </lcu-slotted-card>
   </div>
 </lcu-three-column>
-<!-- </ng-container> -->

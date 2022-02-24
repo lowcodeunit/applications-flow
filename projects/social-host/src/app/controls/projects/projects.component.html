@@ -1,4 +1,3 @@
-<!-- <ng-container *ngIf="!State?.Loading"> -->
 
 <lcu-breadcrumb [project-lookup]="ProjectLookup"> </lcu-breadcrumb>
 
@@ -10,7 +9,6 @@
       [description]="Project?.Project?.Description"
       [is-editable]="IsInfoCardEditable" 
       [is-shareable]="IsInfoCardShareable" 
-      [loading]="State?.Loading"
       [subtext]="Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : '' " 
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)">
@@ -181,4 +179,3 @@
     </lcu-slotted-card>
   </div>
 </lcu-three-column>
-<!-- </ng-container> -->
