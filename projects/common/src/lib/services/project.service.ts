@@ -201,28 +201,26 @@ export class ProjectService {
     state: ApplicationsFlowState
   ): Promise<void> {
     return new Promise((resolve, reject) => {
-      state.Loading = true;
+      state.LoadingActiveEnterprise = true;
 
       this.appsFlowSvc.GetActiveEnterprise().subscribe(
         async (
           response: BaseModeledResponse<{ Name: string; Lookup: string }>
         ) => {
+          state.LoadingActiveEnterprise = false;
+
           if (response.Status.Code === 0) {
             state.ActiveEnterpriseLookup = response.Model?.Lookup;
 
-            state.Loading = false;
-
             resolve();
           } else {
-            state.Loading = false;
-
             reject(response.Status);
 
             console.log(response);
           }
         },
         (err) => {
-          state.Loading = false;
+          state.LoadingActiveEnterprise = false;
 
           reject(err);
 
@@ -262,11 +260,11 @@ export class ProjectService {
 
   public async ListEnterprises(state: ApplicationsFlowState): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      state.Loading = true;
+      state.LoadingEnterprises = true;
 
       this.appsFlowSvc.ListEnterprises().subscribe(
         async (response: BaseModeledResponse<Array<any>>) => {
-          state.Loading = false;
+          state.LoadingEnterprises = false;
 
           if (response.Status.Code === 0) {
             state.Enterprises = response.Model;
@@ -279,7 +277,7 @@ export class ProjectService {
           }
         },
         (err) => {
-          state.Loading = false;
+          state.LoadingEnterprises = false;
 
           reject(err);
 

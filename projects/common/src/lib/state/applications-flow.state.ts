@@ -16,6 +16,10 @@ export class ApplicationsFlowState {
 
   public Loading?: boolean;
 
+  public LoadingActiveEnterprise?: boolean;
+
+  public LoadingEnterprises?: boolean;
+  
   public LoadingFeed?: boolean;
 
   // public Projects?: ProjectState[];
