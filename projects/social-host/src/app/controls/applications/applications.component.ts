@@ -233,7 +233,7 @@ export class ApplicationsComponent implements OnInit {
     });
   }
 
-  public OpenProcessorDetailsDialog(){
+  public OpenProcessorDetailsDialog(event: any){
     const dialogRef = this.dialog.open(ProcessorDetailsDialogComponent, {
       width: '600px',
       data: {
