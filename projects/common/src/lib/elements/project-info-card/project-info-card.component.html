@@ -1,6 +1,79 @@
 <mat-card class="project-info-card">
 
-  <lcu-loader [loading]="Loading"></lcu-loader>
+  <!-- SKELETON CONTENT -->
+  <ng-container *ngIf="Loading">
+    <div class="header-img-container" fxLayout="row" >
+      <skeleton-avatar class="round-project-img" [effect]="SkeletonEffect" [size]="75" ></skeleton-avatar >
+  </div>
+
+  <mat-card-header class="project-card-header" fxLayoutAlign="center center">
+
+    <mat-card-title 
+      skeleton-text  
+      [effect]="SkeletonEffect"
+      class="project-card-name" 
+    >
+      Name of card
+    </mat-card-title>
+
+    <mat-card-subtitle 
+      skeleton-text 
+      [effect]="SkeletonEffect" 
+      class="project-card-description" 
+    >
+      Description Text
+    </mat-card-subtitle>
+
+    <mat-card-subtitle class="project-card-host">
+        <div 
+          skeleton-text 
+          [effect]="SkeletonEffect" 
+          class="host-anchor" 
+        >
+          https://www.fathym.com
+        </div>
+    </mat-card-subtitle>
+
+  </mat-card-header>
+  <mat-card-content class="card-content-container">
+    <div skeleton-block [effect]="SkeletonEffect" class="stats-container">
+    </div>
+
+    <div 
+      class="promo-container-skeleton" 
+      fxLayout="column" 
+      fxLayoutAlign="center center" 
+    >
+        
+      <div 
+        skeleton-text 
+        [effect]="SkeletonEffect"
+        class="skeleton-item"
+      >
+        Access exclusive tools & insights
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon skeleton-text [effect]="SkeletonEffect" class="skeleton-item">emoji_events</mat-icon>
+
+        <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item" >
+          Upgrade to premium now
+        </div>
+      </div>
+    </div>
+
+  </mat-card-content>
+  <mat-card-actions class="actions-container-skeleton" fxLayoutAlign="center center">
+    <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item" action mat-button >
+      <mat-icon skeleton-text [effect]="SkeletonEffect" class="skeleton-item">outbox</mat-icon>
+      Unpack
+    </div>
+    
+  </mat-card-actions>
+  </ng-container>
+  <!-- END SKELETON CONTENT -->
+
+  <!-- ACTUAL CONTENT -->
 
 <ng-container *ngIf="!Loading">
 
@@ -36,9 +109,25 @@
         <ng-content  select="[stats]"></ng-content>
       </div>
 
-      <div class="promo-container">
-        <ng-content  select="[promo]"></ng-content>
+      <!-- <div class="promo-container"> -->
+        <!-- <ng-content  select="[promo]"></ng-content> -->
+        <div class="promo-container" 
+          fxLayout="column" 
+          fxLayoutAlign="center center" 
+          
+        >
+        
+        <div>Access exclusive tools & insights</div>
+
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon class="gold-icon">emoji_events</mat-icon>
+
+          <div class="upgrade-text" (click)="UpgradeClicked()">
+            Upgrade to premium now
+          </div>
+        </div>
       </div>
+      <!-- </div> -->
 
     </mat-card-content>
     <mat-card-actions class="actions-container">

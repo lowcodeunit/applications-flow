@@ -4,9 +4,74 @@
     <mat-icon mat-card-avatar class="header-icon">{{ Icon }}</mat-icon>
     <mat-card-title class="card-title">{{ Title }}</mat-card-title>
   </mat-card-header>
-  <lcu-loader [loading]="Loading"></lcu-loader>
 
-  <ng-container *ngIf="!Loading">
+  <!-- SKELETON CONTENT -->
+
+  <ng-container *ngIf="State?.Loading">
+    <mat-card-content>
+      <div class="slot-main-container">
+        <div skeleton-text [effect]="SkeletonEffect" class="header-description">Descrption text</div>
+
+        <div  class="slot-main">
+          <ng-content skeleton-block [effect]="SkeletonEffect"></ng-content>
+        </div>
+      </div>
+
+      
+
+        <div class="slot-secondary" fxLayout="row" fxLayoutAlign="space-between center">
+
+          <div class="slot-header-container">
+            <div class="slot-header">
+              <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
+                Name of the content
+              </div>
+            </div>
+
+            <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
+              Description
+            </div>
+          </div>
+
+          <div
+            class="slot-actions-container"
+            fxLayout="row"
+            
+          >
+            
+              <mat-icon 
+                skeleton-text 
+                [effect]="SkeletonEffect" 
+                class="skeleton-item"
+              >
+                edit
+              </mat-icon>
+            
+          </div>
+
+        </div>
+
+        <div *ngIf="SecondarySlotDescription" class="slot-secondary-container">
+          <div skeleton-text [effect]="SkeletonEffect" class="header-description">{{ SecondarySlotDescription }}</div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions  fxLayoutAlign="center center">
+      <div
+        skeleton-text 
+        [effect]="SkeletonEffect"
+        class="skeleton-item"
+        
+        >{{ ActionText }}
+    </div>
+      
+    </mat-card-actions>
+  </ng-container>
+  <!-- END SKELETON CONTENT -->
+
+  <!-- ACTUAL CONTENT -->
+
+  <ng-container *ngIf="!State?.Loading">
     <mat-card-content>
       <div class="slot-main-container">
         <div class="header-description">{{ MainSlotDescription }}</div>

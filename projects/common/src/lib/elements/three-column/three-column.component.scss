@@ -3,18 +3,13 @@
     background-color:#EBECF0;
 }
 
-.col-container-sm{
-    height: 100%;
-    background-color:#EBECF0;
-    display: none;
-}
 
-@media only screen and (max-width: 850px) {
-    .col-container{
-        display: none;
-    }
-    .col-container-sm{
-        display: block;
+@media only screen and (max-width: 959px) {
+    // .col-container{
+    //     display: none;
+    // }
+    .col-left, .col-center, .col-right{
+        width: 100%;
     }
 }
 

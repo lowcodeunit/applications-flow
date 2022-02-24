@@ -15,6 +15,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { Guid } from '@lcu/common';
 import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-processor-details-form',
@@ -30,9 +31,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   @Input('has-save-button')
   public HasSaveButton: boolean;
-
-  @Input('loading')
-  public Loading: boolean;
 
   @Input('source-control-lookups')
   public SourceControlLookups: Array<string>;
@@ -108,6 +106,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public get SecurityFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.security;
+  }
+
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State
   }
 
   public get SourceControlFormControl(): AbstractControl {

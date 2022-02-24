@@ -21,6 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SkeletonElementsModule } from "skeleton-elements/angular";
 
 
 
@@ -47,8 +48,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FathymSharedModule.forRoot(),
     AppHostModule,
     ApplicationsFlowModule.forRoot(), 
+    SkeletonElementsModule
      
-    
   ],
   providers: [{
     provide: LCUServiceSettings,

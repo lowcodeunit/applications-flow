@@ -34,11 +34,15 @@ export class ProjectInfoCardComponent implements OnInit {
   @Output('right-click-event')
   public RightClickEvent: EventEmitter<{}>;
 
+  public SkeletonEffect: string;
+
 
   constructor() {
     this.LeftClickEvent = new EventEmitter();
 
     this.RightClickEvent = new EventEmitter();
+
+    this.SkeletonEffect = 'wave';
    }
 
   public ngOnInit(): void {

@@ -1,0 +1,15 @@
+<div class="dialog-header" fxLayoutAlign="end center">
+    <button mat-icon-button (click)="CloseDialog()">
+            <mat-icon>cancel</mat-icon>
+    </button>
+</div>
+
+<lcu-processor-details-form 
+    more-details 
+    [editing-application]="Application"
+    [editing-application-lookup]="data.applicationLookup" 
+    [source-control-lookups]="SourceControlLookups"
+    [project-lookup]="data.projectLookup"
+    (save-form-event)="SaveProcessorDetails($event)"
+>
+</lcu-processor-details-form>

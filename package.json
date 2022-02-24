@@ -67,6 +67,7 @@
 		"ngx-color-picker": "^11.0.0",
 		"rxjs": "~7.5.1",
 		"sass.js": "^0.11.1",
+		"skeleton-elements": "^4.0.0",
 		"swagger-ui": "^4.1.3",
 		"tinycolor2": "^1.4.2",
 		"tslib": "^2.3.1",

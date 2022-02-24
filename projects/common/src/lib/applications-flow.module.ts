@@ -55,6 +55,9 @@ import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component'
 import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/custom-domain-dialog.component';
 import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
 import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/new-application-dialog.component';
+import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dialog/processor-details-dialog.component';
+import { SkeletonElementsModule } from 'skeleton-elements/angular';
+
 
 @NgModule({
   declarations: [
@@ -100,7 +103,8 @@ import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/
     BreadcrumbComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
-    NewApplicationDialogComponent
+    NewApplicationDialogComponent,
+    ProcessorDetailsDialogComponent
   ],
   imports: [
     ClipboardModule,
@@ -111,7 +115,9 @@ import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/
     MaterialModule,
     AppHostModule,
     MatTooltipModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    SkeletonElementsModule
+
     // LazyElementModule,
   ],
   exports: [
@@ -157,7 +163,8 @@ import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/
     BreadcrumbComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
-    NewApplicationDialogComponent
+    NewApplicationDialogComponent,
+    ProcessorDetailsDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
