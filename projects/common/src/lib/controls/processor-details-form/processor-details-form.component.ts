@@ -311,7 +311,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.ProcessorDetailsFormGroup.addControl(
       'sourceControl',
       this.formBldr.control(
-        this.EditingApplication.LowCodeUnit.SourceControlLookup || '',
+        this.EditingApplication.LowCodeUnit?.SourceControlLookup || '',
         [Validators.required]
       )
     );

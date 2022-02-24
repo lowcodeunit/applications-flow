@@ -42,20 +42,35 @@ export class NewApplicationDialogComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+
   public HasSaveButton: boolean;
+
+  public NewApplication: EaCApplicationAsCode;
+
+  public NewApplicationLookup: string;
+
 
   constructor(
     protected eacSvc: EaCService, 
     public dialogRef: MatDialogRef<NewApplicationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: NewApplicationDialogData) { 
+
     this.HasSaveButton = false
   }
 
   public ngOnInit(): void {
+
+    this.SetupApplication(Guid.CreateRaw());
   }
 
   public CloseDialog(){
     this.dialogRef.close();
+  }
+
+  public SetupApplication(appLookup: string){
+    this.NewApplication = new EaCApplicationAsCode;
+    this.NewApplicationLookup = appLookup;
+
   }
 
   public SaveApplication(): void {
