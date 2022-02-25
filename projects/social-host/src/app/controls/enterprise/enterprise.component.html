@@ -27,7 +27,8 @@
   </div>
 
   <!-- CENTER FEED -->
-  <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
+  <!-- will need to transfer over to LoadingFeed x-->
+  <lcu-skeleton-feed-card *ngIf="State?.Loading"></lcu-skeleton-feed-card>
 
   <ng-container *ngIf="!State?.LoadingFeed">
     <lcu-main-feed-card

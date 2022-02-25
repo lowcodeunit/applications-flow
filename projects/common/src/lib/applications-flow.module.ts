@@ -57,6 +57,7 @@ import { EditApplicationDialogComponent } from './dialogs/edit-application-dialo
 import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/new-application-dialog.component';
 import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dialog/processor-details-dialog.component';
 import { SkeletonElementsModule } from 'skeleton-elements/angular';
+import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleton-feed-card.component';
 
 
 @NgModule({
@@ -104,7 +105,8 @@ import { SkeletonElementsModule } from 'skeleton-elements/angular';
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
     NewApplicationDialogComponent,
-    ProcessorDetailsDialogComponent
+    ProcessorDetailsDialogComponent,
+    SkeletonFeedCardComponent
   ],
   imports: [
     ClipboardModule,
@@ -164,7 +166,8 @@ import { SkeletonElementsModule } from 'skeleton-elements/angular';
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
     NewApplicationDialogComponent,
-    ProcessorDetailsDialogComponent
+    ProcessorDetailsDialogComponent,
+    SkeletonFeedCardComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,

@@ -51,6 +51,7 @@ export class AppComponent {
           this.IsSmScreen = false;
         }
       });
+
     this.handleStateChange().then((eac) => {});
   }
 
@@ -67,6 +68,7 @@ export class AppComponent {
   }
 
   protected async getFeedInfo(): Promise<void> {
+    console.log("Am I getting called???")
     await this.eacSvc.UserFeed(1, 25);
   }
 }

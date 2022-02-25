@@ -15,14 +15,18 @@
 }
 
 .card-title{
-    font-size: 25px;
+    font-size: 22px;
     margin-bottom: 0px !important;
+}
+
+.pointer{
+    cursor:pointer;
 }
 
 .header-description{
     background-color: #b9dddd;
     padding: 10px;
-    margin-left: -2px;
+    // margin-left: -2px;
 }
 mat-card-actions{
     margin-bottom: 0px !important;
@@ -36,4 +40,8 @@ mat-card-actions{
 
 .skeleton-item{
     margin: 10px;
+}
+
+.mat-card-avatar{
+    width: 75% !important;
 }

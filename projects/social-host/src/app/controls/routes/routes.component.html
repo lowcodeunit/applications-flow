@@ -33,7 +33,8 @@
         </lcu-analytics-card> -->
   </div>
   <div>
-    <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
+    <!-- will need to transfer over to LoadingFeed -->
+    <lcu-skeleton-feed-card *ngIf="State?.Loading"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">
       <div *ngFor="let feedItem of State?.Feed">

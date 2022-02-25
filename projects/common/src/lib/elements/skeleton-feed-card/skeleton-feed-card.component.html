@@ -1,0 +1,37 @@
+<mat-card class="social-card">
+    <mat-card-header>
+      
+      <skeleton-avatar mat-card-avatar size="100" [effect]="SkeletonEffect"></skeleton-avatar>
+  
+      <mat-card-title skeleton-text [effect]="SkeletonEffect">FeedItem Title</mat-card-title>
+  
+      <mat-card-subtitle>
+        <div skeleton-text [effect]="SkeletonEffect">FeedItem Subtitle</div>
+        <div >
+          <mat-icon  skeleton-text [effect]="SkeletonEffect">check</mat-icon>
+  
+          <div skeleton-text [effect]="SkeletonEffect">Timestamp</div>
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+  
+    <mat-card-content>
+        <div skeleton-text [effect]="SkeletonEffect">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sit amet
+            ante dui. Praesent ut aliquam metus. Phasellus consectetur non eros eu
+            gravida. Vestibulum faucibus laoreet leo, ac molestie felis tincidunt
+            semper. Vivamus lorem ipsum, sagittis nec blandit sed, accumsan sed
+            dolor. Etiam tincidunt vel ligula ut malesuada. Nulla sit amet fermentum
+            libero. Quisque magna tellus, pellentesque in convallis vitae, aliquet
+            et orci. Pellentesque commodo ante id est viverra posuere ac vitae
+            ligula. Ut sed ullamcorper purus. Integer sit amet lorem eros.
+        </div>
+    </mat-card-content>
+  
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+        <div skeleton-text [effect]="SkeletonEffect">Button Text</div>
+        <div skeleton-text [effect]="SkeletonEffect">Button Text</div>
+        <div skeleton-text [effect]="SkeletonEffect">Button Text</div>
+        <div skeleton-text [effect]="SkeletonEffect">Button Text</div>
+    </mat-card-actions>
+  </mat-card>

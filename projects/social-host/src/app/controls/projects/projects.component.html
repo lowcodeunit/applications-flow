@@ -42,25 +42,10 @@
     <!-- Commented out until github api is hooked up -->
     <!-- <lcu-gh-control></lcu-gh-control> -->
 
-    <!-- <lcu-feed-card-sm
-        title="Build 54"
-        subtext="main"
-        description="description for testing"
-        icon="cancel"
-      >
-        <div actions>
-          <button mat-icon-button (click)="LaunchBuildClicked()">
-            <mat-icon>launch</mat-icon>
-          </button>
-          <button mat-raised-button (click)="ViewBuildDetails()">
-            View Full Details
-          </button>
-        </div>
-      </lcu-feed-card-sm>
+    
 
-        </lcu-feed-card-sm> -->
-
-    <lcu-loader [loading]="State?.LoadingFeed"></lcu-loader>
+    <!-- will need to transfer over to LoadingFeed -->
+    <lcu-skeleton-feed-card *ngIf="State?.Loading"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">
       <div *ngFor="let feedItem of State?.Feed">
