@@ -116,6 +116,7 @@
           mat-raised-button
           class="mat-full-width"
           (click)="ToggleSlices('Projects')"
+          *ngIf="NumberOfProjects > 5"
         >
           {{ Slices.Projects == NumberOfProjects ? "Show Less" : "Show More" }}
 
@@ -196,6 +197,7 @@
           mat-raised-button
           class="mat-full-width"
           (click)="ToggleSlices('Pipelines')"
+          *ngIf="NumberOfPipelines > 5"
         >
           {{
             Slices.Pipelines == NumberOfPipelines ? "Show Less" : "Show More"
@@ -278,6 +280,7 @@
           mat-raised-button
           class="mat-full-width"
           (click)="ToggleSlices('Sources')"
+          *ngIf="NumberOfSourceControls > 5"
         >
           {{
             Slices.Sources == NumberOfSourceControls ? "Show Less" : "Show More"
