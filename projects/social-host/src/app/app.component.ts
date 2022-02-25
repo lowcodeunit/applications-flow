@@ -61,14 +61,10 @@ export class AppComponent {
     await Promise.all([
       this.eacSvc.HasValidConnection(),
       this.eacSvc.EnsureUserEnterprise(),
-    ]);
-
-    await Promise.all([
       this.eacSvc.ListEnterprises(),
       this.eacSvc.GetActiveEnterprise(),
+      this.getFeedInfo()
     ]);
-
-    await this.getFeedInfo();
   }
 
   protected async getFeedInfo(): Promise<void> {

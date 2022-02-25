@@ -13,6 +13,7 @@ import {
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -20,7 +21,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./enterprise.component.scss'],
 })
 export class EnterpriseComponent implements OnInit {
-  
   public get ActiveEnvironment(): EaCEnvironmentAsCode {
     return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
   }
@@ -79,6 +79,10 @@ export class EnterpriseComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public Slices: { [key: string]: number };
+
+  public SlicesCount: number;
+
   public IsInfoCardEditable: boolean;
 
   public IsInfoCardShareable: boolean;
@@ -91,6 +95,14 @@ export class EnterpriseComponent implements OnInit {
   ) {
     this.IsInfoCardEditable = false;
     this.IsInfoCardShareable = false;
+
+    this.SlicesCount = 5;
+
+    this.Slices = {
+      Projects: this.SlicesCount,
+      Pipelines: this.SlicesCount,
+      Sources: this.SlicesCount,
+    };
   }
 
   public ngOnInit(): void {
@@ -137,6 +149,25 @@ export class EnterpriseComponent implements OnInit {
 
   public RouteToPath(path: string): void {
     window.location.href = path;
+  }
+
+  public ToggleSlices(type: string) {
+    let count = this.Slices[type];
+
+    let length =
+      type === 'Projects'
+        ? this.NumberOfProjects
+        : type === 'Pipelines'
+        ? this.NumberOfPipelines
+        : type === 'Sources'
+        ? this.NumberOfSourceControls
+        : this.SlicesCount;
+
+    if (count === length) {
+      this.Slices[type] = this.SlicesCount;
+    } else {
+      this.Slices[type] = length;
+    }
   }
 
   public UpgradeClicked() {}
