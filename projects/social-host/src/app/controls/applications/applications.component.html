@@ -41,7 +41,7 @@
   </div>
   <div>
     <!-- will need to transfer over to LoadingFeed -->
-    <lcu-skeleton-feed-card *ngIf="State?.Loading"></lcu-skeleton-feed-card>
+    <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">
       <div *ngFor="let feedItem of State?.Feed">
