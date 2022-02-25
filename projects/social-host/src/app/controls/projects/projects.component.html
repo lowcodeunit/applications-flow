@@ -1,24 +1,23 @@
-
 <lcu-breadcrumb [project-lookup]="ProjectLookup"> </lcu-breadcrumb>
 
 <lcu-three-column>
   <!-- left column -->
   <div left>
-    <lcu-project-info-card 
-      [name]="Project?.Project?.Name" 
+    <lcu-project-info-card
+      [name]="Project?.Project?.Name"
       [description]="Project?.Project?.Description"
-      [is-editable]="IsInfoCardEditable" 
-      [is-shareable]="IsInfoCardShareable" 
-      [subtext]="Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : '' " 
+      [is-editable]="IsInfoCardEditable"
+      [is-shareable]="IsInfoCardShareable"
+      [subtext]="
+        Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''
+      "
       (left-click-event)="HandleLeftClickEvent($event)"
-      (right-click-event)="HandleRightClickEvent($event)">
-
+      (right-click-event)="HandleRightClickEvent($event)"
+    >
       <!-- Commented out until implemented -->
       <!-- <lcu-card-carousel
         [stats]="Stats">
         </lcu-card-carousel> -->
-
-      
 
       <button
         action
@@ -42,15 +41,12 @@
     <!-- Commented out until github api is hooked up -->
     <!-- <lcu-gh-control></lcu-gh-control> -->
 
-    
-
     <!-- will need to transfer over to LoadingFeed -->
     <lcu-skeleton-feed-card *ngIf="State?.Loading"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">
       <div *ngFor="let feedItem of State?.Feed">
-        <lcu-main-feed-card [feed-item]="feedItem">
-        </lcu-main-feed-card>
+        <lcu-main-feed-card [feed-item]="feedItem"> </lcu-main-feed-card>
       </div>
     </ng-container>
     <!-- Commented out until implemented -->
@@ -58,80 +54,101 @@
 
   <!-- right column -->
   <div right>
-    <lcu-slotted-card 
-      title="Routes" 
-      icon="route" 
-      [main-slot-description]="NumberOfRoutes + ' route(s) configured'" 
+    <lcu-slotted-card
+      title="Routes"
+      icon="route"
+      [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
       secondary-slot-description="Add quick route"
       (main-action-clicked)="OpenNewAppDialog($event)"
       action-text="Create New Application"
     >
-      <div
-        class="main-slot-container"
-        fxLayout="row"
-        *ngFor="let appRoute of ApplicationRoutes"
-      >
+      <div>
         <div
-          class="slot-content"
+          class="main-slot-container"
           fxLayout="row"
-          fxLayoutAlign="space-between center"
+          *ngFor="let appRoute of ApplicationRoutes | slice: 0:Slices.Routes"
         >
-          <div class="slot-header-container" fxLayout="column">
-            <div class="slot-header" fxLayout="row">
-              <!-- this icon is a temp placeholder -->
-              <!-- <mat-icon class="slot-icon">route</mat-icon> -->
-              <div *ngIf="appRoute" class="slot-name">{{ appRoute }}</div>
-            </div>
+          <div
+            class="slot-content"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+          >
+            <div class="slot-header-container" fxLayout="column">
+              <div class="slot-header" fxLayout="row">
+                <!-- this icon is a temp placeholder -->
+                <!-- <mat-icon class="slot-icon">route</mat-icon> -->
+                <div *ngIf="appRoute" class="slot-name">{{ appRoute }}</div>
+              </div>
 
-            <div>
-              <div *ngIf="appRoute.Description" class="slot-description">
-                {{ appRoute.Description }}
+              <div>
+                <div *ngIf="appRoute.Description" class="slot-description">
+                  {{ appRoute.Description }}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div
-            class="slot-actions-container"
-            fxLayout="row"
-            fxLayoutAlign="space-around center"
-          >
-            <!-- <div 
+            <div
+              class="slot-actions-container"
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+            >
+              <!-- <div 
               class="main-slot-container" 
               fxLayout="row" 
               *ngFor="let appRoute of ApplicationRoutes"
             > -->
-            <div
-              class="slot-content"
-              fxLayout="row"
-              fxLayoutAlign="space-between center"
-            >
-              <a
-                class="slot-action-anchor"
-                [routerLink]="['/routes', appRoute, ProjectLookup]"
+              <div
+                class="slot-content"
+                fxLayout="row"
+                fxLayoutAlign="space-between center"
               >
-                <mat-icon class="action-icon">edit</mat-icon>
-              </a>
-              <a
-                class="slot-action-anchor"
-                [href]="
-                  'https://' +
-                  Project?.Hosts[Project?.Hosts?.length - 1] +
-                  appRoute
-                "
-                target="_blank"
-              >
-                <mat-icon class="action-icon">launch</mat-icon>
-              </a>
+                <a
+                  class="slot-action-anchor"
+                  [routerLink]="['/routes', appRoute, ProjectLookup]"
+                >
+                  <mat-icon class="action-icon">edit</mat-icon>
+                </a>
+                <a
+                  class="slot-action-anchor"
+                  [href]="
+                    'https://' +
+                    Project?.Hosts[Project?.Hosts?.length - 1] +
+                    appRoute
+                  "
+                  target="_blank"
+                >
+                  <mat-icon class="action-icon">launch</mat-icon>
+                </a>
+              </div>
+              <!-- </div> -->
             </div>
-            <!-- </div> -->
           </div>
         </div>
+
+        <button
+          mat-raised-button
+          class="mat-full-width"
+          (click)="ToggleSlices('Routes')"
+          *ngIf="NumberOfRoutes > 5"
+        >
+          {{
+            Slices.Routes == NumberOfRoutes ? "Show Less" : "Show More"
+          }}
+
+          <mat-icon>
+            {{
+              Slices.Routes == NumberOfRoutes
+                ? "expand_less"
+                : "expand_more"
+            }}
+          </mat-icon>
+        </button>
       </div>
     </lcu-slotted-card>
 
-    <lcu-slotted-card 
-      title="Custom Domain" 
-      icon="domain" 
+    <lcu-slotted-card
+      title="Custom Domain"
+      icon="domain"
       main-slot-description="Current Domain"
     >
       <div class="main-slot-container" fxLayout="row">
@@ -142,7 +159,7 @@
         >
           <div class="slot-header-container" fxLayout="column">
             <div class="slot-header" fxLayout="row">
-              <div *ngIf="Project?.Hosts" class="slot-name" >
+              <div *ngIf="Project?.Hosts" class="slot-name">
                 {{ Project?.Hosts[Project?.Hosts?.length - 1] }}
               </div>
             </div>

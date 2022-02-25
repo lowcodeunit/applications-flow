@@ -66,7 +66,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   public get NumberOfRoutes(): number {
-    return this.ApplicationLookups?.length;
+    return this.ApplicationRoutes?.length;
   }
 
   public get RoutedApplications(): {
@@ -140,6 +140,10 @@ export class ProjectsComponent implements OnInit {
     return routeSetResult;
   }
 
+  public Slices: { [key: string]: number };
+
+  public SlicesCount: number;
+
   public Stats: any[];
 
   public ProjectLookup: string;
@@ -166,6 +170,12 @@ export class ProjectsComponent implements OnInit {
 
     this.IsInfoCardEditable = false;
     this.IsInfoCardShareable = false;
+    
+    this.SlicesCount = 5;
+
+    this.Slices = {
+      Routes: this.SlicesCount,
+    };
   }
 
   public ngOnInit(): void {
@@ -225,6 +235,21 @@ export class ProjectsComponent implements OnInit {
 
   public LaunchBuildClicked() {
     console.log('launch build clicked');
+  }
+
+  public ToggleSlices(type: string) {
+    let count = this.Slices[type];
+
+    let length =
+      type === 'Routes'
+        ? this.NumberOfRoutes
+        : this.SlicesCount;
+
+    if (count === length) {
+      this.Slices[type] = this.SlicesCount;
+    } else {
+      this.Slices[type] = length;
+    }
   }
 
   public ViewBuildDetails() {
