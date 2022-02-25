@@ -308,10 +308,6 @@ export class ProjectService {
           this.CreatingProject =
             Object.keys(state?.EaC?.Projects || {}).length <= 0;
 
-          if (this.CreatingProject) {
-            window.location.href = '/dashboard/create-project';
-          }
-
           resolve(state.EaC);
 
           console.log(state);
