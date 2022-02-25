@@ -39,14 +39,14 @@
   </ng-container>
 
   <div right>
-    <!-- Projects -->
+    <!-- Projects
+      secondary-slot-description="Add new quick project" 
+      action-text="Create Custom Project"
+      (main-action-clicked)="RouteToPath('/dashboard/create-project')"-->
     <lcu-slotted-card
       title="Projects"
       icon="work_outline"
       [main-slot-description]="NumberOfProjects + ' project(s) configured'"
-      secondary-slot-description="Add new quick project"
-      action-text="Create Custom Project"
-      (main-action-clicked)="RouteToPath('/dashboard/create-project')"
     >
       <div>
         <div
@@ -130,16 +130,17 @@
         </button>
       </div>
 
-      <div secondary></div>
+      <!-- <div secondary></div> -->
     </lcu-slotted-card>
 
+    <!-- Pipelines 
+      secondary-slot-description="Add new pipeline"
+      action-text="Create New Pipeline"
+      (main-action-clicked)="OpenBuildPipelineDialog(null)" -->
     <lcu-slotted-card
       title="Build Pipeline"
       icon="plumbing"
       [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
-      secondary-slot-description="Add new pipeline"
-      action-text="Create New Pipeline"
-      (main-action-clicked)="OpenBuildPipelineDialog(null)"
     >
       <div>
         <div
@@ -214,15 +215,16 @@
       </div>
     </lcu-slotted-card>
 
+    <!-- Sources 
+      secondary-slot-description="Add new source control"
+      action-text="Create New Source Control"
+      (main-action-clicked)="OpenSourceControlDialog(null)" -->
     <lcu-slotted-card
       title="Source Controls"
       icon="build"
       [main-slot-description]="
         NumberOfSourceControls + ' source control(s) configured'
       "
-      secondary-slot-description="Add new source control"
-      action-text="Create New Source Control"
-      (main-action-clicked)="OpenSourceControlDialog(null)"
     >
       <div>
         <div
