@@ -1,6 +1,8 @@
 <div class="breadcrumb-container" fxLayout="row wrap">
+
   <div fxLayout="row" fxLayoutAlign="center center">
-    <ng-container *ngIf="Loading">
+
+    <ng-container *ngIf="State?.Loading || Loading">
       <div skeleton-text [effect]="SkeletonEffect">Enterprise Name</div>
     </ng-container>
 
