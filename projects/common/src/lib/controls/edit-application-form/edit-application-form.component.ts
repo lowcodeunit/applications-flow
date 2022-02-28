@@ -88,8 +88,10 @@ export class EditApplicationFormComponent implements OnInit {
       ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
     };
 
-    let status = this.eacSvc.SaveApplicationAsCode(saveAppReq);
-    this.SaveFormEvent.emit(status);
+    this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
+      this.SaveFormEvent.emit(res);
+    })
+    
   }
 
   //HELPERS

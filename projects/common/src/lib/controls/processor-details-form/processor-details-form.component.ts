@@ -117,7 +117,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State
   }
-  
+
   public get SourceControls(): { [lookup: string]: EaCSourceControl } {
     return this.Environment?.Sources || {};
   }
@@ -328,7 +328,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
       ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
     };
 
-    this.eacSvc.SaveApplicationAsCode(saveAppReq);
+    this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
+      this.SaveFormEvent.emit(res);
+    });
   }
 
   public SetEditingApplication(appLookup: string): void {
@@ -338,13 +340,13 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.setupProcessorDetailsForm();
   }
 
-  public SubmitProcessorDetails() {
-    console.log(
-      'submitting proc details: ',
-      this.ProcessorDetailsFormGroup.value
-    );
-    this.SaveFormEvent.emit(this.ProcessorDetailsFormGroup.value);
-  }
+  // public SubmitProcessorDetails() {
+  //   console.log(
+  //     'submitting proc details: ',
+  //     this.ProcessorDetailsFormGroup.value
+  //   );
+  //   this.SaveFormEvent.emit(this.ProcessorDetailsFormGroup.value);
+  // }
 
   public ProcessorTypeChanged(event: MatSelectChange): void {
     this.ProcessorType = event.value;
