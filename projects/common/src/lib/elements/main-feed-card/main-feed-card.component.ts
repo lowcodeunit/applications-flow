@@ -58,7 +58,12 @@ export class MainFeedCardComponent implements OnInit {
         window.location.href = action.Action;
       }
     } else if (action.ActionType == 'Modal') {
-      alert('modaled ' + action.Action);
+      if (action.Action == 'AddSourceControl') {
+        //  TODO:  George launch source control modal
+        alert('AddSourceControl modaled');
+      } else {
+        alert('other modaled ' + action.Action);
+      }
     }
   }
 

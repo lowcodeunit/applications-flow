@@ -21,6 +21,12 @@ export class SlottedCardComponent implements OnInit {
   @Input('main-slot-description') 
   public MainSlotDescription: string;
 
+  @Input('main-icon') 
+  public MainIcon: string;
+
+  @Input('show-main-icon') 
+  public ShowMainIcon: boolean;
+
   @Input('title') 
   public Title: string;
 
@@ -40,6 +46,10 @@ export class SlottedCardComponent implements OnInit {
   constructor(protected eacSvc: EaCService) { 
     this.MainActionClicked = new EventEmitter;
     this.SkeletonEffect = 'wave';
+
+    this.MainIcon = 'add';
+
+    this.ShowMainIcon = true;
   }
 
   public ngOnInit(): void {
