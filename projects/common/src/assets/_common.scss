@@ -1,6 +1,10 @@
 @import '../../../../node_modules/@lcu/common/assets/styles/fathym-global.styles';
 @import '../../../../node_modules/@lcu/common/assets/theming/common-theme';
 @import "../../../../node_modules/skeleton-elements/scss/skeleton-elements";
+
+/**
+* setup the theme
+*/
 @include theme-setup($global-theme);
 
 /**
