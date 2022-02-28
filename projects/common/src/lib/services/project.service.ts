@@ -408,7 +408,7 @@ export class ProjectService {
               this.LoadUserFeed(1, 25, state)
             ])
 
-            resolve(results[0].Status);
+            resolve(response.Status);
           } else {
             state.Loading = false;
 
