@@ -329,6 +329,7 @@ export class ProjectService {
   ): Promise<EnterpriseAsCode> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
+      state.LoadingFeed = true;
 
       this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
         async (response: BaseResponse) => {
@@ -337,9 +338,12 @@ export class ProjectService {
 
             state.ActiveEnterpriseLookup = activeEntLookup;
 
-            const eac = await this.LoadEnterpriseAsCode(state);
+            var results = Promise.all([
+              this.LoadEnterpriseAsCode(state),
+              this.UserFeed(1, 25, state)
+            ])
 
-            resolve(eac);
+            resolve(results[0]);
           } else {
             state.Loading = false;
 
@@ -369,9 +373,12 @@ export class ProjectService {
       this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
         async (response: BaseModeledResponse<string>) => {
           if (response.Status.Code === 0) {
-            eac = await this.LoadEnterpriseAsCode(state);
+            var results = Promise.all([
+              this.LoadEnterpriseAsCode(state),
+              this.UserFeed(1, 25, state)
+            ])
 
-            resolve(eac);
+            resolve(results[0]);
           } else {
             state.Loading = false;
 

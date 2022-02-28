@@ -41,12 +41,12 @@
   <div right>
     <!-- Projects
       secondary-slot-description="Add new quick project" 
-      action-text="Create Custom Project"
-      (main-action-clicked)="RouteToPath('/dashboard/create-project')"-->
+      action-text="Create Custom Project"-->
     <lcu-slotted-card
       title="Projects"
       icon="work_outline"
       [main-slot-description]="NumberOfProjects + ' project(s) configured'"
+      (main-action-clicked)="RouteToPath('/dashboard/create-project')"
     >
       <div>
         <div
@@ -133,98 +133,16 @@
       <!-- <div secondary></div> -->
     </lcu-slotted-card>
 
-    <!-- Pipelines 
-      secondary-slot-description="Add new pipeline"
-      action-text="Create New Pipeline"
-      (main-action-clicked)="OpenBuildPipelineDialog(null)" -->
-    <lcu-slotted-card
-      title="Build Pipeline"
-      icon="plumbing"
-      [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
-    >
-      <div>
-        <div
-          class="main-slot-container"
-          fxLayout="row"
-          *ngFor="
-            let doaLookup of DevOpsActionLookups | slice: 0:Slices.Pipelines
-          "
-        >
-          <div
-            class="slot-content"
-            *ngIf="DevOpsActions[doaLookup]; let doa"
-            fxLayout="row"
-            fxLayoutAlign="space-between center"
-            [title]="doa?.Name"
-          >
-            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
-            <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row">
-                <!-- this icon is a temp placeholder -->
-                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="doa?.Name?.length > 28" class="slot-name">
-                  {{ doa?.Name | slice: 0:25 }}...
-                </div>
-                <div
-                  *ngIf="doa?.Name?.length < 28 || doa?.Name?.length == 28"
-                  class="slot-name"
-                >
-                  {{ doa?.Name }}
-                </div>
-              </div>
-
-              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
-            </div>
-
-            <div
-              class="slot-actions-container"
-              fxLayout="row"
-              fxLayoutAlign="space-around center"
-            >
-              <a
-                class="slot-action-anchor"
-                (click)="OpenBuildPipelineDialog(doaLookup)"
-              >
-                <mat-icon class="action-icon">edit</mat-icon>
-              </a>
-              <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
-                        <mat-icon class="action-icon">launch</mat-icon>
-                    </a> -->
-            </div>
-          </div>
-        </div>
-
-        <button
-          mat-raised-button
-          class="mat-full-width"
-          (click)="ToggleSlices('Pipelines')"
-          *ngIf="NumberOfPipelines > 5"
-        >
-          {{
-            Slices.Pipelines == NumberOfPipelines ? "Show Less" : "Show More"
-          }}
-
-          <mat-icon>
-            {{
-              Slices.Projects == NumberOfProjects
-                ? "expand_less"
-                : "expand_more"
-            }}
-          </mat-icon>
-        </button>
-      </div>
-    </lcu-slotted-card>
-
     <!-- Sources 
       secondary-slot-description="Add new source control"
-      action-text="Create New Source Control"
-      (main-action-clicked)="OpenSourceControlDialog(null)" -->
+      action-text="Create New Source Control" -->
     <lcu-slotted-card
       title="Source Controls"
       icon="build"
       [main-slot-description]="
         NumberOfSourceControls + ' source control(s) configured'
       "
+      (main-action-clicked)="OpenSourceControlDialog(null)"
     >
       <div>
         <div
@@ -291,6 +209,88 @@
           <mat-icon>
             {{
               Slices.Sources == NumberOfSourceControls
+                ? "expand_less"
+                : "expand_more"
+            }}
+          </mat-icon>
+        </button>
+      </div>
+    </lcu-slotted-card>
+
+    <!-- Pipelines 
+      secondary-slot-description="Add new pipeline"
+      action-text="Create New Pipeline" -->
+    <lcu-slotted-card
+      title="Build Pipeline"
+      icon="plumbing"
+      [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
+      (main-action-clicked)="OpenBuildPipelineDialog(null)"
+    >
+      <div>
+        <div
+          class="main-slot-container"
+          fxLayout="row"
+          *ngFor="
+            let doaLookup of DevOpsActionLookups | slice: 0:Slices.Pipelines
+          "
+        >
+          <div
+            class="slot-content"
+            *ngIf="DevOpsActions[doaLookup]; let doa"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+            [title]="doa?.Name"
+          >
+            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+            <div class="slot-header-container">
+              <div class="slot-header" fxLayout="row">
+                <!-- this icon is a temp placeholder -->
+                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                <div *ngIf="doa?.Name?.length > 28" class="slot-name">
+                  {{ doa?.Name | slice: 0:25 }}...
+                </div>
+                <div
+                  *ngIf="doa?.Name?.length < 28 || doa?.Name?.length == 28"
+                  class="slot-name"
+                >
+                  {{ doa?.Name }}
+                </div>
+              </div>
+
+              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+            </div>
+
+            <div
+              class="slot-actions-container"
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+            >
+              <a
+                class="slot-action-anchor"
+                (click)="OpenBuildPipelineDialog(doaLookup)"
+              >
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a>
+              <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a> -->
+            </div>
+          </div>
+        </div>
+
+        <button
+          mat-raised-button
+          class="mat-full-width"
+          (click)="ToggleSlices('Pipelines')"
+          *ngIf="NumberOfPipelines > 5"
+        >
+          {{
+            Slices.Pipelines == NumberOfPipelines ? "Show Less" : "Show More"
+          }}
+
+          <mat-icon>
+            {{
+              Slices.Projects == NumberOfProjects
                 ? "expand_less"
                 : "expand_more"
             }}

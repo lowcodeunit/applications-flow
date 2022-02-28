@@ -10,10 +10,8 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 })
 export class BreadcrumbComponent implements OnInit {
   public get Enterprise(): any {
-    return (
-      this.State.Enterprises?.find(
-        (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
-      ) ?? this.State.Enterprises ? this.State.Enterprises[0] : null
+    return this.State.Enterprises?.find(
+      (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
     );
   }
 
@@ -48,7 +46,9 @@ export class BreadcrumbComponent implements OnInit {
   }
 
   public get Loading(): boolean {
-    return this.State?.LoadingActiveEnterprise || this.State?.LoadingEnterprises;
+    return (
+      this.State?.LoadingActiveEnterprise || this.State?.LoadingEnterprises
+    );
   }
 
   public get Projects(): any {

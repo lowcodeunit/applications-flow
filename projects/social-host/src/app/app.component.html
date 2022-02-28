@@ -1,46 +1,28 @@
 <div fxLayout="column" fxFlexFill>
+  <mat-toolbar class="social-toolbar" color="primary">
+    <img class="logo" src="./assets/svgs/logo.svg" />
 
-  <mat-toolbar
-    class="social-toolbar"
-    color="primary"
-    fxLayout="row"
-    fxLayoutAlign="space-between center"
-  >
-  
-    <div fxLayout="row" fxLayoutAlign="space-around center" fxFlex="40%" >
-      <img class="logo" src="./assets/svgs/logo.svg">
-    </div>
+    <div fxFlex></div>
 
     <ng-container *ngIf="!IsSmScreen">
-
-      <div 
-        class="toolbar-actions-container" 
-        fxLayout="row" 
-        fxLayoutAlign="space-around center" 
-        fxFlex="25%"
-      >
-        <a class="toolbar-action" href="/docs">Docs</a>
-        <a class="toolbar-action" href="/blog">Blog</a>
-        <a class="toolbar-action" href="/.oauth/logout">Logout</a>
-
-      </div>
+      <a mat-button class="toolbar-action" href="/docs">Docs</a>
+      <a mat-button class="toolbar-action" href="/blog">Blog</a>
+      <a mat-button class="toolbar-action" href="/.oauth/logout">Logout</a>
     </ng-container>
 
     <ng-container *ngIf="IsSmScreen">
-
       <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
         <mat-icon>menu</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
         <a class="toolbar-menu-action" mat-menu-item href="/docs">Docs</a>
         <a class="toolbar-menu-action" mat-menu-item href="/blog">Blog</a>
-        <a class="toolbar-menu-action" mat-menu-item href="/.oauth/logout">Logout</a>
+        <a class="toolbar-menu-action" mat-menu-item href="/.oauth/logout"
+          >Logout</a
+        >
       </mat-menu>
     </ng-container>
-
   </mat-toolbar>
 
-
-
-  <router-outlet ></router-outlet>
+  <router-outlet></router-outlet>
 </div>

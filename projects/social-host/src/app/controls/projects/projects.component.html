@@ -54,13 +54,14 @@
 
   <!-- right column -->
   <div right>
+    <!-- Routes
+      secondary-slot-description="Add quick route"
+      action-text="Create New Application" -->
     <lcu-slotted-card
       title="Routes"
       icon="route"
       [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
-      secondary-slot-description="Add quick route"
       (main-action-clicked)="OpenNewAppDialog($event)"
-      action-text="Create New Application"
     >
       <div>
         <div
@@ -146,6 +147,7 @@
       </div>
     </lcu-slotted-card>
 
+    <!-- Domains -->
     <lcu-slotted-card
       title="Custom Domain"
       icon="domain"

@@ -155,6 +155,10 @@ export class RoutesComponent implements OnInit {
 
   public Routes: any;
 
+  public Slices: { [key: string]: number };
+
+  public SlicesCount: number;
+
   public Stats: any[];
 
   constructor(
@@ -177,6 +181,12 @@ export class RoutesComponent implements OnInit {
 
     this.IsInfoCardEditable = false;
     this.IsInfoCardShareable = false;
+    
+    this.SlicesCount = 5;
+
+    this.Slices = {
+      Applications: this.SlicesCount,
+    };
   }
 
   public ngOnInit(): void {
@@ -230,6 +240,21 @@ export class RoutesComponent implements OnInit {
 
   public SettingsClicked() {
     console.log('Settings Clicked');
+  }
+
+  public ToggleSlices(type: string) {
+    let count = this.Slices[type];
+
+    let length =
+      type === 'Applications'
+        ? this.NumberOfApps
+        : this.SlicesCount;
+
+    if (count === length) {
+      this.Slices[type] = this.SlicesCount;
+    } else {
+      this.Slices[type] = length;
+    }
   }
 
   public TrashRouteClicked() {

@@ -19,6 +19,8 @@ export class FeedItem {
 
   public IsShortForm: boolean;
 
+  public RefreshLink: string;
+
   public Status: Status;
 
   public Subtitle: string;

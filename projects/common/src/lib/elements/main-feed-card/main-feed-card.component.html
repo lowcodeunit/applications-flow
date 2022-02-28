@@ -12,9 +12,17 @@
     <mat-card-subtitle>
       <div *ngIf="FeedItem.Subtitle">{{ FeedItem.Subtitle }}</div>
       <div *ngIf="FeedItem.Status">
-        <mat-icon *ngIf="Icon" [style.color]="IconColor">{{ Icon }}</mat-icon>
+        <mat-icon
+          *ngIf="Icon"
+          [style.color]="IconColor"
+          [class.spin]="FeedItem.Status?.Code == 2"
+        >
+          {{ Icon }}
+        </mat-icon>
 
-        <div *ngIf="FeedItem.Timestamp">{{ CalculateTimelapse(FeedItem.Timestamp) }}</div>
+        <span *ngIf="FeedItem.Timestamp">
+          {{ CalculateTimelapse(FeedItem.Timestamp) }}
+        </span>
       </div>
     </mat-card-subtitle>
   </mat-card-header>
@@ -29,7 +37,15 @@
     </div> -->
   </div>
 
-  <!-- <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
-      Actions will be provided
-  </mat-card-actions> -->
+  <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+    <div fxFlex></div>
+
+    <ng-container *ngFor="let action of FeedItem.Actions">
+      <button mat-button [color]="action.Color" (click)="HandleAction(action)">
+        <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
+
+        {{ action.Text }}
+      </button>
+    </ng-container>
+  </mat-card-actions>
 </mat-card>
