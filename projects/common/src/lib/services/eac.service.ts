@@ -15,7 +15,7 @@ import {
 } from '@semanticjs/common';
 import { FeedItem } from '../models/user-feed.model';
 import { HttpClient } from '@angular/common/http';
-import { BaseModeledResponse } from '@lcu/common';
+import { BaseModeledResponse, Status } from '@lcu/common';
 import { Observable } from 'rxjs';
 
 export class SaveApplicationAsCodeEventRequest {
@@ -137,8 +137,8 @@ export class EaCService {
 
   public async SaveApplicationAsCode(
     req: SaveApplicationAsCodeEventRequest
-  ): Promise<void> {
-    await this.handleSaveApplication(req);
+  ): Promise<Status> {
+    return await this.handleSaveApplication(req);
   }
 
   public async SaveDFSModifier(
@@ -153,8 +153,8 @@ export class EaCService {
 
   public async SaveEnvironmentAsCode(
     req: SaveEnvironmentAsCodeEventRequest
-  ): Promise<void> {
-    await this.handleSaveEnvironment(req);
+  ): Promise<Status> {
+    return await this.handleSaveEnvironment(req);
   }
 
   public async SaveProjectAsCode(
@@ -188,7 +188,7 @@ export class EaCService {
   //  Helpers
   protected async handleSaveApplication(
     req: SaveApplicationAsCodeEventRequest
-  ): Promise<void> {
+  ): Promise<Status> {
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
       Applications: {},
@@ -213,7 +213,7 @@ export class EaCService {
       saveEaC.Applications[req.ApplicationLookup] = req.Application;
     }
 
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+    return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
   }
 
   protected async handleSaveDFSModifier(
@@ -240,7 +240,7 @@ export class EaCService {
 
   protected async handleSaveEnvironment(
     req: SaveEnvironmentAsCodeEventRequest
-  ): Promise<void> {
+  ): Promise<Status> {
     const saveEaC: EnterpriseAsCode = {
       EnterpriseLookup: this.State?.EaC?.EnterpriseLookup,
       DataTokens: {},
@@ -255,13 +255,14 @@ export class EaCService {
       saveEaC.DataTokens = req.EnterpriseDataTokens;
     }
 
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+    return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+    
   }
 
   protected async handleSaveProject(
     projectLookup: string,
     project: EaCProjectAsCode
-  ): Promise<void> {
+  ): Promise<Status> {
     const projHosts: { [lookup: string]: EaCHost } = {};
 
     project?.Hosts?.forEach((host) => {
@@ -281,8 +282,10 @@ export class EaCService {
 
     saveEaC.Projects[projectLookup] = project;
 
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+    let status = await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
 
     this.SetEditProjectSettings(projectLookup);
+
+    return status;
   }
 }

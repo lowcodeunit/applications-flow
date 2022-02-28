@@ -103,6 +103,7 @@
       <mat-card-actions fxLayoutAlign="center center">
 
         <button 
+          *ngIf="!State?.Loading"
           mat-raised-button 
           type="submit" 
           fxFlex="100%" 
@@ -111,6 +112,7 @@
           <mat-icon>save</mat-icon>
           Save Build Pipeline
         </button>
+        <lcu-loader [loading]="State?.Loading"></lcu-loader>  
         
     </mat-card-actions>
     </mat-card>

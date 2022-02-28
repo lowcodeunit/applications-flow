@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseModeledResponse, BaseResponse } from '@lcu/common';
+import { BaseModeledResponse, BaseResponse, Status } from '@lcu/common';
 import { debug } from 'console';
 import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
 import {
@@ -396,7 +396,7 @@ export class ProjectService {
   public async SaveEnterpriseAsCode(
     state: ApplicationsFlowState,
     eac: EnterpriseAsCode
-  ): Promise<EnterpriseAsCode> {
+  ): Promise<Status> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 

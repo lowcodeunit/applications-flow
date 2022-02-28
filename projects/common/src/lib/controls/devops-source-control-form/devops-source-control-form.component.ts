@@ -1,14 +1,14 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatSelectChange } from '@angular/material/select';
-import { BaseModeledResponse, BaseResponse, Guid } from '@lcu/common';
+import { BaseModeledResponse, BaseResponse, Guid, Status } from '@lcu/common';
 import { EaCArtifact, EaCDevOpsAction, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService, SaveEnvironmentAsCodeEventRequest } from '../../services/eac.service';
-import { GitHubBranch, GitHubOrganization, GitHubRepository, ProjectHostingDetails } from '../../state/applications-flow.state';
+import { ApplicationsFlowState, GitHubBranch, GitHubOrganization, GitHubRepository, ProjectHostingDetails } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-devops-source-control-form',
@@ -27,6 +27,9 @@ export class DevopsSourceControlFormComponent
 
   @Input('environment-lookup')
   public EnvironmentLookup: string;
+
+  @Output('save-status-event')
+  public SaveStatusEvent: EventEmitter<Status>;
 
   @ViewChild('branches')
   public BranchesInput: ElementRef<HTMLInputElement>;
@@ -138,6 +141,10 @@ export class DevopsSourceControlFormComponent
 
   public get RepositoryFormControl(): AbstractControl {
     return this.DevOpsSourceControlFormGroup.get(this.SourceControlRoot + 'repository');
+  }
+
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
   }
 
   public BranchOptions: GitHubBranch[];
@@ -347,12 +354,6 @@ export class DevopsSourceControlFormComponent
 
     let artifactLookup: string;
 
-    // let artifact: EaCArtifact = {
-    //   ...this.Artifact,
-    //   ...this.HostingDetailsFormControls
-    //     .SelectedHostingOptionInputControlValues,
-    // };
-
     let artifact = this.Artifact
 
     if (!this.ArtifactLookup) {
@@ -379,31 +380,10 @@ export class DevopsSourceControlFormComponent
       const doa: EaCDevOpsAction = {
         ...this.DevOpsAction,
         ArtifactLookups: [artifactLookup],
-        // Name: this.HostingDetailsFormControls.DevOpsActionNameFormControl.value,
-        // Path: this.HostingDetailsFormControls.SelectedHostingOption.Path,
-        // Templates:
-        //   this.HostingDetailsFormControls.SelectedHostingOption.Templates,
+        
       };
 
-      // if (this.HostingDetailsFormControls.NPMTokenFormControl?.value) {
-      //   const secretLookup = 'npm-access-token';
-
-      //   doa.SecretLookups = [secretLookup];
-
-      //   saveEnvReq.Environment.Secrets[secretLookup] = {
-      //     Name: 'NPM Access Token',
-      //     DataTokenLookup: secretLookup,
-      //     KnownAs: 'NPM_TOKEN',
-      //   };
-
-      //   saveEnvReq.EnterpriseDataTokens[secretLookup] = {
-      //     Name: saveEnvReq.Environment.Secrets[secretLookup].Name,
-      //     Description: saveEnvReq.Environment.Secrets[secretLookup].Name,
-      //     Value: this.NPMTokenFormControl.value,
-      //   };
-      // }
-
-      // saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
+      
       saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = this.DevOpsAction;
 
     } else {
@@ -439,7 +419,13 @@ export class DevopsSourceControlFormComponent
 
     saveEnvReq.Environment.Sources[scLookup] = source;
 
-    this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
+    let resp = this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
+
+    resp.then(res =>{
+      this.SaveStatusEvent.emit(res);
+    })
+
+    
   }
 
   //  Helpers

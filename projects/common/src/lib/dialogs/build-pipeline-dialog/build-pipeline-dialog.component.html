@@ -8,6 +8,7 @@
     [devops-action-lookup]="data.devopsActionLookup"
     [environment]="data.environment" 
     [environment-lookup]="data.environmentLookup"
+    (response-event)="HandleResponseEvent($event)"
     >
 
 </lcu-build-pipeline-form>

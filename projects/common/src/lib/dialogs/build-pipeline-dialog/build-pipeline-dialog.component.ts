@@ -29,5 +29,9 @@ constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
     this.dialogRef.close();
   }
 
+  public HandleResponseEvent(event: any){
+    console.log("Response Event: ", event);
+  }
+
  
 }

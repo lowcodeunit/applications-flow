@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -18,6 +18,7 @@ import {
   SaveEnvironmentAsCodeEventRequest,
 } from '../../services/eac.service';
 import {
+  ApplicationsFlowState,
   ProjectHostingDetails,
   ProjectHostingOption,
 } from '../../state/applications-flow.state';
@@ -47,6 +48,9 @@ export class BuildPipelineFormComponent implements OnInit {
 
   @Input('hosting-details')
   public HostingDetails: ProjectHostingDetails;
+
+  @Output('response-event')
+  public ResponseEvent: EventEmitter<any>;
 
   public get Artifact(): EaCArtifact {
     // console.log("ARTIFACT: ", this.Environment?.Artifacts[this.ArtifactLookup]);
@@ -114,6 +118,10 @@ export class BuildPipelineFormComponent implements OnInit {
     return this.Environment.Sources || {};
   }
 
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
+
   public BuildPipelineFormGroup: FormGroup;
 
   constructor(
@@ -122,6 +130,7 @@ export class BuildPipelineFormComponent implements OnInit {
     protected appsFlowSvc: ApplicationsFlowService
   ) {
     this.HostingDetails = new ProjectHostingDetails();
+    this.ResponseEvent = new EventEmitter;
   }
 
   public ngOnInit(): void {
@@ -237,7 +246,12 @@ export class BuildPipelineFormComponent implements OnInit {
       saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
     }
 
-    this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
+    let resp;
+    this.eacSvc.SaveEnvironmentAsCode(saveEnvReq).then(res =>{
+      resp = res
+    });
+    console.log('Response', resp);
+    this.ResponseEvent.emit(resp);
   }
 
   //  Helpers

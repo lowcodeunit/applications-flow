@@ -340,7 +340,7 @@
     <mat-card-actions fxLayoutAlign="center center">
 
         <button 
-          *ngIf="HasSaveButton"
+          *ngIf="HasSaveButton && !State?.Loading"
           mat-raised-button 
           type="submit" 
           fxFlex="100%" 
@@ -349,6 +349,7 @@
           <mat-icon>save</mat-icon>
           Save Processor Details
         </button>
+        <lcu-loader [loading]="State?.Loading"></lcu-loader>
 
     </mat-card-actions>
 

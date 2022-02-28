@@ -245,7 +245,6 @@ export class ApplicationsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       // console.log('The dialog was closed');
       // console.log("result:", result.event)
-      this.SaveApplication(result.event);
     });
   }
 
@@ -280,36 +279,6 @@ export class ApplicationsComponent implements OnInit {
 
   public SettingsClicked() {}
 
-  public SaveApplication(appInfo: any): void {
-    const app: EaCApplicationAsCode = this.Application;
-    app.Application = {
-      Name: appInfo.name,
-      Description: appInfo.description,
-      PriorityShift: this.Application?.Application?.PriorityShift || 0,
-    };
-
-    app.LookupConfig.PathRegex = `${appInfo.route}.*`;
-
-    switch (app.Processor.Type) {
-      case 'DFS':
-        //will need to replace with this.RouteFormControl.value if other form added
-        app.Processor.BaseHref = `${appInfo.route}/`.replace('//', '/');
-
-        break;
-    }
-
-    if (!app.LookupConfig.PathRegex.startsWith('/')) {
-      app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
-    }
-
-    const saveAppReq: SaveApplicationAsCodeEventRequest = {
-      ProjectLookup: this.ProjectLookup,
-      Application: app,
-      ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
-    };
-
-    this.eacSvc.SaveApplicationAsCode(saveAppReq);
-  }
 
   public UpdateClicked(){
     

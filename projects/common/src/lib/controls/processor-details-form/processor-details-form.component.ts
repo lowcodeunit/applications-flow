@@ -13,8 +13,8 @@ import {
 } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Guid } from '@lcu/common';
-import { EaCApplicationAsCode, EaCSourceControl } from '@semanticjs/common';
-import { EaCService } from '../../services/eac.service';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
+import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
@@ -47,6 +47,12 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public get APIRootFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.apiRoot;
+  }
+
+  public get Environment(): EaCEnvironmentAsCode {
+    return this.State?.EaC?.Environments[
+      this.State?.EaC?.Enterprise?.PrimaryEnvironment
+    ];
   }
 
   public get BuildFormControl(): AbstractControl {
@@ -110,6 +116,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State
+  }
+  
+  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    return this.Environment?.Sources || {};
   }
 
   public get SourceControlFormControl(): AbstractControl {
@@ -178,6 +188,147 @@ export class ProcessorDetailsFormComponent implements OnInit {
     } else if (permanentValue === true && preserveValue === true) {
       this.redirectTooltip = '308 – Permanent and Preserve';
     }
+  }
+
+  public SaveProcessorDetails(event: any): void {
+
+    const app: EaCApplicationAsCode = this.EditingApplication;
+    app.LookupConfig.AllowedMethods =
+      this.MethodsFormControl?.value
+        ?.split(' ')
+        .filter((v: string) => !!v);
+    app.Processor.Type = this.ProcessorType;
+
+    switch (app.Processor.Type) {
+      case 'DFS':
+        app.Processor.DefaultFile =
+          this.DefaultFileFormControl.value ||
+          'index.html';
+
+        app.LowCodeUnit = {
+          Type: this.LCUType,
+        };
+
+        switch (app.LowCodeUnit.Type) {
+          case 'GitHub':
+            app.LowCodeUnit.Organization =
+              this.SourceControls[
+                this.SourceControlFormControl.value
+              ].Organization;
+
+            app.LowCodeUnit.Repository =
+              this.SourceControls[
+                this.SourceControlFormControl.value
+              ].Repository;
+
+            app.LowCodeUnit.Build =
+              this.BuildFormControl.value;
+
+            app.LowCodeUnit.Path =
+              this.Environment.DevOpsActions[
+                this.SourceControls[
+                  this.SourceControlFormControl.value
+                ].DevOpsActionTriggerLookups[0]
+              ].Path;
+            // console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
+
+            app.LowCodeUnit.SourceControlLookup =
+              this.SourceControlFormControl.value;
+            break;
+
+          case 'NPM':
+            app.LowCodeUnit.Package =
+              this.PackageFormControl.value;
+
+            app.LowCodeUnit.Version =
+              this.VersionFormControl.value;
+            break;
+
+          case 'WordPress':
+            app.LowCodeUnit.APIRoot =
+              this.APIRootFormControl.value;
+            break;
+
+          case 'Zip':
+            app.LowCodeUnit.ZipFile =
+              this.ZipFileFormControl.value;
+            break;
+        }
+        break;
+
+      case 'OAuth':
+        app.Processor.Scopes =
+          this.ScopesFormControl.value.split(' ');
+
+        app.Processor.TokenLookup =
+          this.TokenLookupFormControl.value;
+
+        app.LowCodeUnit = {
+          Type: this.LCUType,
+        };
+
+        switch (app.LowCodeUnit.Type) {
+          case 'GitHubOAuth':
+            app.LowCodeUnit.ClientID =
+              this.ClientIDFormControl.value;
+
+            app.LowCodeUnit.ClientSecret =
+              this.ClientSecretFormControl.value;
+            break;
+        }
+        break;
+
+      case 'Proxy':
+        app.Processor.InboundPath =
+          this.InboundPathFormControl.value;
+
+        app.LowCodeUnit = {
+          Type: this.LCUType,
+        };
+
+        switch (app.LowCodeUnit.Type) {
+          case 'API':
+            app.LowCodeUnit.APIRoot =
+              this.APIRootFormControl.value;
+
+            app.LowCodeUnit.Security =
+              this.SecurityFormControl.value;
+
+            break;
+
+          case 'SPA':
+            app.LowCodeUnit.SPARoot =
+              this.SPARootFormControl.value;
+            break;
+        }
+        break;
+
+      case 'Redirect':
+        app.Processor.IncludeRequest =
+          !!this.IncludeRequestFormControl.value;
+
+        app.Processor.Permanent =
+          !!this.PermanentFormControl.value;
+
+        app.Processor.PreserveMethod =
+          !!this.PreserveMethodFormControl.value;
+
+        app.Processor.Redirect =
+          this.RedirectFormControl.value;
+        break;
+    }
+
+    if (!app.LookupConfig.PathRegex.startsWith('/')) {
+      app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
+    }
+
+    const saveAppReq: SaveApplicationAsCodeEventRequest = {
+      ProjectLookup: this.ProjectLookup,
+      Application: app,
+      ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
+    };
+
+    this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
   public SetEditingApplication(appLookup: string): void {
@@ -336,22 +487,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     );
   }
 
-  // protected setupLCUNPMForm(): void {
-  // this.ApplicationFormGroup.addControl(
-  //   'package',
-  //   this.formBldr.control(
-  //     this.EditingApplication.LowCodeUnit?.Package || '',
-  //     [Validators.required]
-  //   )
-  // );
-  // this.ApplicationFormGroup.addControl(
-  //   'version',
-  //   this.formBldr.control(
-  //     this.EditingApplication.LowCodeUnit?.Version || '',
-  //     [Validators.required]
-  //   )
-  // );
-  // }
+  
 
   protected setupLCUSPAForm(): void {
     this.ProcessorDetailsFormGroup.addControl(

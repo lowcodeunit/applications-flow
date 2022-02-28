@@ -226,6 +226,7 @@
 
       <button 
         mat-raised-button 
+        *ngIf="!State?.Loading"
         type="submit" 
         fxFlex="100%" 
         color="primary" 
@@ -233,6 +234,7 @@
         <mat-icon>save</mat-icon>
         Save Source Control
       </button>
+      <lcu-loader [loading]="State?.Loading"></lcu-loader>
       
   </mat-card-actions>
   </mat-card>

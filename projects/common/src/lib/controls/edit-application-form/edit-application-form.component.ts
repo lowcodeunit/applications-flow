@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Guid } from '@lcu/common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
+import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-edit-application-form',
@@ -9,11 +12,17 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 })
 export class EditApplicationFormComponent implements OnInit {
 
+  @Input('application-lookup')
+  public ApplicationLookup: string;
+
   @Input('editing-application') 
   public EditingApplication: EaCApplicationAsCode;
 
   @Input('has-save-button')
   public HasSaveButton: boolean;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
 
   @Output('save-form-event')
   public SaveFormEvent: EventEmitter<{}>
@@ -30,9 +39,14 @@ export class EditApplicationFormComponent implements OnInit {
     return this.ApplicationFormGroup?.controls.route;
   }
 
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
+
   public ApplicationFormGroup: FormGroup;
 
-  constructor(protected formBldr: FormBuilder) {
+  constructor(protected formBldr: FormBuilder,
+    protected eacSvc: EaCService) {
     this.SaveFormEvent = new EventEmitter;
     this.HasSaveButton = true;
    }
@@ -43,7 +57,39 @@ export class EditApplicationFormComponent implements OnInit {
 
   public SubmitApplicationControl(){
     console.log("application form: ", this.ApplicationFormGroup.value);
-    this.SaveFormEvent.emit(this.ApplicationFormGroup.value);
+    this.SaveApplication();
+  }
+
+  public SaveApplication(): void {
+    const app: EaCApplicationAsCode = this.EditingApplication;
+    app.Application = {
+      Name: this.NameFormControl.value,
+      Description: this.DescriptionFormControl.value,
+      PriorityShift: this.EditingApplication?.Application?.PriorityShift || 0,
+    };
+
+    app.LookupConfig.PathRegex = `${this.RouteFormControl.value}.*`;
+
+    switch (app.Processor.Type) {
+      case 'DFS':
+        //will need to replace with this.RouteFormControl.value if other form added
+        app.Processor.BaseHref = `${this.RouteFormControl.value}/`.replace('//', '/');
+
+        break;
+    }
+
+    if (!app.LookupConfig.PathRegex.startsWith('/')) {
+      app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;
+    }
+
+    const saveAppReq: SaveApplicationAsCodeEventRequest = {
+      ProjectLookup: this.ProjectLookup,
+      Application: app,
+      ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
+    };
+
+    let status = this.eacSvc.SaveApplicationAsCode(saveAppReq);
+    this.SaveFormEvent.emit(status);
   }
 
   //HELPERS
