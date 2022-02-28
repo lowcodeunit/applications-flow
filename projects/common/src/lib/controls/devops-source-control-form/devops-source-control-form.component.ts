@@ -174,6 +174,8 @@ export class DevopsSourceControlFormComponent
     protected formBuilder: FormBuilder,
   ) {
 
+    this.SaveStatusEvent = new EventEmitter;
+
     this.BuildPath = null;
 
     this.HostingDetails = new ProjectHostingDetails();

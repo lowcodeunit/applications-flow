@@ -340,14 +340,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.setupProcessorDetailsForm();
   }
 
-  // public SubmitProcessorDetails() {
-  //   console.log(
-  //     'submitting proc details: ',
-  //     this.ProcessorDetailsFormGroup.value
-  //   );
-  //   this.SaveFormEvent.emit(this.ProcessorDetailsFormGroup.value);
-  // }
-
   public ProcessorTypeChanged(event: MatSelectChange): void {
     this.ProcessorType = event.value;
 
