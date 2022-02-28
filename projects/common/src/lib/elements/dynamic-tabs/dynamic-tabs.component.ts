@@ -98,7 +98,7 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
       // current component instance
       const instance: DynamicTabsComponent = componentRef.instance as DynamicTabsComponent;
 
-      // find the current component in TabComponents and set its data
+      // find the current component in TabComponents and set the data
       this.TabComponents.find((comp: DynamicTabsModel) => {
         if (comp.Component.name === instance.constructor.name) {
           instance['Data'] = comp.Data;
