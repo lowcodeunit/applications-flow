@@ -57,11 +57,13 @@
     >
     </lcu-security-toggle>
 
+    <!-- Processor Details
+      action-text="Edit Processor Details" -->
     <lcu-slotted-card
       title="Processor Details"
       icon="developer_board"
+      main-icon="edit"
       [main-slot-description]="Application?.Processor?.Label"
-      action-text="Edit Processor Details"
       (main-action-clicked)="OpenProcessorDetailsDialog($event)"
     >
       <div class="main-slot-container" fxLayout="row">
