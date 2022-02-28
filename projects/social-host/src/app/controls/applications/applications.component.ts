@@ -167,6 +167,22 @@ export class ApplicationsComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public get Version(): string {
+    let version;
+    switch (this.Application?.LowCodeUnit?.Type) {
+      case 'GitHub':
+        
+        version = this.Application.LowCodeUnit.Build;
+        break;
+
+      case 'NPM':
+
+        version = this.Application.LowCodeUnit.Version;
+        break;
+    }
+    return version;
+  }
+
   public ApplicationLookup: string;
 
   public CurrentApplicationRoute: string;
@@ -293,6 +309,40 @@ export class ApplicationsComponent implements OnInit {
     };
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
+  }
+
+  public UpdateClicked(){
+    
+    
+    if (confirm(`Do you want to update the package to ${this.Version}?`)) {
+      this.UpdateToLatest();
+      }
+  }
+
+  public UpdateToLatest(){
+
+      const app: EaCApplicationAsCode = this.Application;
+      switch (app.LowCodeUnit.Type) {
+        case 'GitHub':
+              
+          app.LowCodeUnit.Build = 'latest';
+          break;
+  
+        case 'NPM':
+  
+          app.LowCodeUnit.Version = 'latest';
+              break;
+          }
+  
+      const saveAppReq: SaveApplicationAsCodeEventRequest = {
+        ProjectLookup: this.ProjectLookup,
+        Application: app,
+        ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
+      };
+  
+      this.eacSvc.SaveApplicationAsCode(saveAppReq);
+    
+
   }
 
   

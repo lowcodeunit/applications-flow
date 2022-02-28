@@ -25,11 +25,11 @@
         action
         mat-button
         class="info-card-btn"
-        (click)="SettingsClicked()"
+        (click)="UpdateClicked()"
         matTooltip="Update your application to the latest package"
       >
         <mat-icon>outbox</mat-icon>
-        Update Package
+        Update Package: {{ Version }}
       </button>
     </lcu-project-info-card>
 
