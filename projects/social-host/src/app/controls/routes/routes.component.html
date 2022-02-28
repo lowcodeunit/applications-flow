@@ -12,6 +12,7 @@
       [name]="CurrentApplicationRoute"
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
+      [subtext]="Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1]+CurrentApplicationRoute : ''"
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)"
     >

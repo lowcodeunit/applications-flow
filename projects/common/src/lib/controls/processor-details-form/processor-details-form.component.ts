@@ -190,7 +190,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
   }
 
-  public SaveProcessorDetails(event: any): void {
+  public SaveProcessorDetails(): void {
 
     const app: EaCApplicationAsCode = this.EditingApplication;
     app.LookupConfig.AllowedMethods =
