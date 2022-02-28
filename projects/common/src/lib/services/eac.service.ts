@@ -13,6 +13,10 @@ import {
   EaCProjectAsCode,
   EnterpriseAsCode,
 } from '@semanticjs/common';
+import { FeedItem } from '../models/user-feed.model';
+import { HttpClient } from '@angular/common/http';
+import { BaseModeledResponse } from '@lcu/common';
+import { Observable } from 'rxjs';
 
 export class SaveApplicationAsCodeEventRequest {
   public Application?: EaCApplicationAsCode;
@@ -49,17 +53,25 @@ export class SaveProjectAsCodeEventRequest {
 })
 export class EaCService {
   //  Properties
+  public get EditingProjectLookup(): string {
+    return this.projectService.EditingProjectLookup;
+  }
+
+  public get CreatingProject(): boolean {
+    return this.projectService.CreatingProject;
+  }
+
   public State: ApplicationsFlowState;
 
   //  Constructors
-  constructor(protected projectService: ProjectService) {
+  constructor(protected projectService: ProjectService,
+    protected http: HttpClient) {
     this.State = new ApplicationsFlowState();
   }
 
   //  API Methods
-
-  public get CreatingProject(): boolean {
-    return this.projectService.CreatingProject;
+  public CheckUserFeedItem(feedItem: FeedItem): Observable<object> {
+    return this.http.get(feedItem.RefreshLink);
   }
 
   public async DeleteApplication(
@@ -107,8 +119,8 @@ export class EaCService {
     await this.projectService.GetActiveEnterprise(this.State);
   }
 
-  public get EditingProjectLookup(): string {
-    return this.projectService.EditingProjectLookup;
+  public async LoadUserFeed(page: number, pageSize: number): Promise<void> {
+    await this.projectService.LoadUserFeed(page, pageSize, this.State);
   }
 
   public async HasValidConnection(): Promise<void> {
@@ -171,10 +183,6 @@ export class EaCService {
     ) {
       await this.projectService.UnpackLowCodeUnit(this.State, req);
     }
-  }
-
-  public async UserFeed(page: number, pageSize: number): Promise<void> {
-    await this.projectService.UserFeed(page, pageSize, this.State);
   }
 
   //  Helpers

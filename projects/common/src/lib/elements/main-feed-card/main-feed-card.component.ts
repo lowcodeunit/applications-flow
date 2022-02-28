@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FeedItem, FeedItemAction } from '../../models/user-feed.model';
 import moment from 'moment';
 import { JsonHubProtocol } from '@aspnet/signalr';
+import { EaCService } from '../../services/eac.service';
+import { BaseModeledResponse } from '@lcu/common';
 
 @Component({
   selector: 'lcu-main-feed-card',
@@ -36,10 +38,12 @@ export class MainFeedCardComponent implements OnInit {
     }
   }
 
-  constructor() {}
+  constructor(protected eacSvc: EaCService) {}
 
   //  Life Cycle
-  public ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.handleRefresh();
+  }
 
   //  API Methods
   public CalculateTimelapse(timestamp: Date) {
@@ -60,8 +64,21 @@ export class MainFeedCardComponent implements OnInit {
 
   public handleRefresh(): void {
     if (this.FeedItem?.RefreshLink) {
-      setInterval(() => {
-        // this.
+      setTimeout(() => {
+        this.eacSvc.CheckUserFeedItem(this.FeedItem).subscribe(
+          async (response: BaseModeledResponse<FeedItem>) => {
+            if (response.Status.Code === 0) {
+              this.FeedItem = response.Model;
+
+              this.handleRefresh();
+            } else {
+              console.log(response);
+            }
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
       }, 5000);
     }
   }

@@ -231,6 +231,36 @@ export class ProjectService {
     });
   }
 
+  public async LoadUserFeed(page: number, pageSize: number, state: ApplicationsFlowState): Promise<Array<FeedItem>> {
+    return new Promise((resolve, reject) => {
+      state.LoadingFeed = true;
+
+      this.appsFlowSvc.LoadUserFeed(page, pageSize).subscribe(
+        async (response: UserFeedResponse) => {
+          state.LoadingFeed = false;
+
+          if (response.Status.Code === 0) {
+            state.Feed = response.Items;
+            console.log("ITEMZ: ", response.Items)
+
+            resolve(response.Items);
+          } else {
+            reject(response.Status);
+
+          }
+        },
+        (err) => {
+          state.LoadingFeed = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      
+    );
+    });
+  }
+
   public HasValidConnection(
     state: ApplicationsFlowState,
     forceEnsureUser: boolean = false
@@ -340,7 +370,7 @@ export class ProjectService {
 
             var results = Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.UserFeed(1, 25, state)
+              this.LoadUserFeed(1, 25, state)
             ])
 
             resolve(results[0]);
@@ -375,7 +405,7 @@ export class ProjectService {
           if (response.Status.Code === 0) {
             var results = Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.UserFeed(1, 25, state)
+              this.LoadUserFeed(1, 25, state)
             ])
 
             resolve(results[0]);
@@ -468,36 +498,6 @@ export class ProjectService {
           console.log(err);
         }
       );
-    });
-  }
-
-  public async UserFeed(page: number, pageSize: number, state: ApplicationsFlowState): Promise<Array<FeedItem>> {
-    return new Promise((resolve, reject) => {
-      state.LoadingFeed = true;
-
-      this.appsFlowSvc.UserFeed(page, pageSize).subscribe(
-        async (response: UserFeedResponse) => {
-          state.LoadingFeed = false;
-
-          if (response.Status.Code === 0) {
-            state.Feed = response.Items;
-            console.log("ITEMZ: ", response.Items)
-
-            resolve(response.Items);
-          } else {
-            reject(response.Status);
-
-          }
-        },
-        (err) => {
-          state.LoadingFeed = false;
-
-          reject(err);
-
-          console.log(err);
-        }
-      
-    );
     });
   }
 }

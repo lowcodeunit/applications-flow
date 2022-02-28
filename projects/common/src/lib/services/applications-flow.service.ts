@@ -229,7 +229,7 @@ export class ApplicationsFlowService {
     );
   }
 
-  public UserFeed(page: number, pageSize: number): Observable<object> {
+  public LoadUserFeed(page: number, pageSize: number): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}`,
       {

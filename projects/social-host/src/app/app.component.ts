@@ -69,6 +69,6 @@ export class AppComponent {
 
   protected async getFeedInfo(): Promise<void> {
     console.log("Am I getting called???")
-    await this.eacSvc.UserFeed(1, 25);
+    await this.eacSvc.LoadUserFeed(1, 25);
   }
 }
