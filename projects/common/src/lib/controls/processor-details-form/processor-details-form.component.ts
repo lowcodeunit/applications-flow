@@ -12,8 +12,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { Guid } from '@lcu/common';
+import { BaseModeledResponse, Guid } from '@lcu/common';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
+import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
@@ -23,6 +24,7 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
   styleUrls: ['./processor-details-form.component.scss'],
 })
 export class ProcessorDetailsFormComponent implements OnInit {
+
   @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
 
@@ -40,9 +42,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   @Output('save-form-event')
   public SaveFormEvent: EventEmitter<{}>;
-
-  // @ViewChild(SourceControlFormControlsComponent)
-  // public SourceControlFormControls: SourceControlFormControlsComponent;
   
 
   public get APIRootFormControl(): AbstractControl {
@@ -57,6 +56,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public get BuildFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.build;
+  }
+
+  public get BuildPathFormControl(): AbstractControl {
+    return this.ProcessorDetailsFormGroup?.controls.buildPath;
   }
 
   public get ClientIDFormControl(): AbstractControl {
@@ -142,6 +145,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.zipFile;
   }
 
+  public BuildPathOptions: string[];
+
   public IsPermanent: boolean;
 
   public IsPreserve: boolean;
@@ -154,7 +159,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   public ProcessorType: string;
 
-  constructor(protected formBldr: FormBuilder, protected eacSvc: EaCService) {
+  constructor(
+    protected appsFlowSvc: ApplicationsFlowService,
+    protected formBldr: FormBuilder, 
+    protected eacSvc: EaCService,) {
     this.redirectTooltip = '';
 
     this.HasSaveButton = true;
@@ -225,12 +233,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
               this.BuildFormControl.value;
 
             app.LowCodeUnit.Path =
-              this.Environment.DevOpsActions[
-                this.SourceControls[
-                  this.SourceControlFormControl.value
-                ].DevOpsActionTriggerLookups[0]
-              ].Path;
-            // console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
+              this.BuildPathFormControl.value;
 
             app.LowCodeUnit.SourceControlLookup =
               this.SourceControlFormControl.value;
@@ -340,6 +343,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.setupProcessorDetailsForm();
   }
 
+  public SourceControlChanged(event: any){
+    this.listBuildPaths();
+  }
+
   public ProcessorTypeChanged(event: MatSelectChange): void {
     this.ProcessorType = event.value;
 
@@ -392,6 +399,30 @@ export class ProcessorDetailsFormComponent implements OnInit {
     this.cleanupLcuTypeSubForm();
   }
 
+  protected listBuildPaths(): void {
+      this.State.Loading = true;
+
+      this.appsFlowSvc
+        .ListBuildPaths(
+          this.SourceControls[
+            this.SourceControlFormControl.value
+          ].Organization,
+          this.SourceControls[
+            this.SourceControlFormControl.value
+          ].Repository
+        )
+        .subscribe((response: BaseModeledResponse<string[]>) => {
+          this.BuildPathOptions = response.Model;
+
+          this.State.Loading = false;
+
+          if (this.BuildPathOptions?.length === 1) {
+            this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
+          }
+        });
+    
+  }
+
   protected setupLcuTypeSubForm(): void {
     this.cleanupLcuTypeSubForm();
 
@@ -438,7 +469,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
   protected setupProcessorDetailsForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
-    console.log('EDITING APP = ', this.EditingApplication);
+    // console.log('EDITING APP = ', this.EditingApplication);
 
     if (this.EditingApplication != null) {
       this.ProcessorDetailsFormGroup = this.formBldr.group({
@@ -457,6 +488,14 @@ export class ProcessorDetailsFormComponent implements OnInit {
       'sourceControl',
       this.formBldr.control(
         this.EditingApplication.LowCodeUnit?.SourceControlLookup || '',
+        [Validators.required]
+      )
+    );
+
+    this.ProcessorDetailsFormGroup.addControl(
+      'buildPath',
+      this.formBldr.control(
+        this.EditingApplication.LowCodeUnit?.Path || '',
         [Validators.required]
       )
     );

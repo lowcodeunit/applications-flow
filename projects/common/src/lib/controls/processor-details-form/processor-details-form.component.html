@@ -68,6 +68,7 @@
                 <mat-select
                   placeholder="Source Control"
                   formControlName="sourceControl"
+                  (selectionChange)="SourceControlChanged($event)"
                   required
                 >
                   <mat-option 
@@ -79,6 +80,29 @@
     
                   <!-- <mat-option value="Zip">Zip</mat-option> -->
                 </mat-select>
+              </mat-form-field>
+
+              <mat-form-field class="mat-full-width with-hint"
+                *ngIf="
+                SourceControlFormControl?.valid
+                "
+              >          
+                <mat-select
+                  formControlName="buildPath"
+                  placeholder="Build Path"
+                  required
+                >
+                  <ng-container *ngFor="let buildPath of BuildPathOptions">
+                    <mat-option [value]="buildPath">
+                      {{ buildPath }}
+                    </mat-option>
+                  </ng-container>
+                </mat-select>
+          
+                <mat-hint>
+                  The build path identifies which build action to use for your
+                  configuration.
+                </mat-hint>
               </mat-form-field>
 
               <mat-form-field
@@ -280,43 +304,7 @@
               info_outline
             </mat-icon>
 
-            <!-- <mat-icon
-            *ngIf="!IsPermanent && !IsPreserve"
-
-              class="spread"
-              matSuffix
-              matTooltip="302 – Not Permanent and Not Preserve"
-            >
-              info_outline
-            </mat-icon> -->
-
-            <!-- <mat-icon
-            *ngIf="!IsPermanent && IsPreserve"
-              class="spread"
-              matSuffix
-              matTooltip="307 – Not Permanent and Preserve"
-            >
-              info_outline
-            </mat-icon> -->
-
-            <!-- <mat-icon
-            *ngIf="IsPermanent && IsPreserve"
-              class="spread"
-              matSuffix
-              matTooltip="308 – Permanent and Preserve"
-            >
-              info_outline
-            </mat-icon> -->
-
             
-
-            <!-- <mat-icon
-              class="spread"
-              matSuffix
-              matTooltip="Values used to control the redirect type.  Permanent and Not Preserve = 301; Not Permanent and Not Preserve = 302; Permanent and Preserve = 308; Not Permanent and Not Preserve = 307;"
-            >
-              info_outline
-            </mat-icon> -->
           </div>
           
           <div>
