@@ -147,8 +147,8 @@ export class EaCService {
     await this.handleSaveDFSModifier(req);
   }
 
-  public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<void> {
-    await this.projectService.SaveEnterpriseAsCode(this.State, eac);
+  public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<Status> {
+    return await this.projectService.SaveEnterpriseAsCode(this.State, eac);
   }
 
   public async SaveEnvironmentAsCode(

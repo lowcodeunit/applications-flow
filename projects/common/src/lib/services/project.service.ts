@@ -396,7 +396,7 @@ export class ProjectService {
   public async SaveEnterpriseAsCode(
     state: ApplicationsFlowState,
     eac: EnterpriseAsCode
-  ): Promise<EnterpriseAsCode> {
+  ): Promise<Status> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 
@@ -408,7 +408,7 @@ export class ProjectService {
               this.LoadUserFeed(1, 25, state)
             ])
 
-            resolve(results[0]);
+            resolve(results[0].Status);
           } else {
             state.Loading = false;
 
