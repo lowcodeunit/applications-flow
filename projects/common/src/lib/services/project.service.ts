@@ -396,7 +396,7 @@ export class ProjectService {
   public async SaveEnterpriseAsCode(
     state: ApplicationsFlowState,
     eac: EnterpriseAsCode
-  ): Promise<Status> {
+  ): Promise<EnterpriseAsCode> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 
