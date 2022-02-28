@@ -153,7 +153,7 @@ export class BreadcrumbComponent implements OnInit {
 
     // console.log("state: ", this.State)
 
-    // console.log("selected enterprise: ", this.Enterprise)
+    console.log("selected enterprise: ", this.Enterprise)
 
     // console.log('Selected project: ', this.SelectedProject.Project);
 

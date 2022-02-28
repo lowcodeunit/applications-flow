@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UpgradeDialogComponent } from '../../dialogs/upgrade-dialog/upgrade-dialog.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
@@ -40,7 +42,7 @@ export class ProjectInfoCardComponent implements OnInit {
   public SkeletonEffect: string;
 
 
-  constructor(protected eacSvc: EaCService) {
+  constructor(protected eacSvc: EaCService,protected dialog: MatDialog,) {
     this.LeftClickEvent = new EventEmitter();
 
     this.RightClickEvent = new EventEmitter();
@@ -63,6 +65,20 @@ export class ProjectInfoCardComponent implements OnInit {
   public RightIconClicked(){
     console.log("share clicked")
     this.RightClickEvent.emit({});
+  }
+
+  public UpgradeClicked(){
+    const dialogRef = this.dialog.open(UpgradeDialogComponent, {
+      width: '600px',
+      data: {
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+
   }
 
 }

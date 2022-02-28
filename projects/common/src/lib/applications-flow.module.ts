@@ -58,6 +58,7 @@ import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/
 import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dialog/processor-details-dialog.component';
 import { SkeletonElementsModule } from 'skeleton-elements/angular';
 import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleton-feed-card.component';
+import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.component';
 
 
 @NgModule({
@@ -106,7 +107,8 @@ import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleto
     EditApplicationDialogComponent,
     NewApplicationDialogComponent,
     ProcessorDetailsDialogComponent,
-    SkeletonFeedCardComponent
+    SkeletonFeedCardComponent,
+    UpgradeDialogComponent
   ],
   imports: [
     ClipboardModule,
@@ -167,7 +169,8 @@ import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleto
     EditApplicationDialogComponent,
     NewApplicationDialogComponent,
     ProcessorDetailsDialogComponent,
-    SkeletonFeedCardComponent
+    SkeletonFeedCardComponent,
+    UpgradeDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,

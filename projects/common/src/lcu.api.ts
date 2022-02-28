@@ -20,6 +20,7 @@ export * from './lib/dialogs/new-application-dialog/new-application-dialog.compo
 export * from './lib/dialogs/edit-application-dialog/edit-application-dialog.component';
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/dialogs/processor-details-dialog/processor-details-dialog.component';
+export * from './lib/dialogs/upgrade-dialog/upgrade-dialog.component';
 export * from './lib/services/project.service';
 export * from './lib/services/npm.service';
 export * from './lib/models/actions.model';
