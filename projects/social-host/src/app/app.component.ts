@@ -6,10 +6,7 @@ import {
   ApplicationsFlowState,
   EaCService,
 } from '@lowcodeunit/applications-flow-common';
-import {
-  BreakpointObserver,
-  BreakpointState
-} from '@angular/cdk/layout';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
   selector: 'lcu-root',
@@ -61,9 +58,12 @@ export class AppComponent {
     await Promise.all([
       this.eacSvc.HasValidConnection(),
       this.eacSvc.EnsureUserEnterprise(),
+    ]);
+
+    await Promise.all([
       this.eacSvc.ListEnterprises(),
       this.eacSvc.GetActiveEnterprise(),
-      this.getFeedInfo()
+      this.getFeedInfo(),
     ]);
   }
 
