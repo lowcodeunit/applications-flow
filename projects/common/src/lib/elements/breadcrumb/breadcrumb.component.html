@@ -1,7 +1,7 @@
 <div class="breadcrumb-container" fxLayout="row wrap">
   <div fxLayout="row" fxLayoutAlign="center center">
     <ng-container *ngIf="Loading">
-      <mat-icon>home</mat-icon>
+      <mat-icon skeleton-text [effect]="SkeletonEffect">home</mat-icon>
 
       <div skeleton-text [effect]="SkeletonEffect">Enterprise Name</div>
     </ng-container>
