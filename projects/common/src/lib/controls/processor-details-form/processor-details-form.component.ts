@@ -478,6 +478,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
       this.setupDfsForm();
 
       this.setupLcuTypeSubForm();
+      
+      this.listBuildPaths();
     }
   }
 
