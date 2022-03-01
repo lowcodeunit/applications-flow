@@ -20,7 +20,7 @@
 </lcu-processor-details-form>
 
 <button 
-    *ngIf="ProcessorDetailsFormControls && ApplicationFormControls"
+    *ngIf="ProcessorDetailsFormControls && ApplicationFormControls && !State?.Loading"
     mat-raised-button 
     color="primary"
     class="new-app-submit" 
@@ -33,3 +33,4 @@
 >
     Save Application
 </button>
+<lcu-loader [loading]="State?.Loading"></lcu-loader>

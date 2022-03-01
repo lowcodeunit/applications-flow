@@ -74,30 +74,42 @@ export class NewApplicationDialogComponent implements OnInit {
 
   }
 
+  
+
   public SaveApplication(): void {
-
-    const app: EaCApplicationAsCode = new EaCApplicationAsCode;
-
-    app.Application = {
-      Name: this.ApplicationFormControls.NameFormControl.value,
-      Description: this.ApplicationFormControls.DescriptionFormControl.value,
-      PriorityShift: 0,
-    };
-
-    app.LookupConfig.PathRegex = `${this.ApplicationFormControls.RouteFormControl.value}.*`;
-    app.LookupConfig.AllowedMethods =
-      this.ProcessorDetailsFormControls.MethodsFormControl?.value
+    const app: EaCApplicationAsCode = {
+      Application: {
+        Name: this.ApplicationFormControls.NameFormControl.value,
+        Description: this.ApplicationFormControls.DescriptionFormControl.value,
+        PriorityShift: 0,
+      },
+      AccessRightLookups: [],
+      DataTokens: {},
+      LicenseConfigurationLookups: [],
+      LookupConfig: {
+        IsPrivate: false,
+        IsTriggerSignIn: false,
+        PathRegex: `${this.ApplicationFormControls.RouteFormControl.value}.*`,
+        QueryRegex: '',
+        HeaderRegex: '',
+        AllowedMethods: this.ProcessorDetailsFormControls.MethodsFormControl?.value
         ?.split(' ')
-        .filter((v: string) => !!v);
-    app.Processor.Type = this.ProcessorDetailsFormControls.ProcessorType;
+        .filter((v: string) => !!v),
+      },
+      Processor: {
+        Type: this.ProcessorDetailsFormControls.ProcessorType,
+      },
+    };
 
     switch (app.Processor.Type) {
       case 'DFS':
-        app.Processor.DefaultFile =
-          this.ProcessorDetailsFormControls.DefaultFileFormControl.value ||
-          'index.html';
+        app.Processor.BaseHref = `${this.ApplicationFormControls.RouteFormControl.value}/`.replace(
+          '//',
+          '/'
+        );
 
-          app.Processor.BaseHref = `${this.ApplicationFormControls.RouteFormControl.value}/`.replace('//', '/');
+        app.Processor.DefaultFile =
+          this.ProcessorDetailsFormControls.DefaultFileFormControl.value || 'index.html';
 
         app.LowCodeUnit = {
           Type: this.ProcessorDetailsFormControls.LCUType,
@@ -106,56 +118,37 @@ export class NewApplicationDialogComponent implements OnInit {
         switch (app.LowCodeUnit.Type) {
           case 'GitHub':
             app.LowCodeUnit.Organization =
-              this.SourceControls[
-                this.ProcessorDetailsFormControls.SourceControlFormControl.value
-              ].Organization;
+            this.SourceControls[
+              this.ProcessorDetailsFormControls.SourceControlFormControl.value
+            ].Organization;
 
             app.LowCodeUnit.Repository =
-              this.SourceControls[
-                this.ProcessorDetailsFormControls.SourceControlFormControl.value
-              ].Repository;
+            this.SourceControls[
+              this.ProcessorDetailsFormControls.SourceControlFormControl.value
+            ].Repository;
 
-            app.LowCodeUnit.Build =
-              this.ProcessorDetailsFormControls.BuildFormControl.value;
+            app.LowCodeUnit.Build = this.ProcessorDetailsFormControls.BuildFormControl.value;
 
             app.LowCodeUnit.Path =
-              this.Environment.DevOpsActions[
-                this.SourceControls[
-                  this.ProcessorDetailsFormControls.SourceControlFormControl.value
-                ].DevOpsActionTriggerLookups[0]
-              ].Path;
-            // console.log("sourceControl lookup: ", this.ProcessorDetailsFormControls.SourceControlFormControl.value);
-
-            app.LowCodeUnit.SourceControlLookup =
-              this.ProcessorDetailsFormControls.SourceControlFormControl.value;
+              this.ProcessorDetailsFormControls.BuildPathFormControl.value;
             break;
 
           case 'NPM':
-            app.LowCodeUnit.Package =
-              this.ProcessorDetailsFormControls.PackageFormControl.value;
+            app.LowCodeUnit.Package = this.ProcessorDetailsFormControls.PackageFormControl.value;
 
-            app.LowCodeUnit.Version =
-              this.ProcessorDetailsFormControls.VersionFormControl.value;
-            break;
-
-          case 'WordPress':
-            app.LowCodeUnit.APIRoot =
-              this.ProcessorDetailsFormControls.APIRootFormControl.value;
+            app.LowCodeUnit.Version = this.ProcessorDetailsFormControls.VersionFormControl.value;
             break;
 
           case 'Zip':
-            app.LowCodeUnit.ZipFile =
-              this.ProcessorDetailsFormControls.ZipFileFormControl.value;
+            app.LowCodeUnit.ZipFile = this.ProcessorDetailsFormControls.ZipFileFormControl.value;
             break;
         }
         break;
 
       case 'OAuth':
-        app.Processor.Scopes =
-          this.ProcessorDetailsFormControls.ScopesFormControl.value.split(' ');
+        app.Processor.Scopes = this.ProcessorDetailsFormControls.ScopesFormControl.value.split(' ');
 
-        app.Processor.TokenLookup =
-          this.ProcessorDetailsFormControls.TokenLookupFormControl.value;
+        app.Processor.TokenLookup = this.ProcessorDetailsFormControls.TokenLookupFormControl.value;
 
         app.LowCodeUnit = {
           Type: this.ProcessorDetailsFormControls.LCUType,
@@ -163,18 +156,15 @@ export class NewApplicationDialogComponent implements OnInit {
 
         switch (app.LowCodeUnit.Type) {
           case 'GitHubOAuth':
-            app.LowCodeUnit.ClientID =
-              this.ProcessorDetailsFormControls.ClientIDFormControl.value;
+            app.LowCodeUnit.ClientID = this.ProcessorDetailsFormControls.ClientIDFormControl.value;
 
-            app.LowCodeUnit.ClientSecret =
-              this.ProcessorDetailsFormControls.ClientSecretFormControl.value;
+            app.LowCodeUnit.ClientSecret = this.ProcessorDetailsFormControls.ClientSecretFormControl.value;
             break;
         }
         break;
 
       case 'Proxy':
-        app.Processor.InboundPath =
-          this.ProcessorDetailsFormControls.InboundPathFormControl.value;
+        app.Processor.InboundPath = this.ProcessorDetailsFormControls.InboundPathFormControl.value;
 
         app.LowCodeUnit = {
           Type: this.ProcessorDetailsFormControls.LCUType,
@@ -182,33 +172,24 @@ export class NewApplicationDialogComponent implements OnInit {
 
         switch (app.LowCodeUnit.Type) {
           case 'API':
-            app.LowCodeUnit.APIRoot =
-              this.ProcessorDetailsFormControls.APIRootFormControl.value;
+            app.LowCodeUnit.APIRoot = this.ProcessorDetailsFormControls.APIRootFormControl.value;
 
-            app.LowCodeUnit.Security =
-              this.ProcessorDetailsFormControls.SecurityFormControl.value;
+            app.LowCodeUnit.Security = this.ProcessorDetailsFormControls.SecurityFormControl.value;
 
             break;
 
           case 'SPA':
-            app.LowCodeUnit.SPARoot =
-              this.ProcessorDetailsFormControls.SPARootFormControl.value;
+            app.LowCodeUnit.SPARoot = this.ProcessorDetailsFormControls.SPARootFormControl.value;
             break;
         }
         break;
 
       case 'Redirect':
-        app.Processor.IncludeRequest =
-          !!this.ProcessorDetailsFormControls.IncludeRequestFormControl.value;
+        app.Processor.Permanent = !!this.ProcessorDetailsFormControls.PermanentFormControl.value;
 
-        app.Processor.Permanent =
-          !!this.ProcessorDetailsFormControls.PermanentFormControl.value;
+        app.Processor.PreserveMethod = !!this.ProcessorDetailsFormControls.PreserveMethodFormControl.value;
 
-        app.Processor.PreserveMethod =
-          !!this.ProcessorDetailsFormControls.PreserveMethodFormControl.value;
-
-        app.Processor.Redirect =
-          this.ProcessorDetailsFormControls.RedirectFormControl.value;
+        app.Processor.Redirect = this.ProcessorDetailsFormControls.RedirectFormControl.value;
         break;
     }
 
@@ -221,6 +202,14 @@ export class NewApplicationDialogComponent implements OnInit {
       Application: app,
       ApplicationLookup: Guid.CreateRaw(),
     };
+// this.HasBuildFormControl.value &&  taken out from below if statement
+    if (this.ProcessorDetailsFormControls.ProcessorType !== 'redirect') {
+      if (app) {
+        app.LowCodeUnit.SourceControlLookup = this.ProcessorDetailsFormControls.SourceControlFormControl.value;
+      }
+    } else if (app) {
+      app.LowCodeUnit.SourceControlLookup = null;
+    }
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
