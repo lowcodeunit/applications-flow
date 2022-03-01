@@ -4,6 +4,10 @@ import moment from 'moment';
 import { JsonHubProtocol } from '@aspnet/signalr';
 import { EaCService } from '../../services/eac.service';
 import { BaseModeledResponse } from '@lcu/common';
+import { SourceControlDialogComponent } from '../../dialogs/source-control-dialog/source-control-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { EaCEnvironmentAsCode } from '@semanticjs/common';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-main-feed-card',
@@ -11,6 +15,24 @@ import { BaseModeledResponse } from '@lcu/common';
   styleUrls: ['./main-feed-card.component.scss'],
 })
 export class MainFeedCardComponent implements OnInit {
+  public get ActiveEnvironment(): EaCEnvironmentAsCode {
+    return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+  }
+
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
+  }
+
+  public get Environment(): EaCEnvironmentAsCode {
+    // console.log("Ent Environment var: ", this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
+    return this.State?.EaC?.Environments[
+      this.State?.EaC?.Enterprise?.PrimaryEnvironment
+    ];
+  }
+
   @Input('feed-item')
   public FeedItem: FeedItem;
 
@@ -38,7 +60,11 @@ export class MainFeedCardComponent implements OnInit {
     }
   }
 
-  constructor(protected eacSvc: EaCService) {}
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
+
+  constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {}
 
   //  Life Cycle
   public ngOnInit(): void {
@@ -59,15 +85,31 @@ export class MainFeedCardComponent implements OnInit {
       }
     } else if (action.ActionType == 'Modal') {
       if (action.Action == 'AddSourceControl') {
-        //  TODO:  George launch source control modal
-        alert('AddSourceControl modaled');
+        this.OpenSourceControlDialog('');
       } else {
         alert('other modaled ' + action.Action);
       }
     }
   }
 
-  public handleRefresh(): void {
+  public OpenSourceControlDialog(scLookup: string): void {
+    const dialogRef = this.dialog.open(SourceControlDialogComponent, {
+      width: '550px',
+      data: {
+        environment: this.Environment,
+        environmentLookup: this.ActiveEnvironmentLookup,
+        scLookup: scLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
+  //  Helpers
+  protected handleRefresh(): void {
     if (this.FeedItem?.RefreshLink) {
       setTimeout(() => {
         this.eacSvc.CheckUserFeedItem(this.FeedItem).subscribe(
@@ -87,6 +129,4 @@ export class MainFeedCardComponent implements OnInit {
       }, 5000);
     }
   }
-
-  //  Helpers
 }

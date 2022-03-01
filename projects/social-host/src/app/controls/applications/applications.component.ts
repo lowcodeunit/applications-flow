@@ -11,7 +11,7 @@ import {
   SecurityToggleComponent,
   SourceControlFormComponent,
   EditApplicationDialogComponent,
-  ProcessorDetailsDialogComponent
+  ProcessorDetailsDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCApplicationAsCode,
@@ -171,12 +171,10 @@ export class ApplicationsComponent implements OnInit {
     let version;
     switch (this.Application?.LowCodeUnit?.Type) {
       case 'GitHub':
-        
         version = this.Application.LowCodeUnit.Build;
         break;
 
       case 'NPM':
-
         version = this.Application.LowCodeUnit.Version;
         break;
     }
@@ -248,13 +246,13 @@ export class ApplicationsComponent implements OnInit {
     });
   }
 
-  public OpenProcessorDetailsDialog(event: any){
+  public OpenProcessorDetailsDialog(event: any) {
     const dialogRef = this.dialog.open(ProcessorDetailsDialogComponent, {
       width: '600px',
       data: {
         applicationLookup: this.ApplicationLookup,
         environmentLookup: this.EnvironmentLookup,
-        projectLookup: this.ProjectLookup
+        projectLookup: this.ProjectLookup,
       },
     });
 
@@ -279,42 +277,23 @@ export class ApplicationsComponent implements OnInit {
 
   public SettingsClicked() {}
 
-
-  public UpdateClicked(){
-    
-    
+  public UpdateClicked() {
     if (confirm(`Do you want to update the package to ${this.Version}?`)) {
-      this.UpdateToLatest();
-      }
+      this.UpdatePackage();
+    }
   }
 
-  public UpdateToLatest(){
-
-      const app: EaCApplicationAsCode = this.Application;
-      switch (app.LowCodeUnit.Type) {
-        case 'GitHub':
-              
-          app.LowCodeUnit.Build = 'latest';
-          break;
-  
-        case 'NPM':
-  
-          app.LowCodeUnit.Version = 'latest';
-              break;
-          }
-  
-      const saveAppReq: SaveApplicationAsCodeEventRequest = {
-        ProjectLookup: this.ProjectLookup,
-        Application: app,
-        ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
-      };
-  
-      this.eacSvc.SaveApplicationAsCode(saveAppReq);
+  public UpdatePackage() {
+    const app: EaCApplicationAsCode = this.Application;
     
+    const saveAppReq: SaveApplicationAsCodeEventRequest = {
+      ProjectLookup: this.ProjectLookup,
+      Application: app,
+      ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
+    };
 
+    this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
-
-  
 
   public SaveSecuritySettings(formValue: any): void {
     // console.log('Recieved Save Event: ', formValue);
