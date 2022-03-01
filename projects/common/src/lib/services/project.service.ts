@@ -241,7 +241,7 @@ export class ProjectService {
 
           if (response.Status.Code === 0) {
             state.Feed = response.Items;
-            console.log("ITEMZ: ", response.Items)
+            // console.log("ITEMZ: ", response.Items)
 
             resolve(response.Items);
           } else {

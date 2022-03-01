@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Guid } from '@lcu/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Guid, Status } from '@lcu/common';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
 import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
@@ -44,9 +45,12 @@ export class ProcessorDetailsDialogComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public ErrorMessage: string;
+
   constructor(protected eacSvc: EaCService, 
     public dialogRef: MatDialogRef<ProcessorDetailsDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ProcessorDetailsDialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: ProcessorDetailsDialogData,
+    protected snackBar: MatSnackBar) { }
 
   public ngOnInit(): void {
   }
@@ -55,9 +59,19 @@ export class ProcessorDetailsDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  public HandleSaveFormEvent(event: any){
+  public HandleSaveFormEvent(event: Status){
     console.log("event: ", event);
+    if (event.Code === 0){
+      this.snackBar.open("Build Pipeline Created Succesfully", "Dismiss",{
+        duration: 5000
+      });
+      this.CloseDialog();
+    }
+    else{
+      this.ErrorMessage = event.Message;
+    }
   }
+
 
   
 

@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Status } from '@lcu/common';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
 
 export interface SCDialogData {
@@ -15,14 +17,30 @@ export interface SCDialogData {
 })
 export class SourceControlDialogComponent implements OnInit {
 
+  public ErrorMessage: string;
+
   constructor( public dialogRef: MatDialogRef<SourceControlDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: SCDialogData) { }
+    @Inject(MAT_DIALOG_DATA) public data: SCDialogData,
+    protected snackBar: MatSnackBar) { }
 
   public ngOnInit(): void {
   }
 
   public CloseDialog(){
     this.dialogRef.close();
+  }
+
+  public HandleSaveStatusEvent(event: Status){
+    console.log("event to save: ", event);
+    if (event.Code === 0){
+      this.snackBar.open("Source Control Succesfully Saved", "Dismiss",{
+        duration: 5000
+      });
+      this.CloseDialog();
+    }
+    else{
+      this.ErrorMessage = event.Message;
+    }
   }
 
 }

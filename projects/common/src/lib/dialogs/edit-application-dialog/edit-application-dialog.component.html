@@ -8,3 +8,7 @@
     [editing-application]="data.application"
     (save-form-event)="SaveApplication($event)">
 </lcu-edit-application-form>
+
+<mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+    {{ ErrorMessage }}
+</mat-error>

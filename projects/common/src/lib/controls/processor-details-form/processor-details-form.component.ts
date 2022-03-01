@@ -218,12 +218,12 @@ export class ProcessorDetailsFormComponent implements OnInit {
             app.LowCodeUnit.Organization =
               this.SourceControls[
                 this.SourceControlFormControl.value
-              ].Organization;
+              ]?.Organization;
 
             app.LowCodeUnit.Repository =
               this.SourceControls[
                 this.SourceControlFormControl.value
-              ].Repository;
+              ]?.Repository;
 
             app.LowCodeUnit.Build = this.BuildFormControl.value;
 
@@ -382,8 +382,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     this.appsFlowSvc
       .ListBuildPaths(
-        this.SourceControls[this.SourceControlFormControl.value].Organization,
-        this.SourceControls[this.SourceControlFormControl.value].Repository
+        this.SourceControls[this.SourceControlFormControl.value]?.Organization,
+        this.SourceControls[this.SourceControlFormControl.value]?.Repository
       )
       .subscribe((response: BaseModeledResponse<string[]>) => {
         this.BuildPathOptions = response.Model;

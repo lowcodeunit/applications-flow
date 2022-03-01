@@ -62,6 +62,7 @@ export class EditApplicationFormComponent implements OnInit {
 
   public SaveApplication(): void {
     const app: EaCApplicationAsCode = this.EditingApplication;
+    console.log("APP=", app);
     app.Application = {
       Name: this.NameFormControl.value,
       Description: this.DescriptionFormControl.value,
@@ -72,7 +73,6 @@ export class EditApplicationFormComponent implements OnInit {
 
     switch (app.Processor.Type) {
       case 'DFS':
-        //will need to replace with this.RouteFormControl.value if other form added
         app.Processor.BaseHref = `${this.RouteFormControl.value}/`.replace('//', '/');
 
         break;

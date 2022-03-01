@@ -9,6 +9,11 @@
         <lcu-devops-source-control-form
                 [environment]="data.environment"
                 [environment-lookup]="data.environmentLookup"
-                [editing-source-control-lookup]="data.scLookup">
+                [editing-source-control-lookup]="data.scLookup"
+                (save-status-event)="HandleSaveStatusEvent($event)">
         </lcu-devops-source-control-form>
 </div>
+
+<mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+        {{ ErrorMessage }}
+    </mat-error>

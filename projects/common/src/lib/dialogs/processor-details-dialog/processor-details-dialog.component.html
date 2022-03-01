@@ -13,3 +13,7 @@
     (save-form-event)="HandleSaveFormEvent($event)"
 >
 </lcu-processor-details-form>
+
+<mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+    {{ ErrorMessage }}
+</mat-error>

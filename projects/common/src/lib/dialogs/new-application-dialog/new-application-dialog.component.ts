@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Guid } from '@lcu/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Guid, Status } from '@lcu/common';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl, EnterpriseAsCode } from '@semanticjs/common';
 import { EditApplicationFormComponent } from '../../controls/edit-application-form/edit-application-form.component';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
@@ -42,6 +43,7 @@ export class NewApplicationDialogComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public ErrorMessage: string;
 
   public HasSaveButton: boolean;
 
@@ -53,7 +55,8 @@ export class NewApplicationDialogComponent implements OnInit {
   constructor(
     protected eacSvc: EaCService, 
     public dialogRef: MatDialogRef<NewApplicationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: NewApplicationDialogData) { 
+    @Inject(MAT_DIALOG_DATA) public data: NewApplicationDialogData,
+    protected snackBar: MatSnackBar) { 
 
     this.HasSaveButton = false
   }
@@ -211,7 +214,22 @@ export class NewApplicationDialogComponent implements OnInit {
       app.LowCodeUnit.SourceControlLookup = null;
     }
 
-    this.eacSvc.SaveApplicationAsCode(saveAppReq);
+    this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
+      this.handleSaveStatus(res);
+    });
+  }
+
+  protected handleSaveStatus(status: Status){
+    console.log("event to save: ", status);
+    if (status.Code === 0){
+      this.snackBar.open("Application Succesfully Created", "Dismiss",{
+        duration: 5000
+      });
+      this.CloseDialog();
+    }
+    else{
+      this.ErrorMessage = status.Message;
+    }
   }
 
 }
