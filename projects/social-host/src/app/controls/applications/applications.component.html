@@ -12,8 +12,10 @@
       [description]="Application?.Application?.Description"
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
-      [subtext]="Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''"
-      [version]="CurrentVersion ? CurrentVersion : 'Package not deployed' "
+      [subtext]="
+        Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''
+      "
+      [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)"
     >
@@ -53,12 +55,6 @@
   </div>
 
   <div right>
-    <lcu-security-toggle
-      [editing-application]="Application"
-      (save-form-event)="SaveSecuritySettings($event)"
-    >
-    </lcu-security-toggle>
-
     <!-- Processor Details
       action-text="Edit Processor Details" -->
     <lcu-slotted-card
@@ -109,6 +105,12 @@
         <!-- </div> -->
       </div>
     </lcu-slotted-card>
+
+    <lcu-security-toggle
+      [editing-application]="Application"
+      (save-form-event)="SaveSecuritySettings($event)"
+    >
+    </lcu-security-toggle>
   </div>
 </lcu-three-column>
 <!-- </ng-container> -->

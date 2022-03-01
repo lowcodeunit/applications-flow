@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,9 +7,16 @@ import {
 } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { BaseModeledResponse, Guid } from '@lcu/common';
-import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
+import {
+  EaCApplicationAsCode,
+  EaCEnvironmentAsCode,
+  EaCSourceControl,
+} from '@semanticjs/common';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
-import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
+import {
+  EaCService,
+  SaveApplicationAsCodeEventRequest,
+} from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
@@ -24,7 +25,6 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
   styleUrls: ['./processor-details-form.component.scss'],
 })
 export class ProcessorDetailsFormComponent implements OnInit {
-
   @Input('editing-application')
   public EditingApplication: EaCApplicationAsCode;
 
@@ -42,7 +42,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   @Output('save-form-event')
   public SaveFormEvent: EventEmitter<{}>;
-  
 
   public get APIRootFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.apiRoot;
@@ -118,7 +117,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
   }
 
   public get State(): ApplicationsFlowState {
-    return this.eacSvc.State
+    return this.eacSvc.State;
   }
 
   public get SourceControls(): { [lookup: string]: EaCSourceControl } {
@@ -161,8 +160,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   constructor(
     protected appsFlowSvc: ApplicationsFlowService,
-    protected formBldr: FormBuilder, 
-    protected eacSvc: EaCService,) {
+    protected formBldr: FormBuilder,
+    protected eacSvc: EaCService
+  ) {
     this.redirectTooltip = '';
 
     this.HasSaveButton = true;
@@ -176,7 +176,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
     } else {
       this.setupProcessorDetailsForm();
     }
-    
   }
 
   public CreateNewApplication(): void {
@@ -199,19 +198,16 @@ export class ProcessorDetailsFormComponent implements OnInit {
   }
 
   public SaveProcessorDetails(): void {
-
     const app: EaCApplicationAsCode = this.EditingApplication;
-    app.LookupConfig.AllowedMethods =
-      this.MethodsFormControl?.value
-        ?.split(' ')
-        .filter((v: string) => !!v);
+    app.LookupConfig.AllowedMethods = this.MethodsFormControl?.value
+      ?.split(' ')
+      .filter((v: string) => !!v);
     app.Processor.Type = this.ProcessorType;
 
     switch (app.Processor.Type) {
       case 'DFS':
         app.Processor.DefaultFile =
-          this.DefaultFileFormControl.value ||
-          'index.html';
+          this.DefaultFileFormControl.value || 'index.html';
 
         app.LowCodeUnit = {
           Type: this.LCUType,
@@ -229,42 +225,34 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 this.SourceControlFormControl.value
               ].Repository;
 
-            app.LowCodeUnit.Build =
-              this.BuildFormControl.value;
+            app.LowCodeUnit.Build = this.BuildFormControl.value;
 
-            app.LowCodeUnit.Path =
-              this.BuildPathFormControl.value;
+            app.LowCodeUnit.Path = this.BuildPathFormControl.value;
 
             app.LowCodeUnit.SourceControlLookup =
               this.SourceControlFormControl.value;
             break;
 
           case 'NPM':
-            app.LowCodeUnit.Package =
-              this.PackageFormControl.value;
+            app.LowCodeUnit.Package = this.PackageFormControl.value;
 
-            app.LowCodeUnit.Version =
-              this.VersionFormControl.value;
+            app.LowCodeUnit.Version = this.VersionFormControl.value;
             break;
 
           case 'WordPress':
-            app.LowCodeUnit.APIRoot =
-              this.APIRootFormControl.value;
+            app.LowCodeUnit.APIRoot = this.APIRootFormControl.value;
             break;
 
           case 'Zip':
-            app.LowCodeUnit.ZipFile =
-              this.ZipFileFormControl.value;
+            app.LowCodeUnit.ZipFile = this.ZipFileFormControl.value;
             break;
         }
         break;
 
       case 'OAuth':
-        app.Processor.Scopes =
-          this.ScopesFormControl.value.split(' ');
+        app.Processor.Scopes = this.ScopesFormControl.value.split(' ');
 
-        app.Processor.TokenLookup =
-          this.TokenLookupFormControl.value;
+        app.Processor.TokenLookup = this.TokenLookupFormControl.value;
 
         app.LowCodeUnit = {
           Type: this.LCUType,
@@ -272,18 +260,15 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
         switch (app.LowCodeUnit.Type) {
           case 'GitHubOAuth':
-            app.LowCodeUnit.ClientID =
-              this.ClientIDFormControl.value;
+            app.LowCodeUnit.ClientID = this.ClientIDFormControl.value;
 
-            app.LowCodeUnit.ClientSecret =
-              this.ClientSecretFormControl.value;
+            app.LowCodeUnit.ClientSecret = this.ClientSecretFormControl.value;
             break;
         }
         break;
 
       case 'Proxy':
-        app.Processor.InboundPath =
-          this.InboundPathFormControl.value;
+        app.Processor.InboundPath = this.InboundPathFormControl.value;
 
         app.LowCodeUnit = {
           Type: this.LCUType,
@@ -291,33 +276,26 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
         switch (app.LowCodeUnit.Type) {
           case 'API':
-            app.LowCodeUnit.APIRoot =
-              this.APIRootFormControl.value;
+            app.LowCodeUnit.APIRoot = this.APIRootFormControl.value;
 
-            app.LowCodeUnit.Security =
-              this.SecurityFormControl.value;
+            app.LowCodeUnit.Security = this.SecurityFormControl.value;
 
             break;
 
           case 'SPA':
-            app.LowCodeUnit.SPARoot =
-              this.SPARootFormControl.value;
+            app.LowCodeUnit.SPARoot = this.SPARootFormControl.value;
             break;
         }
         break;
 
       case 'Redirect':
-        app.Processor.IncludeRequest =
-          !!this.IncludeRequestFormControl.value;
+        app.Processor.IncludeRequest = !!this.IncludeRequestFormControl.value;
 
-        app.Processor.Permanent =
-          !!this.PermanentFormControl.value;
+        app.Processor.Permanent = !!this.PermanentFormControl.value;
 
-        app.Processor.PreserveMethod =
-          !!this.PreserveMethodFormControl.value;
+        app.Processor.PreserveMethod = !!this.PreserveMethodFormControl.value;
 
-        app.Processor.Redirect =
-          this.RedirectFormControl.value;
+        app.Processor.Redirect = this.RedirectFormControl.value;
         break;
     }
 
@@ -331,19 +309,19 @@ export class ProcessorDetailsFormComponent implements OnInit {
       ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
     };
 
-    this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
+    this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
       this.SaveFormEvent.emit(res);
     });
   }
 
   public SetEditingApplication(appLookup: string): void {
-    this.EditingApplication = new EaCApplicationAsCode;
+    this.EditingApplication = new EaCApplicationAsCode();
     this.EditingApplicationLookup = appLookup;
 
     this.setupProcessorDetailsForm();
   }
 
-  public SourceControlChanged(event: any){
+  public SourceControlChanged(event: any) {
     this.listBuildPaths();
   }
 
@@ -400,27 +378,22 @@ export class ProcessorDetailsFormComponent implements OnInit {
   }
 
   protected listBuildPaths(): void {
-      this.State.Loading = true;
+    this.State.Loading = true;
 
-      this.appsFlowSvc
-        .ListBuildPaths(
-          this.SourceControls[
-            this.SourceControlFormControl.value
-          ].Organization,
-          this.SourceControls[
-            this.SourceControlFormControl.value
-          ].Repository
-        )
-        .subscribe((response: BaseModeledResponse<string[]>) => {
-          this.BuildPathOptions = response.Model;
+    this.appsFlowSvc
+      .ListBuildPaths(
+        this.SourceControls[this.SourceControlFormControl.value].Organization,
+        this.SourceControls[this.SourceControlFormControl.value].Repository
+      )
+      .subscribe((response: BaseModeledResponse<string[]>) => {
+        this.BuildPathOptions = response.Model;
 
-          this.State.Loading = false;
+        this.State.Loading = false;
 
-          if (this.BuildPathOptions?.length === 1) {
-            this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
-          }
-        });
-    
+        if (this.BuildPathOptions?.length === 1) {
+          this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
+        }
+      });
   }
 
   protected setupLcuTypeSubForm(): void {
@@ -478,13 +451,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
       this.setupDfsForm();
 
       this.setupLcuTypeSubForm();
-      
-      this.listBuildPaths();
     }
   }
 
   protected setupLCUGitHubForm(): void {
-    console.log("EditingApplication: ",this.EditingApplication )
+    console.log('EditingApplication: ', this.EditingApplication);
 
     this.ProcessorDetailsFormGroup.addControl(
       'sourceControl',
@@ -496,12 +467,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     this.ProcessorDetailsFormGroup.addControl(
       'buildPath',
-      this.formBldr.control(
-        this.EditingApplication.LowCodeUnit?.Path || '',
-        [Validators.required]
-      )
+      this.formBldr.control(this.EditingApplication.LowCodeUnit?.Path || '', [
+        Validators.required,
+      ])
     );
-
 
     this.ProcessorDetailsFormGroup.addControl(
       'build',
@@ -510,6 +479,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
         [Validators.required]
       )
     );
+
+    this.listBuildPaths();
   }
 
   protected setupLCUApplicationPointerForm(): void {
@@ -521,8 +492,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
       )
     );
   }
-
-  
 
   protected setupLCUSPAForm(): void {
     this.ProcessorDetailsFormGroup.addControl(
