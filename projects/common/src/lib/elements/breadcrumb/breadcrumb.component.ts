@@ -9,14 +9,14 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
+  @Input('application-lookup')
+  public ApplicationLookup: string;
+
   public get Enterprise(): any {
     return this.State.Enterprises?.find(
       (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
-    );
+    ) || this.State.Enterprises?.length > 0 ? this.State.Enterprises[0] : {};
   }
-
-  @Input('application-lookup')
-  public ApplicationLookup: string;
 
   @Input('project-lookup')
   public ProjectLookup: string;
