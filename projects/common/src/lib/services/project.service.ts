@@ -368,7 +368,7 @@ export class ProjectService {
 
             state.ActiveEnterpriseLookup = activeEntLookup;
 
-            var results = Promise.all([
+            var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
               this.LoadUserFeed(1, 25, state)
             ])
@@ -403,7 +403,7 @@ export class ProjectService {
       this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
         async (response: BaseModeledResponse<string>) => {
           if (response.Status.Code === 0) {
-            var results = Promise.all([
+            var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
               this.LoadUserFeed(1, 25, state)
             ])
