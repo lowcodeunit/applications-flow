@@ -185,11 +185,11 @@ export class ApplicationsComponent implements OnInit {
     let curVersion;
     switch (this.Application?.LowCodeUnit?.Type) {
       case 'GitHub':
-        curVersion = this.Application.LowCodeUnit.CurrentBuild;
+        curVersion = `Build: ${this.Application.LowCodeUnit.CurrentBuild}`;
         break;
 
       case 'NPM':
-        curVersion = this.Application.LowCodeUnit.CurrentVersion;
+        curVersion = `Version: ${this.Application.LowCodeUnit.CurrentVersion}`;
         break;
     }
     return curVersion;
@@ -299,7 +299,7 @@ export class ApplicationsComponent implements OnInit {
 
   public UpdatePackage() {
     const app: EaCApplicationAsCode = this.Application;
-    
+
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ProjectLookup: this.ProjectLookup,
       Application: app,

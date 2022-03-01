@@ -1,126 +1,163 @@
 <mat-card class="project-info-card">
-
   <!-- SKELETON CONTENT -->
   <ng-container *ngIf="State?.Loading">
-    <div class="header-img-container" fxLayout="row" >
-      <skeleton-avatar class="round-project-img" [effect]="SkeletonEffect" [size]="75" ></skeleton-avatar >
-  </div>
+    <div class="header-img-container" fxLayout="row">
+      <skeleton-avatar
+        class="round-project-img"
+        [effect]="SkeletonEffect"
+        [size]="75"
+      ></skeleton-avatar>
+    </div>
 
-  <mat-card-header class="project-card-header" fxLayoutAlign="center center">
+    <mat-card-header class="project-card-header" fxLayoutAlign="center center">
+      <mat-card-title
+        skeleton-text
+        [effect]="SkeletonEffect"
+        class="project-card-name"
+      >
+        Name of card
+      </mat-card-title>
 
-    <mat-card-title 
-      skeleton-text  
-      [effect]="SkeletonEffect"
-      class="project-card-name" 
-    >
-      Name of card
-    </mat-card-title>
+      <mat-card-subtitle
+        skeleton-text
+        [effect]="SkeletonEffect"
+        class="project-card-description"
+      >
+        Description Text
+      </mat-card-subtitle>
 
-    <mat-card-subtitle 
-      skeleton-text 
-      [effect]="SkeletonEffect" 
-      class="project-card-description" 
-    >
-      Description Text
-    </mat-card-subtitle>
-
-    <mat-card-subtitle class="project-card-host">
-        <div 
-          skeleton-text 
-          [effect]="SkeletonEffect" 
-          class="host-anchor" 
-        >
+      <mat-card-subtitle class="project-card-host">
+        <div skeleton-text [effect]="SkeletonEffect" class="host-anchor">
           https://www.fathym.com
         </div>
-    </mat-card-subtitle>
-
-  </mat-card-header>
-  <mat-card-content class="card-content-container">
-    <div skeleton-block [effect]="SkeletonEffect" class="stats-container">
-    </div>
-
-    <div 
-      class="promo-container-skeleton" 
-      fxLayout="column" 
-      fxLayoutAlign="center center" 
-    >
-        
-      <div 
-        skeleton-text 
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="card-content-container">
+      <div
+        skeleton-block
         [effect]="SkeletonEffect"
-        class="skeleton-item"
+        class="stats-container"
+      ></div>
+
+      <div
+        class="promo-container-skeleton"
+        fxLayout="column"
+        fxLayoutAlign="center center"
       >
-        Access exclusive tools & insights
-      </div>
+        <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
+          Access exclusive tools & insights
+        </div>
 
-      <div fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon skeleton-text [effect]="SkeletonEffect" class="skeleton-item">emoji_events</mat-icon>
+        <div fxLayout="row" fxLayoutAlign="start center">
+          <mat-icon
+            skeleton-text
+            [effect]="SkeletonEffect"
+            class="skeleton-item"
+            >emoji_events</mat-icon
+          >
 
-        <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item" >
-          Upgrade to premium now
+          <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
+            Upgrade to premium now
+          </div>
         </div>
       </div>
-    </div>
-
-  </mat-card-content>
-  <mat-card-actions class="actions-container-skeleton" fxLayoutAlign="center center">
-    <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item" action mat-button >
-      <mat-icon skeleton-text [effect]="SkeletonEffect" class="skeleton-item">outbox</mat-icon>
-      Unpack
-    </div>
-    
-  </mat-card-actions>
+    </mat-card-content>
+    <mat-card-actions
+      class="actions-container-skeleton"
+      fxLayoutAlign="center center"
+    >
+      <div
+        skeleton-text
+        [effect]="SkeletonEffect"
+        class="skeleton-item"
+        action
+        mat-button
+      >
+        <mat-icon skeleton-text [effect]="SkeletonEffect" class="skeleton-item"
+          >outbox</mat-icon
+        >
+        Unpack
+      </div>
+    </mat-card-actions>
   </ng-container>
   <!-- END SKELETON CONTENT -->
 
   <!-- ACTUAL CONTENT -->
 
-<ng-container *ngIf="!State?.Loading">
-
-    <div class="header-img-container" fxLayout="row" >
-        <div class="round-project-img" fxLayoutAlign="center center">
-            <mat-icon *ngIf="!Image" class="temp-icon">flutter_dash</mat-icon>
-            <img *ngIf="Image" [src]="Image" [alt]="Name" style="width:75px; height:75px">
-        </div>
+  <ng-container *ngIf="!State?.Loading">
+    <div class="header-img-container" fxLayout="row">
+      <div class="round-project-img" fxLayoutAlign="center center">
+        <mat-icon *ngIf="!Image" class="temp-icon">flutter_dash</mat-icon>
+        <img
+          *ngIf="Image"
+          [src]="Image"
+          [alt]="Name"
+          style="width: 75px; height: 75px"
+        />
+      </div>
     </div>
 
-    <div class="icon-btn-container" fxLayout="row" fxLayoutAlign="space-between center" >
-      <button *ngIf="IsEditable" mat-icon-button id="left-icon" (click)="LeftIconClicked()">
+    <div
+      class="icon-btn-container"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <button
+        *ngIf="IsEditable"
+        mat-icon-button
+        id="left-icon"
+        (click)="LeftIconClicked()"
+      >
         <mat-icon>edit</mat-icon>
       </button>
-      <button *ngIf="IsShareable" mat-icon-button id="right-icon" (click)="RightIconClicked()">
+      <button
+        *ngIf="IsShareable"
+        mat-icon-button
+        id="right-icon"
+        (click)="RightIconClicked()"
+      >
         <mat-icon>share</mat-icon>
       </button>
     </div>
 
     <mat-card-header class="project-card-header" fxLayoutAlign="center center">
+      <mat-card-title class="project-card-name" *ngIf="Name">
+        {{ Name }}
+      </mat-card-title>
 
-      <mat-card-title class="project-card-name" *ngIf="Name">{{Name}}</mat-card-title>
-
-      <mat-card-subtitle class="project-card-description" *ngIf="Description">{{Description}}</mat-card-subtitle>
-
-      <mat-card-subtitle class="project-card-version" *ngIf="Version">Current Version: {{Version}}</mat-card-subtitle>
-
-
-      <mat-card-subtitle class="project-card-host">
-          <a class="host-anchor" *ngIf="Subtext" [href]="'https://'+Subtext" target="_blank">{{Subtext}}</a>
+      <mat-card-subtitle class="project-card-description" *ngIf="Description">
+        {{ Description }}
       </mat-card-subtitle>
 
+      <mat-card-subtitle class="project-card-version" *ngIf="Version">
+        {{ Version }}
+      </mat-card-subtitle>
+
+      <mat-card-subtitle class="project-card-host">
+        <a
+          class="host-anchor"
+          *ngIf="Subtext"
+          [href]="'https://' + Subtext"
+          target="_blank"
+        >
+          {{ Subtext }}
+        </a>
+      </mat-card-subtitle>
     </mat-card-header>
+
     <mat-card-content class="card-content-container">
       <div class="stats-container">
-        <ng-content  select="[stats]"></ng-content>
+        <ng-content select="[stats]"></ng-content>
       </div>
 
       <!-- <div class="promo-container"> -->
-        <!-- <ng-content  select="[promo]"></ng-content> -->
-        <div class="promo-container" 
-          fxLayout="column" 
-          fxLayoutAlign="center center" 
-          (click)="UpgradeClicked()"
-          
-        >
-        
+      <!-- <ng-content  select="[promo]"></ng-content> -->
+      <div
+        class="promo-container"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        (click)="UpgradeClicked()"
+      >
         <div>Access exclusive tools & insights</div>
 
         <div fxLayout="row" fxLayoutAlign="start center">
@@ -132,12 +169,9 @@
         </div>
       </div>
       <!-- </div> -->
-
     </mat-card-content>
     <mat-card-actions class="actions-container">
       <ng-content select="[action]"></ng-content>
-      
     </mat-card-actions>
   </ng-container>
-  </mat-card>
-  
+</mat-card>
