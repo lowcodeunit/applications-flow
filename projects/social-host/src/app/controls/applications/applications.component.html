@@ -13,6 +13,7 @@
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
       [subtext]="Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''"
+      [version]="CurrentVersion ? CurrentVersion : null "
       (left-click-event)="HandleLeftClickEvent($event)"
       (right-click-event)="HandleRightClickEvent($event)"
     >

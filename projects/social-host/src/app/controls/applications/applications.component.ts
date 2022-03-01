@@ -181,6 +181,20 @@ export class ApplicationsComponent implements OnInit {
     return version;
   }
 
+  public get CurrentVersion(): string {
+    let curVersion;
+    switch (this.Application?.LowCodeUnit?.Type) {
+      case 'GitHub':
+        curVersion = this.Application.LowCodeUnit.CurrentBuild;
+        break;
+
+      case 'NPM':
+        curVersion = this.Application.LowCodeUnit.CurrentVersion;
+        break;
+    }
+    return curVersion;
+  }
+
   public ApplicationLookup: string;
 
   public CurrentApplicationRoute: string;

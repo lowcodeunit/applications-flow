@@ -29,6 +29,9 @@ export class ProjectInfoCardComponent implements OnInit {
   @Input('subtext')
   public Subtext: string;
 
+  @Input('version')
+  public Version: string;
+
   @Output('left-click-event')
   public LeftClickEvent: EventEmitter<{}>;
 
