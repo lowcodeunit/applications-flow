@@ -331,7 +331,7 @@ export class BuildPipelineFormComponent implements OnInit {
         const hostOption = this.HostingDetails?.HostingOptions?.find(
           (ho) => ho.Path === this.DevOpsAction.Path
         );
-        this.BuildPipeline = hostOption.Lookup;
+        this.BuildPipeline = hostOption?.Lookup;
 
         // console.log("Build Pipeline HERE= ", this.BuildPipeline);
 
