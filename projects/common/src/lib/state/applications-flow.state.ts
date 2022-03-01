@@ -35,6 +35,12 @@ export class ApplicationsFlowState {
 
     this.Loading = true;
 
+    this.LoadingActiveEnterprise = true;
+
+    this.LoadingEnterprises = true;
+
+    this.LoadingFeed = true;
+
     // this.Projects = [];
   }
 }
