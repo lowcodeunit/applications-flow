@@ -23,6 +23,8 @@ export class FeedItem {
 
   public Status: Status;
 
+  public Subtext: string;
+
   public Subtitle: string;
 
   public Tabs: Array<FeedItemTab>;
