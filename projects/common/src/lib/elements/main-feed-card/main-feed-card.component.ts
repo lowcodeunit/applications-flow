@@ -8,6 +8,7 @@ import { SourceControlDialogComponent } from '../../dialogs/source-control-dialo
 import { MatDialog } from '@angular/material/dialog';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'lcu-main-feed-card',
@@ -64,7 +65,11 @@ export class MainFeedCardComponent implements OnInit {
     return this.eacSvc.State;
   }
 
-  constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {}
+  constructor(
+    protected eacSvc: EaCService,
+    protected dialog: MatDialog,
+    private sanitizer: DomSanitizer
+  ) {}
 
   //  Life Cycle
   public ngOnInit(): void {
@@ -106,6 +111,10 @@ export class MainFeedCardComponent implements OnInit {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
+  }
+
+  public SafeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   //  Helpers

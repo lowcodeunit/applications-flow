@@ -11,7 +11,7 @@
 
     <mat-card-subtitle>
       <div *ngIf="FeedItem.Subtitle">{{ FeedItem.Subtitle }}</div>
-      
+
       <div *ngIf="FeedItem.Status">
         <mat-icon
           *ngIf="Icon"
@@ -29,13 +29,24 @@
   </mat-card-header>
 
   <div *ngIf="!FeedItem.IsShortForm">
-    <!-- <div class="feed-card-container">
-        <div class="feed-card-main-content">
-            The tab content (only 1 'tab' for now)...  So really we don't need to worry about tabs until a future iteration
-
-            The tabs property will contain a data structure that will vary by the FeedItem.Type...  That structure can be used to render the content
-        </div>
-    </div> -->
+    <div class="feed-card-container">
+      <div class="feed-card-main-content">
+        <mat-tab-group>
+          <ng-container *ngFor="let tab of FeedItem.Tabs">
+            <mat-tab [label]="tab.Title">
+              <div class="tab">
+                <ng-container *ngIf="tab.Data?.Video">
+                  <div
+                    class="video"
+                    [innerHTML]="SafeHtml(tab.Data.Video)"
+                  ></div>
+                </ng-container>
+              </div>
+            </mat-tab>
+          </ng-container>
+        </mat-tab-group>
+      </div>
+    </div>
   </div>
 
   <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
