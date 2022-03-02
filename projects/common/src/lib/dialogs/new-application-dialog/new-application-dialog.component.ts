@@ -215,6 +215,8 @@ export class NewApplicationDialogComponent implements OnInit {
       app.LowCodeUnit.SourceControlLookup = null;
     }
 
+    console.log("Save new App request: ", saveAppReq);
+
     this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
       this.handleSaveStatus(res);
     });

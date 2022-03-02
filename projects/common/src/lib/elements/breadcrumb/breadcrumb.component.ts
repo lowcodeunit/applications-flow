@@ -13,9 +13,7 @@ export class BreadcrumbComponent implements OnInit {
   public ApplicationLookup: string;
 
   public get Enterprise(): any {
-    return this.State.Enterprises?.find(
-      (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
-    ) || this.State.Enterprises?.length > 0 ? this.State.Enterprises[0] : {};
+    return this.State?.EaC?.Enterprise;
   }
 
   @Input('project-lookup')
