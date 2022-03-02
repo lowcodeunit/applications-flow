@@ -12,6 +12,8 @@ export class BreadcrumbComponent implements OnInit {
   @Input('application-lookup')
   public ApplicationLookup: string;
 
+  
+
   public get Enterprise(): any {
     return this.State?.EaC?.Enterprise;
   }
