@@ -204,7 +204,7 @@ export class NewApplicationDialogComponent implements OnInit {
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ProjectLookup: this.data.projectLookup,
       Application: app,
-      ApplicationLookup: Guid.CreateRaw(),
+      ApplicationLookup: this.NewApplicationLookup,
     };
 // this.HasBuildFormControl.value &&  taken out from below if statement
     if (this.ProcessorDetailsFormControls.ProcessorType !== 'redirect') {

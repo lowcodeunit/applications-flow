@@ -65,7 +65,7 @@ export class EditApplicationFormComponent implements OnInit {
 
   public SaveApplication(): void {
     const app: EaCApplicationAsCode = this.EditingApplication;
-    console.log("APP=", app);
+    // console.log("APP=", app);
     app.Application = {
       Name: this.NameFormControl.value,
       Description: this.DescriptionFormControl.value,

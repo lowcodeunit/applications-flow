@@ -65,6 +65,10 @@ export class AppComponent {
       this.eacSvc.GetActiveEnterprise(),
       this.getFeedInfo(),
     ]);
+
+    this.eacSvc.SetActiveEnterprise(this.State?.Enterprises[0].Lookup);
+    console.log("state = ", this.State)
+    // console.log("enterprise = ", this.State?.Enterprises)
   }
 
   protected async getFeedInfo(): Promise<void> {

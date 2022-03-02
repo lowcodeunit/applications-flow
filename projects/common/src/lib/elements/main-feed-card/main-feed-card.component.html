@@ -12,6 +12,8 @@
     <mat-card-subtitle>
       <div *ngIf="FeedItem.Subtitle">{{ FeedItem.Subtitle }}</div>
 
+      <div *ngIf="FeedItem.Subtext">{{ FeedItem.Subtext }}</div>
+
       <div *ngIf="FeedItem.Status">
         <mat-icon
           *ngIf="Icon"
@@ -35,6 +37,12 @@
           <ng-container *ngFor="let tab of FeedItem.Tabs">
             <mat-tab [label]="tab.Title">
               <div class="tab">
+                <ng-container *ngIf="tab.Data?.Commit?.Message">
+                  <div class="commit-message">
+                    {{ tab.Data?.Commit?.Message }}
+                  </div>
+                </ng-container>
+
                 <ng-container *ngIf="tab.Data?.Video">
                   <div
                     class="video"

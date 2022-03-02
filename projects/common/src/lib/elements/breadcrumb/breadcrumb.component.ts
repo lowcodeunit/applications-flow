@@ -72,7 +72,7 @@ export class BreadcrumbComponent implements OnInit {
 
     let appRoutes =
       apps.map((app) => {
-        return app.LookupConfig?.PathRegex.replace('.*', '');
+        return app?.LookupConfig?.PathRegex.replace('.*', '');
       }) || [];
 
     appRoutes = appRoutes.filter((ar) => ar != null);
@@ -102,7 +102,7 @@ export class BreadcrumbComponent implements OnInit {
         const filteredAppLookups = workingAppLookups.filter((wal) => {
           const wa = this.Applications[wal];
 
-          return wa.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+          return wa?.LookupConfig?.PathRegex.startsWith(currentRouteBase);
         });
 
         routeMap[currentRouteBase] =
