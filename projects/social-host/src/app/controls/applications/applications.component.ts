@@ -53,7 +53,9 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public get Enterprise(): any {
-    return this.State?.EaC?.Enterprise;
+    return this.State.Enterprises?.find(
+      (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
+    ) || this.State.Enterprises?.length > 0 ? this.State.Enterprises[0] : {};
   }
 
   public get Environment(): EaCEnvironmentAsCode {
@@ -251,6 +253,8 @@ export class ApplicationsComponent implements OnInit {
       width: '600px',
       data: {
         application: this.Application,
+        applicationLookup: this.ApplicationLookup,
+        projectLookup: this.ProjectLookup
       },
     });
 

@@ -15,6 +15,9 @@ export class EditApplicationFormComponent implements OnInit {
   @Input('application-lookup')
   public ApplicationLookup: string;
 
+  @Input('current-route')
+  public CurrentRoute: string;
+
   @Input('editing-application') 
   public EditingApplication: EaCApplicationAsCode;
 
@@ -62,7 +65,7 @@ export class EditApplicationFormComponent implements OnInit {
 
   public SaveApplication(): void {
     const app: EaCApplicationAsCode = this.EditingApplication;
-    console.log("APP=", app);
+    // console.log("APP=", app);
     app.Application = {
       Name: this.NameFormControl.value,
       Description: this.DescriptionFormControl.value,
@@ -85,7 +88,7 @@ export class EditApplicationFormComponent implements OnInit {
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ProjectLookup: this.ProjectLookup,
       Application: app,
-      ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
+      ApplicationLookup: this.ApplicationLookup,
     };
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
@@ -103,7 +106,7 @@ export class EditApplicationFormComponent implements OnInit {
           this.EditingApplication.Application?.Description,
           Validators.required,
         ],
-        route: [
+        route: [this.CurrentRoute ? this.CurrentRoute :
           this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
             '/',
           Validators.required,
