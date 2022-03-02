@@ -251,6 +251,8 @@ export class ApplicationsComponent implements OnInit {
       width: '600px',
       data: {
         application: this.Application,
+        applicationLookup: this.ApplicationLookup,
+        projectLookup: this.ProjectLookup
       },
     });
 

@@ -6,7 +6,8 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 
 export interface ApplicationDialogData {
   application: EaCApplicationAsCode;
- 
+  applicationLookup: string;
+  projectLookup: string;
 }
 
 @Component({

@@ -15,6 +15,9 @@ export class EditApplicationFormComponent implements OnInit {
   @Input('application-lookup')
   public ApplicationLookup: string;
 
+  @Input('current-route')
+  public CurrentRoute: string;
+
   @Input('editing-application') 
   public EditingApplication: EaCApplicationAsCode;
 
@@ -103,7 +106,7 @@ export class EditApplicationFormComponent implements OnInit {
           this.EditingApplication.Application?.Description,
           Validators.required,
         ],
-        route: [
+        route: [this.CurrentRoute ? this.CurrentRoute :
           this.EditingApplication.LookupConfig?.PathRegex.replace('.*', '') ||
             '/',
           Validators.required,

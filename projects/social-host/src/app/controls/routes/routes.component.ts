@@ -222,6 +222,7 @@ export class RoutesComponent implements OnInit {
       maxHeight: '80vh',
       data: {
         projectLookup: this.ProjectLookup,
+        currentRoute: this.AppRoute,
         environmentLookup: this.ActiveEnvironmentLookup,
       },
     });

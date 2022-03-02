@@ -11,6 +11,7 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 export interface NewApplicationDialogData {
   environmentLookup: string;
   projectLookup: string;
+  currentRoute: string;
 }
 
 @Component({

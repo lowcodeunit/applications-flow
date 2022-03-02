@@ -5,7 +5,9 @@
 </div>
 
 <lcu-edit-application-form 
+    [application-lookup]="data.applicationLookup"
     [editing-application]="data.application"
+    [project-lookup]="data.projectLookup"
     (save-form-event)="SaveApplication($event)">
 </lcu-edit-application-form>
 
