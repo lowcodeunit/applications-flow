@@ -203,11 +203,6 @@
                 "output": "/"
               },
               {
-                "glob": "**/*",
-                "input": "node_modules/@semanticjs/krakyn/assets/styles",
-                "output":"/assets/styles"
-              },
-              {
 								"glob": "**/*",
 								"input": "node_modules/sass.js/dist",
 								"output": "/assets"
