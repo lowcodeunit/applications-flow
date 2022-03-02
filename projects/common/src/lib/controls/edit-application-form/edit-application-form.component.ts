@@ -85,7 +85,7 @@ export class EditApplicationFormComponent implements OnInit {
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ProjectLookup: this.ProjectLookup,
       Application: app,
-      ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
+      ApplicationLookup: this.ApplicationLookup,
     };
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
