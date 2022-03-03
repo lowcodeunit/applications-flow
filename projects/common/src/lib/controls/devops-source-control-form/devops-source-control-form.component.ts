@@ -380,13 +380,13 @@ export class DevopsSourceControlFormComponent
     let devOpsActionLookup: string;
 
     if (!this.DevOpsActionLookup) {
-      devOpsActionLookup = Guid.CreateRaw();
+      devOpsActionLookup = null;
 
-      const doa: EaCDevOpsAction = {
-        ...this.DevOpsAction,
-        ArtifactLookups: [artifactLookup],
+      // const doa: EaCDevOpsAction = {
+      //   ...this.DevOpsAction,
+      //   ArtifactLookups: [artifactLookup],
         
-      };
+      // };
 
       
       saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = this.DevOpsAction;
@@ -410,15 +410,30 @@ export class DevopsSourceControlFormComponent
       MainBranch: this.MainBranchFormControl.value,
     };
 
-    source = {
-      ...source,
-      Type: 'GitHub',
-      Name: this.EditingSourceControlLookup,
-      DevOpsActionTriggerLookups: [devOpsActionLookup],
-      Organization:
-        this.OrganizationFormControl.value,
-      Repository: this.RepositoryFormControl.value,
-    };
+    if(devOpsActionLookup){
+      source = {
+        ...source,
+        Type: 'GitHub',
+        Name: this.EditingSourceControlLookup,
+        DevOpsActionTriggerLookups: [devOpsActionLookup],
+        Organization:
+          this.OrganizationFormControl.value,
+        Repository: this.RepositoryFormControl.value,
+      };
+    }
+    else{
+      source = {
+        ...source,
+        Type: 'GitHub',
+        Name: this.EditingSourceControlLookup,
+        // DevOpsActionTriggerLookups: [devOpsActionLookup],
+        Organization:
+          this.OrganizationFormControl.value,
+        Repository: this.RepositoryFormControl.value,
+      };
+    }
+
+    
 
     const scLookup = `github://${source.Organization}/${source.Repository}`;
 
