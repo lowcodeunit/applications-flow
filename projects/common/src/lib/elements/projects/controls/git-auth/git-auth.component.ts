@@ -1,7 +1,4 @@
-import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
-import { ApplicationsFlowState } from './../../../../state/applications-flow.state';
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
-import { BaseResponse } from '@lcu/common';
+import { Component, OnInit, AfterViewInit, } from '@angular/core';
 
 @Component({
   selector: 'lcu-git-auth',

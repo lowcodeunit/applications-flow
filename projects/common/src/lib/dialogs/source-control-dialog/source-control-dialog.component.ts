@@ -3,6 +3,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
+import { EaCService } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 export interface SCDialogData {
   environment: EaCEnvironmentAsCode;
@@ -17,14 +19,22 @@ export interface SCDialogData {
 })
 export class SourceControlDialogComponent implements OnInit {
 
+  public get HasConnection(): boolean{
+    return this.eacSvc.State.GitHub.HasConnection;
+  }
+
+
   public ErrorMessage: string;
 
   constructor( public dialogRef: MatDialogRef<SourceControlDialogComponent>,
+    protected eacSvc: EaCService,
     @Inject(MAT_DIALOG_DATA) public data: SCDialogData,
     protected snackBar: MatSnackBar) { }
 
   public ngOnInit(): void {
+    
   }
+
 
   public CloseDialog(){
     this.dialogRef.close();
