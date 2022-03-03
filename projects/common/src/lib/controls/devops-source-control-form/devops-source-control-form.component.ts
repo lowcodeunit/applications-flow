@@ -229,9 +229,13 @@ export class DevopsSourceControlFormComponent
   }
 
   public ngOnInit(): void {
+
+    console.log("source control lookup", this.EditingSourceControlLookup)
+
     if (this.EditingSourceControlLookup === null) {
       this.CreateNewSourceControl();
     }
+    console.log("source control", this.EditingSourceControl);
 
     if (this.EditingSourceControl != null) {
       this.DevOpsSourceControlFormGroup = this.formBuilder.group({});
@@ -527,6 +531,7 @@ export class DevopsSourceControlFormComponent
       .ListOrganizations()
       .subscribe((response: BaseModeledResponse<GitHubOrganization[]>) => {
         this.OrganizationOptions = response.Model;
+        console.log("Organization Options: ", this.OrganizationOptions);
 
         this.Loading = false;
 

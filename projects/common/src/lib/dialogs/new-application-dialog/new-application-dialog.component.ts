@@ -207,13 +207,15 @@ export class NewApplicationDialogComponent implements OnInit {
       ApplicationLookup: this.NewApplicationLookup,
     };
 // this.HasBuildFormControl.value &&  taken out from below if statement
-    if (this.ProcessorDetailsFormControls.ProcessorType !== 'redirect') {
+    if (this.ProcessorDetailsFormControls.ProcessorType !== 'redirect' && this.ProcessorDetailsFormControls.LCUType === 'GitHub') {
       if (app) {
         app.LowCodeUnit.SourceControlLookup = this.ProcessorDetailsFormControls.SourceControlFormControl.value;
       }
     } else if (app) {
       app.LowCodeUnit.SourceControlLookup = null;
     }
+
+    console.log("Save new App request: ", saveAppReq);
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
       this.handleSaveStatus(res);

@@ -14,10 +14,16 @@
     <mat-card-content>
       <div class="card">
         <mat-form-field class="mat-full-width">
-          <mat-select formControlName="devOpsActionLookup" placeholder="DevOps Action"
-            [disabled]="HostingDetails?.Loading" (selectionChange)="DevOpsActionLookupChanged($event)">
+          <mat-select 
+            formControlName="devOpsActionLookup" 
+            placeholder="DevOps Action"
+            [disabled]="HostingDetails?.Loading" 
+            (selectionChange)="DevOpsActionLookupChanged($event)"
+          >
             <ng-container *ngFor="let devOpsActionLookup of DevOpsActionLookups">
-              <mat-option [value]="devOpsActionLookup" *ngIf="DevOpsActions[devOpsActionLookup]; let devOpsAction">
+              <mat-option 
+                [value]="devOpsActionLookup" 
+                *ngIf="DevOpsActions[devOpsActionLookup]; let devOpsAction">
                 {{ devOpsAction.Name }}
               </mat-option>
             </ng-container>
@@ -27,11 +33,19 @@
         </mat-form-field>
       </div>
       <div class="card" *ngIf="OrganizationFormControl?.valid || !Loading">
-        <mat-form-field class="mat-full-width with-hint margin-bottom" *ngIf="OrganizationOptions?.length > 0">
+        <mat-form-field 
+          class="mat-full-width with-hint margin-bottom" 
+          *ngIf="OrganizationOptions?.length > 0"
+        >
           <mat-icon class="org-icon" matPrefix>corporate_fare</mat-icon>
 
-          <mat-select [formControlName]="SourceControlRoot + 'organization'" placeholder="Organization"
-            (selectionChange)="OrganizationChanged($event)" [disabled]="Loading || HostingDetails?.Loading" required>
+          <mat-select 
+            [formControlName]="SourceControlRoot + 'organization'" 
+            placeholder="Organization"
+            (selectionChange)="OrganizationChanged($event)" 
+            [disabled]="Loading || HostingDetails?.Loading" 
+            required
+          >
             <ng-container *ngFor="let orgOpt of OrganizationOptions">
               <mat-option [value]="orgOpt.Name">
                 {{ orgOpt.Name }}
@@ -39,7 +53,7 @@
             </ng-container>
           </mat-select>
 
-          <mat-icon matSuffix (click)="RefreshOrganizations()" matTooltip="Refresh Organization"> refresh </mat-icon>
+          <mat-icon matSuffix (click)="RefreshOrganizations()" matTooltip="Refresh Organization" color="accent"> refresh </mat-icon>
 
           <a matSuffix href="/.oauth/github?oauth-force-edit=true" target="_blank" color="accent">
             <mat-icon color="accent" matTooltip="Re-authorize Organizations"> launch </mat-icon>
@@ -47,7 +61,7 @@
 
           <mat-hint>
             If you don't have an organization or would like to create a new one,
-            <a href="https://github.com/account/organizations/new" target="_blank">
+            <a href="https://github.com/account/organizations/new" class="primary-link" target="_blank">
               start here
             </a>
           </mat-hint>
@@ -149,7 +163,7 @@
             </ng-container>
           </mat-select>
 
-          <mat-icon matSuffix (click)="RefreshOrganizations()"> refresh </mat-icon>
+          <mat-icon matSuffix (click)="RefreshOrganizations()" color="accent"> refresh </mat-icon>
 
           <a matSuffix mat-icon-button href="/.oauth/github?oauth-force-edit=true" target="_blank" color="accent">
             <mat-icon matTooltip="Re-authorize Organizations" color="accent"> launch </mat-icon>
@@ -157,7 +171,7 @@
 
           <mat-hint>
             If you don't have an organization or would like to create a new one,
-            <a href="https://github.com/account/organizations/new" target="_blank">
+            <a href="https://github.com/account/organizations/new" target="_blank"class="primary-link">
               start here
             </a>
           </mat-hint>
