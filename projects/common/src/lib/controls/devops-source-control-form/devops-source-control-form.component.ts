@@ -393,7 +393,7 @@ export class DevopsSourceControlFormComponent
     source = {
       ...source,
       Type: 'GitHub',
-      Name: this.EditingSourceControlLookup,
+      Name: `@${this.OrganizationFormControl.value}/${this.RepositoryFormControl.value}`,
       DevOpsActionTriggerLookups: [this.DevOpsActionLookup],
       Organization: this.OrganizationFormControl.value,
       Repository: this.RepositoryFormControl.value,
