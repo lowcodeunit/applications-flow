@@ -4,7 +4,79 @@
       <mat-card-title> Processor Details </mat-card-title>
     </mat-card-header>
 
-    <lcu-loader [loading]="State?.Loading"></lcu-loader>
+    <ng-container *ngIf="State?.Loading">
+
+      <skeleton-block  
+        class="s-block" 
+        effect="wave"
+      ></skeleton-block>
+
+      <skeleton-block  
+        class="s-block" 
+        effect="wave"
+        *ngIf="
+          DefaultFileFormControl?.valid 
+          || 
+          RedirectFormControl?.valid 
+          || 
+          ScopesFormControl?.valid
+          ||
+          InboundPathFormControl?.valid
+          "
+      ></skeleton-block>
+
+      <skeleton-block 
+        class="s-block"
+        effect="wave" 
+        *ngIf="LCUType" 
+      ></skeleton-block>
+
+      <skeleton-block 
+        class="s-block" 
+        effect="wave"
+        *ngIf="
+          SourceControlFormControl?.valid 
+          || 
+          PackageFormControl?.valid 
+          || 
+          APIRootFormControl?.valid 
+          || 
+          TokenLookupFormControl?.valid
+          ||
+          SPARootFormControl?.vallid
+          " 
+      ></skeleton-block>
+
+      <skeleton-block 
+        class="s-block" 
+        effect="wave"
+        *ngIf="
+          BuildPathFormControl?.valid 
+          || 
+          VersionFormControl?.valid 
+          || 
+          ClientIDFormControl?.valid 
+          || 
+          MethodsFormControl?.valid
+          " 
+      ></skeleton-block>
+
+      <skeleton-block 
+        class="s-block"
+        effect="wave" 
+        *ngIf="
+          BuildFormControl?.valid 
+          || 
+          ClientSecretFormControl?.valid 
+          || 
+          SecurityFormControl?.valid
+          " 
+      ></skeleton-block>
+
+      <lcu-loader *ngIf="LCUType === 'Redirect'" [loading]="State?.Loading"></lcu-loader>
+
+    </ng-container>
+    <!-- END SKELETON -->
 
     <ng-container *ngIf="!State?.Loading">
 
@@ -337,7 +409,7 @@
           <mat-icon>save</mat-icon>
           Save Processor Details
         </button>
-        <lcu-loader [loading]="State?.Loading"></lcu-loader>
+        <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader>
 
     </mat-card-actions>
 

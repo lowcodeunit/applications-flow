@@ -387,6 +387,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
       )
       .subscribe((response: BaseModeledResponse<string[]>) => {
         this.BuildPathOptions = response.Model;
+        console.log("build path options: ", this.BuildPathOptions)
 
         this.State.Loading = false;
 
