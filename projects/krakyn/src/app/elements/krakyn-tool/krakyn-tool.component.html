@@ -1,0 +1,15 @@
+<ng-container>
+    <krakyn-flow-tool
+        *ngIf="State && State.Enterprises"
+        [HeaderTitle] = 'Title'
+        [FlowData] = 'KrakynData'
+        [SideMenuItems] = 'SideMenuItems'
+        [TabMenuItems] = 'TabMenuItems'>
+    </krakyn-flow-tool>
+    <div *ngIf="!State || !State.Enterprises">
+        <strong>
+            No Flow Data
+        </strong> 
+    </div>
+</ng-container>
+

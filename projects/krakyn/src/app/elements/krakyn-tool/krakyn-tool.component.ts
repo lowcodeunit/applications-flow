@@ -1,17 +1,21 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { EaCNapkinIDEFlowImporter } from '@semanticjs/napkin-ide';
-// import '@semanticjs/krakyn';
+import {
+  ApplicationsFlowState,
+  // EaCService,
+  // SourceControlDialogComponent,
+  // BuildPipelineDialogComponent,
+  // ApplicationsFlowService,
+  ProjectService,
+} from '@lowcodeunit/applications-flow-common';
 import { ConstantUtils, DragDropUtils, DragItemsTemplates, VariablesUtils } from '@semanticjs/krakyn';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
-import { ProjectService } from '../../services/project.service';
+import { EaCNapkinIDEFlowImporter } from '@semanticjs/napkin-ide';
+
 @Component({
-  selector: 'lcu-flow-tool',
-  templateUrl: './flow-tool.component.html',
-  styleUrls: ['./flow-tool.component.scss']
+  selector: 'app-krakyn-tool',
+  templateUrl: './krakyn-tool.component.html',
+  styleUrls: ['./krakyn-tool.component.scss']
 })
-
-
-export class FlowToolComponent implements OnInit  {
+export class KrakynToolComponent implements OnInit {
 
   public State: ApplicationsFlowState;
 
@@ -111,3 +115,4 @@ export class FlowToolComponent implements OnInit  {
     }
   }
 }
+

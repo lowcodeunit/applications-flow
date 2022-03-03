@@ -30,7 +30,6 @@ import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
-import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
@@ -84,7 +83,6 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-    FlowToolComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
@@ -146,7 +144,6 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-    FlowToolComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,

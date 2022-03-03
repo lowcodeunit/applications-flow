@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FlowToolComponent } from './flow-tool.component';
+import { KrakynToolComponent } from './krakyn-tool.component';
 
-describe('FlowToolComponent', () => {
-  let component: FlowToolComponent;
-  let fixture: ComponentFixture<FlowToolComponent>;
+describe('KrakynToolComponent', () => {
+  let component: KrakynToolComponent;
+  let fixture: ComponentFixture<KrakynToolComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FlowToolComponent ]
+      declarations: [ KrakynToolComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FlowToolComponent);
+    fixture = TestBed.createComponent(KrakynToolComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

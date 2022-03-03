@@ -55,7 +55,6 @@ export * from './lib/elements/form-card/form-card.component';
 export * from './lib/elements/base-form/base-form.component';
 export * from './lib/elements/projects/controls/recent-activities/recent-activities.component';
 export * from './lib/elements/projects/projects.component';
-export * from './lib/elements/flow-tool/flow-tool.component';
 export * from './lib/elements/slotted-card/slotted-card.component';
 export * from './lib/elements/analytics-card/analytics-card.component';
 export * from './lib/elements/feed-card-sm/feed-card-sm.component';
@@ -77,4 +76,3 @@ export * from './lib/dialogs/source-control-dialog/source-control-dialog.compone
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/elements/breadcrumb/breadcrumb.component';
-export * from './lib/elements/flow-tool/flow-tool.component';

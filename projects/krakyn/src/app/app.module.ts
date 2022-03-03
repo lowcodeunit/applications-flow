@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FathymSharedModule, LCUServiceSettings } from '@lcu/common';
 import {
@@ -7,10 +7,12 @@ import {
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { KrakynToolComponent } from './elements/krakyn-tool/krakyn-tool.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    KrakynToolComponent
   ],
   imports: [
     BrowserModule,
@@ -23,6 +25,12 @@ import { AppComponent } from './app.component';
       // useValue: FathymSharedModule.DefaultServiceSettings(environment),
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+    KrakynToolComponent
+  ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
+  ]
 })
 export class AppModule { }
