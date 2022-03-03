@@ -3,7 +3,6 @@ import { EaCNapkinIDEFlowImporter } from '@semanticjs/napkin-ide';
 // import '@semanticjs/krakyn';
 import { ConstantUtils, DragDropUtils, DragItemsTemplates, VariablesUtils } from '@semanticjs/krakyn';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
-import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { ProjectService } from '../../services/project.service';
 @Component({
   selector: 'lcu-flow-tool',
@@ -16,7 +15,6 @@ export class FlowToolComponent implements OnInit  {
 
   public State: ApplicationsFlowState;
 
-
   // Array<{Module: string, Data: Array<any>}>
   public KrakynData: any;
   public SideMenuItems: any;
@@ -25,13 +23,12 @@ export class FlowToolComponent implements OnInit  {
 
   constructor(
     protected injector: Injector,
-    protected appsFlowSvc: ApplicationsFlowService,
     protected projectService: ProjectService
   ) {
 
     // super(injector);
 
-    console.log('CONSTRUCTOR');
+    console.log('FLOW TOOL CONSTRUCTOR');
 
     this.State = new ApplicationsFlowState();
 
@@ -92,7 +89,7 @@ export class FlowToolComponent implements OnInit  {
   }
 
   protected async handleStateChange(): Promise<void> {
-
+    debugger;
     console.log('HANDLE STATE CHANGE');
 
     this.State.Loading = true;

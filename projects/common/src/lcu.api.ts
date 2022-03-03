@@ -77,3 +77,4 @@ export * from './lib/dialogs/source-control-dialog/source-control-dialog.compone
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/elements/breadcrumb/breadcrumb.component';
+export * from './lib/elements/flow-tool/flow-tool.component';
