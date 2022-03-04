@@ -1,12 +1,12 @@
 <div class="breadcrumb-container" fxLayout="row wrap">
   <div fxLayout="row" fxLayoutAlign="center center">
-    <ng-container *ngIf="Loading">
+    <ng-container *ngIf="State.Loading || Loading">
       <mat-icon skeleton-text [effect]="SkeletonEffect">home</mat-icon>
 
       <div skeleton-text [effect]="SkeletonEffect">Enterprise Name</div>
     </ng-container>
 
-    <ng-container *ngIf="!Loading && Enterprise">
+    <ng-container *ngIf="!State.Loading && Enterprise && !Loading">
       <div class="crumb-name" [routerLink]="['/enterprises']">
         <mat-icon>home</mat-icon>
 

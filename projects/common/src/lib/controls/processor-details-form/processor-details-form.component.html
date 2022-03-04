@@ -4,7 +4,22 @@
       <mat-card-title> Processor Details </mat-card-title>
     </mat-card-header>
 
-    <lcu-loader [loading]="State?.Loading"></lcu-loader>
+    <ng-container *ngIf="State?.Loading">
+
+      <ng-container *ngFor="let fc of ValidFormControls">
+
+        <skeleton-block  
+        [id]="fc"
+        class="s-block" 
+        effect="wave"
+        ></skeleton-block>
+        
+      </ng-container>
+
+      <lcu-loader *ngIf="LCUType === 'Redirect'" [loading]="State?.Loading"></lcu-loader>
+
+    </ng-container>
+    <!-- END SKELETON -->
 
     <ng-container *ngIf="!State?.Loading">
 
@@ -337,7 +352,7 @@
           <mat-icon>save</mat-icon>
           Save Processor Details
         </button>
-        <lcu-loader [loading]="State?.Loading"></lcu-loader>
+        <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader>
 
     </mat-card-actions>
 

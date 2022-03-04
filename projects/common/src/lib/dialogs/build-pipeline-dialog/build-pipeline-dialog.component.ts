@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
+import { EaCService } from '../../services/eac.service';
 
 
 export interface BPDialogData {
@@ -20,9 +21,14 @@ export interface BPDialogData {
 
 export class BuildPipelineDialogComponent implements OnInit {
 
+  public get HasConnection(): boolean{
+    return this.eacSvc.State.GitHub.HasConnection;
+  }
+
   public ErrorMessage: string;
 
 constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
+  protected eacSvc: EaCService,
   @Inject(MAT_DIALOG_DATA) public data: BPDialogData,
   protected snackBar: MatSnackBar) { }
 

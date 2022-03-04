@@ -41,9 +41,7 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get Enterprise(): any {
-    return this.State.Enterprises?.find(
-      (ent) => ent.Lookup == this.State.ActiveEnterpriseLookup
-    ) || this.State.Enterprises?.length > 0 ? this.State.Enterprises[0] : {};
+    return this.State?.EaC?.Enterprise;
   }
 
   public get Environment(): EaCEnvironmentAsCode {

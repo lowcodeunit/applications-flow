@@ -366,7 +366,12 @@ export class ProjectService {
           if (response.Status.Code === 0) {
             this.EditingProjectLookup = null;
 
+            console.log("project service active ent: ", activeEntLookup)
+
             state.ActiveEnterpriseLookup = activeEntLookup;
+
+            console.log("project service State active ent: ", state.ActiveEnterpriseLookup)
+
 
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
