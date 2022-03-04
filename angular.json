@@ -466,7 +466,7 @@
       },
       "root": "projects/krakyn",
       "sourceRoot": "projects/krakyn/src",
-      "prefix": "app",
+      "prefix": "lcu",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
