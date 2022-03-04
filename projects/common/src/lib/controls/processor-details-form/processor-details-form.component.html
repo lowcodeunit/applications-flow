@@ -6,72 +6,15 @@
 
     <ng-container *ngIf="State?.Loading">
 
-      <skeleton-block  
+      <ng-container *ngFor="let fc of ValidFormControls">
+
+        <skeleton-block  
+        [id]="fc"
         class="s-block" 
         effect="wave"
-      ></skeleton-block>
-
-      <skeleton-block  
-        class="s-block" 
-        effect="wave"
-        *ngIf="
-          DefaultFileFormControl?.valid 
-          || 
-          RedirectFormControl?.valid 
-          || 
-          ScopesFormControl?.valid
-          ||
-          InboundPathFormControl?.valid
-          "
-      ></skeleton-block>
-
-      <skeleton-block 
-        class="s-block"
-        effect="wave" 
-        *ngIf="LCUType" 
-      ></skeleton-block>
-
-      <skeleton-block 
-        class="s-block" 
-        effect="wave"
-        *ngIf="
-          SourceControlFormControl?.valid 
-          || 
-          PackageFormControl?.valid 
-          || 
-          APIRootFormControl?.valid 
-          || 
-          TokenLookupFormControl?.valid
-          ||
-          SPARootFormControl?.vallid
-          " 
-      ></skeleton-block>
-
-      <skeleton-block 
-        class="s-block" 
-        effect="wave"
-        *ngIf="
-          BuildPathFormControl?.valid 
-          || 
-          VersionFormControl?.valid 
-          || 
-          ClientIDFormControl?.valid 
-          || 
-          MethodsFormControl?.valid
-          " 
-      ></skeleton-block>
-
-      <skeleton-block 
-        class="s-block"
-        effect="wave" 
-        *ngIf="
-          BuildFormControl?.valid 
-          || 
-          ClientSecretFormControl?.valid 
-          || 
-          SecurityFormControl?.valid
-          " 
-      ></skeleton-block>
+        ></skeleton-block>
+        
+      </ng-container>
 
       <lcu-loader *ngIf="LCUType === 'Redirect'" [loading]="State?.Loading"></lcu-loader>
 

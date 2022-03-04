@@ -136,6 +136,18 @@ export class ProcessorDetailsFormComponent implements OnInit {
     return this.ProcessorDetailsFormGroup?.controls.tokenLookup;
   }
 
+  public get ValidFormControls():Array<AbstractControl> {
+    let vfc: Array<AbstractControl> = new Array<AbstractControl>();
+    for (const field in this.ProcessorDetailsFormGroup.controls) { 
+      const control = this.ProcessorDetailsFormGroup.get(field);   
+      if(control.valid){
+        vfc.push(control);
+      }
+    }
+    // console.log("VFC=", vfc)
+    return vfc;
+  }
+
   public get VersionFormControl(): AbstractControl {
     return this.ProcessorDetailsFormGroup?.controls.version;
   }
@@ -309,6 +321,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
       ApplicationLookup: this.EditingApplicationLookup || Guid.CreateRaw(),
     };
 
+
     this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
       this.SaveFormEvent.emit(res);
     });
@@ -353,8 +366,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     this.ProcessorDetailsFormGroup.removeControl('clientId');
     this.ProcessorDetailsFormGroup.removeControl('clientSecret');
+    this.ProcessorDetailsFormGroup.removeControl('package')
+    this.ProcessorDetailsFormGroup.removeControl('version');
 
     this.ProcessorDetailsFormGroup.removeControl('zipFile');
+    
   }
 
   protected cleanupProcessorTypeSubForm(): void {
@@ -399,9 +415,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
   protected setupLcuTypeSubForm(): void {
     this.cleanupLcuTypeSubForm();
-
-    // this.ApplicationFormGroup.removeControl('package');
-    // this.ApplicationFormGroup.removeControl('version');
 
     if (this.LCUType) {
       switch (this.LCUType) {
