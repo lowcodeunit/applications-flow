@@ -64,6 +64,15 @@ export class KrakynToolComponent implements OnInit {
   }
 
   /**
+   * Krakyn data
+   * 
+   * @returns krakyn data or empty object
+   */
+  // public KrakynData(): Promise<any> {
+  //   return (this.State && this.State.Enterprises) ? this.krakynData : null;
+  // }
+
+  /**
    * Import tool data
    */
   protected importData(): void {

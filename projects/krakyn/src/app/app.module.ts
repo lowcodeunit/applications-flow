@@ -22,7 +22,7 @@ import { KrakynToolComponent } from './elements/krakyn-tool/krakyn-tool.componen
   providers: [
     {
       provide: LCUServiceSettings,
-      // useValue: FathymSharedModule.DefaultServiceSettings(environment),
+      useValue: FathymSharedModule.DefaultServiceSettings(environment),
     }
   ],
   bootstrap: [AppComponent],
