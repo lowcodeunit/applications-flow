@@ -129,6 +129,7 @@ export class BuildPipelineFormComponent implements OnInit {
     protected formBuilder: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService
   ) {
+    this.Disabled = false;
     this.HostingDetails = new ProjectHostingDetails();
     this.ResponseEvent = new EventEmitter;
   }
@@ -145,7 +146,7 @@ export class BuildPipelineFormComponent implements OnInit {
     // this.BuildPipelineFormGroup.addControl(
     //   'hostingDetails',
     this.BuildPipelineFormGroup = this.formBuilder.group({
-      buildPipeline: [this.BuildPipeline, [Validators.required]],
+      // buildPipeline: [this.BuildPipeline, [Validators.required]],
     });
     // );
 
@@ -272,6 +273,14 @@ export class BuildPipelineFormComponent implements OnInit {
     }
 
     this.BuildPipelineFormGroup.addControl(
+      'buildPipeline',
+      this.formBuilder.control(
+        this.BuildPipeline || '',
+        [Validators.required]
+      )
+      );
+
+    this.BuildPipelineFormGroup.addControl(
       'devOpsActionName',
       this.formBuilder.control(
         this.DevOpsAction?.Name || this.SelectedHostingOption?.Name || '',
@@ -298,7 +307,9 @@ export class BuildPipelineFormComponent implements OnInit {
     });
 
     if (this.BuildPipelineFormControl?.value === 'npm-release') {
-      if (!this.BuildPipelineFormGroup.controls.npmToken) {
+      console.log("npm release")
+      if (!this.BuildPipelineFormGroup?.controls?.npmToken) {
+        console.log("npm token if")
         this.BuildPipelineFormGroup.addControl(
           'npmToken',
           this.formBuilder.control(
@@ -314,7 +325,7 @@ export class BuildPipelineFormComponent implements OnInit {
     } else if (
       this.BuildPipelineFormControl?.value === 'github-artifacts-release'
     ) {
-      if (this.BuildPipelineFormGroup.controls.npmToken) {
+      if (this.BuildPipelineFormGroup?.controls?.npmToken) {
         this.BuildPipelineFormGroup.removeControl('npmToken');
       }
     }
@@ -342,6 +353,6 @@ export class BuildPipelineFormComponent implements OnInit {
         this.HostingDetails.Loading = false;
       }
     );
-    console.log('HOSTING DETAILS: ', this.HostingDetails);
+    // console.log('HOSTING DETAILS: ', this.HostingDetails);
   }
 }
