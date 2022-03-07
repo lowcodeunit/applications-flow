@@ -138,6 +138,8 @@ export class ProjectsComponent implements OnInit {
 
     routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
 
+    // console.log("App Routes: ",routeSetResult)
+
     return routeSetResult;
   }
 
@@ -181,6 +183,7 @@ export class ProjectsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
+
   }
 
   public EditCustomDomain() {
