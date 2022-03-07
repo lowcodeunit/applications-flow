@@ -13,7 +13,7 @@
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
       [subtext]="
-        Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] + CurrentApplicationRoute : ''
+        Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] + Application?.Processor?.BaseHref : ''
       "
       [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
       (left-click-event)="HandleLeftClickEvent($event)"

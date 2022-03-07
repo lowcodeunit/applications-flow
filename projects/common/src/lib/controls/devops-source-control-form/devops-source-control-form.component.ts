@@ -403,6 +403,8 @@ export class DevopsSourceControlFormComponent
 
     saveEnvReq.Environment.Sources[scLookup] = source;
 
+    console.log('save SC: ', saveEnvReq)
+
     let resp = this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
 
     resp.then((res) => {
@@ -599,7 +601,9 @@ export class DevopsSourceControlFormComponent
   }
 
   protected setupFormControls(): void {
-    // this.destroyFormControls();
+    this.destroyFormControls();
+
+    console.log("Source Control: ", this.EditingSourceControl);
 
     this.DevOpsSourceControlFormGroup.addControl(
       'devOpsActionLookup',
