@@ -464,9 +464,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
       this.ProcessorDetailsFormGroup = this.formBldr.group({
         procType: [this.ProcessorType, [Validators.required]],
       });
-      this.setupDfsForm();
+      // this.setupDfsForm();
 
-      this.setupLcuTypeSubForm();
+      // this.setupLcuTypeSubForm();
+      this.setupProcessorTypeSubForm()
     }
   }
 
