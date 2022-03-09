@@ -215,7 +215,6 @@ export class ProjectsComponent implements OnInit {
 
     const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
       width: '600px',
-      maxHeight: '80vh',
       data: {
         projectLookup: this.ProjectLookup,
         environmentLookup: this.ActiveEnvironmentLookup,

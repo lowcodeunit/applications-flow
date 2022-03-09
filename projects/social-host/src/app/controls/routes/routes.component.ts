@@ -219,7 +219,6 @@ export class RoutesComponent implements OnInit {
 
     const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
       width: '600px',
-      maxHeight: '80vh',
       data: {
         projectLookup: this.ProjectLookup,
         currentRoute: this.AppRoute,
