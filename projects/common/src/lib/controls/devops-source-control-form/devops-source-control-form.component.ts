@@ -580,11 +580,7 @@ export class DevopsSourceControlFormComponent
       this.HostingDetails.Loading = true;
 
       this.appsFlowSvc
-        .LoadProjectHostingDetails(
-          this.OrganizationFormControl?.value,
-          this.RepositoryFormControl?.value,
-          this.MainBranchFormControl?.value
-        )
+        .LoadProjectHostingDetails()
         .subscribe(
           (response: BaseModeledResponse<ProjectHostingDetails>) => {
             this.HostingDetails = response.Model;

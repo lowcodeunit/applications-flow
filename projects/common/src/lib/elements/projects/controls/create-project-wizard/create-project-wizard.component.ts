@@ -160,11 +160,7 @@ export class CreateProjectWizardComponent implements AfterViewInit, OnInit {
     this.HostingDetails.Loading = true;
 
     this.appsFlowSvc
-      .LoadProjectHostingDetails(
-        this.RepoDetailsFormGroup.get('organization').value,
-        this.RepoDetailsFormGroup.get('repository').value,
-        this.SourceControl?.SelectedBranches?.join(',')
-      )
+      .LoadProjectHostingDetails()
       .subscribe((response: BaseModeledResponse<ProjectHostingDetails>) => {
         this.HostingDetails = response.Model;
 

@@ -176,22 +176,22 @@ export class ApplicationsFlowService {
     });
   }
 
-  public LoadProjectHostingDetails(
-    organization: string,
-    repository: string,
-    branch: string
-  ): Observable<object> {
-    branch = encodeURIComponent(branch);
+  // public LoadProjectHostingDetails(
+  //   organization: string,
+  //   repository: string,
+  //   branch: string
+  // ): Observable<object> {
+  //   branch = encodeURIComponent(branch);
 
-    return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
+  //   return this.http.get(
+  //     `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
+  //     {
+  //       headers: this.loadHeaders(),
+  //     }
+  //   );
+  // }
 
-  public NewLoadProjectHostingDetails(): Observable<object> {
+  public LoadProjectHostingDetails(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/hosting/details`,
 

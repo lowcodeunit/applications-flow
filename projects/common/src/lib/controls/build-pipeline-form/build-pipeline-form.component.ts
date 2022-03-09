@@ -333,7 +333,7 @@ export class BuildPipelineFormComponent implements OnInit {
 
   protected loadProjectHostingDetails(): void {
     this.HostingDetails.Loading = true;
-    this.appsFlowSvc.NewLoadProjectHostingDetails().subscribe(
+    this.appsFlowSvc.LoadProjectHostingDetails().subscribe(
       (response: BaseModeledResponse<ProjectHostingDetails>) => {
         this.HostingDetails = response.Model;
         // console.log("response: ", response);
