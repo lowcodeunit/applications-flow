@@ -1,8 +1,12 @@
-<div class="dialog-header" fxLayoutAlign="end center">
+<div class="dialog-header" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title>Build Pipeline</h2>
+
     <button mat-icon-button (click)="CloseDialog()">
             <mat-icon>cancel</mat-icon>
     </button>
 </div>
+
+<mat-dialog-content>
 
 <ng-container *ngIf="!HasConnection">
         
@@ -26,3 +30,35 @@
 </mat-error>
 
 </ng-container>
+</mat-dialog-content>
+
+
+<mat-dialog-actions 
+        class="actions-container" 
+        div fxLayout="row" 
+        fxLayoutAlign="end center"
+>
+        <button 
+                class="action-button"
+                mat-raised-button
+                fxFlex="25%"
+                (click)="CloseDialog()">
+                Cancel
+
+        </button>
+
+
+
+        <button 
+          *ngIf="!State?.Loading"
+          mat-raised-button 
+          type="submit" 
+          fxFlex="25%" 
+          color="primary" 
+          (click)="SaveBuildPipeline()"
+          [disabled]="!BuildPipelineFormGroup?.valid || !BuildPipelineFormGroup?.dirty">
+          <!-- <mat-icon>save</mat-icon> -->
+          Save
+        </button>
+
+</mat-dialog-actions>

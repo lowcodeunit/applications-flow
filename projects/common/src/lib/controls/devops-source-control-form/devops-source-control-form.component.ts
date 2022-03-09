@@ -198,6 +198,8 @@ export class DevopsSourceControlFormComponent
 
   public SelectedBranches: string[];
 
+  public SkeletonEffect: string;
+
   public readonly SeparatorKeysCodes = [ENTER, COMMA] as const;
 
   //  Constructors
@@ -215,6 +217,8 @@ export class DevopsSourceControlFormComponent
     this.SelectedBranches = [];
 
     this.SourceControlRoot = '';
+
+    this.SkeletonEffect = "wave";
 
     this.UseBranches = true;
 
