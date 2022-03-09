@@ -1,8 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
+import { EditApplicationFormComponent } from '../../controls/edit-application-form/edit-application-form.component';
+import { EaCService } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 export interface ApplicationDialogData {
   application: EaCApplicationAsCode;
@@ -17,9 +21,21 @@ export interface ApplicationDialogData {
 })
 export class EditApplicationDialogComponent implements OnInit {
 
+  @ViewChild(EditApplicationFormComponent)
+  public EditApplicationControl: EditApplicationFormComponent;
+
+  public get ApplicationFormGroup(): FormGroup{
+    return this.EditApplicationControl?.ApplicationFormGroup;
+  }
+
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
+
   public ErrorMessage: string;
 
-  constructor(public dialogRef: MatDialogRef<EditApplicationDialogComponent>,
+  constructor(public eacSvc: EaCService,
+    public dialogRef: MatDialogRef<EditApplicationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ApplicationDialogData,
     protected snackBar: MatSnackBar) { }
 
@@ -30,7 +46,7 @@ export class EditApplicationDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  public SaveApplication(event: Status){
+  public HandleSaveApplicationEvent(event: Status){
     console.log("event to save: ", event);
     if (event.Code === 0){
       this.snackBar.open("Application Succesfully Updated", "Dismiss",{
@@ -41,6 +57,10 @@ export class EditApplicationDialogComponent implements OnInit {
     else{
       this.ErrorMessage = event.Message;
     }
+  }
+
+  public SaveApplication(){
+    this.EditApplicationControl.SaveApplication();
   }
 
 }

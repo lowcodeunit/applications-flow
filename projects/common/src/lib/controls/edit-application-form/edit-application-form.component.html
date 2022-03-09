@@ -1,6 +1,6 @@
 <form class="form-card" [formGroup]="ApplicationFormGroup" (ngSubmit)="SubmitApplicationControl()" >
-    <mat-card class="spread flow-card">
-      <mat-card-header>
+    <!-- <mat-card class="spread flow-card"> -->
+      <!-- <mat-card-header>
         <mat-card-title>
           <ng-container *ngIf="EditingApplication?.Application">
             Edit Application:
@@ -11,9 +11,9 @@
             Create an Application
           </ng-container>
         </mat-card-title>
-      </mat-card-header>
+      </mat-card-header> -->
 
-      <mat-card-content>
+      <!-- <mat-card-content> -->
         <ng-container *ngIf="State?.Loading">
 
           <skeleton-block 
@@ -63,8 +63,8 @@
           </mat-form-field>
       </ng-container>
 
-      </mat-card-content>
-      <mat-card-actions fxLayoutAlign="center center">
+      <!-- </mat-card-content> -->
+      <!-- <mat-card-actions fxLayoutAlign="center center">
 
         <button 
         *ngIf="HasSaveButton && !State?.Loading"
@@ -78,6 +78,6 @@
         </button>
         <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader>
         
-    </mat-card-actions>
-    </mat-card>
+    </mat-card-actions> -->
+    <!-- </mat-card> -->
 </form>
