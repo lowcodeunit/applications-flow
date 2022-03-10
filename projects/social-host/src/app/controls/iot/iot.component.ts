@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   ApplicationsFlowState,
@@ -20,7 +21,11 @@ export class IoTComponent implements OnInit {
 
   public IoTConfig: LazyElementConfig;
 
-  constructor() {
+  public get IoTElementHTML(): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(`<${this.IoTConfig.ElementName}></${this.IoTConfig.ElementName}>`)
+  }
+
+  constructor(protected sanitizer: DomSanitizer) {
     this.IoTConfig = {
       Scripts: [
         '/_lcu/lcu-device-data-flow-lcu/wc/lcu-device-data-flow.lcu.js',
