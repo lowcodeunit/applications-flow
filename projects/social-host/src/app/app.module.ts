@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
   FathymSharedModule,
@@ -28,6 +28,7 @@ import { LazyElementModule, LazyElementsComponent } from '@lowcodeunit/lazy-elem
 
 
 @NgModule({
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
     AppComponent,
     ProjectsComponent,
