@@ -31,8 +31,10 @@
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
   </div>
+
+  <!-- CENTER -->
   <div>
-    <!-- will need to transfer over to LoadingFeed -->
+    <lcu-gh-control></lcu-gh-control>
     <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">
@@ -41,7 +43,7 @@
       </div>
     </ng-container>
 
-    <div *ngFor="let route of Routes">
+    <!-- <div *ngFor="let route of Routes">
       <lcu-feed-card-sm [title]="route.Name" [description]="route.Description">
         <div actions fxLayout="row">
           <button mat-icon-button (click)="LaunchRouteClicked()">
@@ -61,7 +63,7 @@
           </button>
         </div>
       </lcu-feed-card-sm>
-    </div>
+    </div> -->
   </div>
 
   <div right>

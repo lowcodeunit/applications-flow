@@ -45,8 +45,9 @@
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
   </div>
+  <!-- CENTER -->
   <div>
-    <!-- will need to transfer over to LoadingFeed -->
+    <lcu-gh-control></lcu-gh-control>
     <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">

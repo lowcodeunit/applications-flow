@@ -38,10 +38,9 @@
 
   <!-- center column -->
   <div>
-    <!-- Commented out until github api is hooked up -->
-    <!-- <lcu-gh-control></lcu-gh-control> -->
 
-    <!-- will need to transfer over to LoadingFeed -->
+    <lcu-gh-control></lcu-gh-control>
+
     <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">

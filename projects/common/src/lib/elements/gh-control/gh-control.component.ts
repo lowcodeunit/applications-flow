@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { NewApplicationDialogComponent } from '../../dialogs/new-application-dialog/new-application-dialog.component';
+import { EaCService } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-gh-control',
@@ -7,14 +11,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GhControlComponent implements OnInit {
 
+  public get ActiveEnvironmentLookup(): string {
+    //  TODO:  Eventually support multiple environments
+    const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    return envLookups[0];
+  }
+
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
+
   public InputLabel: string;
+
+  public SkeletonEffect: string;
 
   protected selectedBtn: string;
 
   public value: string;
 
-  constructor() { 
+  constructor( 
+      protected eacSvc: EaCService,
+      protected dialog: MatDialog) { 
+
     this.InputLabel = "Create Pull Request";
+    this.SkeletonEffect = "wave";
     this.selectedBtn = "pr-btn";
 
   }
@@ -54,8 +75,22 @@ export class GhControlComponent implements OnInit {
 
   }
 
-  public OpenMoreInfo(){
-    console.log("more info selected");
+  public CreateNewApp(){
+    const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
+      width: '600px',
+      data: {
+        environmentLookup: this.ActiveEnvironmentLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
+  public RouteToPath(path: string): void {
+    window.location.href = path;
   }
 
 
