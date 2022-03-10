@@ -119,11 +119,11 @@ export class GhControlComponent implements OnInit {
   //HELPERS
 
   protected addSelectBtn(){    
-    (<HTMLElement>document.getElementById(this.selectedBtn)).classList.add('selected');
+    // (<HTMLElement>document.getElementById(this.selectedBtn)).classList.add('selected');
   }
 
   protected removeSelectedBtn(){
-    (<HTMLElement>document.getElementById(this.selectedBtn)).classList.remove('selected');
+    // (<HTMLElement>document.getElementById(this.selectedBtn)).classList.remove('selected');
   }
 
 }

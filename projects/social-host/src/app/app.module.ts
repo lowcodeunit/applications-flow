@@ -22,6 +22,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkeletonElementsModule } from "skeleton-elements/angular";
+import { LazyElementModule, LazyElementsComponent } from '@lowcodeunit/lazy-element';
 
 
 
@@ -39,6 +40,7 @@ import { SkeletonElementsModule } from "skeleton-elements/angular";
     BrowserAnimationsModule,
     AppRoutingModule,
     FlexLayoutModule,
+    LazyElementModule,
     MatSlideToggleModule,
     MatTooltipModule,
     MatCardModule,
@@ -49,7 +51,6 @@ import { SkeletonElementsModule } from "skeleton-elements/angular";
     AppHostModule,
     ApplicationsFlowModule.forRoot(), 
     SkeletonElementsModule
-     
   ],
   providers: [{
     provide: LCUServiceSettings,
