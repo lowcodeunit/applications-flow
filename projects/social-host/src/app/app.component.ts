@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { LCUServiceSettings } from '@lcu/common';
 import {
   ApplicationsFlowState,
@@ -14,6 +14,8 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  protected initialized: boolean;
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
@@ -25,16 +27,22 @@ export class AppComponent {
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
     protected http: HttpClient,
-    protected router: Router
+    protected router: Router,
+    protected activatedRoute: ActivatedRoute
   ) {
-    router.events.subscribe((val) => {
+    router.events.subscribe((val: any) => {
       let changed = val instanceof NavigationEnd;
-      if (changed) {
+      if (changed && val.url != '/iot') {
         if (this.State?.EaC) {
           this.eacSvc.LoadEnterpriseAsCode();
           this.getFeedInfo();
         }
+      } else if (val.url && val.url != '/iot' && !this.initialized) {
+        this.handleStateChange().then((eac) => {});
+        this.initialized = true;
       }
+
+      console.log(val.url);
     });
   }
 
@@ -48,9 +56,9 @@ export class AppComponent {
           this.IsSmScreen = false;
         }
       });
-
-    this.handleStateChange().then((eac) => {});
   }
+
+  public ngAfterViewInit(): void {}
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
@@ -67,7 +75,7 @@ export class AppComponent {
     ]);
 
     // this.eacSvc.SetActiveEnterprise(this.State?.Enterprises[0].Lookup);
-    console.log("state = ", this.State)
+    console.log('state = ', this.State);
     // console.log("enterprise = ", this.State?.Enterprises)
   }
 
