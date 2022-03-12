@@ -27,7 +27,7 @@ export class IoTEnsembleService {
   //  API Methods
   public ColdQuery(): Observable<object> {
     return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/iot/cold-query?page=${page}&pageSize=${pageSize}`,
+      `${this.apiRoot}/api/lowcodeunit/iot/cold-query`,
       {
         headers: this.loadHeaders(),
       }
@@ -36,7 +36,7 @@ export class IoTEnsembleService {
   
   public ToggleEmulatedEnabled(): Observable<object> {
     return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}`,
+      `${this.apiRoot}/api/lowcodeunit/userfeed`,
       {
         headers: this.loadHeaders(),
       }
