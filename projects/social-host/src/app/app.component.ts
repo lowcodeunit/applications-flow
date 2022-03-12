@@ -7,6 +7,7 @@ import {
   EaCService,
 } from '@lowcodeunit/applications-flow-common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { LazyElementConfig } from '@lowcodeunit/lazy-element';
 
 @Component({
   selector: 'lcu-root',
@@ -19,6 +20,8 @@ export class AppComponent {
   }
 
   public IsSmScreen: boolean;
+
+  public IoTConfig: LazyElementConfig;
 
   constructor(
     public breakpointObserver: BreakpointObserver,
@@ -37,6 +40,16 @@ export class AppComponent {
         }
       }
     });
+
+    this.IoTConfig = {
+      Scripts: [
+        '/_lcu/lcu-device-data-flow-lcu/wc/lcu-device-data-flow.lcu.js',
+      ],
+      Styles: [
+        '/_lcu/lcu-device-data-flow-lcu/wc/lcu-device-data-flow.lcu.css',
+      ],
+      ElementName: 'lcu-device-data-flow-manage-element',
+    };
   }
 
   public ngOnInit(): void {
@@ -49,13 +62,17 @@ export class AppComponent {
           this.IsSmScreen = false;
         }
       });
-      
-      this.handleStateChange().then((eac) => {});
+
+    this.handleStateChange().then((eac) => {});
   }
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
+    this.loadScripts();
+
+    this.loadStyles();
+    
     await Promise.all([
       this.eacSvc.HasValidConnection(),
       this.eacSvc.EnsureUserEnterprise(),
@@ -75,5 +92,27 @@ export class AppComponent {
   protected async getFeedInfo(): Promise<void> {
     // console.log("Am I getting called???")
     await this.eacSvc.LoadUserFeed(1, 25);
+  }
+
+  protected loadScripts() {
+    for (let script of this.IoTConfig.Scripts) {
+      let node = document.createElement('script'); // creates the script tag
+      node.src = script; // sets the source (insert url in between quotes)
+      node.type = 'text/javascript'; // set the script type
+      node.async = true; // makes script run asynchronously
+      node.charset = 'utf-8';
+      // append to head of document
+      document.getElementsByTagName('head')[0].appendChild(node);
+    }
+  }
+
+  protected loadStyles() {
+    for (let style of this.IoTConfig.Styles) {
+      let node = document.createElement('link'); // creates the script tag
+      node.href = style; // sets the source (insert url in between quotes)
+      node.type = 'text/css'; // set the script type
+      // append to head of document
+      document.getElementsByTagName('head')[0].appendChild(node);
+    }
   }
 }
