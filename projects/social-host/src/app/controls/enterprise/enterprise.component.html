@@ -14,10 +14,26 @@
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-      <!-- <button action mat-button class="info-card-btn" (click)="SettingsClicked()" >
-                <mat-icon>outbox</mat-icon>
-                Unpack
-            </button> -->
+      <button
+        action
+        mat-button
+        class="info-card-btn mat-full-width"
+        [routerLink]="['/iot']"
+      >
+        <mat-icon>account_tree</mat-icon>
+
+        Access IoT Benefits
+      </button>
+
+      <!-- <button
+        action
+        mat-button
+        class="info-card-btn"
+        (click)="SettingsClicked()"
+      >
+        <mat-icon>outbox</mat-icon>
+        Unpack
+      </button> -->
     </lcu-project-info-card>
     <!-- Commented out until implemented -->
     <!-- <lcu-analytics-card
@@ -30,8 +46,6 @@
   <lcu-gh-control></lcu-gh-control>
 
   <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
-
-
 
   <ng-container *ngIf="!State?.LoadingFeed">
     <lcu-main-feed-card
@@ -194,7 +208,9 @@
               </a>
               <a
                 class="slot-action-anchor"
-                [href]="'https://github.com/' + sc.Organization + '/' + sc.Repository"
+                [href]="
+                  'https://github.com/' + sc.Organization + '/' + sc.Repository
+                "
                 target="_blank"
               >
                 <mat-icon class="action-icon">launch</mat-icon>

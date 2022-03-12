@@ -14,8 +14,6 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  protected initialized: boolean;
-
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
@@ -32,17 +30,12 @@ export class AppComponent {
   ) {
     router.events.subscribe((val: any) => {
       let changed = val instanceof NavigationEnd;
-      if (changed && val.url != '/iot') {
+      if (changed) {
         if (this.State?.EaC) {
           this.eacSvc.LoadEnterpriseAsCode();
           this.getFeedInfo();
         }
-      } else if (val.url && val.url != '/iot' && !this.initialized) {
-        this.handleStateChange().then((eac) => {});
-        this.initialized = true;
       }
-
-      console.log(val.url);
     });
   }
 
@@ -56,9 +49,9 @@ export class AppComponent {
           this.IsSmScreen = false;
         }
       });
+      
+      this.handleStateChange().then((eac) => {});
   }
-
-  public ngAfterViewInit(): void {}
 
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;

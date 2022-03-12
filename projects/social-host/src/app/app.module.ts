@@ -21,11 +21,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SkeletonElementsModule } from "skeleton-elements/angular";
-import { LazyElementModule, LazyElementsComponent } from '@lowcodeunit/lazy-element';
-
-
-
+import { SkeletonElementsModule } from 'skeleton-elements/angular';
+import {
+  LazyElementModule,
+  LazyElementsComponent,
+} from '@lowcodeunit/lazy-element';
+import { IoTComponent } from './controls/iot/iot.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { LazyElementModule, LazyElementsComponent } from '@lowcodeunit/lazy-elem
     ProjectsComponent,
     RoutesComponent,
     EnterpriseComponent,
-    ApplicationsComponent
+    IoTComponent,
+    ApplicationsComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,21 +51,23 @@ import { LazyElementModule, LazyElementsComponent } from '@lowcodeunit/lazy-elem
     ReactiveFormsModule,
     FathymSharedModule.forRoot(),
     AppHostModule,
-    ApplicationsFlowModule.forRoot(), 
-    SkeletonElementsModule
+    ApplicationsFlowModule.forRoot(),
+    SkeletonElementsModule,
   ],
-  providers: [{
-    provide: LCUServiceSettings,
-    useValue: FathymSharedModule.DefaultServiceSettings(environment),
-  }
-],
+  providers: [
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment),
+    },
+  ],
   bootstrap: [AppComponent],
   exports: [],
   entryComponents: [
     ProjectsComponent,
     RoutesComponent,
     EnterpriseComponent,
-    ApplicationsComponent
-  ]
+    ApplicationsComponent,
+    IoTComponent,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

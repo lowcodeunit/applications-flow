@@ -19,13 +19,24 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 export class IoTComponent implements OnInit {
   public Context: Object;
 
+  public get Enterprise(): any {
+    return this.State?.EaC?.Enterprise;
+  }
+
   public IoTConfig: LazyElementConfig;
 
   public get IoTElementHTML(): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(`<${this.IoTConfig.ElementName}></${this.IoTConfig.ElementName}>`)
+    return this.sanitizer.bypassSecurityTrustHtml(
+      `<${this.IoTConfig.ElementName}></${this.IoTConfig.ElementName}>`
+    );
   }
 
-  constructor(protected sanitizer: DomSanitizer) {
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
+
+  //  Constructors
+  constructor(protected sanitizer: DomSanitizer, protected eacSvc: EaCService) {
     this.IoTConfig = {
       Scripts: [
         '/_lcu/lcu-device-data-flow-lcu/wc/lcu-device-data-flow.lcu.js',
@@ -47,7 +58,7 @@ export class IoTComponent implements OnInit {
 
     this.loadStyles();
   }
-  
+
   protected loadScripts() {
     for (let script of this.IoTConfig.Scripts) {
       let node = document.createElement('script'); // creates the script tag
@@ -56,17 +67,17 @@ export class IoTComponent implements OnInit {
       node.async = true; // makes script run asynchronously
       node.charset = 'utf-8';
       // append to head of document
-      document.getElementsByTagName('head')[0].appendChild(node); 
+      document.getElementsByTagName('head')[0].appendChild(node);
     }
   }
-  
+
   protected loadStyles() {
     for (let style of this.IoTConfig.Styles) {
       let node = document.createElement('link'); // creates the script tag
       node.href = style; // sets the source (insert url in between quotes)
       node.type = 'text/css'; // set the script type
       // append to head of document
-      document.getElementsByTagName('head')[0].appendChild(node); 
+      document.getElementsByTagName('head')[0].appendChild(node);
     }
   }
 }

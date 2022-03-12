@@ -13,6 +13,7 @@ export * from './lib/controls/devops-source-control-form/devops-source-control-f
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/controls/processor-details-form/processor-details-form.component';
 export * from './lib/controls/security-toggle/security-toggle.component';
+export * from './lib/controls/emulated-devices-toggle/emulated-devices-toggle.component';
 export * from './lib/controls/source-control-form/source-control-form.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
@@ -33,6 +34,7 @@ export * from './lib/elements/skeleton-feed-card/skeleton-feed-card.component';
 export * from './lib/models/card-form-config.model';
 export * from './lib/services/forms.service';
 export * from './lib/services/eac.service';
+export * from './lib/services/iot-ensemble.service';
 export * from './lib/models/form.model';
 export * from './lib/models/form.values.model';
 export * from './lib/models/base-form-config.model';

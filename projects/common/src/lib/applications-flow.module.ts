@@ -59,6 +59,8 @@ import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dia
 import { SkeletonElementsModule } from 'skeleton-elements/angular';
 import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleton-feed-card.component';
 import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.component';
+import { EmulatedDevicesToggleComponent } from './controls/emulated-devices-toggle/emulated-devices-toggle.component';
+import { IoTEnsembleService } from './services/iot-ensemble.service';
 
 
 @NgModule({
@@ -108,7 +110,8 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     NewApplicationDialogComponent,
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
-    UpgradeDialogComponent
+    UpgradeDialogComponent,
+    EmulatedDevicesToggleComponent
   ],
   imports: [
     ClipboardModule,
@@ -170,7 +173,8 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     NewApplicationDialogComponent,
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
-    UpgradeDialogComponent
+    UpgradeDialogComponent,
+    EmulatedDevicesToggleComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -211,7 +215,8 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     EditApplicationFormComponent,
     BreadcrumbComponent,
     CustomDomainDialogComponent,
-    EditApplicationDialogComponent
+    EditApplicationDialogComponent,
+    EmulatedDevicesToggleComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
@@ -227,7 +232,8 @@ export class ApplicationsFlowModule {
         ProjectService,
         NPMService,
         FormsService,
-        EaCService
+        EaCService,
+        IoTEnsembleService
       ],
     };
   }
