@@ -4,6 +4,14 @@
     </button>
 </div>
 
+<ng-container *ngIf="!HasConnection">
+        
+    <lcu-git-auth></lcu-git-auth>
+
+</ng-container>
+
+<ng-container *ngIf="HasConnection">
+
 <lcu-build-pipeline-form 
     [devops-action-lookup]="data.devopsActionLookup"
     [environment]="data.environment" 
@@ -16,3 +24,5 @@
 <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
     {{ ErrorMessage }}
 </mat-error>
+
+</ng-container>

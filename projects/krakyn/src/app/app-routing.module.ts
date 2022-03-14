@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   { path: 'krakyn', component: KrakynToolComponent },
   { path: '', redirectTo: 'krakyn', pathMatch: 'full' }
+  // { path: '', redirectTo: 'krakyn', pathMatch: 'full' }
 ];
 
 @NgModule({

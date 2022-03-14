@@ -91,6 +91,8 @@ export class EditApplicationFormComponent implements OnInit {
       ApplicationLookup: this.ApplicationLookup,
     };
 
+    console.log("processor details being submitted: ", app.Processor)
+
     this.eacSvc.SaveApplicationAsCode(saveAppReq).then(res =>{
       this.SaveFormEvent.emit(res);
     })
