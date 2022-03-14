@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterEvent,
+} from '@angular/router';
 import { LCUServiceSettings } from '@lcu/common';
 import {
   ApplicationsFlowState,
@@ -8,6 +13,7 @@ import {
 } from '@lowcodeunit/applications-flow-common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
+import { EaCApplicationAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-root',
@@ -15,6 +21,8 @@ import { LazyElementConfig } from '@lowcodeunit/lazy-element';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  protected initialized: boolean;
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
@@ -31,12 +39,32 @@ export class AppComponent {
     protected router: Router,
     protected activatedRoute: ActivatedRoute
   ) {
-    router.events.subscribe((val: any) => {
-      let changed = val instanceof NavigationEnd;
+    router.events.subscribe(async (event: RouterEvent) => {
+      let changed = event instanceof NavigationEnd; //ActivationEnd
+
       if (changed) {
         if (this.State?.EaC) {
-          this.eacSvc.LoadEnterpriseAsCode();
-          this.getFeedInfo();
+          await Promise.all([
+            this.eacSvc.LoadEnterpriseAsCode(),
+            this.getFeedInfo(),
+          ]);
+        } else if (!this.initialized) {
+          this.initialized = true;
+
+          await Promise.all([
+            this.eacSvc.HasValidConnection(),
+            this.eacSvc.EnsureUserEnterprise(),
+          ]).catch((err) => {
+            console.log(err);
+          });
+
+          await Promise.all([
+            this.eacSvc.ListEnterprises(),
+            this.eacSvc.GetActiveEnterprise(),
+            this.getFeedInfo(),
+          ]).catch((err) => {
+            console.log(err);
+          });
         }
       }
     });
@@ -72,17 +100,6 @@ export class AppComponent {
     this.loadScripts();
 
     this.loadStyles();
-    
-    await Promise.all([
-      this.eacSvc.HasValidConnection(),
-      this.eacSvc.EnsureUserEnterprise(),
-    ]);
-
-    await Promise.all([
-      this.eacSvc.ListEnterprises(),
-      this.eacSvc.GetActiveEnterprise(),
-      this.getFeedInfo(),
-    ]);
 
     // this.eacSvc.SetActiveEnterprise(this.State?.Enterprises[0].Lookup);
     console.log('state = ', this.State);
@@ -90,7 +107,6 @@ export class AppComponent {
   }
 
   protected async getFeedInfo(): Promise<void> {
-    // console.log("Am I getting called???")
     await this.eacSvc.LoadUserFeed(1, 25);
   }
 

@@ -229,9 +229,15 @@ export class ApplicationsFlowService {
     );
   }
 
-  public LoadUserFeed(page: number, pageSize: number): Observable<object> {
+  public LoadUserFeed(
+    page: number,
+    pageSize: number,
+    project: string,
+    applications: string[]
+  ): Observable<object> {
+    var apps = JSON.stringify(applications || []);
     return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}`,
+      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
       {
         headers: this.loadHeaders(),
       }

@@ -23,7 +23,7 @@ export class GitAuthComponent implements OnInit, AfterViewInit {
   public ConnectGitHubProvider(): void {
     const reidrectUri = location.pathname + location.search;
 
-    window.location.href = `/.oauth/github?redirectUri=${reidrectUri}`;
+    window.location.href = `/.oauth/GitHubOAuth?redirectUri=${reidrectUri}`;
 
     this.ConnectClicked = true;
   }

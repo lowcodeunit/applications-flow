@@ -123,6 +123,13 @@ export class EaCService {
     await this.projectService.LoadUserFeed(page, pageSize, this.State);
   }
 
+  
+  public GenerateRoutedApplications(applications: { [lookup: string]: EaCApplicationAsCode }): {
+    [route: string]: { [lookup: string]: EaCApplicationAsCode };
+  } {
+    return this.projectService.GenerateRoutedApplications(applications, this.State);
+  }
+
   public async HasValidConnection(): Promise<void> {
     await this.projectService.HasValidConnection(this.State);
   }
