@@ -42,6 +42,13 @@ export class KrakynToolComponent implements OnInit {
     //   ConstantUtils.HOME_MODULE_DATA
     // ];
 
+    // this.Data = VariablesUtils.DataFlowModuleData[0];
+    // console.log('Krakyn Tool Test Data: ', this.Data.Data);
+   }
+
+   // Lifecycle hooks
+  public ngOnInit(): void {
+
     this.Title = 'The Krakyn Tool';
 
     this.SideMenuItems = DragItemsTemplates.FLOW_DRAG_ITEMS(DragDropUtils.Drag);
@@ -51,13 +58,6 @@ export class KrakynToolComponent implements OnInit {
       { Label: 'Original Data', Target: 'OriginalData', Class: '' }
     //   { Label: 'Home', Target: 'Home' }
     ];
-
-    // this.Data = VariablesUtils.DataFlowModuleData[0];
-    // console.log('Krakyn Tool Test Data: ', this.Data.Data);
-   }
-
-   // Lifecycle hooks
-  public ngOnInit(): void {
 
     this.handleStateChange()
     .then((eac) => {});
@@ -102,7 +102,7 @@ export class KrakynToolComponent implements OnInit {
   }
 
   protected async handleStateChange(): Promise<void> {
-    debugger;
+  
     console.log('HANDLE STATE CHANGE');
 
     this.State.Loading = true;
