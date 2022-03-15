@@ -102,18 +102,28 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
+
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="DeleteProject(projectLookup, project.Project.Name)"
+              >
+            <mat-icon matTooltip="Delete {{ project.Project.Name }}">
+              delete_forever
+            </mat-icon>
+          </button>
               <a
                 class="slot-action-anchor"
                 [routerLink]="['/projects', projectLookup]"
               >
-                <mat-icon class="action-icon">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ project.Project.Name }}">edit</mat-icon>
               </a>
               <a
                 class="slot-action-anchor"
                 [href]="'https://' + project?.Hosts[project?.Hosts?.length - 1]"
                 target="_blank"
               >
-                <mat-icon class="action-icon">launch</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Launch {{ project.Project.Name }}">launch</mat-icon>
               </a>
             </div>
 
@@ -183,11 +193,11 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="sc.Name?.length > 28" class="slot-name">
-                  {{ sc.Name | slice: 0:25 }}...
+                <div *ngIf="sc.Name?.length > 21" class="slot-name">
+                  {{ sc.Name | slice: 0:18 }}...
                 </div>
                 <div
-                  *ngIf="sc.Name?.length < 28 || sc.Name.length == 28"
+                  *ngIf="sc.Name?.length < 21 || sc.Name.length == 21"
                   class="slot-name"
                 >
                   {{ sc.Name }}
@@ -202,11 +212,21 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
+
+                <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="DeleteSourceControl(sc.Lookup)"
+                >
+                    <mat-icon matTooltip="Delete {{ sc.Lookup }}">
+                      delete_forever
+                    </mat-icon>
+                  </button>
               <a
                 class="slot-action-anchor"
                 (click)="OpenSourceControlDialog(sc.Lookup)"
               >
-                <mat-icon class="action-icon">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}">edit</mat-icon>
               </a>
               <a
                 class="slot-action-anchor"
@@ -215,7 +235,7 @@
                 "
                 target="_blank"
               >
-                <mat-icon class="action-icon">launch</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Launch {{ sc.Lookup }}">launch</mat-icon>
               </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
@@ -293,11 +313,21 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
+
+            <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="DeleteDevOpsAction(doaLookup, doa?.Name)"
+                >
+                    <mat-icon matTooltip="Delete {{ doa?.Name }}">
+                      delete_forever
+                    </mat-icon>
+                  </button>
               <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
               >
-                <mat-icon class="action-icon">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
               </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
