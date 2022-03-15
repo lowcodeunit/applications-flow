@@ -1,18 +1,16 @@
 <div 
-fxFlexFill 
-style="background-color:red;"
-*ngIf="!State || !State.Enterprises">
+    fxFlexFill 
+    style="margin: 5px; background-color:red;"
+    *ngIf="!State || !State.Enterprises">
     <strong>
         No Flow Data
     </strong> 
 </div>
-<!-- <ng-container *ngIf="State && State.Enterprises"> -->
-    <krakyn-flow-tool
-        [HeaderTitle] = 'Title'
-        [FlowData] = 'KrakynData'
-        [SideMenuItems] = 'SideMenuItems'
-        [TabMenuItems] = 'TabMenuItems'>
-    </krakyn-flow-tool>
+<krakyn-flow-tool
+    [HeaderTitle] = 'Title'
+    [FlowData] = 'KrakynData'
+    [SideMenuItems] = 'SideMenuItems'
+    [TabMenuItems] = 'TabMenuItems'>
+</krakyn-flow-tool>
   
-<!-- </ng-container> -->
 
