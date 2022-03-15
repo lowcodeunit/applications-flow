@@ -290,11 +290,7 @@ export class DevOpsComponent implements OnInit {
       this.HostingDetails.Loading = true;
 
       this.appsFlowSvc
-        .LoadProjectHostingDetails(
-          this.SourceControlFormControls?.OrganizationFormControl?.value,
-          this.SourceControlFormControls?.RepositoryFormControl?.value,
-          this.SourceControlFormControls?.MainBranchFormControl?.value
-        )
+        .LoadProjectHostingDetails()
         .subscribe(
           (response: BaseModeledResponse<ProjectHostingDetails>) => {
             this.HostingDetails = response.Model;

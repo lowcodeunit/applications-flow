@@ -6,7 +6,7 @@ import {
   MaterialModule,
 } from '@lcu/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './controls/projects/projects.component';
@@ -21,10 +21,12 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { SkeletonElementsModule } from "skeleton-elements/angular";
-
-
-
+import { SkeletonElementsModule } from 'skeleton-elements/angular';
+import {
+  LazyElementModule,
+  LazyElementsComponent,
+} from '@lowcodeunit/lazy-element';
+import { IoTComponent } from './controls/iot/iot.component';
 
 @NgModule({
   declarations: [
@@ -32,13 +34,16 @@ import { SkeletonElementsModule } from "skeleton-elements/angular";
     ProjectsComponent,
     RoutesComponent,
     EnterpriseComponent,
-    ApplicationsComponent
+    IoTComponent,
+    ApplicationsComponent,
   ],
   imports: [
+    AngularEditorModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FlexLayoutModule,
+    LazyElementModule,
     MatSlideToggleModule,
     MatTooltipModule,
     MatCardModule,
@@ -47,22 +52,24 @@ import { SkeletonElementsModule } from "skeleton-elements/angular";
     ReactiveFormsModule,
     FathymSharedModule.forRoot(),
     AppHostModule,
-    ApplicationsFlowModule.forRoot(), 
-    SkeletonElementsModule
-     
+    ApplicationsFlowModule.forRoot(),
+    SkeletonElementsModule,
+    
   ],
-  providers: [{
-    provide: LCUServiceSettings,
-    useValue: FathymSharedModule.DefaultServiceSettings(environment),
-  }
-],
+  providers: [
+    {
+      provide: LCUServiceSettings,
+      useValue: FathymSharedModule.DefaultServiceSettings(environment),
+    },
+  ],
   bootstrap: [AppComponent],
   exports: [],
   entryComponents: [
     ProjectsComponent,
     RoutesComponent,
     EnterpriseComponent,
-    ApplicationsComponent
-  ]
+    ApplicationsComponent,
+    IoTComponent,
+  ],
 })
-export class AppModule { }
+export class AppModule {}

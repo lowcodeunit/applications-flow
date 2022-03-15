@@ -198,6 +198,8 @@ export class DevopsSourceControlFormComponent
 
   public SelectedBranches: string[];
 
+  public SkeletonEffect: string;
+
   public readonly SeparatorKeysCodes = [ENTER, COMMA] as const;
 
   //  Constructors
@@ -215,6 +217,8 @@ export class DevopsSourceControlFormComponent
     this.SelectedBranches = [];
 
     this.SourceControlRoot = '';
+
+    this.SkeletonEffect = "wave";
 
     this.UseBranches = true;
 
@@ -403,6 +407,8 @@ export class DevopsSourceControlFormComponent
 
     saveEnvReq.Environment.Sources[scLookup] = source;
 
+    console.log('save SC: ', saveEnvReq)
+
     let resp = this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
 
     resp.then((res) => {
@@ -578,11 +584,7 @@ export class DevopsSourceControlFormComponent
       this.HostingDetails.Loading = true;
 
       this.appsFlowSvc
-        .LoadProjectHostingDetails(
-          this.OrganizationFormControl?.value,
-          this.RepositoryFormControl?.value,
-          this.MainBranchFormControl?.value
-        )
+        .LoadProjectHostingDetails()
         .subscribe(
           (response: BaseModeledResponse<ProjectHostingDetails>) => {
             this.HostingDetails = response.Model;
@@ -599,7 +601,9 @@ export class DevopsSourceControlFormComponent
   }
 
   protected setupFormControls(): void {
-    // this.destroyFormControls();
+    this.destroyFormControls();
+
+    console.log("Source Control: ", this.EditingSourceControl);
 
     this.DevOpsSourceControlFormGroup.addControl(
       'devOpsActionLookup',

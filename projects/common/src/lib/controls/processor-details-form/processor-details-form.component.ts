@@ -396,6 +396,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
   protected listBuildPaths(): void {
     this.State.Loading = true;
 
+    console.log("Source Control: ", this.SourceControls[this.SourceControlFormControl.value])
+
     this.appsFlowSvc
       .ListBuildPaths(
         this.SourceControls[this.SourceControlFormControl.value]?.Organization,
@@ -407,9 +409,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
         this.State.Loading = false;
 
-        if (this.BuildPathOptions?.length === 1) {
-          this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
-        }
+        // if (this.BuildPathOptions?.length === 1) {
+        //   this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
+        // }
       });
   }
 
@@ -462,9 +464,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
       this.ProcessorDetailsFormGroup = this.formBldr.group({
         procType: [this.ProcessorType, [Validators.required]],
       });
-      this.setupDfsForm();
+      // this.setupDfsForm();
 
-      this.setupLcuTypeSubForm();
+      // this.setupLcuTypeSubForm();
+      this.setupProcessorTypeSubForm()
     }
   }
 

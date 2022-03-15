@@ -35,7 +35,6 @@ import { SlottedCardComponent } from './elements/slotted-card/slotted-card.compo
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
 import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
 import { FeedCardSmComponent } from './elements/feed-card-sm/feed-card-sm.component';
-import { GhControlComponent } from './elements/gh-control/gh-control.component';
 import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
 import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
 import { CardCarouselComponent } from './elements/card-carousel/card-carousel.component';
@@ -58,7 +57,11 @@ import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dia
 import { SkeletonElementsModule } from 'skeleton-elements/angular';
 import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleton-feed-card.component';
 import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.component';
-
+import { EmulatedDevicesToggleComponent } from './controls/emulated-devices-toggle/emulated-devices-toggle.component';
+import { IoTEnsembleService } from './services/iot-ensemble.service';
+import { FeedHeaderComponent } from './elements/feed-header/feed-header.component';
+import { FeedHeaderDialogComponent } from './dialogs/feed-header-dialog/feed-header-dialog.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -88,7 +91,7 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
@@ -106,9 +109,12 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     NewApplicationDialogComponent,
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
-    UpgradeDialogComponent
+    UpgradeDialogComponent,
+    EmulatedDevicesToggleComponent,
+    FeedHeaderDialogComponent
   ],
   imports: [
+    AngularEditorModule,
     ClipboardModule,
     FathymSharedModule,
     FormsModule,
@@ -149,7 +155,8 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
+    FeedHeaderDialogComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
@@ -167,7 +174,9 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     NewApplicationDialogComponent,
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
-    UpgradeDialogComponent
+    UpgradeDialogComponent,
+    EmulatedDevicesToggleComponent,
+    FeedHeaderDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -194,7 +203,7 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
@@ -208,7 +217,8 @@ import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.
     EditApplicationFormComponent,
     BreadcrumbComponent,
     CustomDomainDialogComponent,
-    EditApplicationDialogComponent
+    EditApplicationDialogComponent,
+    EmulatedDevicesToggleComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
@@ -224,7 +234,8 @@ export class ApplicationsFlowModule {
         ProjectService,
         NPMService,
         FormsService,
-        EaCService
+        EaCService,
+        IoTEnsembleService
       ],
     };
   }

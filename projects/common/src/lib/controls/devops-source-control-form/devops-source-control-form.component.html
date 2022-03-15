@@ -4,8 +4,8 @@
   (ngSubmit)="SubmitSourceControl()"
 >
 
-  <mat-card class="spread" class="sc-card">
-    <mat-card-header>
+  <!-- <mat-card class="spread" class="sc-card"> -->
+    <!-- <mat-card-header>
       <mat-card-title> Source Control </mat-card-title>
 
       <div fxFlex></div>
@@ -13,31 +13,32 @@
       <mat-icon matSuffix matTooltip="Configure source control, DevOps CI/CD, and artifacts.">
         info_outline
       </mat-icon>
-    </mat-card-header>
+    </mat-card-header> -->
 
-    <mat-card-content>
+    <!-- <mat-card-content> -->
 
       <ng-container *ngIf="State?.Loading">
+        <lcu-loader [loading]="State?.Loading"></lcu-loader>
 
-        <skeleton-block 
+        <!-- <skeleton-block 
           class="s-block"
-          effect="wave" 
+          [effect]="SkeletonEffect" 
         ></skeleton-block>
 
         <skeleton-block 
           class="s-block"
-          effect="wave" 
+          [effect]="SkeletonEffect" 
         ></skeleton-block>
 
         <skeleton-block 
           class="s-block"
-          effect="wave" 
+          [effect]="SkeletonEffect"  
         ></skeleton-block>
 
         <skeleton-block 
           class="s-block"
-          effect="wave" 
-        ></skeleton-block>
+          [effect]="SkeletonEffect"  
+        ></skeleton-block> -->
 
       </ng-container>
 
@@ -107,7 +108,8 @@
           <mat-form-field class="mat-full-width">
             <mat-icon class="org-icon" matPrefix>description</mat-icon>
 
-            <mat-select [formControlName]="SourceControlRoot + 'repository'" [placeholder]="
+            <mat-select [formControlName]="SourceControlRoot + 'repository'" 
+                        [placeholder]="
                       OrganizationFormControl?.valid
                         ? 'Repository'
                         : 'Repository (select organization first)'
@@ -268,10 +270,10 @@
       </ng-container>
       <!-- </div> -->
 
-    </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center center">
+    <!-- </mat-card-content> -->
+    <!-- <mat-card-actions fxLayoutAlign="center center"> -->
 
-      <button 
+      <!-- <button 
         mat-raised-button 
         *ngIf="!State?.Loading"
         type="submit" 
@@ -281,8 +283,8 @@
         <mat-icon>save</mat-icon>
         Save Source Control
       </button>
-      <lcu-loader [loading]="State?.Loading"></lcu-loader>
+      <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
       
-  </mat-card-actions>
-  </mat-card>
+  <!-- </mat-card-actions> -->
+  <!-- </mat-card> -->
 </form>

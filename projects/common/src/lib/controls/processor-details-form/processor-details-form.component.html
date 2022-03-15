@@ -1,8 +1,8 @@
 <form class="processor-details-form" [formGroup]="ProcessorDetailsFormGroup" (ngSubmit)="SaveProcessorDetails()">
-<mat-card class="spread flow-card">
-    <mat-card-header>
+<!-- <mat-card class="spread flow-card"> -->
+    <!-- <mat-card-header>
       <mat-card-title> Processor Details </mat-card-title>
-    </mat-card-header>
+    </mat-card-header> -->
 
     <ng-container *ngIf="State?.Loading">
 
@@ -23,7 +23,7 @@
 
     <ng-container *ngIf="!State?.Loading">
 
-    <mat-card-content>
+    <!-- <mat-card-content> -->
       <mat-form-field class="mat-full-width">
         <mat-select
           placeholder="Type"
@@ -339,10 +339,10 @@
           </div>
         </div>
       </div>
-    </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center center">
+    <!-- </mat-card-content> -->
+    <!-- <mat-card-actions fxLayoutAlign="center center"> -->
 
-        <button 
+        <!-- <button 
           *ngIf="HasSaveButton && !State?.Loading"
           mat-raised-button 
           type="submit" 
@@ -351,13 +351,13 @@
           [disabled]="!ProcessorDetailsFormGroup.valid || !ProcessorDetailsFormGroup.dirty">
           <mat-icon>save</mat-icon>
           Save Processor Details
-        </button>
-        <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader>
+        </button> -->
+        <!-- <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader> -->
 
-    </mat-card-actions>
+    <!-- </mat-card-actions> -->
 
   </ng-container>
   
-</mat-card>
+<!-- </mat-card> -->
 </form>
   

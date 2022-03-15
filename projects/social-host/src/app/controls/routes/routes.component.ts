@@ -5,7 +5,7 @@ import {
   ApplicationsFlowState,
   EaCService,
   ApplicationsFlowService,
-  NewApplicationDialogComponent
+  NewApplicationDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
@@ -15,7 +15,6 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
   styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
-
   public get ActiveEnvironmentLookup(): string {
     //  TODO:  Eventually support multiple environments
     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
@@ -77,72 +76,7 @@ export class RoutesComponent implements OnInit {
   public get RoutedApplications(): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
   } {
-    const appLookups = Object.keys(this.Applications);
-
-    const apps = appLookups.map((appLookup) => this.Applications[appLookup]);
-
-    let appRoutes =
-      apps.map((app) => {
-        return app?.LookupConfig?.PathRegex.replace('.*', '');
-      }) || [];
-
-    appRoutes = appRoutes.filter((ar) => ar != null);
-
-    let routeBases: string[] = [];
-
-    appRoutes.forEach((appRoute) => {
-      const appRouteParts = appRoute.split('/');
-
-      const appRouteBase = `/${appRouteParts[1]}`;
-
-      if (routeBases.indexOf(appRouteBase) < 0) {
-        routeBases.push(appRouteBase);
-      }
-    });
-
-    let workingAppLookups = [...(appLookups || [])];
-
-    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
-
-    const routeSet =
-      routeBases.reduce((prevRouteMap, currentRouteBase) => {
-        const routeMap = {
-          ...prevRouteMap,
-        };
-
-        const filteredAppLookups = workingAppLookups.filter((wal) => {
-          const wa = this.Applications[wal];
-
-          return wa?.LookupConfig?.PathRegex.startsWith(currentRouteBase);
-        });
-
-        routeMap[currentRouteBase] =
-          filteredAppLookups.reduce((prevAppMap, appLookup) => {
-            const appMap = {
-              ...prevAppMap,
-            };
-
-            appMap[appLookup] = this.Applications[appLookup];
-
-            return appMap;
-          }, {}) || {};
-
-        workingAppLookups = workingAppLookups.filter((wa) => {
-          return filteredAppLookups.indexOf(wa) < 0;
-        });
-
-        return routeMap;
-      }, {}) || {};
-
-    let routeSetKeys = Object.keys(routeSet);
-
-    routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
-
-    const routeSetResult = {};
-
-    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
-
-    return routeSetResult;
+    return this.eacSvc.GenerateRoutedApplications(this.Applications);
   }
 
   public AppRoute: string;
@@ -181,7 +115,7 @@ export class RoutesComponent implements OnInit {
 
     this.IsInfoCardEditable = false;
     this.IsInfoCardShareable = false;
-    
+
     this.SlicesCount = 5;
 
     this.Slices = {
@@ -191,6 +125,14 @@ export class RoutesComponent implements OnInit {
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
+  }
+
+  public DeleteApplication(appLookup: string, appName: string): void {
+
+    if (confirm(`Are you sure you want to permanently delete ${appName}?`)) {
+      this.eacSvc.DeleteApplication(appLookup, appName);    
+    }
+    
   }
 
   public EditRouteClicked() {
@@ -210,16 +152,14 @@ export class RoutesComponent implements OnInit {
       ]
     );
   }
-  
+
   public LaunchRouteClicked() {
     console.log('Launch Route clicked');
   }
 
-  public OpenNewAppDialog(event: any){
-
+  public OpenNewAppDialog(event: any) {
     const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
       width: '600px',
-      maxHeight: '80vh',
       data: {
         projectLookup: this.ProjectLookup,
         currentRoute: this.AppRoute,
@@ -231,7 +171,6 @@ export class RoutesComponent implements OnInit {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
-
   }
 
   public RouteToPath() {
@@ -246,10 +185,7 @@ export class RoutesComponent implements OnInit {
   public ToggleSlices(type: string) {
     let count = this.Slices[type];
 
-    let length =
-      type === 'Applications'
-        ? this.NumberOfApps
-        : this.SlicesCount;
+    let length = type === 'Applications' ? this.NumberOfApps : this.SlicesCount;
 
     if (count === length) {
       this.Slices[type] = this.SlicesCount;

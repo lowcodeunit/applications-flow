@@ -176,22 +176,22 @@ export class ApplicationsFlowService {
     });
   }
 
-  public LoadProjectHostingDetails(
-    organization: string,
-    repository: string,
-    branch: string
-  ): Observable<object> {
-    branch = encodeURIComponent(branch);
+  // public LoadProjectHostingDetails(
+  //   organization: string,
+  //   repository: string,
+  //   branch: string
+  // ): Observable<object> {
+  //   branch = encodeURIComponent(branch);
 
-    return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
+  //   return this.http.get(
+  //     `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
+  //     {
+  //       headers: this.loadHeaders(),
+  //     }
+  //   );
+  // }
 
-  public NewLoadProjectHostingDetails(): Observable<object> {
+  public LoadProjectHostingDetails(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/hosting/details`,
 
@@ -229,9 +229,15 @@ export class ApplicationsFlowService {
     );
   }
 
-  public LoadUserFeed(page: number, pageSize: number): Observable<object> {
+  public LoadUserFeed(
+    page: number,
+    pageSize: number,
+    project: string,
+    applications: string[]
+  ): Observable<object> {
+    var apps = JSON.stringify(applications || []);
     return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}`,
+      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
       {
         headers: this.loadHeaders(),
       }

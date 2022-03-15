@@ -138,6 +138,8 @@ export class ProjectsComponent implements OnInit {
 
     routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
 
+    // console.log("App Routes: ",routeSetResult)
+
     return routeSetResult;
   }
 
@@ -181,6 +183,7 @@ export class ProjectsComponent implements OnInit {
 
   public ngOnInit(): void {
     this.handleStateChange().then((eac) => {});
+
   }
 
   public EditCustomDomain() {
@@ -212,7 +215,6 @@ export class ProjectsComponent implements OnInit {
 
     const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
       width: '600px',
-      maxHeight: '80vh',
       data: {
         projectLookup: this.ProjectLookup,
         environmentLookup: this.ActiveEnvironmentLookup,

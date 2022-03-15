@@ -1,9 +1,12 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
+import { BuildPipelineFormComponent } from '../../controls/build-pipeline-form/build-pipeline-form.component';
 import { EaCService } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 
 export interface BPDialogData {
@@ -21,8 +24,19 @@ export interface BPDialogData {
 
 export class BuildPipelineDialogComponent implements OnInit {
 
+  @ViewChild(BuildPipelineFormComponent)
+  public BuildPipelineControl: BuildPipelineFormComponent;
+
+  public get BuildPipelineFormGroup(): FormGroup{
+    return this.BuildPipelineControl?.BuildPipelineFormGroup;
+  }
+
   public get HasConnection(): boolean{
-    return this.eacSvc.State.GitHub.HasConnection;
+    return this.State.GitHub.HasConnection;
+  }
+
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
   }
 
   public ErrorMessage: string;
@@ -50,6 +64,10 @@ constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
     else{
       this.ErrorMessage = event.Message;
     }
+  }
+
+  public SaveBuildPipeline(){
+    this.BuildPipelineControl.SaveEnvironment();
   }
 
  

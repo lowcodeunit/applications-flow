@@ -13,7 +13,9 @@
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
       [subtext]="
-        Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] + CurrentApplicationRoute : ''
+        Project?.Hosts ? 
+        Project?.Hosts[Project?.Hosts?.length - 1] + Application?.Processor?.BaseHref :
+         ''
       "
       [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
       (left-click-event)="HandleLeftClickEvent($event)"
@@ -43,8 +45,9 @@
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
   </div>
+  <!-- CENTER -->
   <div>
-    <!-- will need to transfer over to LoadingFeed -->
+    <lcu-feed-header></lcu-feed-header>
     <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">

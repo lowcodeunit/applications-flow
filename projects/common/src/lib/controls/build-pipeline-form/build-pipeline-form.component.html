@@ -3,19 +3,19 @@
   [formGroup]="BuildPipelineFormGroup" 
   (ngSubmit)="SubmitBuildPipeline()"
 >
-    <mat-card
+    <!-- <mat-card
       class="spread"  
-    >
-      <mat-card-header>
+    > -->
+      <!-- <mat-card-header>
         <mat-card-title> Build Pipeline </mat-card-title>
 
         <mat-hint>
           Changes made here are reflected for all sources using this
           DevOpsAction
         </mat-hint>
-      </mat-card-header>
+      </mat-card-header> -->
 
-      <mat-card-content>
+      <!-- <mat-card-content> -->
 
         <ng-container *ngIf="HostingDetails?.Loading || State?.Loading">
 
@@ -119,6 +119,7 @@
                   <a
                     href="https://docs.npmjs.com/creating-and-viewing-access-tokens"
                     target="_blank"
+                    class="primary-link"
                   >
                     here.
                   </a>
@@ -137,11 +138,11 @@
             </div>
           </div> -->
       </ng-container>
-      </mat-card-content>
+      <!-- </mat-card-content> -->
 
-      <mat-card-actions fxLayoutAlign="center center">
+      <!-- <mat-card-actions fxLayoutAlign="center center"> -->
 
-        <button 
+        <!-- <button 
           *ngIf="!State?.Loading"
           mat-raised-button 
           type="submit" 
@@ -150,9 +151,9 @@
           [disabled]="!BuildPipelineFormGroup.valid || !BuildPipelineFormGroup.dirty">
           <mat-icon>save</mat-icon>
           Save Build Pipeline
-        </button>
-        <lcu-loader [loading]="State?.Loading"></lcu-loader>  
+        </button> -->
+        <!-- <lcu-loader [loading]="State?.Loading"></lcu-loader>   -->
         
-    </mat-card-actions>
-    </mat-card>
+    <!-- </mat-card-actions> -->
+    <!-- </mat-card> -->
 </form>

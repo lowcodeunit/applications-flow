@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse, Status } from '@lcu/common';
 import { debug } from 'console';
-import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
 import {
   ApplicationsFlowState,
   GitHubWorkflowRun,
@@ -9,6 +9,7 @@ import {
 } from '../state/applications-flow.state';
 import { ApplicationsFlowService } from './applications-flow.service';
 import { FeedItem, UserFeedResponse } from '../models/user-feed.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,10 @@ export class ProjectService {
 
   public EditingProjectLookup: string;
 
-  constructor(protected appsFlowSvc: ApplicationsFlowService) {}
+  constructor(
+    protected appsFlowSvc: ApplicationsFlowService,
+    protected activatedRoute: ActivatedRoute
+  ) {}
 
   // public CreateRepository(state: ApplicationsFlowState, org: string, repoName: string): void {
   //   state.GitHub.Loading = true;
@@ -78,7 +82,6 @@ export class ProjectService {
       state.Loading = true;
 
       this.appsFlowSvc.DeleteDevOpsAction(doaLookup).subscribe(
-        
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
             const eac = await this.LoadEnterpriseAsCode(state);
@@ -198,6 +201,77 @@ export class ProjectService {
     });
   }
 
+  public GenerateRoutedApplications(applications: { [lookup: string]: EaCApplicationAsCode }, state: ApplicationsFlowState): {
+    [route: string]: { [lookup: string]: EaCApplicationAsCode };
+  } {
+    const appLookups = Object.keys(applications);
+
+    const apps = appLookups.map((appLookup) => applications[appLookup]);
+
+    let appRoutes =
+      apps.map((app) => {
+        return app?.LookupConfig?.PathRegex.replace('.*', '');
+      }) || [];
+
+    appRoutes = appRoutes.filter((ar) => ar != null);
+
+    let routeBases: string[] = [];
+
+    appRoutes.forEach((appRoute) => {
+      const appRouteParts = appRoute.split('/');
+
+      const appRouteBase = `/${appRouteParts[1]}`;
+
+      if (routeBases.indexOf(appRouteBase) < 0) {
+        routeBases.push(appRouteBase);
+      }
+    });
+
+    let workingAppLookups = [...(appLookups || [])];
+
+    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+    const routeSet =
+      routeBases.reduce((prevRouteMap, currentRouteBase) => {
+        const routeMap = {
+          ...prevRouteMap,
+        };
+
+        const filteredAppLookups = workingAppLookups.filter((wal) => {
+          const wa = applications[wal];
+
+          return wa?.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+        });
+
+        routeMap[currentRouteBase] =
+          filteredAppLookups.reduce((prevAppMap, appLookup) => {
+            const appMap = {
+              ...prevAppMap,
+            };
+
+            appMap[appLookup] = applications[appLookup];
+
+            return appMap;
+          }, {}) || {};
+
+        workingAppLookups = workingAppLookups.filter((wa) => {
+          return filteredAppLookups.indexOf(wa) < 0;
+        });
+
+        return routeMap;
+      }, {}) || {};
+
+    let routeSetKeys = Object.keys(routeSet);
+
+    routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+    const routeSetResult = {};
+
+    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+    return routeSetResult;
+  }
+
   public async GetActiveEnterprise(
     state: ApplicationsFlowState
   ): Promise<void> {
@@ -228,36 +302,6 @@ export class ProjectService {
           console.log(err);
         }
       );
-    });
-  }
-
-  public async LoadUserFeed(page: number, pageSize: number, state: ApplicationsFlowState): Promise<Array<FeedItem>> {
-    return new Promise((resolve, reject) => {
-      state.LoadingFeed = true;
-
-      this.appsFlowSvc.LoadUserFeed(page, pageSize).subscribe(
-        async (response: UserFeedResponse) => {
-          state.LoadingFeed = false;
-
-          if (response.Status.Code === 0) {
-            state.Feed = response.Items;
-            // console.log("ITEMZ: ", response.Items)
-
-            resolve(response.Items);
-          } else {
-            reject(response.Status);
-
-          }
-        },
-        (err) => {
-          state.LoadingFeed = false;
-
-          reject(err);
-
-          console.log(err);
-        }
-      
-    );
     });
   }
 
@@ -353,6 +397,45 @@ export class ProjectService {
     });
   }
 
+  public async LoadUserFeed(
+    page: number,
+    pageSize: number,
+    state: ApplicationsFlowState
+  ): Promise<Array<FeedItem>> {
+    return new Promise((resolve, reject) => {
+      state.LoadingFeed = true;
+
+      let paramMap = this.activatedRoute.snapshot.children[0].paramMap;
+
+      let result = this.loadApplicationsForFeed(state, paramMap);
+  
+      this.appsFlowSvc
+        .LoadUserFeed(page, pageSize, result.Project, result.Applications)
+        .subscribe(
+          async (response: UserFeedResponse) => {
+            state.LoadingFeed = false;
+
+            if (response.Status.Code === 0) {
+              this.activatedRoute
+              state.Feed = response.Items;
+              // console.log("ITEMZ: ", response.Items)
+
+              resolve(response.Items);
+            } else {
+              reject(response.Status);
+            }
+          },
+          (err) => {
+            state.LoadingFeed = false;
+
+            reject(err);
+
+            console.log(err);
+          }
+        );
+    });
+  }
+
   public async SetActiveEnterprise(
     state: ApplicationsFlowState,
     activeEntLookup: string
@@ -366,17 +449,19 @@ export class ProjectService {
           if (response.Status.Code === 0) {
             this.EditingProjectLookup = null;
 
-            console.log("project service active ent: ", activeEntLookup)
+            console.log('project service active ent: ', activeEntLookup);
 
             state.ActiveEnterpriseLookup = activeEntLookup;
 
-            console.log("project service State active ent: ", state.ActiveEnterpriseLookup)
-
+            console.log(
+              'project service State active ent: ',
+              state.ActiveEnterpriseLookup
+            );
 
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.LoadUserFeed(1, 25, state)
-            ])
+              this.LoadUserFeed(1, 25, state),
+            ]);
 
             resolve(results[0]);
           } else {
@@ -410,8 +495,8 @@ export class ProjectService {
           if (response.Status.Code === 0) {
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.LoadUserFeed(1, 25, state)
-            ])
+              this.LoadUserFeed(1, 25, state),
+            ]);
 
             resolve(response.Status);
           } else {
@@ -505,4 +590,41 @@ export class ProjectService {
       );
     });
   }
+
+  //  Helpers
+  protected loadApplicationsForFeed(state: ApplicationsFlowState, paramMap: any) {
+    // this.activatedRoute.paramMap.subscribe(async (paramMap) => {
+    var project = paramMap.get('projectLookup') || '';
+
+    var route = paramMap.get('appRoute');
+
+    var application = paramMap.get('appLookup');
+
+    var applications: string[] = [];
+
+    if (application) {
+      applications.push(application);
+    } else if (route && project) {
+      const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+      state.EaC.Projects[project].ApplicationLookups.forEach(
+        (appLookup: string) => {
+          apps[appLookup] = state.EaC.Applications[appLookup];
+        }
+      );
+
+      var routedApps = this.GenerateRoutedApplications(apps, state);
+
+      var currentApps = routedApps[route];
+
+      applications = Object.keys(currentApps) || [];
+    }
+
+    return {
+      Applications: applications,
+      Project: project,
+    };
+    // });
+  }
+
 }

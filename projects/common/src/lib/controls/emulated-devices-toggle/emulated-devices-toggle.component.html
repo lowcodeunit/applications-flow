@@ -1,14 +1,14 @@
 <form
-  class="security-form"
-  [formGroup]="SecurityFormGroup"
-  (ngSubmit)="SecuritySubmit()"
+  class="emulated-devices-form"
+  [formGroup]="EmulatedDevicesFormGroup"
+  (ngSubmit)="EmulatedDevicesSubmit()"
 >
   <mat-card class="flow-card">
     <!-- SKELETON LOADING -->
     <ng-container *ngIf="State?.Loading">
       <mat-card-header fxLayoutAlign="space-between center">
         <mat-card-title skeleton-text [effect]="SkeletonEffect">
-          Security Settings
+          Emulated Devices Settings
         </mat-card-title>
         <div fxLayoutAlign="space-around center">
           <div skeleton-text [effect]="SkeletonEffect">XXX</div>
@@ -38,7 +38,7 @@
 
     <ng-container *ngIf="!State?.Loading">
       <mat-card-header>
-        <mat-card-title> Security Settings </mat-card-title>
+        <mat-card-title> Emulated Device Settings </mat-card-title>
 
         <div fxFlex></div>
 
@@ -81,7 +81,7 @@
           type="submit"
           fxFlex="100%"
           color="primary"
-          [disabled]="!SecurityFormGroup.valid || !SecurityFormGroup.dirty"
+          [disabled]="!EmulatedDevicesFormGroup.valid || !EmulatedDevicesFormGroup.dirty"
         >
           <mat-icon>save</mat-icon>
           Save Settings

@@ -90,7 +90,7 @@ export class MainFeedCardComponent implements OnInit {
       }
     } else if (action.ActionType == 'Modal') {
       if (action.Action == 'AddSourceControl') {
-        this.OpenSourceControlDialog('');
+        this.OpenSourceControlDialog(null);
       } else {
         alert('other modaled ' + action.Action);
       }

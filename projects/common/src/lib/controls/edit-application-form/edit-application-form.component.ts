@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Guid } from '@lcu/common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';

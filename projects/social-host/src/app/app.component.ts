@@ -1,12 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterEvent,
+} from '@angular/router';
 import { LCUServiceSettings } from '@lcu/common';
 import {
   ApplicationsFlowState,
   EaCService,
 } from '@lowcodeunit/applications-flow-common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import { LazyElementConfig } from '@lowcodeunit/lazy-element';
+import { EaCApplicationAsCode } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-root',
@@ -14,28 +21,63 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  protected initialized: boolean;
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
 
   public IsSmScreen: boolean;
 
+  public IoTConfig: LazyElementConfig;
+
   constructor(
     public breakpointObserver: BreakpointObserver,
     protected serviceSettings: LCUServiceSettings,
     protected eacSvc: EaCService,
     protected http: HttpClient,
-    protected router: Router
+    protected router: Router,
+    protected activatedRoute: ActivatedRoute
   ) {
-    router.events.subscribe((val) => {
-      let changed = val instanceof NavigationEnd;
+    router.events.subscribe(async (event: RouterEvent) => {
+      let changed = event instanceof NavigationEnd; //ActivationEnd
+
       if (changed) {
         if (this.State?.EaC) {
-          this.eacSvc.LoadEnterpriseAsCode();
-          this.getFeedInfo();
+          await Promise.all([
+            this.eacSvc.LoadEnterpriseAsCode(),
+            this.getFeedInfo(),
+          ]);
+        } else if (!this.initialized) {
+          this.initialized = true;
+
+          await Promise.all([
+            this.eacSvc.HasValidConnection(),
+            this.eacSvc.EnsureUserEnterprise(),
+          ]).catch((err) => {
+            console.log(err);
+          });
+
+          await Promise.all([
+            this.eacSvc.ListEnterprises(),
+            this.eacSvc.GetActiveEnterprise(),
+            this.getFeedInfo(),
+          ]).catch((err) => {
+            console.log(err);
+          });
         }
       }
     });
+
+    this.IoTConfig = {
+      Scripts: [
+        '/_lcu/lcu-device-data-flow-lcu/wc/lcu-device-data-flow.lcu.js',
+      ],
+      Styles: [
+        '/_lcu/lcu-device-data-flow-lcu/wc/lcu-device-data-flow.lcu.css',
+      ],
+      ElementName: 'lcu-device-data-flow-manage-element',
+    };
   }
 
   public ngOnInit(): void {
@@ -55,24 +97,38 @@ export class AppComponent {
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
 
-    await Promise.all([
-      this.eacSvc.HasValidConnection(),
-      this.eacSvc.EnsureUserEnterprise(),
-    ]);
+    this.loadScripts();
 
-    await Promise.all([
-      this.eacSvc.ListEnterprises(),
-      this.eacSvc.GetActiveEnterprise(),
-      this.getFeedInfo(),
-    ]);
+    this.loadStyles();
 
     // this.eacSvc.SetActiveEnterprise(this.State?.Enterprises[0].Lookup);
-    console.log("state = ", this.State)
+    console.log('state = ', this.State);
     // console.log("enterprise = ", this.State?.Enterprises)
   }
 
   protected async getFeedInfo(): Promise<void> {
-    // console.log("Am I getting called???")
     await this.eacSvc.LoadUserFeed(1, 25);
+  }
+
+  protected loadScripts() {
+    for (let script of this.IoTConfig.Scripts) {
+      let node = document.createElement('script'); // creates the script tag
+      node.src = script; // sets the source (insert url in between quotes)
+      node.type = 'text/javascript'; // set the script type
+      node.async = true; // makes script run asynchronously
+      node.charset = 'utf-8';
+      // append to head of document
+      document.getElementsByTagName('head')[0].appendChild(node);
+    }
+  }
+
+  protected loadStyles() {
+    for (let style of this.IoTConfig.Styles) {
+      let node = document.createElement('link'); // creates the script tag
+      node.href = style; // sets the source (insert url in between quotes)
+      node.type = 'text/css'; // set the script type
+      // append to head of document
+      document.getElementsByTagName('head')[0].appendChild(node);
+    }
   }
 }

@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Guid, Status } from '@lcu/common';
+import { Status } from '@lcu/common';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
-import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
+import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 
@@ -45,6 +46,10 @@ export class ProcessorDetailsDialogComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public get ProcessorDetailsFormGroup(): FormGroup{
+    return this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup;
+  }
+
   public ErrorMessage: string;
 
   constructor(protected eacSvc: EaCService, 
@@ -70,6 +75,11 @@ export class ProcessorDetailsDialogComponent implements OnInit {
     else{
       this.ErrorMessage = event.Message;
     }
+  }
+
+  public SaveProcessorDetails(){
+    this.ProcessorDetailsFormControls.SaveProcessorDetails();
+
   }
 
 

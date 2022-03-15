@@ -31,8 +31,10 @@
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
   </div>
+
+  <!-- CENTER -->
   <div>
-    <!-- will need to transfer over to LoadingFeed -->
+    <lcu-feed-header></lcu-feed-header>
     <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
     <ng-container *ngIf="!State?.LoadingFeed">
@@ -41,7 +43,7 @@
       </div>
     </ng-container>
 
-    <div *ngFor="let route of Routes">
+    <!-- <div *ngFor="let route of Routes">
       <lcu-feed-card-sm [title]="route.Name" [description]="route.Description">
         <div actions fxLayout="row">
           <button mat-icon-button (click)="LaunchRouteClicked()">
@@ -61,7 +63,7 @@
           </button>
         </div>
       </lcu-feed-card-sm>
-    </div>
+    </div> -->
   </div>
 
   <div right>
@@ -115,6 +117,16 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
+
+              <button
+                    mat-icon-button
+                    color="warn"
+                    (click)="DeleteApplication(appLookup, app.Application.Name)"
+                  >
+                    <mat-icon matTooltip="Delete {{ app.Application.Name }}">
+                      delete_forever
+                    </mat-icon>
+              </button>
               <a
                 class="slot-action-anchor"
                 [routerLink]="[
@@ -124,7 +136,7 @@
                   ProjectLookup
                 ]"
               >
-                <mat-icon class="action-icon">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ app.Application.Name }}">edit</mat-icon>
               </a>
               <!-- TODO fix href to add on  app.LookupConfig.PathRegex removing the .* -->
               <a
@@ -132,7 +144,7 @@
                 [href]="'https://' + Project?.Hosts[Project?.Hosts?.length - 1]"
                 target="_blank"
               >
-                <mat-icon class="action-icon">launch</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Launch {{ app.Application.Name }}">launch</mat-icon>
               </a>
             </div>
 

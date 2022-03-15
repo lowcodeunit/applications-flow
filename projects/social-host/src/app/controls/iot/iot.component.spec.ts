@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GhControlComponent } from './gh-control.component';
+import { RoutesComponent } from './iot.component';
 
-describe('GhControlComponent', () => {
-  let component: GhControlComponent;
-  let fixture: ComponentFixture<GhControlComponent>;
+describe('RoutesComponent', () => {
+  let component: RoutesComponent;
+  let fixture: ComponentFixture<RoutesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GhControlComponent ]
+      declarations: [ RoutesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GhControlComponent);
+    fixture = TestBed.createComponent(RoutesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
