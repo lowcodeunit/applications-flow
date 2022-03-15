@@ -1,18 +1,15 @@
-<mat-card class="social-card" *ngIf="false">
+<mat-card class="social-card">
   <ng-container *ngIf="!State?.Loading">
     <div class="gh-card-container" fxLayout="row" fxLayoutAlign="center center">
       <mat-icon fxFlex="15%" class="gh-icon">error_outline</mat-icon>
-      <div fxFlex="70%" class="gh-card-main-content">
+      <div fxFlex="85%" class="gh-card-main-content">
         <mat-form-field appearance="fill" class="gh-input">
           <mat-label>{{ InputLabel }}</mat-label>
-          <input matInput type="text" [(ngModel)]="value" />
-          <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-                    <mat-icon>close</mat-icon>
-                    </button> -->
+          <input matInput type="text" [(ngModel)]="value" (click)="OpenFHDialog('announcement')"/>
         </mat-form-field>
       </div>
 
-      <button
+      <!-- <button
         fxFlex="15%"
         mat-button
         (click)="Submit()"
@@ -20,7 +17,7 @@
         color="primary"
       >
         Submit
-      </button>
+      </button> -->
     </div>
 
     <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
@@ -59,21 +56,21 @@
         [effect]="SkeletonEffect"
       ></skeleton-avatar>
 
-      <div fxFlex="70%" class="gh-card-main-content">
+      <div fxFlex="85%" class="gh-card-main-content">
         <skeleton-block
           height="60px"
           [effect]="SkeletonEffect"
         ></skeleton-block>
       </div>
 
-      <div
+      <!-- <div
         skeleton-text
         fxFlex="15%"
         [effect]="SkeletonEffect"
         style="margin: 0px 10px"
       >
         Submit
-      </div>
+      </div> -->
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-around center">

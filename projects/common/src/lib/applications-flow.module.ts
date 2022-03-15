@@ -36,7 +36,6 @@ import { SlottedCardComponent } from './elements/slotted-card/slotted-card.compo
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
 import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
 import { FeedCardSmComponent } from './elements/feed-card-sm/feed-card-sm.component';
-import { GhControlComponent } from './elements/gh-control/gh-control.component';
 import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
 import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
 import { CardCarouselComponent } from './elements/card-carousel/card-carousel.component';
@@ -61,7 +60,9 @@ import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleto
 import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.component';
 import { EmulatedDevicesToggleComponent } from './controls/emulated-devices-toggle/emulated-devices-toggle.component';
 import { IoTEnsembleService } from './services/iot-ensemble.service';
-
+import { FeedHeaderComponent } from './elements/feed-header/feed-header.component';
+import { FeedHeaderDialogComponent } from './dialogs/feed-header-dialog/feed-header-dialog.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,7 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
@@ -111,9 +112,11 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
     UpgradeDialogComponent,
-    EmulatedDevicesToggleComponent
+    EmulatedDevicesToggleComponent,
+    FeedHeaderDialogComponent
   ],
   imports: [
+    AngularEditorModule,
     ClipboardModule,
     FathymSharedModule,
     FormsModule,
@@ -155,7 +158,8 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
+    FeedHeaderDialogComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
@@ -174,7 +178,8 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
     UpgradeDialogComponent,
-    EmulatedDevicesToggleComponent
+    EmulatedDevicesToggleComponent,
+    FeedHeaderDialogComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -201,7 +206,7 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,

@@ -6,7 +6,7 @@ import {
   MaterialModule,
 } from '@lcu/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectsComponent } from './controls/projects/projects.component';
@@ -38,6 +38,7 @@ import { IoTComponent } from './controls/iot/iot.component';
     ApplicationsComponent,
   ],
   imports: [
+    AngularEditorModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -53,6 +54,7 @@ import { IoTComponent } from './controls/iot/iot.component';
     AppHostModule,
     ApplicationsFlowModule.forRoot(),
     SkeletonElementsModule,
+    
   ],
   providers: [
     {

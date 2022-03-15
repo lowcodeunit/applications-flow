@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FeedHeaderDialogComponent } from '../../dialogs/feed-header-dialog/feed-header-dialog.component';
 import { NewApplicationDialogComponent } from '../../dialogs/new-application-dialog/new-application-dialog.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
-  selector: 'lcu-gh-control',
-  templateUrl: './gh-control.component.html',
-  styleUrls: ['./gh-control.component.scss']
+  selector: 'lcu-feed-header',
+  templateUrl: './feed-header.component.html',
+  styleUrls: ['./feed-header.component.scss']
 })
-export class GhControlComponent implements OnInit {
+export class FeedHeaderComponent implements OnInit {
 
   public get ActiveEnvironmentLookup(): string {
     //  TODO:  Eventually support multiple environments
@@ -34,9 +35,9 @@ export class GhControlComponent implements OnInit {
       protected eacSvc: EaCService,
       protected dialog: MatDialog) { 
 
-    this.InputLabel = "Create Pull Request";
+    this.InputLabel = "Create Team Announcement";
     this.SkeletonEffect = "wave";
-    this.selectedBtn = "pr-btn";
+    // this.selectedBtn = "pr-btn";
 
   }
 
@@ -54,6 +55,7 @@ export class GhControlComponent implements OnInit {
     this.selectedBtn = "fb-btn";
     this.addSelectBtn();
     console.log("create feature branch selected");
+    this.OpenFHDialog('fb');
 
   }
 
@@ -63,6 +65,7 @@ export class GhControlComponent implements OnInit {
     this.selectedBtn = "oi-btn";
     this.addSelectBtn();
     console.log("open issue selected");
+    this.OpenFHDialog('issue');
 
   }
 
@@ -72,6 +75,7 @@ export class GhControlComponent implements OnInit {
     this.selectedBtn = "pr-btn";
     this.addSelectBtn();
     console.log("create pull request selected");
+    this.OpenFHDialog('pr');
 
   }
 
@@ -83,7 +87,22 @@ export class GhControlComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
+  public OpenFHDialog(modalType: string){
+    const dialogRef = this.dialog.open(FeedHeaderDialogComponent, {
+      width: '600px',
+      data: {
+        dialogTitle: this.InputLabel,
+        type: modalType
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
@@ -119,11 +138,11 @@ export class GhControlComponent implements OnInit {
   //HELPERS
 
   protected addSelectBtn(){    
-    // (<HTMLElement>document.getElementById(this.selectedBtn)).classList.add('selected');
+    (<HTMLElement>document.getElementById(this.selectedBtn))?.classList.add('selected');
   }
 
   protected removeSelectedBtn(){
-    // (<HTMLElement>document.getElementById(this.selectedBtn)).classList.remove('selected');
+    (<HTMLElement>document.getElementById(this.selectedBtn))?.classList.remove('selected');
   }
 
 }

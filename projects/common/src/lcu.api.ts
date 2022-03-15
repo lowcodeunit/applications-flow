@@ -62,8 +62,7 @@ export * from './lib/elements/slotted-card/slotted-card.component';
 export * from './lib/elements/analytics-card/analytics-card.component';
 export * from './lib/elements/feed-card-sm/feed-card-sm.component';
 export * from './lib/elements/three-column/three-column.component';
-export * from './lib/elements/gh-control/gh-control.component';
-export * from './lib/elements/gh-control/gh-control.component';
+export * from './lib/elements/feed-header/feed-header.component';
 export * from './lib/elements/main-feed-card/main-feed-card.component';
 export * from './lib/elements/project-info-card/project-info-card.component';
 export * from './lib/elements/two-column-header/two-column-header.component';
@@ -77,5 +76,6 @@ export * from './lib/controls/build-pipeline-form/build-pipeline-form.component'
 export * from './lib/controls/devops-source-control-form/devops-source-control-form.component';
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
+export * from './lib/dialogs/feed-header-dialog/feed-header-dialog.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/elements/breadcrumb/breadcrumb.component';

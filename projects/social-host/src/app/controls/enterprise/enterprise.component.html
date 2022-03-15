@@ -43,17 +43,19 @@
   </div>
 
   <!-- CENTER FEED -->
-  <lcu-gh-control></lcu-gh-control>
+  <div>
+    <lcu-feed-header></lcu-feed-header>
 
-  <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
+    <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
-  <ng-container *ngIf="!State?.LoadingFeed">
-    <lcu-main-feed-card
-      [feed-item]="feedItem"
-      *ngFor="let feedItem of State?.Feed"
-    >
-    </lcu-main-feed-card>
-  </ng-container>
+    <ng-container *ngIf="!State?.LoadingFeed">
+      <lcu-main-feed-card
+        [feed-item]="feedItem"
+        *ngFor="let feedItem of State?.Feed"
+      >
+      </lcu-main-feed-card>
+    </ng-container>
+  </div>
 
   <div right>
     <!-- Projects

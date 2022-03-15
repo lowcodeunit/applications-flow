@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GhControlComponent } from './gh-control.component';
+import { FeedHeaderComponent } from './feed-header.component';
 
 describe('GhControlComponent', () => {
-  let component: GhControlComponent;
-  let fixture: ComponentFixture<GhControlComponent>;
+  let component: FeedHeaderComponent;
+  let fixture: ComponentFixture<FeedHeaderComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GhControlComponent ]
+      declarations: [ FeedHeaderComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GhControlComponent);
+    fixture = TestBed.createComponent(FeedHeaderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
