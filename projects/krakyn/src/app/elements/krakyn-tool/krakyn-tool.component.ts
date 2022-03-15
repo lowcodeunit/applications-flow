@@ -102,7 +102,7 @@ export class KrakynToolComponent implements OnInit {
   }
 
   protected async handleStateChange(): Promise<void> {
-  
+
     console.log('HANDLE STATE CHANGE');
 
     this.State.Loading = true;
