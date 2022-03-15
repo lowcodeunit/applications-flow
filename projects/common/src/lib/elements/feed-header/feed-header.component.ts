@@ -1,3 +1,4 @@
+import { Input } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FeedHeaderDialogComponent } from '../../dialogs/feed-header-dialog/feed-header-dialog.component';
@@ -12,6 +13,9 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 })
 export class FeedHeaderComponent implements OnInit {
 
+  @Input('source-control-lookup')
+  public SourceControlLookup: string;
+
   public get ActiveEnvironmentLookup(): string {
     //  TODO:  Eventually support multiple environments
     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
@@ -23,7 +27,7 @@ export class FeedHeaderComponent implements OnInit {
     return this.eacSvc.State;
   }
 
-  public InputLabel: string;
+  public ModalHeader: string;
 
   public SkeletonEffect: string;
 
@@ -35,7 +39,6 @@ export class FeedHeaderComponent implements OnInit {
       protected eacSvc: EaCService,
       protected dialog: MatDialog) { 
 
-    this.InputLabel = "Create Team Announcement";
     this.SkeletonEffect = "wave";
     // this.selectedBtn = "pr-btn";
 
@@ -49,9 +52,15 @@ export class FeedHeaderComponent implements OnInit {
     this.addSelectBtn();
   }
 
+  public CreateAnnouncement(){
+    this.ModalHeader = "Create Team Announcement";
+    this.OpenFHDialog('announcement');
+
+  }
+
   public CreateFeatureBranch(){
     this.removeSelectedBtn();
-    this.InputLabel = "Create Feature Branch";
+    this.ModalHeader = "Create Feature Branch";
     this.selectedBtn = "fb-btn";
     this.addSelectBtn();
     console.log("create feature branch selected");
@@ -61,7 +70,7 @@ export class FeedHeaderComponent implements OnInit {
 
   public OpenIssue(){
     this.removeSelectedBtn();
-    this.InputLabel = "Open Issue";
+    this.ModalHeader = "Open Issue";
     this.selectedBtn = "oi-btn";
     this.addSelectBtn();
     console.log("open issue selected");
@@ -71,7 +80,7 @@ export class FeedHeaderComponent implements OnInit {
 
   public CreatePullRequest(){
     this.removeSelectedBtn();
-    this.InputLabel = "Create Pull Request";
+    this.ModalHeader = "Create Pull Request";
     this.selectedBtn = "pr-btn";
     this.addSelectBtn();
     console.log("create pull request selected");
@@ -97,8 +106,9 @@ export class FeedHeaderComponent implements OnInit {
     const dialogRef = this.dialog.open(FeedHeaderDialogComponent, {
       width: '600px',
       data: {
-        dialogTitle: this.InputLabel,
-        type: modalType
+        dialogTitle: this.ModalHeader,
+        type: modalType,
+        sourceControlLookup: this.SourceControlLookup ? this.SourceControlLookup : null
       },
     });
 

@@ -203,9 +203,9 @@ export class FeedHeaderDialogComponent implements OnInit {
   }
 
   public Submit(){
-    console.log("Title: ", this.TitleFormControl.value )
+    console.log("Control: ", this.FeedHeaderFormGroup.value )
 
-    console.log("Editor: ", this.EditorControl.value )
+    // console.log("Editor: ", this.EditorControl.value )
   }
 
   public OrganizationChanged(event: MatSelectChange): void {
@@ -317,7 +317,7 @@ export class FeedHeaderDialogComponent implements OnInit {
   }
 
   protected setupAnnouncementForm(){
-    this.setupIssueForm();
+    this.setupBasicForm();
 
     this.FeedHeaderFormGroup.addControl(
       'subtitle',

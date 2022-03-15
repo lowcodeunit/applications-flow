@@ -248,7 +248,7 @@
           <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="BranchOptions?.length > 0">
 
             <mat-form-field >
-                <mat-label>Branch</mat-label>
+                <mat-label>Base Branch</mat-label>
                 <mat-select formControlName="parentBranch" required
                 >
                 <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
