@@ -1,12 +1,19 @@
 <mat-card class="social-card">
   <ng-container *ngIf="!State?.Loading">
     <div class="gh-card-container" fxLayout="row" fxLayoutAlign="center center">
-      <mat-icon fxFlex="15%" class="gh-icon">error_outline</mat-icon>
+      <mat-icon fxFlex="15%" class="gh-icon" color="primary">error_outline</mat-icon>
       <div fxFlex="85%" class="gh-card-main-content">
-        <mat-form-field appearance="fill" class="gh-input">
+        <button 
+          mat-button 
+          class="main-btn"
+          (click)="OpenFHDialog('announcement')" 
+          color="primary"
+        >{{ InputLabel }}</button>
+
+        <!-- <mat-form-field appearance="fill" class="gh-input">
           <mat-label>{{ InputLabel }}</mat-label>
           <input matInput type="text" [(ngModel)]="value" (click)="OpenFHDialog('announcement')"/>
-        </mat-form-field>
+        </mat-form-field> -->
       </div>
 
       <!-- <button
@@ -21,14 +28,34 @@
     </div>
 
     <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
-      <button mat-button (click)="CreatePullRequest()" id="pr-btn">
+      <button 
+        mat-button 
+        (click)="CreatePullRequest()" 
+        id="pr-btn" 
+        color="primary"
+      >
         Pull Request
       </button>
-      <button mat-button (click)="OpenIssue()" id="oi-btn">Open Issue</button>
-      <button mat-button (click)="CreateFeatureBranch()" id="fb-btn">
+
+      <button 
+        mat-button 
+        (click)="OpenIssue()" 
+        id="oi-btn" 
+        color="primary"
+      >
+        Open Issue
+      </button>
+
+      <button 
+        mat-button 
+        (click)="CreateFeatureBranch()" 
+        id="fb-btn" 
+        color="primary"
+      >
         Feature Branch
       </button>
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+
+      <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
         <mat-icon>more_horiz</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -43,7 +70,7 @@
         >
           Create Project
         </button>
-      </mat-menu>
+      </mat-menu> -->
     </mat-card-actions>
   </ng-container>
 
@@ -77,9 +104,9 @@
       <div skeleton-text [effect]="SkeletonEffect">Pull Request</div>
       <div skeleton-text [effect]="SkeletonEffect">Open Issue</div>
       <div skeleton-text [effect]="SkeletonEffect">Feature Branch</div>
-      <div skeleton-text [effect]="SkeletonEffect">
+      <!-- <div skeleton-text [effect]="SkeletonEffect">
         <mat-icon>more_horiz</mat-icon>
-      </div>
+      </div> -->
     </div>
   </ng-container>
 </mat-card>
