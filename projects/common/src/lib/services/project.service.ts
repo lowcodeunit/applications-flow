@@ -416,8 +416,9 @@ export class ProjectService {
             state.LoadingFeed = false;
 
             if (response.Status.Code === 0) {
-              this.activatedRoute
               state.Feed = response.Items;
+
+              state.FeedSourceControlLookups = response.SourceControlLookups;
               // console.log("ITEMZ: ", response.Items)
 
               resolve(response.Items);
