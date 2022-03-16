@@ -32,8 +32,6 @@ export class KrakynToolComponent implements OnInit {
 
     // super(injector);
 
-    console.log('FLOW TOOL CONSTRUCTOR');
-
     this.State = new ApplicationsFlowState();
 
     // VariablesUtils.DataFlowModuleData =
@@ -96,14 +94,10 @@ export class KrakynToolComponent implements OnInit {
     VariablesUtils.ActiveModule = VariablesUtils.DataFlowModuleData[dataIndex].Module;
 
     this.KrakynData = VariablesUtils.DataFlowModuleData[dataIndex];
-
-    console.log('KRAKYN - DATA SET!!!!!!!', this.KrakynData);
-
+    debugger;
   }
 
   protected async handleStateChange(): Promise<void> {
-
-    console.log('HANDLE STATE CHANGE');
 
     this.State.Loading = true;
 
