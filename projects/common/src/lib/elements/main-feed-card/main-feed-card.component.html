@@ -43,11 +43,45 @@
                   </div>
                 </ng-container>
 
+                <ng-container *ngIf="tab.Data?.Content">
+                  <div class="content">
+                    {{ tab.Data?.Content }}
+                  </div>
+                </ng-container>
+
                 <ng-container *ngIf="tab.Data?.Video">
                   <div
                     class="video"
                     [innerHTML]="SafeHtml(tab.Data.Video)"
                   ></div>
+                </ng-container>
+
+                <ng-container *ngIf="tab.Data?.Comments">
+                  <div class="comments">
+                    <ng-container *ngIf="!tab.Data?.Comments">
+                      <h4>No comments provided</h4>
+                    </ng-container>
+
+                    <mat-card *ngFor="let comment of tab.Data?.Comments">
+                      <mat-card-header>
+                        <img
+                          mat-card-avatar
+                          class="example-header-image"
+                          [src]="comment.Avatar"
+                          *ngIf="comment.Avatar"
+                        />
+
+                        <mat-card-title>
+                          {{ comment.Author }} commented on
+                          {{ comment.UpdatedAt }}
+                        </mat-card-title>
+                      </mat-card-header>
+
+                      <mat-card-content>
+                        {{ comment.Comment }}
+                      </mat-card-content>
+                    </mat-card>
+                  </div>
                 </ng-container>
               </div>
             </mat-tab>
