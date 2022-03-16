@@ -220,7 +220,10 @@ export class FeedHeaderDialogComponent implements OnInit {
       Title: this.TitleFormControl ? this.TitleFormControl.value : null,
 
     }
-    console.log("Control: ", returnObject )
+    console.log("Control: ", returnObject );
+
+    let status = this.eacSvc.SubmitFeedEntry(returnObject);
+    console.log("feed entry status: ", status);
 
     // console.log("Editor: ", this.EditorControl.value )
   }

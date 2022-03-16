@@ -74,7 +74,7 @@ export class FeedItemTab {
 
 export class FeedEntry {
 
-public  ActionIcon: string; 
+public ActionIcon: string; 
 
 public ActionLink: string; 
 

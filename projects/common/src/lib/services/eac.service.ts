@@ -13,7 +13,7 @@ import {
   EaCProjectAsCode,
   EnterpriseAsCode,
 } from '@semanticjs/common';
-import { FeedItem } from '../models/user-feed.model';
+import { FeedEntry, FeedItem } from '../models/user-feed.model';
 import { HttpClient } from '@angular/common/http';
 import { BaseModeledResponse, Status } from '@lcu/common';
 import { Observable } from 'rxjs';
@@ -180,6 +180,10 @@ export class EaCService {
 
   public async SetEditProjectSettings(projectLookup: string): Promise<void> {
     await this.projectService.SetEditProjectSettings(this.State, projectLookup);
+  }
+
+  public async SubmitFeedEntry(entry: FeedEntry): Promise<Status> {
+    return await this.projectService.SubmitFeedEntry(this.State, entry);
   }
 
   public async UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): Promise<void> {
