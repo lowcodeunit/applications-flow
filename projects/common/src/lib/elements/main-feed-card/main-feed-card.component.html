@@ -58,7 +58,7 @@
 
                 <ng-container *ngIf="tab.Data?.Comments">
                   <div class="comments">
-                    <ng-container *ngIf="!tab.Data?.Comments">
+                    <ng-container *ngIf="tab.Data?.Comments?.length <= 0">
                       <h4>No comments provided</h4>
                     </ng-container>
 
