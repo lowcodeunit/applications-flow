@@ -1,0 +1,36 @@
+:host {
+  @import "../../../assets/styles/social-card";
+
+  .example-header-image {
+    background-size: cover;
+  }
+
+  .mat-icon {
+    display: inline-flex;
+    vertical-align: middle;
+
+    &.spin {
+      animation: rotate 1s ease-in-out infinite;
+    }
+
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(-360deg);
+      }
+    }
+  }
+
+  .tab {
+    margin: 2em;
+
+    .video {
+      iframe {
+        display: block;
+        margin: auto;
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+<mat-card class="social-card" *ngIf="false">
+  <ng-container *ngIf="!State?.Loading">
+    <div class="gh-card-container" fxLayout="row" fxLayoutAlign="center center">
+      <mat-icon fxFlex="15%" class="gh-icon">error_outline</mat-icon>
+      <div fxFlex="70%" class="gh-card-main-content">
+        <mat-form-field appearance="fill" class="gh-input">
+          <mat-label>{{ InputLabel }}</mat-label>
+          <input matInput type="text" [(ngModel)]="value" />
+          <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                    <mat-icon>close</mat-icon>
+                    </button> -->
+        </mat-form-field>
+      </div>
+
+      <button
+        fxFlex="15%"
+        mat-button
+        (click)="Submit()"
+        id="submit-btn"
+        color="primary"
+      >
+        Submit
+      </button>
+    </div>
+
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+      <button mat-button (click)="CreatePullRequest()" id="pr-btn">
+        Pull Request
+      </button>
+      <button mat-button (click)="OpenIssue()" id="oi-btn">Open Issue</button>
+      <button mat-button (click)="CreateFeatureBranch()" id="fb-btn">
+        Feature Branch
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button class="gh-menu-action" mat-menu-item (click)="CreateNewApp()">
+          Create New App
+        </button>
+
+        <button
+          class="gh-menu-action"
+          mat-menu-item
+          (click)="RouteToPath('/dashboard/create-project')"
+        >
+          Create Project
+        </button>
+      </mat-menu>
+    </mat-card-actions>
+  </ng-container>
+
+  <!-- SKELETON -->
+  <ng-container *ngIf="State?.Loading">
+    <div id="gh-card-skeleton" fxLayout="row" fxLayoutAlign="center center">
+      <skeleton-avatar
+        class="gh-icon"
+        [showIcon]="false"
+        [effect]="SkeletonEffect"
+      ></skeleton-avatar>
+
+      <div fxFlex="70%" class="gh-card-main-content">
+        <skeleton-block
+          height="60px"
+          [effect]="SkeletonEffect"
+        ></skeleton-block>
+      </div>
+
+      <div
+        skeleton-text
+        fxFlex="15%"
+        [effect]="SkeletonEffect"
+        style="margin: 0px 10px"
+      >
+        Submit
+      </div>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="space-around center">
+      <div skeleton-text [effect]="SkeletonEffect">Pull Request</div>
+      <div skeleton-text [effect]="SkeletonEffect">Open Issue</div>
+      <div skeleton-text [effect]="SkeletonEffect">Feature Branch</div>
+      <div skeleton-text [effect]="SkeletonEffect">
+        <mat-icon>more_horiz</mat-icon>
+      </div>
+    </div>
+  </ng-container>
+</mat-card>

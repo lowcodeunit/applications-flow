@@ -8,7 +8,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
+import { EaCService } from '../../../../../../../services/eac.service';
 import { EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
@@ -54,7 +54,7 @@ export class RootDirectoryComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {}
 
   public ngOnInit(): void {
@@ -114,7 +114,7 @@ export class RootDirectoryComponent implements OnInit {
    * Save form
    */
   protected save(): void {
-    this.appsFlowEventsSvc.SaveProjectAsCode({
+    this.eacSvc.SaveProjectAsCode({
       ProjectLookup: this.ProjectLookup,
       Project: {
         ...this.Project,

@@ -1,0 +1,20 @@
+:host ::ng-deep {
+  .breadcrumb-container {
+    background-color: #ebecf0;
+    margin: 20px 20px 0px;
+  }
+
+  .seperator {
+    font-size: 25px;
+    padding: 10px;
+  }
+
+  .crumb-name {
+    cursor: pointer;
+  }
+
+  .mat-icon {
+    display: inline-flex;
+    vertical-align: middle;
+  }
+}

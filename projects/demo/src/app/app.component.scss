@@ -1,106 +1,104 @@
 // @import '~@angular/material/theming';
 
 // @mixin lcu-component-theme($theme) {
-  // $primary: map-get($theme, primary);
-  // $accent: map-get($theme, accent);
-  // $warn: map-get($theme, warn);
-@import '../../../common/src/assets/common';
+// $primary: map-get($theme, primary);
+// $accent: map-get($theme, accent);
+// $warn: map-get($theme, warn);
+@import "../../../common/src/assets/common";
 
-  $header-height: 64px;
+$header-height: 64px;
 
-  .lcu-toolbar {
-    display: flex;
-    justify-content: space-between;
+.lcu-toolbar {
+  display: flex;
+  justify-content: space-between;
 
-    .toolbar-title {
-      display: block;
-      margin: 0;
+  .toolbar-title {
+    display: block;
+    margin: 0;
 
-      .title-menu {
-        cursor: pointer;
-        margin-right: 15px;
+    .title-menu {
+      cursor: pointer;
+      margin-right: 15px;
 
-        .mat-icon {
-          font-size: 32px;
-          height: 32px;
-          width: 32px;
-        }
-      }
-
-      .title-text {
-        color: mat-color($primary, default-contrast);
-        text-decoration: none;
-
-        &:hover {
-          text-decoration: underline;
-        }
-
-        small {
-          font-size: 0.5em;
-          line-height: 1.3em;
-
-          &.subtitle {
-            display: block;
-          }
-        }
+      .mat-icon {
+        font-size: 32px;
+        height: 32px;
+        width: 32px;
       }
     }
-  }
 
-  .lcu-card-container {
-    width: 100%
-
-    lcu-home, lcu-projects {
-      width: 100%;
-    }
-  }
-
-  .lcu-content {
-    box-sizing: border-box;
-    display: flex;
-    height: calc(100% - #{$header-height});
-    justify-content: center;
-    padding: 10px;
-
-    a:not(.mat-button) {
-      color: map-get($primary, 500);
+    .title-text {
+      color: mat-color($primary, default-contrast);
+      text-decoration: none;
 
       &:hover {
-        color: map-get($accent, 200);
+        text-decoration: underline;
+      }
+
+      small {
+        font-size: 0.5em;
+        line-height: 1.3em;
+
+        &.subtitle {
+          display: block;
+        }
       }
     }
   }
+}
 
-  // .color-swatch-arctic {
-  //   color: mat-color($fathym-arctic-primary, 500) !important;
-  // }
+.lcu-card-container {
+  width: 100% lcu-home, lcu-projects {
+    width: 100%;
+  }
+}
 
-  // .color-swatch-contrast {
-  //   color: mat-color($fathym-contrast-primary, 500) !important;
-  // }
+.lcu-content {
+  box-sizing: border-box;
+  display: flex;
+  height: calc(100% - #{$header-height});
+  justify-content: center;
+  padding: 10px;
 
-  // .color-swatch-cool-candy {
-  //   color: mat-color($fathym-cool-candy-primary, 500) !important;
-  // }
+  a:not(.mat-button) {
+    color: map-get($primary, 500);
 
-  // .color-swatch-flipper {
-  //   color: mat-color($fathym-flipper-primary, 500) !important;
-  // }
+    &:hover {
+      color: map-get($accent, 200);
+    }
+  }
+}
 
-  // .color-swatch-ice {
-  //   color: mat-color($fathym-ice-primary, 500) !important;
-  // }
+// .color-swatch-arctic {
+//   color: mat-color($fathym-arctic-primary, 500) !important;
+// }
 
-  // .color-swatch-sea-green {
-  //   color: mat-color($fathym-sea-green-primary, 500) !important;
-  // }
+// .color-swatch-contrast {
+//   color: mat-color($fathym-contrast-primary, 500) !important;
+// }
 
-  // .color-swatch-white-mint {
-  //   color: mat-color($fathym-white-mint-primary, 500) !important;
-  // }
+// .color-swatch-cool-candy {
+//   color: mat-color($fathym-cool-candy-primary, 500) !important;
+// }
 
-  // .color-swatch-ivy {
-  //   color: mat-color($fathym-primary, 500) !important;
-  // }
+// .color-swatch-flipper {
+//   color: mat-color($fathym-flipper-primary, 500) !important;
+// }
+
+// .color-swatch-ice {
+//   color: mat-color($fathym-ice-primary, 500) !important;
+// }
+
+// .color-swatch-sea-green {
+//   color: mat-color($fathym-sea-green-primary, 500) !important;
+// }
+
+// .color-swatch-white-mint {
+//   color: mat-color($fathym-white-mint-primary, 500) !important;
+// }
+
+// .color-swatch-ivy {
+//   color: mat-color($fathym-primary, 500) !important;
+// }
 
 // }

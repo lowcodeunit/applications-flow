@@ -1,0 +1,28 @@
+<div fxLayout="column" fxFlexFill>
+  <mat-toolbar class="social-toolbar" color="primary">
+    <img class="logo" src="./assets/svgs/logo.svg" />
+
+    <div fxFlex></div>
+
+    <ng-container *ngIf="!IsSmScreen">
+      <a mat-button class="toolbar-action" href="/docs" target="_blank">Docs</a>
+      <a mat-button class="toolbar-action" href="/blog/" target="_blank">Blog</a>
+      <!-- <a mat-button class="toolbar-action" href="/.oauth/logout">Logout</a> -->
+    </ng-container>
+
+    <ng-container *ngIf="IsSmScreen">
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <a class="toolbar-menu-action" mat-menu-item href="/docs" target="_blank">Docs</a>
+        <a class="toolbar-menu-action" mat-menu-item href="/blog/" target="_blank">Blog</a>
+        <!-- <a class="toolbar-menu-action" mat-menu-item href="/.oauth/logout"
+          >Logout</a
+        > -->
+      </mat-menu>
+    </ng-container>
+  </mat-toolbar>
+
+  <router-outlet></router-outlet>
+</div>

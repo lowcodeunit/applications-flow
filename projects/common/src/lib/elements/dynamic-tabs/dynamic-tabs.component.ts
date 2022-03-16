@@ -4,14 +4,11 @@ import { DynamicTabsModel } from './../../models/dynamic-tabs.model';
 import { 
   AfterViewInit, 
   Component, 
-  ComponentFactory, 
-  ComponentFactoryResolver, 
-  ComponentRef, 
   Input, 
   OnInit, 
   ViewChild, 
   ViewContainerRef } from '@angular/core';
-  import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'lcu-dynamic-tabs',
@@ -50,13 +47,13 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
   public TabComponents: Array<DynamicTabsModel>;
 
   constructor(
-    protected componentFactoryResolver: ComponentFactoryResolver, 
+    protected viewContainerRef: ViewContainerRef,
     protected formsService: FormsService) { }
 
   // Lifecycle hook
   public ngOnInit(): void {
 
-    // listen form any form to be dirty, then disable all tabs except for the current tab
+    // listen for any form to be dirty, then disable all tabs except for the current tab
     this.formIsDirtySubscription = this.formsService.FormIsDirty.subscribe(
       (val: boolean) => {
         this.FormIsDirty = val;
@@ -84,23 +81,24 @@ export class DynamicTabsComponent implements OnInit, AfterViewInit {
    *
    * @param index TabComponents index position
    */
-  protected renderComponent(index: number) {
+  protected renderComponent(index: number): any {
 
       if (!this.TabComponents) {
         return;
       }
+      const componentRef = this.viewContainerRef.createComponent(this.TabComponents[index].Component);
 
       // factory for creating a dynamic component
-      const factory: ComponentFactory<any> = this.componentFactoryResolver
-      .resolveComponentFactory(this.TabComponents[index].Component);
+      // const factory: ComponentFactory<any> = this.componentFactoryResolver
+      // .resolveComponentFactory(this.TabComponents[index].Component);
 
       // component created by a factory
-      const componentRef: ComponentRef<any> = this.viewContainer.createComponent(factory);
+      // const componentRef: ComponentRef<any> = this.viewContainer.createComponent(factory);
 
       // current component instance
       const instance: DynamicTabsComponent = componentRef.instance as DynamicTabsComponent;
 
-      // find the current component in TabComponents and set its data
+      // find the current component in TabComponents and set the data
       this.TabComponents.find((comp: DynamicTabsModel) => {
         if (comp.Component.name === instance.constructor.name) {
           instance['Data'] = comp.Data;

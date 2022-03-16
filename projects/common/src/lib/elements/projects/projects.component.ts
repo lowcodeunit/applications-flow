@@ -2,37 +2,22 @@ import {
   Component,
   OnInit,
   Injector,
-  ViewChild,
-  Inject,
-  AfterViewInit,
+  
   OnDestroy,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { MatStepper } from '@angular/material/stepper';
 import {
   LCUElementContext,
   LcuElementComponent,
   BaseResponse,
-  BaseModeledResponse,
 } from '@lcu/common';
 import { ApplicationsFlowState } from './../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
-import { ProjectService } from '../../services/project.service';
-import { Subscription } from 'rxjs';
 import {
-  ApplicationsFlowEventsService,
-  SaveApplicationAsCodeEventRequest,
-  SaveDFSModifierEventRequest,
-  SaveEnvironmentAsCodeEventRequest,
-} from './../../services/applications-flow-events.service';
-import {
-  EaCApplicationAsCode,
   EaCEnvironmentAsCode,
-  EaCHost,
   EaCProjectAsCode,
-  EnterpriseAsCode,
 } from '@semanticjs/common';
+import { EaCService } from '../../services/eac.service';
 
 declare var window: Window;
 
@@ -68,7 +53,7 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public get CreatingProject(): boolean {
-    return this.projectService.CreatingProject;
+    return this.eacSvc.CreatingProject;
   }
 
   public get EditingProject(): EaCProjectAsCode {
@@ -78,27 +63,24 @@ export class ApplicationsFlowProjectsElementComponent
   }
 
   public get EditingProjectLookup(): string {
-    return this.projectService.EditingProjectLookup;
+    return this.eacSvc.EditingProjectLookup;
   }
 
   public get ProjectLookups(): Array<string> {
     return Object.keys(this.State?.EaC?.Projects || {});
   }
 
-  public State: ApplicationsFlowState;
+  public get State(): ApplicationsFlowState {
+    return this.eacSvc.State;
+  }
 
   //  Constructors
   constructor(
     protected injector: Injector,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected projectService: ProjectService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {
     super(injector);
-
-    this.State = new ApplicationsFlowState();
-
-    this.setServices();
   }
 
   //  Life Cycle
@@ -114,7 +96,7 @@ export class ApplicationsFlowProjectsElementComponent
 
   //  API Methods
   public async ActiveEnterpriseChanged(event: MatSelectChange): Promise<void> {
-    await this.projectService.SetActiveEnterprise(this.State, event.value);
+    await this.eacSvc.SetActiveEnterprise(event.value);
   }
 
   public ConfigureDevOpsAction(devOpsActionLookup: string): void {
@@ -124,7 +106,7 @@ export class ApplicationsFlowProjectsElementComponent
       .ConfigureDevOpsAction(devOpsActionLookup)
       .subscribe((response: BaseResponse) => {
         if (response.Status.Code === 0) {
-          this.projectService.LoadEnterpriseAsCode(this.State);
+          this.eacSvc.LoadEnterpriseAsCode();
         } else {
           this.State.Loading = false;
         }
@@ -134,198 +116,5 @@ export class ApplicationsFlowProjectsElementComponent
   //  Helpers
   protected async handleStateChange(): Promise<void> {
     this.State.Loading = true;
-
-    await this.projectService.HasValidConnection(this.State);
-
-    await this.projectService.ListEnterprises(this.State);
-
-    if (this.State.Enterprises?.length > 0) {
-      await this.projectService.GetActiveEnterprise(this.State);
-    }
-  }
-
-  protected async handleSaveApplication(
-    req: SaveApplicationAsCodeEventRequest
-  ): Promise<void> {
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Applications: {},
-      Projects: {},
-    };
-
-    const existingProj = {
-      ...this.State.EaC.Projects[req.ProjectLookup],
-    };
-
-    if (existingProj.ApplicationLookups?.indexOf(req.ApplicationLookup) < 0) {
-      if (!existingProj.ApplicationLookups) {
-        existingProj.ApplicationLookups = [];
-      }
-
-      existingProj.ApplicationLookups.push(req.ApplicationLookup);
-
-      saveEaC.Projects[req.ProjectLookup] = existingProj;
-    }
-
-    if (req.Application) {
-      saveEaC.Applications[req.ApplicationLookup] = req.Application;
-    }
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-  }
-
-  protected async handleSaveDFSModifier(
-    req: SaveDFSModifierEventRequest
-  ): Promise<void> {
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Modifiers: {},
-      Projects: {},
-    };
-
-    if (req.Modifier) {
-      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
-    }
-
-    if (req.ProjectLookup) {
-      saveEaC.Projects[req.ProjectLookup] = {
-        ModifierLookups: [req.ModifierLookup],
-      };
-    }
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-  }
-
-  protected async handleSaveEnvironment(
-    req: SaveEnvironmentAsCodeEventRequest
-  ): Promise<void> {
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      DataTokens: {},
-      Environments: {},
-    };
-
-    if (req.Environment) {
-      saveEaC.Environments[req.EnvironmentLookup] = req.Environment;
-    }
-
-    if (req.EnterpriseDataTokens) {
-      saveEaC.DataTokens = req.EnterpriseDataTokens;
-    }
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-  }
-
-  protected async handleSaveProject(
-    projectLookup: string,
-    project: EaCProjectAsCode
-  ): Promise<void> {
-    const projHosts: { [lookup: string]: EaCHost } = {};
-
-    project?.Hosts?.forEach(host => {
-      projHosts[host] = this.State.EaC.Hosts[host];
-    });
-
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Enterprise: {
-        ...this.State.EaC.Enterprise,
-        PrimaryHost: project.Hosts[0]
-      },
-      Hosts: projHosts,
-      // Providers: this.State.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
-      Projects: {},
-    };
-
-    saveEaC.Projects[projectLookup] = project;
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-
-    this.appsFlowEventsSvc.SetEditProjectSettings(projectLookup);
-  }
-
-  protected setServices(): void {
-    this.appsFlowEventsSvc.DeleteApplicationEvent.subscribe(
-      async (appLookup) => {
-        await this.projectService.DeleteApplication(this.State, appLookup);
-      }
-    );
-
-    this.appsFlowEventsSvc.DeleteDevOpsActionEvent.subscribe(
-      async (doaLookup) => {
-        await this.projectService.DeleteDevOpsAction(this.State, doaLookup);
-      }
-    );
-
-    this.appsFlowEventsSvc.DeleteProjectEvent.subscribe(
-      async (projectLookup) => {
-        await this.projectService.DeleteProject(this.State, projectLookup);
-      }
-    );
-
-    this.appsFlowEventsSvc.DeleteSourceControlEvent.subscribe(
-      async (scLookup) => {
-        await this.projectService.DeleteSourceControl(this.State, scLookup);
-      }
-    );
-
-    this.appsFlowEventsSvc.EnsureUserEnterpriseEvent.subscribe(async () => {
-      await this.projectService.EnsureUserEnterprise(this.State);
-    });
-
-    // this.appsFlowEventsSvc.ListProjectsEvent.subscribe((withLoading) => {
-    //   this.projectService.ListProjects(this.State, withLoading);
-    // });
-
-    this.appsFlowEventsSvc.LoadEnterpriseAsCodeEvent.subscribe(async () => {
-      await this.projectService.LoadEnterpriseAsCode(this.State);
-    });
-
-    this.appsFlowEventsSvc.SaveEnterpriseAsCodeEvent.subscribe(async (eac) => {
-      await this.projectService.SaveEnterpriseAsCode(this.State, eac);
-    });
-
-    this.appsFlowEventsSvc.SaveApplicationAsCodeEvent.subscribe(async (req) => {
-      await this.handleSaveApplication(req);
-    });
-
-    this.appsFlowEventsSvc.SaveDFSModifierEvent.subscribe(async (req) => {
-      await this.handleSaveDFSModifier(req);
-    });
-
-    this.appsFlowEventsSvc.SaveEnvironmentAsCodeEvent.subscribe(async (req) => {
-      await this.handleSaveEnvironment(req);
-    });
-
-    this.appsFlowEventsSvc.SaveProjectAsCodeEvent.subscribe(async (req) => {
-      await this.handleSaveProject(req.ProjectLookup, req.Project);
-    });
-
-    this.appsFlowEventsSvc.SetCreatingProjectEvent.subscribe(
-      (creatingProject) => {
-        this.projectService.SetCreatingProject(creatingProject);
-      }
-    );
-
-    this.appsFlowEventsSvc.SetEditProjectSettingsEvent.subscribe(
-      async (projectLookup) => {
-        await this.projectService.SetEditProjectSettings(
-          this.State,
-          projectLookup
-        );
-      }
-    );
-
-    this.appsFlowEventsSvc.UnpackLowCodeUnitEvent.subscribe(async (req) => {
-      if (
-        confirm(
-          `Are you sure you want to unpack application '${
-            req.ApplicationName
-          }' with version '${req.Version}'?`
-        )
-      ) {
-        await this.projectService.UnpackLowCodeUnit(this.State, req);
-      }
-    });
   }
 }

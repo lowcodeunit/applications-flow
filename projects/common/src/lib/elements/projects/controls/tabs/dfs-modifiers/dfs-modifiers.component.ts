@@ -1,20 +1,16 @@
-import { FormsService } from '../../../../../services/forms.service';
-import { CardFormConfigModel } from '../../../../../models/card-form-config.model';
-import { DomainModel } from '../../../../../models/domain.model';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+
+import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import {
-  ApplicationsFlowEventsService,
+  EaCService,
   SaveDFSModifierEventRequest,
-} from '../../../../../services/applications-flow-events.service';
+} from '../../../../../services/eac.service';
 import {
   EaCApplicationAsCode,
   EaCArtifact,
@@ -122,7 +118,7 @@ export class DFSModifiersComponent implements OnInit {
   constructor(
     protected formBldr: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {
     this.EditingModifierLookup = null;
   }
@@ -143,7 +139,7 @@ export class DFSModifiersComponent implements OnInit {
     if (
       confirm(`Are you sure you want to delete modifier '${modifierName}'?`)
     ) {
-      this.appsFlowEventsSvc.DeleteSourceControl(modifierLookup);
+      this.eacSvc.DeleteSourceControl(modifierLookup);
     }
   }
 
@@ -182,7 +178,7 @@ export class DFSModifiersComponent implements OnInit {
 
     saveMdfrReq.Modifier.Details = JSON.stringify(details);
 
-    this.appsFlowEventsSvc.SaveDFSModifier(saveMdfrReq);
+    this.eacSvc.SaveDFSModifier(saveMdfrReq);
   }
 
   public SetEditingModifier(modifierLookup: string): void {

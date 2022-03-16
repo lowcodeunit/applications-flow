@@ -1,13 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
-import { LCUServiceSettings, StateContext } from '@lcu/common';
-import { Observable, Subject } from 'rxjs';
-import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
-import {
-  ApplicationsFlowState,
-  UnpackLowCodeUnitRequest,
-} from '../state/applications-flow.state';
-import { GitHubWorkflowRun } from './../state/applications-flow.state';
+import { Injectable } from '@angular/core';
+import { LCUServiceSettings } from '@lcu/common';
+import { Observable } from 'rxjs';
+import { EnterpriseAsCode } from '@semanticjs/common';
+import { UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
 
 @Injectable({
   providedIn: 'root',
@@ -180,15 +176,25 @@ export class ApplicationsFlowService {
     });
   }
 
-  public LoadProjectHostingDetails(
-    organization: string,
-    repository: string,
-    branch: string
-  ): Observable<object> {
-    branch = encodeURIComponent(branch);
+  // public LoadProjectHostingDetails(
+  //   organization: string,
+  //   repository: string,
+  //   branch: string
+  // ): Observable<object> {
+  //   branch = encodeURIComponent(branch);
 
+  //   return this.http.get(
+  //     `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
+  //     {
+  //       headers: this.loadHeaders(),
+  //     }
+  //   );
+  // }
+
+  public LoadProjectHostingDetails(): Observable<object> {
     return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/organizations/${organization}/repositories/${repository}/branches/${branch}/hosting/details`,
+      `${this.apiRoot}/api/lowcodeunit/manage/projects/hosting/details`,
+
       {
         headers: this.loadHeaders(),
       }
@@ -217,6 +223,21 @@ export class ApplicationsFlowService {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/unpack`,
       req,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public LoadUserFeed(
+    page: number,
+    pageSize: number,
+    project: string,
+    applications: string[]
+  ): Observable<object> {
+    var apps = JSON.stringify(applications || []);
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
       {
         headers: this.loadHeaders(),
       }

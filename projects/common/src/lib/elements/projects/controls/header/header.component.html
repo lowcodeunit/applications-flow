@@ -9,7 +9,6 @@
       [selected-project-lookup]="SelectedProjectLookup"
     ></lcu-project-items>
   </div>
-
   <div fxFlex="250px" fxFlex.lt-md="100%">
     <div class="divider-fill-vert margin-y-4"></div>
 
@@ -50,14 +49,23 @@
           </form>
 
           <div *ngIf="!CreatingProject">
-            <button
+            <a
+              mat-fab
+              color="accent"
+              href="/dashboard/create-project"
+              class="margin-top-4 margin-bottom-2"
+            >
+              <mat-icon>add</mat-icon>
+            </a>
+
+            <!-- <button
               mat-fab
               color="accent"
               (click)="EnableCreatingProject()"
               class="margin-top-4 margin-bottom-2"
             >
               <mat-icon>add</mat-icon>
-            </button>
+            </button> -->
           </div>
         </mat-card-content>
       </mat-card>

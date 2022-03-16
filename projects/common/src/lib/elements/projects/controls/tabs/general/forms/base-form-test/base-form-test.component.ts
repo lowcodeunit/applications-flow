@@ -1,6 +1,6 @@
 import { CardFormConfigModel } from '../../../../../../../models/card-form-config.model';
-import { ApplicationsFlowEventsService } from '../../../../../../../services/applications-flow-events.service';
 import { FormsService } from '../../../../../../../services/forms.service';
+import { EaCService } from '../../../../../../../services/eac.service';
 import { BaseFormComponent } from '../../../../../../base-form/base-form.component';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -30,10 +30,10 @@ export class BaseFormTestComponent extends BaseFormComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {
 
-    super(formsService, appsFlowEventsSvc);
+    super(formsService, eacSvc);
     
   }
 

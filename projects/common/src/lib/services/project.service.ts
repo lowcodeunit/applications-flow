@@ -1,13 +1,15 @@
 import { Injectable } from '@angular/core';
-import { BaseModeledResponse, BaseResponse } from '@lcu/common';
+import { BaseModeledResponse, BaseResponse, Status } from '@lcu/common';
 import { debug } from 'console';
-import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
 import {
   ApplicationsFlowState,
   GitHubWorkflowRun,
   UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
 import { ApplicationsFlowService } from './applications-flow.service';
+import { FeedItem, UserFeedResponse } from '../models/user-feed.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +19,10 @@ export class ProjectService {
 
   public EditingProjectLookup: string;
 
-  constructor(protected appsFlowSvc: ApplicationsFlowService) {}
+  constructor(
+    protected appsFlowSvc: ApplicationsFlowService,
+    protected activatedRoute: ActivatedRoute
+  ) {}
 
   // public CreateRepository(state: ApplicationsFlowState, org: string, repoName: string): void {
   //   state.GitHub.Loading = true;
@@ -196,32 +201,101 @@ export class ProjectService {
     });
   }
 
+  public GenerateRoutedApplications(applications: { [lookup: string]: EaCApplicationAsCode }, state: ApplicationsFlowState): {
+    [route: string]: { [lookup: string]: EaCApplicationAsCode };
+  } {
+    const appLookups = Object.keys(applications);
+
+    const apps = appLookups.map((appLookup) => applications[appLookup]);
+
+    let appRoutes =
+      apps.map((app) => {
+        return app?.LookupConfig?.PathRegex.replace('.*', '');
+      }) || [];
+
+    appRoutes = appRoutes.filter((ar) => ar != null);
+
+    let routeBases: string[] = [];
+
+    appRoutes.forEach((appRoute) => {
+      const appRouteParts = appRoute.split('/');
+
+      const appRouteBase = `/${appRouteParts[1]}`;
+
+      if (routeBases.indexOf(appRouteBase) < 0) {
+        routeBases.push(appRouteBase);
+      }
+    });
+
+    let workingAppLookups = [...(appLookups || [])];
+
+    routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+    const routeSet =
+      routeBases.reduce((prevRouteMap, currentRouteBase) => {
+        const routeMap = {
+          ...prevRouteMap,
+        };
+
+        const filteredAppLookups = workingAppLookups.filter((wal) => {
+          const wa = applications[wal];
+
+          return wa?.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+        });
+
+        routeMap[currentRouteBase] =
+          filteredAppLookups.reduce((prevAppMap, appLookup) => {
+            const appMap = {
+              ...prevAppMap,
+            };
+
+            appMap[appLookup] = applications[appLookup];
+
+            return appMap;
+          }, {}) || {};
+
+        workingAppLookups = workingAppLookups.filter((wa) => {
+          return filteredAppLookups.indexOf(wa) < 0;
+        });
+
+        return routeMap;
+      }, {}) || {};
+
+    let routeSetKeys = Object.keys(routeSet);
+
+    routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+    const routeSetResult = {};
+
+    routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+    return routeSetResult;
+  }
+
   public async GetActiveEnterprise(
     state: ApplicationsFlowState
   ): Promise<void> {
     return new Promise((resolve, reject) => {
-      state.Loading = true;
+      state.LoadingActiveEnterprise = true;
 
       this.appsFlowSvc.GetActiveEnterprise().subscribe(
         async (
           response: BaseModeledResponse<{ Name: string; Lookup: string }>
         ) => {
+          state.LoadingActiveEnterprise = false;
+
           if (response.Status.Code === 0) {
             state.ActiveEnterpriseLookup = response.Model?.Lookup;
 
-            state.Loading = false;
-
             resolve();
           } else {
-            state.Loading = false;
-
             reject(response.Status);
 
             console.log(response);
           }
         },
         (err) => {
-          state.Loading = false;
+          state.LoadingActiveEnterprise = false;
 
           reject(err);
 
@@ -232,24 +306,21 @@ export class ProjectService {
   }
 
   public HasValidConnection(
-    state: ApplicationsFlowState
+    state: ApplicationsFlowState,
+    forceEnsureUser: boolean = false
   ): Promise<EnterpriseAsCode> {
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       state.Loading = true;
 
       this.appsFlowSvc.HasValidConnection().subscribe(
         async (response: BaseResponse) => {
           state.GitHub.HasConnection = response.Status.Code === 0;
 
-          if (state.GitHub.HasConnection) {
-            const eac = await this.EnsureUserEnterprise(state);
-
-            resolve(eac);
+          if (state.GitHub.HasConnection || forceEnsureUser) {
           } else {
-            state.Loading = false;
-
-            resolve({});
           }
+
+          resolve({});
         },
         (err) => {
           state.Loading = false;
@@ -264,11 +335,11 @@ export class ProjectService {
 
   public async ListEnterprises(state: ApplicationsFlowState): Promise<any[]> {
     return new Promise((resolve, reject) => {
-      state.Loading = true;
+      state.LoadingEnterprises = true;
 
       this.appsFlowSvc.ListEnterprises().subscribe(
         async (response: BaseModeledResponse<Array<any>>) => {
-          state.Loading = false;
+          state.LoadingEnterprises = false;
 
           if (response.Status.Code === 0) {
             state.Enterprises = response.Model;
@@ -281,7 +352,7 @@ export class ProjectService {
           }
         },
         (err) => {
-          state.Loading = false;
+          state.LoadingEnterprises = false;
 
           reject(err);
 
@@ -326,23 +397,74 @@ export class ProjectService {
     });
   }
 
+  public async LoadUserFeed(
+    page: number,
+    pageSize: number,
+    state: ApplicationsFlowState
+  ): Promise<Array<FeedItem>> {
+    return new Promise((resolve, reject) => {
+      state.LoadingFeed = true;
+
+      let paramMap = this.activatedRoute.snapshot.children[0].paramMap;
+
+      let result = this.loadApplicationsForFeed(state, paramMap);
+  
+      this.appsFlowSvc
+        .LoadUserFeed(page, pageSize, result.Project, result.Applications)
+        .subscribe(
+          async (response: UserFeedResponse) => {
+            state.LoadingFeed = false;
+
+            if (response.Status.Code === 0) {
+              state.Feed = response.Items;
+
+              state.FeedSourceControlLookups = response.SourceControlLookups;
+              // console.log("ITEMZ: ", response.Items)
+
+              resolve(response.Items);
+            } else {
+              reject(response.Status);
+            }
+          },
+          (err) => {
+            state.LoadingFeed = false;
+
+            reject(err);
+
+            console.log(err);
+          }
+        );
+    });
+  }
+
   public async SetActiveEnterprise(
     state: ApplicationsFlowState,
     activeEntLookup: string
   ): Promise<EnterpriseAsCode> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
+      state.LoadingFeed = true;
 
       this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
             this.EditingProjectLookup = null;
 
+            console.log('project service active ent: ', activeEntLookup);
+
             state.ActiveEnterpriseLookup = activeEntLookup;
 
-            const eac = await this.LoadEnterpriseAsCode(state);
+            console.log(
+              'project service State active ent: ',
+              state.ActiveEnterpriseLookup
+            );
 
-            resolve(eac);
+            var results = await Promise.all([
+              this.LoadEnterpriseAsCode(state),
+              this.LoadUserFeed(1, 25, state),
+            ]);
+
+            resolve(results[0]);
           } else {
             state.Loading = false;
 
@@ -365,16 +487,19 @@ export class ProjectService {
   public async SaveEnterpriseAsCode(
     state: ApplicationsFlowState,
     eac: EnterpriseAsCode
-  ): Promise<EnterpriseAsCode> {
+  ): Promise<Status> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 
       this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
         async (response: BaseModeledResponse<string>) => {
           if (response.Status.Code === 0) {
-            eac = await this.LoadEnterpriseAsCode(state);
+            var results = await Promise.all([
+              this.LoadEnterpriseAsCode(state),
+              this.LoadUserFeed(1, 25, state),
+            ]);
 
-            resolve(eac);
+            resolve(response.Status);
           } else {
             state.Loading = false;
 
@@ -466,4 +591,41 @@ export class ProjectService {
       );
     });
   }
+
+  //  Helpers
+  protected loadApplicationsForFeed(state: ApplicationsFlowState, paramMap: any) {
+    // this.activatedRoute.paramMap.subscribe(async (paramMap) => {
+    var project = paramMap.get('projectLookup') || '';
+
+    var route = paramMap.get('appRoute');
+
+    var application = paramMap.get('appLookup');
+
+    var applications: string[] = [];
+
+    if (application) {
+      applications.push(application);
+    } else if (route && project) {
+      const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+      state.EaC.Projects[project].ApplicationLookups.forEach(
+        (appLookup: string) => {
+          apps[appLookup] = state.EaC.Applications[appLookup];
+        }
+      );
+
+      var routedApps = this.GenerateRoutedApplications(apps, state);
+
+      var currentApps = routedApps[route];
+
+      applications = Object.keys(currentApps) || [];
+    }
+
+    return {
+      Applications: applications,
+      Project: project,
+    };
+    // });
+  }
+
 }

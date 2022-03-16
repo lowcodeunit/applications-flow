@@ -1,5 +1,3 @@
-import { ApplicationsFlowService } from './../../../../services/applications-flow.service';
-import { ProjectService } from './../../../../services/project.service';
 import {
   GitHubWorkflowRun,
 } from './../../../../state/applications-flow.state';
@@ -7,12 +5,8 @@ import {
   Component,
   Input,
   OnInit,
-  OnDestroy,
-  Output,
-  EventEmitter,
+  OnDestroy
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { ApplicationsFlowEventsService } from './../../../../services/applications-flow-events.service';
 import { EaCLowCodeUnit, EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
@@ -27,7 +21,7 @@ export class BuildsComponent implements OnInit, OnDestroy {
   @Input('projects')
   public Projects: Array<EaCProjectAsCode>;
 
-  constructor(protected appsFlowEventsSvc: ApplicationsFlowEventsService) {}
+  constructor() {}
 
   public ngOnInit(): void {}
 
