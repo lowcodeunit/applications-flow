@@ -10,6 +10,8 @@ export class ApplicationsFlowState {
 
   public Feed?: Array<FeedItem>;
 
+  public FeedSourceControlLookups?: Array<string>;
+
   public GitHub?: GitHubSetupState;
 
   public HostingDetails?: ProjectHostingDetails;
