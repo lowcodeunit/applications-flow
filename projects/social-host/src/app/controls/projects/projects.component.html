@@ -77,7 +77,12 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">route</mat-icon> -->
+                <a
+                  class="slot-action-anchor"
+                  [routerLink]="['/routes', appRoute, ProjectLookup]"
+                >
                 <div *ngIf="appRoute" class="slot-name">{{ appRoute }}</div>
+                </a>
               </div>
 
               <div>
@@ -102,12 +107,12 @@
                 fxLayout="row"
                 fxLayoutAlign="space-between center"
               >
-                <a
+                <!-- <a
                   class="slot-action-anchor"
                   [routerLink]="['/routes', appRoute, ProjectLookup]"
                 >
                   <mat-icon class="action-icon">edit</mat-icon>
-                </a>
+                </a> -->
                 <a
                   class="slot-action-anchor"
                   [href]="

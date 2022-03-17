@@ -87,9 +87,14 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="project.Project.Name" class="slot-name">
-                  {{ project.Project.Name }}
-                </div>
+                  <a
+                  class="slot-action-anchor"
+                  [routerLink]="['/projects', projectLookup]"
+                >
+                    <div *ngIf="project.Project.Name" class="slot-name">
+                      {{ project.Project.Name }}
+                    </div>
+                  </a>
               </div>
 
               <div *ngIf="project.Project.Description" class="slot-description">
@@ -112,12 +117,12 @@
               delete_forever
             </mat-icon>
           </button>
-              <a
+              <!-- <a
                 class="slot-action-anchor"
                 [routerLink]="['/projects', projectLookup]"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ project.Project.Name }}">edit</mat-icon>
-              </a>
+              </a> -->
               <a
                 class="slot-action-anchor"
                 [href]="'https://' + project?.Hosts[project?.Hosts?.length - 1]"
@@ -190,18 +195,24 @@
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row">
+              <div class="slot-header" fxLayout="row" (click)="OpenSourceControlDialog(sc.Lookup)">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="sc.Name?.length > 21" class="slot-name">
-                  {{ sc.Name | slice: 0:18 }}...
-                </div>
-                <div
-                  *ngIf="sc.Name?.length < 21 || sc.Name.length == 21"
-                  class="slot-name"
-                >
-                  {{ sc.Name }}
-                </div>
+
+                <!-- <a
+                  class="slot-action-anchor"
+                  (click)="OpenSourceControlDialog(sc.Lookup)"
+                > -->
+                  <div *ngIf="sc.Name?.length > 21" class="slot-name">
+                    {{ sc.Name | slice: 0:18 }}...
+                  </div>
+                  <div
+                    *ngIf="sc.Name?.length < 21 || sc.Name.length == 21"
+                    class="slot-name"
+                  >
+                    {{ sc.Name }}
+                  </div>
+                <!-- </a> -->
               </div>
 
               <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
@@ -222,12 +233,12 @@
                       delete_forever
                     </mat-icon>
                   </button>
-              <a
+              <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenSourceControlDialog(sc.Lookup)"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}">edit</mat-icon>
-              </a>
+              </a> -->
               <a
                 class="slot-action-anchor"
                 [href]="
@@ -291,7 +302,7 @@
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row">
+              <div class="slot-header" fxLayout="row" (click)="OpenBuildPipelineDialog(doaLookup)">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                 <div *ngIf="doa?.Name?.length > 28" class="slot-name">
@@ -323,12 +334,12 @@
                       delete_forever
                     </mat-icon>
                   </button>
-              <a
+              <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
-              </a>
+              </a> -->
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a> -->
