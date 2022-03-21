@@ -1,0 +1,83 @@
+<form class="form-card" [formGroup]="ApplicationFormGroup" (ngSubmit)="SubmitApplicationControl()" >
+    <!-- <mat-card class="spread flow-card"> -->
+      <!-- <mat-card-header>
+        <mat-card-title>
+          <ng-container *ngIf="EditingApplication?.Application">
+            Edit Application:
+            {{ EditingApplication.Application?.Name }}
+          </ng-container>
+
+          <ng-container *ngIf="!EditingApplication?.Application">
+            Create an Application
+          </ng-container>
+        </mat-card-title>
+      </mat-card-header> -->
+
+      <!-- <mat-card-content> -->
+        <ng-container *ngIf="State?.Loading">
+
+          <skeleton-block 
+            class="s-block"
+            effect="wave" 
+          ></skeleton-block>
+
+          <skeleton-block 
+            class="s-block"
+            effect="wave" 
+          ></skeleton-block>
+
+          <skeleton-block 
+            class="s-block"
+            effect="wave" 
+          ></skeleton-block>
+
+        </ng-container>
+
+        <ng-container *ngIf="!State?.Loading">
+          <mat-form-field class="mat-full-width">
+            <input
+              matInput
+              placeholder="Name"
+              formControlName="name"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field class="mat-full-width">
+            <textarea
+              matInput
+              placeholder="Description"
+              formControlName="description"
+              rows="3"
+              required
+            ></textarea>
+          </mat-form-field>
+
+          <mat-form-field class="mat-full-width">
+            <input
+              matInput
+              placeholder="Route"
+              formControlName="route"
+              required
+            />
+          </mat-form-field>
+      </ng-container>
+
+      <!-- </mat-card-content> -->
+      <!-- <mat-card-actions fxLayoutAlign="center center">
+
+        <button 
+        *ngIf="HasSaveButton && !State?.Loading"
+          mat-raised-button 
+          type="submit" 
+          fxFlex="100%" 
+          color="primary" 
+          [disabled]="!ApplicationFormGroup.valid || !ApplicationFormGroup.dirty">
+          <mat-icon>save</mat-icon>
+          Save
+        </button>
+        <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader>
+        
+    </mat-card-actions> -->
+    <!-- </mat-card> -->
+</form>

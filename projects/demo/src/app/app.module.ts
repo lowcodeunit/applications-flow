@@ -14,7 +14,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './controls/home/home.component';
 import { ProjectsComponent } from './controls/projects/projects.component';
 import { environment } from '../environments/environment';
-import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, ProjectsComponent],
@@ -27,7 +26,6 @@ import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
     FlexLayoutModule,
     AppHostModule.forRoot(),
     ApplicationsFlowModule.forRoot(),
-    ThemeBuilderModule.forRoot()
   ],
   providers: [
     {
@@ -36,6 +34,6 @@ import { ThemeBuilderModule } from '@lowcodeunit/lcu-theme-builder-common';
     }
   ],
   bootstrap: [AppComponent],
-  exports: [ThemeBuilderModule],
+  exports: [],
 })
 export class AppModule {}

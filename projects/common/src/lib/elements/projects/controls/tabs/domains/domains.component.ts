@@ -1,6 +1,5 @@
 import { FormsService } from './../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
-import { DomainModel } from './../../../../../models/domain.model';
 import { Component, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -8,7 +7,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
+import { EaCService } from '../../../../../services/eac.service';
 import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
@@ -83,7 +82,8 @@ export class DomainsComponent implements OnInit {
 
   constructor(
     protected formsService: FormsService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService,
+    
   ) {}
 
   public ngOnInit(): void {
@@ -99,7 +99,7 @@ export class DomainsComponent implements OnInit {
       Icon: 'head',
       Title: 'Domains',
       Subtitle:
-        'These domains are assigned to your deployments. Optionally, a different Git branch or a redirection to another domain can be configured for each one.',
+        'In order to use a custom domain, create a CNAME dns record pointing desired subdomain to ' + this.HostDNSInstance + '.',
       FormActions: {
         Message: 'Changes will be applied to your next deployment',
         Actions: [
@@ -162,7 +162,7 @@ export class DomainsComponent implements OnInit {
    * Save changes
    */
   protected save(): void {
-    this.appsFlowEventsSvc.SaveProjectAsCode({
+    this.eacSvc.SaveProjectAsCode({
       ProjectLookup: this.ProjectLookup,
       Project: {
         ...this.Project,

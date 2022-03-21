@@ -27,7 +27,6 @@ import {
   GitHubRepository,
 } from '../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
-import { ApplicationsFlowEventsService } from '../../../../../services/applications-flow-events.service';
 import { EaCSourceControl } from '@semanticjs/common';
 
 @Component({
@@ -117,7 +116,6 @@ export class SourceControlFormControlsComponent
   constructor(
     protected formBuilder: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
   ) {
     this.BranchesChanged = new EventEmitter();
 

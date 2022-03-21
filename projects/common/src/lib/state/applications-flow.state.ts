@@ -1,4 +1,5 @@
 import { EnterpriseAsCode } from '@semanticjs/common';
+import { FeedItem } from '../models/user-feed.model';
 
 export class ApplicationsFlowState {
   public ActiveEnterpriseLookup?: string;
@@ -7,11 +8,21 @@ export class ApplicationsFlowState {
 
   public Enterprises?: Array<{ Name: string; Lookup: string }>;
 
+  public Feed?: Array<FeedItem>;
+
+  public FeedSourceControlLookups?: Array<string>;
+
   public GitHub?: GitHubSetupState;
 
   public HostingDetails?: ProjectHostingDetails;
 
   public Loading?: boolean;
+
+  public LoadingActiveEnterprise?: boolean;
+
+  public LoadingEnterprises?: boolean;
+  
+  public LoadingFeed?: boolean;
 
   // public Projects?: ProjectState[];
 
@@ -25,6 +36,12 @@ export class ApplicationsFlowState {
     this.HostingDetails = {};
 
     this.Loading = true;
+
+    this.LoadingActiveEnterprise = true;
+
+    this.LoadingEnterprises = true;
+
+    this.LoadingFeed = true;
 
     // this.Projects = [];
   }

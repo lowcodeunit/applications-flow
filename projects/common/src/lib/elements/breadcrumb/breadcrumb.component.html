@@ -1,0 +1,144 @@
+<div class="breadcrumb-container" fxLayout="row wrap">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <ng-container *ngIf="State.Loading || Loading">
+      <mat-icon skeleton-text [effect]="SkeletonEffect">home</mat-icon>
+
+      <div skeleton-text [effect]="SkeletonEffect">Enterprise Name</div>
+    </ng-container>
+
+    <ng-container *ngIf="!State.Loading && Enterprise && !Loading">
+      <div class="crumb-name" [routerLink]="['/enterprises']">
+        <mat-icon>home</mat-icon>
+
+        {{ Enterprise?.Name }}
+      </div>
+
+      <button mat-icon-button [matMenuTriggerFor]="enterpriseMenu">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <mat-menu #enterpriseMenu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          [routerLink]="['/enterprises']"
+          (click)="SetActiveEnterprise(ent.Lookup)"
+          *ngFor="let ent of State.Enterprises"
+        >
+          <span>{{ ent.Name }}</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+  </div>
+
+  <div
+    *ngIf="ProjectLookup && SelectedProject"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+  >
+    <span class="seperator">/</span>
+
+    <ng-container *ngIf="State?.Loading">
+      <div skeleton-text [effect]="SkeletonEffect">Project Name</div>
+    </ng-container>
+
+    <ng-container *ngIf="!State?.Loading">
+      <div class="crumb-name" [routerLink]="['/projects', ProjectLookup]">
+        {{ SelectedProject?.Project?.Name }}
+      </div>
+
+      <button mat-icon-button [matMenuTriggerFor]="projectMenu">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <mat-menu #projectMenu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          *ngFor="let projectLookup of ProjectLookups"
+          [routerLink]="['/projects', projectLookup]"
+        >
+          <span *ngIf="Projects[projectLookup]; let pro">{{
+            pro.Project?.Name
+          }}</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+  </div>
+
+  <div *ngIf="SelectedRoute" fxLayout="row" fxLayoutAlign="center center">
+    <span class="seperator">/</span>
+
+    <ng-container *ngIf="State?.Loading">
+      <div skeleton-text [effect]="SkeletonEffect">Route Name</div>
+    </ng-container>
+
+    <ng-container *ngIf="!State?.Loading">
+      <div
+        class="crumb-name"
+        [routerLink]="['/routes', SelectedRoute, ProjectLookup]"
+      >
+        {{ SelectedRoute }}
+      </div>
+
+      <button mat-icon-button [matMenuTriggerFor]="routeMenu">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <mat-menu #routeMenu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          *ngFor="let appRoute of Routes"
+          [routerLink]="['/routes', appRoute, ProjectLookup]"
+        >
+          <span *ngIf="appRoute">{{ appRoute }}</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+  </div>
+
+  <div
+    *ngIf="SelectedApplication && ApplicationLookup"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+  >
+    <span class="seperator">/</span>
+
+    <ng-container *ngIf="State?.Loading">
+      <div skeleton-text [effect]="SkeletonEffect">Application Name</div>
+    </ng-container>
+
+    <ng-container *ngIf="!State?.Loading">
+      <div
+        class="crumb-name"
+        [routerLink]="[
+          '/applications',
+          ApplicationLookup,
+          SelectedRoute,
+          ProjectLookup
+        ]"
+      >
+        {{ SelectedApplication?.Application?.Name }}
+      </div>
+
+      <button mat-icon-button [matMenuTriggerFor]="applicationMenu">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+
+      <mat-menu #applicationMenu="matMenu" xPosition="before">
+        <button
+          mat-menu-item
+          *ngFor="let appLookup of CurrentRouteApplicationLookups"
+          [routerLink]="[
+            '/applications',
+            appLookup,
+            SelectedRoute,
+            ProjectLookup
+          ]"
+        >
+          <span *ngIf="RoutedApplications[SelectedRoute][appLookup]; let app">{{
+            app.Application?.Name
+          }}</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+  </div>
+</div>

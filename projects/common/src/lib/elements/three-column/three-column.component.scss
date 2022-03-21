@@ -1,0 +1,30 @@
+.col-container{ 
+    height: 100%;
+    background-color:#EBECF0;
+}
+
+
+@media only screen and (max-width: 959px) {
+    // .col-container{
+    //     display: none;
+    // }
+    .col-left, .col-center, .col-right{
+        width: 100%;
+    }
+}
+
+
+
+.col-left{
+    
+}
+
+.col-center{
+    
+
+}
+
+.col-right{
+    
+
+}

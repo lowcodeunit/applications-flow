@@ -1,25 +1,18 @@
-import { FormsService } from '../../../../../services/forms.service';
-import { CardFormConfigModel } from '../../../../../models/card-form-config.model';
-import { DomainModel } from '../../../../../models/domain.model';
+
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
-  Validators,
 } from '@angular/forms';
 import {
-  ApplicationsFlowEventsService,
+  EaCService,
   SaveEnvironmentAsCodeEventRequest,
-} from '../../../../../services/applications-flow-events.service';
+} from '../../../../../services/eac.service';
 import {
-  EaCApplicationAsCode,
   EaCArtifact,
   EaCDevOpsAction,
   EaCEnvironmentAsCode,
-  EaCProcessor,
-  EaCProjectAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
 import { BaseModeledResponse, Guid } from '@lcu/common';
@@ -128,7 +121,7 @@ export class DevOpsComponent implements OnInit {
   constructor(
     protected formBldr: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {
     this.EditingSourceControlLookup = null;
 
@@ -155,7 +148,7 @@ export class DevOpsComponent implements OnInit {
     if (
       confirm(`Are you sure you want to delete source control '${scLookup}'?`)
     ) {
-      this.appsFlowEventsSvc.DeleteSourceControl(scLookup);
+      this.eacSvc.DeleteSourceControl(scLookup);
     }
   }
 
@@ -264,7 +257,7 @@ export class DevOpsComponent implements OnInit {
 
     saveEnvReq.Environment.Sources[scLookup] = source;
 
-    this.appsFlowEventsSvc.SaveEnvironmentAsCode(saveEnvReq);
+    this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
   }
 
   public SetEditingSourceControl(scLookup: string): void {
@@ -297,11 +290,7 @@ export class DevOpsComponent implements OnInit {
       this.HostingDetails.Loading = true;
 
       this.appsFlowSvc
-        .LoadProjectHostingDetails(
-          this.SourceControlFormControls?.OrganizationFormControl?.value,
-          this.SourceControlFormControls?.RepositoryFormControl?.value,
-          this.SourceControlFormControls?.MainBranchFormControl?.value
-        )
+        .LoadProjectHostingDetails()
         .subscribe(
           (response: BaseModeledResponse<ProjectHostingDetails>) => {
             this.HostingDetails = response.Model;

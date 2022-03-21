@@ -1,0 +1,119 @@
+<lcu-breadcrumb
+  [project-lookup]="ProjectLookup"
+  [application-lookup]="ApplicationLookup"
+  [selected-route]="CurrentApplicationRoute"
+>
+</lcu-breadcrumb>
+
+<lcu-three-column>
+  <div left>
+    <lcu-project-info-card
+      [name]="Application?.Application?.Name"
+      [description]="Application?.Application?.Description"
+      [is-editable]="IsInfoCardEditable"
+      [is-shareable]="IsInfoCardShareable"
+      [subtext]="
+        Project?.Hosts ? 
+        Project?.Hosts[Project?.Hosts?.length - 1] + Application?.Processor?.BaseHref :
+         ''
+      "
+      [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
+      (left-click-event)="HandleLeftClickEvent($event)"
+      (right-click-event)="HandleRightClickEvent($event)"
+    >
+      <!-- Commented out until implemented -->
+      <!-- <lcu-card-carousel
+                        [stats]="Stats">
+                    </lcu-card-carousel> -->
+
+      <button
+        *ngIf="Application?.Processor?.Type === 'DFS'"
+        action
+        mat-button
+        class="info-card-btn"
+        (click)="UpdateClicked()"
+        matTooltip="Update your application to the latest package"
+      >
+        <mat-icon>outbox</mat-icon>
+        Update Package: {{ Version }}
+      </button>
+    </lcu-project-info-card>
+
+    <!-- Commented out until implemented -->
+    <!-- <lcu-analytics-card
+            title="Application Stats"
+            subtext="Text for testing purposes">
+        </lcu-analytics-card> -->
+  </div>
+  <!-- CENTER -->
+  <div>
+    <lcu-gh-control></lcu-gh-control>
+    <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
+
+    <ng-container *ngIf="!State?.LoadingFeed">
+      <div *ngFor="let feedItem of State?.Feed">
+        <lcu-main-feed-card [feed-item]="feedItem"> </lcu-main-feed-card>
+      </div>
+    </ng-container>
+  </div>
+
+  <div right>
+    <!-- Processor Details
+      action-text="Edit Processor Details" -->
+    <lcu-slotted-card
+      title="Processor Details"
+      icon="developer_board"
+      main-icon="edit"
+      [main-slot-description]="Application?.Processor?.Label"
+      (main-action-clicked)="OpenProcessorDetailsDialog($event)"
+    >
+      <div class="main-slot-container" fxLayout="row">
+        <div class="slot-header-container">
+          <div
+            class="slot-header"
+            fxLayout="column"
+            fxLayoutAlign="center start"
+          >
+            <div *ngIf="Application?.Processor?.Type">
+              <strong>Type: </strong>
+              {{ Application?.Processor?.Type }}
+            </div>
+
+            <div *ngIf="Application?.Processor?.DefaultFile">
+              <strong>Default File: </strong>
+              {{ Application?.Processor?.DefaultFile }}
+            </div>
+
+            <div *ngIf="Application?.Processor?.Priority">
+              <strong>Priority: </strong>
+              {{ Application?.Processor?.Priority }}
+            </div>
+          </div>
+
+          <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+        </div>
+
+        <!-- <div
+              class="slot-actions-container"
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+            > -->
+        <!-- <a
+                class="slot-action-anchor"
+                (click)="OpenProcessorDetailsDialog(null)"
+              >
+                <mat-icon class="action-icon">edit</mat-icon>
+              </a> -->
+
+        <!-- </div> -->
+      </div>
+    </lcu-slotted-card>
+
+    <lcu-security-toggle
+      [editing-application]="Application"
+      (save-form-event)="SaveSecuritySettings($event)"
+    >
+    </lcu-security-toggle>
+  </div>
+</lcu-three-column>
+<!-- </ng-container> -->

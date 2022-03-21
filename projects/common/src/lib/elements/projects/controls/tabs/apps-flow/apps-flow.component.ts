@@ -5,10 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import {
-  ApplicationsFlowEventsService,
-  SaveApplicationAsCodeEventRequest,
-} from '../../../../../services/applications-flow-events.service';
+import {EaCService, SaveApplicationAsCodeEventRequest} from '../../../../../services/eac.service';
 import {
   EaCApplicationAsCode,
   EaCEnvironmentAsCode,
@@ -96,8 +93,7 @@ export class AppsFlowComponent implements OnInit {
 
   public get DefaultSourceControl(): EaCSourceControl {
     return {
-      Organization:
-        this.EditingApplication?.LowCodeUnit?.Organization,
+      Organization: this.EditingApplication?.LowCodeUnit?.Organization,
       Repository: this.EditingApplication?.LowCodeUnit?.Repository,
     };
   }
@@ -191,7 +187,7 @@ export class AppsFlowComponent implements OnInit {
 
     let appRoutes =
       apps.map((app) => {
-        return app.LookupConfig?.PathRegex.replace('.*', '');
+        return app?.LookupConfig?.PathRegex.replace('.*', '');
       }) || [];
 
     appRoutes = appRoutes.filter((ar) => ar != null);
@@ -221,7 +217,7 @@ export class AppsFlowComponent implements OnInit {
         const filteredAppLookups = workingAppLookups.filter((wal) => {
           const wa = this.Applications[wal];
 
-          return wa.LookupConfig?.PathRegex.startsWith(currentRouteBase);
+          return wa?.LookupConfig?.PathRegex.startsWith(currentRouteBase);
         });
 
         routeMap[currentRouteBase] =
@@ -300,14 +296,14 @@ export class AppsFlowComponent implements OnInit {
   constructor(
     protected formBldr: FormBuilder,
     protected appsFlowSvc: ApplicationsFlowService,
-    protected appsFlowEventsSvc: ApplicationsFlowEventsService
+    protected eacSvc: EaCService
   ) {
     this.EditingApplicationLookup = null;
-    this.redirectTooltip = "";
-    
-      // this.IsPermanent = false;
-    
-      // this.IsPreserve = false;
+    this.redirectTooltip = '';
+
+    // this.IsPermanent = false;
+
+    // this.IsPreserve = false;
   }
 
   //  Life Cycle
@@ -323,9 +319,7 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public DeleteApplication(appLookup: string, appName: string): void {
-    if (confirm(`Are you sure you want to delete application '${appName}'?`)) {
-      this.appsFlowEventsSvc.DeleteApplication(appLookup);
-    }
+    this.eacSvc.DeleteApplication(appLookup, appName);
   }
 
   public LCUTypeChanged(event: MatSelectChange): void {
@@ -340,34 +334,32 @@ export class AppsFlowComponent implements OnInit {
     this.setupProcessorTypeSubForm();
   }
 
-  public DetermineTooltipText(){
+  public DetermineTooltipText() {
     let permanentValue = this.PermanentFormControl.value;
     let preserveValue = this.PreserveMethodFormControl.value;
 
-    if(permanentValue === true  && preserveValue === false){
-      this.redirectTooltip = "301 – Permanent and Not Preserve"
+    if (permanentValue === true && preserveValue === false) {
+      this.redirectTooltip = '301 – Permanent and Not Preserve';
+    } else if (permanentValue === false && preserveValue === false) {
+      this.redirectTooltip = '302 – Not Permanent and Not Preserve';
+    } else if (permanentValue === false && preserveValue === true) {
+      this.redirectTooltip = '307 – Not Permanent and Preserve';
+    } else if (permanentValue === true && preserveValue === true) {
+      this.redirectTooltip = '308 – Permanent and Preserve';
     }
-    else if(permanentValue === false  && preserveValue === false){
-      this.redirectTooltip = "302 – Not Permanent and Not Preserve"
-    }
-    else if(permanentValue === false  && preserveValue === true){
-      this.redirectTooltip = "307 – Not Permanent and Preserve"
-    }
-    else if(permanentValue === true  && preserveValue === true){
-      this.redirectTooltip = "308 – Permanent and Preserve"
-    }
-
   }
 
-  public GetProcessorType(appLookup:any): string{
-    let processorType = "";
-    processorType = this.Applications[appLookup].Processor.Type ? this.Applications[appLookup].Processor.Type : "";
+  public GetProcessorType(appLookup: any): string {
+    let processorType = '';
+    processorType = this.Applications[appLookup].Processor.Type
+      ? this.Applications[appLookup].Processor.Type
+      : '';
     // console.log("Ptype = ", processorType);
 
     return processorType;
   }
 
-  public EditApplicationRouteClicked(appRoute:any){
+  public EditApplicationRouteClicked(appRoute: any) {
     this.CurrentApplicationRoute = appRoute;
   }
 
@@ -376,6 +368,7 @@ export class AppsFlowComponent implements OnInit {
       Application: {
         Name: this.NameFormControl.value,
         Description: this.DescriptionFormControl.value,
+        PriorityShift: this.EditingApplication?.Application?.PriorityShift || 0,
       },
       AccessRightLookups: [],
       DataTokens: {},
@@ -386,8 +379,8 @@ export class AppsFlowComponent implements OnInit {
           ? this.IsTriggerSignInFormControl.value
           : false,
         PathRegex: `${this.RouteFormControl.value}.*`,
-        QueryRegex: '',
-        HeaderRegex: '',
+        QueryRegex: this.EditingApplication?.LookupConfig?.QueryRegex || '',
+        HeaderRegex: this.EditingApplication?.LookupConfig?.HeaderRegex || '',
         AllowedMethods: this.MethodsFormControl?.value
           ?.split(' ')
           .filter((v: string) => !!v),
@@ -497,13 +490,13 @@ export class AppsFlowComponent implements OnInit {
 
     if (this.HasBuildFormControl.value && this.ProcessorType !== 'redirect') {
       if (app) {
-        app.SourceControlLookup = this.SourceControlLookupFormControl.value;
+        app.LowCodeUnit.SourceControlLookup = this.SourceControlLookupFormControl.value;
       }
     } else if (app) {
-      app.SourceControlLookup = null;
+      app.LowCodeUnit.SourceControlLookup = null;
     }
 
-    this.appsFlowEventsSvc.SaveApplicationAsCode(saveAppReq);
+    this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
   public SetEditingApplication(appLookup: string): void {
@@ -525,12 +518,10 @@ export class AppsFlowComponent implements OnInit {
   }
 
   public Unpack(appLookup: string, app: EaCApplicationAsCode): void {
-    this.appsFlowEventsSvc.UnpackLowCodeUnit({
+    this.eacSvc.UnpackLowCodeUnit({
       ApplicationLookup: appLookup,
       ApplicationName: app.Application?.Name,
-      Version:
-        app.LowCodeUnit?.Version ||
-        app.LowCodeUnit?.Build,
+      Version: app.LowCodeUnit?.Version || app.LowCodeUnit?.Build,
     });
   }
 
@@ -572,7 +563,7 @@ export class AppsFlowComponent implements OnInit {
 
   protected setupApplicationForm(): void {
     this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
-    console.log("ProcessorType = ", this.ProcessorType);
+    console.log('ProcessorType = ', this.ProcessorType);
 
     if (this.EditingApplication != null) {
       this.ApplicationFormGroup = this.formBldr.group({
@@ -605,8 +596,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'hasBuild',
       this.formBldr.control(
-        !!this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
-          false,
+        !!this.EditingApplication.LowCodeUnit?.SourceControlLookup || false,
         [Validators.required]
       )
     );
@@ -614,8 +604,7 @@ export class AppsFlowComponent implements OnInit {
     this.ApplicationFormGroup.addControl(
       'sourceControlLookup',
       this.formBldr.control(
-        this.EditingApplication.LowCodeUnit?.SourceControlLookup ||
-          '',
+        this.EditingApplication.LowCodeUnit?.SourceControlLookup || '',
         []
       )
     );

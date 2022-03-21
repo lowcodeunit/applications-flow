@@ -1,0 +1,59 @@
+<div class="dialog-header" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title>Processor Details</h2>
+
+    <button mat-icon-button (click)="CloseDialog()">
+            <mat-icon>cancel</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content>
+
+
+<lcu-processor-details-form 
+    more-details 
+    [editing-application]="Application"
+    [editing-application-lookup]="data.applicationLookup" 
+    [source-control-lookups]="SourceControlLookups"
+    [project-lookup]="data.projectLookup"
+    (save-form-event)="HandleSaveFormEvent($event)"
+>
+</lcu-processor-details-form>
+
+<mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+    {{ ErrorMessage }}
+</mat-error>
+
+</mat-dialog-content>
+
+<mat-dialog-actions 
+        class="actions-container" 
+        div fxLayout="row" 
+        fxLayoutAlign="end center"
+>
+        <button 
+                class="action-button"
+                mat-raised-button
+                fxFlex="25%"
+                (click)="CloseDialog()">
+                Cancel
+
+        </button>
+
+
+
+        <button 
+          *ngIf="!State?.Loading"
+          mat-raised-button 
+          type="submit" 
+          fxFlex="25%" 
+          color="primary" 
+          (click)="SaveProcessorDetails()"
+          [disabled]="!ProcessorDetailsFormGroup?.valid || !ProcessorDetailsFormGroup?.dirty"
+          >
+          <!-- <mat-icon>save</mat-icon> -->
+          Save
+        </button>
+
+</mat-dialog-actions>
+
+

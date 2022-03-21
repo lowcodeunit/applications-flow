@@ -1,6 +1,6 @@
 import { FormsService } from './services/forms.service';
 import { ProjectService } from './services/project.service';
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
@@ -10,10 +10,10 @@ import { AppHostModule } from '@lowcodeunit/app-host-common';
 import { ApplicationsFlowService } from './services/applications-flow.service';
 import { HostingDetailsFormGroupComponent } from './elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 import { CreateProjectWizardComponent } from './elements/projects/controls/create-project-wizard/create-project-wizard.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { DynamicTabsComponent } from './elements/dynamic-tabs/dynamic-tabs.component';
 import { HeaderComponent } from './elements/projects/controls/header/header.component';
 import { ProjectTabsComponent } from './elements/projects/controls/project-tabs/project-tabs.component';
-import { GeneralComponent } from './elements/projects/controls/tabs/general/general.component';
 import { DomainsComponent } from './elements/projects/controls/tabs/domains/domains.component';
 import { ProjectItemsComponent } from './elements/projects/controls/project-items/project-items.component';
 import { BuildsComponent } from './elements/projects/controls/builds/builds.component';
@@ -21,7 +21,6 @@ import { RecentActivitiesComponent } from './elements/projects/controls/recent-a
 import { FormCardComponent } from './elements/form-card/form-card.component';
 import { ProjectNameComponent } from './elements/projects/controls/tabs/general/forms/project-details/project-details.component';
 import { RootDirectoryComponent } from './elements/projects/controls/tabs/general/forms/root-directory/root-directory.component';
-import { ApplicationsFlowEventsService } from './services/applications-flow-events.service';
 import { BaseFormComponent } from './elements/base-form/base-form.component';
 import { BaseFormTestComponent } from './elements/projects/controls/tabs/general/forms/base-form-test/base-form-test.component';
 import { GitAuthComponent } from './elements/projects/controls/git-auth/git-auth.component';
@@ -31,6 +30,38 @@ import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
+import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
+import { ThreeColumnComponent } from './elements/three-column/three-column.component';
+import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
+import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
+import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
+import { FeedCardSmComponent } from './elements/feed-card-sm/feed-card-sm.component';
+import { GhControlComponent } from './elements/gh-control/gh-control.component';
+import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
+import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
+import { CardCarouselComponent } from './elements/card-carousel/card-carousel.component';
+import { SecurityToggleComponent } from './controls/security-toggle/security-toggle.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EaCService } from './services/eac.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
+import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
+import { BuildPipelineFormComponent } from './controls/build-pipeline-form/build-pipeline-form.component';
+import { DevopsSourceControlFormComponent } from './controls/devops-source-control-form/devops-source-control-form.component';
+import { SourceControlDialogComponent } from './dialogs/source-control-dialog/source-control-dialog.component';
+import { BuildPipelineDialogComponent } from './dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
+import { EditApplicationFormComponent } from './controls/edit-application-form/edit-application-form.component';
+import { BreadcrumbComponent } from './elements/breadcrumb/breadcrumb.component';
+import { CustomDomainDialogComponent } from './dialogs/custom-domain-dialog/custom-domain-dialog.component';
+import { EditApplicationDialogComponent } from './dialogs/edit-application-dialog/edit-application-dialog.component';
+import { NewApplicationDialogComponent } from './dialogs/new-application-dialog/new-application-dialog.component';
+import { ProcessorDetailsDialogComponent } from './dialogs/processor-details-dialog/processor-details-dialog.component';
+import { SkeletonElementsModule } from 'skeleton-elements/angular';
+import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleton-feed-card.component';
+import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.component';
+import { EmulatedDevicesToggleComponent } from './controls/emulated-devices-toggle/emulated-devices-toggle.component';
+import { IoTEnsembleService } from './services/iot-ensemble.service';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +71,6 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -55,15 +85,46 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     AppsFlowComponent,
     DevOpsComponent,
     DFSModifiersComponent,
-    NpmPackageSelectComponent
+    NpmPackageSelectComponent,
+    FlowToolComponent,
+    ThreeColumnComponent,
+    SlottedCardComponent,
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent,
+    FeedCardSmComponent,
+    GhControlComponent,
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent,
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent,
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent,
+    NewApplicationDialogComponent,
+    ProcessorDetailsDialogComponent,
+    SkeletonFeedCardComponent,
+    UpgradeDialogComponent,
+    EmulatedDevicesToggleComponent
   ],
   imports: [
+    ClipboardModule,
     FathymSharedModule,
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
     MaterialModule,
     AppHostModule,
+    MatTooltipModule,
+    MatSlideToggleModule,
+    SkeletonElementsModule
+
     // LazyElementModule,
   ],
   exports: [
@@ -73,7 +134,6 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -88,14 +148,39 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     AppsFlowComponent,
     DevOpsComponent,
     DFSModifiersComponent,
-    NpmPackageSelectComponent
+    NpmPackageSelectComponent,
+    FlowToolComponent,
+    ThreeColumnComponent,
+    SlottedCardComponent,
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent,
+    FeedCardSmComponent,
+    GhControlComponent,
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent,
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent,
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent,
+    NewApplicationDialogComponent,
+    ProcessorDetailsDialogComponent,
+    SkeletonFeedCardComponent,
+    UpgradeDialogComponent,
+    EmulatedDevicesToggleComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
     DynamicTabsComponent,
     HeaderComponent,
     ProjectTabsComponent,
-    GeneralComponent,
     DomainsComponent,
     ProjectItemsComponent,
     BuildsComponent,
@@ -110,8 +195,32 @@ import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-mod
     AppsFlowComponent,
     DevOpsComponent,
     DFSModifiersComponent,
-    NpmPackageSelectComponent
+    NpmPackageSelectComponent,
+    ThreeColumnComponent,
+    SlottedCardComponent,
+    ProjectInfoCardComponent,
+    AnalyticsCardComponent,
+    FeedCardSmComponent,
+    GhControlComponent,
+    MainFeedCardComponent,
+    TwoColumnHeaderComponent,
+    CardCarouselComponent,
+    SecurityToggleComponent,
+    ProcessorDetailsFormComponent,
+    SourceControlFormComponent,
+    BuildPipelineFormComponent,
+    DevopsSourceControlFormComponent,
+    SourceControlDialogComponent,
+    BuildPipelineDialogComponent,
+    EditApplicationFormComponent,
+    BreadcrumbComponent,
+    CustomDomainDialogComponent,
+    EditApplicationDialogComponent,
+    EmulatedDevicesToggleComponent
   ],
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
+  ]
 })
 export class ApplicationsFlowModule {
   static forRoot(): ModuleWithProviders<ApplicationsFlowModule> {
@@ -123,7 +232,8 @@ export class ApplicationsFlowModule {
         ProjectService,
         NPMService,
         FormsService,
-        ApplicationsFlowEventsService,
+        EaCService,
+        IoTEnsembleService
       ],
     };
   }

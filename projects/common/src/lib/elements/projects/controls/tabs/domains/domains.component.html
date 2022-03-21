@@ -27,15 +27,20 @@
               />
 
               <mat-hint>
-                In order to use a custom domain, create a CNAME dns record pointing
-                desired subdomain to <strong>{{ HostDNSInstance }}</strong>.
+                These domains are assigned to your deployments. Optionally, 
+                a different Git branch or a redirection to another domain 
+                can be configured for each one.
               </mat-hint>
-              
-              
+
               <mat-error *ngIf="Domain.hasError('required')">
                 Domain is required
               </mat-error>
             </mat-form-field>
+
+            <button mat-icon-button [cdkCopyToClipboard]="HostDNSInstance" matTooltip="Copy subdomain to clipboard">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+
           </div>
           <!-- <button mat-button color="accent">Add</button> -->
         </div>

@@ -1,0 +1,92 @@
+<form
+  class="emulated-devices-form"
+  [formGroup]="EmulatedDevicesFormGroup"
+  (ngSubmit)="EmulatedDevicesSubmit()"
+>
+  <mat-card class="flow-card">
+    <!-- SKELETON LOADING -->
+    <ng-container *ngIf="State?.Loading">
+      <mat-card-header fxLayoutAlign="space-between center">
+        <mat-card-title skeleton-text [effect]="SkeletonEffect">
+          Emulated Devices Settings
+        </mat-card-title>
+        <div fxLayoutAlign="space-around center">
+          <div skeleton-text [effect]="SkeletonEffect">XXX</div>
+
+          <mat-icon skeleton-text [effect]="SkeletonEffect">
+            info_outline
+          </mat-icon>
+        </div>
+      </mat-card-header>
+
+      <mat-card-actions fxLayoutAlign="center center">
+        <div
+          fxFlex="100%"
+          skeleton-text
+          [effect]="SkeletonEffect"
+          fxLayoutAlign="center center"
+        >
+          <mat-icon skeleton-text [effect]="SkeletonEffect"> save </mat-icon>
+
+          Save Settings
+        </div>
+      </mat-card-actions>
+    </ng-container>
+    <!-- END SKELETON LOADING -->
+
+    <!-- BEGIN ACTUAL CONTENT -->
+
+    <ng-container *ngIf="!State?.Loading">
+      <mat-card-header>
+        <mat-card-title> Emulated Device Settings </mat-card-title>
+
+        <div fxFlex></div>
+
+        <mat-slide-toggle
+          formControlName="isPrivate"
+          matTooltip="Is Secure Application?"
+        >
+        </mat-slide-toggle>
+
+        <mat-icon
+          matSuffix
+          matTooltip="A Secured Application is one that requires the user to be authenticated to use the application. The application is hosted behind an identity wall."
+        >
+          info_outline
+        </mat-icon>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div>
+          <div *ngIf="IsPrivateFormControl.value">
+            <div>
+              <mat-slide-toggle formControlName="isTriggerSignIn">
+                Is Trigger Sign In Application?
+              </mat-slide-toggle>
+
+              <mat-icon
+                matSuffix
+                matTooltip="A Trigger Sign In Application will direct the user to sign in if they are not already."
+              >
+                info_outline
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions fxLayoutAlign="center center">
+        <button
+          mat-raised-button
+          type="submit"
+          fxFlex="100%"
+          color="primary"
+          [disabled]="!EmulatedDevicesFormGroup.valid || !EmulatedDevicesFormGroup.dirty"
+        >
+          <mat-icon>save</mat-icon>
+          Save Settings
+        </button>
+      </mat-card-actions>
+    </ng-container>
+  </mat-card>
+</form>
