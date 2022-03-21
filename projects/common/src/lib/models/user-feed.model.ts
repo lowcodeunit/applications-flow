@@ -1,6 +1,8 @@
 import { BaseResponse, Status } from '@lcu/common';
 
 export class UserFeedResponse extends BaseResponse {
+  public Actions: Array<FeedItemAction>;
+
   public Items: Array<FeedItem>;
 
   public SourceControlLookups: Array<string>;
