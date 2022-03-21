@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FeedHeaderDialogComponent } from '../../dialogs/feed-header-dialog/feed-header-dialog.component';
 import { NewApplicationDialogComponent } from '../../dialogs/new-application-dialog/new-application-dialog.component';
+import { FeedItemAction } from '../../models/user-feed.model';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
@@ -21,6 +22,10 @@ export class FeedHeaderComponent implements OnInit {
     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
     return envLookups[0];
+  }
+
+  public get FeedHeaderActions(): Array<FeedItemAction>{
+    return this.State?.FeedActions;
   }
 
   public get State(): ApplicationsFlowState{
@@ -53,40 +58,42 @@ export class FeedHeaderComponent implements OnInit {
   }
 
   public CreateAnnouncement(){
-    this.ModalHeader = "Create Team Announcement";
-    this.OpenFHDialog('announcement');
+    // this.ModalHeader = "Create Team Announcement";
+    this.OpenFHDialog('announcement', "Create Team Announcement");
 
   }
 
-  public CreateFeatureBranch(){
-    this.removeSelectedBtn();
-    this.ModalHeader = "Create Feature Branch";
-    this.selectedBtn = "fb-btn";
-    this.addSelectBtn();
-    console.log("create feature branch selected");
-    this.OpenFHDialog('branch');
+  // public CreateFeatureBranch(){
+  //   this.removeSelectedBtn();
+  //   this.ModalHeader = "Create Feature Branch";
+  //   this.selectedBtn = "fb-btn";
+  //   this.addSelectBtn();
+  //   console.log("create feature branch selected");
+  //   this.OpenFHDialog('branch');
 
-  }
+  // }
 
-  public OpenIssue(){
-    this.removeSelectedBtn();
-    this.ModalHeader = "Open Issue";
-    this.selectedBtn = "oi-btn";
-    this.addSelectBtn();
-    console.log("open issue selected");
-    this.OpenFHDialog('issue');
+  
 
-  }
+  // public OpenIssue(){
+  //   this.removeSelectedBtn();
+  //   this.ModalHeader = "Open Issue";
+  //   this.selectedBtn = "oi-btn";
+  //   this.addSelectBtn();
+  //   console.log("open issue selected");
+  //   this.OpenFHDialog('issue');
 
-  public CreatePullRequest(){
-    this.removeSelectedBtn();
-    this.ModalHeader = "Create Pull Request";
-    this.selectedBtn = "pr-btn";
-    this.addSelectBtn();
-    console.log("create pull request selected");
-    this.OpenFHDialog('pull-request');
+  // }
 
-  }
+  // public CreatePullRequest(){
+  //   this.removeSelectedBtn();
+  //   this.ModalHeader = "Create Pull Request";
+  //   this.selectedBtn = "pr-btn";
+  //   this.addSelectBtn();
+  //   console.log("create pull request selected");
+  //   this.OpenFHDialog('pull-request');
+
+  // }
 
   public CreateNewApp(){
     const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
@@ -102,11 +109,11 @@ export class FeedHeaderComponent implements OnInit {
     });
   }
 
-  public OpenFHDialog(modalType: string){
+  public OpenFHDialog(modalType: string, modalHeader: string){
     const dialogRef = this.dialog.open(FeedHeaderDialogComponent, {
       width: '600px',
       data: {
-        dialogTitle: this.ModalHeader,
+        dialogTitle: modalHeader,
         type: modalType,
         sourceControlLookup: this.SourceControlLookup ? this.SourceControlLookup : null
       },

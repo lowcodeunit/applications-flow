@@ -5,15 +5,15 @@ import { MatSelectChange } from '@angular/material/select';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { BaseModeledResponse } from '@lcu/common';
 import { EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
-import { FeedEntry } from '../../models/user-feed.model';
+import { FeedEntry, FeedItemAction } from '../../models/user-feed.model';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState, GitHubBranch, GitHubOrganization, GitHubRepository } from '../../state/applications-flow.state';
 
 export interface FeedHeaderDialogData {
+  // action: FeedItemAction,
   dialogTitle: string,
   type: string,
-  // sourceControlLookup: string
 }
 
 @Component({
@@ -320,13 +320,13 @@ export class FeedHeaderDialogComponent implements OnInit {
       case "announcement":
         this.setupAnnouncementForm();
           break;
-      case "pull-request":
+      case "PullRequest":
         this.setupPRForm();
           break;
-      case "issue":
+      case "OpenIssue":
         this.setupIssueForm();
           break;
-      case "branch":
+      case "CreateBranch":
         this.setupFeatureBranchForm();
           break;
       default: 

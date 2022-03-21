@@ -9,7 +9,7 @@
     <form [formGroup]="FeedHeaderFormGroup" >
 
         <!-- ISSUE FORM -->
-        <ng-container *ngIf="data.type === 'issue' ">
+        <ng-container *ngIf="data.type === 'OpenIssue' ">
 
             <div fxLayout="row" fxLayoutAlign="center center">
 
@@ -125,7 +125,7 @@
 
         <!-- PR FORM -->
 
-        <ng-container *ngIf="data.type === 'pull-request' ">
+        <ng-container *ngIf="data.type === 'PullRequest' ">
 
             <div fxLayout="row" fxLayoutAlign="center center">
 
@@ -190,7 +190,7 @@
 
         <!-- Feature Branch form -->
 
-        <ng-container *ngIf="data.type === 'branch' ">
+        <ng-container *ngIf="data.type === 'CreateBranch' ">
 
             <div fxLayout="row" fxLayoutAlign="center center">
 
