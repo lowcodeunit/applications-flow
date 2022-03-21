@@ -5,6 +5,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { BaseModeledResponse } from '@lcu/common';
 import { EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
+import { FeedEntry } from '../../models/user-feed.model';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState, GitHubBranch, GitHubOrganization, GitHubRepository } from '../../state/applications-flow.state';
@@ -12,7 +13,7 @@ import { ApplicationsFlowState, GitHubBranch, GitHubOrganization, GitHubReposito
 export interface FeedHeaderDialogData {
   dialogTitle: string,
   type: string,
-  sourceControlLookup: string
+  // sourceControlLookup: string
 }
 
 @Component({
@@ -35,14 +36,6 @@ export class FeedHeaderDialogComponent implements OnInit {
     return this.FeedHeaderFormGroup?.controls.actionText;
   }
 
-  public get BaseBranchFormControl(): AbstractControl {
-    return this.FeedHeaderFormGroup.controls.baseBranch;
-  }
-
-  public get CompareBranchFormControl(): AbstractControl {
-    return this.FeedHeaderFormGroup.controls.compareBranch;
-  }
-
   public get EditorControl(): AbstractControl {
     return this.FeedHeaderFormGroup?.controls.editor;
   }
@@ -53,16 +46,16 @@ export class FeedHeaderDialogComponent implements OnInit {
     ];
   }
 
-  public get NewBranchFormControl(): AbstractControl {
-    return this.FeedHeaderFormGroup.controls.newBranch;
+  public get TargetBranchFormControl(): AbstractControl {
+    return this.FeedHeaderFormGroup.controls.targetBranch;
   }
 
   public get OrganizationFormControl(): AbstractControl {
     return this.FeedHeaderFormGroup.controls.organization;
   }
 
-  public get ParentBranchFormControl(): AbstractControl {
-    return this.FeedHeaderFormGroup.controls.parentBranch;
+  public get SourceBranchFormControl(): AbstractControl {
+    return this.FeedHeaderFormGroup.controls.sourceBranch;
   }
 
   public get RepositoryFormControl(): AbstractControl {
@@ -75,7 +68,9 @@ export class FeedHeaderDialogComponent implements OnInit {
   }
 
   public get SourceControlLookups(): Array<string> {
-    return Object.keys(this.SourceControls || {});
+    return this.State.FeedSourceControlLookups 
+      ? this.State.FeedSourceControlLookups 
+      : Object.keys(this.SourceControls || {});
   }
 
   public get SourceControls(): { [lookup: string]: EaCSourceControl } {
@@ -169,8 +164,8 @@ export class FeedHeaderDialogComponent implements OnInit {
       Sources: this.SlicesCount,
     };
 
-    if(this.data.sourceControlLookup){
-      this.SourceControl = this.Environment?.Sources[this.data.sourceControlLookup];
+    if(this.SourceControlLookups.length === 1){
+      this.SourceControl = this.Environment?.Sources[this.SourceControlLookups[0]];
     }
    }
 
@@ -191,19 +186,44 @@ export class FeedHeaderDialogComponent implements OnInit {
   }
 
   public PullRequestSourceControlChanged(event: MatSelectChange){
-    this.SourceControl = this.SourceControlFormControl.value;
+    this.SourceControl = this.SourceControls[this.SourceControlFormControl.value];
     this.listBranches();
 
   }
 
   public FeatureBranchSourceControlChanged(event: MatSelectChange){
-    this.SourceControl = this.SourceControlFormControl.value;
+    this.SourceControl = this.SourceControls[this.SourceControlFormControl.value];
     this.listOrganizations();
 
   }
 
+  public IssueSourceControlChanged(event: MatSelectChange){
+    this.SourceControl = this.SourceControls[this.SourceControlFormControl.value];
+
+  }
+
   public Submit(){
-    console.log("Control: ", this.FeedHeaderFormGroup.value )
+    let returnObject: FeedEntry = {
+      ActionIcon: this.ActionIconControl ? this.ActionIconControl.value : null,
+      ActionLink: this.ActionLinkControl ? this.ActionLinkControl.value : null,
+      ActionText: this.ActionTextControl ? this.ActionTextControl.value : null,
+      Avatar: null,
+      Content: this.EditorControl ? this.EditorControl.value : null,
+      ExpiresAt: null,
+      Organization: this.OrganizationFormControl ? this.OrganizationFormControl.value : null,
+      Repositroy: this.RepositoryFormControl ? this.RepositoryFormControl.value : null,
+      SourceBranch: this.SourceBranchFormControl ? this.SourceBranchFormControl.value : null,
+      SourceControlLookup: this.SourceControlFormControl ? this.SourceBranchFormControl.value : null,
+      Subtitle: this.SubtitleFormControl ? this.SubtitleFormControl.value : null,
+      TargetBranch: this.TargetBranchFormControl ? this.TargetBranchFormControl.value: null,
+      Type: this.data.type,
+      Title: this.TitleFormControl ? this.TitleFormControl.value : null,
+
+    }
+    console.log("Control: ", returnObject );
+
+    let status = this.eacSvc.SubmitFeedEntry(returnObject);
+    console.log("feed entry status: ", status);
 
     // console.log("Editor: ", this.EditorControl.value )
   }
@@ -300,13 +320,13 @@ export class FeedHeaderDialogComponent implements OnInit {
       case "announcement":
         this.setupAnnouncementForm();
           break;
-      case "pr":
+      case "pull-request":
         this.setupPRForm();
           break;
       case "issue":
         this.setupIssueForm();
           break;
-      case "fb":
+      case "branch":
         this.setupFeatureBranchForm();
           break;
       default: 
@@ -351,22 +371,8 @@ export class FeedHeaderDialogComponent implements OnInit {
 
   protected setupPRForm(){
     this.listBranches();
-    this.setupBasicForm();
-
-  
-    this.FeedHeaderFormGroup.addControl(
-      'baseBranch',
-      this.formBldr.control(
-        ''
-      )
-    );
-
-    this.FeedHeaderFormGroup.addControl(
-      'compareBranch',
-      this.formBldr.control(
-        ''
-      )
-    );
+    this.setupIssueForm();
+    this.setupBranchesForm();
 
 
   }
@@ -413,25 +419,29 @@ protected setupBasicForm(){
       )
     );
 
-    this.FeedHeaderFormGroup.addControl(
-      'newBranch',
-      this.formBldr.control(
-        ''
-      )
-    );
-
-    this.FeedHeaderFormGroup.addControl(
-      'parentBranch',
-      this.formBldr.control(
-        ''
-      )
-    );
+    this.setupBranchesForm();
 
   }
 
   protected setupSourceControlForm(){
     this.FeedHeaderFormGroup.addControl(
       'sourceControl',
+      this.formBldr.control(
+        ''
+      )
+    );
+  }
+
+  protected setupBranchesForm(){
+    this.FeedHeaderFormGroup.addControl(
+      'targetBranch',
+      this.formBldr.control(
+        ''
+      )
+    );
+
+    this.FeedHeaderFormGroup.addControl(
+      'sourceBranch',
       this.formBldr.control(
         ''
       )

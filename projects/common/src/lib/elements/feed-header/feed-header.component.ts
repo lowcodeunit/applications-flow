@@ -64,7 +64,7 @@ export class FeedHeaderComponent implements OnInit {
     this.selectedBtn = "fb-btn";
     this.addSelectBtn();
     console.log("create feature branch selected");
-    this.OpenFHDialog('fb');
+    this.OpenFHDialog('branch');
 
   }
 
@@ -84,7 +84,7 @@ export class FeedHeaderComponent implements OnInit {
     this.selectedBtn = "pr-btn";
     this.addSelectBtn();
     console.log("create pull request selected");
-    this.OpenFHDialog('pr');
+    this.OpenFHDialog('pull-request');
 
   }
 
