@@ -87,14 +87,14 @@
               <div class="slot-header" fxLayout="row">
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                  <a
+                <a
                   class="slot-action-anchor"
                   [routerLink]="['/projects', projectLookup]"
                 >
-                    <div *ngIf="project.Project.Name" class="slot-name">
-                      {{ project.Project.Name }}
-                    </div>
-                  </a>
+                  <div *ngIf="project.Project.Name" class="slot-name">
+                    {{ project.Project.Name }}
+                  </div>
+                </a>
               </div>
 
               <div *ngIf="project.Project.Description" class="slot-description">
@@ -107,16 +107,15 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-
               <button
                 mat-icon-button
                 color="warn"
                 (click)="DeleteProject(projectLookup, project.Project.Name)"
               >
-            <mat-icon matTooltip="Delete {{ project.Project.Name }}">
-              delete_forever
-            </mat-icon>
-          </button>
+                <mat-icon matTooltip="Delete {{ project.Project.Name }}">
+                  delete_forever
+                </mat-icon>
+              </button>
               <!-- <a
                 class="slot-action-anchor"
                 [routerLink]="['/projects', projectLookup]"
@@ -128,7 +127,11 @@
                 [href]="'https://' + project?.Hosts[project?.Hosts?.length - 1]"
                 target="_blank"
               >
-                <mat-icon class="action-icon" matTooltip="Launch {{ project.Project.Name }}">launch</mat-icon>
+                <mat-icon
+                  class="action-icon"
+                  matTooltip="Launch {{ project.Project.Name }}"
+                  >launch</mat-icon
+                >
               </a>
             </div>
 
@@ -195,7 +198,11 @@
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row" (click)="OpenSourceControlDialog(sc.Lookup)">
+              <div
+                class="slot-header"
+                fxLayout="row"
+                (click)="OpenSourceControlDialog(sc.Lookup)"
+              >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
 
@@ -203,15 +210,15 @@
                   class="slot-action-anchor"
                   (click)="OpenSourceControlDialog(sc.Lookup)"
                 > -->
-                  <div *ngIf="sc.Name?.length > 21" class="slot-name">
-                    {{ sc.Name | slice: 0:18 }}...
-                  </div>
-                  <div
-                    *ngIf="sc.Name?.length < 21 || sc.Name.length == 21"
-                    class="slot-name"
-                  >
-                    {{ sc.Name }}
-                  </div>
+                <div *ngIf="sc.Name?.length > 21" class="slot-name">
+                  {{ sc.Name | slice: 0:18 }}...
+                </div>
+                <div
+                  *ngIf="sc.Name?.length < 21 || sc.Name.length == 21"
+                  class="slot-name"
+                >
+                  {{ sc.Name }}
+                </div>
                 <!-- </a> -->
               </div>
 
@@ -223,16 +230,15 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-
-                <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="DeleteSourceControl(sc.Lookup)"
-                >
-                    <mat-icon matTooltip="Delete {{ sc.Lookup }}">
-                      delete_forever
-                    </mat-icon>
-                  </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="DeleteSourceControl(sc.Lookup)"
+              >
+                <mat-icon matTooltip="Delete {{ sc.Lookup }}">
+                  delete_forever
+                </mat-icon>
+              </button>
               <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenSourceControlDialog(sc.Lookup)"
@@ -246,7 +252,11 @@
                 "
                 target="_blank"
               >
-                <mat-icon class="action-icon" matTooltip="Launch {{ sc.Lookup }}">launch</mat-icon>
+                <mat-icon
+                  class="action-icon"
+                  matTooltip="Launch {{ sc.Lookup }}"
+                  >launch</mat-icon
+                >
               </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
@@ -302,7 +312,11 @@
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
-              <div class="slot-header" fxLayout="row" (click)="OpenBuildPipelineDialog(doaLookup)">
+              <div
+                class="slot-header"
+                fxLayout="row"
+                (click)="OpenBuildPipelineDialog(doaLookup)"
+              >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                 <div *ngIf="doa?.Name?.length > 28" class="slot-name">
@@ -324,16 +338,15 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-
-            <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="DeleteDevOpsAction(doaLookup, doa?.Name)"
-                >
-                    <mat-icon matTooltip="Delete {{ doa?.Name }}">
-                      delete_forever
-                    </mat-icon>
-                  </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="DeleteDevOpsAction(doaLookup, doa?.Name)"
+              >
+                <mat-icon matTooltip="Delete {{ doa?.Name }}">
+                  delete_forever
+                </mat-icon>
+              </button>
               <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
@@ -359,7 +372,100 @@
 
           <mat-icon>
             {{
-              Slices.Projects == NumberOfProjects
+              Slices.Pipelines == NumberOfPipelines
+                ? "expand_less"
+                : "expand_more"
+            }}
+          </mat-icon>
+        </button>
+      </div>
+    </lcu-slotted-card>
+
+    <!-- Request Modifiers 
+      secondary-slot-description="Add new request modifier"
+      action-text="Create New Request Modifier" -->
+    <lcu-slotted-card
+      title="Request Modifiers"
+      icon="plumbing"
+      [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
+      (main-action-clicked)="OpenModifierDialog(null)"
+    >
+      <div>
+        <div
+          class="main-slot-container"
+          fxLayout="row"
+          *ngFor="let mdfrLookup of ModifierLookups | slice: 0:Slices.Modifiers"
+        >
+          <div
+            class="slot-content"
+            *ngIf="Modifiers[mdfrLookup]; let mdfr"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+            [title]="mdfr?.Name"
+          >
+            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+            <div class="slot-header-container">
+              <div
+                class="slot-header"
+                fxLayout="row"
+                (click)="OpenModifierDialog(mdfrLookup)"
+              >
+                <!-- this icon is a temp placeholder -->
+                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                <div *ngIf="mdfr?.Name?.length > 28" class="slot-name">
+                  {{ mdfr?.Name | slice: 0:25 }}...
+                </div>
+                <div
+                  *ngIf="mdfr?.Name?.length < 28 || mdfr?.Name?.length == 28"
+                  class="slot-name"
+                >
+                  {{ mdfr?.Name }}
+                </div>
+              </div>
+
+              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+            </div>
+
+            <div
+              class="slot-actions-container"
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+            >
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="DeletModifier(mdfrLookup, mdfr?.Name)"
+              >
+                <mat-icon matTooltip="Delete {{ mdfr?.Name }}">
+                  delete_forever
+                </mat-icon>
+              </button>
+              <!-- <a
+                class="slot-action-anchor"
+                (click)="OpenBuildPipelineDialog(doaLookup)"
+              >
+                <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
+              </a> -->
+              <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a> -->
+            </div>
+          </div>
+        </div>
+
+        <button
+          mat-raised-button
+          class="mat-full-width"
+          (click)="ToggleSlices('Modifiers')"
+          *ngIf="NumberOfModifiers > 5"
+        >
+          {{
+            Slices.Modifiers == NumberOfModifiers ? "Show Less" : "Show More"
+          }}
+
+          <mat-icon>
+            {{
+              Slices.Modifiers == NumberOfModifiers
                 ? "expand_less"
                 : "expand_more"
             }}
