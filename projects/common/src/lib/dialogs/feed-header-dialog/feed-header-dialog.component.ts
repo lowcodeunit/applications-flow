@@ -317,7 +317,7 @@ export class FeedHeaderDialogComponent implements OnInit {
     this.FeedHeaderFormGroup = this.formBldr.group({});
 
     switch ( this.data.type ) {
-      case "announcement":
+      case "Announcement":
         this.setupAnnouncementForm();
           break;
       case "PullRequest":

@@ -15,6 +15,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ThisReceiver } from '@angular/compiler';
+import { DFSModifiersDialogComponent } from 'projects/common/src/lib/dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -159,18 +160,19 @@ export class EnterpriseComponent implements OnInit {
   public HandleRightClickEvent(event: any) {}
 
   public OpenModifierDialog(mdfrLookup: string) {
-    throw new Error('Not implemented: OpenModifierDialog');
-    // const dialogRef = this.dialog.open(ModifierDialogComponent, {
-    //   width: '600px',
-    //   data: {
-    //     modifierLookup: mdfrLookup
-    //   },
-    // });
+    console.log("Modifier lookup: ", mdfrLookup);
+    // throw new Error('Not implemented: OpenModifierDialog');
+    const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
+      width: '600px',
+      data: {
+        modifierLookup: mdfrLookup,
+      },
+    });
 
-    // dialogRef.afterClosed().subscribe((result) => {
-    //   // console.log('The dialog was closed');
-    //   // console.log("result:", result)
-    // });
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
   }
 
   public OpenBuildPipelineDialog(doaLookup: string) {
