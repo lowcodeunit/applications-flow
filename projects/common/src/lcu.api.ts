@@ -74,6 +74,7 @@ export * from './lib/controls/processor-details-form/processor-details-form.comp
 export * from './lib/controls/source-control-form/source-control-form.component';
 export * from './lib/controls/build-pipeline-form/build-pipeline-form.component';
 export * from './lib/controls/devops-source-control-form/devops-source-control-form.component';
+export * from './lib/dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component';
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/dialogs/feed-header-dialog/feed-header-dialog.component';
