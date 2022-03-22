@@ -59,7 +59,7 @@ export class FeedHeaderComponent implements OnInit {
 
   public CreateAnnouncement(){
     // this.ModalHeader = "Create Team Announcement";
-    this.OpenFHDialog('announcement', "Create Team Announcement");
+    this.OpenFHDialog('Announcement', "Create Team Announcement");
 
   }
 
