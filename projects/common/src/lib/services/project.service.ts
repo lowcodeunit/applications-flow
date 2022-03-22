@@ -172,16 +172,16 @@ export class ProjectService {
 
   public EnsureUserEnterprise(
     state: ApplicationsFlowState
-  ): Promise<EnterpriseAsCode> {
+  ): Promise<BaseResponse> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 
       this.appsFlowSvc.EnsureUserEnterprise().subscribe(
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
-            const eac = await this.LoadEnterpriseAsCode(state);
+            // const eac = await this.LoadEnterpriseAsCode(state);
 
-            resolve(eac);
+            resolve(response);
           } else {
             state.Loading = false;
 

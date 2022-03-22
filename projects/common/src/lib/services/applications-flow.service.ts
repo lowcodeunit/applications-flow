@@ -221,17 +221,13 @@ export class ApplicationsFlowService {
   }
 
   public SubmitFeedEntry(entry: FeedEntry): Observable<object> {
-
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/userfeed/entry`,
-        {
-          FeedEntry: entry,
-        },
-        {
-          headers: this.loadHeaders(),
-        }
+      entry,
+      {
+        headers: this.loadHeaders(),
+      }
     );
-    
   }
 
   public UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): Observable<object> {
