@@ -13,7 +13,7 @@
 		"build:social-host": "ng build social-host --configuration production",
 		"clean": "rimraf dist",
 		"deploy": "npm version patch && npm run deploy:all",
-		"deploy:all": "npm run deploy:common && npm run deploy:lcu && npm run deploy:demo && npm run deploy:krakyn && npm run deploy:social-host",
+		"deploy:all": "npm run deploy:common && npm run deploy:lcu && concurrently \"npm:deploy:demo\" \"npm:deploy:krakyn\" \"npm:deploy:social-host\"",
 		"deploy:common": "npm version patch --prefix projects/common && npm run build:common && npm publish ./dist/common --access public",
 		"deploy:demo": "npm version patch --prefix projects/demo && npm run build:demo && npm publish ./dist/demo --access public",
 		"deploy:krakyn": "npm version patch --prefix projects/krakyn && npm run build:krakyn && npm publish ./dist/krakyn --access public",
