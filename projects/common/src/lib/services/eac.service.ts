@@ -26,12 +26,28 @@ export class SaveApplicationAsCodeEventRequest {
   public ProjectLookup?: string;
 }
 
+export class SaveDFSModifierForApplicationEventRequest {
+  public Modifier: EaCDFSModifier;
+
+  public ModifierLookup: string;
+
+  public ApplicationLookup?: string;
+}
+
 export class SaveDFSModifierEventRequest {
   public Modifier: EaCDFSModifier;
 
   public ModifierLookup: string;
 
   public ProjectLookup?: string;
+}
+
+export class SaveDFSModifierForAllEventRequest {
+  public Modifier: EaCDFSModifier;
+
+  public ModifierLookup: string;
+
+  public ProjectLookups?: Array<string>;
 }
 
 export class SaveEnvironmentAsCodeEventRequest {
@@ -154,6 +170,12 @@ export class EaCService {
     await this.handleSaveDFSModifier(req);
   }
 
+  public async SaveDFSModifierForAllProjects(
+    req: SaveDFSModifierForAllEventRequest
+  ): Promise<void> {
+    await this.handleSaveDFSModifierForAllProjects(req);
+  }
+
   public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<Status> {
     return await this.projectService.SaveEnterpriseAsCode(this.State, eac);
   }
@@ -225,6 +247,53 @@ export class EaCService {
     }
 
     return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+  }
+
+  protected async handleSaveDFSModifierForApplication(
+    req: SaveDFSModifierForApplicationEventRequest
+  ): Promise<void> {
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      Modifiers: {},
+      Applications: {},
+    };
+
+    if (req.Modifier) {
+      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
+    }
+
+    if (req.ApplicationLookup) {
+      saveEaC.Applications[req.ApplicationLookup] = {
+        ModifierLookups: [req.ModifierLookup],
+      };
+    }
+
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+  }
+
+  protected async handleSaveDFSModifierForAllProjects(
+    req: SaveDFSModifierForAllEventRequest
+  ): Promise<void> {
+    const saveEaC: EnterpriseAsCode = {
+      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+      Modifiers: {},
+      Projects: {},
+    };
+
+    if (req.Modifier) {
+      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
+    }
+
+    if (req.ProjectLookups) {
+      req.ProjectLookups.forEach(lookup =>{
+        saveEaC.Projects[lookup] = {
+          ModifierLookups: [req.ModifierLookup],
+        };
+      })
+      
+    }
+
+    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
   }
 
   protected async handleSaveDFSModifier(

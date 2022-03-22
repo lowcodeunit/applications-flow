@@ -5,10 +5,12 @@ import {
   EaCService,
   ApplicationsFlowService,
   CustomDomainDialogComponent,
-  NewApplicationDialogComponent
+  NewApplicationDialogComponent,
+  DFSModifiersDialogComponent
 } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode, EaCEnvironmentAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
+import { EaCDFSModifier } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-projects',
@@ -67,6 +69,18 @@ export class ProjectsComponent implements OnInit {
 
   public get NumberOfRoutes(): number {
     return this.ApplicationRoutes?.length;
+  }
+
+  public get NumberOfModifiers(): number {
+    return this.ModifierLookups?.length;
+  }
+
+  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    return this.State?.EaC?.Modifiers || {};
+  }
+
+  public get ModifierLookups(): Array<string> {
+    return this.Project.ModifierLookups || [];
   }
 
   public get RoutedApplications(): {
@@ -161,7 +175,7 @@ export class ProjectsComponent implements OnInit {
     protected eacSvc: EaCService,
     protected dialog: MatDialog
   ) {
-    this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe((params: any) => {
       this.ProjectLookup = params['projectLookup'];
     });
 
@@ -178,6 +192,7 @@ export class ProjectsComponent implements OnInit {
 
     this.Slices = {
       Routes: this.SlicesCount,
+      Modifiers: this.SlicesCount
     };
   }
 
@@ -228,6 +243,24 @@ export class ProjectsComponent implements OnInit {
 
   }
 
+  public OpenModifierDialog(mdfrLookup: string) {
+    // throw new Error('Not implemented: OpenModifierDialog');
+    const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
+      width: '600px',
+      data: {
+        modifierLookup: mdfrLookup,
+        modifiers: this.Modifiers,
+        projectLookup: this.ProjectLookup,
+        level: 'project'
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
   public SettingsClicked() {
     console.log('Settings Clicked');
   }
@@ -239,14 +272,16 @@ export class ProjectsComponent implements OnInit {
   public LaunchBuildClicked() {
     console.log('launch build clicked');
   }
-
   public ToggleSlices(type: string) {
     let count = this.Slices[type];
 
     let length =
-      type === 'Routes'
+      type === 'Modifiers'
+        ? this.NumberOfModifiers
+        : type === 'Routes'
         ? this.NumberOfRoutes
         : this.SlicesCount;
+        
 
     if (count === length) {
       this.Slices[type] = this.SlicesCount;
@@ -254,6 +289,7 @@ export class ProjectsComponent implements OnInit {
       this.Slices[type] = length;
     }
   }
+
 
   public ViewBuildDetails() {
     console.log('View build details clicked');

@@ -169,24 +169,24 @@
 
         <div fxLayout="row wrap" fxLayout.lt-md="column">
           <div
-            fxFlex="30%"
             fxFlex.lt-md="100%"
             *ngFor="let modifierLookup of ModifierLookups"
           >
-            <mat-card
+            <!-- <mat-card
               class="spread"
               *ngIf="Modifiers[modifierLookup]; let modifier"
-            >
-              <mat-card-header>
+            > -->
+            <ng-container *ngIf="Modifiers[modifierLookup]; let modifier">
+              <!-- <mat-card-header> -->
                 <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
 
-                <mat-card-title
+                <div
                   class="mat-subheading-2"
                   [matTooltip]="modifier.Name"
                 >
                   {{ modifier.Name || modifier.Lookup }}
 
-                  <div fxFlex></div>
+                  <!-- <div fxFlex></div> -->
 
                   <mat-slide-toggle
                     class="spread"
@@ -194,19 +194,19 @@
                       Project?.ModifierLookups.indexOf(modifierLookup) >= 0
                     "
                     (change)="SetUseForProject(modifierLookup, $event)"
-                    matTooltip="Use for project?"
+                    [matTooltip]="'Use for ' + Level"
                   >
                   </mat-slide-toggle>
-                </mat-card-title>
-              </mat-card-header>
+                </div>
+              <!-- </mat-card-header> -->
 
-              <mat-card-content>
+              <!-- <mat-card-content>
                 <div class="spread"></div>
-              </mat-card-content>
+              </mat-card-content> -->
 
-              <mat-card-actions>
+              <div>
                 <div class="data-app-actions">
-                  <div fxFlex></div>
+                  <!-- <div fxFlex></div> -->
 
                   <button
                     mat-icon-button
@@ -229,7 +229,7 @@
                   </button>
                 </div>
 
-                <div class="data-app-fakes">
+                <!-- <div class="data-app-fakes">
                   <div fxFlex></div>
 
                   <button mat-icon-button disabled>
@@ -239,9 +239,10 @@
                   <button mat-icon-button disabled>
                     <mat-icon>fiber_manual_record</mat-icon>
                   </button>
-                </div>
-              </mat-card-actions>
-            </mat-card>
+                </div> -->
+              </div>
+            </ng-container>
+            <!-- </mat-card> -->
           </div>
         </div>
       </div>

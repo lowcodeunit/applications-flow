@@ -12,6 +12,7 @@ import {
   SourceControlFormComponent,
   EditApplicationDialogComponent,
   ProcessorDetailsDialogComponent,
+  DFSModifiersDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCApplicationAsCode,
@@ -19,6 +20,7 @@ import {
   EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
+import { EaCDFSModifier } from '@semanticjs/common';
 
 @Component({
   selector: 'lcu-applications',
@@ -74,6 +76,18 @@ export class ApplicationsComponent implements OnInit {
       Organization: this.Application?.LowCodeUnit?.Organization,
       Repository: this.Application?.LowCodeUnit?.Repository,
     };
+  }
+
+  public get NumberOfModifiers(): number {
+    return this.ModifierLookups?.length;
+  }
+
+  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    return this.State?.EaC?.Modifiers || {};
+  }
+
+  public get ModifierLookups(): Array<string> {
+    return this.Application.ModifierLookups || [];
   }
 
   public get Project(): any {
@@ -205,6 +219,10 @@ export class ApplicationsComponent implements OnInit {
 
   public Stats: any;
 
+  public Slices: { [key: string]: number };
+
+  public SlicesCount: number;
+
   public ProjectLookup: string;
 
   constructor(
@@ -219,7 +237,7 @@ export class ApplicationsComponent implements OnInit {
       { Name: 'Someother Rate', Stat: '5%' },
     ];
 
-    this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe((params: any) => {
       this.ApplicationLookup = params['appLookup'];
       this.CurrentApplicationRoute = params['appRoute'];
       this.ProjectLookup = params['projectLookup'];
@@ -227,6 +245,12 @@ export class ApplicationsComponent implements OnInit {
 
     this.IsInfoCardEditable = true;
     this.IsInfoCardShareable = false;
+
+    this.SlicesCount = 5;
+
+    this.Slices = {
+      Modifiers: this.SlicesCount,
+    };
   }
 
   public ngOnInit(): void {
@@ -311,6 +335,23 @@ export class ApplicationsComponent implements OnInit {
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
+  public OpenModifierDialog(mdfrLookup: string) {
+    const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
+      width: '600px',
+      data: {
+        modifierLookup: mdfrLookup,
+        modifiers: this.Modifiers,
+        level: 'application',
+        applicationLookup: this.ApplicationLookup
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
   public SaveSecuritySettings(formValue: any): void {
     // console.log('Recieved Save Event: ', formValue);
 
@@ -334,6 +375,21 @@ export class ApplicationsComponent implements OnInit {
     };
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
+  }
+
+  public ToggleSlices(type: string) {
+    let count = this.Slices[type];
+
+    let length =
+      type === 'Modifiers'
+        ? this.NumberOfModifiers
+        : this.SlicesCount;
+
+    if (count === length) {
+      this.Slices[type] = this.SlicesCount;
+    } else {
+      this.Slices[type] = length;
+    }
   }
 
   //HELPERS
