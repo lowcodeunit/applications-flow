@@ -1,5 +1,5 @@
 import { EnterpriseAsCode } from '@semanticjs/common';
-import { FeedItem } from '../models/user-feed.model';
+import { FeedItem, FeedItemAction } from '../models/user-feed.model';
 
 export class ApplicationsFlowState {
   public ActiveEnterpriseLookup?: string;
@@ -9,6 +9,8 @@ export class ApplicationsFlowState {
   public Enterprises?: Array<{ Name: string; Lookup: string }>;
 
   public Feed?: Array<FeedItem>;
+
+  public FeedActions?: Array<FeedItemAction>;
 
   public FeedSourceControlLookups?: Array<string>;
 

@@ -4,6 +4,7 @@ import { LCUServiceSettings } from '@lcu/common';
 import { Observable } from 'rxjs';
 import { EnterpriseAsCode } from '@semanticjs/common';
 import { UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
+import { FeedEntry } from '../models/user-feed.model';
 
 @Injectable({
   providedIn: 'root',
@@ -213,6 +214,16 @@ export class ApplicationsFlowService {
       {
         ActiveEnterpriseLookup: activeEntLookup,
       },
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public SubmitFeedEntry(entry: FeedEntry): Observable<object> {
+    return this.http.post(
+      `${this.apiRoot}/api/lowcodeunit/userfeed/entry`,
+      entry,
       {
         headers: this.loadHeaders(),
       }

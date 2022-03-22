@@ -1,5 +1,5 @@
 <mat-card class="social-card">
-  <ng-container *ngIf="!State?.Loading">
+  <ng-container *ngIf="!State?.LoadingFeed">
     <div class="gh-card-container" fxLayout="row" fxLayoutAlign="center center">
       <mat-icon fxFlex="15%" class="gh-icon" color="primary">error_outline</mat-icon>
       <div fxFlex="85%" class="gh-card-main-content">
@@ -12,7 +12,7 @@
 
         <!-- <mat-form-field appearance="fill" class="gh-input">
           <mat-label>{{ InputLabel }}</mat-label>
-          <input matInput type="text" [(ngModel)]="value" (click)="OpenFHDialog('announcement')"/>
+          <input matInput type="text" [(ngModel)]="value" (click)="OpenFHDialog('Announcement')"/>
         </mat-form-field> -->
       </div>
 
@@ -27,17 +27,20 @@
       </button> -->
     </div>
 
-    <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center" 
+    >
       <button 
+      *ngFor="let action of FeedHeaderActions"
         mat-button 
-        (click)="CreatePullRequest()" 
+        (click)="OpenFHDialog(action.Action, action.Text)" 
         id="pr-btn" 
         color="primary"
       >
-        Pull Request
+      <mat-icon>{{action.Icon}}</mat-icon>
+        {{action.Text}}
       </button>
 
-      <button 
+      <!-- <button 
         mat-button 
         (click)="OpenIssue()" 
         id="oi-btn" 
@@ -53,7 +56,7 @@
         color="primary"
       >
         Feature Branch
-      </button>
+      </button> -->
 
       <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
         <mat-icon>more_horiz</mat-icon>
@@ -75,7 +78,7 @@
   </ng-container>
 
   <!-- SKELETON -->
-  <ng-container *ngIf="State?.Loading">
+  <ng-container *ngIf="State?.LoadingFeed">
     <div id="gh-card-skeleton" fxLayout="row" fxLayoutAlign="center center">
       <skeleton-avatar
         class="gh-icon"

@@ -8,12 +8,14 @@ import {
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCDevOpsAction,
+  EaCDFSModifier,
   EaCEnvironmentAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ThisReceiver } from '@angular/compiler';
+import { DFSModifiersDialogComponent } from 'projects/common/src/lib/dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -51,16 +53,20 @@ export class EnterpriseComponent implements OnInit {
     ];
   }
 
-  public get SourceControlLookups(): Array<string> {
-    return Object.keys(this.SourceControls || {});
+  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    return this.State?.EaC?.Modifiers || {};
   }
 
-  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-    return this.Environment?.Sources || {};
+  public get ModifierLookups(): Array<string> {
+    return Object.keys(this.Modifiers || {});
   }
 
   public get NumberOfSourceControls(): number {
     return this.SourceControlLookups?.length;
+  }
+
+  public get NumberOfModifiers(): number {
+    return this.ModifierLookups?.length;
   }
 
   public get NumberOfPipelines(): number {
@@ -73,6 +79,14 @@ export class EnterpriseComponent implements OnInit {
 
   public get ProjectLookups(): string[] {
     return Object.keys(this.State?.EaC?.Projects || {});
+  }
+
+  public get SourceControlLookups(): Array<string> {
+    return Object.keys(this.SourceControls || {});
+  }
+
+  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    return this.Environment?.Sources || {};
   }
 
   public get State(): ApplicationsFlowState {
@@ -99,6 +113,7 @@ export class EnterpriseComponent implements OnInit {
     this.SlicesCount = 5;
 
     this.Slices = {
+      Modifiers: this.SlicesCount,
       Projects: this.SlicesCount,
       Pipelines: this.SlicesCount,
       Sources: this.SlicesCount,
@@ -112,8 +127,18 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public DeleteDevOpsAction(doaLookup: string, doaName: string): void {
-    if (confirm(`Are you sure you want to delete build pipeline '${doaName}'?`)) {
+    if (
+      confirm(`Are you sure you want to delete build pipeline '${doaName}'?`)
+    ) {
       this.eacSvc.DeleteDevOpsAction(doaLookup);
+    }
+  }
+
+  public DeleteModifier(mdfrLookup: string, mdfrName: string): void {
+    if (
+      confirm(`Are you sure you want to delete request modifier '${mdfrName}'?`)
+    ) {
+      this.eacSvc.DeleteDevOpsAction(mdfrLookup);
     }
   }
 
@@ -133,6 +158,22 @@ export class EnterpriseComponent implements OnInit {
 
   public HandleLeftClickEvent(event: any) {}
   public HandleRightClickEvent(event: any) {}
+
+  public OpenModifierDialog(mdfrLookup: string) {
+    console.log("Modifier lookup: ", mdfrLookup);
+    // throw new Error('Not implemented: OpenModifierDialog');
+    const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
+      width: '600px',
+      data: {
+        modifierLookup: mdfrLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
 
   public OpenBuildPipelineDialog(doaLookup: string) {
     const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {
@@ -175,7 +216,9 @@ export class EnterpriseComponent implements OnInit {
     let count = this.Slices[type];
 
     let length =
-      type === 'Projects'
+      type === 'Modifiers'
+        ? this.NumberOfModifiers
+        : type === 'Projects'
         ? this.NumberOfProjects
         : type === 'Pipelines'
         ? this.NumberOfPipelines

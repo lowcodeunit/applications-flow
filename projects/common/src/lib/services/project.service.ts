@@ -8,7 +8,7 @@ import {
   UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
 import { ApplicationsFlowService } from './applications-flow.service';
-import { FeedItem, UserFeedResponse } from '../models/user-feed.model';
+import { FeedEntry, FeedItem, UserFeedResponse } from '../models/user-feed.model';
 import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
@@ -172,16 +172,16 @@ export class ProjectService {
 
   public EnsureUserEnterprise(
     state: ApplicationsFlowState
-  ): Promise<EnterpriseAsCode> {
+  ): Promise<BaseResponse> {
     return new Promise((resolve, reject) => {
       state.Loading = true;
 
       this.appsFlowSvc.EnsureUserEnterprise().subscribe(
         async (response: BaseResponse) => {
           if (response.Status.Code === 0) {
-            const eac = await this.LoadEnterpriseAsCode(state);
+            // const eac = await this.LoadEnterpriseAsCode(state);
 
-            resolve(eac);
+            resolve(response);
           } else {
             state.Loading = false;
 
@@ -419,6 +419,8 @@ export class ProjectService {
               state.Feed = response.Items;
 
               state.FeedSourceControlLookups = response.SourceControlLookups;
+
+              state.FeedActions = response.Actions;
               // console.log("ITEMZ: ", response.Items)
 
               resolve(response.Items);
@@ -553,6 +555,41 @@ export class ProjectService {
 
         resolve({});
       }
+    });
+  }
+
+  public async SubmitFeedEntry(
+    state: ApplicationsFlowState,
+    entry: FeedEntry
+  ): Promise<Status> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.SubmitFeedEntry(entry).subscribe(
+        async (response: BaseModeledResponse<string>) => {
+          if (response.Status.Code === 0) {
+            var results = await Promise.all([
+              this.LoadEnterpriseAsCode(state),
+              this.LoadUserFeed(1, 25, state),
+            ]);
+
+            resolve(response.Status);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
     });
   }
 

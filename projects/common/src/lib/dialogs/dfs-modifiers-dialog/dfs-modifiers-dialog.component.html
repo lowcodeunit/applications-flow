@@ -1,15 +1,5 @@
-<!-- <div class="dialog-header" fxLayoutAlign="end center">
-    <button mat-icon-button (click)="CloseDialog()">
-            <mat-icon>cancel</mat-icon>
-    </button>
-</div> -->
-
-
-
-
-<!-- NEW BELOW -->
 <div class="dialog-header" fxLayoutAlign="space-between center">
-    <h2 mat-dialog-title>Custom Domain</h2>
+    <h2 mat-dialog-title>DFS Modifiers</h2>
 
     <button mat-icon-button (click)="CloseDialog()">
             <mat-icon>cancel</mat-icon>
@@ -19,21 +9,19 @@
 <mat-dialog-content>
 
 
+        <lcu-dfs-modifiers-form
+        [editing-modifier-lookup]="data.modifierLookup"
+        >
 
-    <lcu-domains
-    [data]="DomainData"
-    >
-    
-    </lcu-domains>
+        </lcu-dfs-modifiers-form>
 
-    <!-- <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
-        {{ ErrorMessage }}
-    </mat-error> -->
+<!-- <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+    {{ ErrorMessage }}
+</mat-error> -->
 
 </mat-dialog-content>
 
-
-<!-- <mat-dialog-actions 
+<mat-dialog-actions 
         class="actions-container" 
         div fxLayout="row" 
         fxLayoutAlign="end center"
@@ -48,16 +36,20 @@
         </button>
 
 
-
+        <!-- *ngIf="!State?.Loading" -->
         <button 
-          *ngIf="!State?.Loading"
+          
           mat-raised-button 
           type="submit" 
           fxFlex="25%" 
           color="primary" 
-          (click)="SaveCustomDomain()"
-          [disabled]="!BuildPipelineFormGroup?.valid || !BuildPipelineFormGroup?.dirty">
+          (click)="SaveDFSModifier()"
+          [disabled]="!DFSModifersFormGroup?.valid || !DFSModifersFormGroup?.dirty"
+          >
+          <!-- <mat-icon>save</mat-icon> -->
           Save
         </button>
 
-</mat-dialog-actions> -->
+</mat-dialog-actions>
+
+
