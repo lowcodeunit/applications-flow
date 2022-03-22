@@ -182,6 +182,20 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
   }
 }
 
+export class EaCNapkinIDELayoutManager {
+  //  Fields
+
+  //  Properties
+
+  //  Constructors
+  constructor() {
+  }
+
+  //  API Methods
+
+  //  Helpers
+}
+
 @Component({
   selector: 'app-krakyn-tool',
   templateUrl: './krakyn-tool.component.html',
@@ -244,6 +258,7 @@ export class KrakynToolComponent implements OnInit {
       Module: 'ExternalData',
       Data: eaCNapkinIDEFlowImporter.Import(this.State.EaC),
     };
+    debugger;
 
     const dataIndex: number = 0;
 
@@ -256,7 +271,6 @@ export class KrakynToolComponent implements OnInit {
       VariablesUtils.DataFlowModuleData[dataIndex].Module;
 
     this.KrakynData = VariablesUtils.DataFlowModuleData[dataIndex];
-    debugger;
   }
 
   protected async handleStateChange(): Promise<void> {
@@ -264,7 +278,7 @@ export class KrakynToolComponent implements OnInit {
 
     await this.projectService.HasValidConnection(this.State);
 
-    await this.projectService.EnsureUserEnterprise(this.State);
+    await this.projectService.LoadEnterpriseAsCode(this.State);
 
     await this.projectService.ListEnterprises(this.State);
 
