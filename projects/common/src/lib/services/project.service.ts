@@ -419,6 +419,8 @@ export class ProjectService {
               state.Feed = response.Items;
 
               state.FeedSourceControlLookups = response.SourceControlLookups;
+
+              state.FeedActions = response.Actions;
               // console.log("ITEMZ: ", response.Items)
 
               resolve(response.Items);
