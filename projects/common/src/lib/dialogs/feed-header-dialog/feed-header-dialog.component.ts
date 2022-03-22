@@ -5,7 +5,7 @@ import { MatSelectChange } from '@angular/material/select';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { BaseModeledResponse } from '@lcu/common';
 import { EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
-import { FeedEntry, FeedItemAction } from '../../models/user-feed.model';
+import { FeedEntry } from '../../models/user-feed.model';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState, GitHubBranch, GitHubOrganization, GitHubRepository } from '../../state/applications-flow.state';

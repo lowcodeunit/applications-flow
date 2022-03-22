@@ -185,6 +185,8 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     UpgradeDialogComponent,
     EmulatedDevicesToggleComponent,
     FeedHeaderDialogComponent,
+    DFSModifiersDialogComponent,
+    DFSModifiersFormComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -217,9 +219,11 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     CardCarouselComponent,
     SecurityToggleComponent,
     ProcessorDetailsFormComponent,
+    DFSModifiersFormComponent,
     SourceControlFormComponent,
     BuildPipelineFormComponent,
     DevopsSourceControlFormComponent,
+    DFSModifiersDialogComponent,
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,

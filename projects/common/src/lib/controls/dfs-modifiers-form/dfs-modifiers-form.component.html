@@ -5,8 +5,8 @@
     *ngIf="EditingModifier"
   >
     <div class="form-card">
-      <mat-card class="spread">
-        <mat-card-header>
+      <!-- <mat-card class="spread"> -->
+        <!-- <mat-card-header>
           <mat-card-title> DFS Modifier </mat-card-title>
 
           <div fxFlex></div>
@@ -17,9 +17,34 @@
           >
             info_outline
           </mat-icon>
-        </mat-card-header>
+        </mat-card-header> -->
 
-        <mat-card-content>
+        <!-- <mat-card-content> -->
+          <mat-form-field class="mat-full-width">
+            <mat-select
+              formControlName="type"
+              placeholder="DFS Modifier Type"
+              (selectionChange)="TypeChanged($event)"
+            >
+              <mat-option
+                value="LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              >
+                HTML Base Modfier
+              </mat-option>
+
+              <mat-option
+                value="LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              >
+                LCU Reg Modfier
+              </mat-option>
+
+              <mat-option
+                value="LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              >
+                Thrid Party Library Modifier
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
           <mat-form-field class="mat-full-width">
             <input
               matInput
@@ -46,31 +71,7 @@
             />
           </mat-form-field>
 
-          <mat-form-field class="mat-full-width">
-            <mat-select
-              formControlName="type"
-              placeholder="DFS Modifier Type"
-              (selectionChange)="TypeChanged($event)"
-            >
-              <mat-option
-                value="LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-              >
-                HTML Base Modfier
-              </mat-option>
-
-              <mat-option
-                value="LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-              >
-                LCU Reg Modfier
-              </mat-option>
-
-              <mat-option
-                value="LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
-              >
-                Thrid Party Library Modifier
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+          
 
           <ng-container
             *ngIf="
@@ -121,14 +122,15 @@
             </mat-form-field>
           </ng-container>
 
-          <mat-slide-toggle class="spread" formControlName="enabled">
+
+          <mat-slide-toggle *ngIf="ProjectLookup" class="spread" formControlName="enabled">
             Is Enabled?
           </mat-slide-toggle>
-        </mat-card-content>
-      </mat-card>
+        <!-- </mat-card-content> -->
+      <!-- </mat-card> -->
     </div>
 
-    <div class="spread">
+    <!-- <div class="spread">
       <div fxFlex></div>
 
       <button mat-button type="button" (click)="SetEditingModifier(null)">
@@ -147,7 +149,7 @@
       </button>
 
       <div fxFlex></div>
-    </div>
+    </div> -->
   </form>
 
   <div class="spread" *ngIf="!EditingModifier">
