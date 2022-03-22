@@ -88,11 +88,8 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-<<<<<<< HEAD
-=======
     DFSModifiersFormComponent,
     FlowToolComponent,
->>>>>>> feature/lets-get-social-ish
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
