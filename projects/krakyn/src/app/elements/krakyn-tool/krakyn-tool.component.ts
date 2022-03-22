@@ -142,6 +142,8 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
             };
           }
 
+          flow.Nodes?.push(routePartNode);
+
           //  Add last route part => new route part Edge
           flow.Edges?.push({
             ID: `sys-edge-${++sysCount}`,
@@ -149,7 +151,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
             NodeOutID: routePartNode.ID,
           });
 
-          lastRoutePartNodeId = routePartNodeId;
+          lastRoutePartNodeId = routePartNode.ID;
 
           pathPartsCount++;
         });
@@ -258,7 +260,6 @@ export class KrakynToolComponent implements OnInit {
       Module: 'ExternalData',
       Data: eaCNapkinIDEFlowImporter.Import(this.State.EaC),
     };
-    debugger;
 
     const dataIndex: number = 0;
 
