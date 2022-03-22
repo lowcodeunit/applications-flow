@@ -1,6 +1,8 @@
 import { BaseResponse, Status } from '@lcu/common';
 
 export class UserFeedResponse extends BaseResponse {
+  public Actions: Array<FeedItemAction>;
+
   public Items: Array<FeedItem>;
 
   public SourceControlLookups: Array<string>;
@@ -71,3 +73,35 @@ export class FeedItemTab {
 
   public Title: string;
 }
+
+export class FeedEntry {
+
+public ActionIcon: string; 
+
+public ActionLink: string; 
+
+public ActionText: string;
+
+public Avatar: string;
+
+public Content: string; 
+
+public ExpiresAt: Date;
+
+public Organization: string; 
+
+public Repositroy: string; 
+
+public SourceBranch: string;
+
+public SourceControlLookup: string; 
+
+public Subtitle: string; 
+
+public TargetBranch: string; 
+
+public Title: string; 
+
+public Type:  string; 
+  
+  }

@@ -13,16 +13,15 @@ import { EaCNapkinIDEFlowImporter } from '@semanticjs/napkin-ide';
 @Component({
   selector: 'app-krakyn-tool',
   templateUrl: './krakyn-tool.component.html',
-  styleUrls: ['./krakyn-tool.component.scss']
+  styleUrls: ['./krakyn-tool.component.scss'],
 })
 export class KrakynToolComponent implements OnInit {
-
   public State: ApplicationsFlowState;
 
   public KrakynData: any;
   public SideMenuItems: any;
   public Title: string;
-  public TabMenuItems: Array<{Label: string, Target: string, Class?: string}>;
+  public TabMenuItems: Array<{ Label: string; Target: string; Class?: string }>;
 
   constructor(
     protected injector: Injector,
@@ -32,26 +31,28 @@ export class KrakynToolComponent implements OnInit {
     this.State = new ApplicationsFlowState();
    }
 
-   // Lifecycle hooks
+  // Lifecycle hooks
   public ngOnInit(): void {
-
     this.Title = 'The Krakyn Tool';
 
     this.SideMenuItems = SideMenuItemTemplates.FLOW_DRAG_ITEMS(DragDropUtils.SideMenuDragEvent);
 
     this.TabMenuItems = [
-      { Label: 'External Data Test', Target: 'ExternalData', Class: 'selected' },
-      { Label: 'Original Data', Target: 'OriginalData', Class: '' }
-    //   { Label: 'Home', Target: 'Home' }
+      {
+        Label: 'External Data Test',
+        Target: 'ExternalData',
+        Class: 'selected',
+      },
+      { Label: 'Original Data', Target: 'OriginalData', Class: '' },
+      //   { Label: 'Home', Target: 'Home' }
     ];
 
-    this.handleStateChange()
-    .then((eac) => {});
+    this.handleStateChange().then((eac) => {});
   }
 
   /**
    * Krakyn data
-   * 
+   *
    * @returns krakyn data or empty object
    */
   // public KrakynData(): Promise<any> {
@@ -62,31 +63,31 @@ export class KrakynToolComponent implements OnInit {
    * Import tool data
    */
   protected importData(): void {
-
-    const eaCNapkinIDEFlowImporter: EaCNapkinIDEFlowImporter = new EaCNapkinIDEFlowImporter();
+    const eaCNapkinIDEFlowImporter: EaCNapkinIDEFlowImporter =
+      new EaCNapkinIDEFlowImporter();
 
     this.Title = 'Imported data for Krakyn';
 
-    const externalData: { Module: string, Data: any } = {
+    const externalData: { Module: string; Data: any } = {
       Module: 'ExternalData',
-      Data: eaCNapkinIDEFlowImporter.Import(this.State.EaC)
+      Data: eaCNapkinIDEFlowImporter.Import(this.State.EaC),
     };
 
     const dataIndex: number = 0;
 
     VariablesUtils.DataFlowModuleData = [
       ConstantUtils.MapData('ExternalData', externalData.Data),
-      ConstantUtils.MapData('OriginalData', ConstantUtils.ORIGINAL_TEST_DATA)
+      ConstantUtils.MapData('OriginalData', ConstantUtils.ORIGINAL_TEST_DATA),
     ];
 
-    VariablesUtils.ActiveModule = VariablesUtils.DataFlowModuleData[dataIndex].Module;
+    VariablesUtils.ActiveModule =
+      VariablesUtils.DataFlowModuleData[dataIndex].Module;
 
     this.KrakynData = VariablesUtils.DataFlowModuleData[dataIndex];
     debugger;
   }
 
   protected async handleStateChange(): Promise<void> {
-
     this.State.Loading = true;
 
     await this.projectService.HasValidConnection(this.State);
@@ -96,14 +97,11 @@ export class KrakynToolComponent implements OnInit {
     await this.projectService.ListEnterprises(this.State);
 
     if (this.State.Enterprises?.length > 0) {
-
       this.State.Loading = false;
 
       this.importData();
 
       await this.projectService.GetActiveEnterprise(this.State);
-
     }
   }
 }
-

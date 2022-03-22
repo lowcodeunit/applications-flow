@@ -9,7 +9,7 @@
     <form [formGroup]="FeedHeaderFormGroup" >
 
         <!-- ISSUE FORM -->
-        <ng-container *ngIf="data.type === 'issue' ">
+        <ng-container *ngIf="data.type === 'OpenIssue' ">
 
             <div fxLayout="row" fxLayoutAlign="center center">
 
@@ -17,9 +17,11 @@
                     <mat-label>Source Control</mat-label>
                     <mat-select 
                         formControlName="sourceControl"
+                        (selectionChange)="IssueSourceControlChanged($event)"
+
                     >
                     <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
-                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="sc">
+                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
                     </ng-container>
@@ -46,7 +48,7 @@
 
         <!-- ANNOUNCEMENT FORM -->
 
-        <ng-container *ngIf="data.type === 'announcement' ">
+        <ng-container *ngIf="data.type === 'Announcement' ">
             <mat-form-field class="mat-full-width">
                 <input
                 matInput
@@ -123,7 +125,7 @@
 
         <!-- PR FORM -->
 
-        <ng-container *ngIf="data.type === 'pr' ">
+        <ng-container *ngIf="data.type === 'PullRequest' ">
 
             <div fxLayout="row" fxLayoutAlign="center center">
 
@@ -134,7 +136,7 @@
                         (selectionChange)="PullRequestSourceControlChanged($event)"
                     >
                     <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
-                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="sc">
+                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
                     </ng-container>
@@ -147,7 +149,7 @@
 
             <mat-form-field appearance="fill">
                 <mat-label>Base</mat-label>
-                <mat-select formControlName="baseBranch" required
+                <mat-select formControlName="targetBranch" required
                 >
                   <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
                     {{branchOpt.Name}}
@@ -159,7 +161,7 @@
 
               <mat-form-field appearance="fill">
                 <mat-label>Compare</mat-label>
-                <mat-select formControlName="compareBranch" required
+                <mat-select formControlName="sourceBranch" required
                 >
                   <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
                     {{branchOpt.Name}}
@@ -188,7 +190,7 @@
 
         <!-- Feature Branch form -->
 
-        <ng-container *ngIf="data.type === 'fb' ">
+        <ng-container *ngIf="data.type === 'CreateBranch' ">
 
             <div fxLayout="row" fxLayoutAlign="center center">
 
@@ -199,7 +201,7 @@
                         (selectionChange)="FeatureBranchSourceControlChanged($event)"
                     >
                     <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
-                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="sc">
+                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
                     </ng-container>
@@ -249,7 +251,7 @@
 
             <mat-form-field >
                 <mat-label>Base Branch</mat-label>
-                <mat-select formControlName="parentBranch" required
+                <mat-select formControlName="sourceBranch" required
                 >
                 <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
                     {{branchOpt.Name}}
@@ -261,7 +263,7 @@
                 <input
                 matInput
                 placeholder="Create New Branch"
-                formControlName="newBranch"
+                formControlName="targetBranch"
                 required
                 />
             </mat-form-field>

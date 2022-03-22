@@ -7,24 +7,22 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
-import {
-  EaCService,
-  SaveDFSModifierEventRequest,
-} from '../../../../../services/eac.service';
+
 import {
   EaCDFSModifier,
   EaCProjectAsCode,
 } from '@semanticjs/common';
 import { Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
-import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
+import { EaCService, SaveDFSModifierEventRequest } from '../../services/eac.service';
+import { ApplicationsFlowService } from '../../services/applications-flow.service';
 
 @Component({
-  selector: 'lcu-dfs-modifiers',
-  templateUrl: './dfs-modifiers.component.html',
-  styleUrls: ['./dfs-modifiers.component.scss'],
+  selector: 'lcu-dfs-modifiers-form',
+  templateUrl: './dfs-modifiers-form.component.html',
+  styleUrls: ['./dfs-modifiers-form.component.scss'],
 })
-export class DFSModifiersComponent implements OnInit {
+export class DFSModifiersFormComponent implements OnInit {
   //  Fields
 
   //  Properties
@@ -36,6 +34,9 @@ export class DFSModifiersComponent implements OnInit {
     Project: EaCProjectAsCode;
     ProjectLookup: string;
   };
+
+  @Input('editing-modifier-lookup')
+  public EditingModifierLookup: string;
 
   public get DetailsFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.details;
@@ -53,7 +54,7 @@ export class DFSModifiersComponent implements OnInit {
     return mdfr;
   }
 
-  public EditingModifierLookup: string;
+  // public EditingModifierLookup: string;
 
   public get EnabledFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.enabled;
@@ -111,13 +112,17 @@ export class DFSModifiersComponent implements OnInit {
     protected appsFlowSvc: ApplicationsFlowService,
     protected eacSvc: EaCService
   ) {
-    this.EditingModifierLookup = null;
+    // this.EditingModifierLookup = null;
   }
 
   //  Life Cycle
   public ngOnInit(): void {
+    console.log("mod lookups: ", this.ModifierLookups)
     if (this.ModifierLookups?.length <= 0) {
       this.CreateNewModifier();
+    }
+    else{
+      this.setupModifierForm();
     }
   }
 

@@ -41,7 +41,7 @@ import { CardCarouselComponent } from './elements/card-carousel/card-carousel.co
 import { SecurityToggleComponent } from './controls/security-toggle/security-toggle.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EaCService } from './services/eac.service';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
 import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
 import { BuildPipelineFormComponent } from './controls/build-pipeline-form/build-pipeline-form.component';
@@ -62,6 +62,8 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
 import { FeedHeaderComponent } from './elements/feed-header/feed-header.component';
 import { FeedHeaderDialogComponent } from './dialogs/feed-header-dialog/feed-header-dialog.component';
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import { DFSModifiersDialogComponent } from './dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component';
+import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-modifiers-form.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,11 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
+<<<<<<< HEAD
+=======
+    DFSModifiersFormComponent,
+    FlowToolComponent,
+>>>>>>> feature/lets-get-social-ish
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
@@ -104,6 +111,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
     BreadcrumbComponent,
+    DFSModifiersDialogComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
     NewApplicationDialogComponent,
