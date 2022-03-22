@@ -24,7 +24,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkeletonElementsModule } from 'skeleton-elements/angular';
 import {
   LazyElementModule,
-  LazyElementsComponent,
 } from '@lowcodeunit/lazy-element';
 import { IoTComponent } from './controls/iot/iot.component';
 

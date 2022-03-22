@@ -5,6 +5,7 @@ import {
   SourceControlDialogComponent,
   BuildPipelineDialogComponent,
   ApplicationsFlowService,
+  DFSModifiersDialogComponent
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCDevOpsAction,
@@ -14,8 +15,6 @@ import {
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ThisReceiver } from '@angular/compiler';
-import { DFSModifiersDialogComponent } from 'projects/common/src/lib/dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -166,10 +165,12 @@ export class EnterpriseComponent implements OnInit {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
+        modifiers: this.Modifiers,
+        level: 'enterprise'
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
@@ -186,7 +187,7 @@ export class EnterpriseComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
@@ -202,7 +203,7 @@ export class EnterpriseComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });

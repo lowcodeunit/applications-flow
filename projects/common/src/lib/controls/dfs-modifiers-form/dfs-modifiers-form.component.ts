@@ -18,7 +18,7 @@ import { EaCService, SaveDFSModifierEventRequest } from '../../services/eac.serv
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 
 @Component({
-  selector: 'lcu-dfs-modifiers-form',
+  selector: 'lcu-dfs-modifier-form',
   templateUrl: './dfs-modifiers-form.component.html',
   styleUrls: ['./dfs-modifiers-form.component.scss'],
 })
@@ -28,15 +28,28 @@ export class DFSModifiersFormComponent implements OnInit {
   //  Properties
   public CurrentType: string;
 
-  @Input('data')
-  public Data: {
-    Modifiers: { [lookup: string]: EaCDFSModifier };
-    Project: EaCProjectAsCode;
-    ProjectLookup: string;
-  };
+  // @Input('data')
+  // public Data: {
+  //   Modifiers: { [lookup: string]: EaCDFSModifier };
+  //   Project: EaCProjectAsCode;
+  //   ProjectLookup: string;
+  // };
 
   @Input('editing-modifier-lookup')
   public EditingModifierLookup: string;
+
+  @Input('modifiers')
+  public Modifiers:  { [lookup: string]: EaCDFSModifier };
+
+  @Input('project')
+  public Project: EaCProjectAsCode;
+
+  @Input('project-lookup')
+  public ProjectLookup: string;
+
+  /**which level is the dfs modifier being edited ent project or app */
+  @Input('level')
+  public Level: string;
 
   public get DetailsFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.details;
@@ -70,9 +83,9 @@ export class DFSModifiersFormComponent implements OnInit {
     return Object.keys(this.Modifiers || {});
   }
 
-  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-    return this.Data.Modifiers || {};
-  }
+  // public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+  //   return this.Data.Modifiers || {};
+  // }
 
   public get NameFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.name;
@@ -86,9 +99,9 @@ export class DFSModifiersFormComponent implements OnInit {
     return this.ModifierFormGroup?.controls.priority;
   }
 
-  public get Project(): EaCProjectAsCode {
-    return this.Data.Project || {};
-  }
+  // public get Project(): EaCProjectAsCode {
+  //   return this.Data.Project || {};
+  // }
 
   public get ScriptFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.script;
@@ -117,7 +130,9 @@ export class DFSModifiersFormComponent implements OnInit {
 
   //  Life Cycle
   public ngOnInit(): void {
-    console.log("mod lookups: ", this.ModifierLookups)
+
+    console.log("mod lookups: ", this.ModifierLookups);
+
     if (this.ModifierLookups?.length <= 0) {
       this.CreateNewModifier();
     }
@@ -189,7 +204,7 @@ export class DFSModifiersFormComponent implements OnInit {
   ): void {
     this.SetEditingModifier(modifierLookup);
 
-    this.SaveModifier(this.Data.ProjectLookup);
+    this.SaveModifier(this.ProjectLookup);
   }
 
   public TypeChanged(event: MatSelectChange): void {
@@ -206,10 +221,10 @@ export class DFSModifiersFormComponent implements OnInit {
       this.ModifierFormGroup = this.formBldr.group({
         name: [this.EditingModifier?.Name, Validators.required],
         type: [this.CurrentType, Validators.required],
-        priority: [this.EditingModifier?.Priority, Validators.required],
+        priority: [this.EditingModifier?.Priority ? this.EditingModifier?.Priority : 9000, Validators.required],
         enabled: [this.EditingModifier?.Enabled, []],
         pathFilter: [
-          this.EditingModifier?.PathFilterRegex,
+          this.EditingModifier?.PathFilterRegex ? this.EditingModifier?.PathFilterRegex : "*index.html" ,
           Validators.required,
         ],
       });
@@ -234,7 +249,7 @@ export class DFSModifiersFormComponent implements OnInit {
       case 'LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
         this.ModifierFormGroup.addControl(
           'stateDataToken',
-          this.formBldr.control(details?.StateDataToken || '', [
+          this.formBldr.control(details?.StateDataToken || 'lcu-state-config', [
             Validators.required,
           ])
         );
@@ -258,4 +273,11 @@ export class DFSModifiersFormComponent implements OnInit {
         break;
     }
   }
+
+  
+  
+
+  
+
+
 }
