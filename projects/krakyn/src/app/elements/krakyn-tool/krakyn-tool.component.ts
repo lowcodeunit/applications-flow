@@ -7,7 +7,7 @@ import {
   // ApplicationsFlowService,
   ProjectService,
 } from '@lowcodeunit/applications-flow-common';
-import { ConstantUtils, DragDropUtils, DragItemsTemplates, VariablesUtils } from '@semanticjs/krakyn';
+import { ConstantUtils, DragDropUtils, SideMenuItemTemplates, VariablesUtils } from '@semanticjs/krakyn';
 import { EaCNapkinIDEFlowImporter } from '@semanticjs/napkin-ide';
 
 @Component({
@@ -19,7 +19,6 @@ export class KrakynToolComponent implements OnInit {
 
   public State: ApplicationsFlowState;
 
-  // Array<{Module: string, Data: Array<any>}>
   public KrakynData: any;
   public SideMenuItems: any;
   public Title: string;
@@ -30,18 +29,7 @@ export class KrakynToolComponent implements OnInit {
     protected projectService: ProjectService
   ) {
 
-    // super(injector);
-
     this.State = new ApplicationsFlowState();
-
-    // VariablesUtils.DataFlowModuleData =
-    // [
-    //   ConstantUtils.NAPKIN_IDE_MODULE_DATA,
-    //   ConstantUtils.HOME_MODULE_DATA
-    // ];
-
-    // this.Data = VariablesUtils.DataFlowModuleData[0];
-    // console.log('Krakyn Tool Test Data: ', this.Data.Data);
    }
 
    // Lifecycle hooks
@@ -49,7 +37,7 @@ export class KrakynToolComponent implements OnInit {
 
     this.Title = 'The Krakyn Tool';
 
-    this.SideMenuItems = DragItemsTemplates.FLOW_DRAG_ITEMS(DragDropUtils.Drag);
+    this.SideMenuItems = SideMenuItemTemplates.FLOW_DRAG_ITEMS(DragDropUtils.SideMenuDragEvent);
 
     this.TabMenuItems = [
       { Label: 'External Data Test', Target: 'ExternalData', Class: 'selected' },
