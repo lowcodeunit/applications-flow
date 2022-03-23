@@ -125,13 +125,7 @@ export class EnterpriseComponent implements OnInit {
     // console.log("FEED on init: ", this.Feed)
   }
 
-  public DeleteDevOpsAction(doaLookup: string, doaName: string): void {
-    if (
-      confirm(`Are you sure you want to delete build pipeline '${doaName}'?`)
-    ) {
-      this.eacSvc.DeleteDevOpsAction(doaLookup);
-    }
-  }
+  
 
   public DeleteModifier(mdfrLookup: string, mdfrName: string): void {
     if (
@@ -141,19 +135,9 @@ export class EnterpriseComponent implements OnInit {
     }
   }
 
-  public DeleteProject(projectLookup: string, projectName: string): void {
-    if (confirm(`Are you sure you want to delete project '${projectName}'?`)) {
-      this.eacSvc.DeleteProject(projectLookup);
-    }
-  }
+  
 
-  public DeleteSourceControl(scLookup: string): void {
-    if (
-      confirm(`Are you sure you want to delete source control '${scLookup}'?`)
-    ) {
-      this.eacSvc.DeleteSourceControl(scLookup);
-    }
-  }
+  
 
   public HandleLeftClickEvent(event: any) {}
   public HandleRightClickEvent(event: any) {}
@@ -176,11 +160,12 @@ export class EnterpriseComponent implements OnInit {
     });
   }
 
-  public OpenBuildPipelineDialog(doaLookup: string) {
+  public OpenBuildPipelineDialog(doaLookup: string, doaName: string = '') {
     const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {
       width: '600px',
       data: {
         devopsActionLookup: doaLookup,
+        doaName: doaName,
         environment: this.Environment,
         environmentLookup: this.ActiveEnvironmentLookup,
         // buildPipeline: doaLookup

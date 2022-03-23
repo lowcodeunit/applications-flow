@@ -11,8 +11,10 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 export interface BPDialogData {
   devopsActionLookup: string;
+  doaName: string;
   environment: EaCEnvironmentAsCode;
   environmentLookup: string;
+
   // buildPipeline: string;
 }
 
@@ -51,6 +53,15 @@ constructor( public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
 
   public CloseDialog(){
     this.dialogRef.close();
+  }
+
+  public DeleteDevOpsAction(): void {
+    if (
+      confirm(`Are you sure you want to delete build pipeline '${this.data.doaName}'?`)
+    ) {
+      this.eacSvc.DeleteDevOpsAction(this.data.devopsActionLookup);
+      this.CloseDialog();
+    }
   }
 
   public HandleResponseEvent(event: Status){

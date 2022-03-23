@@ -97,7 +97,7 @@
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">apps</mat-icon> -->
                 <a
-                class="slot-action-anchor"
+                class="slot-header-anchor"
                 [routerLink]="[
                   '/applications',
                   appLookup,
@@ -128,15 +128,7 @@
               fxLayoutAlign="space-around center"
             >
 
-              <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="DeleteApplication(appLookup, app.Application.Name)"
-                  >
-                    <mat-icon matTooltip="Delete {{ app.Application.Name }}">
-                      delete_forever
-                    </mat-icon>
-              </button>
+              
               <!-- <a
                 class="slot-action-anchor"
                 [routerLink]="[

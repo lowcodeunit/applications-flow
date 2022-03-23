@@ -88,7 +88,7 @@
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                 <a
-                  class="slot-action-anchor"
+                  class="slot-header-anchor"
                   [routerLink]="['/projects', projectLookup]"
                 >
                   <div *ngIf="project.Project.Name" class="slot-name">
@@ -107,15 +107,7 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="DeleteProject(projectLookup, project.Project.Name)"
-              >
-                <mat-icon matTooltip="Delete {{ project.Project.Name }}">
-                  delete_forever
-                </mat-icon>
-              </button>
+              
               <!-- <a
                 class="slot-action-anchor"
                 [routerLink]="['/projects', projectLookup]"
@@ -230,15 +222,7 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="DeleteSourceControl(sc.Lookup)"
-              >
-                <mat-icon matTooltip="Delete {{ sc.Lookup }}">
-                  delete_forever
-                </mat-icon>
-              </button>
+              
               <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenSourceControlDialog(sc.Lookup)"
@@ -315,7 +299,7 @@
               <div
                 class="slot-header"
                 fxLayout="row"
-                (click)="OpenBuildPipelineDialog(doaLookup)"
+                (click)="OpenBuildPipelineDialog(doaLookup, doa?.Name)"
               >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
@@ -338,15 +322,7 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              <button
-                mat-icon-button
-                color="warn"
-                (click)="DeleteDevOpsAction(doaLookup, doa?.Name)"
-              >
-                <mat-icon matTooltip="Delete {{ doa?.Name }}">
-                  delete_forever
-                </mat-icon>
-              </button>
+              
               <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
