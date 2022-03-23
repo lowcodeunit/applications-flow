@@ -108,12 +108,12 @@
               fxLayoutAlign="space-around center"
             >
               
-              <!-- <a
+              <a
                 class="slot-action-anchor"
                 [routerLink]="['/projects', projectLookup]"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ project.Project.Name }}">edit</mat-icon>
-              </a> -->
+              </a>
               <a
                 class="slot-action-anchor"
                 [href]="'https://' + project?.Hosts[project?.Hosts?.length - 1]"
@@ -223,12 +223,12 @@
               fxLayoutAlign="space-around center"
             >
               
-              <!-- <a
+              <a
                 class="slot-action-anchor"
                 (click)="OpenSourceControlDialog(sc.Lookup)"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}">edit</mat-icon>
-              </a> -->
+              </a>
               <a
                 class="slot-action-anchor"
                 [href]="
@@ -323,12 +323,12 @@
               fxLayoutAlign="space-around center"
             >
               
-              <!-- <a
+              <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
-              </a> -->
+              </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a> -->
@@ -361,8 +361,8 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
     <lcu-slotted-card
-      title="Request Modifiers"
-      icon="plumbing"
+      title="Modifiers"
+      icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
       (main-action-clicked)="OpenModifierDialog(null)"
     >
@@ -416,12 +416,12 @@
                   delete_forever
                 </mat-icon>
               </button>
-              <!-- <a
+              <a
                 class="slot-action-anchor"
-                (click)="OpenBuildPipelineDialog(doaLookup)"
+                (click)="OpenModifierDialog(mdfrLookup)"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
-              </a> -->
+                <mat-icon class="action-icon" matTooltip="Edit {{ mdfr?.Name }}">edit</mat-icon>
+              </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a> -->

@@ -111,12 +111,12 @@
                 fxLayout="row"
                 fxLayoutAlign="space-between center"
               >
-                <!-- <a
+                <a
                   class="slot-action-anchor"
                   [routerLink]="['/routes', appRoute, ProjectLookup]"
                 >
                   <mat-icon class="action-icon">edit</mat-icon>
-                </a> -->
+                </a>
                 <a
                   class="slot-action-anchor"
                   [href]="
@@ -195,8 +195,8 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
       <lcu-slotted-card
-      title="Request Modifiers"
-      icon="plumbing"
+      title="Modifiers"
+      icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
       (main-action-clicked)="OpenModifierDialog(null)"
     >
