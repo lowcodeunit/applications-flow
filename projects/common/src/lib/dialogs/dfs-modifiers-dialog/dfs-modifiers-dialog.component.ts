@@ -11,10 +11,11 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 
 export interface DFSModifiersDialogData {
-  modifierLookup: string;
+  applicationLookup?: string,
+  modifierLookup?: string;
   modifiers:  { [lookup: string]: EaCDFSModifier };
   level: string;
-  projectLookup: string;
+  projectLookup?: string;
 }
 
 @Component({
@@ -46,6 +47,10 @@ export class DFSModifiersDialogComponent implements OnInit {
 
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
+  }
+
+  public get ProjectLookups(): string[] {
+    return Object.keys(this.State?.EaC?.Projects || {});
   }
 
   public get DFSModifersFormGroup(): FormGroup{
@@ -95,9 +100,11 @@ export class DFSModifiersDialogComponent implements OnInit {
       case "enterprise":{
         if(this.ModifierDialogForm.controls.applyToAllProjects.value){
           //save modifier add it to the ModifierLookups of all projects
+          this.DFSModifersFormControls.SaveModifierForAllProjects(this.ProjectLookups)
         }
         else{
           //save modifier
+          this.DFSModifersFormControls.SaveModifier();
         }
       }
       case "project": {
@@ -107,6 +114,8 @@ export class DFSModifiersDialogComponent implements OnInit {
 
       case "application": {
         //apply modifier to application
+        this.DFSModifersFormControls.SaveModifierForApplication(this.data.applicationLookup)
+
       }
     }
     this.DFSModifersFormControls.SaveModifier();

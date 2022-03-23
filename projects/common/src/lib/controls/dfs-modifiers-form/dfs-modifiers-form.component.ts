@@ -14,7 +14,7 @@ import {
 } from '@semanticjs/common';
 import { Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
-import { EaCService, SaveDFSModifierEventRequest } from '../../services/eac.service';
+import { EaCService, SaveDFSModifierEventRequest, SaveDFSModifierForAllEventRequest, SaveDFSModifierForApplicationEventRequest } from '../../services/eac.service';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 
 @Component({
@@ -154,6 +154,48 @@ export class DFSModifiersFormComponent implements OnInit {
     }
   }
 
+  public SaveModifierForAllProjects(projectLookups: Array<string>){
+    const saveMdfrReq: SaveDFSModifierForAllEventRequest = {
+      Modifier: {
+        ...this.EditingModifier,
+        Name: this.NameFormControl.value,
+        Enabled: this.EnabledFormControl.value,
+        PathFilterRegex: this.PathFilterFormControl.value,
+        Priority: this.PriorityFormControl.value,
+        Type: this.CurrentType,
+      },
+      ModifierLookup: this.EditingModifierLookup,
+      ProjectLookups: projectLookups,
+    };
+
+    let details = this.getDetails();
+
+    saveMdfrReq.Modifier.Details = JSON.stringify(details);
+
+    this.eacSvc.SaveDFSModifierForAllProjects(saveMdfrReq);
+  }
+
+  public SaveModifierForApplication(applicationLookup: string): void{
+    const saveMdfrReq: SaveDFSModifierForApplicationEventRequest = {
+      Modifier: {
+        ...this.EditingModifier,
+        Name: this.NameFormControl.value,
+        Enabled: this.EnabledFormControl.value,
+        PathFilterRegex: this.PathFilterFormControl.value,
+        Priority: this.PriorityFormControl.value,
+        Type: this.CurrentType,
+      },
+      ModifierLookup: this.EditingModifierLookup,
+      ApplicationLookup: applicationLookup,
+    };
+
+    let details = this.getDetails();
+
+    saveMdfrReq.Modifier.Details = JSON.stringify(details);
+
+    this.eacSvc.SaveDFSModifier(saveMdfrReq);
+  }
+
   public SaveModifier(projectLookup: string = null): void {
     const saveMdfrReq: SaveDFSModifierEventRequest = {
       Modifier: {
@@ -168,24 +210,7 @@ export class DFSModifiersFormComponent implements OnInit {
       ProjectLookup: projectLookup,
     };
 
-    const details = {};
-
-    switch (this.CurrentType) {
-      case 'LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
-        break;
-
-      case 'LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
-        details['StateDataToken'] = this.StateDataTokenFormControl.value;
-        break;
-
-      case 'LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
-        details['Location'] = this.LocationFormControl.value;
-
-        details['Script'] = this.ScriptFormControl.value;
-
-        details['ScriptID'] = this.ScriptIDFormControl.value;
-        break;
-    }
+    let details = this.getDetails();
 
     saveMdfrReq.Modifier.Details = JSON.stringify(details);
 
@@ -214,6 +239,29 @@ export class DFSModifiersFormComponent implements OnInit {
   }
 
   //  Helpers
+
+  protected getDetails(): any{
+    const details = {};
+
+    switch (this.CurrentType) {
+      case 'LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
+        break;
+
+      case 'LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
+        details['StateDataToken'] = this.StateDataTokenFormControl.value;
+        break;
+
+      case 'LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
+        details['Location'] = this.LocationFormControl.value;
+
+        details['Script'] = this.ScriptFormControl.value;
+
+        details['ScriptID'] = this.ScriptIDFormControl.value;
+        break;
+    }
+    return details;
+  }
+
   protected setupModifierForm(): void {
     if (this.EditingModifier != null) {
       this.CurrentType = this.EditingModifier?.Type;
