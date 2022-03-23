@@ -63,7 +63,7 @@
 		"@lowcodeunit/lcu-icons-common": "1.2.77-angular-13",
 		"@lowcodeunit/lcu-theme-builder-common": "1.5.106-angular-13",
 		"@semanticjs/common": "^0.50.0",
-		"@semanticjs/krakyn": "0.62.2-change-side-menu-stuff",
+		"@semanticjs/krakyn": "0.63.3-change-side-menu-stuff",
 		"@semanticjs/napkin-ide": "0.12.24-node-id-bug",
 		"@webcomponents/custom-elements": "^1.4.3",
 		"@webcomponents/webcomponentsjs": "^2.5.0",
