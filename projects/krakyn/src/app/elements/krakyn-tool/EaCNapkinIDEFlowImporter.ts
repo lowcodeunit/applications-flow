@@ -49,14 +49,20 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
     flow.Edges = [];
 
+    let routePartsCount = 0;
+
+    let verticalSpacing = 150;
+
     //  Process for project nodes
-    projLookups.forEach((projLookup: any, index: number) => {
+    projLookups.forEach((projLookup: any, projectIndex: number) => {
       const project = eac.Projects![projLookup];
 
       //  Setup Project Node
       const projectNode = new NapkinIDENode();
       projectNode.Type = 'project';
       projectNode.ID = `${projectNode.Type}-${projLookup}`;
+      projectNode.PositionX = projectIndex * 200;
+      projectNode.PositionY = verticalSpacing;
       projectNode.Data = {
         Lookup: projLookup,
         Name: project.Project?.Name,
@@ -73,10 +79,10 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
       });
 
       //  Setup Route Filters
-      let appRoutePartMap: { [appLookup: string]: string[] };
+      let maxRouteParts = 0;
 
-      appRoutePartMap = project.ApplicationLookups?.reduce(
-        (map, appLookup, i) => {
+      let appRoutePartMap: { [appLookup: string]: string[] } =
+        project.ApplicationLookups?.reduce((map, appLookup, i) => {
           const app = eac.Applications![appLookup];
 
           map[appLookup] = app
@@ -106,16 +112,114 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
             routePartType = 'user-agent';
           }
 
-          return map;
-        },
-        {}
-      );
+          if (map[appLookup].length > maxRouteParts) {
+            maxRouteParts = map[appLookup].length;
+          }
 
-      //  Process for application nodes
+          return map;
+        }, {});
+
+      var routePartsIteration = 0;
+
+      maxRouteParts++;
+
+      let lastRoutePartNodeIdMap: { [appLookup: string]: string } =
+        project.ApplicationLookups?.reduce((map, appLookup, i) => {
+          map[appLookup] = projectNode.ID;
+
+          return map;
+        }, {});
+
+      do {
+        let lastRouteNodeBank: {
+          [lastRoutePartNodeId: string]: { [routePart: string]: NapkinIDENode };
+        } = {};
+
+        project.ApplicationLookups?.forEach((appLookup) => {
+          const app = eac.Applications![appLookup];
+
+          let lastRoutePartNodeId = lastRoutePartNodeIdMap[appLookup];
+
+          let routeNodeBank = lastRouteNodeBank[lastRoutePartNodeId] || {};
+
+          const routeParts = appRoutePartMap[appLookup];
+
+          const currentRoutePart =
+            routeParts.length > routePartsIteration
+              ? routeParts[routePartsIteration]
+              : null;
+
+          if (currentRoutePart != null) {
+            //  Process route part connection to previous node
+            const routePartType = `route-filter`;
+            const routePartNodeId = `${routePartType}-${routePartsCount}`;
+
+            let routePartNode = routeNodeBank[currentRoutePart] || null;
+            // debugger;
+
+            if (routePartNode == null) {
+              routePartNode = new NapkinIDENode();
+              routePartNode.Type = routePartType;
+              routePartNode.ID = routePartNodeId;
+              routePartNode.PositionY = verticalSpacing * 2;
+              routePartNode.Data = {
+                Route: currentRoutePart,
+                Type: routePartType,
+              };
+
+              flow.Nodes?.push(routePartNode);
+
+              routeNodeBank[currentRoutePart] = routePartNode;
+            }
+
+            //  Add last route part => new route part Edge
+            flow.Edges?.push({
+              ID: `sys-edge-${++sysCount}`,
+              NodeInID: lastRoutePartNodeId,
+              NodeOutID: routePartNode.ID,
+            });
+
+            lastRoutePartNodeIdMap[appLookup] = routePartNode.ID;
+
+            routePartsCount++;
+          } else {
+            // Process application connection to previous node
+            var appNodeType = 'application';
+
+            var id = `${appNodeType}-${appLookup}`;
+
+            var existingApp = this.loadExistingNode(flow, id);
+
+            if (existingApp == null) {
+              //  Setup Application Nodes
+              const appNode = new NapkinIDENode();
+              appNode.Type = appNodeType;
+              appNode.ID = id;
+              appNode.PositionY = verticalSpacing * 3;
+              appNode.Data = {
+                Name: app.Application?.Name,
+                Details: app.Application,
+                Processor: app.Processor,
+              };
+
+              flow.Nodes?.push(appNode);
+
+              //  Add last route part => Application Edge
+              flow.Edges?.push({
+                ID: `sys-edge-${++sysCount}`,
+                NodeInID: lastRoutePartNodeId,
+                NodeOutID: appNode.ID,
+              });
+            }
+          }
+        });
+
+        routePartsIteration++;
+      } while (maxRouteParts > routePartsIteration);
+
+      //  Process for application security nodes
       project.ApplicationLookups?.forEach((appLookup) => {
         const app = eac.Applications![appLookup];
-
-        const routeParts = appRoutePartMap[appLookup];
 
         //  Setup AppLookupConfig Nodes
         //  Setup Security Filters
@@ -125,60 +229,6 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         // app.LookupConfig.IsTriggerSignIn;
         // app.LookupConfig.LicensesAllAny;
         // app.LicenseConfigurationLookups;
-
-        let pathPartsCount = 0;
-
-        let lastRoutePartNodeId = projectNode.ID;
-
-        //  Setup Route Filters
-        routeParts?.forEach((routePart) => {
-          const routePartType = `route-filter`;
-          const routePartNodeId = `${routePartType}-${pathPartsCount}`;
-
-          let routePartNode = this.loadExistingNode(flow, routePartNodeId);
-
-          if (routePartNode == null) {
-            routePartNode = new NapkinIDENode();
-            routePartNode.Type = routePartType;
-            routePartNode.ID = routePartNodeId;
-            routePartNode.Data = {
-              Route: routePart,
-              Type: routePartType,
-            };
-          }
-
-          flow.Nodes?.push(routePartNode);
-
-          //  Add last route part => new route part Edge
-          flow.Edges?.push({
-            ID: `sys-edge-${++sysCount}`,
-            NodeInID: lastRoutePartNodeId,
-            NodeOutID: routePartNode.ID,
-          });
-
-          lastRoutePartNodeId = routePartNode.ID;
-
-          pathPartsCount++;
-        });
-
-        //  Setup Application Nodes
-        const appNode = new NapkinIDENode();
-        appNode.Type = 'application';
-        appNode.ID = `${appNode.Type}-${appLookup}`;
-        appNode.Data = {
-          Name: app.Application?.Name,
-          Details: app.Application,
-          Processor: app.Processor,
-        };
-
-        flow.Nodes?.push(appNode);
-
-        //  Add last route part => Application Edge
-        flow.Edges?.push({
-          ID: `sys-edge-${++sysCount}`,
-          NodeInID: lastRoutePartNodeId,
-          NodeOutID: appNode.ID,
-        });
       });
     });
 
