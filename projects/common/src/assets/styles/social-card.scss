@@ -1,76 +1,70 @@
-@import '../common';
+// @import '../common';
 
 :host ::ng-deep {
-    .social-card{
+  .social-card {
     // background-color: white;
-    margin:20px;
+    margin: 20px;
     padding: 15px 5px;
-}
+  }
 
-mat-card-actions{
+  mat-card-actions {
     margin-bottom: -1px !important;
     margin-left: 0px !important;
     margin-right: -0.5px !important;
-}
+  }
 
-.main-slot-container{
-    padding:10px;
-}
+  .main-slot-container {
+    padding: 10px;
+  }
 
-
-.slot-header{
+  .slot-header {
     align-items: center;
     cursor: pointer;
-    &:hover{
-        color: var(--initial-primary);
-
+    &:hover {
+      color: var(--initial-primary);
     }
-}
+  }
 
-.slot-content{
+  .slot-content {
     width: 100%;
-}
+  }
 
-.slot-name{
+  .slot-name {
     font-size: 13px;
     font-weight: 600;
     // padding-left:5px;
-}
+  }
 
-.slot-header-anchor{
+  .slot-header-anchor {
     font-size: 10px;
     text-decoration: none;
     color: black;
     min-width: 100px;
-    
-    &:hover{
-        color: var(--initial-primary);
-    }
-}
 
-.slot-description{
+    &:hover {
+      color: var(--initial-primary);
+    }
+  }
+
+  .slot-description {
     font-size: 12px;
     margin-right: 10px;
-}
+  }
 
-.slot-action-anchor{
+  .slot-action-anchor {
     font-size: 10px;
     text-decoration: none;
     color: black;
-    
-    &:hover{
-        color: var(--initial-primary);
+
+    &:hover {
+      color: var(--initial-primary);
     }
-}
+  }
 
-
-
-.action-icon{
+  .action-icon {
     height: 24px;
     width: 24px;
     font-size: 24px;
     cursor: pointer;
+  }
 }
-}
-
-
