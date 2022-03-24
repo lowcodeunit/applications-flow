@@ -30,9 +30,9 @@
         color="warn"
         mat-button
         class="info-card-btn"
-        (click)="DeleteApplication(ApplicationLookup, Application.Name)"
+        (click)="DeleteApplication(ApplicationLookup, Application?.Application?.Name)"
       >
-        <mat-icon  matTooltip="Delete {{ Application.Name }}">
+        <mat-icon  matTooltip="Delete {{ Application?.Application?.Name }}">
           delete_forever
         </mat-icon>
           Delete Application

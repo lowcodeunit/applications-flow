@@ -1,6 +1,10 @@
 import { FormsService } from './services/forms.service';
 import { ProjectService } from './services/project.service';
-import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  NgModule,
+  ModuleWithProviders,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
@@ -30,7 +34,6 @@ import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
-import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
@@ -90,7 +93,6 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     DFSModifiersComponent,
     NpmPackageSelectComponent,
     DFSModifiersFormComponent,
-    FlowToolComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
@@ -117,7 +119,7 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     SkeletonFeedCardComponent,
     UpgradeDialogComponent,
     EmulatedDevicesToggleComponent,
-    FeedHeaderDialogComponent
+    FeedHeaderDialogComponent,
   ],
   imports: [
     AngularEditorModule,
@@ -130,7 +132,7 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     AppHostModule,
     MatTooltipModule,
     MatSlideToggleModule,
-    SkeletonElementsModule
+    SkeletonElementsModule,
 
     // LazyElementModule,
   ],
@@ -156,7 +158,6 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-    FlowToolComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
@@ -229,11 +230,11 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     BreadcrumbComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
-    EmulatedDevicesToggleComponent
+    EmulatedDevicesToggleComponent,
   ],
   schemas: [
-    CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
-  ]
+    CUSTOM_ELEMENTS_SCHEMA, // Tells Angular we will have custom tags in our templates
+  ],
 })
 export class ApplicationsFlowModule {
   static forRoot(): ModuleWithProviders<ApplicationsFlowModule> {
@@ -246,7 +247,7 @@ export class ApplicationsFlowModule {
         NPMService,
         FormsService,
         EaCService,
-        IoTEnsembleService
+        IoTEnsembleService,
       ],
     };
   }
