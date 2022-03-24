@@ -63,7 +63,7 @@ export class KrakynToolComponent implements OnInit {
         Target: 'ExternalData',
         Class: 'selected',
       },
-      { Label: 'Original Data', Target: 'OriginalData', Class: '' },
+      // { Label: 'Original Data', Target: 'OriginalData', Class: '' },
       //   { Label: 'Home', Target: 'Home' }
     ];
 
