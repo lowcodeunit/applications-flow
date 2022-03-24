@@ -131,6 +131,10 @@ export class EaCService {
     await this.projectService.EnsureUserEnterprise(this.State);
   }
 
+  public async EnterpriseAsCodeRemovals(eac: EnterpriseAsCode): Promise<Status> {
+    return await this.projectService.EnterpriseAsCodeRemovals(this.State, eac);
+  }
+
   public async GetActiveEnterprise(): Promise<void> {
     await this.projectService.GetActiveEnterprise(this.State);
   }
@@ -138,7 +142,6 @@ export class EaCService {
   public async LoadUserFeed(page: number, pageSize: number): Promise<void> {
     await this.projectService.LoadUserFeed(page, pageSize, this.State);
   }
-
   
   public GenerateRoutedApplications(applications: { [lookup: string]: EaCApplicationAsCode }): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };

@@ -201,6 +201,41 @@ export class ProjectService {
     });
   }
 
+  public async EnterpriseAsCodeRemovals(
+    state: ApplicationsFlowState,
+    eac: EnterpriseAsCode
+  ): Promise<Status> {
+    return new Promise((resolve, reject) => {
+      state.Loading = true;
+
+      this.appsFlowSvc.EnterpriseAsCodeRemovals(eac).subscribe(
+        async (response: BaseModeledResponse<string>) => {
+          if (response.Status.Code === 0) {
+            var results = await Promise.all([
+              this.LoadEnterpriseAsCode(state),
+              this.LoadUserFeed(1, 25, state),
+            ]);
+
+            resolve(response.Status);
+          } else {
+            state.Loading = false;
+
+            reject(response.Status);
+
+            console.log(response);
+          }
+        },
+        (err) => {
+          state.Loading = false;
+
+          reject(err);
+
+          console.log(err);
+        }
+      );
+    });
+  }
+
   public GenerateRoutedApplications(applications: { [lookup: string]: EaCApplicationAsCode }, state: ApplicationsFlowState): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
   } {

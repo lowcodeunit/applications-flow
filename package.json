@@ -31,9 +31,9 @@
 		"start:krakyn": "ng serve krakyn --configuration development",
 		"start:social-host": "ng serve social-host --configuration development",
 		"watch:common": "ng build common --watch",
-		"watch:krakyn": "wait-on dist/common/lcu.api.d.ts && npm run start:krakyn",
+		"watchs:krakyn": "wait-on dist/common/lcu.api.d.ts && npm run start:krakyn",
 		"watchs:demo": "wait-on dist/common/lcu.api.d.ts && npm run start:demo",
-		"watchs:social-host": "wait-on dist/common/lcu.api.d.ts && npm run start:social-host",
+		"watch:social-host": "wait-on dist/common/lcu.api.d.ts && npm run start:social-host",
 		"test": "ng test",
 		"lint": "ng lint",
 		"e2e": "ng e2e"
