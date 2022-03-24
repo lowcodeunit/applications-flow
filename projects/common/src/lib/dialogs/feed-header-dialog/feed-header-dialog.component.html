@@ -145,29 +145,29 @@
             </div>
 
 
-            <div fxLayout="row" fxLayoutAlign="center center">
+            <div fxLayout="row" fxLayoutAlign="center center" *ngIf="BranchOptions?.length > 0">
 
-            <mat-form-field appearance="fill">
-                <mat-label>Base</mat-label>
-                <mat-select formControlName="targetBranch" required
-                >
-                  <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
-                    {{branchOpt.Name}}
-                  </mat-option>
-                </mat-select>
-            </mat-form-field>
-              
-              <mat-icon>arrow_back</mat-icon>
+                <mat-form-field appearance="fill">
+                    <mat-label>Base</mat-label>
+                    <mat-select formControlName="targetBranch" required
+                    >
+                    <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
+                        {{branchOpt.Name}}
+                    </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <mat-icon>arrow_back</mat-icon>
 
-              <mat-form-field appearance="fill">
-                <mat-label>Compare</mat-label>
-                <mat-select formControlName="sourceBranch" required
-                >
-                  <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
-                    {{branchOpt.Name}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Compare</mat-label>
+                    <mat-select formControlName="sourceBranch" required
+                    >
+                    <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
+                        {{branchOpt.Name}}
+                    </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
             <mat-form-field class="mat-full-width">
@@ -209,41 +209,41 @@
                 </mat-form-field>
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div fxLayout="row" fxLayoutAlign="space-around center" >
 
-            <mat-form-field *ngIf="OrganizationOptions?.length > 0">
+                <mat-form-field *ngIf="OrganizationOptions?.length > 0">
 
-            <mat-select 
-              formControlName="organization" 
-              placeholder="Organization"
-              (selectionChange)="OrganizationChanged($event)" 
-              required
-            >
-              <ng-container *ngFor="let orgOpt of OrganizationOptions">
-                <mat-option [value]="orgOpt.Name">
-                  {{ orgOpt.Name }}
-                </mat-option>
-              </ng-container>
-            </mat-select>
+                <mat-select 
+                formControlName="organization" 
+                placeholder="Organization"
+                (selectionChange)="OrganizationChanged($event)" 
+                required
+                >
+                <ng-container *ngFor="let orgOpt of OrganizationOptions">
+                    <mat-option [value]="orgOpt.Name">
+                    {{ orgOpt.Name }}
+                    </mat-option>
+                </ng-container>
+                </mat-select>
 
 
 
-          </mat-form-field>
+            </mat-form-field>
 
-          <mat-form-field *ngIf="RepositoryOptions?.length > 0">
+            <mat-form-field *ngIf="RepositoryOptions?.length > 0">
 
-            <mat-select formControlName="repository" 
-                        placeholder="Repository"  
-                        (selectionChange)="RepositoryChanged($event)" 
-                        required
-            >
-              <ng-container *ngFor="let repoOpt of RepositoryOptions">
-                <mat-option [value]="repoOpt.Name">
-                  {{ repoOpt.Name }}
-                </mat-option>
-              </ng-container>
-            </mat-select>  
-          </mat-form-field>
+                <mat-select formControlName="repository" 
+                            placeholder="Repository"  
+                            (selectionChange)="RepositoryChanged($event)" 
+                            required
+                >
+                <ng-container *ngFor="let repoOpt of RepositoryOptions">
+                    <mat-option [value]="repoOpt.Name">
+                    {{ repoOpt.Name }}
+                    </mat-option>
+                </ng-container>
+                </mat-select>  
+            </mat-form-field>
 
         </div>
 
@@ -270,10 +270,6 @@
         </div>
 
         </ng-container>
-
-
-
-
 
     </form>
     
