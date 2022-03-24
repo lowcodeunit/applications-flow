@@ -251,17 +251,7 @@ export class FeedHeaderDialogComponent implements OnInit {
           this.SourceControl?.Repository
         )
         .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
-          this.BranchOptions = response.Model;
-
-          // this.Loading = false;
-
-          // if (this.EditingSourceControl?.Branches?.length > 0) {
-          //   this.SelectedBranches = this.EditingSourceControl.Branches;
-          // } else if (this.BranchOptions?.length === 1) {
-          //   this.BranchesFormControl.setValue(this.BranchOptions[0].Name);
-
-          //   this.SelectedBranches = [this.BranchOptions[0].Name];
-          // }
+          this.BranchOptions = response.Model;          
 
         });
     
