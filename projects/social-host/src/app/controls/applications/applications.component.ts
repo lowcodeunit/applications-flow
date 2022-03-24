@@ -21,6 +21,7 @@ import {
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lcu-applications',
@@ -229,7 +230,8 @@ export class ApplicationsComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    protected router: Router
   ) {
     this.Stats = [
       { Name: 'Retention Rate', Stat: '85%' },
@@ -258,6 +260,16 @@ export class ApplicationsComponent implements OnInit {
   }
 
   //  API Methods
+
+  public DeleteApplication(appLookup: string, appName: string): void {
+
+    if (confirm(`Are you sure you want to permanently delete ${appName}?`)) {
+      this.eacSvc.DeleteApplication(appLookup, appName);    
+      this.router.navigate(['/routes', { appRoute: this.CurrentApplicationRoute, projectLookup: this.ProjectLookup }]);
+    }
+
+    
+  }
 
   public HandleLeftClickEvent(event: any) {
     this.OpenEditAppModal();

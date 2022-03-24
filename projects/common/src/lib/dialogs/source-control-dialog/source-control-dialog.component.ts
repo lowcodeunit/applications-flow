@@ -53,6 +53,15 @@ export class SourceControlDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  public DeleteSourceControl(scLookup: string): void {
+    if (
+      confirm(`Are you sure you want to delete source control '${scLookup}'?`)
+    ) {
+      this.eacSvc.DeleteSourceControl(scLookup);
+      this.CloseDialog();
+    }
+  }
+
   public HandleSaveStatusEvent(event: Status){
     console.log("event to save: ", event);
     if (event.Code === 0){

@@ -25,6 +25,18 @@
       <!-- <lcu-card-carousel
                         [stats]="Stats">
                     </lcu-card-carousel> -->
+      <button
+        action
+        color="warn"
+        mat-button
+        class="info-card-btn"
+        (click)="DeleteApplication(ApplicationLookup, Application.Name)"
+      >
+        <mat-icon  matTooltip="Delete {{ Application.Name }}">
+          delete_forever
+        </mat-icon>
+          Delete Application
+      </button>
 
       <button
         *ngIf="Application?.Processor?.Type === 'DFS'"
@@ -37,6 +49,9 @@
         <mat-icon>outbox</mat-icon>
         Update Package: {{ Version }}
       </button>
+
+      
+
     </lcu-project-info-card>
 
     <!-- Commented out until implemented -->
@@ -119,8 +134,8 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
       <lcu-slotted-card
-      title="Request Modifiers"
-      icon="plumbing"
+      title="Modifiers"
+      icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
       (main-action-clicked)="OpenModifierDialog(null)"
     >
@@ -165,7 +180,7 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              <button
+              <!-- <button
                 mat-icon-button
                 color="warn"
                 (click)="DeletModifier(mdfrLookup, mdfr?.Name)"
@@ -173,7 +188,7 @@
                 <mat-icon matTooltip="Delete {{ mdfr?.Name }}">
                   delete_forever
                 </mat-icon>
-              </button>
+              </button> -->
               <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"

@@ -11,6 +11,7 @@ import {
 import { EaCApplicationAsCode, EaCEnvironmentAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lcu-projects',
@@ -173,7 +174,8 @@ export class ProjectsComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    protected router: Router
   ) {
     this.activatedRoute.params.subscribe((params: any) => {
       this.ProjectLookup = params['projectLookup'];
@@ -216,6 +218,14 @@ export class ProjectsComponent implements OnInit {
       // console.log('The domains dialog was closed');
       // console.log("result:", result)
     });
+  }
+
+  public DeleteProject(projectLookup: string, projectName: string): void {
+    if (confirm(`Are you sure you want to delete project '${projectName}'?`)) {
+      this.eacSvc.DeleteProject(projectLookup);
+      this.router.navigate(['/enterprise']);
+
+    }
   }
 
   public HandleLeftClickEvent(event: any) {

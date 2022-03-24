@@ -127,13 +127,7 @@ export class RoutesComponent implements OnInit {
     this.handleStateChange().then((eac) => {});
   }
 
-  public DeleteApplication(appLookup: string, appName: string): void {
-
-    if (confirm(`Are you sure you want to permanently delete ${appName}?`)) {
-      this.eacSvc.DeleteApplication(appLookup, appName);    
-    }
-    
-  }
+  
 
   public EditRouteClicked() {
     console.log('Edit Route clicked');

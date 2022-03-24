@@ -36,30 +36,44 @@
 <mat-dialog-actions 
         class="actions-container" 
         div fxLayout="row" 
-        fxLayoutAlign="end center"
+        fxLayoutAlign="space-between center"
+        
 >
-        <button 
-                class="action-button"
-                mat-raised-button
-                fxFlex="25%"
-                (click)="CloseDialog()">
-                Cancel
+        <div fxLayoutAlign="start center">
+                <button
+                        mat-raised-button
+                        color="warn"
+                        (click)="DeleteSourceControl(data.scLookup)"
+                        matTooltip="Delete {{ data.scLookup }}"
+                >
+                        Delete
+                </button>
+        </div>
 
-        </button>
+        <div fxLayoutAlign="end center">
+                <button 
+                        class="action-button"
+                        mat-raised-button
+                        fxFlex="43%"
+                        (click)="CloseDialog()">
+                        Cancel
+
+                </button>
 
 
 
-        <button 
-        class="action-button"
-        mat-raised-button 
-        *ngIf="!State?.Loading" 
-        fxFlex="25%" 
-        color="primary" 
-        (click)="SaveSourceControl()"
-        [disabled]="!DevOpsSourceControlFormGroup?.valid || !DevOpsSourceControlFormGroup?.dirty">
-        <!-- <mat-icon>save</mat-icon> -->
-        Save
-      </button>
+                <button 
+                        class="action-button"
+                        mat-raised-button 
+                        *ngIf="!State?.Loading" 
+                        fxFlex="30%" 
+                        color="primary" 
+                        (click)="SaveSourceControl()"
+                        [disabled]="!DevOpsSourceControlFormGroup?.valid || !DevOpsSourceControlFormGroup?.dirty">
+                        <!-- <mat-icon>save</mat-icon> -->
+                        Save
+                </button>
+        </div>
 
 </mat-dialog-actions>
 
