@@ -51,7 +51,11 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
     let routePartsCount = 0;
 
-    let verticalSpacing = 150;
+    let appsCount = 0;
+
+    let horizontalSpacing = 200;
+
+    let verticalSpacing = 200;
 
     //  Process for project nodes
     projLookups.forEach((projLookup: any, projectIndex: number) => {
@@ -61,7 +65,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
       const projectNode = new NapkinIDENode();
       projectNode.Type = 'project';
       projectNode.ID = `${projectNode.Type}-${projLookup}`;
-      projectNode.PositionX = projectIndex * 200;
+      projectNode.PositionX = projectIndex * horizontalSpacing;
       projectNode.PositionY = verticalSpacing;
       projectNode.Data = {
         Lookup: projLookup,
@@ -161,6 +165,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               routePartNode = new NapkinIDENode();
               routePartNode.Type = routePartType;
               routePartNode.ID = routePartNodeId;
+              routePartNode.PositionX = horizontalSpacing * routePartsCount;
               routePartNode.PositionY = verticalSpacing * 2;
               routePartNode.Data = {
                 Route: currentRoutePart,
@@ -195,6 +200,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               const appNode = new NapkinIDENode();
               appNode.Type = appNodeType;
               appNode.ID = id;
+              appNode.PositionX = horizontalSpacing * appsCount;
               appNode.PositionY = verticalSpacing * 3;
               appNode.Data = {
                 Name: app.Application?.Name,
@@ -210,6 +216,8 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                 NodeInID: lastRoutePartNodeId,
                 NodeOutID: appNode.ID,
               });
+
+              appsCount++;
             }
           }
         });
