@@ -75,38 +75,41 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
       //  Setup Route Filters
       let appRoutePartMap: { [appLookup: string]: string[] };
 
-      project.ApplicationLookups?.reduce((map, appLookup, i) => {
-        const app = eac.Applications![appLookup];
+      appRoutePartMap = project.ApplicationLookups?.reduce(
+        (map, appLookup, i) => {
+          const app = eac.Applications![appLookup];
 
-        map[appLookup] = app
-          .LookupConfig!.PathRegex?.split('/')
-          .slice(1)
-          .map((pr) => {
-            return `/${pr}`;
-          });
+          map[appLookup] = app
+            .LookupConfig!.PathRegex?.split('/')
+            .slice(1)
+            .map((pr) => {
+              return `/${pr}`;
+            });
 
-        let routePartType = 'path';
+          let routePartType = 'path';
 
-        if (app.LookupConfig!.QueryRegex) {
-          map[appLookup]?.push(`?${app.LookupConfig!.QueryRegex!}`);
+          if (app.LookupConfig!.QueryRegex) {
+            map[appLookup]?.push(`?${app.LookupConfig!.QueryRegex!}`);
 
-          routePartType = 'query';
-        }
+            routePartType = 'query';
+          }
 
-        if (app.LookupConfig!.HeaderRegex) {
-          map[appLookup]?.push(`[${app.LookupConfig!.HeaderRegex!}]`);
+          if (app.LookupConfig!.HeaderRegex) {
+            map[appLookup]?.push(`[${app.LookupConfig!.HeaderRegex!}]`);
 
-          routePartType = 'header';
-        }
+            routePartType = 'header';
+          }
 
-        if (app.LookupConfig!.UserAgentRegex) {
-          map[appLookup]?.push(`#${app.LookupConfig!.UserAgentRegex!}`);
+          if (app.LookupConfig!.UserAgentRegex) {
+            map[appLookup]?.push(`#${app.LookupConfig!.UserAgentRegex!}`);
 
-          routePartType = 'user-agent';
-        }
+            routePartType = 'user-agent';
+          }
 
-        return map;
-      }, {});
+          return map;
+        },
+        {}
+      );
 
       //  Process for application nodes
       project.ApplicationLookups?.forEach((appLookup) => {
