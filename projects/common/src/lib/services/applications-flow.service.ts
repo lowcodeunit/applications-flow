@@ -95,6 +95,15 @@ export class ApplicationsFlowService {
     );
   }
 
+  public EnterpriseAsCodeRemovals(removals: EnterpriseAsCode): Observable<object> {
+    return this.http.post(
+      `${this.apiRoot}/api/lowcodeunit/manage/eac`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public GetActiveEnterprise(): Observable<object> {
     return this.http.get(
       `${this.apiRoot}/api/lowcodeunit/manage/enterprises/active`,
@@ -202,6 +211,21 @@ export class ApplicationsFlowService {
     );
   }
 
+  public LoadUserFeed(
+    page: number,
+    pageSize: number,
+    project: string,
+    applications: string[]
+  ): Observable<object> {
+    var apps = JSON.stringify(applications || []);
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public SaveEnterpriseAsCode(eac: EnterpriseAsCode): Observable<object> {
     return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/eac`, eac, {
       headers: this.loadHeaders(),
@@ -234,21 +258,6 @@ export class ApplicationsFlowService {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/projects/unpack`,
       req,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
-  public LoadUserFeed(
-    page: number,
-    pageSize: number,
-    project: string,
-    applications: string[]
-  ): Observable<object> {
-    var apps = JSON.stringify(applications || []);
-    return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
       {
         headers: this.loadHeaders(),
       }
