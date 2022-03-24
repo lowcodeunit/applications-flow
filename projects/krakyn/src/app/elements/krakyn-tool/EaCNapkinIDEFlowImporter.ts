@@ -90,7 +90,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
           const app = eac.Applications![appLookup];
 
           map[appLookup] = app
-            .LookupConfig!.PathRegex?.split('/')
+            .LookupConfig!.PathRegex?.replace('.*', '').split('/')
             .slice(1)
             .map((pr) => {
               return `/${pr}`;
