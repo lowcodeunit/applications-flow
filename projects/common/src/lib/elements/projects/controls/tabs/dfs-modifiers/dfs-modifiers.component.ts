@@ -144,8 +144,8 @@ export class DFSModifiersComponent implements OnInit {
         Priority: this.PriorityFormControl.value,
         Type: this.CurrentType,
       },
-      ModifierLookup: this.EditingModifierLookup,
-      ProjectLookup: projectLookup,
+      ModifierLookups: [this.EditingModifierLookup],
+      ProjectLookups: [projectLookup],
     };
 
     const details = {};

@@ -26,29 +26,39 @@ export class SaveApplicationAsCodeEventRequest {
   public ProjectLookup?: string;
 }
 
-export class SaveDFSModifierForApplicationEventRequest {
-  public Modifier: EaCDFSModifier;
+// export class SaveDFSModifierForApplicationEventRequest {
+//   public Modifier: EaCDFSModifier;
 
-  public ModifierLookup: string;
+//   public ModifierLookup: string;
 
-  public ApplicationLookup?: string;
-}
+//   public ApplicationLookup?: string;
+// }
 
 export class SaveDFSModifierEventRequest {
-  public Modifier: EaCDFSModifier;
 
-  public ModifierLookup: string;
+  public ApplicationLookup?: string;
 
-  public ProjectLookup?: string;
-}
+  public Modifier?: EaCDFSModifier;
 
-export class SaveDFSModifierForAllEventRequest {
-  public Modifier: EaCDFSModifier;
+  public ModifierLookups?: Array<string>;
 
-  public ModifierLookup: string;
+  // public ModifierLookup?: string;
+
+  // public ProjectLookup?: string;
 
   public ProjectLookups?: Array<string>;
+
+
+  
 }
+
+// export class SaveDFSModifierForAllEventRequest {
+//   public Modifier: EaCDFSModifier;
+
+//   public ModifierLookup: string;
+
+//   public ProjectLookups?: Array<string>;
+// }
 
 export class SaveEnvironmentAsCodeEventRequest {
   public EnterpriseDataTokens?: { [lookup: string]: EaCDataToken };
@@ -173,11 +183,6 @@ export class EaCService {
     await this.handleSaveDFSModifier(req);
   }
 
-  public async SaveDFSModifierForAllProjects(
-    req: SaveDFSModifierForAllEventRequest
-  ): Promise<void> {
-    await this.handleSaveDFSModifierForAllProjects(req);
-  }
 
   public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<Status> {
     return await this.projectService.SaveEnterpriseAsCode(this.State, eac);
@@ -252,52 +257,6 @@ export class EaCService {
     return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
   }
 
-  protected async handleSaveDFSModifierForApplication(
-    req: SaveDFSModifierForApplicationEventRequest
-  ): Promise<void> {
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Modifiers: {},
-      Applications: {},
-    };
-
-    if (req.Modifier) {
-      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
-    }
-
-    if (req.ApplicationLookup) {
-      saveEaC.Applications[req.ApplicationLookup] = {
-        ModifierLookups: [req.ModifierLookup],
-      };
-    }
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-  }
-
-  protected async handleSaveDFSModifierForAllProjects(
-    req: SaveDFSModifierForAllEventRequest
-  ): Promise<void> {
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Modifiers: {},
-      Projects: {},
-    };
-
-    if (req.Modifier) {
-      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
-    }
-
-    if (req.ProjectLookups) {
-      req.ProjectLookups.forEach(lookup =>{
-        saveEaC.Projects[lookup] = {
-          ModifierLookups: [req.ModifierLookup],
-        };
-      })
-      
-    }
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-  }
 
   protected async handleSaveDFSModifier(
     req: SaveDFSModifierEventRequest
@@ -309,12 +268,21 @@ export class EaCService {
     };
 
     if (req.Modifier) {
-      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
+      saveEaC.Modifiers[req.ModifierLookups[0]] = req.Modifier;
     }
 
-    if (req.ProjectLookup) {
-      saveEaC.Projects[req.ProjectLookup] = {
-        ModifierLookups: [req.ModifierLookup],
+    if (req.ProjectLookups) {
+      req.ProjectLookups.forEach(lookup =>{
+        saveEaC.Projects[lookup] = {
+          ModifierLookups: req.ModifierLookups,
+        };
+      })
+      
+    }
+
+    if (req.ApplicationLookup) {
+      saveEaC.Applications[req.ApplicationLookup] = {
+        ModifierLookups: req.ModifierLookups,
       };
     }
 
@@ -348,7 +316,7 @@ export class EaCService {
   ): Promise<Status> {
     const projHosts: { [lookup: string]: EaCHost } = {};
 
-    project?.Hosts?.forEach((host) => {
+    project?.Hosts?.forEach((host: any) => {
       projHosts[host] = this.State.EaC.Hosts[host];
     });
 

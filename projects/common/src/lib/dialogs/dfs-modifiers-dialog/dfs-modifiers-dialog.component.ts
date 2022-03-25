@@ -13,7 +13,7 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 export interface DFSModifiersDialogData {
   applicationLookup?: string,
   modifierLookup?: string;
-  modifiers:  { [lookup: string]: EaCDFSModifier };
+  // modifiers:  { [lookup: string]: EaCDFSModifier };
   level: string;
   projectLookup?: string;
 }
@@ -29,21 +29,6 @@ export class DFSModifiersDialogComponent implements OnInit {
   @ViewChild(DFSModifiersFormComponent)
   public DFSModifersFormControls: DFSModifiersFormComponent;
 
-  // public get Application(): EaCApplicationAsCode {
-  //   return this.State?.EaC?.Applications[this.data.applicationLookup] || {};
-  // }
-
-  // public get Environment(): EaCEnvironmentAsCode {
-  //   return this.State?.EaC?.Environments[this.data.environmentLookup];
-  // }
-
-  // public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-  //   return this.Environment?.Sources || {};
-  // }
-
-  // public get SourceControlLookups(): Array<string> {
-  //   return Object.keys(this.Environment?.Sources || {});
-  // }
 
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
@@ -57,9 +42,15 @@ export class DFSModifiersDialogComponent implements OnInit {
     return this.DFSModifersFormControls?.ModifierFormGroup;
   }
 
+  public get SelectedModifiersFormGroup(): FormGroup {
+    return this.DFSModifersFormControls?.ModifierSelectFormGroup;
+  }
+
   public ErrorMessage: string;
 
   public ModifierDialogForm: FormGroup;
+
+  public SaveDisabled: boolean;
 
   constructor(protected eacSvc: EaCService, 
     public formbldr: FormBuilder,
@@ -71,8 +62,6 @@ export class DFSModifiersDialogComponent implements OnInit {
      }
 
   public ngOnInit(): void {
-    console.log("MDF lookup at dialog: ", this.data.modifierLookup);
-    console.log("MODS: ", this.data.modifiers);
     this.determineLevel();
   }
 
@@ -93,9 +82,23 @@ export class DFSModifiersDialogComponent implements OnInit {
     }
   }
 
+  public IsDisabled(){
+    this.SaveDisabled=true;
+    if(this.DFSModifersFormGroup){
+
+      this.SaveDisabled = (!this.DFSModifersFormGroup?.valid || !this.ModifierDialogForm?.valid)
+    }
+    
+    else if(this.SelectedModifiersFormGroup){
+      this.SaveDisabled =  (!this.SelectedModifiersFormGroup?.valid || !this.SelectedModifiersFormGroup?.dirty);
+    }
+    return this.SaveDisabled;
+  }
+
   
 
   public SaveDFSModifier(){
+
     switch(this.data.level){
       case "enterprise":{
         if(this.ModifierDialogForm.controls.applyToAllProjects.value){
@@ -108,17 +111,16 @@ export class DFSModifiersDialogComponent implements OnInit {
         }
       }
       case "project": {
-        this.DFSModifersFormControls.SaveModifier(this.data.projectLookup);
+          this.DFSModifersFormControls.SaveModifier(this.data.projectLookup);
 
       }
 
       case "application": {
-        //apply modifier to application
-        this.DFSModifersFormControls.SaveModifierForApplication(this.data.applicationLookup)
+          this.DFSModifersFormControls.SaveModifierForApplication(this.data.applicationLookup);
 
       }
     }
-    this.DFSModifersFormControls.SaveModifier();
+    // this.DFSModifersFormControls.SaveModifier();
 
   }
 

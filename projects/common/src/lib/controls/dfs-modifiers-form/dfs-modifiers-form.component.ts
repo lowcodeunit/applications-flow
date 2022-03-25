@@ -14,8 +14,9 @@ import {
 } from '@semanticjs/common';
 import { Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
-import { EaCService, SaveDFSModifierEventRequest, SaveDFSModifierForAllEventRequest, SaveDFSModifierForApplicationEventRequest } from '../../services/eac.service';
+import { EaCService, SaveDFSModifierEventRequest } from '../../services/eac.service';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-dfs-modifier-form',
@@ -38,8 +39,13 @@ export class DFSModifiersFormComponent implements OnInit {
   @Input('editing-modifier-lookup')
   public EditingModifierLookup: string;
 
-  @Input('modifiers')
-  public Modifiers:  { [lookup: string]: EaCDFSModifier };
+  /**Specific Modifiers for either the project or appliaction */
+
+  // @Input('modifiers')
+  // public Modifiers:  { [lookup: string]: EaCDFSModifier };
+
+  @Input('application-lookup')
+    public ApplicationLookup: string;
 
   @Input('project')
   public Project: EaCProjectAsCode;
@@ -73,19 +79,35 @@ export class DFSModifiersFormComponent implements OnInit {
     return this.ModifierFormGroup?.controls.enabled;
   }
 
+
+  public get EnterprisesModifierLookups(): Array<string> {
+    return Object.keys(this.Modifiers || {});
+  }
+
   public get LocationFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.location;
   }
 
-  public ModifierFormGroup: FormGroup;
-
-  public get ModifierLookups(): Array<string> {
-    return Object.keys(this.Modifiers || {});
+  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    return this.State?.EaC?.Modifiers;
   }
 
-  // public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-  //   return this.Data.Modifiers || {};
-  // }
+
+  public get ModifierLookups(): Array<string> {
+    if(this.ProjectLookup){
+      return this.State?.EaC?.Projects[this.ProjectLookup]?.ModifierLookups;
+    }
+    else if(this.ApplicationLookup){
+      return this.State.EaC?.Applications[this.ApplicationLookup]?.ModifierLookups;
+    }
+    else{
+      return Object.keys(this.Modifiers || {});
+    }
+  }
+
+  public get MultiSelectFormControl(): AbstractControl {
+    return this.ModifierSelectFormGroup?.controls.multiSelect;
+  }
 
   public get NameFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.name;
@@ -115,9 +137,17 @@ export class DFSModifiersFormComponent implements OnInit {
     return this.ModifierFormGroup?.controls.stateDataToken;
   }
 
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
+
   public get TypeFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.type;
   }
+
+  public ModifierFormGroup: FormGroup;
+
+  public ModifierSelectFormGroup: FormGroup;
 
   //  Constructors
   constructor(
@@ -131,14 +161,18 @@ export class DFSModifiersFormComponent implements OnInit {
   //  Life Cycle
   public ngOnInit(): void {
 
-    console.log("mod lookups: ", this.ModifierLookups);
-
-    if (this.ModifierLookups?.length <= 0) {
+    if(this.Level === "enterprise" && !this.EditingModifierLookup){
       this.CreateNewModifier();
     }
-    else{
+    
+    else if(this.EditingModifierLookup){
       this.setupModifierForm();
     }
+
+    else{
+      this.setupModifierSelectForm();
+    }
+    
   }
 
   //  API Methods
@@ -155,48 +189,6 @@ export class DFSModifiersFormComponent implements OnInit {
   }
 
   public SaveModifierForAllProjects(projectLookups: Array<string>){
-    const saveMdfrReq: SaveDFSModifierForAllEventRequest = {
-      Modifier: {
-        ...this.EditingModifier,
-        Name: this.NameFormControl.value,
-        Enabled: this.EnabledFormControl.value,
-        PathFilterRegex: this.PathFilterFormControl.value,
-        Priority: this.PriorityFormControl.value,
-        Type: this.CurrentType,
-      },
-      ModifierLookup: this.EditingModifierLookup,
-      ProjectLookups: projectLookups,
-    };
-
-    let details = this.getDetails();
-
-    saveMdfrReq.Modifier.Details = JSON.stringify(details);
-
-    this.eacSvc.SaveDFSModifierForAllProjects(saveMdfrReq);
-  }
-
-  public SaveModifierForApplication(applicationLookup: string): void{
-    const saveMdfrReq: SaveDFSModifierForApplicationEventRequest = {
-      Modifier: {
-        ...this.EditingModifier,
-        Name: this.NameFormControl.value,
-        Enabled: this.EnabledFormControl.value,
-        PathFilterRegex: this.PathFilterFormControl.value,
-        Priority: this.PriorityFormControl.value,
-        Type: this.CurrentType,
-      },
-      ModifierLookup: this.EditingModifierLookup,
-      ApplicationLookup: applicationLookup,
-    };
-
-    let details = this.getDetails();
-
-    saveMdfrReq.Modifier.Details = JSON.stringify(details);
-
-    this.eacSvc.SaveDFSModifier(saveMdfrReq);
-  }
-
-  public SaveModifier(projectLookup: string = null): void {
     const saveMdfrReq: SaveDFSModifierEventRequest = {
       Modifier: {
         ...this.EditingModifier,
@@ -206,8 +198,8 @@ export class DFSModifiersFormComponent implements OnInit {
         Priority: this.PriorityFormControl.value,
         Type: this.CurrentType,
       },
-      ModifierLookup: this.EditingModifierLookup,
-      ProjectLookup: projectLookup,
+      ModifierLookups: [this.EditingModifierLookup],
+      ProjectLookups: projectLookups,
     };
 
     let details = this.getDetails();
@@ -215,6 +207,75 @@ export class DFSModifiersFormComponent implements OnInit {
     saveMdfrReq.Modifier.Details = JSON.stringify(details);
 
     this.eacSvc.SaveDFSModifier(saveMdfrReq);
+  }
+
+  public SaveModifierForApplication(applicationLookup: string): void{
+    if(this.ModifierFormGroup){
+    const saveMdfrReq: SaveDFSModifierEventRequest = {
+      Modifier: {
+        ...this.EditingModifier,
+        Name: this.NameFormControl.value,
+        Enabled: this.EnabledFormControl.value,
+        PathFilterRegex: this.PathFilterFormControl.value,
+        Priority: this.PriorityFormControl.value,
+        Type: this.CurrentType,
+      },
+      ModifierLookups: [this.EditingModifierLookup],
+      ApplicationLookup: applicationLookup,
+    };
+
+    let details = this.getDetails();
+
+    saveMdfrReq.Modifier.Details = JSON.stringify(details);
+
+    this.eacSvc.SaveDFSModifier(saveMdfrReq);
+  }
+  else if(this.ModifierSelectFormGroup){
+    const saveMdfrReq: SaveDFSModifierEventRequest = {
+      
+      ModifierLookups: this.MultiSelectFormControl.value,
+      ApplicationLookup: applicationLookup,
+    };
+    this.eacSvc.SaveDFSModifier(saveMdfrReq);
+
+  }
+  }
+
+/**
+ * 
+ * Saves a modifier, saves a modifier to a project
+ */
+  public SaveModifier(projectLookup: string = null): void {
+    if(this.ModifierFormGroup){
+      const saveMdfrReq: SaveDFSModifierEventRequest = {
+        Modifier: {
+          ...this.EditingModifier,
+          Name: this.NameFormControl.value,
+          Enabled: this.EnabledFormControl.value,
+          PathFilterRegex: this.PathFilterFormControl.value,
+          Priority: this.PriorityFormControl.value,
+          Type: this.CurrentType,
+        },
+        ModifierLookups: [this.EditingModifierLookup],
+        ProjectLookups: [projectLookup],
+      };
+
+      let details = this.getDetails();
+
+      saveMdfrReq.Modifier.Details = JSON.stringify(details);
+    
+
+      this.eacSvc.SaveDFSModifier(saveMdfrReq);
+    }
+    else if(this.ModifierSelectFormGroup){
+      const saveMdfrReq: SaveDFSModifierEventRequest = {
+        
+        ModifierLookups: this.MultiSelectFormControl.value,
+        ProjectLookups: [projectLookup],
+      };
+      this.eacSvc.SaveDFSModifier(saveMdfrReq);
+
+    }
   }
 
   public SetEditingModifier(modifierLookup: string): void {
@@ -260,6 +321,13 @@ export class DFSModifiersFormComponent implements OnInit {
         break;
     }
     return details;
+  }
+
+  protected setupModifierSelectForm(){
+    this.ModifierSelectFormGroup = this.formBldr.group({
+      multiSelect: [this.ModifierLookups ? this.ModifierLookups : []]
+    });
+
   }
 
   protected setupModifierForm(): void {

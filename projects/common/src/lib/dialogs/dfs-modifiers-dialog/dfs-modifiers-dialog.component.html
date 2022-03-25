@@ -10,8 +10,9 @@
 
 
         <lcu-dfs-modifier-form
+        [application-lookup]="data.applicationLookup"
+        [project-lookup]="data.projectLookup"
         [editing-modifier-lookup]="data.modifierLookup"
-        [modifiers]="data.modifiers"
         [level]="data.level"
         >
 
@@ -21,7 +22,7 @@
                 [formGroup]="ModifierDialogForm"
         >
 
-        <mat-checkbox *ngIf="data.level === 'enterprise'" formControlName="applyToAllProjects">Apply to all Projects</mat-checkbox>
+        <mat-checkbox *ngIf="data.level === 'enterprise' && data.modifierLookup" formControlName="applyToAllProjects">Apply to all Projects</mat-checkbox>
         </form>
 
 <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
@@ -53,7 +54,7 @@
           fxFlex="25%" 
           color="primary" 
           (click)="SaveDFSModifier()"
-          [disabled]="(!this.DFSModifersFormGroup?.valid || !this.ModifierDialogForm?.valid)"
+          [disabled]="IsDisabled()"
           >
           <!-- <mat-icon>save</mat-icon> -->
           Save
