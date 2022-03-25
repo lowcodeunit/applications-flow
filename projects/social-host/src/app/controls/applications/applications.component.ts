@@ -352,7 +352,6 @@ export class ApplicationsComponent implements OnInit {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
-        modifiers: this.Modifiers,
         level: 'application',
         applicationLookup: this.ApplicationLookup
       },

@@ -73,16 +73,17 @@ export class ProjectsComponent implements OnInit {
   }
 
   public get NumberOfModifiers(): number {
-    return this.ModifierLookups?.length;
+    return this.ProjectsModifierLookups?.length;
   }
 
   public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
     return this.State?.EaC?.Modifiers || {};
   }
 
-  public get ModifierLookups(): Array<string> {
+  public get ProjectsModifierLookups(): Array<string> {
     return this.Project.ModifierLookups || [];
   }
+
 
   public get RoutedApplications(): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
@@ -259,7 +260,6 @@ export class ProjectsComponent implements OnInit {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
-        modifiers: this.Modifiers,
         projectLookup: this.ProjectLookup,
         level: 'project'
       },

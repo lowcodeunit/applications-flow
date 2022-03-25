@@ -1,7 +1,8 @@
-@import "../../../assets/styles/social-card";
 
 
 :host {
+  @import "../../../assets/styles/social-card";
+
 
   .example-header-image {
     background-size: cover;
