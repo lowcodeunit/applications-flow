@@ -38,6 +38,14 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
     let sysCount = 0;
 
+    let routePartsCount = 0;
+
+    let appsCount = 0;
+
+    let horizontalSpacing = 200;
+
+    let verticalSpacing = 200;
+
     const requestNode: NapkinIDENode = {
       ID: `sys-${++sysCount}`,
       Type: 'request',
@@ -48,14 +56,6 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
     flow.Nodes = [requestNode];
 
     flow.Edges = [];
-
-    let routePartsCount = 0;
-
-    let appsCount = 0;
-
-    let horizontalSpacing = 200;
-
-    let verticalSpacing = 200;
 
     let lastProjectSpacing = 0;
 
@@ -77,7 +77,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
       //  Add application spacing
       // projectNode.PositionX +=
-      //   (project.ApplicationLookups.length * horizontalSpacing) / 2;
+      //   ((project.ApplicationLookups.length - 1) * horizontalSpacing) / 2;
 
       flow.Nodes?.push(projectNode);
 
@@ -148,15 +148,22 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         }, {});
 
       var sortedProjectApps = project.ApplicationLookups?.sort((a, b) => {
-        const aRouteParts = appRoutePartMap[a];
+        const aRouteParts = appRoutePartMap[a].join('');
 
-        const bRouteParts = appRoutePartMap[b];
+        const bRouteParts = appRoutePartMap[b].join('');
 
-        return aRouteParts.length == bRouteParts.length
-          ? 0
-          : aRouteParts.length > bRouteParts.length
-          ? 1
-          : -1;
+        if (aRouteParts < bRouteParts) {
+          return -1;
+        }
+        if (aRouteParts > bRouteParts) {
+          return 1;
+        }
+        return 0;
+        // return aRouteParts.length == bRouteParts.length
+        //   ? 0
+        //   : aRouteParts.length > bRouteParts.length
+        //   ? 1
+        //   : -1;
       });
 
       do {
@@ -166,7 +173,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
         let routeHorizCount = 0;
 
-        project.ApplicationLookups?.forEach((appLookup) => {
+        sortedProjectApps?.forEach((appLookup) => {
           const app = eac.Applications![appLookup];
 
           let lastRoutePartNodeId = lastRoutePartNodeIdMap[appLookup];
@@ -190,17 +197,13 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               lastRouteNodeBank[lastRoutePartNodeId][currentRoutePart] || null;
 
             if (routePartNode == null) {
-              let positionY =
-                lastRoutePartNodeId == projectNode.ID
-                  ? verticalSpacing * 2
-                  : verticalSpacing * (2 + routePartsIteration);
-
               routePartNode = new NapkinIDENode();
               routePartNode.Type = routePartType;
               routePartNode.ID = routePartNodeId;
               routePartNode.PositionX =
                 horizontalSpacing * routeHorizCount + lastProjectSpacing;
-              routePartNode.PositionY = positionY;
+              routePartNode.PositionY =
+                verticalSpacing * (2 + routePartsIteration);
               routePartNode.Data = {
                 Route: currentRoutePart,
                 Type: routePartType,
@@ -235,8 +238,9 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               const appNode = new NapkinIDENode();
               appNode.Type = appNodeType;
               appNode.ID = id;
-              appNode.PositionX = horizontalSpacing * appsCount;
-              appNode.PositionY = verticalSpacing * maxRouteParts;
+              appNode.PositionX =
+                horizontalSpacing * routeHorizCount + lastProjectSpacing;
+              appNode.PositionY = verticalSpacing * (1 + maxRouteParts);
               appNode.Data = {
                 Name: app.Application?.Name,
                 Details: app.Application,
@@ -281,6 +285,9 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
     });
 
     //  Setup DevOps nodes (Source Control and DevOpsActions)...  relate apps to source control via edges
+
+    // //  Add project spacing
+    // requestNode.PositionX = lastProjectSpacing / 2;
   }
 
   protected loadExistingNode(flow: NapkinIDEFlow, id: string): NapkinIDENode {
