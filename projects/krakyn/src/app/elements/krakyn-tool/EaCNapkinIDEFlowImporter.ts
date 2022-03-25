@@ -73,6 +73,11 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         Lookup: projLookup,
         Name: project.Project?.Name,
         Hosts: project.Hosts,
+        Link: {
+          Label: 'Button Click Test',
+          URL: 'https://www.fathym.com',
+          Target: '_blank'
+        }
       };
 
       //  Add application spacing
