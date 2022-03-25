@@ -14,16 +14,12 @@
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-      <button
-        action
-        mat-button
-        class="info-card-btn mat-full-width"
-        [routerLink]="['/iot']"
-      >
+      <!-- [routerLink]="['/iot']" -->
+      <a action mat-button class="info-card-btn mat-full-width" href="/iot">
         <mat-icon>account_tree</mat-icon>
 
         Access IoT Benefits
-      </button>
+      </a>
 
       <!-- <button
         action
@@ -107,12 +103,15 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              
               <a
                 class="slot-action-anchor"
                 [routerLink]="['/projects', projectLookup]"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ project.Project.Name }}">edit</mat-icon>
+                <mat-icon
+                  class="action-icon"
+                  matTooltip="Edit {{ project.Project.Name }}"
+                  >edit</mat-icon
+                >
               </a>
               <a
                 class="slot-action-anchor"
@@ -222,12 +221,13 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              
               <a
                 class="slot-action-anchor"
                 (click)="OpenSourceControlDialog(sc.Lookup)"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}"
+                  >edit</mat-icon
+                >
               </a>
               <a
                 class="slot-action-anchor"
@@ -322,12 +322,13 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              
               <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}"
+                  >edit</mat-icon
+                >
               </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
@@ -420,7 +421,9 @@
                 class="slot-action-anchor"
                 (click)="OpenModifierDialog(mdfrLookup)"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ mdfr?.Name }}">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ mdfr?.Name }}"
+                  >edit</mat-icon
+                >
               </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
