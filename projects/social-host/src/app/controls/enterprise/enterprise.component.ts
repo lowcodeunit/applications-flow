@@ -5,7 +5,7 @@ import {
   SourceControlDialogComponent,
   BuildPipelineDialogComponent,
   ApplicationsFlowService,
-  DFSModifiersDialogComponent
+  DFSModifiersDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCDevOpsAction,
@@ -125,32 +125,18 @@ export class EnterpriseComponent implements OnInit {
     // console.log("FEED on init: ", this.Feed)
   }
 
-  
-
-  public DeleteModifier(mdfrLookup: string, mdfrName: string): void {
-    if (
-      confirm(`Are you sure you want to delete request modifier '${mdfrName}'?`)
-    ) {
-      this.eacSvc.DeleteDevOpsAction(mdfrLookup);
-    }
-  }
-
-  
-
-  
-
   public HandleLeftClickEvent(event: any) {}
   public HandleRightClickEvent(event: any) {}
 
   public OpenModifierDialog(mdfrLookup: string) {
-    console.log("Modifier lookup: ", mdfrLookup);
+    console.log('Modifier lookup: ', mdfrLookup);
     // throw new Error('Not implemented: OpenModifierDialog');
     const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
         modifiers: this.Modifiers,
-        level: 'enterprise'
+        level: 'enterprise',
       },
     });
 
@@ -178,13 +164,14 @@ export class EnterpriseComponent implements OnInit {
     });
   }
 
-  public OpenSourceControlDialog(scLookup: string): void {
+  public OpenSourceControlDialog(scLookup: string, scName: string): void {
     const dialogRef = this.dialog.open(SourceControlDialogComponent, {
       width: '385px',
       data: {
         environment: this.Environment,
         environmentLookup: this.ActiveEnvironmentLookup,
         scLookup: scLookup,
+        scName: scName,
       },
     });
 

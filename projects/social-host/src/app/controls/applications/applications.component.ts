@@ -262,13 +262,15 @@ export class ApplicationsComponent implements OnInit {
   //  API Methods
 
   public DeleteApplication(appLookup: string, appName: string): void {
-
-    if (confirm(`Are you sure you want to permanently delete ${appName}?`)) {
-      this.eacSvc.DeleteApplication(appLookup, appName);    
-      this.router.navigate(['/routes', { appRoute: this.CurrentApplicationRoute, projectLookup: this.ProjectLookup }]);
-    }
-
-    
+    this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
+      this.router.navigate([
+        '/routes',
+        {
+          appRoute: this.CurrentApplicationRoute,
+          projectLookup: this.ProjectLookup,
+        },
+      ]);
+    });
   }
 
   public HandleLeftClickEvent(event: any) {
@@ -288,7 +290,7 @@ export class ApplicationsComponent implements OnInit {
       data: {
         application: this.Application,
         applicationLookup: this.ApplicationLookup,
-        projectLookup: this.ProjectLookup
+        projectLookup: this.ProjectLookup,
       },
     });
 
@@ -353,7 +355,7 @@ export class ApplicationsComponent implements OnInit {
       data: {
         modifierLookup: mdfrLookup,
         level: 'application',
-        applicationLookup: this.ApplicationLookup
+        applicationLookup: this.ApplicationLookup,
       },
     });
 
@@ -392,9 +394,7 @@ export class ApplicationsComponent implements OnInit {
     let count = this.Slices[type];
 
     let length =
-      type === 'Modifiers'
-        ? this.NumberOfModifiers
-        : this.SlicesCount;
+      type === 'Modifiers' ? this.NumberOfModifiers : this.SlicesCount;
 
     if (count === length) {
       this.Slices[type] = this.SlicesCount;

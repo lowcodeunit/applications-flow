@@ -49,42 +49,6 @@ export class ApplicationsFlowService {
     );
   }
 
-  public DeleteApplication(appLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/applications/${appLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
-  public DeleteDevOpsAction(doaLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/devops-actions/${doaLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
-  public DeleteProject(projectLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
-  public DeleteSourceControl(scLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/source-controls/${scLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
   public EnsureUserEnterprise(): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/enterprise/ensure`,
@@ -95,9 +59,12 @@ export class ApplicationsFlowService {
     );
   }
 
-  public EnterpriseAsCodeRemovals(removals: EnterpriseAsCode): Observable<object> {
+  public EnterpriseAsCodeRemovals(
+    removals: EnterpriseAsCode
+  ): Observable<object> {
     return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/eac`,
+      `${this.apiRoot}/api/lowcodeunit/removals/eac`,
+      removals,
       {
         headers: this.loadHeaders(),
       }

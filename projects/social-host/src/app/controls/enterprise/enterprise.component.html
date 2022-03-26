@@ -170,7 +170,7 @@
       [main-slot-description]="
         NumberOfSourceControls + ' source control(s) configured'
       "
-      (main-action-clicked)="OpenSourceControlDialog(null)"
+      (main-action-clicked)="OpenSourceControlDialog(null, null)"
     >
       <div>
         <div
@@ -192,14 +192,14 @@
               <div
                 class="slot-header"
                 fxLayout="row"
-                (click)="OpenSourceControlDialog(sc.Lookup)"
+                (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
               >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
 
                 <!-- <a
                   class="slot-action-anchor"
-                  (click)="OpenSourceControlDialog(sc.Lookup)"
+                  (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
                 > -->
                 <div *ngIf="sc.Name?.length > 21" class="slot-name">
                   {{ sc.Name | slice: 0:18 }}...
@@ -223,7 +223,7 @@
             >
               <a
                 class="slot-action-anchor"
-                (click)="OpenSourceControlDialog(sc.Lookup)"
+                (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}"
                   >edit</mat-icon

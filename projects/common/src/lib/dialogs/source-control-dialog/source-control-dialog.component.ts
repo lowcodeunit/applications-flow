@@ -12,15 +12,15 @@ export interface SCDialogData {
   environment: EaCEnvironmentAsCode;
   environmentLookup: string;
   scLookup: string;
+  scName: string;
 }
 
 @Component({
   selector: 'lcu-source-control-dialog',
   templateUrl: './source-control-dialog.component.html',
-  styleUrls: ['./source-control-dialog.component.scss']
+  styleUrls: ['./source-control-dialog.component.scss'],
 })
 export class SourceControlDialogComponent implements OnInit {
-
   @ViewChild(DevopsSourceControlFormComponent)
   public DevopsSourceControl: DevopsSourceControlFormComponent;
 
@@ -28,55 +28,50 @@ export class SourceControlDialogComponent implements OnInit {
     return this.DevopsSourceControl?.DevOpsSourceControlFormGroup;
   }
 
-  public get HasConnection(): boolean{
+  public get HasConnection(): boolean {
     return this.State.GitHub.HasConnection;
   }
 
-  public get State(): ApplicationsFlowState{
+  public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
 
-
   public ErrorMessage: string;
 
-  constructor( public dialogRef: MatDialogRef<SourceControlDialogComponent>,
+  constructor(
+    public dialogRef: MatDialogRef<SourceControlDialogComponent>,
     protected eacSvc: EaCService,
     @Inject(MAT_DIALOG_DATA) public data: SCDialogData,
-    protected snackBar: MatSnackBar) { }
+    protected snackBar: MatSnackBar
+  ) {}
 
-  public ngOnInit(): void {
-    
-  }
+  public ngOnInit(): void {}
 
-
-  public CloseDialog(){
+  public CloseDialog() {
     this.dialogRef.close();
   }
 
-  public DeleteSourceControl(scLookup: string): void {
-    if (
-      confirm(`Are you sure you want to delete source control '${scLookup}'?`)
-    ) {
-      this.eacSvc.DeleteSourceControl(scLookup);
-      this.CloseDialog();
-    }
+  public DeleteSourceControl(): void {
+    this.eacSvc
+      .DeleteSourceControl(this.data.scLookup, this.data.scName)
+      .then((status) => {
+        this.CloseDialog();
+      });
   }
 
-  public HandleSaveStatusEvent(event: Status){
-    console.log("event to save: ", event);
-    if (event.Code === 0){
-      this.snackBar.open("Source Control Succesfully Saved", "Dismiss",{
-        duration: 5000
+  public HandleSaveStatusEvent(event: Status) {
+    console.log('event to save: ', event);
+    if (event.Code === 0) {
+      this.snackBar.open('Source Control Succesfully Saved', 'Dismiss', {
+        duration: 5000,
       });
       this.CloseDialog();
-    }
-    else{
+    } else {
       this.ErrorMessage = event.Message;
     }
   }
 
-  public SaveSourceControl(){
+  public SaveSourceControl() {
     this.DevopsSourceControl.SaveSourceControl();
   }
-
 }

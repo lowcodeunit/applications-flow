@@ -90,20 +90,21 @@ export class MainFeedCardComponent implements OnInit {
       }
     } else if (action.ActionType == 'Modal') {
       if (action.Action == 'AddSourceControl') {
-        this.OpenSourceControlDialog(null);
+        this.OpenSourceControlDialog(null, null);
       } else {
         alert('other modaled ' + action.Action);
       }
     }
   }
 
-  public OpenSourceControlDialog(scLookup: string): void {
+  public OpenSourceControlDialog(scLookup: string, scName: string): void {
     const dialogRef = this.dialog.open(SourceControlDialogComponent, {
       width: '550px',
       data: {
         environment: this.Environment,
         environmentLookup: this.ActiveEnvironmentLookup,
         scLookup: scLookup,
+        scName: scName,
       },
     });
 
