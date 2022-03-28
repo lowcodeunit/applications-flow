@@ -74,8 +74,8 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         Name: project.Project?.Name,
         Hosts: project.Hosts,
         Link: {
-          Label: 'Button Click Test',
-          URL: 'https://www.fathym.com',
+          Label: 'Launch',
+          URL: project.Hosts[0],
           Target: '_blank'
         }
       };
