@@ -316,7 +316,102 @@
 
           <mat-icon>
             {{
-              Slices.Projects == NumberOfProjects
+              Slices.Pipelines == NumberOfPipelines
+                ? "expand_less"
+                : "expand_more"
+            }}
+          </mat-icon>
+        </button>
+      </div>
+    </lcu-slotted-card>
+
+    <!-- Request Modifiers 
+      secondary-slot-description="Add new request modifier"
+      action-text="Create New Request Modifier" -->
+    <lcu-slotted-card
+      title="Modifiers"
+      icon="sync_alt"
+      [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
+      (main-action-clicked)="OpenModifierDialog(null)"
+    >
+      <div>
+        <div
+          class="main-slot-container"
+          fxLayout="row"
+          *ngFor="let mdfrLookup of ModifierLookups | slice: 0:Slices.Modifiers"
+        >
+          <div
+            class="slot-content"
+            *ngIf="Modifiers[mdfrLookup]; let mdfr"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+            [title]="mdfr?.Name"
+          >
+            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+            <div class="slot-header-container">
+              <div
+                class="slot-header"
+                fxLayout="row"
+                (click)="OpenModifierDialog(mdfrLookup)"
+              >
+                <!-- this icon is a temp placeholder -->
+                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                <div *ngIf="mdfr?.Name?.length > 28" class="slot-name">
+                  {{ mdfr?.Name | slice: 0:25 }}...
+                </div>
+                <div
+                  *ngIf="mdfr?.Name?.length < 28 || mdfr?.Name?.length == 28"
+                  class="slot-name"
+                >
+                  {{ mdfr?.Name }}
+                </div>
+              </div>
+
+              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+            </div>
+
+            <div
+              class="slot-actions-container"
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+            >
+              <!-- <button
+                mat-icon-button
+                color="warn"
+                (click)="DeletModifier(mdfrLookup, mdfr?.Name)"
+              >
+                <mat-icon matTooltip="Delete {{ mdfr?.Name }}">
+                  delete_forever
+                </mat-icon>
+              </button> -->
+              <a
+                class="slot-action-anchor"
+                (click)="OpenModifierDialog(mdfrLookup)"
+              >
+                <mat-icon class="action-icon" matTooltip="Edit {{ mdfr?.Name }}"
+                  >edit</mat-icon
+                >
+              </a>
+              <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a> -->
+            </div>
+          </div>
+        </div>
+
+        <button
+          mat-raised-button
+          class="mat-full-width"
+          (click)="ToggleSlices('Modifiers')"
+          *ngIf="NumberOfModifiers > 5"
+        >
+          {{
+            Slices.Modifiers == NumberOfModifiers ? "Show Less" : "Show More"
+          }}
+
+          <mat-icon>
+            {{
+              Slices.Modifiers == NumberOfModifiers
                 ? "expand_less"
                 : "expand_more"
             }}
