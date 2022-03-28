@@ -4,7 +4,6 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
-import { EaCDFSModifier } from '@semanticjs/common';
 import { DFSModifiersFormComponent } from '../../controls/dfs-modifiers-form/dfs-modifiers-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -69,6 +68,14 @@ export class DFSModifiersDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  public DeleteModifier(modifierLookup: string): void {
+    if (
+      confirm(`Are you sure you want to delete modifier '${modifierLookup}'?`)
+    ) {
+      this.eacSvc.DeleteSourceControl(modifierLookup);
+    }
+  }
+
   public HandleSaveFormEvent(event: Status){
     console.log("event: ", event);
     if (event.Code === 0){
@@ -99,6 +106,8 @@ export class DFSModifiersDialogComponent implements OnInit {
 
   public SaveDFSModifier(){
 
+    // console.log("level at save: ", this.data.level)
+
     switch(this.data.level){
       case "enterprise":{
         if(this.ModifierDialogForm.controls.applyToAllProjects.value){
@@ -125,6 +134,7 @@ export class DFSModifiersDialogComponent implements OnInit {
   }
 
   protected determineLevel(){
+    // console.log("LEVEL: ", this.data.level)
     switch(this.data.level){
       case "enterprise":{
         this.setupEntForm()

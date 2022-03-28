@@ -68,6 +68,8 @@ import { FeedHeaderDialogComponent } from './dialogs/feed-header-dialog/feed-hea
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { DFSModifiersDialogComponent } from './dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component';
 import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-modifiers-form.component';
+import { StateConfigDialogComponent } from './dialogs/state-config-dialog/state-config-dialog.component';
+import { StateConfigFormComponent } from './controls/state-config-form/state-config-form.component';
 
 @NgModule({
   declarations: [
@@ -120,6 +122,8 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     UpgradeDialogComponent,
     EmulatedDevicesToggleComponent,
     FeedHeaderDialogComponent,
+    StateConfigDialogComponent,
+    StateConfigFormComponent,
   ],
   imports: [
     AngularEditorModule,
@@ -186,7 +190,9 @@ import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-mod
     EmulatedDevicesToggleComponent,
     FeedHeaderDialogComponent,
     DFSModifiersDialogComponent,
-    DFSModifiersFormComponent
+    DFSModifiersFormComponent,
+    StateConfigDialogComponent,
+    StateConfigFormComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,

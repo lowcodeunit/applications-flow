@@ -78,5 +78,6 @@ export * from './lib/dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/dialogs/feed-header-dialog/feed-header-dialog.component';
+export * from './lib/dialogs/state-config-dialog/state-config-dialog.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/elements/breadcrumb/breadcrumb.component';

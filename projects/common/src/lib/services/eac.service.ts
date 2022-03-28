@@ -15,7 +15,7 @@ import {
 } from '@semanticjs/common';
 import { FeedEntry, FeedItem } from '../models/user-feed.model';
 import { HttpClient } from '@angular/common/http';
-import { BaseModeledResponse, Status } from '@lcu/common';
+import { Status } from '@lcu/common';
 import { Observable } from 'rxjs';
 
 export class SaveApplicationAsCodeEventRequest {
@@ -23,7 +23,12 @@ export class SaveApplicationAsCodeEventRequest {
 
   public ApplicationLookup?: string;
 
+  public DataToken?:  EaCDataToken;
+
+  public DataTokenLookup?: string;
+
   public ProjectLookup?: string;
+
 }
 
 // export class SaveDFSModifierForApplicationEventRequest {
@@ -42,23 +47,10 @@ export class SaveDFSModifierEventRequest {
 
   public ModifierLookups?: Array<string>;
 
-  // public ModifierLookup?: string;
-
-  // public ProjectLookup?: string;
-
   public ProjectLookups?: Array<string>;
-
-
   
 }
 
-// export class SaveDFSModifierForAllEventRequest {
-//   public Modifier: EaCDFSModifier;
-
-//   public ModifierLookup: string;
-
-//   public ProjectLookups?: Array<string>;
-// }
 
 export class SaveEnvironmentAsCodeEventRequest {
   public EnterpriseDataTokens?: { [lookup: string]: EaCDataToken };
@@ -254,6 +246,10 @@ export class EaCService {
       saveEaC.Applications[req.ApplicationLookup] = req.Application;
     }
 
+    if (req.DataToken){
+      saveEaC.Applications[req.ApplicationLookup].DataTokens[req.DataTokenLookup] = req.DataToken;
+    }
+
     return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
   }
 
@@ -265,6 +261,7 @@ export class EaCService {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
       Modifiers: {},
       Projects: {},
+      Applications: {},
     };
 
     if (req.Modifier) {
@@ -281,6 +278,8 @@ export class EaCService {
     }
 
     if (req.ApplicationLookup) {
+      console.log("APPLOokup: ", req.ApplicationLookup);
+      console.log("saveEAC: ", saveEaC)
       saveEaC.Applications[req.ApplicationLookup] = {
         ModifierLookups: req.ModifierLookups,
       };
