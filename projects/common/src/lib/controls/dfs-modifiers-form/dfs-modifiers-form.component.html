@@ -1,4 +1,10 @@
 <div>
+
+  <div *ngIf="!EditingModifierLookup">
+    Select the modifiers you would like to apply from the list below, or create
+    a new modifier.
+  </div>
+  
   <form
     [formGroup]="ModifierFormGroup"
     (ngSubmit)="SaveModifier()"
