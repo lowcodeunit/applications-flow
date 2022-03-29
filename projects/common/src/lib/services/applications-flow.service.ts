@@ -4,6 +4,7 @@ import { LCUServiceSettings } from '@lcu/common';
 import { Observable } from 'rxjs';
 import { EnterpriseAsCode } from '@semanticjs/common';
 import { UnpackLowCodeUnitRequest } from '../state/applications-flow.state';
+import { FeedEntry } from '../models/user-feed.model';
 
 @Injectable({
   providedIn: 'root',
@@ -48,46 +49,22 @@ export class ApplicationsFlowService {
     );
   }
 
-  public DeleteApplication(appLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/applications/${appLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
-  public DeleteDevOpsAction(doaLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/devops-actions/${doaLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
-  public DeleteProject(projectLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/${projectLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
-  public DeleteSourceControl(scLookup: string): Observable<object> {
-    return this.http.delete(
-      `${this.apiRoot}/api/lowcodeunit/manage/source-controls/${scLookup}`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-
   public EnsureUserEnterprise(): Observable<object> {
     return this.http.post(
       `${this.apiRoot}/api/lowcodeunit/manage/enterprise/ensure`,
       {},
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
+  public EnterpriseAsCodeRemovals(
+    removals: EnterpriseAsCode
+  ): Observable<object> {
+    return this.http.post(
+      `${this.apiRoot}/api/lowcodeunit/removals/eac`,
+      removals,
       {
         headers: this.loadHeaders(),
       }
@@ -201,6 +178,21 @@ export class ApplicationsFlowService {
     );
   }
 
+  public LoadUserFeed(
+    page: number,
+    pageSize: number,
+    project: string,
+    applications: string[]
+  ): Observable<object> {
+    var apps = JSON.stringify(applications || []);
+    return this.http.get(
+      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
+      {
+        headers: this.loadHeaders(),
+      }
+    );
+  }
+
   public SaveEnterpriseAsCode(eac: EnterpriseAsCode): Observable<object> {
     return this.http.post(`${this.apiRoot}/api/lowcodeunit/manage/eac`, eac, {
       headers: this.loadHeaders(),
@@ -219,25 +211,20 @@ export class ApplicationsFlowService {
     );
   }
 
-  public UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): Observable<object> {
+  public SubmitFeedEntry(entry: FeedEntry): Observable<object> {
     return this.http.post(
-      `${this.apiRoot}/api/lowcodeunit/manage/projects/unpack`,
-      req,
+      `${this.apiRoot}/api/lowcodeunit/userfeed/entry`,
+      entry,
       {
         headers: this.loadHeaders(),
       }
     );
   }
 
-  public LoadUserFeed(
-    page: number,
-    pageSize: number,
-    project: string,
-    applications: string[]
-  ): Observable<object> {
-    var apps = JSON.stringify(applications || []);
-    return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
+  public UnpackLowCodeUnit(req: UnpackLowCodeUnitRequest): Observable<object> {
+    return this.http.post(
+      `${this.apiRoot}/api/lowcodeunit/manage/projects/unpack`,
+      req,
       {
         headers: this.loadHeaders(),
       }

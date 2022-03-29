@@ -2,7 +2,5 @@
   "name": "@lowcodeunit/applications-flow-social-host",
   "version": "0.0.4",
   "peerDependencies": {},
-  "dependencies": {
-    "tslib": "^2.0.0"
-  }
+  "dependencies": {}
 }

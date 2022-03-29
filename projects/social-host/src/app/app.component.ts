@@ -59,6 +59,7 @@ export class AppComponent {
           });
 
           await Promise.all([
+            this.eacSvc.LoadEnterpriseAsCode(),
             this.eacSvc.ListEnterprises(),
             this.eacSvc.GetActiveEnterprise(),
             this.getFeedInfo(),

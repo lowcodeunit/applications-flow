@@ -97,7 +97,7 @@ export class DomainsComponent implements OnInit {
   protected config(): void {
     this.Config = new CardFormConfigModel({
       Icon: 'head',
-      Title: 'Domains',
+      Title: '',
       Subtitle:
         'In order to use a custom domain, create a CNAME dns record pointing desired subdomain to ' + this.HostDNSInstance + '.',
       FormActions: {

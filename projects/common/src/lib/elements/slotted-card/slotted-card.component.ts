@@ -27,8 +27,8 @@ export class SlottedCardComponent implements OnInit {
   @Input('show-main-icon') 
   public ShowMainIcon: boolean;
 
-  @Input('title') 
-  public Title: string;
+  @Input('card-title') 
+  public CardTitle: string;
 
   @Input('secondary-slot-description') 
   public SecondarySlotDescription: string;

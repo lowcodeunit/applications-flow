@@ -203,11 +203,6 @@
                 "output": "/"
               },
               {
-                "glob": "**/*",
-                "input": "node_modules/@semanticjs/krakyn/assets/styles",
-                "output":"/assets/styles"
-              },
-              {
 								"glob": "**/*",
 								"input": "node_modules/sass.js/dist",
 								"output": "/assets"
@@ -455,6 +450,124 @@
             "production": {
               "devServerTarget": "social-host:serve:production"
             }
+          }
+        }
+      }
+    },
+    "krakyn": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "projects/krakyn",
+      "sourceRoot": "projects/krakyn/src",
+      "prefix": "lcu",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/krakyn",
+            "index": "projects/krakyn/src/index.html",
+            "main": "projects/krakyn/src/main.ts",
+            "polyfills": "projects/krakyn/src/polyfills.ts",
+            "tsConfig": "projects/krakyn/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/krakyn/src/favicon.ico",
+              "projects/krakyn/src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/@semanticjs/krakyn/assets/styles",
+                "output":"/assets/styles"
+              },
+              {
+                "glob": "package.json",
+                "input": "./projects/krakyn/",
+                "output": "/"
+              },
+              {
+								"glob": "**/_theming.scss",
+								"input": "node_modules/@angular/material",
+								"output": "/assets"
+							  }
+            ],
+            "styles": [
+              "projects/krakyn/src/styles.scss"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "10mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "projects/krakyn/src/environments/environment.ts",
+                  "with": "projects/krakyn/src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "krakyn:build:production"
+            },
+            "development": {
+              "browserTarget": "krakyn:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "krakyn:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/krakyn/src/test.ts",
+            "polyfills": "projects/krakyn/src/polyfills.ts",
+            "tsConfig": "projects/krakyn/tsconfig.spec.json",
+            "karmaConfig": "projects/krakyn/karma.conf.js",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "projects/krakyn/src/favicon.ico",
+              "projects/krakyn/src/assets"
+            ],
+            "styles": [
+              "projects/krakyn/src/styles.scss"
+            ],
+            "scripts": []
           }
         }
       }

@@ -12,21 +12,12 @@ import {
   SaveDFSModifierEventRequest,
 } from '../../../../../services/eac.service';
 import {
-  EaCApplicationAsCode,
-  EaCArtifact,
-  EaCDevOpsAction,
   EaCDFSModifier,
-  EaCEnvironmentAsCode,
-  EaCProcessor,
   EaCProjectAsCode,
-  EaCSourceControl,
 } from '@semanticjs/common';
-import { BaseModeledResponse, Guid } from '@lcu/common';
+import { Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
-import { SourceControlFormControlsComponent } from '../../forms/source-control/source-control.component';
-import { ProjectHostingDetails } from '../../../../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../../../../services/applications-flow.service';
-import { HostingDetailsFormGroupComponent } from '../../hosting-details-form-group/hosting-details-form-group.component';
 
 @Component({
   selector: 'lcu-dfs-modifiers',
@@ -136,11 +127,7 @@ export class DFSModifiersComponent implements OnInit {
   }
 
   public DeleteModifier(modifierLookup: string, modifierName: string): void {
-    if (
-      confirm(`Are you sure you want to delete modifier '${modifierName}'?`)
-    ) {
-      this.eacSvc.DeleteSourceControl(modifierLookup);
-    }
+    this.eacSvc.DeleteModifier(modifierLookup, modifierName).then();
   }
 
   public SaveModifier(projectLookup: string = null): void {
@@ -153,8 +140,8 @@ export class DFSModifiersComponent implements OnInit {
         Priority: this.PriorityFormControl.value,
         Type: this.CurrentType,
       },
-      ModifierLookup: this.EditingModifierLookup,
-      ProjectLookup: projectLookup,
+      ModifierLookups: [this.EditingModifierLookup],
+      ProjectLookups: [projectLookup],
     };
 
     const details = {};
