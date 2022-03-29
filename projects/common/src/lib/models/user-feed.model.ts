@@ -90,7 +90,7 @@ public ExpiresAt: Date;
 
 public Organization: string; 
 
-public Repositroy: string; 
+public Repository: string; 
 
 public SourceBranch: string;
 

@@ -217,7 +217,7 @@ export class FeedHeaderDialogComponent implements OnInit {
       Content: this.EditorControl ? this.EditorControl.value : null,
       ExpiresAt: null,
       Organization: this.OrganizationFormControl ? this.OrganizationFormControl.value : null,
-      Repositroy: this.RepositoryFormControl ? this.RepositoryFormControl.value : null,
+      Repository: this.RepositoryFormControl ? this.RepositoryFormControl.value : null,
       SourceBranch: this.SourceBranchFormControl ? this.SourceBranchFormControl.value : null,
       SourceControlLookup: this.SourceControlFormControl ? this.SourceBranchFormControl.value : null,
       Subtitle: this.SubtitleFormControl ? this.SubtitleFormControl.value : null,
