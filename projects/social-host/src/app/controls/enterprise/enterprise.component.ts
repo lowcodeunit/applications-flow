@@ -46,7 +46,6 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get Environment(): EaCEnvironmentAsCode {
-    // console.log("Ent Environment var: ", this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
     return this.State?.EaC?.Environments[
       this.State?.EaC?.Enterprise?.PrimaryEnvironment
     ];
@@ -89,7 +88,7 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get State(): ApplicationsFlowState {
-    return this.eacSvc.State;
+    return this.eacSvc?.State;
   }
 
   public Slices: { [key: string]: number };

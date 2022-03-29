@@ -61,7 +61,7 @@
       secondary-slot-description="Add quick route"
       action-text="Create New Application" -->
     <lcu-slotted-card
-      title="Routes"
+      card-title="Routes"
       icon="route"
       [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
       (main-action-clicked)="OpenNewAppDialog($event)"
@@ -126,6 +126,8 @@
                     appRoute
                   "
                   target="_blank"
+                  matTooltip="Launch {{Project?.Hosts[Project?.Hosts?.length - 1] +
+                    appRoute}}"
                 >
                   <mat-icon class="action-icon">launch</mat-icon>
                 </a>
@@ -158,7 +160,7 @@
 
     <!-- Domains -->
     <lcu-slotted-card
-      title="Custom Domain"
+      card-title="Custom Domain"
       icon="domain"
       [show-main-icon]="false"
       main-slot-description="Current Domain"
@@ -196,7 +198,7 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
       <lcu-slotted-card
-      title="Modifiers"
+      card-title="Modifiers"
       icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
       (main-action-clicked)="OpenModifierDialog(null, null)"
@@ -212,7 +214,6 @@
             *ngIf="Modifiers[mdfrLookup]; let mdfr"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="mdfr?.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">

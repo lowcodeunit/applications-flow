@@ -58,7 +58,7 @@
       secondary-slot-description="Add new quick project" 
       action-text="Create Custom Project"-->
     <lcu-slotted-card
-      title="Projects"
+      card-title="Projects"
       icon="work_outline"
       [main-slot-description]="NumberOfProjects + ' project(s) configured'"
       (main-action-clicked)="RouteToPath('/dashboard/create-project')"
@@ -76,7 +76,6 @@
             *ngIf="State?.EaC?.Projects[projectLookup]; let project"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="project.Project.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
@@ -165,7 +164,7 @@
       secondary-slot-description="Add new source control"
       action-text="Create New Source Control" -->
     <lcu-slotted-card
-      title="Source Controls"
+      card-title="Source Controls"
       icon="build"
       [main-slot-description]="
         NumberOfSourceControls + ' source control(s) configured'
@@ -185,7 +184,7 @@
             *ngIf="SourceControls[scLookup]; let sc"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="sc.Name"
+            
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
@@ -274,7 +273,7 @@
       secondary-slot-description="Add new pipeline"
       action-text="Create New Pipeline" -->
     <lcu-slotted-card
-      title="Build Pipeline"
+      card-title="Build Pipeline"
       icon="plumbing"
       [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
       (main-action-clicked)="OpenBuildPipelineDialog(null)"
@@ -292,7 +291,7 @@
             *ngIf="DevOpsActions[doaLookup]; let doa"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="doa?.Name"
+            
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
@@ -362,7 +361,7 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
     <lcu-slotted-card
-      title="Modifiers"
+      card-title="Modifiers"
       icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
       (main-action-clicked)="OpenModifierDialog(null, null)"
@@ -378,7 +377,6 @@
             *ngIf="Modifiers[mdfrLookup]; let mdfr"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="mdfr?.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">

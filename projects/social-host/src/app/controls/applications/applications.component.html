@@ -76,7 +76,7 @@
     <!-- Processor Details
       action-text="Edit Processor Details" -->
     <lcu-slotted-card
-      title="Processor Details"
+      card-title="Processor Details"
       icon="developer_board"
       main-icon="edit"
       [main-slot-description]="Application?.Processor?.Label"
@@ -154,7 +154,7 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
       <lcu-slotted-card
-      title="Modifiers"
+      card-title="Modifiers"
       icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
       (main-action-clicked)="OpenModifierDialog(null, null)"
@@ -170,7 +170,6 @@
             *ngIf="Modifiers[mdfrLookup]; let mdfr"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="mdfr?.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
