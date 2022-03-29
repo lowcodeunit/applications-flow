@@ -20,6 +20,11 @@
         </mat-card-header> -->
 
         <!-- <mat-card-content> -->
+          
+
+          
+
+          <!-- end -->
           <mat-form-field class="mat-full-width">
             <mat-select
               formControlName="type"
@@ -96,12 +101,25 @@
             "
           >
             <mat-form-field class="mat-full-width">
-              <input
-                matInput
+              <mat-select
                 formControlName="location"
                 placeholder="Location"
+                (selectionChange)="LocationChanged($event)"
                 required
-              />
+              >
+                <mat-option
+                  value="Head"
+                >
+                  Head
+                </mat-option>
+  
+                <mat-option
+                  value="Body"
+                >
+                  Body
+                </mat-option>
+  
+              </mat-select>
             </mat-form-field>
 
             <mat-form-field class="mat-full-width">
@@ -114,12 +132,48 @@
             </mat-form-field>
 
             <mat-form-field class="mat-full-width">
+              <mat-select
+                formControlName="scriptType"
+                placeholder="Script Type"
+                required
+              >
+                <mat-option
+                  value="Content"
+                >
+                  Content
+                </mat-option>
+  
+                <mat-option
+                  value="Source"
+                >
+                  Source
+                </mat-option>
+  
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width" *ngIf="ScriptTypeFormControl?.value === 'Content' ">
               <textarea
+                
                 matInput
                 formControlName="script"
-                placeholder="Script"
+                placeholder="Script Content"
                 required></textarea>
+
+                
             </mat-form-field>
+            <mat-form-field class="mat-full-width"
+            *ngIf="ScriptTypeFormControl?.value === 'Source' ">
+
+              <input
+                
+                matInput
+                formControlName="script"
+                placeholder="Script URL"
+                required
+              />
+            </mat-form-field>
+
           </ng-container>
 
 

@@ -57,6 +57,10 @@ export class DFSModifiersFormComponent implements OnInit {
   @Input('level')
   public Level: string;
 
+  // public get Details(): any {
+  //   return JSON.stringify(this.EditingModifier?.Details);
+  // }
+
   public get DetailsFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.details;
   }
@@ -131,6 +135,10 @@ export class DFSModifiersFormComponent implements OnInit {
 
   public get ScriptIDFormControl(): AbstractControl {
     return this.ModifierFormGroup?.controls.scriptId;
+  }
+
+  public get ScriptTypeFormControl(): AbstractControl {
+    return this.ModifierFormGroup?.controls.scriptType;
   }
 
   public get StateDataTokenFormControl(): AbstractControl {
@@ -313,6 +321,8 @@ export class DFSModifiersFormComponent implements OnInit {
 
         details['Script'] = this.ScriptFormControl.value;
 
+        details['ScriptType'] = this.ScriptTypeFormControl.value;
+
         details['ScriptID'] = this.ScriptIDFormControl.value;
         break;
     }
@@ -351,6 +361,7 @@ export class DFSModifiersFormComponent implements OnInit {
     this.ModifierFormGroup.removeControl('location');
     this.ModifierFormGroup.removeControl('script');
     this.ModifierFormGroup.removeControl('scriptId');
+    this.ModifierFormGroup.removeControl('scriptType');
 
     const details = JSON.parse(this.EditingModifier?.Details || '{}');
 
@@ -370,7 +381,7 @@ export class DFSModifiersFormComponent implements OnInit {
       case 'LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null':
         this.ModifierFormGroup.addControl(
           'location',
-          this.formBldr.control(details?.Location || '', [Validators.required])
+          this.formBldr.control(details?.Location || 'Head', [Validators.required])
         );
 
         this.ModifierFormGroup.addControl(
@@ -382,6 +393,11 @@ export class DFSModifiersFormComponent implements OnInit {
           'scriptId',
           this.formBldr.control(details?.ScriptID || '', [Validators.required])
         );
+
+        this.ModifierFormGroup.addControl(
+          'scriptType',
+          this.formBldr.control(details?.ScriptType || 'Control')
+        )
         break;
     }
   }
