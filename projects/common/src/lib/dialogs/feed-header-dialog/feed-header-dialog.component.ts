@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { BaseModeledResponse } from '@lcu/common';
 import { EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
@@ -93,6 +94,8 @@ export class FeedHeaderDialogComponent implements OnInit {
 
   public EditorConfig: AngularEditorConfig;
 
+  public ErrorMessage: string;
+
   public FeedHeaderFormGroup: FormGroup;
 
   public OrganizationOptions: GitHubOrganization[];
@@ -112,7 +115,8 @@ export class FeedHeaderDialogComponent implements OnInit {
     protected eacSvc: EaCService,
     protected formBldr: FormBuilder,
     public dialogRef: MatDialogRef<FeedHeaderDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: FeedHeaderDialogData,) {
+    @Inject(MAT_DIALOG_DATA) public data: FeedHeaderDialogData,
+    protected snackBar: MatSnackBar) {
       
     this.EditorConfig = {
       editable: true,
@@ -157,6 +161,8 @@ export class FeedHeaderDialogComponent implements OnInit {
         ['fontSize']
       ]
     };
+
+    this.ErrorMessage = null;
 
     this.SlicesCount = 5;
 
@@ -221,12 +227,27 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     }
     console.log("Control: ", returnObject );
+    
 
-    let status = this.eacSvc.SubmitFeedEntry(returnObject);
-    console.log("feed entry status: ", status);
+    this.eacSvc.SubmitFeedEntry(returnObject).then((res) => {
+
+      if (res.Code === 0){
+      this.snackBar.open(` '${this.data.type}' Succesfully Created`, "Dismiss",{
+        duration: 5000
+      });
+      this.CloseDialog();
+    }
+    else{
+      this.ErrorMessage = res.Message;
+    }
+    });
+
+    
 
     // console.log("Editor: ", this.EditorControl.value )
   }
+
+  
 
   public OrganizationChanged(event: MatSelectChange): void {
 
