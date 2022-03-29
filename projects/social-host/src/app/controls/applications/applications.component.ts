@@ -200,11 +200,11 @@ export class ApplicationsComponent implements OnInit {
 
   public get StateConfig():  EaCDataToken {
     if(this.HasStateConfig){
-      if(this.Project.DataTokens['lcu-state-config']){
-        return this.Project.DataTokens['lcu-state-config'];
+      if(this.Project?.DataTokens['lcu-state-config']){
+        return this.Project?.DataTokens['lcu-state-config'];
       }
-      else if(this.Application.DataTokens['lcu-state-config']){
-        return this.Application.DataTokens['lcu-state-config'];
+      else if(this.Application?.DataTokens['lcu-state-config']){
+        return this.Application?.DataTokens['lcu-state-config'];
       }
     }
     else{

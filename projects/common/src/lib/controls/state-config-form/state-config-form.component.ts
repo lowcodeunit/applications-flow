@@ -17,7 +17,7 @@ export class StateConfigFormComponent implements OnInit {
   public Config: string;
 
   public get StateConfigFormControl(): AbstractControl{
-    return this.StateConfigDialogForm.controls.config;
+    return this.StateConfigDialogForm?.controls.config;
   }
 
   public StateConfigDialogForm: FormGroup;
@@ -36,7 +36,7 @@ export class StateConfigFormComponent implements OnInit {
   public SaveStateConfig(){
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ApplicationLookup: this.AppLookup || Guid.CreateRaw(),
-      DataToken: this.StateConfigFormControl.value
+      DataToken: this.StateConfigFormControl?.value
 
     }
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
