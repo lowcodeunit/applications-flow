@@ -67,7 +67,10 @@ export class DFSModifiersDialogComponent implements OnInit {
   }
 
   public DeleteModifier(): void {
-    this.eacSvc.DeleteModifier(this.data.modifierLookup, this.data.modifierName);
+    this.eacSvc.DeleteModifier(
+      this.data.modifierLookup,
+      this.data.modifierName
+    );
   }
 
   public HandleSaveFormEvent(event: Status) {
