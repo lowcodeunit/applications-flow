@@ -20,7 +20,7 @@
                         (selectionChange)="IssueSourceControlChanged($event)"
 
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
+                    <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
@@ -135,7 +135,7 @@
                         formControlName="sourceControl"
                         (selectionChange)="PullRequestSourceControlChanged($event)"
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
+                    <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
@@ -200,7 +200,7 @@
                         formControlName="sourceControl"
                         (selectionChange)="FeatureBranchSourceControlChanged($event)"
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
+                    <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
