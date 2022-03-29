@@ -24,9 +24,9 @@
         color="warn"
         mat-button
         class="info-card-btn"
-        (click)="DeleteProject(ProjectLookup, Project.Name)"
+        (click)="DeleteProject(ProjectLookup, Project?.Project?.Name)"
       >
-      <mat-icon  matTooltip="Delete {{ Project.Name }}">
+      <mat-icon  matTooltip="Delete {{ Project?.Project?.Name }}">
         delete_forever
       </mat-icon>
         Delete Project
