@@ -24,7 +24,7 @@ export class StateConfigDialogComponent implements OnInit {
   public StateConfigForm: StateConfigFormComponent;
 
   public get Application(): EaCApplicationAsCode {
-    return this.State.EaC.Applications[this.data.appLookup];
+    return this.State?.EaC?.Applications[this.data.appLookup];
   }
 
   public get State(): ApplicationsFlowState{
@@ -32,7 +32,9 @@ export class StateConfigDialogComponent implements OnInit {
   }
 
 
-  public StateConfigDialogForm: FormGroup;
+  public get StateConfigFormControl(): AbstractControl{
+    return this.StateConfigForm?.StateConfigFormControl;
+  }
 
   constructor(protected eacSvc: EaCService,
     public dialogRef: MatDialogRef<StateConfigDialogComponent>,
@@ -49,7 +51,7 @@ export class StateConfigDialogComponent implements OnInit {
   }
 
   public SaveStateConfig(){
-    this.StateConfigForm.SaveStateConfig();
+    this.StateConfigForm?.SaveStateConfig();
   }
 
   

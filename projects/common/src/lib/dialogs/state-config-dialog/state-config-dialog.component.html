@@ -47,7 +47,7 @@
           fxFlex="25%" 
           color="primary" 
           (click)="SaveStateConfig()"
-          [disabled]="!StateConfigFormGroup?.dirty"
+          [disabled]="!StateConfigFormControl?.dirty || !StateConfigFormControl?.valid"
           >
           <!-- <mat-icon>save</mat-icon> -->
           Save

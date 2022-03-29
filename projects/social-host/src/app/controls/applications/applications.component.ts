@@ -248,6 +248,8 @@ export class ApplicationsComponent implements OnInit {
 
   public IsInfoCardShareable: boolean;
 
+  public SkeletonEffect: string;
+
   public Stats: any;
 
   public Slices: { [key: string]: number };
@@ -277,6 +279,8 @@ export class ApplicationsComponent implements OnInit {
 
     this.IsInfoCardEditable = true;
     this.IsInfoCardShareable = false;
+
+    this.SkeletonEffect = 'wave';
 
     this.SlicesCount = 5;
 
