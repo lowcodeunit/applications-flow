@@ -25,7 +25,10 @@ export class GitAuthComponent implements OnInit, AfterViewInit {
 
     // window.location.href = `/.oauth/GitHubOAuth?redirectUri=${reidrectUri}`;
 
-    window.location.href = `/.oauth/GitHubOAuth?redirectUri=%2Fdashboard`;
+    // added below line for the new social ui redirectUri wasn't working
+
+    window.location.href = '/.oauth/GitHubOAuth?redirectUri=%2Fdashboard';
+
 
     this.ConnectClicked = true;
   }

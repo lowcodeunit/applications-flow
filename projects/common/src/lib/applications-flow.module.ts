@@ -1,6 +1,10 @@
 import { FormsService } from './services/forms.service';
 import { ProjectService } from './services/project.service';
-import { NgModule, ModuleWithProviders, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import {
+  NgModule,
+  ModuleWithProviders,
+  CUSTOM_ELEMENTS_SCHEMA,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FathymSharedModule, MaterialModule } from '@lcu/common';
@@ -30,20 +34,18 @@ import { NPMService } from './services/npm.service';
 import { NpmPackageSelectComponent } from './elements/projects/controls/tabs/apps-flow/npm-package-select/npm-package-select.component';
 import { DevOpsComponent } from './elements/projects/controls/tabs/devops/devops.component';
 import { DFSModifiersComponent } from './elements/projects/controls/tabs/dfs-modifiers/dfs-modifiers.component';
-import { FlowToolComponent } from './elements/flow-tool/flow-tool.component';
 import { ThreeColumnComponent } from './elements/three-column/three-column.component';
 import { SlottedCardComponent } from './elements/slotted-card/slotted-card.component';
 import { ProjectInfoCardComponent } from './elements/project-info-card/project-info-card.component';
 import { AnalyticsCardComponent } from './elements/analytics-card/analytics-card.component';
 import { FeedCardSmComponent } from './elements/feed-card-sm/feed-card-sm.component';
-import { GhControlComponent } from './elements/gh-control/gh-control.component';
 import { MainFeedCardComponent } from './elements/main-feed-card/main-feed-card.component';
 import { TwoColumnHeaderComponent } from './elements/two-column-header/two-column-header.component';
 import { CardCarouselComponent } from './elements/card-carousel/card-carousel.component';
 import { SecurityToggleComponent } from './controls/security-toggle/security-toggle.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { EaCService } from './services/eac.service';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ProcessorDetailsFormComponent } from './controls/processor-details-form/processor-details-form.component';
 import { SourceControlFormComponent } from './controls/source-control-form/source-control-form.component';
 import { BuildPipelineFormComponent } from './controls/build-pipeline-form/build-pipeline-form.component';
@@ -61,7 +63,13 @@ import { SkeletonFeedCardComponent } from './elements/skeleton-feed-card/skeleto
 import { UpgradeDialogComponent } from './dialogs/upgrade-dialog/upgrade-dialog.component';
 import { EmulatedDevicesToggleComponent } from './controls/emulated-devices-toggle/emulated-devices-toggle.component';
 import { IoTEnsembleService } from './services/iot-ensemble.service';
-
+import { FeedHeaderComponent } from './elements/feed-header/feed-header.component';
+import { FeedHeaderDialogComponent } from './dialogs/feed-header-dialog/feed-header-dialog.component';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { DFSModifiersDialogComponent } from './dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component';
+import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-modifiers-form.component';
+import { StateConfigDialogComponent } from './dialogs/state-config-dialog/state-config-dialog.component';
+import { StateConfigFormComponent } from './controls/state-config-form/state-config-form.component';
 
 @NgModule({
   declarations: [
@@ -86,13 +94,13 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-    FlowToolComponent,
+    DFSModifiersFormComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
@@ -105,15 +113,20 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
     BreadcrumbComponent,
+    DFSModifiersDialogComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
     NewApplicationDialogComponent,
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
     UpgradeDialogComponent,
-    EmulatedDevicesToggleComponent
+    EmulatedDevicesToggleComponent,
+    FeedHeaderDialogComponent,
+    StateConfigDialogComponent,
+    StateConfigFormComponent,
   ],
   imports: [
+    AngularEditorModule,
     ClipboardModule,
     FathymSharedModule,
     FormsModule,
@@ -123,7 +136,7 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     AppHostModule,
     MatTooltipModule,
     MatSlideToggleModule,
-    SkeletonElementsModule
+    SkeletonElementsModule,
 
     // LazyElementModule,
   ],
@@ -149,13 +162,13 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     DevOpsComponent,
     DFSModifiersComponent,
     NpmPackageSelectComponent,
-    FlowToolComponent,
     ThreeColumnComponent,
     SlottedCardComponent,
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
+    FeedHeaderDialogComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
@@ -174,7 +187,12 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     ProcessorDetailsDialogComponent,
     SkeletonFeedCardComponent,
     UpgradeDialogComponent,
-    EmulatedDevicesToggleComponent
+    EmulatedDevicesToggleComponent,
+    FeedHeaderDialogComponent,
+    DFSModifiersDialogComponent,
+    DFSModifiersFormComponent,
+    StateConfigDialogComponent,
+    StateConfigFormComponent
   ],
   entryComponents: [
     ApplicationsFlowProjectsElementComponent,
@@ -201,26 +219,28 @@ import { IoTEnsembleService } from './services/iot-ensemble.service';
     ProjectInfoCardComponent,
     AnalyticsCardComponent,
     FeedCardSmComponent,
-    GhControlComponent,
+    FeedHeaderComponent,
     MainFeedCardComponent,
     TwoColumnHeaderComponent,
     CardCarouselComponent,
     SecurityToggleComponent,
     ProcessorDetailsFormComponent,
+    DFSModifiersFormComponent,
     SourceControlFormComponent,
     BuildPipelineFormComponent,
     DevopsSourceControlFormComponent,
+    DFSModifiersDialogComponent,
     SourceControlDialogComponent,
     BuildPipelineDialogComponent,
     EditApplicationFormComponent,
     BreadcrumbComponent,
     CustomDomainDialogComponent,
     EditApplicationDialogComponent,
-    EmulatedDevicesToggleComponent
+    EmulatedDevicesToggleComponent,
   ],
   schemas: [
-    CUSTOM_ELEMENTS_SCHEMA // Tells Angular we will have custom tags in our templates
-  ]
+    CUSTOM_ELEMENTS_SCHEMA, // Tells Angular we will have custom tags in our templates
+  ],
 })
 export class ApplicationsFlowModule {
   static forRoot(): ModuleWithProviders<ApplicationsFlowModule> {
@@ -233,7 +253,7 @@ export class ApplicationsFlowModule {
         NPMService,
         FormsService,
         EaCService,
-        IoTEnsembleService
+        IoTEnsembleService,
       ],
     };
   }
