@@ -65,7 +65,7 @@
 
               <mat-option value="WordPress">WordPress</mat-option>
 
-              <!-- <mat-option value="Zip">Zip</mat-option> -->
+              <mat-option value="Zip">Zip</mat-option>
             </mat-select>
           </mat-form-field>
 
@@ -161,6 +161,17 @@
                   matInput
                   placeholder="API Root"
                   formControlName="apiRoot"
+                  required
+                />
+              </mat-form-field>
+            </div>
+
+            <div *ngSwitchCase="'Zip'">
+              <mat-form-field class="mat-full-width">
+                <input
+                  matInput
+                  placeholder="Zip File"
+                  formControlName="zipFile"
                   required
                 />
               </mat-form-field>

@@ -5,10 +5,13 @@ import {
   EaCService,
   ApplicationsFlowService,
   CustomDomainDialogComponent,
-  NewApplicationDialogComponent
+  NewApplicationDialogComponent,
+  DFSModifiersDialogComponent
 } from '@lowcodeunit/applications-flow-common';
-import { EaCApplicationAsCode, EaCEnvironmentAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
+import { EaCDFSModifier } from '@semanticjs/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lcu-projects',
@@ -53,7 +56,7 @@ export class ProjectsComponent implements OnInit {
     return this.eacSvc.State;
   }
 
-  public get Project(): any {
+  public get Project(): EaCProjectAsCode {
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 
@@ -68,6 +71,19 @@ export class ProjectsComponent implements OnInit {
   public get NumberOfRoutes(): number {
     return this.ApplicationRoutes?.length;
   }
+
+  public get NumberOfModifiers(): number {
+    return this.ProjectsModifierLookups?.length;
+  }
+
+  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    return this.State?.EaC?.Modifiers || {};
+  }
+
+  public get ProjectsModifierLookups(): Array<string> {
+    return this.Project.ModifierLookups || [];
+  }
+
 
   public get RoutedApplications(): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
@@ -159,9 +175,10 @@ export class ProjectsComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    protected router: Router
   ) {
-    this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe((params: any) => {
       this.ProjectLookup = params['projectLookup'];
     });
 
@@ -178,6 +195,7 @@ export class ProjectsComponent implements OnInit {
 
     this.Slices = {
       Routes: this.SlicesCount,
+      Modifiers: this.SlicesCount
     };
   }
 
@@ -200,6 +218,12 @@ export class ProjectsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       // console.log('The domains dialog was closed');
       // console.log("result:", result)
+    });
+  }
+
+  public DeleteProject(projectLookup: string, projectName: string): void {
+    this.eacSvc.DeleteProject(projectLookup, projectName).then(status => {
+      this.router.navigate(['/enterprise']);
     });
   }
 
@@ -228,6 +252,24 @@ export class ProjectsComponent implements OnInit {
 
   }
 
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
+    // throw new Error('Not implemented: OpenModifierDialog');
+    const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
+      width: '600px',
+      data: {
+        modifierLookup: mdfrLookup,
+        modifierName: mdfrName,
+        projectLookup: this.ProjectLookup,
+        level: 'project'
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
   public SettingsClicked() {
     console.log('Settings Clicked');
   }
@@ -239,14 +281,16 @@ export class ProjectsComponent implements OnInit {
   public LaunchBuildClicked() {
     console.log('launch build clicked');
   }
-
   public ToggleSlices(type: string) {
     let count = this.Slices[type];
 
     let length =
-      type === 'Routes'
+      type === 'Modifiers'
+        ? this.NumberOfModifiers
+        : type === 'Routes'
         ? this.NumberOfRoutes
         : this.SlicesCount;
+        
 
     if (count === length) {
       this.Slices[type] = this.SlicesCount;
@@ -254,6 +298,7 @@ export class ProjectsComponent implements OnInit {
       this.Slices[type] = length;
     }
   }
+
 
   public ViewBuildDetails() {
     console.log('View build details clicked');

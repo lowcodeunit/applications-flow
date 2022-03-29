@@ -12,13 +12,19 @@ import {
   SourceControlFormComponent,
   EditApplicationDialogComponent,
   ProcessorDetailsDialogComponent,
+  DFSModifiersDialogComponent,
+  StateConfigDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCApplicationAsCode,
+  EaCDataToken,
   EaCEnvironmentAsCode,
+  EaCProjectAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
+import { EaCDFSModifier } from '@semanticjs/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'lcu-applications',
@@ -76,7 +82,32 @@ export class ApplicationsComponent implements OnInit {
     };
   }
 
-  public get Project(): any {
+  public get HasStateConfig(): boolean {
+    if(this.Application.ModifierLookups['lcu-reg']){
+      return true;
+    }
+    else if(this.Project.ModifierLookups['lcu-reg']){
+      return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
+  public get NumberOfModifiers(): number {
+    return this.ModifierLookups?.length;
+  }
+
+  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    return this.State?.EaC?.Modifiers || {};
+  }
+
+  public get ModifierLookups(): Array<string> {
+    return this.Application.ModifierLookups || [];
+  }
+
+  public get Project(): EaCProjectAsCode {
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 
@@ -167,6 +198,20 @@ export class ApplicationsComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public get StateConfig():  EaCDataToken {
+    if(this.HasStateConfig){
+      if(this.Project.DataTokens['lcu-state-config']){
+        return this.Project.DataTokens['lcu-state-config'];
+      }
+      else if(this.Application.DataTokens['lcu-state-config']){
+        return this.Application.DataTokens['lcu-state-config'];
+      }
+    }
+    else{
+      return null;
+    }
+  }
+
   public get Version(): string {
     let version;
     switch (this.Application?.LowCodeUnit?.Type) {
@@ -203,7 +248,13 @@ export class ApplicationsComponent implements OnInit {
 
   public IsInfoCardShareable: boolean;
 
+  public SkeletonEffect: string;
+
   public Stats: any;
+
+  public Slices: { [key: string]: number };
+
+  public SlicesCount: number;
 
   public ProjectLookup: string;
 
@@ -211,7 +262,8 @@ export class ApplicationsComponent implements OnInit {
     protected appSvc: ApplicationsFlowService,
     private activatedRoute: ActivatedRoute,
     protected eacSvc: EaCService,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    protected router: Router
   ) {
     this.Stats = [
       { Name: 'Retention Rate', Stat: '85%' },
@@ -219,7 +271,7 @@ export class ApplicationsComponent implements OnInit {
       { Name: 'Someother Rate', Stat: '5%' },
     ];
 
-    this.activatedRoute.params.subscribe((params) => {
+    this.activatedRoute.params.subscribe((params: any) => {
       this.ApplicationLookup = params['appLookup'];
       this.CurrentApplicationRoute = params['appRoute'];
       this.ProjectLookup = params['projectLookup'];
@@ -227,6 +279,14 @@ export class ApplicationsComponent implements OnInit {
 
     this.IsInfoCardEditable = true;
     this.IsInfoCardShareable = false;
+
+    this.SkeletonEffect = 'wave';
+
+    this.SlicesCount = 5;
+
+    this.Slices = {
+      Modifiers: this.SlicesCount,
+    };
   }
 
   public ngOnInit(): void {
@@ -234,6 +294,18 @@ export class ApplicationsComponent implements OnInit {
   }
 
   //  API Methods
+
+  public DeleteApplication(appLookup: string, appName: string): void {
+    this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
+      this.router.navigate([
+        '/routes',
+        {
+          appRoute: this.CurrentApplicationRoute,
+          projectLookup: this.ProjectLookup,
+        },
+      ]);
+    });
+  }
 
   public HandleLeftClickEvent(event: any) {
     this.OpenEditAppModal();
@@ -252,7 +324,7 @@ export class ApplicationsComponent implements OnInit {
       data: {
         application: this.Application,
         applicationLookup: this.ApplicationLookup,
-        projectLookup: this.ProjectLookup
+        projectLookup: this.ProjectLookup,
       },
     });
 
@@ -311,6 +383,37 @@ export class ApplicationsComponent implements OnInit {
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
+    const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
+      width: '600px',
+      data: {
+        modifierLookup: mdfrLookup,
+        modifierName: mdfrName,
+        level: 'application',
+        applicationLookup: this.ApplicationLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
+  public OpenEditConfigDialog(){
+    const dialogRef = this.dialog.open(StateConfigDialogComponent, {
+      width: '600px',
+      data: {
+        config: this.StateConfig,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
   public SaveSecuritySettings(formValue: any): void {
     // console.log('Recieved Save Event: ', formValue);
 
@@ -334,6 +437,19 @@ export class ApplicationsComponent implements OnInit {
     };
 
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
+  }
+
+  public ToggleSlices(type: string) {
+    let count = this.Slices[type];
+
+    let length =
+      type === 'Modifiers' ? this.NumberOfModifiers : this.SlicesCount;
+
+    if (count === length) {
+      this.Slices[type] = this.SlicesCount;
+    } else {
+      this.Slices[type] = length;
+    }
   }
 
   //HELPERS

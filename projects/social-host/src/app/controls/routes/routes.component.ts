@@ -127,6 +127,8 @@ export class RoutesComponent implements OnInit {
     this.handleStateChange().then((eac) => {});
   }
 
+  
+
   public EditRouteClicked() {
     console.log('Edit Route clicked');
   }
