@@ -98,6 +98,8 @@ export class FeedHeaderDialogComponent implements OnInit {
 
   public FeedHeaderFormGroup: FormGroup;
 
+  public Loading: boolean;
+
   public OrganizationOptions: GitHubOrganization[];
 
   public RepositoryOptions: GitHubRepository[];
@@ -164,6 +166,8 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     this.ErrorMessage = null;
 
+    this.Loading = false;
+
     this.SlicesCount = 5;
 
     this.Slices = {
@@ -192,15 +196,24 @@ export class FeedHeaderDialogComponent implements OnInit {
   }
 
   public PullRequestSourceControlChanged(event: MatSelectChange){
+    console.log("sourcecontrol", this.SourceControlFormControl.value)
     this.SourceControl = this.SourceControls[this.SourceControlFormControl.value];
     this.listBranches();
 
   }
 
   public FeatureBranchSourceControlChanged(event: MatSelectChange){
+   
     this.SourceControl = this.SourceControls[this.SourceControlFormControl.value];
     this.listOrganizations();
 
+  }
+
+  public IsDisabled(): boolean{
+    // console.log("valid: ",this.FeedHeaderFormGroup?.valid)
+    // console.log("loading: ",this.Loading)
+    // console.log("returning ",(!this.FeedHeaderFormGroup?.valid || this.Loading))
+    return (!this.FeedHeaderFormGroup?.valid || this.Loading)
   }
 
   public IssueSourceControlChanged(event: MatSelectChange){
@@ -219,7 +232,7 @@ export class FeedHeaderDialogComponent implements OnInit {
       Organization: this.OrganizationFormControl ? this.OrganizationFormControl.value : null,
       Repositroy: this.RepositoryFormControl ? this.RepositoryFormControl.value : null,
       SourceBranch: this.SourceBranchFormControl ? this.SourceBranchFormControl.value : null,
-      SourceControlLookup: this.SourceControlFormControl ? this.SourceBranchFormControl.value : null,
+      SourceControlLookup: this.SourceControlFormControl ? this.SourceControlFormControl.value : null,
       Subtitle: this.SubtitleFormControl ? this.SubtitleFormControl.value : null,
       TargetBranch: this.TargetBranchFormControl ? this.TargetBranchFormControl.value: null,
       Type: this.data.type,
@@ -264,7 +277,9 @@ export class FeedHeaderDialogComponent implements OnInit {
   //HELPERS
 
   protected listBranches(): void {
-    // this.Loading = true;
+    this.Loading = true;
+
+    console.log("LISTING BRANCHES")
 
       this.appsFlowSvc
         .ListBranches(
@@ -273,21 +288,22 @@ export class FeedHeaderDialogComponent implements OnInit {
         )
         .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
           this.BranchOptions = response.Model;          
+          this.Loading = false;
 
         });
+        // console.log("Loading = ", this.Loading)
+
     
   }
 
   protected listOrganizations(): void {
-    // this.Loading = true;
+    this.Loading = true;
 
     this.appsFlowSvc
       .ListOrganizations()
       .subscribe((response: BaseModeledResponse<GitHubOrganization[]>) => {
         this.OrganizationOptions = response.Model;
         console.log("Organization Options: ", this.OrganizationOptions);
-
-        // this.Loading = false;
 
         if (this.SourceControl?.Organization) {
           setTimeout(() => {
@@ -298,28 +314,34 @@ export class FeedHeaderDialogComponent implements OnInit {
             this.listRepositories(this.SourceControl?.Repository);
           }, 0);
         }
+        this.Loading = false;
       });
+      // console.log("Loading = ", this.Loading)
+      
   }
 
   protected listRepositories(activeRepo: string = null): void {
-    // this.Loading = true;
+    this.Loading = true;
 
     this.appsFlowSvc
       .ListRepositories(this.OrganizationFormControl.value)
       .subscribe((response: BaseModeledResponse<GitHubRepository[]>) => {
         this.RepositoryOptions = response.Model;
 
-        // this.Loading = false;
-
+        
         if (activeRepo) {
           setTimeout(() => {
             this.RepositoryFormControl.setValue(activeRepo);
 
             this.listBranches();
+            // this.Loading=true;
 
           }, 0);
         } 
+        this.Loading = false;
       });
+      // console.log("Loading = ", this.Loading)
+
   }
 
   
@@ -419,14 +441,14 @@ protected setupBasicForm(){
     this.FeedHeaderFormGroup.addControl(
       'organization',
       this.formBldr.control(
-        ''
+        '',[Validators.required]
       )
     );
 
     this.FeedHeaderFormGroup.addControl(
       'repository',
       this.formBldr.control(
-        ''
+        '',[Validators.required]
       )
     );
 
@@ -438,7 +460,7 @@ protected setupBasicForm(){
     this.FeedHeaderFormGroup.addControl(
       'sourceControl',
       this.formBldr.control(
-        ''
+        '',[Validators.required]
       )
     );
   }
@@ -447,14 +469,14 @@ protected setupBasicForm(){
     this.FeedHeaderFormGroup.addControl(
       'targetBranch',
       this.formBldr.control(
-        ''
+        '', [Validators.required]
       )
     );
 
     this.FeedHeaderFormGroup.addControl(
       'sourceBranch',
       this.formBldr.control(
-        ''
+        '', [Validators.required]
       )
     );
   }

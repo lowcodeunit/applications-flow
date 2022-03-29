@@ -18,6 +18,7 @@
                     <mat-select 
                         formControlName="sourceControl"
                         (selectionChange)="IssueSourceControlChanged($event)"
+                        required
 
                     >
                     <ng-container *ngFor="let scLookup of SourceControlLookups">
@@ -134,6 +135,7 @@
                     <mat-select 
                         formControlName="sourceControl"
                         (selectionChange)="PullRequestSourceControlChanged($event)"
+                        required
                     >
                     <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
@@ -199,6 +201,7 @@
                     <mat-select 
                         formControlName="sourceControl"
                         (selectionChange)="FeatureBranchSourceControlChanged($event)"
+                        required
                     >
                     <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
@@ -302,10 +305,7 @@
         fxFlex="25%"
         class="submit" 
         (click)="Submit()"
-        [disabled]="
-    !FeedHeaderFormGroup?.valid 
-"
-        
+        [disabled]="IsDisabled()"
     >
         Submit
     </button>
