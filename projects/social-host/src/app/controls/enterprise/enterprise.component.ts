@@ -5,15 +5,16 @@ import {
   SourceControlDialogComponent,
   BuildPipelineDialogComponent,
   ApplicationsFlowService,
+  DFSModifiersDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCDevOpsAction,
+  EaCDFSModifier,
   EaCEnvironmentAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ThisReceiver } from '@angular/compiler';
 
 @Component({
   selector: 'lcu-enterprise',
@@ -45,22 +46,25 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public get Environment(): EaCEnvironmentAsCode {
-    // console.log("Ent Environment var: ", this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
     return this.State?.EaC?.Environments[
       this.State?.EaC?.Enterprise?.PrimaryEnvironment
     ];
   }
 
-  public get SourceControlLookups(): Array<string> {
-    return Object.keys(this.SourceControls || {});
+  public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    return this.State?.EaC?.Modifiers || {};
   }
 
-  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-    return this.Environment?.Sources || {};
+  public get ModifierLookups(): Array<string> {
+    return Object.keys(this.Modifiers || {});
   }
 
   public get NumberOfSourceControls(): number {
     return this.SourceControlLookups?.length;
+  }
+
+  public get NumberOfModifiers(): number {
+    return this.ModifierLookups?.length;
   }
 
   public get NumberOfPipelines(): number {
@@ -75,8 +79,16 @@ export class EnterpriseComponent implements OnInit {
     return Object.keys(this.State?.EaC?.Projects || {});
   }
 
+  public get SourceControlLookups(): Array<string> {
+    return Object.keys(this.SourceControls || {});
+  }
+
+  public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    return this.Environment?.Sources || {};
+  }
+
   public get State(): ApplicationsFlowState {
-    return this.eacSvc.State;
+    return this.eacSvc?.State;
   }
 
   public Slices: { [key: string]: number };
@@ -99,6 +111,7 @@ export class EnterpriseComponent implements OnInit {
     this.SlicesCount = 5;
 
     this.Slices = {
+      Modifiers: this.SlicesCount,
       Projects: this.SlicesCount,
       Pipelines: this.SlicesCount,
       Sources: this.SlicesCount,
@@ -114,34 +127,55 @@ export class EnterpriseComponent implements OnInit {
   public HandleLeftClickEvent(event: any) {}
   public HandleRightClickEvent(event: any) {}
 
-  public OpenBuildPipelineDialog(doaLookup: string) {
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
+    console.log('Modifier lookup: ', mdfrLookup);
+    // throw new Error('Not implemented: OpenModifierDialog');
+    const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
+      width: '600px',
+      data: {
+        modifierLookup: mdfrLookup,
+        modifierName: mdfrName,
+        modifiers: this.Modifiers,
+        level: 'enterprise',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
+  public OpenBuildPipelineDialog(doaLookup: string, doaName: string = '') {
     const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {
       width: '600px',
       data: {
         devopsActionLookup: doaLookup,
+        doaName: doaName,
         environment: this.Environment,
         environmentLookup: this.ActiveEnvironmentLookup,
         // buildPipeline: doaLookup
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
   }
 
-  public OpenSourceControlDialog(scLookup: string): void {
+  public OpenSourceControlDialog(scLookup: string, scName: string): void {
     const dialogRef = this.dialog.open(SourceControlDialogComponent, {
       width: '385px',
       data: {
         environment: this.Environment,
         environmentLookup: this.ActiveEnvironmentLookup,
         scLookup: scLookup,
+        scName: scName,
       },
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe((result: any) => {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
@@ -155,7 +189,9 @@ export class EnterpriseComponent implements OnInit {
     let count = this.Slices[type];
 
     let length =
-      type === 'Projects'
+      type === 'Modifiers'
+        ? this.NumberOfModifiers
+        : type === 'Projects'
         ? this.NumberOfProjects
         : type === 'Pipelines'
         ? this.NumberOfPipelines

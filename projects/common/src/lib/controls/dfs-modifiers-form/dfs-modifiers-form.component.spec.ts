@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { DomainsComponent } from '../../elements/projects/controls/tabs/domains/domains.component';
 
-import { FlowToolComponent } from './flow-tool.component';
 
-describe('FlowToolComponent', () => {
-  let component: FlowToolComponent;
-  let fixture: ComponentFixture<FlowToolComponent>;
+describe('DomainsComponent', () => {
+  let component: DomainsComponent;
+  let fixture: ComponentFixture<DomainsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ FlowToolComponent ]
+      declarations: [ DomainsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FlowToolComponent);
+    fixture = TestBed.createComponent(DomainsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -35,9 +35,7 @@ export class ProjectItemsComponent implements OnInit {
 
   //  API Methods
   public DeleteProject(projectLookup: string, projectName: string): void {
-    if (confirm(`Are you sure you want to delete project '${projectName}'?`)) {
-      this.eacSvc.DeleteProject(projectLookup);
-    }
+    this.eacSvc.DeleteProject(projectLookup, projectName).then();
   }
 
   public GetPrimaryHost(project: EaCProjectAsCode): string {

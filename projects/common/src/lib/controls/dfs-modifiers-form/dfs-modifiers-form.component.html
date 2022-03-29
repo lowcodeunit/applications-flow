@@ -1,0 +1,310 @@
+<div>
+
+  <div *ngIf="!EditingModifierLookup">
+    Select the modifiers you would like to apply from the list below, or create
+    a new modifier.
+  </div>
+  
+  <form
+    [formGroup]="ModifierFormGroup"
+    (ngSubmit)="SaveModifier()"
+    *ngIf="EditingModifier"
+  >
+    <div class="form-card">
+      <!-- <mat-card class="spread"> -->
+        <!-- <mat-card-header>
+          <mat-card-title> DFS Modifier </mat-card-title>
+
+          <div fxFlex></div>
+
+          <mat-icon
+            matSuffix
+            matTooltip="Configure modifiers for your DFS files."
+          >
+            info_outline
+          </mat-icon>
+        </mat-card-header> -->
+
+        <!-- <mat-card-content> -->
+          
+
+          
+
+          <!-- end -->
+          <mat-form-field class="mat-full-width">
+            <mat-select
+              formControlName="type"
+              placeholder="DFS Modifier Type"
+              (selectionChange)="TypeChanged($event)"
+            >
+              <mat-option
+                value="LCU.Runtime.Applications.Modifiers.HTMLBaseDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              >
+                HTML Base Modfier
+              </mat-option>
+
+              <mat-option
+                value="LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              >
+                LCU Reg Modfier
+              </mat-option>
+
+              <mat-option
+                value="LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null"
+              >
+                Thrid Party Library Modifier
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="mat-full-width">
+            <input
+              matInput
+              formControlName="name"
+              placeholder="Name"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field class="mat-full-width">
+            <input
+              matInput
+              formControlName="priority"
+              placeholder="Priority"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field class="mat-full-width">
+            <input
+              matInput
+              formControlName="pathFilter"
+              placeholder="Path Filter (regex)"
+            />
+          </mat-form-field>
+
+          
+
+          <ng-container
+            *ngIf="
+              CurrentType ==
+              'LCU.Runtime.Applications.Modifiers.LCURegDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+            "
+          >
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                formControlName="stateDataToken"
+                placeholder="State Data Token"
+                required
+              />
+            </mat-form-field>
+          </ng-container>
+
+          <ng-container
+            *ngIf="
+              CurrentType ==
+              'LCU.Runtime.Applications.Modifiers.ThirdPartyLibraryDFSModifierManager, LCU.Runtime, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null'
+            "
+          >
+            <mat-form-field class="mat-full-width">
+              <mat-select
+                formControlName="location"
+                placeholder="Location"
+                (selectionChange)="LocationChanged($event)"
+                required
+              >
+                <mat-option
+                  value="Head"
+                >
+                  Head
+                </mat-option>
+  
+                <mat-option
+                  value="Body"
+                >
+                  Body
+                </mat-option>
+  
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width">
+              <input
+                matInput
+                formControlName="scriptId"
+                placeholder="Script ID"
+                required
+              />
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width">
+              <mat-select
+                formControlName="scriptType"
+                placeholder="Script Type"
+                required
+              >
+                <mat-option
+                  value="Content"
+                >
+                  Content
+                </mat-option>
+  
+                <mat-option
+                  value="Source"
+                >
+                  Source
+                </mat-option>
+  
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width" *ngIf="ScriptTypeFormControl?.value === 'Content' ">
+              <textarea
+                
+                matInput
+                formControlName="script"
+                placeholder="Script Content"
+                required></textarea>
+
+                
+            </mat-form-field>
+            <mat-form-field class="mat-full-width"
+            *ngIf="ScriptTypeFormControl?.value === 'Source' ">
+
+              <input
+                
+                matInput
+                formControlName="script"
+                placeholder="Script URL"
+                required
+              />
+            </mat-form-field>
+
+          </ng-container>
+
+
+          <mat-slide-toggle *ngIf="ProjectLookup" class="spread" formControlName="enabled">
+            Is Enabled?
+          </mat-slide-toggle>
+        <!-- </mat-card-content> -->
+      <!-- </mat-card> -->
+    </div>
+
+    <!-- <div class="spread">
+      <div fxFlex></div>
+
+      <button mat-button type="button" (click)="SetEditingModifier(null)">
+        <mat-icon>cancel</mat-icon> Cancel
+      </button>
+
+      <div fxFlex></div>
+
+      <button
+        mat-raised-button
+        type="submit"
+        color="primary"
+        [disabled]="!ModifierFormGroup.valid || !ModifierFormGroup.dirty"
+      >
+        <mat-icon>save</mat-icon> Save DFS Modifier
+      </button>
+
+      <div fxFlex></div>
+    </div> -->
+  </form>
+
+  <form
+          [formGroup]="ModifierSelectFormGroup"
+          *ngIf="!EditingModifier"
+  >
+
+    <div class="spread" *ngIf="!EditingModifier">
+      <span class="apps-actions">
+        <button mat-raised-button color="accent" (click)="CreateNewModifier()">
+          <mat-icon color="primary">add</mat-icon> Create New
+        </button>
+      </span>
+
+      <div class="spread">
+        <div *ngIf="EnterprisesModifierLookups?.length <= 0">
+          <h2>No DFS modifiers created, create your first DFS modifier.</h2>
+        </div>
+
+        <ng-container *ngIf="EnterprisesModifierLookups?.length > 0">
+          <!-- <h2>DFS Modifiers</h2> -->
+          
+          <mat-form-field appearance="fill">
+            <mat-label>Modifiers</mat-label>
+            <mat-select formControlName="multiSelect" multiple>
+              <mat-select-trigger>
+                {{MultiSelectFormControl?.value ? MultiSelectFormControl?.value[0] : ''}}
+                <span *ngIf="MultiSelectFormControl?.value?.length > 1" class="modifier-selection">
+                  (+{{MultiSelectFormControl?.value?.length - 1}} {{MultiSelectFormControl?.value?.length === 2 ? 'other' : 'others'}})
+                </span>
+              </mat-select-trigger>
+              <ng-container *ngFor="let modifierLookup of EnterprisesModifierLookups">
+              <mat-option *ngIf="Modifiers[modifierLookup]; let modifier" [value]="modifierLookup">{{modifier?.Name}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- <div fxLayout="row wrap" fxLayout.lt-md="column">
+            <div
+              fxFlex.lt-md="100%"
+              *ngFor="let modifierLookup of ModifierLookups"
+            >
+            
+              <ng-container *ngIf="Modifiers[modifierLookup]; let modifier">
+
+                  <div
+                    class="mat-subheading-2"
+                    [matTooltip]="modifier.Name"
+                  >
+                    {{ modifier.Name || modifier.Lookup }}
+
+
+                    <mat-slide-toggle
+                      class="spread"
+                      [checked]="
+                        Project?.ModifierLookups.indexOf(modifierLookup) >= 0
+                      "
+                      (change)="SetUseForProject(modifierLookup, $event)"
+                      [matTooltip]="'Use for ' + Level"
+                    >
+                    </mat-slide-toggle>
+                  </div>
+                
+
+                <div>
+                  <div class="data-app-actions">
+
+                    <button
+                      mat-icon-button
+                      color="accent"
+                      (click)="SetEditingModifier(modifierLookup)"
+                    >
+                      <mat-icon matTooltip="Edit DFS Modifier">
+                        settings
+                      </mat-icon>
+                    </button>
+
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="DeleteModifier(modifierLookup, modifier.Name)"
+                    >
+                      <mat-icon matTooltip="Delete {{ modifier.Name }}">
+                        delete_forever
+                      </mat-icon>
+                    </button>
+                  </div>
+
+                  
+                </div>
+              </ng-container>
+            </div>
+          </div> -->
+        </ng-container>
+      </div>
+    </div>
+  </form>
+</div>

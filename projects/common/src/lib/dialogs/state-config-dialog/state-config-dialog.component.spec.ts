@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GhControlComponent } from './gh-control.component';
+import { StateConfigDialogComponent } from './state-config-dialog.component';
 
-describe('GhControlComponent', () => {
-  let component: GhControlComponent;
-  let fixture: ComponentFixture<GhControlComponent>;
+describe('StateConfigDialogComponent', () => {
+  let component: StateConfigDialogComponent;
+  let fixture: ComponentFixture<StateConfigDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ GhControlComponent ]
+      declarations: [ StateConfigDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GhControlComponent);
+    fixture = TestBed.createComponent(StateConfigDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
