@@ -8,10 +8,10 @@ import { DFSModifiersFormComponent } from '../../controls/dfs-modifiers-form/dfs
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
-
 export interface DFSModifiersDialogData {
-  applicationLookup?: string,
+  applicationLookup?: string;
   modifierLookup?: string;
+  modifierName?: string;
   // modifiers:  { [lookup: string]: EaCDFSModifier };
   level: string;
   projectLookup?: string;
@@ -20,14 +20,11 @@ export interface DFSModifiersDialogData {
 @Component({
   selector: 'lcu-dfs-modifiers-dialog',
   templateUrl: './dfs-modifiers-dialog.component.html',
-  styleUrls: ['./dfs-modifiers-dialog.component.scss']
+  styleUrls: ['./dfs-modifiers-dialog.component.scss'],
 })
-
 export class DFSModifiersDialogComponent implements OnInit {
-
   @ViewChild(DFSModifiersFormComponent)
   public DFSModifersFormControls: DFSModifiersFormComponent;
-
 
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
@@ -37,7 +34,7 @@ export class DFSModifiersDialogComponent implements OnInit {
     return Object.keys(this.State?.EaC?.Projects || {});
   }
 
-  public get DFSModifersFormGroup(): FormGroup{
+  public get DFSModifersFormGroup(): FormGroup {
     return this.DFSModifersFormControls?.ModifierFormGroup;
   }
 
@@ -51,102 +48,94 @@ export class DFSModifiersDialogComponent implements OnInit {
 
   public SaveDisabled: boolean;
 
-  constructor(protected eacSvc: EaCService, 
+  constructor(
+    protected eacSvc: EaCService,
     public formbldr: FormBuilder,
     public dialogRef: MatDialogRef<DFSModifiersDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DFSModifiersDialogData,
-    protected snackBar: MatSnackBar) {
-      this.ModifierDialogForm = this.formbldr.group({});
-     
-     }
+    protected snackBar: MatSnackBar
+  ) {
+    this.ModifierDialogForm = this.formbldr.group({});
+  }
 
   public ngOnInit(): void {
     this.determineLevel();
   }
 
-  public CloseDialog(){
+  public CloseDialog() {
     this.dialogRef.close();
   }
 
-  public DeleteModifier(modifierLookup: string): void {
-    if (
-      confirm(`Are you sure you want to delete modifier '${modifierLookup}'?`)
-    ) {
-      this.eacSvc.DeleteSourceControl(modifierLookup);
-    }
+  public DeleteModifier(): void {
+    this.eacSvc.DeleteModifier(this.data.modifierLookup, this.data.modifierName);
   }
 
-  public HandleSaveFormEvent(event: Status){
-    console.log("event: ", event);
-    if (event.Code === 0){
-      this.snackBar.open("DFS Modifier Saved Successfully", "Dismiss",{
-        duration: 5000
+  public HandleSaveFormEvent(event: Status) {
+    console.log('event: ', event);
+    if (event.Code === 0) {
+      this.snackBar.open('DFS Modifier Saved Successfully', 'Dismiss', {
+        duration: 5000,
       });
       this.CloseDialog();
-    }
-    else{
+    } else {
       this.ErrorMessage = event.Message;
     }
   }
 
-  public IsDisabled(){
-    this.SaveDisabled=true;
-    if(this.DFSModifersFormGroup){
-
-      this.SaveDisabled = (!this.DFSModifersFormGroup?.valid || !this.ModifierDialogForm?.valid)
-    }
-    
-    else if(this.SelectedModifiersFormGroup){
-      this.SaveDisabled =  (!this.SelectedModifiersFormGroup?.valid || !this.SelectedModifiersFormGroup?.dirty);
+  public IsDisabled() {
+    this.SaveDisabled = true;
+    if (this.DFSModifersFormGroup) {
+      this.SaveDisabled =
+        !this.DFSModifersFormGroup?.valid || !this.ModifierDialogForm?.valid;
+    } else if (this.SelectedModifiersFormGroup) {
+      this.SaveDisabled =
+        !this.SelectedModifiersFormGroup?.valid ||
+        !this.SelectedModifiersFormGroup?.dirty;
     }
     return this.SaveDisabled;
   }
 
-  
-
-  public SaveDFSModifier(){
-
+  public SaveDFSModifier() {
     // console.log("level at save: ", this.data.level)
 
-    switch(this.data.level){
-      case "enterprise":{
-        if(this.ModifierDialogForm.controls.applyToAllProjects.value){
+    switch (this.data.level) {
+      case 'enterprise': {
+        if (this.ModifierDialogForm.controls.applyToAllProjects.value) {
           //save modifier add it to the ModifierLookups of all projects
-          this.DFSModifersFormControls.SaveModifierForAllProjects(this.ProjectLookups)
-        }
-        else{
+          this.DFSModifersFormControls.SaveModifierForAllProjects(
+            this.ProjectLookups
+          );
+        } else {
           //save modifier
           this.DFSModifersFormControls.SaveModifier();
         }
       }
-      case "project": {
-          this.DFSModifersFormControls.SaveModifier(this.data.projectLookup);
-
+      case 'project': {
+        this.DFSModifersFormControls.SaveModifier(this.data.projectLookup);
       }
 
-      case "application": {
-          this.DFSModifersFormControls.SaveModifierForApplication(this.data.applicationLookup);
-
+      case 'application': {
+        this.DFSModifersFormControls.SaveModifierForApplication(
+          this.data.applicationLookup
+        );
       }
     }
     // this.DFSModifersFormControls.SaveModifier();
-
   }
 
-  protected determineLevel(){
+  protected determineLevel() {
     // console.log("LEVEL: ", this.data.level)
-    switch(this.data.level){
-      case "enterprise":{
-        this.setupEntForm()
+    switch (this.data.level) {
+      case 'enterprise': {
+        this.setupEntForm();
       }
     }
   }
 
-  protected setupEntForm(){
+  protected setupEntForm() {
     this.ModifierDialogForm.addControl(
       'applyToAllProjects',
       this.formbldr.control(false)
     );
-  } 
-
+  }
 }

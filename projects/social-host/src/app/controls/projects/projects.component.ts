@@ -252,12 +252,13 @@ export class ProjectsComponent implements OnInit {
 
   }
 
-  public OpenModifierDialog(mdfrLookup: string) {
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
     // throw new Error('Not implemented: OpenModifierDialog');
     const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
+        modifierName: mdfrName,
         projectLookup: this.ProjectLookup,
         level: 'project'
       },

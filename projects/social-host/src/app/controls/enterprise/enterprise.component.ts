@@ -128,13 +128,14 @@ export class EnterpriseComponent implements OnInit {
   public HandleLeftClickEvent(event: any) {}
   public HandleRightClickEvent(event: any) {}
 
-  public OpenModifierDialog(mdfrLookup: string) {
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
     console.log('Modifier lookup: ', mdfrLookup);
     // throw new Error('Not implemented: OpenModifierDialog');
     const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
+        modifierName: mdfrName,
         modifiers: this.Modifiers,
         level: 'enterprise',
       },

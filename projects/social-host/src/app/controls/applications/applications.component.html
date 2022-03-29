@@ -150,7 +150,7 @@
       title="Modifiers"
       icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
-      (main-action-clicked)="OpenModifierDialog(null)"
+      (main-action-clicked)="OpenModifierDialog(null, null)"
     >
       <div>
         <div
@@ -170,7 +170,7 @@
               <div
                 class="slot-header"
                 fxLayout="row"
-                (click)="OpenModifierDialog(mdfrLookup)"
+                (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
               >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->

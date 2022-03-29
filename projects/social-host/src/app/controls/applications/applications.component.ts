@@ -379,11 +379,12 @@ export class ApplicationsComponent implements OnInit {
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
-  public OpenModifierDialog(mdfrLookup: string) {
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
     const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
+        modifierName: mdfrName,
         level: 'application',
         applicationLookup: this.ApplicationLookup,
       },
