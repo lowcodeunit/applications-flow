@@ -8,7 +8,7 @@ import {
   NewApplicationDialogComponent,
   DFSModifiersDialogComponent
 } from '@lowcodeunit/applications-flow-common';
-import { EaCApplicationAsCode, EaCEnvironmentAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { Router } from '@angular/router';
@@ -56,7 +56,7 @@ export class ProjectsComponent implements OnInit {
     return this.eacSvc.State;
   }
 
-  public get Project(): any {
+  public get Project(): EaCProjectAsCode {
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 

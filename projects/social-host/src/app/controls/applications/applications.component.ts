@@ -13,10 +13,13 @@ import {
   EditApplicationDialogComponent,
   ProcessorDetailsDialogComponent,
   DFSModifiersDialogComponent,
+  StateConfigDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCApplicationAsCode,
+  EaCDataToken,
   EaCEnvironmentAsCode,
+  EaCProjectAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -79,6 +82,19 @@ export class ApplicationsComponent implements OnInit {
     };
   }
 
+  public get HasStateConfig(): boolean {
+    if(this.Application.ModifierLookups['lcu-reg']){
+      return true;
+    }
+    else if(this.Project.ModifierLookups['lcu-reg']){
+      return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
   public get NumberOfModifiers(): number {
     return this.ModifierLookups?.length;
   }
@@ -91,7 +107,7 @@ export class ApplicationsComponent implements OnInit {
     return this.Application.ModifierLookups || [];
   }
 
-  public get Project(): any {
+  public get Project(): EaCProjectAsCode {
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 
@@ -180,6 +196,20 @@ export class ApplicationsComponent implements OnInit {
 
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
+  }
+
+  public get StateConfig():  EaCDataToken {
+    if(this.HasStateConfig){
+      if(this.Project.DataTokens['lcu-state-config']){
+        return this.Project.DataTokens['lcu-state-config'];
+      }
+      else if(this.Application.DataTokens['lcu-state-config']){
+        return this.Application.DataTokens['lcu-state-config'];
+      }
+    }
+    else{
+      return null;
+    }
   }
 
   public get Version(): string {
@@ -356,6 +386,20 @@ export class ApplicationsComponent implements OnInit {
         modifierLookup: mdfrLookup,
         level: 'application',
         applicationLookup: this.ApplicationLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
+  public OpenEditConfigDialog(){
+    const dialogRef = this.dialog.open(StateConfigDialogComponent, {
+      width: '600px',
+      data: {
+        config: this.StateConfig,
       },
     });
 
