@@ -23,12 +23,11 @@ export class SaveApplicationAsCodeEventRequest {
 
   public ApplicationLookup?: string;
 
-  public DataToken?:  EaCDataToken;
+  public DataToken?: EaCDataToken;
 
   public DataTokenLookup?: string;
 
   public ProjectLookup?: string;
-
 }
 
 // export class SaveDFSModifierForApplicationEventRequest {
@@ -48,7 +47,6 @@ export class SaveDFSModifierEventRequest {
 
   public ProjectLookups?: Array<string>;
 }
-
 
 export class SaveEnvironmentAsCodeEventRequest {
   public EnterpriseDataTokens?: { [lookup: string]: EaCDataToken };
@@ -227,8 +225,17 @@ export class EaCService {
     await this.projectService.GetActiveEnterprise(this.State);
   }
 
-  public async LoadUserFeed(page: number, pageSize: number): Promise<void> {
-    await this.projectService.LoadUserFeed(page, pageSize, this.State);
+  public async LoadUserFeed(
+    page: number,
+    pageSize: number,
+    forCheck: boolean = false
+  ): Promise<void> {
+    await this.projectService.LoadUserFeed(
+      page,
+      pageSize,
+      forCheck,
+      this.State
+    );
   }
 
   public GenerateRoutedApplications(applications: {
@@ -252,6 +259,19 @@ export class EaCService {
 
   public async LoadEnterpriseAsCode(): Promise<void> {
     await this.projectService.LoadEnterpriseAsCode(this.State);
+  }
+
+  public ReloadFeed() {
+    if (this.State.FeedCheck) {
+      this.State.Feed = this.State.FeedCheck.Items;
+
+      this.State.FeedActions = this.State.FeedCheck.Actions;
+
+      this.State.FeedSourceControlLookups =
+        this.State.FeedCheck.SourceControlLookups;
+    }
+
+    this.State.FeedCheck = null;
   }
 
   public async SaveApplicationAsCode(
@@ -336,8 +356,10 @@ export class EaCService {
       saveEaC.Applications[req.ApplicationLookup] = req.Application;
     }
 
-    if (req.DataToken){
-      saveEaC.Applications[req.ApplicationLookup].DataTokens[req.DataTokenLookup] = req.DataToken;
+    if (req.DataToken) {
+      saveEaC.Applications[req.ApplicationLookup].DataTokens[
+        req.DataTokenLookup
+      ] = req.DataToken;
     }
 
     return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
@@ -366,8 +388,8 @@ export class EaCService {
     }
 
     if (req.ApplicationLookup) {
-      console.log("APPLOokup: ", req.ApplicationLookup);
-      console.log("saveEAC: ", saveEaC)
+      console.log('APPLOokup: ', req.ApplicationLookup);
+      console.log('saveEAC: ', saveEaC);
       saveEaC.Applications[req.ApplicationLookup] = {
         ModifierLookups: req.ModifierLookups,
       };

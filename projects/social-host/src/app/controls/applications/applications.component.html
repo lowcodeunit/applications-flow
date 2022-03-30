@@ -13,9 +13,10 @@
       [is-editable]="IsInfoCardEditable"
       [is-shareable]="IsInfoCardShareable"
       [subtext]="
-        Project?.Hosts ? 
-        Project?.Hosts[Project?.Hosts?.length - 1] + Application?.Processor?.BaseHref :
-         ''
+        Project?.Hosts
+          ? Project?.Hosts[Project?.Hosts?.length - 1] +
+            Application?.Processor?.BaseHref
+          : ''
       "
       [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
       (left-click-event)="HandleLeftClickEvent($event)"
@@ -25,18 +26,6 @@
       <!-- <lcu-card-carousel
                         [stats]="Stats">
                     </lcu-card-carousel> -->
-      <button
-        action
-        color="warn"
-        mat-button
-        class="info-card-btn"
-        (click)="DeleteApplication(ApplicationLookup, Application?.Application?.Name)"
-      >
-        <mat-icon  matTooltip="Delete {{ Application?.Application?.Name }}">
-          delete_forever
-        </mat-icon>
-          Delete Application
-      </button>
 
       <button
         *ngIf="Application?.Processor?.Type === 'DFS'"
@@ -50,8 +39,20 @@
         Update Package: {{ Version }}
       </button>
 
-      
-
+      <button
+        action
+        color="warn"
+        mat-button
+        class="info-card-btn"
+        (click)="
+          DeleteApplication(ApplicationLookup, Application?.Application?.Name)
+        "
+      >
+        <mat-icon matTooltip="Delete {{ Application?.Application?.Name }}">
+          delete_forever
+        </mat-icon>
+        Delete Application
+      </button>
     </lcu-project-info-card>
 
     <!-- Commented out until implemented -->
@@ -134,26 +135,33 @@
       <mat-card class="social-card" *ngIf="!State?.Loading">
         <mat-card-title>Manage State Config</mat-card-title>
         <mat-card-actions>
-          <button mat-raised-button color="primary" class="config-btn" (click)="OpenEditConfigDialog()">Edit Config</button>
+          <button
+            mat-raised-button
+            color="primary"
+            class="config-btn"
+            (click)="OpenEditConfigDialog()"
+          >
+            Edit Config
+          </button>
         </mat-card-actions>
       </mat-card>
 
       <mat-card class="social-card" *ngIf="State?.Loading">
         <mat-card-title>Manage State Config</mat-card-title>
         <mat-card-actions>
-          <skeleton-block width="100%"  height="36px" [effect]="SkeletonEffect" ></skeleton-block>
+          <skeleton-block
+            width="100%"
+            height="36px"
+            [effect]="SkeletonEffect"
+          ></skeleton-block>
         </mat-card-actions>
       </mat-card>
     </div>
 
-
-
-
-
     <!-- Request Modifiers 
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
-      <lcu-slotted-card
+    <lcu-slotted-card
       card-title="Modifiers"
       icon="sync_alt"
       main-icon="edit"
