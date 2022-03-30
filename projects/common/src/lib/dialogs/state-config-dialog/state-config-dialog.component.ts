@@ -33,7 +33,7 @@ export class StateConfigDialogComponent implements OnInit {
 
 
   public get StateConfigFormControl(): AbstractControl{
-    return this.StateConfigForm?.StateConfigFormControl;
+    return this.StateConfigForm?.StateConfigForm;
   }
 
   constructor(protected eacSvc: EaCService,

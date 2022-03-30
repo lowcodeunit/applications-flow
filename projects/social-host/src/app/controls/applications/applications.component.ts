@@ -82,18 +82,18 @@ export class ApplicationsComponent implements OnInit {
     };
   }
 
-  public get HasStateConfig(): boolean {
-    if(this.Application.ModifierLookups['lcu-reg']){
-      return true;
-    }
-    else if(this.Project.ModifierLookups['lcu-reg']){
-      return true;
-    }
-    else{
-      return false;
-    }
+  // public get HasStateConfig(): boolean {
+  //   if(this.Application.ModifierLookups['lcu-reg']){
+  //     return true;
+  //   }
+  //   else if(this.Project.ModifierLookups['lcu-reg']){
+  //     return true;
+  //   }
+  //   else{
+  //     return false;
+  //   }
     
-  }
+  // }
 
   public get NumberOfModifiers(): number {
     return this.ModifierLookups?.length;
@@ -199,14 +199,18 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public get StateConfig():  EaCDataToken {
-    if(this.HasStateConfig){
+    // if(this.HasStateConfig){
+      console.log("Project: ", this.Project)
+      console.log("Application: ", this.Application)
+
       if(this.Project?.DataTokens['lcu-state-config']){
         return this.Project?.DataTokens['lcu-state-config'];
       }
+
       else if(this.Application?.DataTokens['lcu-state-config']){
         return this.Application?.DataTokens['lcu-state-config'];
       }
-    }
+    // }
     else{
       return null;
     }
