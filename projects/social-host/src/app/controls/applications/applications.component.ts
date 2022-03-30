@@ -301,13 +301,13 @@ export class ApplicationsComponent implements OnInit {
 
   public DeleteApplication(appLookup: string, appName: string): void {
     this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
-      this.router.navigate([
-        '/routes',
-        {
-          appRoute: this.CurrentApplicationRoute,
-          projectLookup: this.ProjectLookup,
-        },
-      ]);
+      // if(status.Code === 0){
+        console.log("HELLLLLLO: ", status);
+        this.router.navigate([
+          '/routes', this.CurrentApplicationRoute, this.ProjectLookup
+        ]);
+      // }
+      
     });
   }
 
