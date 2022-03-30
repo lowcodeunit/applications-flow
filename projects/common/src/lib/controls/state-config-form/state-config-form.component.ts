@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Guid } from '@lcu/common';
-import { EaCDataToken } from '@semanticjs/common';
+import { Guid, Status } from '@lcu/common';
+import { EaCApplicationAsCode, EaCDataToken } from '@semanticjs/common';
 import { EaCService, SaveApplicationAsCodeEventRequest } from '../../services/eac.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
   selector: 'lcu-state-config-form',
@@ -16,6 +17,17 @@ export class StateConfigFormComponent implements OnInit {
 
   @Input('config')
   public Config: EaCDataToken;
+
+  @Output('status-event')
+  public StatusEvent: EventEmitter<Status>;
+
+  public get Application(): EaCApplicationAsCode{
+    return this.State?.EaC?.Applications[this.AppLookup];
+  }
+
+  public get State(): ApplicationsFlowState{
+    return this.eacSvc.State;
+  }
 
   public get StateConfigNameFormControl(): AbstractControl{
     return this.StateConfigForm?.controls.name;
@@ -36,6 +48,8 @@ export class StateConfigFormComponent implements OnInit {
 
     this.StateConfigForm = this.formbldr.group({});
 
+    this.StatusEvent = new EventEmitter();
+
   }
 
   public ngOnInit(): void {
@@ -43,17 +57,24 @@ export class StateConfigFormComponent implements OnInit {
   }
 
   public SaveStateConfig(){
+    let app = this.Application;
+
+    console.log("APP = ", app)
+
+    app.DataTokens['lcu-state-config'] = {
+      Name: this.StateConfigNameFormControl.value,
+      Description: this.StateConfigDescriptionFormControl.value,
+      Value: this.StateConfigValueFormControl.value
+    }
     const saveAppReq: SaveApplicationAsCodeEventRequest = {
       ApplicationLookup: this.AppLookup || Guid.CreateRaw(),
-      DataToken: {
-        Name: this.StateConfigNameFormControl.value,
-        Description: this.StateConfigDescriptionFormControl.value,
-        Value: this.StateConfigValueFormControl.value
-      },
-      DataTokenLookup: 'lcu-state-config'
-
+      Application: app,
     }
-    this.eacSvc.SaveApplicationAsCode(saveAppReq);
+    this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
+
+      this.StatusEvent.emit(res);
+
+    });
   }
 
   protected buildForm(){
@@ -74,7 +95,7 @@ export class StateConfigFormComponent implements OnInit {
 
     this.StateConfigForm.addControl(
       'value',
-      this.formbldr.control(this.Config?.Value ? this.Config?.Value : '', 
+      this.formbldr.control(this.Config?.Value ? JSON.stringify(JSON.parse(this.Config?.Value), undefined, 4) : '', 
       [Validators.required]
     )
     );

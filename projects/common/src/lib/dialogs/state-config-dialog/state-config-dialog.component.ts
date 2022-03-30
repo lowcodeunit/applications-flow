@@ -2,6 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Status } from '@lcu/common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { StateConfigFormComponent } from '../../controls/state-config-form/state-config-form.component';
 import { EaCService } from '../../services/eac.service';
@@ -36,6 +37,8 @@ export class StateConfigDialogComponent implements OnInit {
     return this.StateConfigForm?.StateConfigForm;
   }
 
+  public ErrorMessage: string;
+
   constructor(protected eacSvc: EaCService,
     public dialogRef: MatDialogRef<StateConfigDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: StateConfigDialogData,
@@ -48,6 +51,18 @@ export class StateConfigDialogComponent implements OnInit {
 
   public CloseDialog(){
     this.dialogRef.close();
+  }
+
+  public HandleStatusEvent(res: Status){
+    if (res.Code === 0){
+      this.snackBar.open('State Config Succesfully Updated', "Dismiss",{
+        duration: 5000
+      });
+      this.CloseDialog();
+    }
+    else{
+      this.ErrorMessage = res.Message;
+    }
   }
 
   public SaveStateConfig(){

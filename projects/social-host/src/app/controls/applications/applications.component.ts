@@ -408,6 +408,7 @@ export class ApplicationsComponent implements OnInit {
     const dialogRef = this.dialog.open(StateConfigDialogComponent, {
       width: '600px',
       data: {
+        appLookup: this.ApplicationLookup,
         config: this.StateConfig,
       },
     });

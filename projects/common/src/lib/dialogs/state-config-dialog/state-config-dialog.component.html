@@ -11,6 +11,7 @@
     <lcu-state-config-form
         [app-lookup]="data.appLookup"
         [config]="data.config"
+        (status-event)="HandleStatusEvent($event)"
     >
 
     </lcu-state-config-form>
@@ -18,9 +19,9 @@
 
         
 
-<!-- <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+<mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
     {{ ErrorMessage }}
-</mat-error> -->
+</mat-error>
 
 </mat-dialog-content>
 
