@@ -19,7 +19,7 @@
 		"deploy:krakyn": "npm version patch --prefix projects/krakyn && npm run build:krakyn && npm publish ./dist/krakyn --access public",
 		"deploy:lcu": "npm version patch --prefix projects/lcu && npm run build:lcu && npm publish ./dist/lcu --access public",
 		"deploy:social-host": "npm version patch --prefix projects/social-host && npm run build:social-host && npm publish ./dist/social-host --access public",
-		"format:all-code": "prettier --write",
+		"format:all-code": "prettier --write .",
 		"ng": "ng",
 		"pack": "npm run pack:lcu",
 		"pack:join": "concat-glob-cli -f \"dist/lcu/wc/lcu.*.js\" -o dist/lcu/wc/applications-flow.lcu.js",
