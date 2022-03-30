@@ -8,7 +8,7 @@ import {
   NewApplicationDialogComponent,
   DFSModifiersDialogComponent
 } from '@lowcodeunit/applications-flow-common';
-import { EaCApplicationAsCode, EaCEnvironmentAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { Router } from '@angular/router';
@@ -56,7 +56,7 @@ export class ProjectsComponent implements OnInit {
     return this.eacSvc.State;
   }
 
-  public get Project(): any {
+  public get Project(): EaCProjectAsCode {
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 
@@ -73,16 +73,17 @@ export class ProjectsComponent implements OnInit {
   }
 
   public get NumberOfModifiers(): number {
-    return this.ModifierLookups?.length;
+    return this.ProjectsModifierLookups?.length;
   }
 
   public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
     return this.State?.EaC?.Modifiers || {};
   }
 
-  public get ModifierLookups(): Array<string> {
+  public get ProjectsModifierLookups(): Array<string> {
     return this.Project.ModifierLookups || [];
   }
+
 
   public get RoutedApplications(): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
@@ -221,11 +222,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   public DeleteProject(projectLookup: string, projectName: string): void {
-    if (confirm(`Are you sure you want to delete project '${projectName}'?`)) {
-      this.eacSvc.DeleteProject(projectLookup);
+    this.eacSvc.DeleteProject(projectLookup, projectName).then(status => {
       this.router.navigate(['/enterprise']);
-
-    }
+    });
   }
 
   public HandleLeftClickEvent(event: any) {
@@ -253,13 +252,13 @@ export class ProjectsComponent implements OnInit {
 
   }
 
-  public OpenModifierDialog(mdfrLookup: string) {
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
     // throw new Error('Not implemented: OpenModifierDialog');
     const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
-        modifiers: this.Modifiers,
+        modifierName: mdfrName,
         projectLookup: this.ProjectLookup,
         level: 'project'
       },

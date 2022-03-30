@@ -1,64 +1,73 @@
 <div class="dialog-header" fxLayoutAlign="space-between center">
-    <h2 mat-dialog-title>DFS Modifiers</h2>
+  <h2 mat-dialog-title>DFS Modifiers</h2>
 
-    <button mat-icon-button (click)="CloseDialog()">
-            <mat-icon>cancel</mat-icon>
-    </button>
+  <button mat-icon-button (click)="CloseDialog()">
+    <mat-icon>cancel</mat-icon>
+  </button>
 </div>
 
 <mat-dialog-content>
+  
 
+  <lcu-dfs-modifier-form
+    [application-lookup]="data.applicationLookup"
+    [project-lookup]="data.projectLookup"
+    [editing-modifier-lookup]="data.modifierLookup"
+    [level]="data.level"
+  >
+  </lcu-dfs-modifier-form>
 
-        <lcu-dfs-modifier-form
-        [editing-modifier-lookup]="data.modifierLookup"
-        [modifiers]="data.modifiers"
-        [level]="data.level"
-        >
+  <form [formGroup]="ModifierDialogForm">
+    <mat-checkbox
+      *ngIf="data.level === 'enterprise' && data.modifierLookup"
+      formControlName="applyToAllProjects"
+      >Apply to all Projects</mat-checkbox
+    >
+  </form>
 
-        </lcu-dfs-modifier-form>
-
-        <form
-                [formGroup]="ModifierDialogForm"
-        >
-
-        <mat-checkbox *ngIf="data.level === 'enterprise'" formControlName="applyToAllProjects">Apply to all Projects</mat-checkbox>
-        </form>
-
-<mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+  <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center">
     {{ ErrorMessage }}
-</mat-error>
-
+  </mat-error>
 </mat-dialog-content>
 
-<mat-dialog-actions 
-        class="actions-container" 
-        div fxLayout="row" 
-        fxLayoutAlign="end center"
+<mat-dialog-actions
+  class="actions-container"
+  div
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
 >
-        <button 
-                class="action-button"
-                mat-raised-button
-                fxFlex="25%"
-                (click)="CloseDialog()">
-                Cancel
+  <div fxLayoutAlign="start center">
+    <button
+      *ngIf="data.modifierLookup"
+      mat-raised-button
+      color="warn"
+      (click)="DeleteModifier()"
+      matTooltip="Delete {{ data.modifierLookup }}"
+    >
+      Delete
+    </button>
+  </div>
 
-        </button>
+  <div fxLayoutAlign="end center">
+    <button
+      class="action-button"
+      mat-raised-button
+      fxFlex="52%"
+      (click)="CloseDialog()"
+    >
+      Cancel
+    </button>
 
-
-        <!--  -->
-        <button 
-          *ngIf="!State?.Loading"
-          mat-raised-button 
-          type="submit" 
-          fxFlex="25%" 
-          color="primary" 
-          (click)="SaveDFSModifier()"
-          [disabled]="(!this.DFSModifersFormGroup?.valid || !this.ModifierDialogForm?.valid)"
-          >
-          <!-- <mat-icon>save</mat-icon> -->
-          Save
-        </button>
-
+    <button
+      class="action-button"
+      mat-raised-button
+      *ngIf="!State?.Loading"
+      fxFlex="30%"
+      color="primary"
+      (click)="SaveDFSModifier()"
+      [disabled]="IsDisabled()"
+    >
+      Save
+    </button>
+  </div>
 </mat-dialog-actions>
-
-

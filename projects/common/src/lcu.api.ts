@@ -16,6 +16,7 @@ export * from './lib/controls/processor-details-form/processor-details-form.comp
 export * from './lib/controls/security-toggle/security-toggle.component';
 export * from './lib/controls/emulated-devices-toggle/emulated-devices-toggle.component';
 export * from './lib/controls/source-control-form/source-control-form.component';
+export * from './lib/controls/state-config-form/state-config-form.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
 export * from './lib/dialogs/new-application-dialog/new-application-dialog.component';
@@ -78,5 +79,6 @@ export * from './lib/dialogs/dfs-modifiers-dialog/dfs-modifiers-dialog.component
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/dialogs/feed-header-dialog/feed-header-dialog.component';
+export * from './lib/dialogs/state-config-dialog/state-config-dialog.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/elements/breadcrumb/breadcrumb.component';

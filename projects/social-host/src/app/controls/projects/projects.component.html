@@ -24,9 +24,9 @@
         color="warn"
         mat-button
         class="info-card-btn"
-        (click)="DeleteProject(ProjectLookup, Project.Name)"
+        (click)="DeleteProject(ProjectLookup, Project?.Project?.Name)"
       >
-      <mat-icon  matTooltip="Delete {{ Project.Name }}">
+      <mat-icon  matTooltip="Delete {{ Project?.Project?.Name }}">
         delete_forever
       </mat-icon>
         Delete Project
@@ -61,7 +61,7 @@
       secondary-slot-description="Add quick route"
       action-text="Create New Application" -->
     <lcu-slotted-card
-      title="Routes"
+      card-title="Routes"
       icon="route"
       [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
       (main-action-clicked)="OpenNewAppDialog($event)"
@@ -114,6 +114,7 @@
                 <a
                   class="slot-action-anchor"
                   [routerLink]="['/routes', appRoute, ProjectLookup]"
+                  matTooltip="Edit {{appRoute}}"
                 >
                   <mat-icon class="action-icon">edit</mat-icon>
                 </a>
@@ -125,6 +126,8 @@
                     appRoute
                   "
                   target="_blank"
+                  matTooltip="Launch {{Project?.Hosts[Project?.Hosts?.length - 1] +
+                    appRoute}}"
                 >
                   <mat-icon class="action-icon">launch</mat-icon>
                 </a>
@@ -157,7 +160,7 @@
 
     <!-- Domains -->
     <lcu-slotted-card
-      title="Custom Domain"
+      card-title="Custom Domain"
       icon="domain"
       [show-main-icon]="false"
       main-slot-description="Current Domain"
@@ -195,30 +198,30 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
       <lcu-slotted-card
-      title="Modifiers"
+      card-title="Modifiers"
       icon="sync_alt"
+      main-icon="edit"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
-      (main-action-clicked)="OpenModifierDialog(null)"
+      (main-action-clicked)="OpenModifierDialog(null, null)"
     >
       <div>
         <div
           class="main-slot-container"
           fxLayout="row"
-          *ngFor="let mdfrLookup of ModifierLookups | slice: 0:Slices.Modifiers"
+          *ngFor="let mdfrLookup of ProjectsModifierLookups | slice: 0:Slices.Modifiers"
         >
           <div
             class="slot-content"
             *ngIf="Modifiers[mdfrLookup]; let mdfr"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="mdfr?.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
               <div
                 class="slot-header"
                 fxLayout="row"
-                (click)="OpenModifierDialog(mdfrLookup)"
+                (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
               >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->

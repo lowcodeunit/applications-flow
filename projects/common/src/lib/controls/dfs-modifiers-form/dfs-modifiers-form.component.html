@@ -1,4 +1,10 @@
 <div>
+
+  <div *ngIf="!EditingModifierLookup">
+    Select the modifiers you would like to apply from the list below, or create
+    a new modifier.
+  </div>
+  
   <form
     [formGroup]="ModifierFormGroup"
     (ngSubmit)="SaveModifier()"
@@ -20,6 +26,11 @@
         </mat-card-header> -->
 
         <!-- <mat-card-content> -->
+          
+
+          
+
+          <!-- end -->
           <mat-form-field class="mat-full-width">
             <mat-select
               formControlName="type"
@@ -96,12 +107,25 @@
             "
           >
             <mat-form-field class="mat-full-width">
-              <input
-                matInput
+              <mat-select
                 formControlName="location"
                 placeholder="Location"
+                (selectionChange)="LocationChanged($event)"
                 required
-              />
+              >
+                <mat-option
+                  value="Head"
+                >
+                  Head
+                </mat-option>
+  
+                <mat-option
+                  value="Body"
+                >
+                  Body
+                </mat-option>
+  
+              </mat-select>
             </mat-form-field>
 
             <mat-form-field class="mat-full-width">
@@ -114,12 +138,48 @@
             </mat-form-field>
 
             <mat-form-field class="mat-full-width">
+              <mat-select
+                formControlName="scriptType"
+                placeholder="Script Type"
+                required
+              >
+                <mat-option
+                  value="Content"
+                >
+                  Content
+                </mat-option>
+  
+                <mat-option
+                  value="Source"
+                >
+                  Source
+                </mat-option>
+  
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="mat-full-width" *ngIf="ScriptTypeFormControl?.value === 'Content' ">
               <textarea
+                
                 matInput
                 formControlName="script"
-                placeholder="Script"
+                placeholder="Script Content"
                 required></textarea>
+
+                
             </mat-form-field>
+            <mat-form-field class="mat-full-width"
+            *ngIf="ScriptTypeFormControl?.value === 'Source' ">
+
+              <input
+                
+                matInput
+                formControlName="script"
+                placeholder="Script URL"
+                required
+              />
+            </mat-form-field>
+
           </ng-container>
 
 
@@ -152,100 +212,99 @@
     </div> -->
   </form>
 
-  <div class="spread" *ngIf="!EditingModifier">
-    <span class="apps-actions">
-      <button mat-raised-button color="accent" (click)="CreateNewModifier()">
-        <mat-icon color="primary">add</mat-icon> Create New
-      </button>
-    </span>
+  <form
+          [formGroup]="ModifierSelectFormGroup"
+          *ngIf="!EditingModifier"
+  >
 
-    <div class="spread">
-      <div *ngIf="ModifierLookups?.length <= 0">
-        <h2>No DFS modifiers created, create your first DFS modifier.</h2>
-      </div>
+    <div class="spread" *ngIf="!EditingModifier">
+      <span class="apps-actions">
+        <button mat-raised-button color="accent" (click)="CreateNewModifier()">
+          <mat-icon color="primary">add</mat-icon> Create New
+        </button>
+      </span>
 
-      <div *ngIf="ModifierLookups?.length > 0">
-        <!-- <h2>DFS Modifiers</h2> -->
-
-        <div fxLayout="row wrap" fxLayout.lt-md="column">
-          <div
-            fxFlex.lt-md="100%"
-            *ngFor="let modifierLookup of ModifierLookups"
-          >
-            <!-- <mat-card
-              class="spread"
-              *ngIf="Modifiers[modifierLookup]; let modifier"
-            > -->
-            <ng-container *ngIf="Modifiers[modifierLookup]; let modifier">
-              <!-- <mat-card-header> -->
-                <!-- <img mat-card-avatar="/assets/images/project-icon.png" /> -->
-
-                <div
-                  class="mat-subheading-2"
-                  [matTooltip]="modifier.Name"
-                >
-                  {{ modifier.Name || modifier.Lookup }}
-
-                  <!-- <div fxFlex></div> -->
-
-                  <mat-slide-toggle
-                    class="spread"
-                    [checked]="
-                      Project?.ModifierLookups.indexOf(modifierLookup) >= 0
-                    "
-                    (change)="SetUseForProject(modifierLookup, $event)"
-                    [matTooltip]="'Use for ' + Level"
-                  >
-                  </mat-slide-toggle>
-                </div>
-              <!-- </mat-card-header> -->
-
-              <!-- <mat-card-content>
-                <div class="spread"></div>
-              </mat-card-content> -->
-
-              <div>
-                <div class="data-app-actions">
-                  <!-- <div fxFlex></div> -->
-
-                  <button
-                    mat-icon-button
-                    color="accent"
-                    (click)="SetEditingModifier(modifierLookup)"
-                  >
-                    <mat-icon matTooltip="Edit DFS Modifier">
-                      settings
-                    </mat-icon>
-                  </button>
-
-                  <button
-                    mat-icon-button
-                    color="warn"
-                    (click)="DeleteModifier(modifierLookup, modifier.Name)"
-                  >
-                    <mat-icon matTooltip="Delete {{ modifier.Name }}">
-                      delete_forever
-                    </mat-icon>
-                  </button>
-                </div>
-
-                <!-- <div class="data-app-fakes">
-                  <div fxFlex></div>
-
-                  <button mat-icon-button disabled>
-                    <mat-icon>fiber_manual_record</mat-icon>
-                  </button>
-
-                  <button mat-icon-button disabled>
-                    <mat-icon>fiber_manual_record</mat-icon>
-                  </button>
-                </div> -->
-              </div>
-            </ng-container>
-            <!-- </mat-card> -->
-          </div>
+      <div class="spread">
+        <div *ngIf="EnterprisesModifierLookups?.length <= 0">
+          <h2>No DFS modifiers created, create your first DFS modifier.</h2>
         </div>
+
+        <ng-container *ngIf="EnterprisesModifierLookups?.length > 0">
+          <!-- <h2>DFS Modifiers</h2> -->
+          
+          <mat-form-field appearance="fill">
+            <mat-label>Modifiers</mat-label>
+            <mat-select formControlName="multiSelect" multiple>
+              <mat-select-trigger>
+                {{MultiSelectFormControl?.value ? MultiSelectFormControl?.value[0] : ''}}
+                <span *ngIf="MultiSelectFormControl?.value?.length > 1" class="modifier-selection">
+                  (+{{MultiSelectFormControl?.value?.length - 1}} {{MultiSelectFormControl?.value?.length === 2 ? 'other' : 'others'}})
+                </span>
+              </mat-select-trigger>
+              <ng-container *ngFor="let modifierLookup of EnterprisesModifierLookups">
+              <mat-option *ngIf="Modifiers[modifierLookup]; let modifier" [value]="modifierLookup">{{modifier?.Name}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- <div fxLayout="row wrap" fxLayout.lt-md="column">
+            <div
+              fxFlex.lt-md="100%"
+              *ngFor="let modifierLookup of ModifierLookups"
+            >
+            
+              <ng-container *ngIf="Modifiers[modifierLookup]; let modifier">
+
+                  <div
+                    class="mat-subheading-2"
+                    [matTooltip]="modifier.Name"
+                  >
+                    {{ modifier.Name || modifier.Lookup }}
+
+
+                    <mat-slide-toggle
+                      class="spread"
+                      [checked]="
+                        Project?.ModifierLookups.indexOf(modifierLookup) >= 0
+                      "
+                      (change)="SetUseForProject(modifierLookup, $event)"
+                      [matTooltip]="'Use for ' + Level"
+                    >
+                    </mat-slide-toggle>
+                  </div>
+                
+
+                <div>
+                  <div class="data-app-actions">
+
+                    <button
+                      mat-icon-button
+                      color="accent"
+                      (click)="SetEditingModifier(modifierLookup)"
+                    >
+                      <mat-icon matTooltip="Edit DFS Modifier">
+                        settings
+                      </mat-icon>
+                    </button>
+
+                    <button
+                      mat-icon-button
+                      color="warn"
+                      (click)="DeleteModifier(modifierLookup, modifier.Name)"
+                    >
+                      <mat-icon matTooltip="Delete {{ modifier.Name }}">
+                        delete_forever
+                      </mat-icon>
+                    </button>
+                  </div>
+
+                  
+                </div>
+              </ng-container>
+            </div>
+          </div> -->
+        </ng-container>
       </div>
     </div>
-  </div>
+  </form>
 </div>

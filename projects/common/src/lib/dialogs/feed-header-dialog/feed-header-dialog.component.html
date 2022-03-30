@@ -18,9 +18,10 @@
                     <mat-select 
                         formControlName="sourceControl"
                         (selectionChange)="IssueSourceControlChanged($event)"
+                        required
 
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
+                    <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
@@ -134,8 +135,9 @@
                     <mat-select 
                         formControlName="sourceControl"
                         (selectionChange)="PullRequestSourceControlChanged($event)"
+                        required
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
+                    <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
@@ -199,8 +201,9 @@
                     <mat-select 
                         formControlName="sourceControl"
                         (selectionChange)="FeatureBranchSourceControlChanged($event)"
+                        required
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups | slice: 0:Slices.Sources">
+                    <ng-container *ngFor="let scLookup of SourceControlLookups">
                     <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
                         {{sc.Name}}
                     </mat-option>
@@ -275,9 +278,9 @@
     
     
 
-    <!-- <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+    <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
         {{ ErrorMessage }}
-    </mat-error> -->
+    </mat-error>
 </mat-dialog-content>
 
 <mat-dialog-actions
@@ -302,10 +305,7 @@
         fxFlex="25%"
         class="submit" 
         (click)="Submit()"
-        [disabled]="
-    !FeedHeaderFormGroup?.valid 
-"
-        
+        [disabled]="IsDisabled()"
     >
         Submit
     </button>

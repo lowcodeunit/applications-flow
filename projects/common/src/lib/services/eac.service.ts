@@ -15,7 +15,7 @@ import {
 } from '@semanticjs/common';
 import { FeedEntry, FeedItem } from '../models/user-feed.model';
 import { HttpClient } from '@angular/common/http';
-import { BaseModeledResponse, Status } from '@lcu/common';
+import { Status } from '@lcu/common';
 import { Observable } from 'rxjs';
 
 export class SaveApplicationAsCodeEventRequest {
@@ -23,29 +23,27 @@ export class SaveApplicationAsCodeEventRequest {
 
   public ApplicationLookup?: string;
 
+  public DataToken?: EaCDataToken;
+
+  public DataTokenLookup?: string;
+
   public ProjectLookup?: string;
 }
 
-export class SaveDFSModifierForApplicationEventRequest {
-  public Modifier: EaCDFSModifier;
+// export class SaveDFSModifierForApplicationEventRequest {
+//   public Modifier: EaCDFSModifier;
 
-  public ModifierLookup: string;
+//   public ModifierLookup: string;
 
-  public ApplicationLookup?: string;
-}
+//   public ApplicationLookup?: string;
+// }
 
 export class SaveDFSModifierEventRequest {
-  public Modifier: EaCDFSModifier;
+  public ApplicationLookup?: string;
 
-  public ModifierLookup: string;
+  public Modifier?: EaCDFSModifier;
 
-  public ProjectLookup?: string;
-}
-
-export class SaveDFSModifierForAllEventRequest {
-  public Modifier: EaCDFSModifier;
-
-  public ModifierLookup: string;
+  public ModifierLookups?: Array<string>;
 
   public ProjectLookups?: Array<string>;
 }
@@ -80,8 +78,10 @@ export class EaCService {
   public State: ApplicationsFlowState;
 
   //  Constructors
-  constructor(protected projectService: ProjectService,
-    protected http: HttpClient) {
+  constructor(
+    protected projectService: ProjectService,
+    protected http: HttpClient
+  ) {
     this.State = new ApplicationsFlowState();
   }
 
@@ -93,33 +93,117 @@ export class EaCService {
   public async DeleteApplication(
     appLookup: string,
     appName: string
-  ): Promise<void> {
+  ): Promise<Status> {
     if (confirm(`Are you sure you want to delete application '${appName}'?`)) {
-      await this.projectService.DeleteApplication(this.State, appLookup);
+      const eac: EnterpriseAsCode = {
+        EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+        Applications: {},
+      };
+
+      eac.Applications[appLookup] = {
+        Application: {},
+      };
+
+      return await this.projectService.EnterpriseAsCodeRemovals(
+        this.State,
+        eac
+      );
     }
   }
 
-  public async DeleteDevOpsAction(doaLookup: string): Promise<void> {
+  public async DeleteDevOpsAction(
+    doaLookup: string,
+    doaName: string
+  ): Promise<Status> {
     if (
-      confirm(`Are you sure you want to delete DevOps action '${doaLookup}'?`)
+      confirm(`Are you sure you want to delete Build Pipeline '${doaName}'?`)
     ) {
-      await this.projectService.DeleteDevOpsAction(this.State, doaLookup);
+      const eac: EnterpriseAsCode = {
+        EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+        Environments: {},
+      };
+
+      eac.Environments[this.State.EaC.Enterprise.PrimaryEnvironment] = {
+        DevOpsActions: {},
+      };
+
+      eac.Environments[
+        this.State.EaC.Enterprise.PrimaryEnvironment
+      ].DevOpsActions[doaLookup] = {};
+
+      return await this.projectService.EnterpriseAsCodeRemovals(
+        this.State,
+        eac
+      );
     }
   }
 
-  public async DeleteProject(projectLookup: string): Promise<void> {
+  public async DeleteModifier(
+    modifierLookup: string,
+    modifierName: string
+  ): Promise<Status> {
     if (
-      confirm(`Are you sure you want to delete Project '${projectLookup}'?`)
+      confirm(`Are you sure you want to delete Modifier '${modifierName}'?`)
     ) {
-      await this.projectService.DeleteProject(this.State, projectLookup);
+      const eac: EnterpriseAsCode = {
+        EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+        Modifiers: {},
+      };
+
+      eac.Modifiers[modifierLookup] = {};
+
+      return await this.projectService.EnterpriseAsCodeRemovals(
+        this.State,
+        eac
+      );
     }
   }
 
-  public async DeleteSourceControl(scLookup: string): Promise<void> {
+  public async DeleteProject(
+    projectLookup: string,
+    projectName: string
+  ): Promise<Status> {
+    if (confirm(`Are you sure you want to delete Project '${projectName}'?`)) {
+      const eac: EnterpriseAsCode = {
+        EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+        Projects: {},
+      };
+
+      eac.Projects[projectLookup] = {
+        Project: {},
+      };
+
+      return await this.projectService.EnterpriseAsCodeRemovals(
+        this.State,
+        eac
+      );
+    }
+  }
+
+  public async DeleteSourceControl(
+    srcLookup: string,
+    srcName: string
+  ): Promise<Status> {
     if (
-      confirm(`Are you sure you want to delete Source Control '${scLookup}'?`)
+      confirm(`Are you sure you want to delete Source Control '${srcName}'?`)
     ) {
-      await this.projectService.DeleteSourceControl(this.State, scLookup);
+      const eac: EnterpriseAsCode = {
+        EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+        Environments: {},
+      };
+
+      eac.Environments[this.State.EaC.Enterprise.PrimaryEnvironment] = {
+        Sources: {},
+      };
+
+      eac.Environments[this.State.EaC.Enterprise.PrimaryEnvironment].Sources[
+        srcLookup
+      ] = {};
+
+      return await this.projectService.EnterpriseAsCodeRemovals(
+        this.State,
+        eac
+      );
     }
   }
 
@@ -131,22 +215,38 @@ export class EaCService {
     await this.projectService.EnsureUserEnterprise(this.State);
   }
 
-  public async EnterpriseAsCodeRemovals(eac: EnterpriseAsCode): Promise<Status> {
-    return await this.projectService.EnterpriseAsCodeRemovals(this.State, eac);
+  public async EnterpriseAsCodeRemovals(
+    eac: EnterpriseAsCode
+  ): Promise<Status> {
+    return this.projectService.EnterpriseAsCodeRemovals(this.State, eac);
   }
 
   public async GetActiveEnterprise(): Promise<void> {
     await this.projectService.GetActiveEnterprise(this.State);
   }
 
-  public async LoadUserFeed(page: number, pageSize: number): Promise<void> {
-    await this.projectService.LoadUserFeed(page, pageSize, this.State);
+  public async LoadUserFeed(
+    page: number,
+    pageSize: number,
+    forCheck: boolean = false
+  ): Promise<void> {
+    await this.projectService.LoadUserFeed(
+      page,
+      pageSize,
+      forCheck,
+      this.State
+    );
   }
-  
-  public GenerateRoutedApplications(applications: { [lookup: string]: EaCApplicationAsCode }): {
+
+  public GenerateRoutedApplications(applications: {
+    [lookup: string]: EaCApplicationAsCode;
+  }): {
     [route: string]: { [lookup: string]: EaCApplicationAsCode };
   } {
-    return this.projectService.GenerateRoutedApplications(applications, this.State);
+    return this.projectService.GenerateRoutedApplications(
+      applications,
+      this.State
+    );
   }
 
   public async HasValidConnection(): Promise<void> {
@@ -161,6 +261,19 @@ export class EaCService {
     await this.projectService.LoadEnterpriseAsCode(this.State);
   }
 
+  public ReloadFeed() {
+    if (this.State.FeedCheck) {
+      this.State.Feed = this.State.FeedCheck.Items;
+
+      this.State.FeedActions = this.State.FeedCheck.Actions;
+
+      this.State.FeedSourceControlLookups =
+        this.State.FeedCheck.SourceControlLookups;
+    }
+
+    this.State.FeedCheck = null;
+  }
+
   public async SaveApplicationAsCode(
     req: SaveApplicationAsCodeEventRequest
   ): Promise<Status> {
@@ -171,12 +284,6 @@ export class EaCService {
     req: SaveDFSModifierEventRequest
   ): Promise<void> {
     await this.handleSaveDFSModifier(req);
-  }
-
-  public async SaveDFSModifierForAllProjects(
-    req: SaveDFSModifierForAllEventRequest
-  ): Promise<void> {
-    await this.handleSaveDFSModifierForAllProjects(req);
   }
 
   public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<Status> {
@@ -249,54 +356,13 @@ export class EaCService {
       saveEaC.Applications[req.ApplicationLookup] = req.Application;
     }
 
+    if (req.DataToken) {
+      saveEaC.Applications[req.ApplicationLookup].DataTokens[
+        req.DataTokenLookup
+      ] = req.DataToken;
+    }
+
     return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-  }
-
-  protected async handleSaveDFSModifierForApplication(
-    req: SaveDFSModifierForApplicationEventRequest
-  ): Promise<void> {
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Modifiers: {},
-      Applications: {},
-    };
-
-    if (req.Modifier) {
-      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
-    }
-
-    if (req.ApplicationLookup) {
-      saveEaC.Applications[req.ApplicationLookup] = {
-        ModifierLookups: [req.ModifierLookup],
-      };
-    }
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-  }
-
-  protected async handleSaveDFSModifierForAllProjects(
-    req: SaveDFSModifierForAllEventRequest
-  ): Promise<void> {
-    const saveEaC: EnterpriseAsCode = {
-      EnterpriseLookup: this.State.EaC.EnterpriseLookup,
-      Modifiers: {},
-      Projects: {},
-    };
-
-    if (req.Modifier) {
-      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
-    }
-
-    if (req.ProjectLookups) {
-      req.ProjectLookups.forEach(lookup =>{
-        saveEaC.Projects[lookup] = {
-          ModifierLookups: [req.ModifierLookup],
-        };
-      })
-      
-    }
-
-    await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
   }
 
   protected async handleSaveDFSModifier(
@@ -306,15 +372,26 @@ export class EaCService {
       EnterpriseLookup: this.State.EaC.EnterpriseLookup,
       Modifiers: {},
       Projects: {},
+      Applications: {},
     };
 
     if (req.Modifier) {
-      saveEaC.Modifiers[req.ModifierLookup] = req.Modifier;
+      saveEaC.Modifiers[req.ModifierLookups[0]] = req.Modifier;
     }
 
-    if (req.ProjectLookup) {
-      saveEaC.Projects[req.ProjectLookup] = {
-        ModifierLookups: [req.ModifierLookup],
+    if (req.ProjectLookups) {
+      req.ProjectLookups.forEach((lookup) => {
+        saveEaC.Projects[lookup] = {
+          ModifierLookups: req.ModifierLookups,
+        };
+      });
+    }
+
+    if (req.ApplicationLookup) {
+      console.log('APPLOokup: ', req.ApplicationLookup);
+      console.log('saveEAC: ', saveEaC);
+      saveEaC.Applications[req.ApplicationLookup] = {
+        ModifierLookups: req.ModifierLookups,
       };
     }
 
@@ -339,7 +416,6 @@ export class EaCService {
     }
 
     return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
-    
   }
 
   protected async handleSaveProject(
@@ -348,7 +424,7 @@ export class EaCService {
   ): Promise<Status> {
     const projHosts: { [lookup: string]: EaCHost } = {};
 
-    project?.Hosts?.forEach((host) => {
+    project?.Hosts?.forEach((host: any) => {
       projHosts[host] = this.State.EaC.Hosts[host];
     });
 
@@ -365,7 +441,10 @@ export class EaCService {
 
     saveEaC.Projects[projectLookup] = project;
 
-    let status = await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+    let status = await this.projectService.SaveEnterpriseAsCode(
+      this.State,
+      saveEaC
+    );
 
     this.SetEditProjectSettings(projectLookup);
 

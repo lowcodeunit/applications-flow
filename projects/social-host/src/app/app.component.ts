@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -20,7 +20,9 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy, OnInit {
+  protected feedCheckInterval: any;
+
   protected initialized: boolean;
 
   public get State(): ApplicationsFlowState {
@@ -46,7 +48,7 @@ export class AppComponent {
         if (this.State?.EaC) {
           await Promise.all([
             this.eacSvc.LoadEnterpriseAsCode(),
-            this.getFeedInfo(),
+            this.eacSvc.LoadUserFeed(1, 25),
           ]);
         } else if (!this.initialized) {
           this.initialized = true;
@@ -62,10 +64,16 @@ export class AppComponent {
             this.eacSvc.LoadEnterpriseAsCode(),
             this.eacSvc.ListEnterprises(),
             this.eacSvc.GetActiveEnterprise(),
-            this.getFeedInfo(),
+            this.eacSvc.LoadUserFeed(1, 25),
           ]).catch((err) => {
             console.log(err);
           });
+
+          if (!this.feedCheckInterval) {
+            this.feedCheckInterval = setInterval(() => {
+              this.eacSvc.LoadUserFeed(1, 25, true);
+            }, 60 * 1000);
+          }
         }
       }
     });
@@ -79,6 +87,12 @@ export class AppComponent {
       ],
       ElementName: 'lcu-device-data-flow-manage-element',
     };
+  }
+
+  public ngOnDestroy(): void {
+    if (this.feedCheckInterval) {
+      clearInterval(this.feedCheckInterval);
+    }
   }
 
   public ngOnInit(): void {
@@ -105,10 +119,6 @@ export class AppComponent {
     // this.eacSvc.SetActiveEnterprise(this.State?.Enterprises[0].Lookup);
     console.log('state = ', this.State);
     // console.log("enterprise = ", this.State?.Enterprises)
-  }
-
-  protected async getFeedInfo(): Promise<void> {
-    await this.eacSvc.LoadUserFeed(1, 25);
   }
 
   protected loadScripts() {

@@ -14,16 +14,12 @@
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-      <button
-        action
-        mat-button
-        class="info-card-btn mat-full-width"
-        [routerLink]="['/iot']"
-      >
+      <!-- [routerLink]="['/iot']" -->
+      <a action mat-button class="info-card-btn mat-full-width" href="/iot">
         <mat-icon>account_tree</mat-icon>
 
         Access IoT Benefits
-      </button>
+      </a>
 
       <!-- <button
         action
@@ -62,7 +58,7 @@
       secondary-slot-description="Add new quick project" 
       action-text="Create Custom Project"-->
     <lcu-slotted-card
-      title="Projects"
+      card-title="Projects"
       icon="work_outline"
       [main-slot-description]="NumberOfProjects + ' project(s) configured'"
       (main-action-clicked)="RouteToPath('/dashboard/create-project')"
@@ -80,7 +76,6 @@
             *ngIf="State?.EaC?.Projects[projectLookup]; let project"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="project.Project.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
@@ -107,12 +102,15 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              
               <a
                 class="slot-action-anchor"
                 [routerLink]="['/projects', projectLookup]"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ project.Project.Name }}">edit</mat-icon>
+                <mat-icon
+                  class="action-icon"
+                  matTooltip="Edit {{ project.Project.Name }}"
+                  >edit</mat-icon
+                >
               </a>
               <a
                 class="slot-action-anchor"
@@ -166,12 +164,12 @@
       secondary-slot-description="Add new source control"
       action-text="Create New Source Control" -->
     <lcu-slotted-card
-      title="Source Controls"
+      card-title="Source Controls"
       icon="build"
       [main-slot-description]="
         NumberOfSourceControls + ' source control(s) configured'
       "
-      (main-action-clicked)="OpenSourceControlDialog(null)"
+      (main-action-clicked)="OpenSourceControlDialog(null, null)"
     >
       <div>
         <div
@@ -186,21 +184,21 @@
             *ngIf="SourceControls[scLookup]; let sc"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="sc.Name"
+            
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
               <div
                 class="slot-header"
                 fxLayout="row"
-                (click)="OpenSourceControlDialog(sc.Lookup)"
+                (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
               >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
 
                 <!-- <a
                   class="slot-action-anchor"
-                  (click)="OpenSourceControlDialog(sc.Lookup)"
+                  (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
                 > -->
                 <div *ngIf="sc.Name?.length > 21" class="slot-name">
                   {{ sc.Name | slice: 0:18 }}...
@@ -222,12 +220,13 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              
               <a
                 class="slot-action-anchor"
-                (click)="OpenSourceControlDialog(sc.Lookup)"
+                (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ sc.Lookup }}"
+                  >edit</mat-icon
+                >
               </a>
               <a
                 class="slot-action-anchor"
@@ -274,7 +273,7 @@
       secondary-slot-description="Add new pipeline"
       action-text="Create New Pipeline" -->
     <lcu-slotted-card
-      title="Build Pipeline"
+      card-title="Build Pipeline"
       icon="plumbing"
       [main-slot-description]="NumberOfPipelines + ' Pipeline(s) configured'"
       (main-action-clicked)="OpenBuildPipelineDialog(null)"
@@ -292,7 +291,7 @@
             *ngIf="DevOpsActions[doaLookup]; let doa"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="doa?.Name"
+            
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
@@ -322,12 +321,13 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              
               <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}"
+                  >edit</mat-icon
+                >
               </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
@@ -361,10 +361,10 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
     <lcu-slotted-card
-      title="Modifiers"
+      card-title="Modifiers"
       icon="sync_alt"
       [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
-      (main-action-clicked)="OpenModifierDialog(null)"
+      (main-action-clicked)="OpenModifierDialog(null, null)"
     >
       <div>
         <div
@@ -377,14 +377,13 @@
             *ngIf="Modifiers[mdfrLookup]; let mdfr"
             fxLayout="row"
             fxLayoutAlign="space-between center"
-            [title]="mdfr?.Name"
           >
             <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
             <div class="slot-header-container">
               <div
                 class="slot-header"
                 fxLayout="row"
-                (click)="OpenModifierDialog(mdfrLookup)"
+                (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
               >
                 <!-- this icon is a temp placeholder -->
                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
@@ -407,7 +406,7 @@
               fxLayout="row"
               fxLayoutAlign="space-around center"
             >
-              <button
+              <!-- <button
                 mat-icon-button
                 color="warn"
                 (click)="DeletModifier(mdfrLookup, mdfr?.Name)"
@@ -415,12 +414,14 @@
                 <mat-icon matTooltip="Delete {{ mdfr?.Name }}">
                   delete_forever
                 </mat-icon>
-              </button>
+              </button> -->
               <a
                 class="slot-action-anchor"
-                (click)="OpenModifierDialog(mdfrLookup)"
+                (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
               >
-                <mat-icon class="action-icon" matTooltip="Edit {{ mdfr?.Name }}">edit</mat-icon>
+                <mat-icon class="action-icon" matTooltip="Edit {{ mdfr?.Name }}"
+                  >edit</mat-icon
+                >
               </a>
               <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>

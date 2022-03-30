@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { BaseModeledResponse } from '@lcu/common';
 import { EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
@@ -93,7 +94,11 @@ export class FeedHeaderDialogComponent implements OnInit {
 
   public EditorConfig: AngularEditorConfig;
 
+  public ErrorMessage: string;
+
   public FeedHeaderFormGroup: FormGroup;
+
+  public Loading: boolean;
 
   public OrganizationOptions: GitHubOrganization[];
 
@@ -112,7 +117,8 @@ export class FeedHeaderDialogComponent implements OnInit {
     protected eacSvc: EaCService,
     protected formBldr: FormBuilder,
     public dialogRef: MatDialogRef<FeedHeaderDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: FeedHeaderDialogData,) {
+    @Inject(MAT_DIALOG_DATA) public data: FeedHeaderDialogData,
+    protected snackBar: MatSnackBar) {
       
     this.EditorConfig = {
       editable: true,
@@ -158,6 +164,10 @@ export class FeedHeaderDialogComponent implements OnInit {
       ]
     };
 
+    this.ErrorMessage = null;
+
+    this.Loading = false;
+
     this.SlicesCount = 5;
 
     this.Slices = {
@@ -186,15 +196,24 @@ export class FeedHeaderDialogComponent implements OnInit {
   }
 
   public PullRequestSourceControlChanged(event: MatSelectChange){
+    console.log("sourcecontrol", this.SourceControlFormControl.value)
     this.SourceControl = this.SourceControls[this.SourceControlFormControl.value];
     this.listBranches();
 
   }
 
   public FeatureBranchSourceControlChanged(event: MatSelectChange){
+   
     this.SourceControl = this.SourceControls[this.SourceControlFormControl.value];
     this.listOrganizations();
 
+  }
+
+  public IsDisabled(): boolean{
+    // console.log("valid: ",this.FeedHeaderFormGroup?.valid)
+    // console.log("loading: ",this.Loading)
+    // console.log("returning ",(!this.FeedHeaderFormGroup?.valid || this.Loading))
+    return (!this.FeedHeaderFormGroup?.valid || this.Loading)
   }
 
   public IssueSourceControlChanged(event: MatSelectChange){
@@ -211,9 +230,9 @@ export class FeedHeaderDialogComponent implements OnInit {
       Content: this.EditorControl ? this.EditorControl.value : null,
       ExpiresAt: null,
       Organization: this.OrganizationFormControl ? this.OrganizationFormControl.value : null,
-      Repositroy: this.RepositoryFormControl ? this.RepositoryFormControl.value : null,
+      Repository: this.RepositoryFormControl ? this.RepositoryFormControl.value : null,
       SourceBranch: this.SourceBranchFormControl ? this.SourceBranchFormControl.value : null,
-      SourceControlLookup: this.SourceControlFormControl ? this.SourceBranchFormControl.value : null,
+      SourceControlLookup: this.SourceControlFormControl ? this.SourceControlFormControl.value : null,
       Subtitle: this.SubtitleFormControl ? this.SubtitleFormControl.value : null,
       TargetBranch: this.TargetBranchFormControl ? this.TargetBranchFormControl.value: null,
       Type: this.data.type,
@@ -221,12 +240,27 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     }
     console.log("Control: ", returnObject );
+    
 
-    let status = this.eacSvc.SubmitFeedEntry(returnObject);
-    console.log("feed entry status: ", status);
+    this.eacSvc.SubmitFeedEntry(returnObject).then((res) => {
+
+      if (res.Code === 0){
+      this.snackBar.open(` '${this.data.type}' Succesfully Created`, "Dismiss",{
+        duration: 5000
+      });
+      this.CloseDialog();
+    }
+    else{
+      this.ErrorMessage = res.Message;
+    }
+    });
+
+    
 
     // console.log("Editor: ", this.EditorControl.value )
   }
+
+  
 
   public OrganizationChanged(event: MatSelectChange): void {
 
@@ -243,7 +277,9 @@ export class FeedHeaderDialogComponent implements OnInit {
   //HELPERS
 
   protected listBranches(): void {
-    // this.Loading = true;
+    this.Loading = true;
+
+    console.log("LISTING BRANCHES")
 
       this.appsFlowSvc
         .ListBranches(
@@ -252,21 +288,22 @@ export class FeedHeaderDialogComponent implements OnInit {
         )
         .subscribe((response: BaseModeledResponse<GitHubBranch[]>) => {
           this.BranchOptions = response.Model;          
+          this.Loading = false;
 
         });
+        // console.log("Loading = ", this.Loading)
+
     
   }
 
   protected listOrganizations(): void {
-    // this.Loading = true;
+    this.Loading = true;
 
     this.appsFlowSvc
       .ListOrganizations()
       .subscribe((response: BaseModeledResponse<GitHubOrganization[]>) => {
         this.OrganizationOptions = response.Model;
         console.log("Organization Options: ", this.OrganizationOptions);
-
-        // this.Loading = false;
 
         if (this.SourceControl?.Organization) {
           setTimeout(() => {
@@ -277,28 +314,34 @@ export class FeedHeaderDialogComponent implements OnInit {
             this.listRepositories(this.SourceControl?.Repository);
           }, 0);
         }
+        this.Loading = false;
       });
+      // console.log("Loading = ", this.Loading)
+      
   }
 
   protected listRepositories(activeRepo: string = null): void {
-    // this.Loading = true;
+    this.Loading = true;
 
     this.appsFlowSvc
       .ListRepositories(this.OrganizationFormControl.value)
       .subscribe((response: BaseModeledResponse<GitHubRepository[]>) => {
         this.RepositoryOptions = response.Model;
 
-        // this.Loading = false;
-
+        
         if (activeRepo) {
           setTimeout(() => {
             this.RepositoryFormControl.setValue(activeRepo);
 
             this.listBranches();
+            // this.Loading=true;
 
           }, 0);
         } 
+        this.Loading = false;
       });
+      // console.log("Loading = ", this.Loading)
+
   }
 
   
@@ -398,14 +441,14 @@ protected setupBasicForm(){
     this.FeedHeaderFormGroup.addControl(
       'organization',
       this.formBldr.control(
-        ''
+        '',[Validators.required]
       )
     );
 
     this.FeedHeaderFormGroup.addControl(
       'repository',
       this.formBldr.control(
-        ''
+        '',[Validators.required]
       )
     );
 
@@ -417,7 +460,7 @@ protected setupBasicForm(){
     this.FeedHeaderFormGroup.addControl(
       'sourceControl',
       this.formBldr.control(
-        ''
+        '',[Validators.required]
       )
     );
   }
@@ -426,14 +469,14 @@ protected setupBasicForm(){
     this.FeedHeaderFormGroup.addControl(
       'targetBranch',
       this.formBldr.control(
-        ''
+        '', [Validators.required]
       )
     );
 
     this.FeedHeaderFormGroup.addControl(
       'sourceBranch',
       this.formBldr.control(
-        ''
+        '', [Validators.required]
       )
     );
   }

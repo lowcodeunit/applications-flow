@@ -127,11 +127,7 @@ export class DFSModifiersComponent implements OnInit {
   }
 
   public DeleteModifier(modifierLookup: string, modifierName: string): void {
-    if (
-      confirm(`Are you sure you want to delete modifier '${modifierName}'?`)
-    ) {
-      this.eacSvc.DeleteSourceControl(modifierLookup);
-    }
+    this.eacSvc.DeleteModifier(modifierLookup, modifierName).then();
   }
 
   public SaveModifier(projectLookup: string = null): void {
@@ -144,8 +140,8 @@ export class DFSModifiersComponent implements OnInit {
         Priority: this.PriorityFormControl.value,
         Type: this.CurrentType,
       },
-      ModifierLookup: this.EditingModifierLookup,
-      ProjectLookup: projectLookup,
+      ModifierLookups: [this.EditingModifierLookup],
+      ProjectLookups: [projectLookup],
     };
 
     const details = {};

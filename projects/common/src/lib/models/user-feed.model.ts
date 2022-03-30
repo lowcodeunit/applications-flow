@@ -19,6 +19,8 @@ export class FeedItem {
 
   public Contributors: Array<FeedItemContributor>;
 
+  public ID: string;
+
   public IsPinned: boolean;
 
   public IsShortForm: boolean;
@@ -90,7 +92,7 @@ public ExpiresAt: Date;
 
 public Organization: string; 
 
-public Repositroy: string; 
+public Repository: string; 
 
 public SourceBranch: string;
 

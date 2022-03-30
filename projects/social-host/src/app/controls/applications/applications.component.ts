@@ -13,10 +13,13 @@ import {
   EditApplicationDialogComponent,
   ProcessorDetailsDialogComponent,
   DFSModifiersDialogComponent,
+  StateConfigDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCApplicationAsCode,
+  EaCDataToken,
   EaCEnvironmentAsCode,
+  EaCProjectAsCode,
   EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -80,6 +83,19 @@ export class ApplicationsComponent implements OnInit {
     };
   }
 
+  public get HasStateConfig(): boolean {
+    if(this.Application.ModifierLookups['lcu-reg']){
+      return true;
+    }
+    else if(this.Project.ModifierLookups['lcu-reg']){
+      return true;
+    }
+    else{
+      return false;
+    }
+    
+  }
+
   public get NumberOfModifiers(): number {
     return this.ModifierLookups?.length;
   }
@@ -92,8 +108,7 @@ export class ApplicationsComponent implements OnInit {
     return this.Application.ModifierLookups || [];
   }
 
-  public get Project(): any {
-
+  public get Project(): EaCProjectAsCode {
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 
@@ -185,6 +200,20 @@ export class ApplicationsComponent implements OnInit {
     return this.eacSvc.State;
   }
 
+  public get StateConfig():  EaCDataToken {
+    if(this.HasStateConfig){
+      if(this.Project?.DataTokens['lcu-state-config']){
+        return this.Project?.DataTokens['lcu-state-config'];
+      }
+      else if(this.Application?.DataTokens['lcu-state-config']){
+        return this.Application?.DataTokens['lcu-state-config'];
+      }
+    }
+    else{
+      return null;
+    }
+  }
+
   public get Version(): string {
     let version;
     switch (this.Application?.LowCodeUnit?.Type) {
@@ -221,6 +250,8 @@ export class ApplicationsComponent implements OnInit {
 
   public IsInfoCardShareable: boolean;
 
+  public SkeletonEffect: string;
+
   public Stats: any;
 
   public Slices: { [key: string]: number };
@@ -251,6 +282,8 @@ export class ApplicationsComponent implements OnInit {
     this.IsInfoCardEditable = true;
     this.IsInfoCardShareable = false;
 
+    this.SkeletonEffect = 'wave';
+
     this.SlicesCount = 5;
 
     this.Slices = {
@@ -265,13 +298,15 @@ export class ApplicationsComponent implements OnInit {
   //  API Methods
 
   public DeleteApplication(appLookup: string, appName: string): void {
-
-    if (confirm(`Are you sure you want to permanently delete ${appName}?`)) {
-      this.eacSvc.DeleteApplication(appLookup, appName);    
-      this.router.navigate(['/routes', { appRoute: this.CurrentApplicationRoute, projectLookup: this.ProjectLookup }]);
-    }
-
-    
+    this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
+      this.router.navigate([
+        '/routes',
+        {
+          appRoute: this.CurrentApplicationRoute,
+          projectLookup: this.ProjectLookup,
+        },
+      ]);
+    });
   }
 
   public HandleLeftClickEvent(event: any) {
@@ -291,7 +326,7 @@ export class ApplicationsComponent implements OnInit {
       data: {
         application: this.Application,
         applicationLookup: this.ApplicationLookup,
-        projectLookup: this.ProjectLookup
+        projectLookup: this.ProjectLookup,
       },
     });
 
@@ -350,14 +385,28 @@ export class ApplicationsComponent implements OnInit {
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
   }
 
-  public OpenModifierDialog(mdfrLookup: string) {
+  public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
     const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
       width: '600px',
       data: {
         modifierLookup: mdfrLookup,
-        modifiers: this.Modifiers,
+        modifierName: mdfrName,
         level: 'application',
-        applicationLookup: this.ApplicationLookup
+        applicationLookup: this.ApplicationLookup,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result)
+    });
+  }
+
+  public OpenEditConfigDialog(){
+    const dialogRef = this.dialog.open(StateConfigDialogComponent, {
+      width: '600px',
+      data: {
+        config: this.StateConfig,
       },
     });
 
@@ -396,9 +445,7 @@ export class ApplicationsComponent implements OnInit {
     let count = this.Slices[type];
 
     let length =
-      type === 'Modifiers'
-        ? this.NumberOfModifiers
-        : this.SlicesCount;
+      type === 'Modifiers' ? this.NumberOfModifiers : this.SlicesCount;
 
     if (count === length) {
       this.Slices[type] = this.SlicesCount;

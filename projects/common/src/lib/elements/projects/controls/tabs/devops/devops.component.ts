@@ -145,11 +145,11 @@ export class DevOpsComponent implements OnInit {
   }
 
   public DeleteSourceControl(scLookup: string): void {
-    if (
-      confirm(`Are you sure you want to delete source control '${scLookup}'?`)
-    ) {
-      this.eacSvc.DeleteSourceControl(scLookup);
-    }
+    // if (
+    //   confirm(`Are you sure you want to delete source control '${scLookup}'?`)
+    // ) {
+    //   this.eacSvc.DeleteSourceControl(scLookup);
+    // }
   }
 
   public DevOpsActionLookupChanged(event: MatSelectChange): void {
