@@ -86,7 +86,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         Hosts: project.Hosts,
         Link: {
           Label: 'Launch',
-          URL: 'dashboard/projects/' + `${ projLookup} `,
+          URL: 'dashboard/projects/' + `${ projLookup } `,
           Target: '_blank'
         }
       };
@@ -224,7 +224,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                 Route: currentRoutePart,
                 Type: routePartType,
                 Link: {
-                  Label: 'Launch',
+                  Label: currentRoutePart,
                   URL: 'dashboard/routes' + '/%2F/' +  `${ projLookup }`,
                   Target: '_blank'
                 }
