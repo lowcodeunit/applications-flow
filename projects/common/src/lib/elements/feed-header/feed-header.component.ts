@@ -10,10 +10,9 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 @Component({
   selector: 'lcu-feed-header',
   templateUrl: './feed-header.component.html',
-  styleUrls: ['./feed-header.component.scss']
+  styleUrls: ['./feed-header.component.scss'],
 })
 export class FeedHeaderComponent implements OnInit {
-
   @Input('source-control-lookup')
   public SourceControlLookup: string;
 
@@ -24,11 +23,11 @@ export class FeedHeaderComponent implements OnInit {
     return envLookups[0];
   }
 
-  public get FeedHeaderActions(): Array<FeedItemAction>{
+  public get FeedHeaderActions(): Array<FeedItemAction> {
     return this.State?.FeedActions;
   }
 
-  public get State(): ApplicationsFlowState{
+  public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }
 
@@ -40,27 +39,20 @@ export class FeedHeaderComponent implements OnInit {
 
   public value: string;
 
-  constructor( 
-      protected eacSvc: EaCService,
-      protected dialog: MatDialog) { 
-
-    this.SkeletonEffect = "wave";
+  constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
+    this.SkeletonEffect = 'wave';
     // this.selectedBtn = "pr-btn";
-
   }
 
-  public ngOnInit(): void {
-    
-  }
+  public ngOnInit(): void {}
 
-  public ngAfterViewInit(){
+  public ngAfterViewInit() {
     this.addSelectBtn();
   }
 
-  public CreateAnnouncement(){
+  public CreateAnnouncement() {
     // this.ModalHeader = "Create Team Announcement";
-    this.OpenFHDialog('Announcement', "Create Team Announcement");
-
+    this.OpenFHDialog('Announcement', 'Create Team Announcement');
   }
 
   // public CreateFeatureBranch(){
@@ -72,8 +64,6 @@ export class FeedHeaderComponent implements OnInit {
   //   this.OpenFHDialog('branch');
 
   // }
-
-  
 
   // public OpenIssue(){
   //   this.removeSelectedBtn();
@@ -95,7 +85,7 @@ export class FeedHeaderComponent implements OnInit {
 
   // }
 
-  public CreateNewApp(){
+  public CreateNewApp() {
     const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
       width: '600px',
       data: {
@@ -109,13 +99,15 @@ export class FeedHeaderComponent implements OnInit {
     });
   }
 
-  public OpenFHDialog(modalType: string, modalHeader: string){
+  public OpenFHDialog(modalType: string, modalHeader: string) {
     const dialogRef = this.dialog.open(FeedHeaderDialogComponent, {
       width: '600px',
       data: {
         dialogTitle: modalHeader,
         type: modalType,
-        sourceControlLookup: this.SourceControlLookup ? this.SourceControlLookup : null
+        sourceControlLookup: this.SourceControlLookup
+          ? this.SourceControlLookup
+          : null,
       },
     });
 
@@ -125,28 +117,31 @@ export class FeedHeaderComponent implements OnInit {
     });
   }
 
+  public ReloadFeed(): void {
+    this.eacSvc.ReloadFeed();
+  }
+
   public RouteToPath(path: string): void {
     window.location.href = path;
   }
 
-
-  public Submit(){
-    console.log("submitting: ", this.value);
-    switch (this.selectedBtn){
-      case "pr-btn":
+  public Submit() {
+    console.log('submitting: ', this.value);
+    switch (this.selectedBtn) {
+      case 'pr-btn':
         //Pull request
-        console.log("creating pull request: ", this.value);
+        console.log('creating pull request: ', this.value);
         break;
-      case "oi-btn":
+      case 'oi-btn':
         //Open Issue
-        console.log("Open issue: ", this.value);
+        console.log('Open issue: ', this.value);
         break;
-      case "fb-btn":
+      case 'fb-btn':
         //Feature Branch
-        console.log("creating feature branch: ", this.value);
+        console.log('creating feature branch: ', this.value);
         break;
       default:
-        console.log("hmm")
+        console.log('hmm');
 
         break;
     }
@@ -154,12 +149,15 @@ export class FeedHeaderComponent implements OnInit {
 
   //HELPERS
 
-  protected addSelectBtn(){    
-    (<HTMLElement>document.getElementById(this.selectedBtn))?.classList.add('selected');
+  protected addSelectBtn() {
+    (<HTMLElement>document.getElementById(this.selectedBtn))?.classList.add(
+      'selected'
+    );
   }
 
-  protected removeSelectedBtn(){
-    (<HTMLElement>document.getElementById(this.selectedBtn))?.classList.remove('selected');
+  protected removeSelectedBtn() {
+    (<HTMLElement>document.getElementById(this.selectedBtn))?.classList.remove(
+      'selected'
+    );
   }
-
 }
