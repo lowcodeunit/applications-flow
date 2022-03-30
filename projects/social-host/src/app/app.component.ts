@@ -48,7 +48,7 @@ export class AppComponent implements OnDestroy, OnInit {
         if (this.State?.EaC) {
           await Promise.all([
             this.eacSvc.LoadEnterpriseAsCode(),
-            this.eacSvc.LoadUserFeed(1, 25),
+            this.eacSvc.LoadUserFeed(1, 10, false),
           ]);
         } else if (!this.initialized) {
           this.initialized = true;
@@ -64,14 +64,14 @@ export class AppComponent implements OnDestroy, OnInit {
             this.eacSvc.LoadEnterpriseAsCode(),
             this.eacSvc.ListEnterprises(),
             this.eacSvc.GetActiveEnterprise(),
-            this.eacSvc.LoadUserFeed(1, 25),
+            this.eacSvc.LoadUserFeed(1, 10, false),
           ]).catch((err) => {
             console.log(err);
           });
 
           if (!this.feedCheckInterval) {
             this.feedCheckInterval = setInterval(() => {
-              this.eacSvc.LoadUserFeed(1, 25, true);
+              this.eacSvc.LoadUserFeed(1, 10, true);
             }, 60 * 1000);
           }
         }
