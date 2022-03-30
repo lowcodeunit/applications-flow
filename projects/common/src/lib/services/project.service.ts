@@ -95,7 +95,7 @@ export class ProjectService {
 
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.LoadUserFeed(1, 10, false, state),
+              this.LoadUserFeed(1, 25, false, state),
             ]);
           } else {
             state.Loading = false;
@@ -396,7 +396,7 @@ export class ProjectService {
 
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.LoadUserFeed(1, 10, false, state),
+              this.LoadUserFeed(1, 25, false, state),
             ]);
           } else {
             state.Loading = false;
@@ -431,7 +431,7 @@ export class ProjectService {
 
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.LoadUserFeed(1, 10, false, state),
+              this.LoadUserFeed(1, 25, false, state),
             ]);
           } else {
             state.Loading = false;
@@ -503,7 +503,7 @@ export class ProjectService {
 
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.LoadUserFeed(1, 10, false, state),
+              this.LoadUserFeed(1, 25, false, state),
             ]);
           } else {
             state.Loading = false;
@@ -542,7 +542,7 @@ export class ProjectService {
 
             var results = await Promise.all([
               this.LoadEnterpriseAsCode(state),
-              this.LoadUserFeed(1, 10, false, state),
+              this.LoadUserFeed(1, 25, false, state),
             ]);
           } else {
             state.Loading = false;
