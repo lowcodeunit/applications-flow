@@ -200,8 +200,8 @@ export class ApplicationsComponent implements OnInit {
 
   public get StateConfig():  EaCDataToken {
     // if(this.HasStateConfig){
-      console.log("Project: ", this.Project)
-      console.log("Application: ", this.Application)
+      // console.log("Project: ", this.Project)
+      // console.log("Application: ", this.Application)
 
       if(this.Project?.DataTokens['lcu-state-config']){
         return this.Project?.DataTokens['lcu-state-config'];
