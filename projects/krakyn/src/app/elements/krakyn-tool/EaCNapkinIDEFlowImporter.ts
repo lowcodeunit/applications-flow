@@ -1,17 +1,28 @@
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EnterpriseAsCode } from '@semanticjs/common';
 import {
   NapkinIDEFlow,
   NapkinIDEFlowImporter,
   NapkinIDENode,
 } from '@semanticjs/napkin-ide';
-import { map } from 'rxjs';
+import {
+  ApplicationsFlowState,
+  ProjectService,
+} from '@lowcodeunit/applications-flow-common';
 
 export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAsCode> {
   //  Fields
   //  Properties
   //  Constructors
-  constructor() {
+  constructor(
+    protected state: ApplicationsFlowState, 
+    protected router: Router, 
+    protected activatedRoute: ActivatedRoute) {
     super();
+
+    // this.activatedRoute.params.subscribe((params: Params) => {
+    //   console.log('ACTIVATED ROUTE', params);
+    // });
   }
 
   //  API Methods
@@ -75,7 +86,10 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         Hosts: project.Hosts,
         Link: {
           Label: 'Launch',
-          URL: project.Hosts[0],
+          // URL: this.router.navigate(['/projects/' + `${ project.Hosts[0] }`]),
+          // this.router.navigate(['/projects/' + `${ projLookup}`], {relativeTo: this.activatedRoute});
+          // URL: '/projects/' + project.Hosts[0],
+          URL: 'dashboard/projects/' + `${ projLookup} `,
           Target: '_blank'
         }
       };
@@ -212,6 +226,11 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               routePartNode.Data = {
                 Route: currentRoutePart,
                 Type: routePartType,
+                Link: {
+                  Label: 'Launch',
+                  URL: 'dashboard/routes' + '/%2F/' +  `${ projLookup }`,
+                  Target: '_blank'
+                }
               };
 
               flow.Nodes?.push(routePartNode);
@@ -240,6 +259,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
             if (existingApp == null) {
               //  Setup Application Nodes
+              debugger;
               const appNode = new NapkinIDENode();
               appNode.Type = appNodeType;
               appNode.ID = id;
@@ -250,6 +270,11 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                 Name: app.Application?.Name,
                 Details: app.Application,
                 Processor: app.Processor,
+                Link: {
+                  Label: 'Launch',
+                  URL: 'dashboard/applications/' + `${ appLookup }` + '/%2F/' +  `${ projLookup }`,
+                  Target: '_blank'
+                }
               };
 
               flow.Nodes?.push(appNode);
@@ -274,7 +299,21 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
       //  Process for application security nodes
       project.ApplicationLookups?.forEach((appLookup) => {
         const app = eac.Applications![appLookup];
-
+        // const projectNode = new NapkinIDENode();
+        // projectNode.Type = 'project';
+        // projectNode.ID = `${projectNode.Type}-${projLookup}`;
+        // projectNode.PositionX = lastProjectSpacing;
+        // projectNode.PositionY = verticalSpacing;
+        // projectNode.Data = {
+        //   Lookup: projLookup,
+        //   Name: project.Project?.Name,
+        //   Hosts: project.Hosts,
+        //   Link: {
+        //     Label: 'Launch',
+        //     URL: project.Hosts[0],
+        //     Target: '_blank'
+        //   }
+        // };
         //  Setup AppLookupConfig Nodes
         //  Setup Security Filters
         // app.AccessRightLookups;

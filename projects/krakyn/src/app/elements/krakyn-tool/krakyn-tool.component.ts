@@ -1,4 +1,5 @@
 import { Component, Injector, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   ApplicationsFlowState,
   // EaCService,
@@ -45,7 +46,9 @@ export class KrakynToolComponent implements OnInit {
 
   constructor(
     protected injector: Injector,
-    protected projectService: ProjectService
+    protected projectService: ProjectService,
+    protected router: Router, 
+    protected activatedRouter: ActivatedRoute
   ) {
 
     this.State = new ApplicationsFlowState();
@@ -55,7 +58,7 @@ export class KrakynToolComponent implements OnInit {
   public ngOnInit(): void {
     this.Title = 'The Krakyn Tool';
 
-    this.SideMenuItems = SideMenuItemTemplates.FLOW_DRAG_ITEMS(false, DragDropUtils.SideMenuDragEvent);
+    this.SideMenuItems = SideMenuItemTemplates.FLOW_DRAG_ITEMS(true, DragDropUtils.SideMenuDragEvent);
 
     this.TabMenuItems = [
       {
@@ -84,7 +87,7 @@ export class KrakynToolComponent implements OnInit {
    */
   protected importData(): void {
     const eaCNapkinIDEFlowImporter: EaCNapkinIDEFlowImporter =
-      new EaCNapkinIDEFlowImporter();
+      new EaCNapkinIDEFlowImporter(this.State, this.router, this.activatedRouter);
 
     this.Title = 'Imported data for Krakyn';
 

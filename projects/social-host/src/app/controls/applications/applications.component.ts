@@ -42,6 +42,7 @@ export class ApplicationsComponent implements OnInit {
   public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
 
   public get Application(): EaCApplicationAsCode {
+
     return this.State?.EaC?.Applications[this.ApplicationLookup] || {};
   }
 
@@ -92,10 +93,12 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public get Project(): any {
+
     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
   }
 
   public get Projects(): any {
+
     return this.State?.EaC?.Projects || {};
   }
 
