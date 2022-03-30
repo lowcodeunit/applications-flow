@@ -49,7 +49,8 @@ export class StateConfigFormComponent implements OnInit {
         Name: this.StateConfigNameFormControl.value,
         Description: this.StateConfigDescriptionFormControl.value,
         Value: this.StateConfigValueFormControl.value
-      }
+      },
+      DataTokenLookup: 'lcu-state-config'
 
     }
     this.eacSvc.SaveApplicationAsCode(saveAppReq);
