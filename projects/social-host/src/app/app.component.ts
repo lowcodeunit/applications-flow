@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   ActivatedRoute,
   NavigationEnd,
@@ -20,7 +20,7 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy, OnInit {
   protected feedCheckInterval: any;
 
   protected initialized: boolean;
@@ -87,6 +87,12 @@ export class AppComponent {
       ],
       ElementName: 'lcu-device-data-flow-manage-element',
     };
+  }
+
+  public ngOnDestroy(): void {
+    if (this.feedCheckInterval) {
+      clearInterval(this.feedCheckInterval);
+    }
   }
 
   public ngOnInit(): void {
