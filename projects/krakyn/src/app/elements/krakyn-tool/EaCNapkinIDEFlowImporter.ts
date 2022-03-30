@@ -86,9 +86,6 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         Hosts: project.Hosts,
         Link: {
           Label: 'Launch',
-          // URL: this.router.navigate(['/projects/' + `${ project.Hosts[0] }`]),
-          // this.router.navigate(['/projects/' + `${ projLookup}`], {relativeTo: this.activatedRoute});
-          // URL: '/projects/' + project.Hosts[0],
           URL: 'dashboard/projects/' + `${ projLookup} `,
           Target: '_blank'
         }
