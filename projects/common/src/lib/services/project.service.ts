@@ -322,7 +322,7 @@ export class ProjectService {
     state: ApplicationsFlowState
   ): Promise<Array<FeedItem>> {
     return new Promise((resolve, reject) => {
-      state.LoadingFeed = true;
+      state.LoadingFeed = !forCheck;
 
       let paramMap = this.activatedRoute.snapshot.children[0].paramMap;
 
