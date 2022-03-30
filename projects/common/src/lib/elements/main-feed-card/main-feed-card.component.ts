@@ -136,7 +136,7 @@ export class MainFeedCardComponent implements OnInit {
             console.log(err);
           }
         );
-      }, 5000);
+      }, 15000);
     }
   }
 }
