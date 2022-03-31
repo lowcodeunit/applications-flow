@@ -1,14 +1,42 @@
 <form
-    [formGroup]="StateConfigDialogForm"
+    [formGroup]="StateConfigForm"
 >
+
+<mat-form-field appearance="fill" class="input-form">
+
+    <mat-label>Name</mat-label>
+
+    <input 
+        matInput
+        formControlName="name" 
+        required       
+    >
+    
+
+</mat-form-field>
+
+<mat-form-field appearance="fill" class="config-text-area">
+
+    <mat-label>Description</mat-label>
+
+    <textarea 
+        matInput
+        formControlName="description"        
+    >
+    </textarea>
+
+</mat-form-field>
     <mat-form-field appearance="fill" class="config-text-area">
 
-        <mat-label>State Config</mat-label>
+        <mat-label>Value</mat-label>
 
         <textarea 
             matInput
-            formControlName="config"        
+            formControlName="value" 
+            rows="10" 
+            required      
         >
+        
         </textarea>
 
     </mat-form-field>

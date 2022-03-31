@@ -82,18 +82,18 @@ export class ApplicationsComponent implements OnInit {
     };
   }
 
-  public get HasStateConfig(): boolean {
-    if(this.Application.ModifierLookups['lcu-reg']){
-      return true;
-    }
-    else if(this.Project.ModifierLookups['lcu-reg']){
-      return true;
-    }
-    else{
-      return false;
-    }
+  // public get HasStateConfig(): boolean {
+  //   if(this.Application.ModifierLookups['lcu-reg']){
+  //     return true;
+  //   }
+  //   else if(this.Project.ModifierLookups['lcu-reg']){
+  //     return true;
+  //   }
+  //   else{
+  //     return false;
+  //   }
     
-  }
+  // }
 
   public get NumberOfModifiers(): number {
     return this.ModifierLookups?.length;
@@ -199,14 +199,18 @@ export class ApplicationsComponent implements OnInit {
   }
 
   public get StateConfig():  EaCDataToken {
-    if(this.HasStateConfig){
+    // if(this.HasStateConfig){
+      // console.log("Project: ", this.Project)
+      // console.log("Application: ", this.Application)
+
       if(this.Project?.DataTokens['lcu-state-config']){
         return this.Project?.DataTokens['lcu-state-config'];
       }
+
       else if(this.Application?.DataTokens['lcu-state-config']){
         return this.Application?.DataTokens['lcu-state-config'];
       }
-    }
+    // }
     else{
       return null;
     }
@@ -297,13 +301,13 @@ export class ApplicationsComponent implements OnInit {
 
   public DeleteApplication(appLookup: string, appName: string): void {
     this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
-      this.router.navigate([
-        '/routes',
-        {
-          appRoute: this.CurrentApplicationRoute,
-          projectLookup: this.ProjectLookup,
-        },
-      ]);
+      // if(status.Code === 0){
+        console.log("HELLLLLLO: ", status);
+        this.router.navigate([
+          '/routes', this.CurrentApplicationRoute, this.ProjectLookup
+        ]);
+      // }
+      
     });
   }
 
@@ -404,6 +408,7 @@ export class ApplicationsComponent implements OnInit {
     const dialogRef = this.dialog.open(StateConfigDialogComponent, {
       width: '600px',
       data: {
+        appLookup: this.ApplicationLookup,
         config: this.StateConfig,
       },
     });

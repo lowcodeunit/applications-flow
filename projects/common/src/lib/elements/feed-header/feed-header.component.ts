@@ -27,6 +27,10 @@ export class FeedHeaderComponent implements OnInit {
     return this.State?.FeedActions;
   }
 
+  public get HasGHConnection(): boolean{
+    return this.State?.GitHub?.HasConnection;
+  }
+
   public get State(): ApplicationsFlowState {
     return this.eacSvc.State;
   }

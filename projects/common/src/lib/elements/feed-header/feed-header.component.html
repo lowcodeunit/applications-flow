@@ -37,6 +37,7 @@
       </div>
 
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+        <ng-container *ngIf="HasGHConnection">
         <button
           *ngFor="let action of FeedHeaderActions"
           mat-button
@@ -48,40 +49,13 @@
           {{ action.Text }}
         </button>
 
-        <!-- <button 
-          mat-button 
-          (click)="OpenIssue()" 
-          id="oi-btn" 
-          color="primary"
+      </ng-container>
+      <ng-container *ngIf="!HasGHConnection">
+        <lcu-git-auth 
+          size="small"
         >
-          Open Issue
-        </button>
-  
-        <button 
-          mat-button 
-          (click)="CreateFeatureBranch()" 
-          id="fb-btn" 
-          color="primary"
-        >
-          Feature Branch
-        </button> -->
-
-        <!-- <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
-          <mat-icon>more_horiz</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-          <button class="gh-menu-action" mat-menu-item (click)="CreateNewApp()">
-            Create New App
-          </button>
-  
-          <button
-            class="gh-menu-action"
-            mat-menu-item
-            (click)="RouteToPath('/dashboard/create-project')"
-          >
-            Create Project
-          </button>
-        </mat-menu> -->
+        </lcu-git-auth>
+      </ng-container>
       </mat-card-actions>
     </ng-container>
 
@@ -122,9 +96,11 @@
     </ng-container>
   </mat-card>
 
-  <mat-card *ngIf="State?.FeedCheck">
+  <mat-card class="social-card reload" *ngIf="State?.FeedCheck">
     There are new items in your feed.
 
-    <button mat-button (click)="ReloadFeed()">Reload Feed</button>
+    <button mat-button color="primary" (click)="ReloadFeed()">
+      Reload Feed
+    </button>
   </mat-card>
 </div>
