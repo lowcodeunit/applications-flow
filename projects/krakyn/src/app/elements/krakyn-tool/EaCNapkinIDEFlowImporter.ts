@@ -84,7 +84,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         Lookup: projLookup,
         Name: project.Project?.Name,
         Hosts: project.Hosts,
-        Link: {
+        Button: {
           Label: 'Launch',
           URL: 'dashboard/projects/' + `${ projLookup } `,
           Target: '_blank'
@@ -104,7 +104,8 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         NodeOutID: projectNode.ID,
       });
 
-      //  Setup Route Filters
+      // Setup Route Filters
+      debugger;
       let maxRouteParts = 0;
 
       let appRoutePartMap: { [appLookup: string]: string[] } =
@@ -212,7 +213,8 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
             let routePartNode =
               lastRouteNodeBank[lastRoutePartNodeId][currentRoutePart] || null;
 
-            if (routePartNode == null) {
+            if (routePartNode === null) {
+              
               routePartNode = new NapkinIDENode();
               routePartNode.Type = routePartType;
               routePartNode.ID = routePartNodeId;
@@ -223,8 +225,20 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               routePartNode.Data = {
                 Route: currentRoutePart,
                 Type: routePartType,
-                Link: {
+                Button: {
                   Label: currentRoutePart,
+
+                  /**
+                   * URL with currentRoutePart doesn't work in the browser
+                   * URL: 'dashboard/routes' + `${ currentRoutePart }` +  `${ projLookup }`,
+                   * https://localhost:44358/dashboard/routes/beff00a4-6181-48ce-a0f6-370e53b5e388,
+                   * 
+                   * with %2F hardcoded the link works
+                   * https://localhost:44358/dashboard/routes/%2F/daed4b64-f5e8-4ef4-933c-cfa652a4c3a3
+                   * 
+                   * Shannon
+                   */
+
                   URL: 'dashboard/routes' + '/%2F/' +  `${ projLookup }`,
                   Target: '_blank'
                 }
@@ -267,7 +281,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                 Name: app.Application?.Name,
                 Details: app.Application,
                 Processor: app.Processor,
-                Link: {
+                Button: {
                   Label: 'Launch',
                   URL: 'dashboard/applications/' + `${ appLookup }` + '/%2F/' +  `${ projLookup }`,
                   Target: '_blank'
