@@ -8,7 +8,7 @@ import {
   NewApplicationDialogComponent,
   DFSModifiersDialogComponent
 } from '@lowcodeunit/applications-flow-common';
-import { EaCApplicationAsCode, EaCEnvironmentAsCode, EaCProjectAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { Router } from '@angular/router';
@@ -223,7 +223,7 @@ export class ProjectsComponent implements OnInit {
 
   public DeleteProject(projectLookup: string, projectName: string): void {
     this.eacSvc.DeleteProject(projectLookup, projectName).then(status => {
-      this.router.navigate(['/enterprise']);
+      this.router.navigate(['/enterprises']);
     });
   }
 

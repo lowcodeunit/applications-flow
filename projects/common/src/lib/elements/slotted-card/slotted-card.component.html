@@ -12,6 +12,7 @@
       *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
       class="header-icon pointer"
       (click)="MainActionClickEvent()"
+      matTooltip="Edit {{CardTitle}}"
     >
       {{ MainIcon }}
     </mat-icon>

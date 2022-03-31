@@ -23,20 +23,8 @@ export class SaveApplicationAsCodeEventRequest {
 
   public ApplicationLookup?: string;
 
-  public DataToken?: EaCDataToken;
-
-  public DataTokenLookup?: string;
-
   public ProjectLookup?: string;
 }
-
-// export class SaveDFSModifierForApplicationEventRequest {
-//   public Modifier: EaCDFSModifier;
-
-//   public ModifierLookup: string;
-
-//   public ApplicationLookup?: string;
-// }
 
 export class SaveDFSModifierEventRequest {
   public ApplicationLookup?: string;
@@ -354,12 +342,6 @@ export class EaCService {
 
     if (req.Application) {
       saveEaC.Applications[req.ApplicationLookup] = req.Application;
-    }
-
-    if (req.DataToken) {
-      saveEaC.Applications[req.ApplicationLookup].DataTokens[
-        req.DataTokenLookup
-      ] = req.DataToken;
     }
 
     return await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
