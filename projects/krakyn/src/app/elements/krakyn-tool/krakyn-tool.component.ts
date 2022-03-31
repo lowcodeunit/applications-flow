@@ -58,7 +58,7 @@ export class KrakynToolComponent implements OnInit {
   public ngOnInit(): void {
     this.Title = 'The Krakyn Tool';
 
-    this.SideMenuItems = SideMenuItemTemplates.FLOW_DRAG_ITEMS(true, DragDropUtils.SideMenuDragEvent);
+    this.SideMenuItems = SideMenuItemTemplates.FLOW_DRAG_ITEMS(false, DragDropUtils.SideMenuDragEvent);
 
     this.TabMenuItems = [
       {

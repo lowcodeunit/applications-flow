@@ -214,7 +214,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               lastRouteNodeBank[lastRoutePartNodeId][currentRoutePart] || null;
 
             if (routePartNode === null) {
-              
+
               routePartNode = new NapkinIDENode();
               routePartNode.Type = routePartType;
               routePartNode.ID = routePartNodeId;
@@ -225,6 +225,11 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
               routePartNode.Data = {
                 Route: currentRoutePart,
                 Type: routePartType,
+                // Link: {
+                //   Label: 'currentRoutePart',
+                //   URL: 'dashboard/routes' + '/%2F/' +  `${ projLookup }`,
+                //   Target: '_blank'
+                // },
                 Button: {
                   Label: currentRoutePart,
 
