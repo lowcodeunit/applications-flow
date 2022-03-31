@@ -1,27 +1,27 @@
 @import "../../../../../assets/common";
 
 :host ::ng-deep {
-  .has-selected {
-    overflow: auto;
-    width: 100%;
-  }
-
-  .mat-card-content {
-    text-align: center;
-    // height: 125px;
-    overflow: auto;
-  }
-
-  .extras {
-    #create-new-project-card{
-      background-color: #2f2f2f !important;
-    }
-    .mat-card-header {
-      text-align: center;
+    .has-selected {
+        overflow: auto;
+        width: 100%;
     }
 
     .mat-card-content {
-      height: 150px;
+        text-align: center;
+        // height: 125px;
+        overflow: auto;
     }
-  }
+
+    .extras {
+        #create-new-project-card {
+            background-color: #2f2f2f !important;
+        }
+        .mat-card-header {
+            text-align: center;
+        }
+
+        .mat-card-content {
+            height: 150px;
+        }
+    }
 }

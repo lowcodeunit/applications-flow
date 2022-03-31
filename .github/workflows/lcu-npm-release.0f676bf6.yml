@@ -35,7 +35,7 @@ jobs:
           branch=${GITHUB_REF##*/}
 
           echo ::set-output name=branchName::$branch
-           
+
           if [ "$branch" == "${{ env.MainBranch }}" ]
           then
               echo "::set-output name=versionBump::minor"
@@ -47,6 +47,11 @@ jobs:
           echo "Set Variable Checks ${{ github.ref }}"
           echo "Current branch is ${{ steps.vars.outputs.branchName }}"
           echo "Version bump type is ${{ steps.vars.outputs.versionBump }}"
+
+
+      # check format
+      - name: npm format check
+        run: npm run format-check
 
       # bump version and push tag
       - name: Bump version and push tag

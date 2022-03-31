@@ -8,52 +8,45 @@ import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 export interface StateConfigDialogData {
-  appLookup: string;
-  config: string;
+    appLookup: string;
+    config: string;
 }
 
 @Component({
-  selector: 'lcu-state-config-dialog',
-  templateUrl: './state-config-dialog.component.html',
-  styleUrls: ['./state-config-dialog.component.scss']
+    selector: 'lcu-state-config-dialog',
+    templateUrl: './state-config-dialog.component.html',
+    styleUrls: ['./state-config-dialog.component.scss'],
 })
-
 export class StateConfigDialogComponent implements OnInit {
+    @ViewChild(StateConfigFormComponent)
+    public StateConfigForm: StateConfigFormComponent;
 
-  @ViewChild(StateConfigFormComponent)
-  public StateConfigForm: StateConfigFormComponent;
+    public get Application(): EaCApplicationAsCode {
+        return this.State?.EaC?.Applications[this.data.appLookup];
+    }
 
-  public get Application(): EaCApplicationAsCode {
-    return this.State?.EaC?.Applications[this.data.appLookup];
-  }
+    public get State(): ApplicationsFlowState {
+        return this.eacSvc.State;
+    }
 
-  public get State(): ApplicationsFlowState{
-    return this.eacSvc.State;
-  }
+    public get StateConfigFormControl(): AbstractControl {
+        return this.StateConfigForm?.StateConfigFormControl;
+    }
 
+    constructor(
+        protected eacSvc: EaCService,
+        public dialogRef: MatDialogRef<StateConfigDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: StateConfigDialogData,
+        protected snackBar: MatSnackBar
+    ) {}
 
-  public get StateConfigFormControl(): AbstractControl{
-    return this.StateConfigForm?.StateConfigFormControl;
-  }
+    public ngOnInit(): void {}
 
-  constructor(protected eacSvc: EaCService,
-    public dialogRef: MatDialogRef<StateConfigDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: StateConfigDialogData,
-    protected snackBar: MatSnackBar) {
-     
-     }
+    public CloseDialog() {
+        this.dialogRef.close();
+    }
 
-  public ngOnInit(): void {
-  }
-
-  public CloseDialog(){
-    this.dialogRef.close();
-  }
-
-  public SaveStateConfig(){
-    this.StateConfigForm?.SaveStateConfig();
-  }
-
-  
-
+    public SaveStateConfig() {
+        this.StateConfigForm?.SaveStateConfig();
+    }
 }

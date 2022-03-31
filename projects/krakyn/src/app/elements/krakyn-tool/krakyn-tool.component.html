@@ -1,16 +1,14 @@
-<div 
-    fxFlexFill 
-    style="background-color:red;"
-    *ngIf="!State || !State.Enterprises">
-    <strong>
-        No Flow Data
-    </strong> 
+<div
+    fxFlexFill
+    style="background-color: red"
+    *ngIf="!State || !State.Enterprises"
+>
+    <strong> No Flow Data </strong>
 </div>
 <krakyn-flow-tool
-    [HeaderTitle] = 'Title'
-    [FlowData] = 'KrakynData'
-    [SideMenuItems] = 'SideMenuItems'
-    [TabMenuItems] = 'TabMenuItems'>
+    [HeaderTitle]="Title"
+    [FlowData]="KrakynData"
+    [SideMenuItems]="SideMenuItems"
+    [TabMenuItems]="TabMenuItems"
+>
 </krakyn-flow-tool>
-  
-

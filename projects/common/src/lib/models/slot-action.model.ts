@@ -1,7 +1,5 @@
-
-type ButtonType = 'ICON' | 'BUTTON' ;
-export class SlotActionModel{
-
+type ButtonType = 'ICON' | 'BUTTON';
+export class SlotActionModel {
     public ClickEventName: string;
 
     public Icon?: string;

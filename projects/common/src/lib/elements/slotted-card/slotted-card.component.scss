@@ -1,47 +1,45 @@
-.col-info-card{
-    margin:20px;
-    padding:0px;
+.col-info-card {
+    margin: 20px;
+    padding: 0px;
 }
 
-.slotted-card-header{
+.slotted-card-header {
     padding: 5px;
 }
 
-.header-icon{
+.header-icon {
     height: 30px;
     width: 30px;
     font-size: 30px;
-    
 }
 
-.card-title{
+.card-title {
     font-size: 22px;
     margin-bottom: 0px !important;
 }
 
-.pointer{
-    cursor:pointer;
+.pointer {
+    cursor: pointer;
 }
 
-.header-description{
+.header-description {
     background-color: #b9dddd;
     padding: 10px;
     // margin-left: -2px;
 }
-mat-card-actions{
+mat-card-actions {
     margin-bottom: 0px !important;
     margin-left: -1px !important;
     margin-right: 0px !important;
 }
-.slotted-card-action-btn{
+.slotted-card-action-btn {
     width: 100%;
 }
 
-
-.skeleton-item{
+.skeleton-item {
     margin: 10px;
 }
 
-.mat-card-avatar{
+.mat-card-avatar {
     width: 75% !important;
 }

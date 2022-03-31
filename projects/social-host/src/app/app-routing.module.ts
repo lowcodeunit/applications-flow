@@ -7,16 +7,19 @@ import { RoutesComponent } from './controls/routes/routes.component';
 import { IoTComponent } from './controls/iot/iot.component';
 
 const routes: Routes = [
-  { path: 'applications/:appLookup/:appRoute/:projectLookup', component: ApplicationsComponent },
-  { path: 'enterprises', component: EnterpriseComponent },
-  { path: 'projects/:projectLookup', component: ProjectsComponent },
-  { path: 'routes/:appRoute/:projectLookup', component: RoutesComponent },
-  { path: 'iiot', component: IoTComponent },
-  { path: '', redirectTo: 'enterprises', pathMatch: 'full' }
+    {
+        path: 'applications/:appLookup/:appRoute/:projectLookup',
+        component: ApplicationsComponent,
+    },
+    { path: 'enterprises', component: EnterpriseComponent },
+    { path: 'projects/:projectLookup', component: ProjectsComponent },
+    { path: 'routes/:appRoute/:projectLookup', component: RoutesComponent },
+    { path: 'iiot', component: IoTComponent },
+    { path: '', redirectTo: 'enterprises', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

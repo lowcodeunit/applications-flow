@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "prettier check",
+        "type": "npm",
+        "script": "precommit",
+        "auto": true
+      }
+    ]
+  }

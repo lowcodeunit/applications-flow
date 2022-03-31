@@ -4,8 +4,7 @@ import { FeedItemTabModel } from './feed-item-tab.model';
 import { FeedItemModel } from './feed-item.model';
 
 export class MainFeedModel {
-
-    public FeedItem: {  [key: string]: FeedItemModel };
+    public FeedItem: { [key: string]: FeedItemModel };
     public FeedItemContributor: { [key: string]: FeedItemContributorModel };
     public FeedItemAction: { [key: string]: FeedItemActionModel };
     public FeedItemTab: { [key: string]: FeedItemTabModel };

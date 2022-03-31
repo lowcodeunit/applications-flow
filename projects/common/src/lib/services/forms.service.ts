@@ -6,17 +6,16 @@ import { Subject } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
-  })
-
+})
 export class FormsService {
-
     /**
      * List of forms
      */
     private _form: FormModel;
     public set Form(val: FormModel) {
-
-        if (!val) { return; }
+        if (!val) {
+            return;
+        }
 
         this._form = val;
         this.forms.push(val);
@@ -41,21 +40,24 @@ export class FormsService {
     protected previousFormValues: Array<FormValuesModel>;
 
     /**
-     * 
+     *
      * @param val as string - enabled form name
      * @param val as boolen - enable/disable all forms
-     * 
-     * Enable / disable forms, use this when a form is being edited and 
+     *
+     * Enable / disable forms, use this when a form is being edited and
      * all other forms need to be disabled
      */
     public DisableForms(val: string | boolean): void {
-
-        const preventEvent: {onlySelf: boolean, emitEvent: boolean} = { onlySelf: true, emitEvent: false };
+        const preventEvent: { onlySelf: boolean; emitEvent: boolean } = {
+            onlySelf: true,
+            emitEvent: false,
+        };
 
         this.forms.forEach((form: FormModel) => {
-
             if (typeof val === 'boolean') {
-                val ? form.Form.disable(preventEvent) : form.Form.enable(preventEvent);
+                val
+                    ? form.Form.disable(preventEvent)
+                    : form.Form.enable(preventEvent);
             } else {
                 if (form.Id === val) {
                     form.Form.enable(preventEvent);
@@ -66,7 +68,6 @@ export class FormsService {
         });
     }
 
-
     /**
      * Create a reference of initial form data
      * Use this to compare if values really changed, because
@@ -75,12 +76,10 @@ export class FormsService {
      * @param obj form data
      */
     protected createValuesReference(val: FormModel): void {
-
         // const values: Array<{key: string, value: string}> = [];
         const keyValues: object = {};
 
         for (const [key, value] of Object.entries(val.Form.controls)) {
-
             // values.push({key, value: value.value});
             keyValues[key] = value.value;
         }
@@ -91,14 +90,15 @@ export class FormsService {
 
     /**
      * Update value reference after saves
-     * 
+     *
      * @param val form model with values
      */
     public UpdateValuesReference(val: FormModel): void {
-
-        const index: number = this.previousFormValues.findIndex((x: FormValuesModel) => {
-            return x.Id === val.Id;
-        });
+        const index: number = this.previousFormValues.findIndex(
+            (x: FormValuesModel) => {
+                return x.Id === val.Id;
+            }
+        );
 
         this.previousFormValues[index].Values = val.Form.value;
 
@@ -111,8 +111,8 @@ export class FormsService {
     }
 
     /**
-     * Reset form values back to previous 
-     * 
+     * Reset form values back to previous
+     *
      * @param id form id
      */
     public ResetFormValues(id: string): void {
@@ -124,7 +124,7 @@ export class FormsService {
     }
 
     /**
-     * 
+     *
      * @param id form id to search for
      *
      * @returns previous form values
@@ -144,10 +144,11 @@ export class FormsService {
      * @param formToCheck form to be tested
      */
     public ForRealThough(id: string, formToCheck: FormGroup): boolean {
-
-        const formVals: FormValuesModel = this.previousFormValues.find((x: FormValuesModel) => {
-            return x.Id === id;
-        });
+        const formVals: FormValuesModel = this.previousFormValues.find(
+            (x: FormValuesModel) => {
+                return x.Id === id;
+            }
+        );
 
         for (const key in formToCheck.controls) {
             if (formToCheck.controls[key].value !== formVals.Values[key]) {

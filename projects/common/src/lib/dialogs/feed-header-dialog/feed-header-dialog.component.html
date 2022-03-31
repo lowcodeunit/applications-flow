@@ -1,295 +1,309 @@
 <div class="dialog-header" fxLayoutAlign="space-between center">
-    <h2 mat-dialog-title>{{data.dialogTitle}}</h2>
+    <h2 mat-dialog-title>{{ data.dialogTitle }}</h2>
     <button mat-icon-button (click)="CloseDialog()">
-            <mat-icon>cancel</mat-icon>
+        <mat-icon>cancel</mat-icon>
     </button>
 </div>
 
 <mat-dialog-content>
-    <form [formGroup]="FeedHeaderFormGroup" >
-
+    <form [formGroup]="FeedHeaderFormGroup">
         <!-- ISSUE FORM -->
-        <ng-container *ngIf="data.type === 'OpenIssue' ">
-
+        <ng-container *ngIf="data.type === 'OpenIssue'">
             <div fxLayout="row" fxLayoutAlign="center center">
-
                 <mat-form-field appearance="fill">
                     <mat-label>Source Control</mat-label>
-                    <mat-select 
+                    <mat-select
                         formControlName="sourceControl"
                         (selectionChange)="IssueSourceControlChanged($event)"
                         required
-
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups">
-                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
-                        {{sc.Name}}
-                    </mat-option>
-                    </ng-container>
+                        <ng-container
+                            *ngFor="let scLookup of SourceControlLookups"
+                        >
+                            <mat-option
+                                *ngIf="SourceControls[scLookup]; let sc"
+                                [value]="scLookup"
+                            >
+                                {{ sc.Name }}
+                            </mat-option>
+                        </ng-container>
                     </mat-select>
                 </mat-form-field>
             </div>
 
             <mat-form-field class="mat-full-width">
                 <input
-                matInput
-                placeholder="Title"
-                formControlName="title"
-                required
+                    matInput
+                    placeholder="Title"
+                    formControlName="title"
+                    required
                 />
             </mat-form-field>
 
-
-            <angular-editor 
+            <angular-editor
                 id="issue-editor"
-                formControlName="editor" 
+                formControlName="editor"
                 [config]="EditorConfig"
             ></angular-editor>
         </ng-container>
 
         <!-- ANNOUNCEMENT FORM -->
 
-        <ng-container *ngIf="data.type === 'Announcement' ">
+        <ng-container *ngIf="data.type === 'Announcement'">
             <mat-form-field class="mat-full-width">
                 <input
-                matInput
-                placeholder="Title"
-                formControlName="title"
-                required
+                    matInput
+                    placeholder="Title"
+                    formControlName="title"
+                    required
                 />
             </mat-form-field>
 
             <mat-form-field class="mat-full-width">
                 <input
-                matInput
-                placeholder="Subtitle"
-                formControlName="subtitle"
+                    matInput
+                    placeholder="Subtitle"
+                    formControlName="subtitle"
                 />
             </mat-form-field>
 
-            <angular-editor 
+            <angular-editor
                 id="announcement-editor"
-                formControlName="editor" 
+                formControlName="editor"
                 [config]="EditorConfig"
             ></angular-editor>
 
             <div fxLayout="row" fxLayoutAlign="space-between center">
-
                 <mat-form-field class="mat-full-width">
                     <input
-                    matInput
-                    placeholder="Action Text"
-                    formControlName="actionText"
+                        matInput
+                        placeholder="Action Text"
+                        formControlName="actionText"
                     />
                 </mat-form-field>
 
                 <mat-form-field class="mat-full-width">
                     <input
-                    matInput
-                    placeholder="Action Link"
-                    formControlName="actionLink"
+                        matInput
+                        placeholder="Action Link"
+                        formControlName="actionLink"
                     />
                 </mat-form-field>
 
                 <mat-form-field class="mat-full-width">
                     <input
-                    matInput
-                    placeholder="Action Icon"
-                    formControlName="actionIcon"
+                        matInput
+                        placeholder="Action Icon"
+                        formControlName="actionIcon"
                     />
                 </mat-form-field>
-
             </div>
 
             <div fxLayout="row" fxLayoutAlign="center center">
-                <button 
-                *ngIf="ActionTextControl?.value || ActionIconControl?.value"
-                    mat-button color="primary" 
+                <button
+                    *ngIf="ActionTextControl?.value || ActionIconControl?.value"
+                    mat-button
+                    color="primary"
                     (click)="HandleAction(ActionLinkControl?.value)"
                 >
-                    <mat-icon *ngIf="ActionIconControl?.value">{{ ActionIconControl?.value }}</mat-icon>
-            
-                    {{ ActionTextControl?.value }}
-                  </button>
+                    <mat-icon *ngIf="ActionIconControl?.value">{{
+                        ActionIconControl?.value
+                    }}</mat-icon>
 
-                  <button 
-                    *ngIf="!ActionTextControl?.value && !ActionIconControl?.value"
-                    mat-button color="primary" 
+                    {{ ActionTextControl?.value }}
+                </button>
+
+                <button
+                    *ngIf="
+                        !ActionTextControl?.value && !ActionIconControl?.value
+                    "
+                    mat-button
+                    color="primary"
                 >
                     <mat-icon>cruelty_free</mat-icon>
-            
-                    Example Button
-                  </button>
-            </div>
 
+                    Example Button
+                </button>
+            </div>
         </ng-container>
 
         <!-- PR FORM -->
 
-        <ng-container *ngIf="data.type === 'PullRequest' ">
-
+        <ng-container *ngIf="data.type === 'PullRequest'">
             <div fxLayout="row" fxLayoutAlign="center center">
-
                 <mat-form-field appearance="fill">
                     <mat-label>Source Control</mat-label>
-                    <mat-select 
+                    <mat-select
                         formControlName="sourceControl"
-                        (selectionChange)="PullRequestSourceControlChanged($event)"
+                        (selectionChange)="
+                            PullRequestSourceControlChanged($event)
+                        "
                         required
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups">
-                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
-                        {{sc.Name}}
-                    </mat-option>
-                    </ng-container>
+                        <ng-container
+                            *ngFor="let scLookup of SourceControlLookups"
+                        >
+                            <mat-option
+                                *ngIf="SourceControls[scLookup]; let sc"
+                                [value]="scLookup"
+                            >
+                                {{ sc.Name }}
+                            </mat-option>
+                        </ng-container>
                     </mat-select>
                 </mat-form-field>
             </div>
 
-
-            <div fxLayout="row" fxLayoutAlign="center center" *ngIf="BranchOptions?.length > 0">
-
+            <div
+                fxLayout="row"
+                fxLayoutAlign="center center"
+                *ngIf="BranchOptions?.length > 0"
+            >
                 <mat-form-field appearance="fill">
                     <mat-label>Base</mat-label>
-                    <mat-select formControlName="targetBranch" required
-                    >
-                    <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
-                        {{branchOpt.Name}}
-                    </mat-option>
+                    <mat-select formControlName="targetBranch" required>
+                        <mat-option
+                            *ngFor="let branchOpt of BranchOptions"
+                            [value]="branchOpt.Name"
+                        >
+                            {{ branchOpt.Name }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
-                
+
                 <mat-icon>arrow_back</mat-icon>
 
                 <mat-form-field appearance="fill">
                     <mat-label>Compare</mat-label>
-                    <mat-select formControlName="sourceBranch" required
-                    >
-                    <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
-                        {{branchOpt.Name}}
-                    </mat-option>
+                    <mat-select formControlName="sourceBranch" required>
+                        <mat-option
+                            *ngFor="let branchOpt of BranchOptions"
+                            [value]="branchOpt.Name"
+                        >
+                            {{ branchOpt.Name }}
+                        </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
 
             <mat-form-field class="mat-full-width">
                 <input
-                matInput
-                placeholder="Title"
-                formControlName="title"
-                required
+                    matInput
+                    placeholder="Title"
+                    formControlName="title"
+                    required
                 />
             </mat-form-field>
 
-
-            <angular-editor 
+            <angular-editor
                 id="pr-editor"
-                formControlName="editor" 
+                formControlName="editor"
                 [config]="EditorConfig"
             ></angular-editor>
-
         </ng-container>
 
         <!-- Feature Branch form -->
 
-        <ng-container *ngIf="data.type === 'CreateBranch' ">
-
+        <ng-container *ngIf="data.type === 'CreateBranch'">
             <div fxLayout="row" fxLayoutAlign="center center">
-
-                <mat-form-field >
+                <mat-form-field>
                     <mat-label>Source Control</mat-label>
-                    <mat-select 
+                    <mat-select
                         formControlName="sourceControl"
-                        (selectionChange)="FeatureBranchSourceControlChanged($event)"
+                        (selectionChange)="
+                            FeatureBranchSourceControlChanged($event)
+                        "
                         required
                     >
-                    <ng-container *ngFor="let scLookup of SourceControlLookups">
-                    <mat-option *ngIf="SourceControls[scLookup]; let sc" [value]="scLookup">
-                        {{sc.Name}}
-                    </mat-option>
-                    </ng-container>
+                        <ng-container
+                            *ngFor="let scLookup of SourceControlLookups"
+                        >
+                            <mat-option
+                                *ngIf="SourceControls[scLookup]; let sc"
+                                [value]="scLookup"
+                            >
+                                {{ sc.Name }}
+                            </mat-option>
+                        </ng-container>
                     </mat-select>
                 </mat-form-field>
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="space-around center" >
-
+            <div fxLayout="row" fxLayoutAlign="space-around center">
                 <mat-form-field *ngIf="OrganizationOptions?.length > 0">
+                    <mat-select
+                        formControlName="organization"
+                        placeholder="Organization"
+                        (selectionChange)="OrganizationChanged($event)"
+                        required
+                    >
+                        <ng-container
+                            *ngFor="let orgOpt of OrganizationOptions"
+                        >
+                            <mat-option [value]="orgOpt.Name">
+                                {{ orgOpt.Name }}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
 
-                <mat-select 
-                formControlName="organization" 
-                placeholder="Organization"
-                (selectionChange)="OrganizationChanged($event)" 
-                required
-                >
-                <ng-container *ngFor="let orgOpt of OrganizationOptions">
-                    <mat-option [value]="orgOpt.Name">
-                    {{ orgOpt.Name }}
-                    </mat-option>
-                </ng-container>
-                </mat-select>
+                <mat-form-field *ngIf="RepositoryOptions?.length > 0">
+                    <mat-select
+                        formControlName="repository"
+                        placeholder="Repository"
+                        (selectionChange)="RepositoryChanged($event)"
+                        required
+                    >
+                        <ng-container *ngFor="let repoOpt of RepositoryOptions">
+                            <mat-option [value]="repoOpt.Name">
+                                {{ repoOpt.Name }}
+                            </mat-option>
+                        </ng-container>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
+            <div
+                fxLayout="row"
+                fxLayoutAlign="space-around center"
+                *ngIf="BranchOptions?.length > 0"
+            >
+                <mat-form-field>
+                    <mat-label>Base Branch</mat-label>
+                    <mat-select formControlName="sourceBranch" required>
+                        <mat-option
+                            *ngFor="let branchOpt of BranchOptions"
+                            [value]="branchOpt.Name"
+                        >
+                            {{ branchOpt.Name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
-
-            </mat-form-field>
-
-            <mat-form-field *ngIf="RepositoryOptions?.length > 0">
-
-                <mat-select formControlName="repository" 
-                            placeholder="Repository"  
-                            (selectionChange)="RepositoryChanged($event)" 
-                            required
-                >
-                <ng-container *ngFor="let repoOpt of RepositoryOptions">
-                    <mat-option [value]="repoOpt.Name">
-                    {{ repoOpt.Name }}
-                    </mat-option>
-                </ng-container>
-                </mat-select>  
-            </mat-form-field>
-
-        </div>
-
-          <div fxLayout="row" fxLayoutAlign="space-around center" *ngIf="BranchOptions?.length > 0">
-
-            <mat-form-field >
-                <mat-label>Base Branch</mat-label>
-                <mat-select formControlName="sourceBranch" required
-                >
-                <mat-option *ngFor="let branchOpt of BranchOptions" [value]="branchOpt.Name">
-                    {{branchOpt.Name}}
-                </mat-option>
-                </mat-select>
-            </mat-form-field>
-
-            <mat-form-field >
-                <input
-                matInput
-                placeholder="Create New Branch"
-                formControlName="targetBranch"
-                required
-                />
-            </mat-form-field>
-        </div>
-
+                <mat-form-field>
+                    <input
+                        matInput
+                        placeholder="Create New Branch"
+                        formControlName="targetBranch"
+                        required
+                    />
+                </mat-form-field>
+            </div>
         </ng-container>
-
     </form>
-    
-    
 
-    <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
+    <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center">
         {{ ErrorMessage }}
     </mat-error>
 </mat-dialog-content>
 
 <mat-dialog-actions
-    class="actions-container" 
-    div fxLayout="row" 
+    class="actions-container"
+    div
+    fxLayout="row"
     fxLayoutAlign="end center"
 >
-
-    <button 
+    <button
         class="action-button"
         mat-raised-button
         fxFlex="25%"
@@ -299,16 +313,14 @@
     </button>
 
     <!--  -->
-    <button 
-        mat-raised-button 
+    <button
+        mat-raised-button
         color="primary"
         fxFlex="25%"
-        class="submit" 
+        class="submit"
         (click)="Submit()"
         [disabled]="IsDisabled()"
     >
         Submit
     </button>
 </mat-dialog-actions>
-
-
