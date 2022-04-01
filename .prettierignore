@@ -12,6 +12,8 @@
 # dependencies
 /node_modules
 /.github
+/.angular
+/.husky
 
 # IDE - VSCode
 .vscode/*
