@@ -48,11 +48,6 @@ jobs:
           echo "Current branch is ${{ steps.vars.outputs.branchName }}"
           echo "Version bump type is ${{ steps.vars.outputs.versionBump }}"
 
-
-      # check format
-      - name: npm format check
-        run: npm run format-check
-
       # bump version and push tag
       - name: Bump version and push tag
         uses: fathym/github-tag-action@master
@@ -90,6 +85,10 @@ jobs:
       # install npm dependencies from package-lock.json
       - name: npm install
         run: ${{ env.InstallCommand }}
+
+      # check format
+      - name: npm format check
+        run: npm run format-check
 
       # build & publish npm packages to npmjs.org
       - name: npm build & publish
