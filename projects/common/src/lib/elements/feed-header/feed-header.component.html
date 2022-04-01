@@ -11,7 +11,7 @@
         >
         <div fxFlex="85%" class="gh-card-main-content">
           <button
-            mat-button
+            mat-raised-button
             class="main-btn"
             (click)="CreateAnnouncement()"
             color="primary"
@@ -40,7 +40,7 @@
         <ng-container *ngIf="HasGHConnection">
         <button
           *ngFor="let action of FeedHeaderActions"
-          mat-button
+          mat-raised-button
           (click)="OpenFHDialog(action.Action, action.Text)"
           id="pr-btn"
           color="primary"
@@ -99,7 +99,7 @@
   <mat-card class="social-card reload" *ngIf="State?.FeedCheck">
     There are new items in your feed.
 
-    <button mat-button color="primary" (click)="ReloadFeed()">
+    <button mat-raised-button color="primary" (click)="ReloadFeed()">
       Reload Feed
     </button>
   </mat-card>
