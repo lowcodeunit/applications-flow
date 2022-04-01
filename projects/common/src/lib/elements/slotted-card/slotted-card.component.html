@@ -8,23 +8,28 @@
       <div class="card-title">{{ CardTitle }}</div>
     </div>
 
-    <mat-icon
-      *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
+    <button
+      mat-mini-fab
       class="header-icon pointer"
       (click)="MainActionClickEvent()"
-      matTooltip="Edit {{CardTitle}}"
+      matTooltip="Edit {{ CardTitle }}"
+      *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
     >
-      {{ MainIcon }}
-    </mat-icon>
+      <mat-icon>
+        {{ MainIcon }}
+      </mat-icon>
+    </button>
 
-    <mat-icon
-      *ngIf="State?.Loading"
+    <button
+      mat-mini-fab
+      color="accent"
       skeleton-text
       [effect]="SkeletonEffect"
       class="header-icon"
+      *ngIf="State?.Loading"
     >
-      add
-    </mat-icon>
+      <mat-icon> add </mat-icon>
+    </button>
   </mat-card-header>
 
   <!-- SKELETON CONTENT -->

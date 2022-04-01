@@ -96,7 +96,7 @@
     <div fxFlex></div>
 
     <ng-container *ngFor="let action of FeedItem.Actions">
-      <button mat-button [color]="action.Color" (click)="HandleAction(action)">
+      <button mat-raised-button [color]="action.Color" (click)="HandleAction(action)">
         <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
 
         {{ action.Text }}
