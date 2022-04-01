@@ -38,24 +38,19 @@
 
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
         <ng-container *ngIf="HasGHConnection">
-        <button
-          *ngFor="let action of FeedHeaderActions"
-          mat-raised-button
-          (click)="OpenFHDialog(action.Action, action.Text)"
-          id="pr-btn"
-          color="primary"
-        >
-          <mat-icon>{{ action.Icon }}</mat-icon>
-          {{ action.Text }}
-        </button>
-
-      </ng-container>
-      <ng-container *ngIf="!HasGHConnection">
-        <lcu-git-auth 
-          size="small"
-        >
-        </lcu-git-auth>
-      </ng-container>
+          <button
+            *ngFor="let action of FeedHeaderActions"
+            mat-raised-button
+            (click)="OpenFHDialog(action.Action, action.Text)"
+            id="pr-btn"
+          >
+            <mat-icon>{{ action.Icon }}</mat-icon>
+            {{ action.Text }}
+          </button>
+        </ng-container>
+        <ng-container *ngIf="!HasGHConnection">
+          <lcu-git-auth size="small"> </lcu-git-auth>
+        </ng-container>
       </mat-card-actions>
     </ng-container>
 
@@ -99,8 +94,6 @@
   <mat-card class="social-card reload" *ngIf="State?.FeedCheck">
     There are new items in your feed.
 
-    <button mat-raised-button color="primary" (click)="ReloadFeed()">
-      Reload Feed
-    </button>
+    <button mat-raised-button (click)="ReloadFeed()">Reload Feed</button>
   </mat-card>
 </div>
