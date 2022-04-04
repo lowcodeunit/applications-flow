@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [
       {
-        "label": "prettier check",
+        "label": "Prettier Format All",
         "type": "npm",
-        "script": "precommit",
+        "script": "format:all",
         "auto": true
       }
     ]

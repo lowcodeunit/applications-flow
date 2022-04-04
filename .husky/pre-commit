@@ -1,6 +1,0 @@
-#!/bin/sh
-echo "executing post-commit"
-exit 0
-. "$(dirname "$0")/_/husky.sh"
-
-npx lint-staged --relative
