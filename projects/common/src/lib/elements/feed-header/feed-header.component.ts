@@ -27,7 +27,7 @@ export class FeedHeaderComponent implements OnInit {
     return this.State?.FeedActions;
   }
 
-  public get HasGHConnection(): boolean{
+  public get HasGHConnection(): boolean {
     return this.State?.GitHub?.HasConnection;
   }
 
@@ -101,6 +101,18 @@ export class FeedHeaderComponent implements OnInit {
       // console.log('The dialog was closed');
       // console.log("result:", result)
     });
+  }
+
+  public HandleAction(action: FeedItemAction) {
+    if (action.ActionType == 'Link') {
+      if (action.Action.startsWith('http')) {
+        window.open(action.Action, '_blank');
+      } else {
+        window.location.href = action.Action;
+      }
+    } else if (action.ActionType == 'Modal') {
+      this.OpenFHDialog(action.Action, action.Text);
+    }
   }
 
   public OpenFHDialog(modalType: string, modalHeader: string) {
