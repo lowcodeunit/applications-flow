@@ -326,16 +326,12 @@ export class EaCService {
       Projects: {},
     };
 
-    const existingProj = {
-      ...this.State.EaC.Projects[req.ProjectLookup],
-    };
-
-    if (existingProj.ApplicationLookups?.indexOf(req.ApplicationLookup) < 0) {
-      if (!existingProj.ApplicationLookups) {
-        existingProj.ApplicationLookups = [];
-      }
-
-      existingProj.ApplicationLookups.push(req.ApplicationLookup);
+    if (req.ProjectLookup) {
+      const existingProj = {
+        [req.ProjectLookup]: {
+          ApplicationLookups: [req.ApplicationLookup],
+        },
+      };
 
       saveEaC.Projects[req.ProjectLookup] = existingProj;
     }

@@ -23,6 +23,10 @@
           {{ Icon }}
         </mat-icon>
 
+        <span *ngIf="FeedItem.Status?.Message">
+          {{ FeedItem.Status?.Message }}
+        </span>
+
         <span *ngIf="FeedItem.Timestamp">
           {{ CalculateTimelapse(FeedItem.Timestamp) }}
         </span>
@@ -38,15 +42,17 @@
             <mat-tab [label]="tab.Title">
               <div class="tab">
                 <ng-container *ngIf="tab.Data?.Commit?.Message">
-                  <div class="commit-message">
-                    {{ tab.Data?.Commit?.Message }}
-                  </div>
+                  <div
+                    class="commit-message"
+                    [innerHTML]="SafeHtml(tab.Data?.Commit?.Message)"
+                  ></div>
                 </ng-container>
 
                 <ng-container *ngIf="tab.Data?.Content">
-                  <div class="content">
-                    {{ tab.Data?.Content }}
-                  </div>
+                  <div
+                    class="content"
+                    [innerHTML]="SafeHtml(tab.Data?.Content)"
+                  ></div>
                 </ng-container>
 
                 <ng-container *ngIf="tab.Data?.Video">
@@ -78,8 +84,7 @@
                         </mat-card-title>
                       </mat-card-header>
 
-                      <mat-card-content>
-                        {{ comment.Comment }}
+                      <mat-card-content [innerHTML]="SafeHtml(comment.Comment)">
                       </mat-card-content>
                     </mat-card>
                   </div>
@@ -96,7 +101,11 @@
     <div fxFlex></div>
 
     <ng-container *ngFor="let action of FeedItem.Actions">
-      <button mat-button [color]="action.Color" (click)="HandleAction(action)">
+      <button
+        mat-raised-button
+        [color]="action.Color"
+        (click)="HandleAction(action)"
+      >
         <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
 
         {{ action.Text }}
