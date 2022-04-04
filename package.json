@@ -95,6 +95,7 @@
         "@types/tinycolor2": "^1.4.3",
         "concat-glob-cli": "^0.1.0",
         "concurrently": "^7.0.0",
+        "eslint": "^8.12.0",
         "husky": "^7.0.4",
         "jasmine-core": "~3.10.1",
         "jasmine-spec-reporter": "~7.0.0",
@@ -116,7 +117,19 @@
         "typescript": "~4.5.4",
         "wait-on": "^5.3.0"
     },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
     "lint-staged": {
-        "*.{js,css,md,html,ts,json}": "prettier --check"
+        "*.{js,jsx,json}": [
+            "prettier --check",            
+            "git add"
+        ],
+        "*.{html,css,less,ejs,ts,scss}": [
+            "prettier --check",
+            "git add"
+        ]
     }
 }
