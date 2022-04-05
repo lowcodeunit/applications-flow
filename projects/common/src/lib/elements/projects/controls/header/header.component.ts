@@ -1,8 +1,6 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { EaCService } from './../../../../services/eac.service';
-import {
-  EaCProjectAsCode,
-} from '@semanticjs/common';
+import { EaCProjectAsCode } from '@semanticjs/common';
 import {
   AbstractControl,
   FormBuilder,
@@ -63,7 +61,7 @@ export class HeaderComponent implements OnInit {
       Project: {
         Name: this.ProjectName?.value,
       },
-      Hosts: [`${Guid.CreateRaw()}-shared.lowcodeunit.com`],
+      Hosts: [`${Guid.CreateRaw()}-shared.fathym-it.com`],
       ModifierLookups: ['html-base', 'lcu-reg'],
       RelyingParty: {
         AccessConfigurations: {
