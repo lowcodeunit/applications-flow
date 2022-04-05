@@ -86,10 +86,6 @@ jobs:
       - name: npm install
         run: ${{ env.InstallCommand }}
 
-      # format check
-      - name: npm format check
-        run: npm run format-check
-
       # build & publish npm packages to npmjs.org
       - name: npm build & publish
         if: ${{ steps.versionBump.outputs.new_tag != '' }}
