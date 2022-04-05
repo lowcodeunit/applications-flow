@@ -5,7 +5,7 @@
         "name": "Fathym"
     },
     "scripts": {
-      "build": "npm run build:common && npm run build:lcu && npm run build:demo && npm run build:social-host",
+        "build": "npm run build:common && npm run build:lcu && npm run build:demo && npm run build:social-host",
         "build:common": "ng build common --configuration production",
         "build:demo": "ng build demo --configuration production",
         "build:krakyn": "ng build krakyn --configuration production",
