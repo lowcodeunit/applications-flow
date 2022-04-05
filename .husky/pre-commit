@@ -1,0 +1,4 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+"C:\Program Files\nodejs\npx.cmd" prettier --check
