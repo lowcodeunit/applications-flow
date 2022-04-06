@@ -1,20 +1,22 @@
-<mat-tab-group 
-    [color]="Color" 
-    [backgroundColor]="BackgroundColor" 
-    (selectedTabChange)="TabChanged($event)">
+<mat-tab-group
+    [color]="Color"
+    [backgroundColor]="BackgroundColor"
+    (selectedTabChange)="TabChanged($event)"
+>
     <!-- <div>
 
     </div> -->
     <mat-tab
         *ngFor="let component of TabComponents"
         #tab
-        [disabled]='!tab.isActive && FormIsDirty'>
+        [disabled]="!tab.isActive && FormIsDirty"
+    >
         <ng-template mat-tab-label>
             <mat-icon [color]="Color" class="margin-right-2">
                 {{ component.Icon }}
             </mat-icon>
             {{ component.Label }}
-          </ng-template>
+        </ng-template>
         <ng-template matTabContent>
             <div #container class="margin-top-3"></div>
         </ng-template>

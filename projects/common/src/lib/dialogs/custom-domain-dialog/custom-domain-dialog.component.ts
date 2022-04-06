@@ -10,32 +10,28 @@ export interface CDDialogData {
 }
 
 @Component({
-  selector: 'lcu-custom-domain-dialog',
-  templateUrl: './custom-domain-dialog.component.html',
-  styleUrls: ['./custom-domain-dialog.component.scss']
+    selector: 'lcu-custom-domain-dialog',
+    templateUrl: './custom-domain-dialog.component.html',
+    styleUrls: ['./custom-domain-dialog.component.scss'],
 })
-
 export class CustomDomainDialogComponent implements OnInit {
+    public DomainData: {};
 
-  public DomainData: {};
+    constructor(
+        public dialogRef: MatDialogRef<CustomDomainDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: CDDialogData
+    ) {
+        this.DomainData = {
+            Hosts: this.data.hosts,
+            PrimaryHost: this.data.primaryHost,
+            Project: this.data.project,
+            ProjectLookup: this.data.projectLookup,
+        };
+    }
 
-  constructor(public dialogRef: MatDialogRef<CustomDomainDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: CDDialogData) {
+    public ngOnInit(): void {}
 
-      this.DomainData = {
-        Hosts: this.data.hosts,
-        PrimaryHost: this.data.primaryHost,
-        Project: this.data.project,
-        ProjectLookup: this.data.projectLookup
-      }
-      
-     }
-
-  public ngOnInit(): void {
-  }
-
-  public CloseDialog(){
-    this.dialogRef.close();
-  }
-
+    public CloseDialog() {
+        this.dialogRef.close();
+    }
 }

@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Prettier Format All",
+        "type": "npm",
+        "script": "format:all",
+        "auto": true
+      }
+    ]
+  }

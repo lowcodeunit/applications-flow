@@ -1,213 +1,234 @@
 <lcu-breadcrumb
-  [project-lookup]="ProjectLookup"
-  [application-lookup]="ApplicationLookup"
-  [selected-route]="CurrentApplicationRoute"
+    [project-lookup]="ProjectLookup"
+    [application-lookup]="ApplicationLookup"
+    [selected-route]="CurrentApplicationRoute"
 >
 </lcu-breadcrumb>
 
 <lcu-three-column>
-  <div left>
-    <lcu-project-info-card
-      [name]="Application?.Application?.Name"
-      [description]="Application?.Application?.Description"
-      [is-editable]="IsInfoCardEditable"
-      [is-shareable]="IsInfoCardShareable"
-      [subtext]="
-        Project?.Hosts
-          ? Project?.Hosts[Project?.Hosts?.length - 1] +
-            Application?.Processor?.BaseHref
-          : ''
-      "
-      [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
-      (left-click-event)="HandleLeftClickEvent($event)"
-      (right-click-event)="HandleRightClickEvent($event)"
-    >
-      <!-- Commented out until implemented -->
-      <!-- <lcu-card-carousel
+    <div left>
+        <lcu-project-info-card
+            [name]="Application?.Application?.Name"
+            [description]="Application?.Application?.Description"
+            [is-editable]="IsInfoCardEditable"
+            [is-shareable]="IsInfoCardShareable"
+            [subtext]="
+                Project?.Hosts
+                    ? Project?.Hosts[Project?.Hosts?.length - 1] +
+                      Application?.Processor?.BaseHref
+                    : ''
+            "
+            [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
+            (left-click-event)="HandleLeftClickEvent($event)"
+            (right-click-event)="HandleRightClickEvent($event)"
+        >
+            <!-- Commented out until implemented -->
+            <!-- <lcu-card-carousel
                         [stats]="Stats">
                     </lcu-card-carousel> -->
 
-      <button
-        *ngIf="Application?.Processor?.Type === 'DFS'"
-        action
-        mat-button
-        class="info-card-btn"
-        (click)="UpdateClicked()"
-        matTooltip="Update your application to the latest package"
-      >
-        <mat-icon>outbox</mat-icon>
-        Update Package: {{ Version }}
-      </button>
+            <button
+                *ngIf="Application?.Processor?.Type === 'DFS'"
+                action
+                mat-button
+                class="info-card-btn"
+                (click)="UpdateClicked()"
+                matTooltip="Update your application to the latest package"
+            >
+                <mat-icon>outbox</mat-icon>
+                Update Package: {{ Version }}
+            </button>
 
-      <button
-        action
-        color="warn"
-        mat-button
-        class="info-card-btn"
-        (click)="
-          DeleteApplication(ApplicationLookup, Application?.Application?.Name)
-        "
-      >
-        <mat-icon matTooltip="Delete {{ Application?.Application?.Name }}">
-          delete_forever
-        </mat-icon>
-        Delete Application
-      </button>
-    </lcu-project-info-card>
+            <button
+                action
+                color="warn"
+                mat-button
+                class="info-card-btn"
+                (click)="
+                    DeleteApplication(
+                        ApplicationLookup,
+                        Application?.Application?.Name
+                    )
+                "
+            >
+                <mat-icon
+                    matTooltip="Delete {{ Application?.Application?.Name }}"
+                >
+                    delete_forever
+                </mat-icon>
+                Delete Application
+            </button>
+        </lcu-project-info-card>
 
-    <!-- Commented out until implemented -->
-    <!-- <lcu-analytics-card
+        <!-- Commented out until implemented -->
+        <!-- <lcu-analytics-card
             title="Application Stats"
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
-  </div>
-  <!-- CENTER -->
-  <div>
-    <lcu-feed-header></lcu-feed-header>
-    <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
+    </div>
+    <!-- CENTER -->
+    <div>
+        <lcu-feed-header></lcu-feed-header>
+        <lcu-skeleton-feed-card
+            *ngIf="State?.LoadingFeed"
+        ></lcu-skeleton-feed-card>
 
-    <ng-container *ngIf="!State?.LoadingFeed">
-      <div *ngFor="let feedItem of State?.Feed">
-        <lcu-main-feed-card [feed-item]="feedItem"> </lcu-main-feed-card>
-      </div>
-    </ng-container>
-  </div>
+        <ng-container *ngIf="!State?.LoadingFeed">
+            <div *ngFor="let feedItem of State?.Feed">
+                <lcu-main-feed-card [feed-item]="feedItem">
+                </lcu-main-feed-card>
+            </div>
+        </ng-container>
+    </div>
 
-  <div right>
-    <!-- Processor Details
+    <div right>
+        <!-- Processor Details
       action-text="Edit Processor Details" -->
-    <lcu-slotted-card
-      card-title="Processor Details"
-      icon="developer_board"
-      main-icon="edit"
-      [main-slot-description]="Application?.Processor?.Label"
-      (main-action-clicked)="OpenProcessorDetailsDialog($event)"
-    >
-      <div class="main-slot-container" fxLayout="row">
-        <div class="slot-header-container">
-          <div
-            class="slot-header"
-            fxLayout="column"
-            fxLayoutAlign="center start"
-          >
-            <div *ngIf="Application?.Processor?.Type">
-              <strong>Type: </strong>
-              {{ Application?.Processor?.Type }}
-            </div>
+        <lcu-slotted-card
+            card-title="Processor Details"
+            icon="developer_board"
+            main-icon="edit"
+            [main-slot-description]="Application?.Processor?.Label"
+            (main-action-clicked)="OpenProcessorDetailsDialog($event)"
+        >
+            <div class="main-slot-container" fxLayout="row">
+                <div class="slot-header-container">
+                    <div
+                        class="slot-header"
+                        fxLayout="column"
+                        fxLayoutAlign="center start"
+                    >
+                        <div *ngIf="Application?.Processor?.Type">
+                            <strong>Type: </strong>
+                            {{ Application?.Processor?.Type }}
+                        </div>
 
-            <div *ngIf="Application?.Processor?.DefaultFile">
-              <strong>Default File: </strong>
-              {{ Application?.Processor?.DefaultFile }}
-            </div>
+                        <div *ngIf="Application?.Processor?.DefaultFile">
+                            <strong>Default File: </strong>
+                            {{ Application?.Processor?.DefaultFile }}
+                        </div>
 
-            <div *ngIf="Application?.Processor?.Priority">
-              <strong>Priority: </strong>
-              {{ Application?.Processor?.Priority }}
-            </div>
-          </div>
+                        <div *ngIf="Application?.Processor?.Priority">
+                            <strong>Priority: </strong>
+                            {{ Application?.Processor?.Priority }}
+                        </div>
+                    </div>
 
-          <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
-        </div>
+                    <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+                </div>
 
-        <!-- <div
+                <!-- <div
               class="slot-actions-container"
               fxLayout="row"
               fxLayoutAlign="space-around center"
             > -->
-        <!-- <a
+                <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenProcessorDetailsDialog(null)"
               >
                 <mat-icon class="action-icon">edit</mat-icon>
               </a> -->
 
-        <!-- </div> -->
-      </div>
-    </lcu-slotted-card>
+                <!-- </div> -->
+            </div>
+        </lcu-slotted-card>
 
-    <lcu-security-toggle
-      [editing-application]="Application"
-      (save-form-event)="SaveSecuritySettings($event)"
-    >
-    </lcu-security-toggle>
+        <lcu-security-toggle
+            [editing-application]="Application"
+            (save-form-event)="SaveSecuritySettings($event)"
+        >
+        </lcu-security-toggle>
 
-    <div class="state-config-card">
-      <mat-card class="social-card" *ngIf="!State?.Loading">
-        <mat-card-title>Manage State Config</mat-card-title>
-        <mat-card-actions>
-          <button
-            mat-raised-button
-            class="config-btn"
-            (click)="OpenEditConfigDialog()"
-          >
-            Edit Config
-          </button>
-        </mat-card-actions>
-      </mat-card>
+        <div class="state-config-card">
+            <mat-card class="social-card" *ngIf="!State?.Loading">
+                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-actions>
+                    <button
+                        mat-raised-button
+                        class="config-btn"
+                        (click)="OpenEditConfigDialog()"
+                    >
+                        Edit Config
+                    </button>
+                </mat-card-actions>
+            </mat-card>
 
-      <mat-card class="social-card" *ngIf="State?.Loading">
-        <mat-card-title>Manage State Config</mat-card-title>
-        <mat-card-actions>
-          <skeleton-block
-            width="100%"
-            height="36px"
-            [effect]="SkeletonEffect"
-          ></skeleton-block>
-        </mat-card-actions>
-      </mat-card>
-    </div>
+            <mat-card class="social-card" *ngIf="State?.Loading">
+                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-actions>
+                    <skeleton-block
+                        width="100%"
+                        height="36px"
+                        [effect]="SkeletonEffect"
+                    ></skeleton-block>
+                </mat-card-actions>
+            </mat-card>
+        </div>
 
-    <!-- Request Modifiers 
+        <!-- Request Modifiers 
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
-    <lcu-slotted-card
-      card-title="Modifiers"
-      icon="sync_alt"
-      main-icon="edit"
-      [main-slot-description]="NumberOfModifiers + ' Modifier(s) configured'"
-      (main-action-clicked)="OpenModifierDialog(null, null)"
-    >
-      <div>
-        <div
-          class="main-slot-container"
-          fxLayout="row"
-          *ngFor="let mdfrLookup of ModifierLookups | slice: 0:Slices.Modifiers"
+        <lcu-slotted-card
+            card-title="Modifiers"
+            icon="sync_alt"
+            main-icon="edit"
+            [main-slot-description]="
+                NumberOfModifiers + ' Modifier(s) configured'
+            "
+            (main-action-clicked)="OpenModifierDialog(null, null)"
         >
-          <div
-            class="slot-content"
-            *ngIf="Modifiers[mdfrLookup]; let mdfr"
-            fxLayout="row"
-            fxLayoutAlign="space-between center"
-          >
-            <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
-            <div class="slot-header-container">
-              <div
-                class="slot-header"
-                fxLayout="row"
-                (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
-              >
-                <!-- this icon is a temp placeholder -->
-                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                <div *ngIf="mdfr?.Name?.length > 28" class="slot-name">
-                  {{ mdfr?.Name | slice: 0:25 }}...
-                </div>
+            <div>
                 <div
-                  *ngIf="mdfr?.Name?.length < 28 || mdfr?.Name?.length == 28"
-                  class="slot-name"
+                    class="main-slot-container"
+                    fxLayout="row"
+                    *ngFor="
+                        let mdfrLookup of ModifierLookups
+                            | slice: 0:Slices.Modifiers
+                    "
                 >
-                  {{ mdfr?.Name }}
-                </div>
-              </div>
+                    <div
+                        class="slot-content"
+                        *ngIf="Modifiers[mdfrLookup]; let mdfr"
+                        fxLayout="row"
+                        fxLayoutAlign="space-between center"
+                    >
+                        <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                        <div class="slot-header-container">
+                            <div
+                                class="slot-header"
+                                fxLayout="row"
+                                (click)="
+                                    OpenModifierDialog(mdfrLookup, mdfr?.Name)
+                                "
+                            >
+                                <!-- this icon is a temp placeholder -->
+                                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                                <div
+                                    *ngIf="mdfr?.Name?.length > 28"
+                                    class="slot-name"
+                                >
+                                    {{ mdfr?.Name | slice: 0:25 }}...
+                                </div>
+                                <div
+                                    *ngIf="
+                                        mdfr?.Name?.length < 28 ||
+                                        mdfr?.Name?.length == 28
+                                    "
+                                    class="slot-name"
+                                >
+                                    {{ mdfr?.Name }}
+                                </div>
+                            </div>
 
-              <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
-            </div>
+                            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+                        </div>
 
-            <div
-              class="slot-actions-container"
-              fxLayout="row"
-              fxLayoutAlign="space-around center"
-            >
-              <!-- <button
+                        <div
+                            class="slot-actions-container"
+                            fxLayout="row"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <!-- <button
                 mat-icon-button
                 color="warn"
                 (click)="DeletModifier(mdfrLookup, mdfr?.Name)"
@@ -216,39 +237,41 @@
                   delete_forever
                 </mat-icon>
               </button> -->
-              <!-- <a
+                            <!-- <a
                 class="slot-action-anchor"
                 (click)="OpenBuildPipelineDialog(doaLookup)"
               >
                 <mat-icon class="action-icon" matTooltip="Edit {{ doa?.Name }}">edit</mat-icon>
               </a> -->
-              <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                         <mat-icon class="action-icon">launch</mat-icon>
                     </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    mat-raised-button
+                    class="mat-full-width"
+                    (click)="ToggleSlices('Modifiers')"
+                    *ngIf="NumberOfModifiers > 5"
+                >
+                    {{
+                        Slices.Modifiers == NumberOfModifiers
+                            ? "Show Less"
+                            : "Show More"
+                    }}
+
+                    <mat-icon>
+                        {{
+                            Slices.Modifiers == NumberOfModifiers
+                                ? "expand_less"
+                                : "expand_more"
+                        }}
+                    </mat-icon>
+                </button>
             </div>
-          </div>
-        </div>
-
-        <button
-          mat-raised-button
-          class="mat-full-width"
-          (click)="ToggleSlices('Modifiers')"
-          *ngIf="NumberOfModifiers > 5"
-        >
-          {{
-            Slices.Modifiers == NumberOfModifiers ? "Show Less" : "Show More"
-          }}
-
-          <mat-icon>
-            {{
-              Slices.Modifiers == NumberOfModifiers
-                ? "expand_less"
-                : "expand_more"
-            }}
-          </mat-icon>
-        </button>
-      </div>
-    </lcu-slotted-card>
-  </div>
+        </lcu-slotted-card>
+    </div>
 </lcu-three-column>
 <!-- </ng-container> -->

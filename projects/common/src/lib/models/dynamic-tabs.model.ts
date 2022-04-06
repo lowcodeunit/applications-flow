@@ -1,6 +1,4 @@
-
 export class DynamicTabsModel {
-
     /**
      * Component instance to add to the tab
      */
@@ -24,4 +22,4 @@ export class DynamicTabsModel {
     constructor(opts: DynamicTabsModel) {
         Object.assign(this, opts); // destructure values
     }
-  }
+}

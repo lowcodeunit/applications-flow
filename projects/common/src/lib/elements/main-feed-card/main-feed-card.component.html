@@ -1,118 +1,137 @@
 <mat-card class="social-card">
-  <mat-card-header>
-    <img
-      mat-card-avatar
-      class="example-header-image"
-      [src]="FeedItem.Avatar"
-      *ngIf="FeedItem.Avatar"
-    />
+    <mat-card-header>
+        <img
+            mat-card-avatar
+            class="example-header-image"
+            [src]="FeedItem.Avatar"
+            *ngIf="FeedItem.Avatar"
+        />
 
-    <mat-card-title *ngIf="FeedItem.Title">{{ FeedItem.Title }}</mat-card-title>
+        <mat-card-title *ngIf="FeedItem.Title">{{
+            FeedItem.Title
+        }}</mat-card-title>
 
-    <mat-card-subtitle>
-      <div *ngIf="FeedItem.Subtitle">{{ FeedItem.Subtitle }}</div>
+        <mat-card-subtitle>
+            <div *ngIf="FeedItem.Subtitle">{{ FeedItem.Subtitle }}</div>
 
-      <div *ngIf="FeedItem.Subtext">{{ FeedItem.Subtext }}</div>
+            <div *ngIf="FeedItem.Subtext">{{ FeedItem.Subtext }}</div>
 
-      <div *ngIf="FeedItem.Status">
-        <mat-icon
-          *ngIf="Icon"
-          [style.color]="IconColor"
-          [class.spin]="FeedItem.Status?.Code == 2"
-        >
-          {{ Icon }}
-        </mat-icon>
+            <div *ngIf="FeedItem.Status">
+                <mat-icon
+                    *ngIf="Icon"
+                    [style.color]="IconColor"
+                    [class.spin]="FeedItem.Status?.Code == 2"
+                >
+                    {{ Icon }}
+                </mat-icon>
 
-        <span *ngIf="FeedItem.Status?.Message">
-          {{ FeedItem.Status?.Message }}
-        </span>
+                <span *ngIf="FeedItem.Status?.Message">
+                    {{ FeedItem.Status?.Message }}
+                </span>
 
-        <span *ngIf="FeedItem.Timestamp">
-          {{ CalculateTimelapse(FeedItem.Timestamp) }}
-        </span>
-      </div>
-    </mat-card-subtitle>
-  </mat-card-header>
+                <span *ngIf="FeedItem.Timestamp">
+                    {{ CalculateTimelapse(FeedItem.Timestamp) }}
+                </span>
+            </div>
+        </mat-card-subtitle>
+    </mat-card-header>
 
-  <div *ngIf="!FeedItem.IsShortForm">
-    <div class="feed-card-container">
-      <div class="feed-card-main-content">
-        <mat-tab-group>
-          <ng-container *ngFor="let tab of FeedItem.Tabs">
-            <mat-tab [label]="tab.Title">
-              <div class="tab">
-                <ng-container *ngIf="tab.Data?.Commit?.Message">
-                  <div
-                    class="commit-message"
-                    [innerHTML]="SafeHtml(tab.Data?.Commit?.Message)"
-                  ></div>
-                </ng-container>
+    <div *ngIf="!FeedItem.IsShortForm">
+        <div class="feed-card-container">
+            <div class="feed-card-main-content">
+                <mat-tab-group>
+                    <ng-container *ngFor="let tab of FeedItem.Tabs">
+                        <mat-tab [label]="tab.Title">
+                            <div class="tab">
+                                <ng-container *ngIf="tab.Data?.Commit?.Message">
+                                    <div
+                                        class="commit-message"
+                                        [innerHTML]="
+                                            SafeHtml(tab.Data?.Commit?.Message)
+                                        "
+                                    ></div>
+                                </ng-container>
 
-                <ng-container *ngIf="tab.Data?.Content">
-                  <div
-                    class="content"
-                    [innerHTML]="SafeHtml(tab.Data?.Content)"
-                  ></div>
-                </ng-container>
+                                <ng-container *ngIf="tab.Data?.Content">
+                                    <div
+                                        class="content"
+                                        [innerHTML]="
+                                            SafeHtml(tab.Data?.Content)
+                                        "
+                                    ></div>
+                                </ng-container>
 
-                <ng-container *ngIf="tab.Data?.Video">
-                  <!-- <embed type="video/webm" src="https://www.youtube.com/embed/Lt_U1q9_e1s" width="400" height="225">
-                    <iframe width="400" height="225" src="https://www.youtube.com/embed/Lt_U1q9_e1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-                  <!--  -->
-                  <div
-                    class="video"
-                    [innerHTML]="SafeHtml(tab.Data.Video)"
-                  ></div>
-                </ng-container>
+                                <ng-container *ngIf="tab.Data?.Video">
+                                    <!-- <embed type="video/webm" src="https://www.youtube.com/embed/Lt_U1q9_e1s" width="400" height="225">
+                                        <iframe width="400" height="225" src="https://www.youtube.com/embed/Lt_U1q9_e1s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
+                                    <!--  -->
+                                    <div
+                                        class="video"
+                                        [innerHTML]="SafeHtml(tab.Data.Video)"
+                                    ></div>
+                                </ng-container>
 
-                <ng-container *ngIf="tab.Data?.Comments">
-                  <div class="comments">
-                    <ng-container *ngIf="tab.Data?.Comments?.length <= 0">
-                      <h4>No comments provided</h4>
+                                <ng-container *ngIf="tab.Data?.Comments">
+                                    <div class="comments">
+                                        <ng-container
+                                            *ngIf="
+                                                tab.Data?.Comments?.length <= 0
+                                            "
+                                        >
+                                            <h4>No comments provided</h4>
+                                        </ng-container>
+
+                                        <mat-card
+                                            *ngFor="
+                                                let comment of tab.Data
+                                                    ?.Comments
+                                            "
+                                        >
+                                            <mat-card-header>
+                                                <img
+                                                    mat-card-avatar
+                                                    class="example-header-image"
+                                                    [src]="comment.Avatar"
+                                                    *ngIf="comment.Avatar"
+                                                />
+
+                                                <mat-card-title>
+                                                    {{ comment.Author }}
+                                                    commented on
+                                                    {{ comment.UpdatedAt }}
+                                                </mat-card-title>
+                                            </mat-card-header>
+
+                                            <mat-card-content
+                                                [innerHTML]="
+                                                    SafeHtml(comment.Comment)
+                                                "
+                                            >
+                                            </mat-card-content>
+                                        </mat-card>
+                                    </div>
+                                </ng-container>
+                            </div>
+                        </mat-tab>
                     </ng-container>
-
-                    <mat-card *ngFor="let comment of tab.Data?.Comments">
-                      <mat-card-header>
-                        <img
-                          mat-card-avatar
-                          class="example-header-image"
-                          [src]="comment.Avatar"
-                          *ngIf="comment.Avatar"
-                        />
-
-                        <mat-card-title>
-                          {{ comment.Author }}
-                          commented on
-                          {{ comment.UpdatedAt }}
-                        </mat-card-title>
-                      </mat-card-header>
-
-                      <mat-card-content [innerHTML]="SafeHtml(comment.Comment)">
-                      </mat-card-content>
-                    </mat-card>
-                  </div>
-                </ng-container>
-              </div>
-            </mat-tab>
-          </ng-container>
-        </mat-tab-group>
-      </div>
+                </mat-tab-group>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
-    <div fxFlex></div>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
+        <div fxFlex></div>
 
-    <ng-container *ngFor="let action of FeedItem.Actions">
-      <button
-        mat-raised-button
-        [color]="action.Color"
-        (click)="HandleAction(action)"
-      >
-        <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
+        <ng-container *ngFor="let action of FeedItem.Actions">
+            <button
+                mat-raised-button
+                [color]="action.Color"
+                (click)="HandleAction(action)"
+            >
+                <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
 
-        {{ action.Text }}
-      </button>
-    </ng-container>
-  </mat-card-actions>
+                {{ action.Text }}
+            </button>
+        </ng-container>
+    </mat-card-actions>
 </mat-card>

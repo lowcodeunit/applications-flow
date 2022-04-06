@@ -1,7 +1,7 @@
 {
-	"name": "@lowcodeunit/applications-flow-common",
-	"version": "0.0.5",
-	"dependencies": {
-		"tslib": "^2.0.0"
-	}
+    "name": "@lowcodeunit/applications-flow-common",
+    "version": "0.0.5",
+    "dependencies": {
+        "tslib": "^2.0.0"
+    }
 }
