@@ -98,6 +98,22 @@ export class DFSModifiersDialogComponent implements OnInit {
     return this.SaveDisabled;
   }
 
+  public IsPreconfigured(): boolean{
+    if(this.data.modifierLookup){
+      if(this.data.modifierLookup === 'html-base' || this.data.modifierLookup === 'lcu-reg'){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    else{
+      return false;
+    }
+   
+
+  }
+
   public SaveDFSModifier() {
     // console.log("level at save: ", this.data.level)
 
