@@ -14,16 +14,8 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
     //  Fields
     //  Properties
     //  Constructors
-    constructor(
-        protected state: ApplicationsFlowState,
-        protected router: Router,
-        protected activatedRoute: ActivatedRoute
-    ) {
+    constructor() {
         super();
-
-        // this.activatedRoute.params.subscribe((params: Params) => {
-        //   console.log('ACTIVATED ROUTE', params);
-        // });
     }
 
     //  API Methods
