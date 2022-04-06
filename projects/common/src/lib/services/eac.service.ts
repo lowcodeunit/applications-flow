@@ -286,8 +286,8 @@ export class EaCService {
 
   public async SaveProjectAsCode(
     req: SaveProjectAsCodeEventRequest
-  ): Promise<void> {
-    await this.handleSaveProject(req.ProjectLookup, req.Project);
+  ): Promise<Status> {
+    return await this.handleSaveProject(req.ProjectLookup, req.Project);
   }
 
   public async SetActiveEnterprise(entLookup: any): Promise<void> {

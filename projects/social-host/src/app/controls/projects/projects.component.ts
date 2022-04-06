@@ -6,7 +6,8 @@ import {
   ApplicationsFlowService,
   CustomDomainDialogComponent,
   NewApplicationDialogComponent,
-  DFSModifiersDialogComponent
+  DFSModifiersDialogComponent,
+  EditProjectDialogComponent
 } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
@@ -188,7 +189,7 @@ export class ProjectsComponent implements OnInit {
       { Name: 'Someother Rate', Stat: '5%' },
     ];
 
-    this.IsInfoCardEditable = false;
+    this.IsInfoCardEditable = true;
     this.IsInfoCardShareable = false;
     
     this.SlicesCount = 5;
@@ -228,11 +229,25 @@ export class ProjectsComponent implements OnInit {
   }
 
   public HandleLeftClickEvent(event: any) {
-    console.log('Left Icon has been selected', event);
+    this.OpenEditProjectModal();
   }
 
   public HandleRightClickEvent(event: any) {
     console.log('Right Icon has been selected', event);
+  }
+
+  public OpenEditProjectModal() {
+    const dialogRef = this.dialog.open(EditProjectDialogComponent, {
+      width: '600px',
+      data: {
+        projectLookup: this.ProjectLookup
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // console.log('The dialog was closed');
+      // console.log("result:", result.event)
+    });
   }
 
   public OpenNewAppDialog(event: any){
