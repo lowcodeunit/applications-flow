@@ -70,6 +70,8 @@ import { DFSModifiersDialogComponent } from './dialogs/dfs-modifiers-dialog/dfs-
 import { DFSModifiersFormComponent } from './controls/dfs-modifiers-form/dfs-modifiers-form.component';
 import { StateConfigDialogComponent } from './dialogs/state-config-dialog/state-config-dialog.component';
 import { StateConfigFormComponent } from './controls/state-config-form/state-config-form.component';
+import { EditProjectDialogComponent } from './dialogs/edit-project-dialog/edit-project-dialog.component';
+import { EditProjectFormComponent } from './controls/edit-project-form/edit-project-form.component';
 
 @NgModule({
     declarations: [
@@ -124,6 +126,8 @@ import { StateConfigFormComponent } from './controls/state-config-form/state-con
         FeedHeaderDialogComponent,
         StateConfigDialogComponent,
         StateConfigFormComponent,
+        EditProjectDialogComponent,
+        EditProjectFormComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -193,6 +197,8 @@ import { StateConfigFormComponent } from './controls/state-config-form/state-con
         DFSModifiersFormComponent,
         StateConfigDialogComponent,
         StateConfigFormComponent,
+        EditProjectDialogComponent,
+        EditProjectFormComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

@@ -61,7 +61,7 @@ export class HeaderComponent implements OnInit {
             Project: {
                 Name: this.ProjectName?.value,
             },
-            Hosts: [`${Guid.CreateRaw()}-shared.lowcodeunit.com`],
+            Hosts: [`${Guid.CreateRaw()}-shared.fathym-it.com`],
             ModifierLookups: ['html-base', 'lcu-reg'],
             RelyingParty: {
                 AccessConfigurations: {

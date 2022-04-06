@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 
 @Component({
     selector: 'lcu-git-auth',
@@ -6,11 +6,15 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
     styleUrls: ['./git-auth.component.scss'],
 })
 export class GitAuthComponent implements OnInit, AfterViewInit {
+    @Input('size')
+    public Size: string;
     //  Properties
     public ConnectClicked: boolean;
 
     //  Constructors
-    constructor() {}
+    constructor() {
+        this.Size = 'large';
+    }
 
     //  Life Cycle
     public ngAfterViewInit(): void {}

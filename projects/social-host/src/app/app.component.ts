@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     ActivatedRoute,
     NavigationEnd,
@@ -20,7 +20,7 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy, OnInit {
     protected feedCheckInterval: any;
 
     protected initialized: boolean;
@@ -48,7 +48,7 @@ export class AppComponent {
                 if (this.State?.EaC) {
                     await Promise.all([
                         this.eacSvc.LoadEnterpriseAsCode(),
-                        this.eacSvc.LoadUserFeed(1, 25),
+                        this.eacSvc.LoadUserFeed(1, 25, false),
                     ]);
                 } else if (!this.initialized) {
                     this.initialized = true;
@@ -64,7 +64,7 @@ export class AppComponent {
                         this.eacSvc.LoadEnterpriseAsCode(),
                         this.eacSvc.ListEnterprises(),
                         this.eacSvc.GetActiveEnterprise(),
-                        this.eacSvc.LoadUserFeed(1, 25),
+                        this.eacSvc.LoadUserFeed(1, 25, false),
                     ]).catch((err) => {
                         console.log(err);
                     });
@@ -87,6 +87,12 @@ export class AppComponent {
             ],
             ElementName: 'lcu-device-data-flow-manage-element',
         };
+    }
+
+    public ngOnDestroy(): void {
+        if (this.feedCheckInterval) {
+            clearInterval(this.feedCheckInterval);
+        }
     }
 
     public ngOnInit(): void {

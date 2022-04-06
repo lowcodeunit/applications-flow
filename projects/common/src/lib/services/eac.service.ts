@@ -23,20 +23,8 @@ export class SaveApplicationAsCodeEventRequest {
 
     public ApplicationLookup?: string;
 
-    public DataToken?: EaCDataToken;
-
-    public DataTokenLookup?: string;
-
     public ProjectLookup?: string;
 }
-
-// export class SaveDFSModifierForApplicationEventRequest {
-//   public Modifier: EaCDFSModifier;
-
-//   public ModifierLookup: string;
-
-//   public ApplicationLookup?: string;
-// }
 
 export class SaveDFSModifierEventRequest {
     public ApplicationLookup?: string;
@@ -308,8 +296,8 @@ export class EaCService {
 
     public async SaveProjectAsCode(
         req: SaveProjectAsCodeEventRequest
-    ): Promise<void> {
-        await this.handleSaveProject(req.ProjectLookup, req.Project);
+    ): Promise<Status> {
+        return await this.handleSaveProject(req.ProjectLookup, req.Project);
     }
 
     public async SetActiveEnterprise(entLookup: any): Promise<void> {
@@ -353,30 +341,18 @@ export class EaCService {
             Projects: {},
         };
 
-        const existingProj = {
-            ...this.State.EaC.Projects[req.ProjectLookup],
-        };
-
-        if (
-            existingProj.ApplicationLookups?.indexOf(req.ApplicationLookup) < 0
-        ) {
-            if (!existingProj.ApplicationLookups) {
-                existingProj.ApplicationLookups = [];
-            }
-
-            existingProj.ApplicationLookups.push(req.ApplicationLookup);
+        if (req.ProjectLookup) {
+            const existingProj = {
+                [req.ProjectLookup]: {
+                    ApplicationLookups: [req.ApplicationLookup],
+                },
+            };
 
             saveEaC.Projects[req.ProjectLookup] = existingProj;
         }
 
         if (req.Application) {
             saveEaC.Applications[req.ApplicationLookup] = req.Application;
-        }
-
-        if (req.DataToken) {
-            saveEaC.Applications[req.ApplicationLookup].DataTokens[
-                req.DataTokenLookup
-            ] = req.DataToken;
         }
 
         return await this.projectService.SaveEnterpriseAsCode(

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FeedItem, FeedItemAction } from '../../models/user-feed.model';
 import moment from 'moment';
 import { JsonHubProtocol } from '@aspnet/signalr';
@@ -15,7 +15,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     templateUrl: './main-feed-card.component.html',
     styleUrls: ['./main-feed-card.component.scss'],
 })
-export class MainFeedCardComponent implements OnInit {
+export class MainFeedCardComponent implements OnDestroy, OnInit {
+    protected checkTimeout: any;
+
     public get ActiveEnvironment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
     }
@@ -72,6 +74,12 @@ export class MainFeedCardComponent implements OnInit {
     ) {}
 
     //  Life Cycle
+    public ngOnDestroy(): void {
+        if (this.checkTimeout) {
+            clearTimeout(this.checkTimeout);
+        }
+    }
+
     public ngOnInit(): void {
         this.handleRefresh();
     }
@@ -121,7 +129,7 @@ export class MainFeedCardComponent implements OnInit {
     //  Helpers
     protected handleRefresh(): void {
         if (this.FeedItem?.RefreshLink) {
-            setTimeout(() => {
+            this.checkTimeout = setTimeout(() => {
                 this.eacSvc.CheckUserFeedItem(this.FeedItem).subscribe(
                     async (response: BaseModeledResponse<FeedItem>) => {
                         if (response.Status.Code === 0) {

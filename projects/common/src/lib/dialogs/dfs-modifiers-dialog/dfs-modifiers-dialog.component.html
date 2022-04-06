@@ -36,7 +36,7 @@
 >
     <div fxLayoutAlign="start center">
         <button
-            *ngIf="data.modifierLookup"
+            *ngIf="!IsPreconfigured()"
             mat-raised-button
             color="warn"
             (click)="DeleteModifier()"
