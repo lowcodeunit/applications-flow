@@ -9,64 +9,64 @@
 $header-height: 64px;
 
 .lcu-toolbar {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 
-  .toolbar-title {
-    display: block;
-    margin: 0;
+    .toolbar-title {
+        display: block;
+        margin: 0;
 
-    .title-menu {
-      cursor: pointer;
-      margin-right: 15px;
+        .title-menu {
+            cursor: pointer;
+            margin-right: 15px;
 
-      .mat-icon {
-        font-size: 32px;
-        height: 32px;
-        width: 32px;
-      }
-    }
-
-    .title-text {
-      color: mat-color($primary, default-contrast);
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-
-      small {
-        font-size: 0.5em;
-        line-height: 1.3em;
-
-        &.subtitle {
-          display: block;
+            .mat-icon {
+                font-size: 32px;
+                height: 32px;
+                width: 32px;
+            }
         }
-      }
+
+        .title-text {
+            color: mat-color($primary, default-contrast);
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+
+            small {
+                font-size: 0.5em;
+                line-height: 1.3em;
+
+                &.subtitle {
+                    display: block;
+                }
+            }
+        }
     }
-  }
 }
 
 .lcu-card-container {
-  width: 100% lcu-home, lcu-projects {
-    width: 100%;
-  }
+    width: 100% lcu-home, lcu-projects {
+        width: 100%;
+    }
 }
 
 .lcu-content {
-  box-sizing: border-box;
-  display: flex;
-  height: calc(100% - #{$header-height});
-  justify-content: center;
-  padding: 10px;
+    box-sizing: border-box;
+    display: flex;
+    height: calc(100% - #{$header-height});
+    justify-content: center;
+    padding: 10px;
 
-  a:not(.mat-button) {
-    color: map-get($primary, 500);
+    a:not(.mat-button) {
+        color: map-get($primary, 500);
 
-    &:hover {
-      color: map-get($accent, 200);
+        &:hover {
+            color: map-get($accent, 200);
+        }
     }
-  }
 }
 
 // .color-swatch-arctic {

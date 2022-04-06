@@ -1,55 +1,55 @@
 <lcu-breadcrumb> </lcu-breadcrumb>
 
 <lcu-three-column>
-  <div left>
-    <lcu-project-info-card
-      [name]="Enterprise?.Name + ' IoT'"
-      [is-editable]="false"
-      [is-shareable]="false"
-      image="./assets/images/thinky.png"
-    >
-      <!-- <lcu-card-carousel
+    <div left>
+        <lcu-project-info-card
+            [name]="Enterprise?.Name + ' IoT'"
+            [is-editable]="false"
+            [is-shareable]="false"
+            image="./assets/images/thinky.png"
+        >
+            <!-- <lcu-card-carousel
         [stats]="Stats">
         </lcu-card-carousel> -->
 
-      <button
-        action
-        mat-button
-        class="info-card-btn mat-full-width"
-        [routerLink]="['/']"
-      >
-        <mat-icon>dashboard</mat-icon>
+            <button
+                action
+                mat-button
+                class="info-card-btn mat-full-width"
+                [routerLink]="['/']"
+            >
+                <mat-icon>dashboard</mat-icon>
 
-        Access Main Dashboard
-      </button>
-    </lcu-project-info-card>
-    <!-- Commented out until implemented -->
-    <!-- <lcu-analytics-card
+                Access Main Dashboard
+            </button>
+        </lcu-project-info-card>
+        <!-- Commented out until implemented -->
+        <!-- <lcu-analytics-card
             title="Temp Title"
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
-  </div>
+    </div>
 
-  <!-- CENTER FEED -->
-  <!-- <lcu-gh-control></lcu-gh-control> -->
+    <!-- CENTER FEED -->
+    <!-- <lcu-gh-control></lcu-gh-control> -->
 
-  <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
+    <lcu-skeleton-feed-card *ngIf="State?.LoadingFeed"></lcu-skeleton-feed-card>
 
-  <ng-container *ngIf="!State?.LoadingFeed">
-    <div [innerHTML]="IoTElementHTML"></div>
+    <ng-container *ngIf="!State?.LoadingFeed">
+        <div [innerHTML]="IoTElementHTML"></div>
 
-    <!-- <lcu-main-feed-card
+        <!-- <lcu-main-feed-card
       [feed-item]="feedItem"
       *ngFor="let feedItem of State?.Feed"
     >
     </lcu-main-feed-card> -->
-  </ng-container>
+    </ng-container>
 
-  <div right>
-    <!-- Projects
+    <div right>
+        <!-- Projects
       secondary-slot-description="Add new quick project" 
       action-text="Create Custom Project"-->
-    <!-- <lcu-slotted-card
+        <!-- <lcu-slotted-card
       title="Projects"
       icon="work_outline"
       [main-slot-description]="NumberOfProjects + ' project(s) configured'"
@@ -141,5 +141,5 @@
       </div>
 
     </lcu-slotted-card> -->
-  </div>
+    </div>
 </lcu-three-column>

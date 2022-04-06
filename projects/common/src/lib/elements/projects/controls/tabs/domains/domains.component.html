@@ -1,51 +1,66 @@
 <form
-  fxLayout="row"
-  fxLayout.lt-md="column"
-  class="padding-top-3"
-  [formGroup]="Form">
-  <div>
-    <lcu-form-card 
-    [config]="Config"
-    [form]="Form"
-    [is-dirty]="IsDirty"
-    >
-      <div fxLayout="column">
-        <div fxLayout="row">
-          <div fxFlex fxLayout="row">
-            <mat-form-field fxFlex appearance="fill" class="margin-right-3">
-              <mat-icon
-                matSuffix
-                [ngClass]="Domain.valid ? 'valid-control' : 'invalid-control'"
-              >
-                {{ Domain.valid ? "check_circle" : "error_outline" }}
-              </mat-icon>
-              <input
-                type="text"
-                matInput
-                [placeholder]="Domain.invalid || Domain.disabled ? '/' : ''"
-                formControlName="domain"
-              />
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    class="padding-top-3"
+    [formGroup]="Form"
+>
+    <div>
+        <lcu-form-card [config]="Config" [form]="Form" [is-dirty]="IsDirty">
+            <div fxLayout="column">
+                <div fxLayout="row">
+                    <div fxFlex fxLayout="row">
+                        <mat-form-field
+                            fxFlex
+                            appearance="fill"
+                            class="margin-right-3"
+                        >
+                            <mat-icon
+                                matSuffix
+                                [ngClass]="
+                                    Domain.valid
+                                        ? 'valid-control'
+                                        : 'invalid-control'
+                                "
+                            >
+                                {{
+                                    Domain.valid
+                                        ? "check_circle"
+                                        : "error_outline"
+                                }}
+                            </mat-icon>
+                            <input
+                                type="text"
+                                matInput
+                                [placeholder]="
+                                    Domain.invalid || Domain.disabled ? '/' : ''
+                                "
+                                formControlName="domain"
+                            />
 
-              <mat-hint>
-                These domains are assigned to your deployments. Optionally, 
-                a different Git branch or a redirection to another domain 
-                can be configured for each one.
-              </mat-hint>
+                            <mat-hint>
+                                These domains are assigned to your deployments.
+                                Optionally, a different Git branch or a
+                                redirection to another domain can be configured
+                                for each one.
+                            </mat-hint>
 
-              <mat-error *ngIf="Domain.hasError('required')">
-                Domain is required
-              </mat-error>
-            </mat-form-field>
+                            <mat-error *ngIf="Domain.hasError('required')">
+                                Domain is required
+                            </mat-error>
+                        </mat-form-field>
 
-            <button mat-icon-button [cdkCopyToClipboard]="HostDNSInstance" matTooltip="Copy subdomain to clipboard">
-              <mat-icon>content_copy</mat-icon>
-            </button>
-
-          </div>
-          <!-- <button mat-button color="accent">Add</button> -->
-        </div>
-      </div>
-      <!-- <div class="card-divider"></div> -->
-    </lcu-form-card>
-  </div>
+                        <button
+                            mat-icon-button
+                            [cdkCopyToClipboard]="HostDNSInstance"
+                            matTooltip="Copy subdomain to clipboard"
+                        >
+                            <mat-icon>content_copy</mat-icon>
+                        </button>
+                    </div>
+                    <!-- <button mat-button color="accent">Add</button> -->
+                </div>
+            </div>
+            <!-- <div class="card-divider"></div> -->
+        </lcu-form-card>
+    </div>
 </form>

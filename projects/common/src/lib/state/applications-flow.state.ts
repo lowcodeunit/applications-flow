@@ -1,54 +1,58 @@
 import { EnterpriseAsCode } from '@semanticjs/common';
-import { FeedItem, FeedItemAction, UserFeedResponse } from '../models/user-feed.model';
+import {
+    FeedItem,
+    FeedItemAction,
+    UserFeedResponse,
+} from '../models/user-feed.model';
 
 export class ApplicationsFlowState {
-  public ActiveEnterpriseLookup?: string;
+    public ActiveEnterpriseLookup?: string;
 
-  public EaC?: EnterpriseAsCode;
+    public EaC?: EnterpriseAsCode;
 
-  public Enterprises?: Array<{ Name: string; Lookup: string }>;
+    public Enterprises?: Array<{ Name: string; Lookup: string }>;
 
-  public Feed?: Array<FeedItem>;
+    public Feed?: Array<FeedItem>;
 
-  public FeedActions?: Array<FeedItemAction>;
+    public FeedActions?: Array<FeedItemAction>;
 
-  public FeedCheck?: UserFeedResponse;
+    public FeedCheck?: UserFeedResponse;
 
-  public FeedSourceControlLookups?: Array<string>;
+    public FeedSourceControlLookups?: Array<string>;
 
-  public GitHub?: GitHubSetupState;
+    public GitHub?: GitHubSetupState;
 
-  public HostingDetails?: ProjectHostingDetails;
+    public HostingDetails?: ProjectHostingDetails;
 
-  public Loading?: boolean;
+    public Loading?: boolean;
 
-  public LoadingActiveEnterprise?: boolean;
+    public LoadingActiveEnterprise?: boolean;
 
-  public LoadingEnterprises?: boolean;
-  
-  public LoadingFeed?: boolean;
+    public LoadingEnterprises?: boolean;
 
-  // public Projects?: ProjectState[];
+    public LoadingFeed?: boolean;
 
-  public Unleashed?: boolean;
+    // public Projects?: ProjectState[];
 
-  public UserEnterpriseLookup?: string;
+    public Unleashed?: boolean;
 
-  constructor() {
-    this.GitHub = {};
+    public UserEnterpriseLookup?: string;
 
-    this.HostingDetails = {};
+    constructor() {
+        this.GitHub = {};
 
-    this.Loading = true;
+        this.HostingDetails = {};
 
-    this.LoadingActiveEnterprise = true;
+        this.Loading = true;
 
-    this.LoadingEnterprises = true;
+        this.LoadingActiveEnterprise = true;
 
-    this.LoadingFeed = true;
+        this.LoadingEnterprises = true;
 
-    // this.Projects = [];
-  }
+        this.LoadingFeed = true;
+
+        // this.Projects = [];
+    }
 }
 
 // export class ProjectState {
@@ -90,21 +94,21 @@ export class ApplicationsFlowState {
 // }
 
 export class GitHubSetupState {
-  public BranchOptions?: GitHubBranch[];
+    public BranchOptions?: GitHubBranch[];
 
-  public CreatingRepository?: boolean;
+    public CreatingRepository?: boolean;
 
-  public HasConnection?: boolean;
+    public HasConnection?: boolean;
 
-  public Loading?: boolean;
+    public Loading?: boolean;
 
-  public OrganizationOptions?: GitHubOrganization[];
+    public OrganizationOptions?: GitHubOrganization[];
 
-  public RepositoryOptions?: GitHubRepository[];
+    public RepositoryOptions?: GitHubRepository[];
 }
 
 export class GitHubBranch {
-  public Name?: string;
+    public Name?: string;
 }
 
 // export class GitHubLowCodeUnit {
@@ -120,39 +124,39 @@ export class GitHubBranch {
 // }
 
 export class GitHubOrganization {
-  public Name?: string;
+    public Name?: string;
 }
 
 export class GitHubRepository {
-  public CloneURL?: string;
+    public CloneURL?: string;
 
-  public Name?: string;
+    public Name?: string;
 }
 
 export class GitHubWorkflowRun {
-  public Conclusion?: string;
+    public Conclusion?: string;
 
-  public CreatedAt?: string;
+    public CreatedAt?: string;
 
-  public ID?: string;
+    public ID?: string;
 
-  public LCUID?: string;
+    public LCUID?: string;
 
-  public RunNumber?: number;
+    public RunNumber?: number;
 
-  public Status?: string;
+    public Status?: string;
 
-  public Workflow?: string;
+    public Workflow?: string;
 
-  public UpdatedAt?: string;
+    public UpdatedAt?: string;
 }
 
 export class UnpackLowCodeUnitRequest {
-  public ApplicationLookup?: string;
+    public ApplicationLookup?: string;
 
-  public ApplicationName?: string;
+    public ApplicationName?: string;
 
-  public Version?: string;
+    public Version?: string;
 }
 
 // export class DevOpsAction {
@@ -170,39 +174,39 @@ export class UnpackLowCodeUnitRequest {
 // }
 
 export class ProjectHostingDetails {
-  public HostingOptions?: ProjectHostingOption[];
+    public HostingOptions?: ProjectHostingOption[];
 
-  public Loading?: boolean;
+    public Loading?: boolean;
 }
 
 export class ProjectHostingOption {
-  public ArtifactType?: string;
+    public ArtifactType?: string;
 
-  public Description?: string;
+    public Description?: string;
 
-  public Image?: string;
+    public Image?: string;
 
-  public Inputs?: ProjectHostingOptionInput[];
+    public Inputs?: ProjectHostingOptionInput[];
 
-  public Lookup?: string;
+    public Lookup?: string;
 
-  public Name?: string;
+    public Name?: string;
 
-  public Path?: string;
+    public Path?: string;
 
-  public Templates?: string[];
+    public Templates?: string[];
 }
 
 export class ProjectHostingOptionInput {
-  public DefaultValue?: string;
+    public DefaultValue?: string;
 
-  public Hint?: string;
+    public Hint?: string;
 
-  public Lookup?: string;
+    public Lookup?: string;
 
-  public Placeholder?: string;
+    public Placeholder?: string;
 
-  public Required?: boolean;
+    public Required?: boolean;
 }
 
 // export class EstablishProjectRequest {

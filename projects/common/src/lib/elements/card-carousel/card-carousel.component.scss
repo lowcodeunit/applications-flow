@@ -1,7 +1,7 @@
-.carousel-container{
+.carousel-container {
     text-align: center;
     height: 75px;
-    padding-top:20px;
+    padding-top: 20px;
 }
 
 .carousel-item.hidden {
@@ -10,16 +10,16 @@
 
 .carousel-item.active {
     visibility: visible;
-  }
+}
 
-  .chevron-button{
-      position: absolute;
-  }
+.chevron-button {
+    position: absolute;
+}
 
-  #right-chevron{
-      right:5px;
-  }
+#right-chevron {
+    right: 5px;
+}
 
-  #left-chevron{
-      left:5px;
-  }
+#left-chevron {
+    left: 5px;
+}

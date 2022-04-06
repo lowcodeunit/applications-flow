@@ -3,22 +3,19 @@ import { StateContext } from '@lcu/common';
 import { ApplicationsFlowState } from './applications-flow.state';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ApplicationsFlowStateContext extends StateContext<ApplicationsFlowState> {
-
     // Constructors
     constructor(protected injector: Injector) {
         super(injector);
     }
 
-
     // API Methods
     public AddApplication(): void {
         this.Execute({
-            Arguments: {
-            },
-            Type: 'AddApplication'
+            Arguments: {},
+            Type: 'AddApplication',
         });
     }
 
