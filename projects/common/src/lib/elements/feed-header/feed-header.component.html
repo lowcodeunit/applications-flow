@@ -6,9 +6,9 @@
         fxLayout="row"
         fxLayoutAlign="center center"
       >
-        <mat-icon fxFlex="15%" class="gh-icon" color="primary"
-          >error_outline</mat-icon
-        >
+        <mat-icon fxFlex="15%" class="gh-icon" color="primary">
+          campaign
+        </mat-icon>
         <div fxFlex="85%" class="gh-card-main-content">
           <button
             mat-raised-button
@@ -37,19 +37,17 @@
       </div>
 
       <mat-card-actions fxLayout="row" fxLayoutAlign="space-around center">
-        <ng-container *ngIf="HasGHConnection">
+        <ng-container *ngFor="let action of FeedHeaderActions">
           <button
-            *ngFor="let action of FeedHeaderActions"
             mat-raised-button
-            (click)="OpenFHDialog(action.Action, action.Text)"
+            [color]="action.Color"
+            (click)="HandleAction(action)"
             id="pr-btn"
           >
-            <mat-icon>{{ action.Icon }}</mat-icon>
+            <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
+
             {{ action.Text }}
           </button>
-        </ng-container>
-        <ng-container *ngIf="!HasGHConnection">
-          <lcu-git-auth size="small"> </lcu-git-auth>
         </ng-container>
       </mat-card-actions>
     </ng-container>
