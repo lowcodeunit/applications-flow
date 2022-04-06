@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { CardFormConfigModel } from './card-form-config.model';
 
 export class BaseFormConfigModel {
-
     public CardConfig?: CardFormConfigModel;
     public Form?: FormGroup;
     public FormName: string;

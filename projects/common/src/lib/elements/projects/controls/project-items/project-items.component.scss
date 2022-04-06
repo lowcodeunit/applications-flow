@@ -1,72 +1,72 @@
 @import "../../../../../assets/common";
 
-.card-container{
-  width:400px;
+.card-container {
+    width: 400px;
 }
-.project-card{
-  width: 370px;
-  height: 280px;
-  background-color: #2f2f2f !important;
+.project-card {
+    width: 370px;
+    height: 280px;
+    background-color: #2f2f2f !important;
 }
 
 :host ::ng-deep {
-  .no-projects {
-    text-align: center;
-  }
-
-  .mat-card {
-    &.selected-project {
-      border: #4a918e solid 3px;
+    .no-projects {
+        text-align: center;
     }
 
-    .mat-card-actions {
-      .data-app-actions {
-        display: none !important;
-      }
-
-      .data-app-fakes {
-        display: flex !important;
-
-        .mat-icon {
-          font-size: 8px;
+    .mat-card {
+        &.selected-project {
+            border: #4a918e solid 3px;
         }
-      }
+
+        .mat-card-actions {
+            .data-app-actions {
+                display: none !important;
+            }
+
+            .data-app-fakes {
+                display: flex !important;
+
+                .mat-icon {
+                    font-size: 8px;
+                }
+            }
+        }
+
+        &:hover {
+            .mat-card-actions {
+                .data-app-actions {
+                    display: flex !important;
+                }
+
+                .data-app-fakes {
+                    display: none !important;
+                }
+            }
+        }
+
+        &.selected-project {
+            .mat-card-actions {
+                .data-app-actions {
+                    display: flex !important;
+                }
+
+                .data-app-fakes {
+                    display: none !important;
+                }
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mat-card-actions {
+                .data-app-actions {
+                    display: flex !important;
+                }
+
+                .data-app-fakes {
+                    display: none !important;
+                }
+            }
+        }
     }
-
-    &:hover {
-      .mat-card-actions {
-        .data-app-actions {
-          display: flex !important;
-        }
-
-        .data-app-fakes {
-          display: none !important;
-        }
-      }
-    }
-
-    &.selected-project {
-      .mat-card-actions {
-        .data-app-actions {
-          display: flex !important;
-        }
-
-        .data-app-fakes {
-          display: none !important;
-        }
-      }
-    }
-
-    @media (max-width: 768px) {
-      .mat-card-actions {
-        .data-app-actions {
-          display: flex !important;
-        }
-
-        .data-app-fakes {
-          display: none !important;
-        }
-      }
-    }
-  }
 }

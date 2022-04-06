@@ -1,53 +1,48 @@
 <div class="dialog-header" fxLayoutAlign="space-between center">
-    <h2 mat-dialog-title>Edit Project:
-        {{ Project?.Project?.Name }}</h2>
+    <h2 mat-dialog-title>Edit Project: {{ Project?.Project?.Name }}</h2>
 
     <button mat-icon-button (click)="CloseDialog()">
-            <mat-icon>cancel</mat-icon>
+        <mat-icon>cancel</mat-icon>
     </button>
 </div>
 
 <mat-dialog-content>
+    <lcu-edit-project-form
+        [project-lookup]="data.projectLookup"
+        (save-form-event)="HandleSaveProjectEvent($event)"
+    >
+    </lcu-edit-project-form>
 
-<lcu-edit-project-form 
-    
-    [project-lookup]="data.projectLookup"
-    (save-form-event)="HandleSaveProjectEvent($event)">
-</lcu-edit-project-form>
-
-<mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
-    {{ ErrorMessage }}
-</mat-error>
-
+    <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center">
+        {{ ErrorMessage }}
+    </mat-error>
 </mat-dialog-content>
 
-<mat-dialog-actions 
-        class="actions-container" 
-        div fxLayout="row" 
-        fxLayoutAlign="end center"
+<mat-dialog-actions
+    class="actions-container"
+    div
+    fxLayout="row"
+    fxLayoutAlign="end center"
 >
-        <button 
-                class="action-button"
-                mat-raised-button
-                fxFlex="25%"
-                (click)="CloseDialog()">
-                Cancel
+    <button
+        class="action-button"
+        mat-raised-button
+        fxFlex="25%"
+        (click)="CloseDialog()"
+    >
+        Cancel
+    </button>
 
-        </button>
-
-
-
-        <button 
+    <button
         *ngIf="!State?.Loading"
-          mat-raised-button 
-          type="submit" 
-          fxFlex="25%" 
-          color="primary" 
-          (click)="SaveProject()"
-          [disabled]="!ProjectFormGroup?.valid || !ProjectFormGroup?.dirty">
-          <!-- <mat-icon>save</mat-icon> -->
-          Save
-        </button>
-
+        mat-raised-button
+        type="submit"
+        fxFlex="25%"
+        color="primary"
+        (click)="SaveProject()"
+        [disabled]="!ProjectFormGroup?.valid || !ProjectFormGroup?.dirty"
+    >
+        <!-- <mat-icon>save</mat-icon> -->
+        Save
+    </button>
 </mat-dialog-actions>
-

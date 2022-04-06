@@ -1,8 +1,8 @@
 /**
  * Model for form values
- * 
+ *
  */
- export class FormValuesModel {
+export class FormValuesModel {
     /**
      * Form ID
      */

@@ -1,6 +1,6 @@
 {
-  "name": "@lowcodeunit/applications-flow-social-host",
-  "version": "0.0.4",
-  "peerDependencies": {},
-  "dependencies": {}
+    "name": "@lowcodeunit/applications-flow-social-host",
+    "version": "0.0.4",
+    "peerDependencies": {},
+    "dependencies": {}
 }

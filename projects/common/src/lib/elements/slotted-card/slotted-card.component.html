@@ -1,134 +1,161 @@
 <mat-card class="col-info-card">
-  <mat-card-header
-    class="slotted-card-header"
-    fxLayoutAlign="space-between center"
-  >
-    <div mat-card-avatar fxLayout="row" fxLayoutAlign="start center">
-      <mat-icon class="header-icon">{{ Icon }}</mat-icon>
-      <div class="card-title">{{ CardTitle }}</div>
-    </div>
-
-    <button
-      mat-mini-fab
-      class="header-icon pointer"
-      (click)="MainActionClickEvent()"
-      matTooltip="Add {{ CardTitle }}"
-      *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
-    >
-      <mat-icon>
-        {{ MainIcon }}
-      </mat-icon>
-    </button>
-
-    <button
-      mat-mini-fab
-      color="accent"
-      skeleton-text
-      [effect]="SkeletonEffect"
-      class="header-icon"
-      *ngIf="State?.Loading"
-    >
-      <mat-icon> add </mat-icon>
-    </button>
-  </mat-card-header>
-
-  <!-- SKELETON CONTENT -->
-
-  <ng-container *ngIf="State?.Loading">
-    <mat-card-content>
-      <div class="slot-main-container">
-        <div skeleton-text [effect]="SkeletonEffect" class="header-description">
-          Descrption text
-        </div>
-
-        <div class="slot-main">
-          <ng-content skeleton-block [effect]="SkeletonEffect"></ng-content>
-        </div>
-      </div>
-
-      <div
-        class="slot-secondary"
-        fxLayout="row"
+    <mat-card-header
+        class="slotted-card-header"
         fxLayoutAlign="space-between center"
-      >
-        <div class="slot-header-container">
-          <div class="slot-header">
-            <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
-              Name of the content
-            </div>
-          </div>
-
-          <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
-            Description
-          </div>
+    >
+        <div mat-card-avatar fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="header-icon">{{ Icon }}</mat-icon>
+            <div class="card-title">{{ CardTitle }}</div>
         </div>
 
-        <div class="slot-actions-container" fxLayout="row">
-          <mat-icon
+        <button
+            mat-mini-fab
+            class="header-icon pointer"
+            (click)="MainActionClickEvent()"
+            matTooltip="Add {{ CardTitle }}"
+            *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
+        >
+            <mat-icon>
+                {{ MainIcon }}
+            </mat-icon>
+        </button>
+
+        <button
+            mat-mini-fab
+            color="accent"
             skeleton-text
             [effect]="SkeletonEffect"
-            class="skeleton-item"
-          >
-            edit
-          </mat-icon>
-        </div>
-      </div>
+            class="header-icon"
+            *ngIf="State?.Loading"
+        >
+            <mat-icon> add </mat-icon>
+        </button>
+    </mat-card-header>
 
-      <div *ngIf="SecondarySlotDescription" class="slot-secondary-container">
-        <div skeleton-text [effect]="SkeletonEffect" class="header-description">
-          {{ SecondarySlotDescription }}
-        </div>
-      </div>
-    </mat-card-content>
+    <!-- SKELETON CONTENT -->
 
-    <mat-card-actions fxLayoutAlign="center center">
-      <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
-        {{ ActionText }}
-      </div>
-    </mat-card-actions>
-  </ng-container>
-  <!-- END SKELETON CONTENT -->
+    <ng-container *ngIf="State?.Loading">
+        <mat-card-content>
+            <div class="slot-main-container">
+                <div
+                    skeleton-text
+                    [effect]="SkeletonEffect"
+                    class="header-description"
+                >
+                    Descrption text
+                </div>
 
-  <!-- ACTUAL CONTENT -->
+                <div class="slot-main">
+                    <ng-content
+                        skeleton-block
+                        [effect]="SkeletonEffect"
+                    ></ng-content>
+                </div>
+            </div>
 
-  <ng-container *ngIf="!State?.Loading">
-    <mat-card-content>
-      <div class="slot-main-container">
-        <div class="header-description">{{ MainSlotDescription }}</div>
+            <div
+                class="slot-secondary"
+                fxLayout="row"
+                fxLayoutAlign="space-between center"
+            >
+                <div class="slot-header-container">
+                    <div class="slot-header">
+                        <div
+                            skeleton-text
+                            [effect]="SkeletonEffect"
+                            class="skeleton-item"
+                        >
+                            Name of the content
+                        </div>
+                    </div>
 
-        <div class="slot-main">
-          <ng-content></ng-content>
-        </div>
-      </div>
+                    <div
+                        skeleton-text
+                        [effect]="SkeletonEffect"
+                        class="skeleton-item"
+                    >
+                        Description
+                    </div>
+                </div>
 
-      <div *ngIf="SecondarySlotDescription" class="slot-secondary-container">
-        <div class="header-description">{{ SecondarySlotDescription }}</div>
+                <div class="slot-actions-container" fxLayout="row">
+                    <mat-icon
+                        skeleton-text
+                        [effect]="SkeletonEffect"
+                        class="skeleton-item"
+                    >
+                        edit
+                    </mat-icon>
+                </div>
+            </div>
 
-        <div class="slot-secondary">
-          <ng-content select="[secondary]"></ng-content>
-        </div>
-      </div>
-    </mat-card-content>
+            <div
+                *ngIf="SecondarySlotDescription"
+                class="slot-secondary-container"
+            >
+                <div
+                    skeleton-text
+                    [effect]="SkeletonEffect"
+                    class="header-description"
+                >
+                    {{ SecondarySlotDescription }}
+                </div>
+            </div>
+        </mat-card-content>
 
-    <mat-card-actions *ngIf="ActionText" fxLayoutAlign="center">
-      <a
-        mat-button
-        *ngIf="ActionPath"
-        class="slotted-card-action-btn"
-        [href]="ActionPath"
-        color="primary"
-        >{{ ActionText }}
-      </a>
+        <mat-card-actions fxLayoutAlign="center center">
+            <div skeleton-text [effect]="SkeletonEffect" class="skeleton-item">
+                {{ ActionText }}
+            </div>
+        </mat-card-actions>
+    </ng-container>
+    <!-- END SKELETON CONTENT -->
 
-      <a
-        mat-button
-        *ngIf="!ActionPath"
-        class="slotted-card-action-btn"
-        (click)="MainActionClickEvent()"
-        color="primary"
-      >
-        {{ ActionText }}
-      </a>
-    </mat-card-actions>
-  </ng-container>
+    <!-- ACTUAL CONTENT -->
+
+    <ng-container *ngIf="!State?.Loading">
+        <mat-card-content>
+            <div class="slot-main-container">
+                <div class="header-description">{{ MainSlotDescription }}</div>
+
+                <div class="slot-main">
+                    <ng-content></ng-content>
+                </div>
+            </div>
+
+            <div
+                *ngIf="SecondarySlotDescription"
+                class="slot-secondary-container"
+            >
+                <div class="header-description">
+                    {{ SecondarySlotDescription }}
+                </div>
+
+                <div class="slot-secondary">
+                    <ng-content select="[secondary]"></ng-content>
+                </div>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions *ngIf="ActionText" fxLayoutAlign="center">
+            <a
+                mat-button
+                *ngIf="ActionPath"
+                class="slotted-card-action-btn"
+                [href]="ActionPath"
+                color="primary"
+                >{{ ActionText }}
+            </a>
+
+            <a
+                mat-button
+                *ngIf="!ActionPath"
+                class="slotted-card-action-btn"
+                (click)="MainActionClickEvent()"
+                color="primary"
+            >
+                {{ ActionText }}
+            </a>
+        </mat-card-actions>
+    </ng-container>
 </mat-card>
