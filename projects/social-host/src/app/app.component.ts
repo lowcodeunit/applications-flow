@@ -70,11 +70,12 @@ export class AppComponent implements OnDestroy, OnInit {
                     });
 
                     //  TODO:  Need to bring this back to get feed refreshing working, not sure why it is making youtube videos flicker
-                    // if (!this.feedCheckInterval) {
-                    //     this.feedCheckInterval = setInterval(() => {
-                    //         this.eacSvc.LoadUserFeed(1, 25, true);
-                    //     }, 60 * 1000);
-                    // }
+                    // its making the videos flicker because everytime the feed refrehes the videos go through the SafeHTML call
+                    if (!this.feedCheckInterval) {
+                        this.feedCheckInterval = setInterval(() => {
+                            this.eacSvc.LoadUserFeed(1, 25, true);
+                        }, 60 * 1000);
+                    }
                 }
             }
         });

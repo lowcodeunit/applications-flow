@@ -81,6 +81,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
 
     public ngOnInit(): void {
         this.handleRefresh();
+        this.SanitizeVideos();
     }
 
     //  API Methods
@@ -123,6 +124,14 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
 
     public SafeHtml(html: string): SafeHtml {
         return this.sanitizer.bypassSecurityTrustHtml(html);
+    }
+
+    public SanitizeVideos() {
+        this.FeedItem.Tabs.forEach((tab) => {
+            if (tab.Data.Video) {
+                tab.Data.Video = this.SafeHtml(tab.Data.Video);
+            }
+        });
     }
 
     //  Helpers
