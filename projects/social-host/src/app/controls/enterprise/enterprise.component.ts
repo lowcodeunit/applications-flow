@@ -6,6 +6,7 @@ import {
   BuildPipelineDialogComponent,
   ApplicationsFlowService,
   DFSModifiersDialogComponent,
+  FeedItem,
 } from '@lowcodeunit/applications-flow-common';
 import {
   EaCDevOpsAction,
@@ -50,6 +51,12 @@ export class EnterpriseComponent implements OnInit {
       this.State?.EaC?.Enterprise?.PrimaryEnvironment
     ];
   }
+
+  public get Feed():Array<FeedItem>{
+    // console.log("FEED: ", this.State?.Feed);
+    return this.State?.Feed;
+  }
+
 
   public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
     return this.State?.EaC?.Modifiers || {};
@@ -119,7 +126,7 @@ export class EnterpriseComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.handleStateChange().then((eac) => {});
+    // this.handleStateChange().then((eac) => {});
 
     // console.log("FEED on init: ", this.Feed)
   }
@@ -209,5 +216,5 @@ export class EnterpriseComponent implements OnInit {
   public UpgradeClicked() {}
 
   //HELPERS
-  protected async handleStateChange(): Promise<void> {}
+  // protected async handleStateChange(): Promise<void> {}
 }

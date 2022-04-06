@@ -68,12 +68,14 @@ export class AppComponent implements OnDestroy, OnInit {
           ]).catch((err) => {
             console.log(err);
           });
-
-          if (!this.feedCheckInterval) {
-            this.feedCheckInterval = setInterval(() => {
-              this.eacSvc.LoadUserFeed(1, 25, true);
-            }, 60 * 1000);
-          }
+/**
+ * Commented out because this is causing the videos in the feed to flicker/ reload every minute
+ */
+          // if (!this.feedCheckInterval) {
+          //   this.feedCheckInterval = setInterval(() => {
+          //     this.eacSvc.LoadUserFeed(1, 25, true);
+          //   }, 60 * 1000);
+          // }
         }
       }
     });

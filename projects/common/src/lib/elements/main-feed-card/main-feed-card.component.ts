@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FeedItem, FeedItemAction } from '../../models/user-feed.model';
 import moment from 'moment';
-import { JsonHubProtocol } from '@aspnet/signalr';
 import { EaCService } from '../../services/eac.service';
 import { BaseModeledResponse } from '@lcu/common';
 import { SourceControlDialogComponent } from '../../dialogs/source-control-dialog/source-control-dialog.component';
