@@ -29,7 +29,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
         return envLookups[0];
     }
 
-    public get CommentControl(): AbstractControl{
+    public get CommentControl(): AbstractControl {
         return this.FeedCommentsFormGroup?.controls.comment;
     }
 
@@ -143,16 +143,15 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
         });
     }
 
-    public SubmitComment(){
-        console.log("comment: ", this.CommentControl.value);
-
+    public SubmitComment() {
+        console.log('comment: ', this.CommentControl.value);
     }
 
     //  Helpers
-    protected buildCommentForm(){
+    protected buildCommentForm() {
         this.FeedCommentsFormGroup = this.formBuilder.group({
-            comment: ""
-        })
+            comment: '',
+        });
     }
 
     protected handleRefresh(): void {

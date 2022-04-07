@@ -104,10 +104,12 @@
                                                     SafeHtml(comment.Comment)
                                                 "
                                             >
-                                            <ng-container ngIf="comment.Auther === "></ng-container>
+                                                <ng-container
+                                                    ngIf="comment.Auther === "
+                                                ></ng-container>
                                             </mat-card-content>
                                         </mat-card>
-                                            <!-- <form class="feed-comment-form" 
+                                        <!-- <form class="feed-comment-form" 
                                                 [formGroup]="FeedCommentsFormGroup"
                                                 (ngSubmit)="SubmitComment()"
                                                 fxLayoutAlign="space-around center">
