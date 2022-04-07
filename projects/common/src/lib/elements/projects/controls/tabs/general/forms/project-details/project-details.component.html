@@ -1,64 +1,67 @@
 <form fxFlex fxLayout="row" fxLayout.lt-md="column" [formGroup]="Form">
-  <lcu-form-card
-    fxFlex
-    [config]="Config"
-    [form]="Form"
-    [is-dirty]="IsDirty"
-  >
-    <div fxLayout="column">
-      <mat-form-field appearance="fill" fxFlex class="margin-right-1 margin-bottom-2">
-        <mat-icon
-          matSuffix
-          [ngClass]="Name.valid ? 'valid-control' : 'invalid-control'"
-        >
-          {{ Name.valid ? "check_circle" : "error_outline" }}
-        </mat-icon>
+    <lcu-form-card fxFlex [config]="Config" [form]="Form" [is-dirty]="IsDirty">
+        <div fxLayout="column">
+            <mat-form-field
+                appearance="fill"
+                fxFlex
+                class="margin-right-1 margin-bottom-2"
+            >
+                <mat-icon
+                    matSuffix
+                    [ngClass]="Name.valid ? 'valid-control' : 'invalid-control'"
+                >
+                    {{ Name.valid ? "check_circle" : "error_outline" }}
+                </mat-icon>
 
-        <input
-          type="text"
-          matInput
-          [placeholder]="Name.invalid || Name.disabled ? 'Project Name' : ''"
-          formControlName="name"
-        />
+                <input
+                    type="text"
+                    matInput
+                    [placeholder]="
+                        Name.invalid || Name.disabled ? 'Project Name' : ''
+                    "
+                    formControlName="name"
+                />
 
-        <!-- <mat-hint *ngIf="Name.valid"> Selected Project Name </mat-hint> -->
+                <!-- <mat-hint *ngIf="Name.valid"> Selected Project Name </mat-hint> -->
 
-        <mat-error *ngIf="Name.hasError('required')">
-          Project Name is required
-        </mat-error>
-      </mat-form-field>
+                <mat-error *ngIf="Name.hasError('required')">
+                    Project Name is required
+                </mat-error>
+            </mat-form-field>
 
-      <mat-form-field fxFlex appearance="fill" class="margin-right-1">
-        <mat-icon
-          matTooltip="Brief content that allows users to understand the purpose, objective, goals or problems addressed by the project."
-          matSuffix
-          [ngClass]="Description.valid ? 'valid-control' : 'invalid-control'"
-        >
-          {{ Description.valid ? "check_circle" : "error_outline" }}
-        </mat-icon>
+            <mat-form-field fxFlex appearance="fill" class="margin-right-1">
+                <mat-icon
+                    matTooltip="Brief content that allows users to understand the purpose, objective, goals or problems addressed by the project."
+                    matSuffix
+                    [ngClass]="
+                        Description.valid ? 'valid-control' : 'invalid-control'
+                    "
+                >
+                    {{ Description.valid ? "check_circle" : "error_outline" }}
+                </mat-icon>
 
-        <textarea
-          type="text"
-          matInput
-          rows="3"
-          [placeholder]="
-            Description.invalid || Description.disabled
-              ? 'Project Description'
-              : ''
-          "
-          formControlName="description"
-        ></textarea>
+                <textarea
+                    type="text"
+                    matInput
+                    rows="3"
+                    [placeholder]="
+                        Description.invalid || Description.disabled
+                            ? 'Project Description'
+                            : ''
+                    "
+                    formControlName="description"
+                ></textarea>
 
-        <!-- <mat-hint *ngIf="Description.valid">
+                <!-- <mat-hint *ngIf="Description.valid">
           Selected Project Description
         </mat-hint> -->
 
-        <mat-error *ngIf="Description.hasError('required')">
-          Project Description is required
-        </mat-error>
-      </mat-form-field>
-    </div>
+                <mat-error *ngIf="Description.hasError('required')">
+                    Project Description is required
+                </mat-error>
+            </mat-form-field>
+        </div>
 
-    <div class="card-divider"></div>
-  </lcu-form-card>
+        <div class="card-divider"></div>
+    </lcu-form-card>
 </form>

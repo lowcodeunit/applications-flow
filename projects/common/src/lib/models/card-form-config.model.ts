@@ -1,7 +1,6 @@
 import { FormActionsModel } from './form-actions.model';
 
 export class CardFormConfigModel {
-
     /**
      *  Form button actions
      */
@@ -23,7 +22,6 @@ export class CardFormConfigModel {
     public Subtitle: string;
 
     constructor(opts: CardFormConfigModel) {
-
         Object.assign(this, opts); // destructure values
     }
 }

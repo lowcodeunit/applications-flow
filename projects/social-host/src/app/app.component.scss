@@ -3,39 +3,39 @@
 $header-height: 64px;
 
 :host ::ng-deep {
-  .mat-toolbar {
-    background-color: #4a918e;
-    height: 65px;
+    .mat-toolbar {
+        background-color: #4a918e;
+        height: 65px;
 
-    .logo {
-      height: 60px;
-      width: 160px;
-      //   @extend .logo-config;
-      &.mobile {
-        width: 75px;
-      }
-    }
+        .logo {
+            height: 60px;
+            width: 160px;
+            //   @extend .logo-config;
+            &.mobile {
+                width: 75px;
+            }
+        }
 
-    .title {
-      @extend .mat-title;
-      margin: auto;
-      font-size: 20px;
+        .title {
+            @extend .mat-title;
+            margin: auto;
+            font-size: 20px;
+        }
     }
-  }
 }
 
 .toolbar-title {
-  color: white;
+    color: white;
 }
 
 .toolbar-action {
-  text-decoration: none;
-  cursor: pointer;
-  color: white;
+    text-decoration: none;
+    cursor: pointer;
+    color: white;
 }
 
 .toolbar-menu-action {
-  text-decoration: none;
-  cursor: pointer;
-  color: black;
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
 }

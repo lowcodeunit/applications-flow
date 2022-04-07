@@ -12,30 +12,30 @@
   * mixin to set vertical or horizontal dividers
   */
 @mixin divider(
-  $direction,
-  $height: $divider-size,
-  $width: 100%,
-  $color: var(--theme-accent-500)
+    $direction,
+    $height: $divider-size,
+    $width: 100%,
+    $color: var(--theme-accent-500)
 ) {
-  background-color: $color;
+    background-color: $color;
 
-  @if $direction == vertical {
-    min-height: $height;
-    top: 10%;
-    bottom: 10%;
-    min-width: $divider-size;
-  } @else if $direction == horizontal {
-    height: $height;
-    width: $width;
-  } @else {
-    @error "Unknown direction #{$direction}";
-  }
+    @if $direction == vertical {
+        min-height: $height;
+        top: 10%;
+        bottom: 10%;
+        min-width: $divider-size;
+    } @else if $direction == horizontal {
+        height: $height;
+        width: $width;
+    } @else {
+        @error "Unknown direction #{$direction}";
+    }
 }
 
 @mixin mat-icon-size($size: 24px) {
-  font-size: $size;
-  height: $size;
-  width: $size;
+    font-size: $size;
+    height: $size;
+    width: $size;
 }
 
 $primary: map-get($global-theme, primary);
@@ -56,148 +56,150 @@ $divider-size: 5px;
   * Set initial color values
   */
 :root {
-  /**
+    /**
   * Set initial theme color values
   * these are pulled from the current theme, but can be whomever.
   */
-  --initial-primary: #{mat-color($primary)};
-  --initial-accent: #{mat-color($accent)};
-  --initial-warn: #{mat-color($warn)};
-  --initial-dark-background: #222222;
-  --initial-light-background: #f2f2f2;
-  // --initial-dark-background: #{invert(mat-color($background, card, 1))};
-  --initial-light-background: #{mat-color($background, card)};
-  --initial-light-text: #{map-get(map-get($global-theme, "foreground"), "text")};
-  --initial-dark-text: #{invert(
-      map-get(map-get($global-theme, "foreground"), "text")
-    )};
-  --background: #{invert(map-get($background, background))};
+    --initial-primary: #{mat-color($primary)};
+    --initial-accent: #{mat-color($accent)};
+    --initial-warn: #{mat-color($warn)};
+    --initial-dark-background: #222222;
+    --initial-light-background: #f2f2f2;
+    // --initial-dark-background: #{invert(mat-color($background, card, 1))};
+    --initial-light-background: #{mat-color($background, card)};
+    --initial-light-text: #{map-get(
+            map-get($global-theme, "foreground"),
+            "text"
+        )};
+    --initial-dark-text: #{invert(
+            map-get(map-get($global-theme, "foreground"), "text")
+        )};
+    --background: #{invert(map-get($background, background))};
 
-  /**
+    /**
     * Brand accent colors - pulled from current theme, but can be whomever
     */
-  --orange-accent: #{map-get($mat-orange, 500)};
-  --green-accent: #{map-get($mat-green, A400)};
-  --yellow-accent: #{map-get($mat-yellow, 600)};
-  --purple-accent: #{map-get($mat-purple, 500)};
-  --cyan-accent: #{rgba(map-get($mat-cyan, A100), 0.75)};
-  --pink-accent: #{map-get($mat-pink, 500)};
-  --success: #{map-get($mat-green, A400)};
+    --orange-accent: #{map-get($mat-orange, 500)};
+    --green-accent: #{map-get($mat-green, A400)};
+    --yellow-accent: #{map-get($mat-yellow, 600)};
+    --purple-accent: #{map-get($mat-purple, 500)};
+    --cyan-accent: #{rgba(map-get($mat-cyan, A100), 0.75)};
+    --pink-accent: #{map-get($mat-pink, 500)};
+    --success: #{map-get($mat-green, A400)};
 }
 
 * {
-  // margin: 0;
-  // padding: 0;
-  // box-sizing: border-box;
-  // font-size: 62.5%;
+    // margin: 0;
+    // padding: 0;
+    // box-sizing: border-box;
+    // font-size: 62.5%;
 }
 
 body {
-  background-color: var(--initial-dark-background);
+    background-color: var(--initial-dark-background);
 }
 
 ::ng-deep .mat-tooltip {
-  font-size: 16px !important;
+    font-size: 16px !important;
 }
 
 :host {
-  // .caption-text {
-  //   color: rgba(var(--initial-light-text), .25) !important;
-  // }
+    // .caption-text {
+    //   color: rgba(var(--initial-light-text), .25) !important;
+    // }
 
-  .valid-control {
-    color: var(--green-accent);
-  }
-
-  .invalid-control {
-    color: var(--theme-warn-500);
-  }
-
-  .actions {
-    .item:not(:last-child) {
-      margin-right: 0px;
+    .valid-control {
+        color: var(--green-accent);
     }
-  }
 
-  .project-thumbnail {
-    img {
-      height: 50px;
-      width: auto;
+    .invalid-control {
+        color: var(--theme-warn-500);
     }
-  }
 
-  .active {
-    background-color: var(--theme-accent-400);
-    -webkit-transition: background-color 1000ms linear;
-    -ms-transition: background-color 1000ms linear;
-    transition: background-color 1000ms linear;
-  }
+    .actions {
+        .item:not(:last-child) {
+            margin-right: 0px;
+        }
+    }
 
-  .inactive {
-    background-color: rgba(242, 245, 169, 0);
-    -webkit-transition: background-color 1000ms linear;
-    -ms-transition: background-color 1000ms linear;
-    transition: background-color 1000ms linear;
-  }
+    .project-thumbnail {
+        img {
+            height: 50px;
+            width: auto;
+        }
+    }
 
-  .expansion-panel {
-    width: 100%;
-    margin-bottom: 10px;
-  }
+    .active {
+        background-color: var(--theme-accent-400);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+    }
 
-  .expansion-container {
-    max-height: 300px;
-    overflow-y: auto;
-  }
+    .inactive {
+        background-color: rgba(242, 245, 169, 0);
+        -webkit-transition: background-color 1000ms linear;
+        -ms-transition: background-color 1000ms linear;
+        transition: background-color 1000ms linear;
+    }
 
-  .divider-fill-vert {
-    background-color: var(--theme-accent-500);
-    min-height: 100%;
-    top: 10%;
-    bottom: 10%;
-    min-width: $divider-size;
-  }
+    .expansion-panel {
+        width: 100%;
+        margin-bottom: 10px;
+    }
 
-  .divider-fill-hor {
-    background-color: var(--theme-accent-500);
-    height: $divider-size;
-    width: 100%;
-  }
+    .expansion-container {
+        max-height: 300px;
+        overflow-y: auto;
+    }
 
-  .form-disabled {
-    background-color: rgb(121, 121, 121);
-    opacity: 0.5;
-    border-radius: 4px;
-  }
+    .divider-fill-vert {
+        background-color: var(--theme-accent-500);
+        min-height: 100%;
+        top: 10%;
+        bottom: 10%;
+        min-width: $divider-size;
+    }
 
-  // .form-enabled {
-  //   background-color: rgb(8, 228, 19);
-  //   opacity: 0.5;
-  //   border-radius: 4px;
-  // }
+    .divider-fill-hor {
+        background-color: var(--theme-accent-500);
+        height: $divider-size;
+        width: 100%;
+    }
+
+    .form-disabled {
+        background-color: rgb(121, 121, 121);
+        opacity: 0.5;
+        border-radius: 4px;
+    }
+
+    // .form-enabled {
+    //   background-color: rgb(8, 228, 19);
+    //   opacity: 0.5;
+    //   border-radius: 4px;
+    // }
 }
 
 ::ng-deep input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  transition: background-color 5000s ease-in-out 0s;
-  -webkit-text-fill-color: currentColor;
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: currentColor;
 }
 
-
 @media (max-width: 768px) {
-  .spread {
-    margin: 1em !important;
-  }
+    .spread {
+        margin: 1em !important;
+    }
 }
 
 @media (max-width: 480px) {
-  .spread {
-    margin: 0.5em !important;
-  }
+    .spread {
+        margin: 0.5em !important;
+    }
 }
 
 .spinner-logo {
-  display: none !important;
+    display: none !important;
 }

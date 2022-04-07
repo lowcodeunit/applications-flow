@@ -1,30 +1,24 @@
-.col-container{ 
+.col-container {
     height: 100%;
-    background-color:#EBECF0;
+    background-color: #ebecf0;
 }
-
 
 @media only screen and (max-width: 959px) {
     // .col-container{
     //     display: none;
     // }
-    .col-left, .col-center, .col-right{
+    .col-left,
+    .col-center,
+    .col-right {
         width: 100%;
     }
 }
 
-
-
-.col-left{
-    
+.col-left {
 }
 
-.col-center{
-    
-
+.col-center {
 }
 
-.col-right{
-    
-
+.col-right {
 }

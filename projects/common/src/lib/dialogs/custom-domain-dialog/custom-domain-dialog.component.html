@@ -4,34 +4,22 @@
     </button>
 </div> -->
 
-
-
-
 <!-- NEW BELOW -->
 <div class="dialog-header" fxLayoutAlign="space-between center">
     <h2 mat-dialog-title>Custom Domain</h2>
 
     <button mat-icon-button (click)="CloseDialog()">
-            <mat-icon>cancel</mat-icon>
+        <mat-icon>cancel</mat-icon>
     </button>
 </div>
 
 <mat-dialog-content>
-
-
-
-    <lcu-domains
-    [data]="DomainData"
-    >
-    
-    </lcu-domains>
+    <lcu-domains [data]="DomainData"> </lcu-domains>
 
     <!-- <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
         {{ ErrorMessage }}
     </mat-error> -->
-
 </mat-dialog-content>
-
 
 <!-- <mat-dialog-actions 
         class="actions-container" 

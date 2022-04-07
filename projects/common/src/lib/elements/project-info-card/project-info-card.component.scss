@@ -1,9 +1,9 @@
-.project-info-card{
+.project-info-card {
     margin: 20px;
-    padding:0px;
+    padding: 0px;
 }
 
-.round-project-img{
+.round-project-img {
     background-color: white; //#DFEFF2
     width: 75px;
     height: 75px;
@@ -13,30 +13,28 @@
     border: 2px solid white;
 }
 
-.temp-icon{
+.temp-icon {
     height: 50px;
     width: 50px;
     font-size: 50px;
-   
 }
 
-.icon-btn-container{
+.icon-btn-container {
     margin: 5px;
 }
 
-.project-card-header{
+.project-card-header {
     text-align: center;
     margin-top: 50px;
-    
 }
 
-.host-anchor{
+.host-anchor {
     text-decoration: none;
-    color: #4A918E;
+    color: #4a918e;
 }
 
-.header-img-container{
-    background-color: #A4BAB3;
+.header-img-container {
+    background-color: #a4bab3;
     height: 60px;
     border-radius: 2px 2px 0px 0px;
     margin-top: -0.5px !important;
@@ -44,52 +42,49 @@
     justify-content: center;
 }
 
-.project-card-name{
+.project-card-name {
     font-size: 17px;
     font-weight: 600;
     // margin-bottom: 0px;
 }
 
-
-.card-content-container{
+.card-content-container {
     margin-bottom: 0px !important;
 }
 
-.stats-container{
+.stats-container {
     border-top: 1px solid #b9dddd;
     // border-bottom: 1px solid #b9dddd;
 }
 
-
-
-.gold-icon{
-    color:#d4af37;
+.gold-icon {
+    color: #d4af37;
 }
 
-.upgrade-text{
+.upgrade-text {
     font-weight: bold;
     margin-left: 10px;
     cursor: pointer;
 }
 
-mat-card-actions{
+mat-card-actions {
     margin-bottom: -1px !important;
     margin-left: 0px !important;
     margin-right: -0.5px !important;
 }
 
-.promo-container-skeleton{
-    margin:5px;
+.promo-container-skeleton {
+    margin: 5px;
 }
 
-.actions-container{
+.actions-container {
     padding: 0px !important;
 }
-.actions-container-skeleton{
+.actions-container-skeleton {
     padding: 0px !important;
     border-top: 1px solid #b9dddd;
 }
 
-.skeleton-item{
+.skeleton-item {
     margin: 5px;
 }

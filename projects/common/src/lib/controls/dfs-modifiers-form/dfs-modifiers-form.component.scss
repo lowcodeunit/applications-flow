@@ -1,80 +1,80 @@
 @import "../../../assets/common";
 
 :host ::ng-deep {
-  // text-align: center;
+    // text-align: center;
 
-  .apps-actions {
-    float: right;
-  }
-
-  .mat-card {
-    .mat-card-content {
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .mat-card-actions {
-      .data-app-actions {
-        display: none !important;
-      }
-
-      .data-app-fakes {
-        display: flex !important;
-
-        .mat-icon {
-          font-size: 8px;
-        }
-      }
-    }
-
-    &:hover {
-      .mat-card-actions {
-        .data-app-actions {
-          display: flex !important;
-        }
-
-        .data-app-fakes {
-          display: none !important;
-        }
-      }
-    }
-  }
-
-  .mat-subtitle {
-    .mat-chip-list {
-      display: inline-block;
-    }
-  }
-
-  .mat-form-field {
-    margin-top: .5em;
-    margin-bottom: .5em;
-
-    &.with-hint {
-      margin-bottom: 1em;
-    }
-  }
-
-  @media (max-width: 768px) {
-    .form-card {
-      width: 100%;
+    .apps-actions {
+        float: right;
     }
 
     .mat-card {
-      .mat-card-actions {
-        .data-app-actions {
-          display: flex !important;
+        .mat-card-content {
+            text-align: center;
+            overflow: hidden;
         }
 
-        .data-app-fakes {
-          display: none !important;
+        .mat-card-actions {
+            .data-app-actions {
+                display: none !important;
+            }
+
+            .data-app-fakes {
+                display: flex !important;
+
+                .mat-icon {
+                    font-size: 8px;
+                }
+            }
         }
-      }
+
+        &:hover {
+            .mat-card-actions {
+                .data-app-actions {
+                    display: flex !important;
+                }
+
+                .data-app-fakes {
+                    display: none !important;
+                }
+            }
+        }
     }
-  }
 
-  .domain-item {
-    border-radius: 5;
-    border: var(--theme-accent-500) solid 1px;
-  }
+    .mat-subtitle {
+        .mat-chip-list {
+            display: inline-block;
+        }
+    }
+
+    .mat-form-field {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+
+        &.with-hint {
+            margin-bottom: 1em;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .form-card {
+            width: 100%;
+        }
+
+        .mat-card {
+            .mat-card-actions {
+                .data-app-actions {
+                    display: flex !important;
+                }
+
+                .data-app-fakes {
+                    display: none !important;
+                }
+            }
+        }
+    }
+
+    .domain-item {
+        border-radius: 5;
+        border: var(--theme-accent-500) solid 1px;
+    }
 }

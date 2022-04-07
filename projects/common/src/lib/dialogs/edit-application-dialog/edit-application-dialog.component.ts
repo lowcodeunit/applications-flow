@@ -9,58 +9,56 @@ import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 export interface ApplicationDialogData {
-  application: EaCApplicationAsCode;
-  applicationLookup: string;
-  projectLookup: string;
+    application: EaCApplicationAsCode;
+    applicationLookup: string;
+    projectLookup: string;
 }
 
 @Component({
-  selector: 'lcu-edit-application-dialog',
-  templateUrl: './edit-application-dialog.component.html',
-  styleUrls: ['./edit-application-dialog.component.scss']
+    selector: 'lcu-edit-application-dialog',
+    templateUrl: './edit-application-dialog.component.html',
+    styleUrls: ['./edit-application-dialog.component.scss'],
 })
 export class EditApplicationDialogComponent implements OnInit {
+    @ViewChild(EditApplicationFormComponent)
+    public EditApplicationControl: EditApplicationFormComponent;
 
-  @ViewChild(EditApplicationFormComponent)
-  public EditApplicationControl: EditApplicationFormComponent;
-
-  public get ApplicationFormGroup(): FormGroup{
-    return this.EditApplicationControl?.ApplicationFormGroup;
-  }
-
-  public get State(): ApplicationsFlowState{
-    return this.eacSvc.State;
-  }
-
-  public ErrorMessage: string;
-
-  constructor(public eacSvc: EaCService,
-    public dialogRef: MatDialogRef<EditApplicationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ApplicationDialogData,
-    protected snackBar: MatSnackBar) { }
-
-  public ngOnInit(): void {
-  }
-
-  public CloseDialog(){
-    this.dialogRef.close();
-  }
-
-  public HandleSaveApplicationEvent(event: Status){
-    console.log("event to save: ", event);
-    if (event.Code === 0){
-      this.snackBar.open("Application Succesfully Updated", "Dismiss",{
-        duration: 5000
-      });
-      this.CloseDialog();
+    public get ApplicationFormGroup(): FormGroup {
+        return this.EditApplicationControl?.ApplicationFormGroup;
     }
-    else{
-      this.ErrorMessage = event.Message;
+
+    public get State(): ApplicationsFlowState {
+        return this.eacSvc.State;
     }
-  }
 
-  public SaveApplication(){
-    this.EditApplicationControl.SaveApplication();
-  }
+    public ErrorMessage: string;
 
+    constructor(
+        public eacSvc: EaCService,
+        public dialogRef: MatDialogRef<EditApplicationDialogComponent>,
+        @Inject(MAT_DIALOG_DATA) public data: ApplicationDialogData,
+        protected snackBar: MatSnackBar
+    ) {}
+
+    public ngOnInit(): void {}
+
+    public CloseDialog() {
+        this.dialogRef.close();
+    }
+
+    public HandleSaveApplicationEvent(event: Status) {
+        console.log('event to save: ', event);
+        if (event.Code === 0) {
+            this.snackBar.open('Application Succesfully Updated', 'Dismiss', {
+                duration: 5000,
+            });
+            this.CloseDialog();
+        } else {
+            this.ErrorMessage = event.Message;
+        }
+    }
+
+    public SaveApplication() {
+        this.EditApplicationControl.SaveApplication();
+    }
 }

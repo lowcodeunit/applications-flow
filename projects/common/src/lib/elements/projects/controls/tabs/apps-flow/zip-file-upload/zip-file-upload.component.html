@@ -1,30 +1,32 @@
 <div [formGroup]="FormGroup">
-  <div fxLayout="row wrap">
-    <div fxFlex="40%" fxFlex.lt-sm="100%">
-      <div class="spread">
-        <div class="container" lcuDnd (dropped)="OnFileDrop($event)">
-          <div class="spread">
-            <input
-              type="file"
-              #fileDropRef
-              id="fileDropRef"
-              accept=".zip"
-              (change)="OnFileChange($event)"
-            /><!--multiple-->
+    <div fxLayout="row wrap">
+        <div fxFlex="40%" fxFlex.lt-sm="100%">
+            <div class="spread">
+                <div class="container" lcuDnd (dropped)="OnFileDrop($event)">
+                    <div class="spread">
+                        <input
+                            type="file"
+                            #fileDropRef
+                            id="fileDropRef"
+                            accept=".zip"
+                            (change)="OnFileChange($event)"
+                        /><!--multiple-->
 
-            <mat-icon [inline]="true">publish</mat-icon>
+                        <mat-icon [inline]="true">publish</mat-icon>
 
-            <h3 class="mat-subheading-2">Drag and drop zip application here</h3>
+                        <h3 class="mat-subheading-2">
+                            Drag and drop zip application here
+                        </h3>
 
-            <h3 class="mat-subheading-2">or</h3>
+                        <h3 class="mat-subheading-2">or</h3>
 
-            <a mat-raised-button color="accent" for="fileDropRef">
-              Browse for App Zip
-            </a>
-          </div>
-        </div>
-      </div>
-      <!-- <div class="files-list">
+                        <a mat-raised-button color="accent" for="fileDropRef">
+                            Browse for App Zip
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="files-list">
         <div class="single-file" *ngFor="let file of files; let i = index">
           <div class="file-icon" style="width: 50px">
             <svg
@@ -93,36 +95,39 @@
           </div>
         </div>
       </div> -->
+        </div>
+
+        <div fxFlex="60%" fxFlex.lt-sm="100%">
+            <div class="">
+                <ng-container *ngIf="ZipAppOptions && ZipAppOptions.length > 0">
+                    <mat-form-field class="mat-full-width">
+                        <mat-select
+                            placeholder="Zip File"
+                            formControlName="zipFile"
+                        >
+                            <mat-option
+                                [value]="option.File"
+                                *ngFor="let option of ZipAppOptions"
+                            >
+                                {{ option.DisplayName }}
+                            </mat-option>
+                        </mat-select>
+
+                        <mat-icon
+                            matSuffix
+                            matTooltip="The Zip File to use for running the application."
+                        >
+                            info_outline
+                        </mat-icon>
+                    </mat-form-field>
+                </ng-container>
+
+                <ng-container
+                    *ngIf="!ZipAppOptions || ZipAppOptions.length == 0"
+                >
+                    <h3>You must upload a zip file to continue.</h3>
+                </ng-container>
+            </div>
+        </div>
     </div>
-
-    <div fxFlex="60%" fxFlex.lt-sm="100%">
-      <div class="">
-        <ng-container *ngIf="ZipAppOptions && ZipAppOptions.length > 0">
-          <mat-form-field class="mat-full-width">
-            <mat-select placeholder="Zip File" formControlName="zipFile">
-              <mat-option
-                [value]="option.File"
-                *ngFor="let option of ZipAppOptions"
-              >
-                {{ option.DisplayName }}
-              </mat-option>
-            </mat-select>
-
-            <mat-icon
-              matSuffix
-              matTooltip="The Zip File to use for running the application."
-            >
-              info_outline
-            </mat-icon>
-          </mat-form-field>
-        </ng-container>
-
-        <ng-container
-          *ngIf="!ZipAppOptions || ZipAppOptions.length == 0"
-        >
-          <h3>You must upload a zip file to continue.</h3>
-        </ng-container>
-      </div>
-    </div>
-  </div>
 </div>
