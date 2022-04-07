@@ -171,7 +171,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
                         console.log(err);
                     }
                 );
-            }, 15000);
+            }, 30000);
         }
     }
 }
