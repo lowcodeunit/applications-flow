@@ -348,7 +348,7 @@ export class EaCService {
                 },
             };
 
-            saveEaC.Projects[req.ProjectLookup] = existingProj;
+            saveEaC.Projects = existingProj;
         }
 
         if (req.Application) {
