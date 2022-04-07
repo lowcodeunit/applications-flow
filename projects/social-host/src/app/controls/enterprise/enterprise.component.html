@@ -38,7 +38,7 @@
         </lcu-project-info-card>
         <!-- Commented out until implemented -->
         <!-- <lcu-analytics-card
-            title="Temp Title"
+            matTooltip="Temp Title"
             subtext="Text for testing purposes">
         </lcu-analytics-card> -->
     </div>
@@ -53,8 +53,8 @@
 
         <ng-container *ngIf="!State?.LoadingFeed">
             <lcu-main-feed-card
+                *ngFor="let feedItem of Feed"
                 [feed-item]="feedItem"
-                *ngFor="let feedItem of State?.Feed"
             >
             </lcu-main-feed-card>
         </ng-container>
