@@ -104,8 +104,20 @@
                                                     SafeHtml(comment.Comment)
                                                 "
                                             >
+                                            <ng-container ngIf="comment.Auther === "></ng-container>
                                             </mat-card-content>
                                         </mat-card>
+                                            <!-- <form class="feed-comment-form" 
+                                                [formGroup]="FeedCommentsFormGroup"
+                                                (ngSubmit)="SubmitComment()"
+                                                fxLayoutAlign="space-around center">
+                                                <mat-form-field class="comment-field" appearance="fill" >
+                                                    <mat-label>Leave a comment</mat-label>
+                                                    <textarea matInput formControlName="comment" rows="1" ></textarea>
+                                                </mat-form-field>
+
+                                                <button mat-button type="submit" color="primary">Submit</button>
+                                            </form> -->
                                     </div>
                                 </ng-container>
                             </div>

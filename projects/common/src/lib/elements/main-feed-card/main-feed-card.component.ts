@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'lcu-main-feed-card',
@@ -26,6 +27,10 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
         return envLookups[0];
+    }
+
+    public get CommentControl(): AbstractControl{
+        return this.FeedCommentsFormGroup?.controls.comment;
     }
 
     public get Environment(): EaCEnvironmentAsCode {
@@ -66,10 +71,13 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
         return this.eacSvc.State;
     }
 
+    public FeedCommentsFormGroup: FormGroup;
+
     constructor(
         protected eacSvc: EaCService,
         protected dialog: MatDialog,
-        private sanitizer: DomSanitizer
+        private sanitizer: DomSanitizer,
+        protected formBuilder: FormBuilder
     ) {}
 
     //  Life Cycle
@@ -82,6 +90,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     public ngOnInit(): void {
         this.handleRefresh();
         this.SanitizeVideos();
+        this.buildCommentForm();
     }
 
     //  API Methods
@@ -127,14 +136,25 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     public SanitizeVideos() {
-        this.FeedItem.Tabs.forEach((tab) => {
+        this.FeedItem?.Tabs?.forEach((tab) => {
             if (tab.Data.Video) {
                 tab.Data.Video = this.SafeHtml(tab.Data.Video);
             }
         });
     }
 
+    public SubmitComment(){
+        console.log("comment: ", this.CommentControl.value);
+
+    }
+
     //  Helpers
+    protected buildCommentForm(){
+        this.FeedCommentsFormGroup = this.formBuilder.group({
+            comment: ""
+        })
+    }
+
     protected handleRefresh(): void {
         if (this.FeedItem?.RefreshLink) {
             this.checkTimeout = setTimeout(() => {

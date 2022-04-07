@@ -105,6 +105,7 @@ export class NewApplicationDialogComponent implements OnInit {
             Processor: {
                 Type: this.ProcessorDetailsFormControls.ProcessorType,
             },
+            LowCodeUnit: {}
         };
 
         switch (app.Processor.Type) {
