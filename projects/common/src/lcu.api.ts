@@ -13,6 +13,7 @@ export * from './lib/controls/devops-source-control-form/devops-source-control-f
 export * from './lib/controls/dfs-modifiers-form/dfs-modifiers-form.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/controls/edit-project-form/edit-project-form.component';
+export * from './lib/controls/feed-comment-form/feed-comment-form.component';
 export * from './lib/controls/processor-details-form/processor-details-form.component';
 export * from './lib/controls/security-toggle/security-toggle.component';
 export * from './lib/controls/emulated-devices-toggle/emulated-devices-toggle.component';

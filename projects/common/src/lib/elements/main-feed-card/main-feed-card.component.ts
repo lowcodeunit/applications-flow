@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FeedItem, FeedItemAction } from '../../models/user-feed.model';
 import moment from 'moment';
 import { EaCService } from '../../services/eac.service';
@@ -9,6 +9,7 @@ import { EaCEnvironmentAsCode } from '@semanticjs/common';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { FeedCommentFormComponent } from '../../controls/feed-comment-form/feed-comment-form.component';
 
 @Component({
     selector: 'lcu-main-feed-card',
@@ -17,6 +18,9 @@ import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 })
 export class MainFeedCardComponent implements OnDestroy, OnInit {
     protected checkTimeout: any;
+
+    @ViewChild(FeedCommentFormComponent)
+    public FeedCommentFormControls: FeedCommentFormComponent;
 
     public get ActiveEnvironment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
@@ -30,7 +34,8 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     public get CommentControl(): AbstractControl {
-        return this.FeedCommentsFormGroup?.controls.comment;
+        return this.FeedCommentFormControls?.FeedCommentsFormGroup?.controls
+            .comment;
     }
 
     public get Environment(): EaCEnvironmentAsCode {
@@ -71,8 +76,6 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
         return this.eacSvc.State;
     }
 
-    public FeedCommentsFormGroup: FormGroup;
-
     constructor(
         protected eacSvc: EaCService,
         protected dialog: MatDialog,
@@ -90,7 +93,6 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     public ngOnInit(): void {
         this.handleRefresh();
         this.SanitizeVideos();
-        this.buildCommentForm();
     }
 
     //  API Methods
@@ -148,11 +150,6 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     //  Helpers
-    protected buildCommentForm() {
-        this.FeedCommentsFormGroup = this.formBuilder.group({
-            comment: '',
-        });
-    }
 
     protected handleRefresh(): void {
         if (this.FeedItem?.RefreshLink) {
