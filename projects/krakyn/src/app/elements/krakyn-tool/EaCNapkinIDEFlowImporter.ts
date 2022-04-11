@@ -79,7 +79,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                 Hosts: project.Hosts,
                 Button: {
                     Label: 'Launch',
-                    URL: 'dashboard/projects/' + `${projLookup} `,
+                    URL: '/dashboard/projects/' + `${projLookup} `,
                     Target: '_blank',
                 },
             };
