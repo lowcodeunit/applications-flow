@@ -1,11 +1,5 @@
-.angular-editor {
+@import "../../../assets/styles/wysiwyg-editor";
+
+.comment-form-actions {
     width: 100%;
-
-    ::ng-deep .angular-editor-toolbar {
-        // background-color: blue !important;
-    }
-
-    .angular-editor-textarea {
-        border-radius: 5px !important;
-    }
 }

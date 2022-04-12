@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
 @Component({
@@ -8,6 +8,9 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
     styleUrls: ['./feed-comment-form.component.scss'],
 })
 export class FeedCommentFormComponent implements OnInit {
+    public get CommentControl(): AbstractControl {
+        return this.FeedCommentsFormGroup?.controls.comment;
+    }
     public EditorConfig: AngularEditorConfig;
 
     public FeedCommentsFormGroup: FormGroup;
@@ -16,8 +19,12 @@ export class FeedCommentFormComponent implements OnInit {
         this.setupEditorConfig();
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
         this.buildCommentForm();
+    }
+
+    public SubmitComment() {
+        console.log(this.CommentControl.value);
     }
 
     protected buildCommentForm() {
