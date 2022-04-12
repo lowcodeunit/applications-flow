@@ -66,15 +66,15 @@ export class ProjectInfoCardComponent implements OnInit {
         this.RightClickEvent.emit({});
     }
 
-    public UpgradeClicked() {
-        const dialogRef = this.dialog.open(UpgradeDialogComponent, {
-            width: '600px',
-            data: {},
-        });
+    // public UpgradeClicked() {
+    //     const dialogRef = this.dialog.open(UpgradeDialogComponent, {
+    //         width: '600px',
+    //         data: {},
+    //     });
 
-        dialogRef.afterClosed().subscribe((result) => {
-            // console.log('The dialog was closed');
-            // console.log("result:", result)
-        });
-    }
+    //     dialogRef.afterClosed().subscribe((result) => {
+    //         // console.log('The dialog was closed');
+    //         // console.log("result:", result)
+    //     });
+    // }
 }
