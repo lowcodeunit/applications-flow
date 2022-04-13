@@ -310,7 +310,7 @@ export class ApplicationsComponent implements OnInit {
     public DeleteApplication(appLookup: string, appName: string): void {
         this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
             // if(status.Code === 0){
-            this.router.navigate(['/projects', this.ProjectLookup]);
+            this.router.navigate(['/project', this.ProjectLookup]);
             // }
         });
     }
