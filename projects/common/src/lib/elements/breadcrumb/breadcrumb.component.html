@@ -7,7 +7,7 @@
         </ng-container>
 
         <ng-container *ngIf="!State.Loading && Enterprise && !Loading">
-            <div class="crumb-name" [routerLink]="['/enterprises']">
+            <div class="crumb-name" [routerLink]="['']">
                 <mat-icon>home</mat-icon>
 
                 {{ Enterprise?.Name }}
@@ -20,7 +20,7 @@
             <mat-menu #enterpriseMenu="matMenu" xPosition="before">
                 <button
                     mat-menu-item
-                    [routerLink]="['/enterprises']"
+                    [routerLink]="['']"
                     (click)="SetActiveEnterprise(ent.Lookup)"
                     *ngFor="let ent of State.Enterprises"
                 >
@@ -42,7 +42,7 @@
         </ng-container>
 
         <ng-container *ngIf="!State?.Loading">
-            <div class="crumb-name" [routerLink]="['/projects', ProjectLookup]">
+            <div class="crumb-name" [routerLink]="['/project', ProjectLookup]">
                 {{ SelectedProject?.Project?.Name }}
             </div>
 
@@ -54,7 +54,7 @@
                 <button
                     mat-menu-item
                     *ngFor="let projectLookup of ProjectLookups"
-                    [routerLink]="['/projects', projectLookup]"
+                    [routerLink]="['/project', projectLookup]"
                 >
                     <span *ngIf="Projects[projectLookup]; let pro">{{
                         pro.Project?.Name
@@ -74,7 +74,7 @@
         <ng-container *ngIf="!State?.Loading">
             <div
                 class="crumb-name"
-                [routerLink]="['/routes', SelectedRoute, ProjectLookup]"
+                [routerLink]="['/route', SelectedRoute, ProjectLookup]"
             >
                 {{ SelectedRoute }}
             </div>
@@ -87,7 +87,7 @@
                 <button
                     mat-menu-item
                     *ngFor="let appRoute of Routes"
-                    [routerLink]="['/routes', appRoute, ProjectLookup]"
+                    [routerLink]="['/route', appRoute, ProjectLookup]"
                 >
                     <span *ngIf="appRoute">{{ appRoute }}</span>
                 </button>
@@ -110,7 +110,7 @@
             <div
                 class="crumb-name"
                 [routerLink]="[
-                    '/applications',
+                    '/application',
                     ApplicationLookup,
                     SelectedRoute,
                     ProjectLookup
@@ -128,7 +128,7 @@
                     mat-menu-item
                     *ngFor="let appLookup of CurrentRouteApplicationLookups"
                     [routerLink]="[
-                        '/applications',
+                        '/application',
                         appLookup,
                         SelectedRoute,
                         ProjectLookup

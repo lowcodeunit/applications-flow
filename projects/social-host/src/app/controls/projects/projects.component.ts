@@ -225,7 +225,7 @@ export class ProjectsComponent implements OnInit {
 
     public DeleteProject(projectLookup: string, projectName: string): void {
         this.eacSvc.DeleteProject(projectLookup, projectName).then((status) => {
-            this.router.navigate(['/enterprises']);
+            this.router.navigate(['/']);
         });
     }
 
