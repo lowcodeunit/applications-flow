@@ -5,6 +5,7 @@ export * from './lib/state/applications-flow.state';
 export * from './lib/elements/projects/controls/forms/source-control/source-control.component';
 export * from './lib/elements/projects/controls/create-project-wizard/create-project-wizard.component';
 export * from './lib/elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
+export * from './lib/elements/page-header/page-header.component';
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
 export * from './lib/models/user-feed.model';
@@ -13,6 +14,7 @@ export * from './lib/controls/devops-source-control-form/devops-source-control-f
 export * from './lib/controls/dfs-modifiers-form/dfs-modifiers-form.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/controls/edit-project-form/edit-project-form.component';
+export * from './lib/controls/feed-comment-form/feed-comment-form.component';
 export * from './lib/controls/processor-details-form/processor-details-form.component';
 export * from './lib/controls/security-toggle/security-toggle.component';
 export * from './lib/controls/emulated-devices-toggle/emulated-devices-toggle.component';
