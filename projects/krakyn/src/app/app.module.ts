@@ -1,6 +1,10 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FathymSharedModule, LCUServiceSettings } from '@lcu/common';
+import {
+    FathymSharedModule,
+    LCUServiceSettings,
+    MaterialModule,
+} from '@lcu/common';
 import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -13,6 +17,7 @@ import { KrakynToolComponent } from './elements/krakyn-tool/krakyn-tool.componen
         BrowserModule,
         AppRoutingModule,
         ApplicationsFlowModule.forRoot(),
+        MaterialModule,
     ],
     providers: [
         {
