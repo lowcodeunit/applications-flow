@@ -1,3 +1,14 @@
 <div style="height: 100%; width: 100%">
+    <lcu-page-header></lcu-page-header>
+    <div class="krakyn-action-container" fxLayoutAlign="start center">
+        <button
+            mat-button
+            class="return-to-dashboard-btn"
+            (click)="ReturnToDashboard()"
+            color="primary"
+        >
+            Return To Dashboard
+        </button>
+    </div>
     <router-outlet></router-outlet>
 </div>

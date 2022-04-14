@@ -5,6 +5,7 @@ export * from './lib/state/applications-flow.state';
 export * from './lib/elements/projects/controls/forms/source-control/source-control.component';
 export * from './lib/elements/projects/controls/create-project-wizard/create-project-wizard.component';
 export * from './lib/elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
+export * from './lib/elements/page-header/page-header.component';
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
 export * from './lib/models/user-feed.model';

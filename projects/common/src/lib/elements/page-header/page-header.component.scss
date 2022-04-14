@@ -1,0 +1,13 @@
+.mat-toolbar {
+    background-color: #4a918e;
+    height: 65px;
+
+    .logo {
+        height: 60px;
+        width: 160px;
+        //   @extend .logo-config;
+        &.mobile {
+            width: 75px;
+        }
+    }
+}

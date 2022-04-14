@@ -73,6 +73,7 @@ import { StateConfigFormComponent } from './controls/state-config-form/state-con
 import { EditProjectDialogComponent } from './dialogs/edit-project-dialog/edit-project-dialog.component';
 import { EditProjectFormComponent } from './controls/edit-project-form/edit-project-form.component';
 import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comment-form.component';
+import { PageHeaderComponent } from './elements/page-header/page-header.component';
 
 @NgModule({
     declarations: [
@@ -130,6 +131,7 @@ import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comm
         EditProjectDialogComponent,
         EditProjectFormComponent,
         FeedCommentFormComponent,
+        PageHeaderComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -202,6 +204,7 @@ import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comm
         EditProjectDialogComponent,
         EditProjectFormComponent,
         FeedCommentFormComponent,
+        PageHeaderComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

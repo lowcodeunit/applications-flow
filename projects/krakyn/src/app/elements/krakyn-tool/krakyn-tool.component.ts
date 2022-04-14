@@ -61,7 +61,7 @@ export class KrakynToolComponent implements OnInit {
 
     // Lifecycle hooks
     public ngOnInit(): void {
-        this.Title = 'The Krakyn Tool';
+        // this.Title = 'The Krakyn Tool';
 
         this.SideMenuItems = SideMenuItemTemplates.FLOW_DRAG_ITEMS(
             true,
@@ -97,7 +97,7 @@ export class KrakynToolComponent implements OnInit {
         const eaCNapkinIDEFlowImporter: EaCNapkinIDEFlowImporter =
             new EaCNapkinIDEFlowImporter();
 
-        this.Title = 'Imported data for Krakyn';
+        // this.Title = 'Imported data for Krakyn';
 
         const externalData: { Module: string; Data: any } = {
             Module: 'ExternalData',

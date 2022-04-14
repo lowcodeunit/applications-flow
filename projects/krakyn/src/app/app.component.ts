@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     title = 'krakyn';
+
+    public ReturnToDashboard() {
+        window.location.href = '/dashboard';
+    }
 }
