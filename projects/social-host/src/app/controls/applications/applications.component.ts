@@ -25,6 +25,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { Router } from '@angular/router';
+import { Status } from '@semanticjs/common/dist/src/models/Status';
 
 @Component({
     selector: 'lcu-applications',
@@ -308,11 +309,13 @@ export class ApplicationsComponent implements OnInit {
     //  API Methods
 
     public DeleteApplication(appLookup: string, appName: string): void {
-        this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
-            // if(status.Code === 0){
-            this.router.navigate(['/projects', this.ProjectLookup]);
-            // }
-        });
+        this.eacSvc
+            .DeleteApplication(appLookup, appName)
+            .then((status: Status) => {
+                // if(status.Code === 0){
+                this.router.navigate(['/projects', this.ProjectLookup]);
+                // }
+            });
     }
 
     public HandleLeftClickEvent(event: any) {
@@ -336,7 +339,7 @@ export class ApplicationsComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result.event)
         });
@@ -352,7 +355,7 @@ export class ApplicationsComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result.event)
             // this.SaveApplication(result.event);
