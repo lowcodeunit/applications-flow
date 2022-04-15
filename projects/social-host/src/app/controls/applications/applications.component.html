@@ -27,6 +27,22 @@
                         [stats]="Stats">
                     </lcu-card-carousel> -->
 
+            <a
+                *ngIf="Application?.LowCodeUnit?.Type === 'Zip'"
+                action
+                mat-button
+                class="info-card-btn"
+                href="/dashboard/page-builder?appLookukp={{
+                    ApplicationLookup
+                }}"
+                matTooltip="New no code page builder for creating static site content."
+                target="_blank"
+            >
+                <mat-icon>construction</mat-icon>
+
+                (New) No Code Page Builder
+            </a>
+
             <button
                 *ngIf="Application?.Processor?.Type === 'DFS'"
                 action
@@ -36,6 +52,7 @@
                 matTooltip="Update your application to the latest package"
             >
                 <mat-icon>outbox</mat-icon>
+
                 Update Package: {{ Version }}
             </button>
 
@@ -165,7 +182,7 @@
             </mat-card>
         </div>
 
-        <!-- Request Modifiers 
+        <!-- Request Modifiers
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
         <lcu-slotted-card
