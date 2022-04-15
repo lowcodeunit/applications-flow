@@ -309,13 +309,11 @@ export class ApplicationsComponent implements OnInit {
     //  API Methods
 
     public DeleteApplication(appLookup: string, appName: string): void {
-        this.eacSvc
-            .DeleteApplication(appLookup, appName)
-            .then((status: Status) => {
-                // if(status.Code === 0){
-                this.router.navigate(['/projects', this.ProjectLookup]);
-                // }
-            });
+        this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
+            // if(status.Code === 0){
+            this.router.navigate(['/project', this.ProjectLookup]);
+            // }
+        });
     }
 
     public HandleLeftClickEvent(event: any) {

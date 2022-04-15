@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { UpgradeDialogComponent } from '../../dialogs/upgrade-dialog/upgrade-dialog.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
