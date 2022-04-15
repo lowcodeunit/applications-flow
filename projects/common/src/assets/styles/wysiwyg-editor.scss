@@ -1,0 +1,32 @@
+@import "../common";
+
+.angular-editor {
+    width: 100%;
+
+    ::ng-deep .angular-editor-toolbar {
+        background-color: var(--initial-primary);
+        border-radius: 5px !important;
+    }
+
+    ::ng-deep .angular-editor-button {
+        background-color: var(--initial-accent) !important;
+        border-radius: 3px;
+        border-color: black !important;
+        margin: 0px 2px;
+    }
+
+    ::ng-deep .ae-picker-label {
+        border-color: black !important;
+        border-radius: 3px;
+    }
+
+    ::ng-deep .ae-picker-label:before {
+        background: var(--initial-accent) !important;
+    }
+
+    ::ng-deep .angular-editor-textarea {
+        border-radius: 5px !important;
+        border-color: var(--initial-primary) !important;
+        // background-color: var(--initial-accent) !important;
+    }
+}

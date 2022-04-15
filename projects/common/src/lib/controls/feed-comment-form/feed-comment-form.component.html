@@ -1,0 +1,28 @@
+<form
+    class="feed-comment-form"
+    [formGroup]="FeedCommentsFormGroup"
+    fxLayoutAlign="space-around center"
+    (ngSubmit)="SubmitComment()"
+    fxLayout="column"
+>
+    <angular-editor
+        class="angular-editor"
+        id="issue-editor"
+        formControlName="comment"
+        [config]="EditorConfig"
+    ></angular-editor>
+    <!-- <mat-form-field class="comment-field" appearance="fill" >
+            <mat-label>Leave a comment</mat-label>
+            <textarea matInput formControlName="comment" rows="1" ></textarea>
+        </mat-form-field> -->
+    <div class="comment-form-actions" fxLayoutAlign="end center">
+        <button
+            mat-button
+            type="submit"
+            color="primary"
+            [disabled]="!CommentControl.dirty"
+        >
+            Submit
+        </button>
+    </div>
+</form>
