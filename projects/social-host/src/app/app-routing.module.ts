@@ -11,11 +11,11 @@ const routes: Routes = [
         path: 'application/:appLookup/:appRoute/:projectLookup',
         component: ApplicationsComponent,
     },
-    { path: '', component: EnterpriseComponent },
     { path: 'project/:projectLookup', component: ProjectsComponent },
     { path: 'route/:appRoute/:projectLookup', component: RoutesComponent },
     { path: 'iiot', component: IoTComponent },
-    { path: '', redirectTo: 'enterprises', pathMatch: 'full' },
+    { path: '', component: EnterpriseComponent, pathMatch: 'full' },
+    { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
