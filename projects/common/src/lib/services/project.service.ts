@@ -307,6 +307,38 @@ export class ProjectService {
 
                     resolve(state.EaC);
 
+                    this.activatedRoute.queryParams.subscribe((params) => {
+                        if (params?.direct == 'true') {
+                            let projKeys = Object.keys(
+                                state.EaC.Projects || {}
+                            );
+
+                            if (projKeys.length == 1) {
+                                let appKeys = Object.keys(
+                                    state.EaC.Applications || {}
+                                );
+
+                                if (appKeys.length == 1) {
+                                    let app =
+                                        state.EaC.Applications[appKeys[0]];
+
+                                    let routeKey = encodeURIComponent(
+                                        app.LookupConfig.PathRegex?.replace(
+                                            '.*',
+                                            ''
+                                        ) || '/'
+                                    );
+
+                                    window.location.href = `/dashboard/application/${appKeys[0]}/${routeKey}/${projKeys[0]}`;
+                                } else {
+                                    window.location.href = `/dashboard/project/${projKeys[0]}`;
+                                }
+                            } else {
+                                window.location.href = `/dashboard`;
+                            }
+                        }
+                    });
+
                     console.log(state);
                 },
                 (err) => {
