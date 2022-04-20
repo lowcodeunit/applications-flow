@@ -30,15 +30,16 @@
             <a
                 *ngIf="Application?.LowCodeUnit?.Type === 'Zip'"
                 action
-                mat-button
+                mat-raised-button
+                color="primary"
                 class="info-card-btn"
                 href="/dashboard/page-builder?appLookup={{ ApplicationLookup }}"
-                matTooltip="New no code page builder for creating static site content."
+                matTooltip="New no code page builder for creating static sites."
                 target="_blank"
             >
                 <mat-icon>construction</mat-icon>
 
-                (New) No Code Page Builder
+                (New) Custom Page Builder
             </a>
 
             <button
