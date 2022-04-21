@@ -181,6 +181,12 @@
             </mat-card>
         </div>
 
+        <lcu-connected-source
+            [current-source]="Application?.LowCodeUnit?.SourceControllookup"
+            (save-form-event)="SaveConnectedSource($event)"
+        >
+        </lcu-connected-source>
+
         <!-- Request Modifiers
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->

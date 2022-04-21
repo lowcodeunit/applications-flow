@@ -424,6 +424,24 @@ export class ApplicationsComponent implements OnInit {
         });
     }
 
+    public SaveConnectedSource(formValue: {
+        sourceControlLookup: string;
+    }): void {
+        // console.log('Recieved Save Event: ', formValue);
+
+        const app: EaCApplicationAsCode = this.Application;
+
+        app.LowCodeUnit.SourceControlLookup = formValue.sourceControlLookup;
+
+        const saveAppReq: SaveApplicationAsCodeEventRequest = {
+            ProjectLookup: this.ProjectLookup,
+            Application: app,
+            ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
+        };
+
+        this.eacSvc.SaveApplicationAsCode(saveAppReq);
+    }
+
     public SaveSecuritySettings(formValue: any): void {
         // console.log('Recieved Save Event: ', formValue);
 
