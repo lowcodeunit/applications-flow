@@ -314,6 +314,8 @@ export class ProjectService {
                             );
 
                             if (projKeys.length == 1) {
+                                console.log('Directing to deeper link');
+
                                 let appKeys = Object.keys(
                                     state.EaC.Applications || {}
                                 );
@@ -333,8 +335,6 @@ export class ProjectService {
                                 } else {
                                     window.location.href = `/dashboard/project/${projKeys[0]}`;
                                 }
-                            } else {
-                                window.location.href = `/dashboard`;
                             }
                         }
                     });
