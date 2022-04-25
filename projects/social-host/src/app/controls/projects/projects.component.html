@@ -202,7 +202,13 @@
                     <div class="slot-header-container" fxLayout="column">
                         <div class="slot-header" fxLayout="row">
                             <div *ngIf="Project?.Hosts" class="slot-name">
-                                {{ Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : '' }}
+                                {{
+                                    Project?.Hosts
+                                        ? Project?.Hosts[
+                                              Project?.Hosts?.length - 1
+                                          ]
+                                        : ""
+                                }}
                             </div>
                         </div>
                     </div>
@@ -265,19 +271,16 @@
                             >
                                 <!-- this icon is a temp placeholder -->
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                                <div
+                                <!-- <div
                                     *ngIf="mdfr?.Name?.length > 28"
                                     class="slot-name"
                                 >
                                     {{ mdfr?.Name | slice: 0:25 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> *ngIf="
                                         mdfr?.Name?.length < 28 ||
                                         mdfr?.Name?.length == 28
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ mdfr?.Name }}
                                 </div>
                             </div>

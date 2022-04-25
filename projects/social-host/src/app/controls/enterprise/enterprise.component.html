@@ -227,19 +227,17 @@
                   class="slot-action-anchor"
                   (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
                 > -->
-                                <div
+                                <!-- <div
                                     *ngIf="sc.Name?.length > 21"
                                     class="slot-name"
                                 >
                                     {{ sc.Name | slice: 0:18 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> 
+                            *ngIf="
                                         sc.Name?.length < 21 ||
                                         sc.Name.length == 21
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ sc.Name }}
                                 </div>
                                 <!-- </a> -->
@@ -351,19 +349,16 @@
                             >
                                 <!-- this icon is a temp placeholder -->
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                                <div
+                                <!-- <div
                                     *ngIf="doa?.Name?.length > 28"
                                     class="slot-name"
                                 >
                                     {{ doa?.Name | slice: 0:25 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> *ngIf="
                                         doa?.Name?.length < 28 ||
                                         doa?.Name?.length == 28
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ doa?.Name }}
                                 </div>
                             </div>
@@ -453,19 +448,16 @@
                             >
                                 <!-- this icon is a temp placeholder -->
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                                <div
+                                <!-- <div
                                     *ngIf="mdfr?.Name?.length > 28"
                                     class="slot-name"
                                 >
                                     {{ mdfr?.Name | slice: 0:25 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> *ngIf="
                                         mdfr?.Name?.length < 28 ||
                                         mdfr?.Name?.length == 28
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ mdfr?.Name }}
                                 </div>
                             </div>
