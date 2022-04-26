@@ -211,7 +211,8 @@ export class ProjectsComponent implements OnInit {
             width: '600px',
             data: {
                 hosts: this.State.EaC.Hosts,
-                primaryHost: this.State.EaC.Enterprise.PrimaryHost,
+                primaryHost:
+                    this.Project?.Hosts[this.Project?.Hosts?.length - 1],
                 project: this.Project,
                 projectLookup: this.ProjectLookup,
             },
