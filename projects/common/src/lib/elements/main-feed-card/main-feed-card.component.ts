@@ -116,6 +116,10 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
         }
     }
 
+    public HandleSubmitComment(event: any) {
+        console.log('recieved comment: ', event);
+    }
+
     public OpenSourceControlDialog(scLookup: string, scName: string): void {
         const dialogRef = this.dialog.open(SourceControlDialogComponent, {
             width: '550px',

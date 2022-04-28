@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 
@@ -8,6 +8,9 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
     styleUrls: ['./feed-comment-form.component.scss'],
 })
 export class FeedCommentFormComponent implements OnInit {
+    @Output('submit-event')
+    public SubmitEvent: EventEmitter<string>;
+
     public get CommentControl(): AbstractControl {
         return this.FeedCommentsFormGroup?.controls.comment;
     }
@@ -16,6 +19,7 @@ export class FeedCommentFormComponent implements OnInit {
     public FeedCommentsFormGroup: FormGroup;
 
     constructor(protected formBuilder: FormBuilder) {
+        this.SubmitEvent = new EventEmitter();
         this.setupEditorConfig();
     }
 
@@ -25,6 +29,7 @@ export class FeedCommentFormComponent implements OnInit {
 
     public SubmitComment() {
         console.log(this.CommentControl.value);
+        this.SubmitEvent.emit(this.CommentControl.value);
     }
 
     protected buildCommentForm() {
