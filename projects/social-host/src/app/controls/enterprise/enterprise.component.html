@@ -19,7 +19,7 @@
                 action
                 mat-button
                 class="info-card-btn mat-full-width"
-                href="/iot"
+                href="/dashboard/iot"
             >
                 <mat-icon>account_tree</mat-icon>
 
@@ -62,7 +62,7 @@
 
     <div right>
         <!-- Projects
-      secondary-slot-description="Add new quick project" 
+      secondary-slot-description="Add new quick project"
       action-text="Create Custom Project"-->
         <lcu-slotted-card
             card-title="Projects"
@@ -94,7 +94,7 @@
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                                 <a
                                     class="slot-header-anchor"
-                                    [routerLink]="['/projects', projectLookup]"
+                                    [routerLink]="['/project', projectLookup]"
                                 >
                                     <div
                                         *ngIf="project.Project.Name"
@@ -120,7 +120,7 @@
                         >
                             <a
                                 class="slot-action-anchor"
-                                [routerLink]="['/projects', projectLookup]"
+                                [routerLink]="['/project', projectLookup]"
                             >
                                 <mat-icon
                                     class="action-icon"
@@ -185,7 +185,7 @@
             <!-- <div secondary></div> -->
         </lcu-slotted-card>
 
-        <!-- Sources 
+        <!-- Sources
       secondary-slot-description="Add new source control"
       action-text="Create New Source Control" -->
         <lcu-slotted-card
@@ -227,19 +227,17 @@
                   class="slot-action-anchor"
                   (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
                 > -->
-                                <div
+                                <!-- <div
                                     *ngIf="sc.Name?.length > 21"
                                     class="slot-name"
                                 >
                                     {{ sc.Name | slice: 0:18 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> 
+                            *ngIf="
                                         sc.Name?.length < 21 ||
                                         sc.Name.length == 21
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ sc.Name }}
                                 </div>
                                 <!-- </a> -->
@@ -311,7 +309,7 @@
             </div>
         </lcu-slotted-card>
 
-        <!-- Pipelines 
+        <!-- Pipelines
       secondary-slot-description="Add new pipeline"
       action-text="Create New Pipeline" -->
         <lcu-slotted-card
@@ -351,19 +349,16 @@
                             >
                                 <!-- this icon is a temp placeholder -->
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                                <div
+                                <!-- <div
                                     *ngIf="doa?.Name?.length > 28"
                                     class="slot-name"
                                 >
                                     {{ doa?.Name | slice: 0:25 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> *ngIf="
                                         doa?.Name?.length < 28 ||
                                         doa?.Name?.length == 28
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ doa?.Name }}
                                 </div>
                             </div>
@@ -416,7 +411,7 @@
             </div>
         </lcu-slotted-card>
 
-        <!-- Request Modifiers 
+        <!-- Request Modifiers
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
         <lcu-slotted-card
@@ -453,19 +448,16 @@
                             >
                                 <!-- this icon is a temp placeholder -->
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                                <div
+                                <!-- <div
                                     *ngIf="mdfr?.Name?.length > 28"
                                     class="slot-name"
                                 >
                                     {{ mdfr?.Name | slice: 0:25 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> *ngIf="
                                         mdfr?.Name?.length < 28 ||
                                         mdfr?.Name?.length == 28
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ mdfr?.Name }}
                                 </div>
                             </div>

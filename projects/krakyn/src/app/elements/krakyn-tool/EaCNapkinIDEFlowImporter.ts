@@ -79,7 +79,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                 Hosts: project.Hosts,
                 Button: {
                     Label: 'Launch',
-                    URL: 'dashboard/projects/' + `${projLookup} `,
+                    URL: '/dashboard/projects/' + `${projLookup} `,
                     Target: '_blank',
                 },
             };
@@ -98,7 +98,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
             });
 
             // Setup Route Filters
-            debugger;
+            // debugger;
             let maxRouteParts = 0;
 
             let appRoutePartMap: { [appLookup: string]: string[] } =
@@ -282,7 +282,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
                         if (existingApp == null) {
                             //  Setup Application Nodes
-                            debugger;
+                            // debugger;
                             const appNode = new NapkinIDENode();
                             appNode.Type = appNodeType;
                             appNode.ID = id;

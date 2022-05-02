@@ -27,6 +27,21 @@
                         [stats]="Stats">
                     </lcu-card-carousel> -->
 
+            <a
+                *ngIf="Application?.LowCodeUnit?.Type === 'Zip'"
+                action
+                mat-raised-button
+                color="primary"
+                class="info-card-btn"
+                href="/dashboard/page-builder?appLookup={{ ApplicationLookup }}"
+                matTooltip="New no code page builder for creating static sites."
+                target="_blank"
+            >
+                <mat-icon>construction</mat-icon>
+
+                (New) Custom Page Builder
+            </a>
+
             <button
                 *ngIf="Application?.Processor?.Type === 'DFS'"
                 action
@@ -36,6 +51,7 @@
                 matTooltip="Update your application to the latest package"
             >
                 <mat-icon>outbox</mat-icon>
+
                 Update Package: {{ Version }}
             </button>
 
@@ -165,7 +181,13 @@
             </mat-card>
         </div>
 
-        <!-- Request Modifiers 
+        <lcu-connected-source
+            [current-source]="Application?.LowCodeUnit?.SourceControllookup"
+            (save-form-event)="SaveConnectedSource($event)"
+        >
+        </lcu-connected-source>
+
+        <!-- Request Modifiers
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
         <lcu-slotted-card
@@ -203,19 +225,16 @@
                             >
                                 <!-- this icon is a temp placeholder -->
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                                <div
+                                <!-- <div
                                     *ngIf="mdfr?.Name?.length > 28"
                                     class="slot-name"
                                 >
                                     {{ mdfr?.Name | slice: 0:25 }}...
-                                </div>
-                                <div
-                                    *ngIf="
+                                </div> *ngIf="
                                         mdfr?.Name?.length < 28 ||
                                         mdfr?.Name?.length == 28
-                                    "
-                                    class="slot-name"
-                                >
+                                    "-->
+                                <div class="slot-name">
                                     {{ mdfr?.Name }}
                                 </div>
                             </div>

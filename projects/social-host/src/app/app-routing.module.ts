@@ -8,14 +8,14 @@ import { IoTComponent } from './controls/iot/iot.component';
 
 const routes: Routes = [
     {
-        path: 'applications/:appLookup/:appRoute/:projectLookup',
+        path: 'application/:appLookup/:appRoute/:projectLookup',
         component: ApplicationsComponent,
     },
-    { path: 'enterprises', component: EnterpriseComponent },
-    { path: 'projects/:projectLookup', component: ProjectsComponent },
-    { path: 'routes/:appRoute/:projectLookup', component: RoutesComponent },
+    { path: 'project/:projectLookup', component: ProjectsComponent },
+    { path: 'route/:appRoute/:projectLookup', component: RoutesComponent },
     { path: 'iiot', component: IoTComponent },
-    { path: '', redirectTo: 'enterprises', pathMatch: 'full' },
+    { path: '', component: EnterpriseComponent, pathMatch: 'full' },
+    { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

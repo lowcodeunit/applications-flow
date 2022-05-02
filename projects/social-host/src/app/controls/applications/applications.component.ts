@@ -25,6 +25,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { Router } from '@angular/router';
+import { Status } from '@semanticjs/common/dist/src/models/Status';
 
 @Component({
     selector: 'lcu-applications',
@@ -310,7 +311,7 @@ export class ApplicationsComponent implements OnInit {
     public DeleteApplication(appLookup: string, appName: string): void {
         this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
             // if(status.Code === 0){
-            this.router.navigate(['/projects', this.ProjectLookup]);
+            this.router.navigate(['/project', this.ProjectLookup]);
             // }
         });
     }
@@ -336,7 +337,7 @@ export class ApplicationsComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result.event)
         });
@@ -352,7 +353,7 @@ export class ApplicationsComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result.event)
             // this.SaveApplication(result.event);
@@ -421,6 +422,24 @@ export class ApplicationsComponent implements OnInit {
             // console.log('The dialog was closed');
             // console.log("result:", result)
         });
+    }
+
+    public SaveConnectedSource(formValue: {
+        sourceControlLookup: string;
+    }): void {
+        // console.log('Recieved Save Event: ', formValue);
+
+        const app: EaCApplicationAsCode = this.Application;
+
+        app.LowCodeUnit.SourceControlLookup = formValue.sourceControlLookup;
+
+        const saveAppReq: SaveApplicationAsCodeEventRequest = {
+            ProjectLookup: this.ProjectLookup,
+            Application: app,
+            ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
+        };
+
+        this.eacSvc.SaveApplicationAsCode(saveAppReq);
     }
 
     public SaveSecuritySettings(formValue: any): void {
