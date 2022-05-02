@@ -74,6 +74,7 @@ import { EditProjectDialogComponent } from './dialogs/edit-project-dialog/edit-p
 import { EditProjectFormComponent } from './controls/edit-project-form/edit-project-form.component';
 import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comment-form.component';
 import { PageHeaderComponent } from './elements/page-header/page-header.component';
+import { ConnectedSourceComponent } from './controls/connected-source/connected-source.component';
 
 @NgModule({
     declarations: [
@@ -132,6 +133,7 @@ import { PageHeaderComponent } from './elements/page-header/page-header.componen
         EditProjectFormComponent,
         FeedCommentFormComponent,
         PageHeaderComponent,
+        ConnectedSourceComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -205,6 +207,7 @@ import { PageHeaderComponent } from './elements/page-header/page-header.componen
         EditProjectFormComponent,
         FeedCommentFormComponent,
         PageHeaderComponent,
+        ConnectedSourceComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,
@@ -249,6 +252,7 @@ import { PageHeaderComponent } from './elements/page-header/page-header.componen
         CustomDomainDialogComponent,
         EditApplicationDialogComponent,
         EmulatedDevicesToggleComponent,
+        ConnectedSourceComponent,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA, // Tells Angular we will have custom tags in our templates
