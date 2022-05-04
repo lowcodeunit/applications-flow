@@ -1,0 +1,181 @@
+<ng-container *ngIf="IsUserAccount">
+    <mat-dialog-content
+        class="account-container"
+        fxLayout="column"
+        fxLayoutAlign="center start"
+    >
+        <!-- HEADER -->
+        <div
+            class="account-header"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
+            <mat-icon class="toolbar-icon">account_circle</mat-icon>
+            <div
+                class="user-names"
+                fxLayout="column"
+                fxLayoutAlign="center start"
+            >
+                <!-- <div class="greeting" id="username">Users name goes here</div> -->
+                <div class="greeting" id="email">{{ Username }}</div>
+            </div>
+            <mat-icon class="edit-icon">create</mat-icon>
+        </div>
+        <div class="user-package">{{ Package }}</div>
+
+        <!-- <div *ngIf="!ManagingSubscription">
+            <div class="user-info">Registered Since - {{RegisteredSince | date: 'longDate'}}</div>
+        </div> -->
+
+        <!-- <div *ngIf="ManagingSubscription">
+            <div class="user-info">Registered Since - {{RegisteredSince | date: 'longDate'}}</div>
+            <div class="user-info">Free Trial End Date - {{ExpirationDate | date: 'longDate'}}</div>
+            <div class="user-info">Billing Cycle - {{BillingCycle | titlecase}}</div>
+            <div class="user-info">Next Billing Date - {{NextBillingDate | date: 'longDate'}}</div>
+        </div> -->
+    </mat-dialog-content>
+    <div
+        class="dialog-actions-container"
+        fxLayout="row"
+        fxLayoutAlign="start center"
+    >
+        <div
+            *ngIf="!ManagingSubscription"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+        >
+            <div class="dialog-action" id="logout-button" (click)="Logout()">
+                LOGOUT
+            </div>
+
+            <div
+                class="dialog-action"
+                id="manage-subscription"
+                (click)="ManageSubscription()"
+            >
+                MANAGE SUBSCRIPTION
+            </div>
+        </div>
+
+        <div
+            *ngIf="ManagingSubscription"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+        >
+            <mat-icon class="dialog-action" id="back-icon" (click)="GoBack()">
+                keyboard_backspace
+            </mat-icon>
+
+            <div class="dialog-action" id="upgrade-button" (click)="Upgrade()">
+                UPGRADE
+            </div>
+
+            <div
+                class="dialog-action"
+                id="display-cancel-subscription"
+                (click)="DisplayCancelSubscription()"
+            >
+                CANCEL SUBSCRIPTION
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!IsUserAccount">
+    <mat-dialog-content
+        class="cancel-content-container"
+        fxLayout="column"
+        fxLayoutAlign="center start"
+    >
+        <div
+            class="cancel-header"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
+            <div class="fathym-header-logo"></div>
+            <div class="vertical-line"></div>
+            <div class="cancel-header-text" fxLayout="column">
+                <div>Fathym it.</div>
+                <div>Build it.</div>
+            </div>
+        </div>
+
+        <div class="content-container">
+            <!-- radio buttons of why they are leaving -->
+            <div *ngIf="IsInitialReason">
+                <p class="p-text">We'll be sad to see you go!</p>
+                <label id="reason-radio-group-label"
+                    >Why are you leaving us?</label
+                >
+                <mat-radio-group
+                    aria-labelledby="reason-radio-group-label"
+                    class="reason-radio-group"
+                    [(ngModel)]="ReasonForLeaving"
+                >
+                    <mat-radio-button
+                        class="reason-radio-button"
+                        *ngFor="let reason of Reasons"
+                        [value]="reason"
+                    >
+                        {{ reason }}
+                    </mat-radio-button>
+                </mat-radio-group>
+
+                <!-- <mat-form-field class="feedback-field">
+                        <textarea 
+                           matInput 
+                           class="feedback-textarea"
+                           placeholder="How can Fathym improve?" 
+                           [(ngModel)]="CancellationFeedback"
+                           rows="3"
+                           >
+                        </textarea>
+                      </mat-form-field>  -->
+            </div>
+            <!-- cancel complete -->
+            <div *ngIf="!IsInitialReason">
+                <p class="p-text">Cancellation Complete</p>
+                <p class="p-text">Thank you for using Fathym!</p>
+                <mat-form-field class="feedback-field">
+                    <textarea
+                        matInput
+                        class="feedback-textarea"
+                        placeholder="How can Fathym improve?"
+                        [(ngModel)]="CancellationFeedback"
+                        rows="5"
+                    >
+                    </textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <div class="cancel-button-container" fxLayoutAlign="space-around center">
+        <button
+            *ngIf="IsInitialReason"
+            mat-raised-button
+            class="cancel-subscription-buttons"
+            id="back-to-user-account-button"
+            (click)="GoBackToUserAccount()"
+        >
+            <mat-icon>keyboard_backspace</mat-icon>
+        </button>
+
+        <!-- <button mat-raised-button 
+            *ngIf="IsInitialReason"
+            class="cancel-subscription-buttons" 
+            id="confirm-cancellation"
+            [disabled]="CheckIfReasonGiven()"
+            (click)="CancelSubscription()">
+            Confirm Cancellation</button> -->
+
+        <button
+            mat-raised-button
+            *ngIf="!IsInitialReason"
+            class="cancel-subscription-buttons"
+            id="close"
+            (click)="Close()"
+        >
+            Close
+        </button>
+    </div>
+</ng-container>

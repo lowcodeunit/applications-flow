@@ -1,5 +1,7 @@
 <div fxLayout="column" fxFlexFill>
-    <mat-toolbar class="social-toolbar" color="primary">
+    <lcu-page-header [state]="State"></lcu-page-header>
+
+    <!-- <mat-toolbar class="social-toolbar" color="primary">
         <img class="logo" src="./assets/svgs/logo.svg" />
 
         <div fxFlex></div>
@@ -11,7 +13,7 @@
             <a mat-button class="toolbar-action" href="/blog/" target="_blank"
                 >Blog</a
             >
-            <!-- <a mat-button class="toolbar-action" href="/.oauth/logout">Logout</a> -->
+             <a mat-button class="toolbar-action" href="/.oauth/logout">Logout</a>
         </ng-container>
 
         <ng-container *ngIf="IsSmScreen">
@@ -37,12 +39,12 @@
                     target="_blank"
                     >Blog</a
                 >
-                <!-- <a class="toolbar-menu-action" mat-menu-item href="/.oauth/logout"
+                <a class="toolbar-menu-action" mat-menu-item href="/.oauth/logout"
           >Logout</a
-        > -->
+        >
             </mat-menu>
         </ng-container>
-    </mat-toolbar>
+    </mat-toolbar> -->
 
     <router-outlet></router-outlet>
 </div>

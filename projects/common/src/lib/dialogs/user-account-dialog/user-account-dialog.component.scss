@@ -1,0 +1,116 @@
+@import "../../../assets/common";
+
+$Font-Color: mat-color(map-get($global-theme, primary), 100);
+
+$Thinky-color: mat-color(map-get($global-theme, primary), 700);
+
+.account-container {
+    // padding: 0px 10px !important;
+}
+
+.toolbar-icon {
+    font-size: 40px !important;
+    height: 40px;
+    width: 40px;
+}
+.account-header {
+    width: 100%;
+}
+.edit-icon {
+    font-size: 20px !important;
+    height: 20px;
+    width: 20px;
+}
+
+.greeting {
+    // margin: -7px;
+}
+#username {
+    font-size: 14px;
+}
+#email {
+    font-size: 12px;
+}
+
+.user-package {
+    margin-left: 2px;
+}
+
+.user-info {
+    font-size: 12px;
+    margin: 3px 0px 3px 3px;
+}
+
+.dialog-actions-container {
+    padding: 10px 0px 0px 0px !important;
+}
+
+.dialog-action {
+    font-size: 11px;
+    cursor: pointer;
+    margin: 0px 5px;
+
+    &:hover {
+        color: $Font-Color;
+    }
+}
+
+#back-icon {
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+}
+/////////////////////////Cancel screen///////////////
+.cancel-content-container {
+    // height: 100%;
+    overflow: hidden;
+}
+.cancel-header {
+    width: 100%;
+    padding: 15px 15px 0px; //60px with text area
+}
+.fathym-header-logo {
+    background-image: fathym-logo(thinky-circle, $Thinky-color);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100px;
+    height: 100px;
+    background-size: 100px;
+    // margin-left: 15px;
+    // margin-top: 7px;
+}
+
+.vertical-line {
+    margin-top: 10px;
+    height: 80px;
+    width: 0.5px;
+    background-color: $Thinky-color;
+}
+
+.cancel-header-text {
+    font-size: 25px;
+    color: $Thinky-color;
+}
+.content-container {
+    padding: 15px;
+    color: $Font-Color;
+}
+.p-text {
+    font-weight: bold;
+    color: $Font-Color;
+}
+
+.reason-radio-button {
+    margin: 5px;
+}
+.feedback-field {
+    width: 100%;
+
+    .feedback-textarea {
+        width: 100%;
+    }
+}
+
+.cancel-button-container {
+    height: 150px;
+}
