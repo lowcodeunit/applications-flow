@@ -5,23 +5,46 @@
         fxLayoutAlign="center start"
     >
         <!-- HEADER -->
-        <div
-            class="account-header"
-            fxLayout="row"
-            fxLayoutAlign="space-between center"
-        >
-            <mat-icon class="toolbar-icon">account_circle</mat-icon>
+        <div class="account-section" id="account-header">
             <div
-                class="user-names"
-                fxLayout="column"
-                fxLayoutAlign="center start"
+                class="account-section-content"
+                fxLayout="row"
+                fxLayoutAlign="start center"
             >
-                <!-- <div class="greeting" id="username">Users name goes here</div> -->
-                <div class="greeting" id="email">{{ Username }}</div>
+                <mat-icon class="toolbar-icon">account_circle</mat-icon>
+                <div
+                    class="user-info-container"
+                    fxLayout="column"
+                    fxLayoutAlign="center start"
+                >
+                    <div class="user-info">Username</div>
+                    <div class="user-info">Email</div>
+                    <div class="user-info">Package</div>
+                </div>
             </div>
-            <mat-icon class="edit-icon">create</mat-icon>
         </div>
-        <div class="user-package">{{ Package }}</div>
+        <hr />
+        <div class="account-section-container" id="manage-container">
+            <div class="account-section-content">
+                <div class="menu-title">Manage</div>
+                <div class="menu-item" (click)="ChangePassword()">
+                    Update Password
+                </div>
+                <div class="menu-item" (click)="ChangeEmail()">
+                    Change Email
+                </div>
+                <div class="menu-item" (click)="ChangePlan()">
+                    Upgrade/Downgrade Plan
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="account-section-container" id="logout-container">
+            <div class="account-section-content" id="logout-section">
+                <div class="menu-item" (click)="Logout()">Sign Out</div>
+            </div>
+        </div>
+        <!-- {{ Package }} -->
 
         <!-- <div *ngIf="!ManagingSubscription">
             <div class="user-info">Registered Since - {{RegisteredSince | date: 'longDate'}}</div>
@@ -34,7 +57,7 @@
             <div class="user-info">Next Billing Date - {{NextBillingDate | date: 'longDate'}}</div>
         </div> -->
     </mat-dialog-content>
-    <div
+    <!-- <div
         class="dialog-actions-container"
         fxLayout="row"
         fxLayoutAlign="start center"
@@ -67,7 +90,7 @@
             </mat-icon>
 
             <div class="dialog-action" id="upgrade-button" (click)="Upgrade()">
-                UPGRADE
+                CHANGE PLAN
             </div>
 
             <div
@@ -79,9 +102,9 @@
             </div>
         </div>
     </div>
-</ng-container>
+</ng-container> -->
 
-<ng-container *ngIf="!IsUserAccount">
+    <!-- <ng-container *ngIf="!IsUserAccount">
     <mat-dialog-content
         class="cancel-content-container"
         fxLayout="column"
@@ -101,7 +124,6 @@
         </div>
 
         <div class="content-container">
-            <!-- radio buttons of why they are leaving -->
             <div *ngIf="IsInitialReason">
                 <p class="p-text">We'll be sad to see you go!</p>
                 <label id="reason-radio-group-label"
@@ -119,9 +141,9 @@
                     >
                         {{ reason }}
                     </mat-radio-button>
-                </mat-radio-group>
+                </mat-radio-group> -->
 
-                <!-- <mat-form-field class="feedback-field">
+    <!-- <mat-form-field class="feedback-field">
                         <textarea 
                            matInput 
                            class="feedback-textarea"
@@ -131,9 +153,9 @@
                            >
                         </textarea>
                       </mat-form-field>  -->
-            </div>
-            <!-- cancel complete -->
-            <div *ngIf="!IsInitialReason">
+    <!-- </div> -->
+    <!-- cancel complete -->
+    <!-- <div *ngIf="!IsInitialReason">
                 <p class="p-text">Cancellation Complete</p>
                 <p class="p-text">Thank you for using Fathym!</p>
                 <mat-form-field class="feedback-field">
@@ -158,9 +180,9 @@
             (click)="GoBackToUserAccount()"
         >
             <mat-icon>keyboard_backspace</mat-icon>
-        </button>
+        </button> -->
 
-        <!-- <button mat-raised-button 
+    <!-- <button mat-raised-button 
             *ngIf="IsInitialReason"
             class="cancel-subscription-buttons" 
             id="confirm-cancellation"
@@ -168,7 +190,7 @@
             (click)="CancelSubscription()">
             Confirm Cancellation</button> -->
 
-        <button
+    <!-- <button
             mat-raised-button
             *ngIf="!IsInitialReason"
             class="cancel-subscription-buttons"
@@ -176,6 +198,6 @@
             (click)="Close()"
         >
             Close
-        </button>
-    </div>
+        </button> -->
+    <!-- </div> -->
 </ng-container>

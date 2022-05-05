@@ -113,6 +113,14 @@ export class UserAccountDialogComponent implements OnInit {
         // });
     }
 
+    public ChangeEmail() {
+        console.log('change email clicked');
+    }
+
+    public ChangePassword() {
+        console.log('change password clicked');
+    }
+
     /**
      * Logs out the user
      */
@@ -169,7 +177,7 @@ export class UserAccountDialogComponent implements OnInit {
      *
      * TODO figure out where to send the user
      */
-    public Upgrade() {
+    public ChangePlan() {
         console.log('Upgarde selected');
     }
 
