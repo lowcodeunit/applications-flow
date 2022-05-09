@@ -90,7 +90,7 @@
         ></lcu-skeleton-feed-card>
 
         <ng-container *ngIf="!State?.LoadingFeed">
-            <div *ngFor="let feedItem of State?.Feed">
+            <div *ngFor="let feedItem of Feed">
                 <lcu-main-feed-card [feed-item]="feedItem">
                 </lcu-main-feed-card>
             </div>
@@ -182,7 +182,8 @@
         </div>
 
         <lcu-connected-source
-            [current-source]="Application?.LowCodeUnit?.SourceControllookup"
+            *ngIf="Application?.LowCodeUnit?.Type === 'NPM'"
+            [current-source]="ConnectedSourceControl"
             (save-form-event)="SaveConnectedSource($event)"
         >
         </lcu-connected-source>

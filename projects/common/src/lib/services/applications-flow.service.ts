@@ -197,6 +197,7 @@ export class ApplicationsFlowService {
     }
 
     public SaveEnterpriseAsCode(eac: EnterpriseAsCode): Observable<object> {
+        console.log('saving EAC: ', eac);
         return this.http.post(
             `${this.apiRoot}/api/lowcodeunit/manage/eac`,
             eac,

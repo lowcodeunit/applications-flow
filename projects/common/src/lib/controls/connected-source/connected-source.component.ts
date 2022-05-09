@@ -22,6 +22,9 @@ export class ConnectedSourceComponent implements OnInit {
     @Input('current-source')
     public CurrentSource: string;
 
+    @Input('app-lookup')
+    public ApplicationLookup: string;
+
     public get Environment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[
             this.State?.EaC?.Enterprise?.PrimaryEnvironment
@@ -74,6 +77,7 @@ export class ConnectedSourceComponent implements OnInit {
     }
 
     protected setupSourceForm(): void {
+        console.log('current Source: ', this.CurrentSource);
         this.SourceFormGroup.addControl(
             'sourceControlLookup',
             this.formBldr.control(this.CurrentSource || '', [])

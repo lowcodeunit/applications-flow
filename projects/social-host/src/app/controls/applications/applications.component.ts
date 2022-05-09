@@ -14,6 +14,7 @@ import {
     ProcessorDetailsDialogComponent,
     DFSModifiersDialogComponent,
     StateConfigDialogComponent,
+    FeedItem,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCApplicationAsCode,
@@ -59,6 +60,12 @@ export class ApplicationsComponent implements OnInit {
         );
     }
 
+    public get ConnectedSourceControl(): string {
+        // console.log("getting sc: ", this.State?.EaC?.Applications[this.ApplicationLookup].LowCodeUnit?.SourceControlLookup )
+        return this.State?.EaC?.Applications[this.ApplicationLookup].LowCodeUnit
+            ?.SourceControlLookup;
+    }
+
     public get Enterprise(): any {
         return this.State?.EaC?.Enterprise;
     }
@@ -74,6 +81,10 @@ export class ApplicationsComponent implements OnInit {
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
         return envLookups[0];
+    }
+
+    public get Feed(): Array<FeedItem> {
+        return this.State?.Feed;
     }
 
     public get DefaultSourceControl(): EaCSourceControl {
@@ -427,7 +438,7 @@ export class ApplicationsComponent implements OnInit {
     public SaveConnectedSource(formValue: {
         sourceControlLookup: string;
     }): void {
-        // console.log('Recieved Save Event: ', formValue);
+        console.log('Recieved Save Event: ', formValue);
 
         const app: EaCApplicationAsCode = this.Application;
 
@@ -438,8 +449,11 @@ export class ApplicationsComponent implements OnInit {
             Application: app,
             ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
         };
+        console.log('submitting: ', saveAppReq);
 
-        this.eacSvc.SaveApplicationAsCode(saveAppReq);
+        this.eacSvc.SaveApplicationAsCode(saveAppReq).then((status) => {
+            console.log('Status: ', status);
+        });
     }
 
     public SaveSecuritySettings(formValue: any): void {
