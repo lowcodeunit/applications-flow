@@ -248,7 +248,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                                      */
 
                                     URL:
-                                        'dashboard/route' +
+                                        '/dashboard/route' +
                                         '/%2F/' +
                                         `${projLookup}`,
                                     Target: '_blank',
@@ -298,7 +298,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                                 Button: {
                                     Label: 'View',
                                     URL:
-                                        'dashboard/application/' +
+                                        '/dashboard/application/' +
                                         `${appLookup}` +
                                         '/%2F/' +
                                         `${projLookup}`,
