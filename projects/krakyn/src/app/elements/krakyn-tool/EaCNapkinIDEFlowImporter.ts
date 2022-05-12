@@ -1,14 +1,9 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EnterpriseAsCode } from '@semanticjs/common';
 import {
     NapkinIDEFlow,
     NapkinIDEFlowImporter,
     NapkinIDENode,
 } from '@semanticjs/napkin-ide';
-import {
-    ApplicationsFlowState,
-    ProjectService,
-} from '@lowcodeunit/applications-flow-common';
 
 export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAsCode> {
     //  Fields
@@ -230,6 +225,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                             routePartNode.Data = {
                                 Route: currentRoutePart,
                                 Type: routePartType,
+                                Name: currentRoutePart,
                                 // Link: {
                                 //   Label: 'currentRoutePart',
                                 //   URL: 'dashboard/routes' + '/%2F/' +  `${ projLookup }`,
