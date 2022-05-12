@@ -59,15 +59,21 @@ export class AppComponent implements OnDestroy, OnInit {
                     ]).catch((err) => {
                         console.log(err);
                     });
-
                     await Promise.all([
                         this.eacSvc.LoadEnterpriseAsCode(),
                         this.eacSvc.ListEnterprises(),
                         this.eacSvc.GetActiveEnterprise(),
-                        this.eacSvc.LoadUserFeed(1, 25, false),
                     ]).catch((err) => {
                         console.log(err);
                     });
+
+                    if (this.State?.EaC) {
+                        await Promise.all([
+                            this.eacSvc.LoadUserFeed(1, 25, false),
+                        ]).catch((err) => {
+                            console.log(err);
+                        });
+                    }
 
                     if (!this.feedCheckInterval) {
                         this.feedCheckInterval = setInterval(() => {

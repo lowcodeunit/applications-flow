@@ -1,14 +1,9 @@
-import { ActivatedRoute, Params, Router } from '@angular/router';
 import { EnterpriseAsCode } from '@semanticjs/common';
 import {
     NapkinIDEFlow,
     NapkinIDEFlowImporter,
     NapkinIDENode,
 } from '@semanticjs/napkin-ide';
-import {
-    ApplicationsFlowState,
-    ProjectService,
-} from '@lowcodeunit/applications-flow-common';
 
 export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAsCode> {
     //  Fields
@@ -39,6 +34,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         flow: NapkinIDEFlow
     ): void {
         const projLookups = Object.keys(eac.Projects || {});
+        console.log('project lookups: ', projLookups);
 
         let sysCount = 0;
 
@@ -78,8 +74,8 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                 Name: project.Project?.Name,
                 Hosts: project.Hosts,
                 Button: {
-                    Label: 'Launch',
-                    URL: '/dashboard/projects/' + `${projLookup} `,
+                    Label: 'View',
+                    URL: '/dashboard/project/' + `${projLookup} `,
                     Target: '_blank',
                 },
             };
@@ -208,6 +204,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
                     if (currentRoutePart != null) {
                         //  Process route part connection to previous node
+                        // console.log("current route part: ", currentRoutePart);
                         const routePartType = `route-filter`;
                         const routePartNodeId = `${routePartType}-${routePartsCount}`;
 
@@ -228,6 +225,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                             routePartNode.Data = {
                                 Route: currentRoutePart,
                                 Type: routePartType,
+                                Name: currentRoutePart,
                                 // Link: {
                                 //   Label: 'currentRoutePart',
                                 //   URL: 'dashboard/routes' + '/%2F/' +  `${ projLookup }`,
@@ -248,8 +246,10 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                                      */
 
                                     URL:
-                                        'dashboard/routes' +
-                                        '/%2F/' +
+                                        '/dashboard/route' +
+                                        '/%2F' +
+                                        `${currentRoutePart.substring(1)}` +
+                                        '/' +
                                         `${projLookup}`,
                                     Target: '_blank',
                                 },
@@ -296,9 +296,9 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
                                 Details: app.Application,
                                 Processor: app.Processor,
                                 Button: {
-                                    Label: 'Launch',
+                                    Label: 'View',
                                     URL:
-                                        'dashboard/applications/' +
+                                        '/dashboard/application/' +
                                         `${appLookup}` +
                                         '/%2F/' +
                                         `${projLookup}`,

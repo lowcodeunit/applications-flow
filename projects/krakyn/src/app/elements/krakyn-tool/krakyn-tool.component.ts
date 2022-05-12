@@ -41,6 +41,10 @@ export class EaCNapkinIDELayoutManager {
     styleUrls: ['./krakyn-tool.component.scss'],
 })
 export class KrakynToolComponent implements OnInit {
+    public get EnterpriseName(): string {
+        return this.State?.EaC?.Enterprise?.Name;
+    }
+
     public State: ApplicationsFlowState;
 
     public KrakynData: any;
@@ -67,16 +71,6 @@ export class KrakynToolComponent implements OnInit {
             false,
             DragDropUtils.SideMenuDragEvent
         );
-
-        this.TabMenuItems = [
-            {
-                Label: 'External Data Test',
-                Target: 'ExternalData',
-                Class: 'selected',
-            },
-            // { Label: 'Original Data', Target: 'OriginalData', Class: '' },
-            //   { Label: 'Home', Target: 'Home' }
-        ];
 
         this.handleStateChange().then((eac) => {});
     }
@@ -140,5 +134,17 @@ export class KrakynToolComponent implements OnInit {
 
             await this.projectService.GetActiveEnterprise(this.State);
         }
+
+        // console.log("ent name: ", this.EnterpriseName)
+
+        this.TabMenuItems = [
+            {
+                Label: this.EnterpriseName,
+                Target: 'ExternalData',
+                Class: 'selected',
+            },
+            // { Label: 'Original Data', Target: 'OriginalData', Class: '' },
+            //   { Label: 'Home', Target: 'Home' }
+        ];
     }
 }
