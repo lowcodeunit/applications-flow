@@ -208,6 +208,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
                     if (currentRoutePart != null) {
                         //  Process route part connection to previous node
+                        // console.log("current route part: ", currentRoutePart);
                         const routePartType = `route-filter`;
                         const routePartNodeId = `${routePartType}-${routePartsCount}`;
 
@@ -249,7 +250,9 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
 
                                     URL:
                                         '/dashboard/route' +
-                                        '/%2F/' +
+                                        '/%2F' +
+                                        `${currentRoutePart.substring(1)}` +
+                                        '/' +
                                         `${projLookup}`,
                                     Target: '_blank',
                                 },
