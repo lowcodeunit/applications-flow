@@ -369,8 +369,8 @@ export class ProjectService {
                 .LoadUserFeed(
                     page,
                     pageSize,
-                    result.Project,
-                    result.Applications
+                    result?.Project,
+                    result?.Applications
                 )
                 .subscribe(
                     async (response: UserFeedResponse) => {
@@ -629,7 +629,7 @@ export class ProjectService {
         } else if (route && project) {
             const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-            state.EaC.Projects[project].ApplicationLookups.forEach(
+            state.EaC?.Projects[project].ApplicationLookups.forEach(
                 (appLookup: string) => {
                     apps[appLookup] = state.EaC.Applications[appLookup];
                 }
