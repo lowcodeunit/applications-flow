@@ -10,7 +10,11 @@ import { MatSelectChange } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { BaseModeledResponse } from '@lcu/common';
-import { EaCEnvironmentAsCode, EaCSourceControl } from '@semanticjs/common';
+import {
+    EaCEnvironmentAsCode,
+    EaCSourceControl,
+    Status,
+} from '@semanticjs/common';
 import { FeedEntry } from '../../models/user-feed.model';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService } from '../../services/eac.service';
@@ -260,7 +264,8 @@ export class FeedHeaderDialogComponent implements OnInit {
         };
         console.log('Control: ', returnObject);
 
-        this.eacSvc.SubmitFeedEntry(returnObject).then((res) => {
+        this.eacSvc.SubmitFeedEntry(returnObject).then((res: Status) => {
+            console.log('result: ', res);
             if (res.Code === 0) {
                 this.snackBar.open(
                     ` '${this.data.type}' Succesfully Created`,
@@ -271,6 +276,9 @@ export class FeedHeaderDialogComponent implements OnInit {
                 );
                 this.CloseDialog();
             } else {
+                this.snackBar.open(res.Message, 'Dismiss', {
+                    panelClass: 'error',
+                });
                 this.ErrorMessage = res.Message;
             }
         });

@@ -545,7 +545,10 @@ export class ProjectService {
 
             this.appsFlowSvc.SubmitFeedEntry(entry).subscribe(
                 async (response: BaseModeledResponse<string>) => {
-                    if (response.Status.Code === 0) {
+                    if (
+                        response.Status.Code === 0 ||
+                        response.Status.Code === 1
+                    ) {
                         resolve(response.Status);
 
                         var results = await Promise.all([
