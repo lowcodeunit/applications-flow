@@ -262,10 +262,10 @@ export class FeedHeaderDialogComponent implements OnInit {
             Type: this.data.type,
             Title: this.TitleFormControl ? this.TitleFormControl.value : null,
         };
-        console.log('Control: ', returnObject);
+        // console.log('Control: ', returnObject);
 
         this.eacSvc.SubmitFeedEntry(returnObject).then((res: Status) => {
-            console.log('result: ', res);
+            // console.log('result: ', res);
             if (res.Code === 0) {
                 this.snackBar.open(
                     ` '${this.data.type}' Succesfully Created`,
