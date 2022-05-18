@@ -38,6 +38,8 @@ export class ApplicationsFlowState {
 
     public UserEnterpriseLookup?: string;
 
+    public UserLicenseInfo?: LicenseAndBillingResponse;
+
     constructor() {
         this.GitHub = {};
 

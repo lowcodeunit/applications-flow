@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BaseModeledResponse, BaseResponse, Status } from '@lcu/common';
-import { debug } from 'console';
-import {
-    EaCApplicationAsCode,
-    EaCProjectAsCode,
-    EnterpriseAsCode,
-} from '@semanticjs/common';
+import { EaCApplicationAsCode, EnterpriseAsCode } from '@semanticjs/common';
 import {
     ApplicationsFlowState,
-    GitHubWorkflowRun,
+    LicenseAndBillingResponse,
     UnpackLowCodeUnitRequest,
 } from '../state/applications-flow.state';
 import { ApplicationsFlowService } from './applications-flow.service';
@@ -411,6 +406,20 @@ export class ProjectService {
                         console.log(err);
                     }
                 );
+        });
+    }
+
+    public async LoadUserLicenseInfo(state: ApplicationsFlowState) {
+        this.appsFlowSvc.LoadLicenseData().subscribe(async (response: any) => {
+            state.LoadingFeed = false;
+            if (response.Status.Code === 0) {
+                state.UserLicenseInfo = response.Model;
+            } else {
+                console.error(
+                    'Error loading user information: ',
+                    response.Status.Message
+                );
+            }
         });
     }
 

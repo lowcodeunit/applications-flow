@@ -75,6 +75,7 @@ import { EditProjectFormComponent } from './controls/edit-project-form/edit-proj
 import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comment-form.component';
 import { PageHeaderComponent } from './elements/page-header/page-header.component';
 import { ConnectedSourceComponent } from './controls/connected-source/connected-source.component';
+import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-account-dialog.component';
 
 @NgModule({
     declarations: [
@@ -134,6 +135,7 @@ import { ConnectedSourceComponent } from './controls/connected-source/connected-
         FeedCommentFormComponent,
         PageHeaderComponent,
         ConnectedSourceComponent,
+        UserAccountDialogComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -208,6 +210,7 @@ import { ConnectedSourceComponent } from './controls/connected-source/connected-
         FeedCommentFormComponent,
         PageHeaderComponent,
         ConnectedSourceComponent,
+        UserAccountDialogComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

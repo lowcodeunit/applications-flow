@@ -259,6 +259,10 @@ export class EaCService {
         await this.projectService.LoadEnterpriseAsCode(this.State);
     }
 
+    public async LoadUserInfo(): Promise<void> {
+        await this.projectService.LoadUserLicenseInfo(this.State);
+    }
+
     public ReloadFeed() {
         if (this.State.FeedCheck) {
             this.State.Feed = this.State.FeedCheck.Items;

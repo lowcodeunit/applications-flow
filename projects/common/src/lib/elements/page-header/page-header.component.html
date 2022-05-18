@@ -10,6 +10,16 @@
         <a mat-button class="toolbar-action" href="/blog/" target="_blank"
             >Blog</a
         >
+        <button
+            mat-icon-button
+            matTooltip="My Account"
+            disableRipple
+            (click)="OpenMyAccount()"
+        >
+            <mat-icon class="user-account" [inline]="true" disableRipple
+                >account_circle</mat-icon
+            >
+        </button>
         <!-- <a mat-button class="toolbar-action" href="/.oauth/logout">Logout</a> -->
     </ng-container>
 
