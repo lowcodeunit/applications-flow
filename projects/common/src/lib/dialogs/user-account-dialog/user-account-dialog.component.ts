@@ -105,7 +105,7 @@ export class UserAccountDialogComponent implements OnInit {
         this.ManagingSubscription = false;
         this.IsUserAccount = true;
         this.IsInitialReason = true;
-        console.log('DATA: ', this.data);
+        // console.log('DATA: ', this.data);
         this.userStateChanged();
         // this.LogoutClicked = new EventEmitter<any>();
     }
