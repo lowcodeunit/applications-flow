@@ -156,6 +156,11 @@ export class ApplicationsFlowService {
         });
     }
 
+    public LoadLicenseData(): Observable<object> {
+        return this.http.get(`${this.apiRoot}/api/lowcodeunit/manage/license`, {
+            headers: this.loadHeaders(),
+        });
+    }
     // public LoadProjectHostingDetails(
     //   organization: string,
     //   repository: string,
