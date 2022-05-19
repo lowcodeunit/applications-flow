@@ -30,11 +30,15 @@
         <hr />
         <div class="account-section-container" id="manage-container">
             <div class="account-section-content">
-                <div class="menu-title">Manage</div>
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <div class="menu-title">Manage &nbsp;</div>
+                    <div>(Coming Soon)</div>
+                </div>
                 <div
                     class="menu-item"
                     (click)="ChangePassword()"
                     matTooltip="Coming Soon"
+                    disabled
                 >
                     Update Password
                 </div>
@@ -42,6 +46,7 @@
                     class="menu-item"
                     (click)="ChangeEmail()"
                     matTooltip="Coming Soon"
+                    disabled
                 >
                     Change Email
                 </div>
@@ -49,8 +54,9 @@
                     class="menu-item"
                     (click)="ChangePlan()"
                     matTooltip="Coming Soon"
+                    disabled
                 >
-                    Upgrade/Downgrade Plan
+                    Upgrade Plan
                 </div>
             </div>
         </div>
@@ -61,6 +67,7 @@
                     class="menu-item"
                     (click)="Logout()"
                     matTooltip="Coming Soon"
+                    disabled
                 >
                     Sign Out
                 </div>
