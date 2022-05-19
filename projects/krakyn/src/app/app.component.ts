@@ -12,7 +12,9 @@ export class AppComponent {
         return this.eacSvc.State;
     }
 
-    constructor(protected eacSvc: EaCService) {}
+    constructor(protected eacSvc: EaCService) {
+        this.eacSvc.LoadUserInfo();
+    }
 
     public ReturnToDashboard() {
         window.location.href = '/dashboard';
