@@ -97,6 +97,12 @@ export class UserAccountDialogComponent implements OnInit {
         return this.data;
     }
 
+    public get UserPlan(): string {
+        return this.UserInfo?.Plan?.Name
+            ? this.UserInfo?.Plan?.Name
+            : 'Fathym - Starter';
+    }
+
     constructor(
         protected dialogRef: MatDialogRef<UserAccountDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: ApplicationsFlowState,
