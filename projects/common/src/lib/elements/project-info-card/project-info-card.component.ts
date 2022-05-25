@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { EaCApplicationAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
@@ -9,6 +10,9 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
     styleUrls: ['./project-info-card.component.scss'],
 })
 export class ProjectInfoCardComponent implements OnInit {
+    @Input('app')
+    public App?: EaCApplicationAsCode;
+
     @Input('description')
     public Description: string;
 
@@ -54,6 +58,20 @@ export class ProjectInfoCardComponent implements OnInit {
         // console.log("loading = ", this.Loading)
         // console.log("is shareable: ", this.IsShareable);
         // console.log("is editable: ", this.IsEditable);
+    }
+
+    public DisplayVersion(): boolean {
+        if (this.Version) {
+            if (this.App?.LowCodeUnit?.Type.toLowerCase() === 'zip') {
+                return false;
+            } else if (this.App?.Processor?.Type.toLowerCase() !== 'dfs') {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     public LeftIconClicked() {

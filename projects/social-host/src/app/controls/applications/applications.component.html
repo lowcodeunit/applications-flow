@@ -19,6 +19,7 @@
                     : ''
             "
             [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"
+            [app]="Application"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
         >
@@ -43,7 +44,10 @@
             </a>
 
             <button
-                *ngIf="Application?.Processor?.Type === 'DFS'"
+                *ngIf="
+                    Application?.Processor?.Type === 'DFS' &&
+                    Application?.LowCodeUnit?.Type !== 'Zip'
+                "
                 action
                 mat-button
                 class="info-card-btn"
