@@ -354,6 +354,7 @@ export class EaCService {
         if (req.Application) {
             saveEaC.Applications[req.ApplicationLookup] = req.Application;
         }
+        // console.log("saving app: ", saveEaC)
 
         return await this.projectService.SaveEnterpriseAsCode(
             this.State,

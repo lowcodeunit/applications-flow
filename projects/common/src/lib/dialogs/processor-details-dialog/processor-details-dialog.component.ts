@@ -85,4 +85,17 @@ export class ProcessorDetailsDialogComponent implements OnInit {
     public SaveProcessorDetails() {
         this.ProcessorDetailsFormControls.SaveProcessorDetails();
     }
+
+    public IsButtonDisabled(): boolean {
+        // console.log("valid: ", this.ProcessorDetailsFormGroup?.valid);
+        // console.log('dirty: ', this.ProcessorDetailsFormGroup?.dirty)
+        if (
+            this.ProcessorDetailsFormGroup?.valid &&
+            this.ProcessorDetailsFormGroup?.dirty
+        ) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

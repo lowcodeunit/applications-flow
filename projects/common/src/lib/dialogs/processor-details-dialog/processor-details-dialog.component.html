@@ -44,10 +44,7 @@
         fxFlex="25%"
         color="primary"
         (click)="SaveProcessorDetails()"
-        [disabled]="
-            !ProcessorDetailsFormGroup?.valid ||
-            !ProcessorDetailsFormGroup?.dirty
-        "
+        [disabled]="IsButtonDisabled()"
     >
         <!-- <mat-icon>save</mat-icon> -->
         Save

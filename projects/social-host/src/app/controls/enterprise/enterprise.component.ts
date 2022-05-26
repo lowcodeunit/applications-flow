@@ -53,6 +53,7 @@ export class EnterpriseComponent implements OnInit {
     }
 
     public get Feed(): Array<FeedItem> {
+        // console.log("here")
         return this.State?.Feed;
     }
 
@@ -125,7 +126,7 @@ export class EnterpriseComponent implements OnInit {
 
     public ngOnInit(): void {
         // this.handleStateChange().then((eac) => {});
-        // console.log("FEED on init: ", this.Feed)
+        console.log('FEED on init: ', this.Feed);
     }
 
     public HandleLeftClickEvent(event: any) {}
