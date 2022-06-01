@@ -17,16 +17,17 @@
             </h3>
 
             <!-- href="/.oauth/github" -->
-            <a
+            <button
                 mat-raised-button
                 color="primary"
                 class="github margin-y-3"
                 [disabled]="ConnectClicked"
+                (click)="ConnectGitHubProvider()"
             >
                 Connect with GitHub
 
                 <span class="octocat-icon"></span>
-            </a>
+            </button>
         </div>
         <!-- </div> -->
     </div>
