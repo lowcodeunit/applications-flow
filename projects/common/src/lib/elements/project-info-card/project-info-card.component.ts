@@ -36,9 +36,11 @@ export class ProjectInfoCardComponent implements OnInit {
     @Output('right-click-event')
     public RightClickEvent: EventEmitter<{}>;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public SkeletonEffect: string;
 
@@ -54,6 +56,9 @@ export class ProjectInfoCardComponent implements OnInit {
         // console.log("loading = ", this.Loading)
         // console.log("is shareable: ", this.IsShareable);
         // console.log("is editable: ", this.IsEditable);
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
     }
 
     public LeftIconClicked() {

@@ -46,9 +46,11 @@ export class NewApplicationDialogComponent implements OnInit {
         return Object.keys(this.Environment.Sources || {});
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public ErrorMessage: string;
 
@@ -68,6 +70,9 @@ export class NewApplicationDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.SetupApplication(Guid.CreateRaw());
     }
 

@@ -26,9 +26,11 @@ export class DFSModifiersDialogComponent implements OnInit {
     @ViewChild(DFSModifiersFormComponent)
     public DFSModifersFormControls: DFSModifiersFormComponent;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public get ProjectLookups(): string[] {
         return Object.keys(this.State?.EaC?.Projects || {});
@@ -59,6 +61,9 @@ export class DFSModifiersDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.determineLevel();
     }
 

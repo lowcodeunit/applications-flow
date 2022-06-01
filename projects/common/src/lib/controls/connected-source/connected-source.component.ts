@@ -43,9 +43,11 @@ export class ConnectedSourceComponent implements OnInit {
         return this.SourceFormGroup?.controls.source;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public SourceFormGroup: FormGroup;
 
@@ -58,6 +60,9 @@ export class ConnectedSourceComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.setupSourceFormGroup();
     }
 

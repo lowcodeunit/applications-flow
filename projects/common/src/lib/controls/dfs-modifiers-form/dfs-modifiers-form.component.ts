@@ -142,9 +142,11 @@ export class DFSModifiersFormComponent implements OnInit {
         return this.ModifierFormGroup?.controls.stateDataToken;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public get TypeFormControl(): AbstractControl {
         return this.ModifierFormGroup?.controls.type;
@@ -165,6 +167,9 @@ export class DFSModifiersFormComponent implements OnInit {
 
     //  Life Cycle
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         if (this.Level === 'enterprise' && !this.EditingModifierLookup) {
             this.CreateNewModifier();
         } else if (this.EditingModifierLookup) {

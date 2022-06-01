@@ -119,9 +119,11 @@ export class BuildPipelineFormComponent implements OnInit {
         return this.Environment.Sources || {};
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public BuildPipelineFormGroup: FormGroup;
 
@@ -136,6 +138,9 @@ export class BuildPipelineFormComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         // console.log('BuildPipeline = ', this.BuildPipeline)
 
         // this.BuildPipelineFormGroup = this.formBuilder.group({});

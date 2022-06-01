@@ -35,9 +35,11 @@ export class SlottedCardComponent implements OnInit {
     @Output('main-action-clicked')
     public MainActionClicked: EventEmitter<{}>;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public SkeletonEffect: string;
 
@@ -50,7 +52,11 @@ export class SlottedCardComponent implements OnInit {
         this.ShowMainIcon = true;
     }
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
+    }
 
     public MainActionClickEvent() {
         this.MainActionClicked.emit({});

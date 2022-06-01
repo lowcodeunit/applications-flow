@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
 import {
     ApplicationsFlowState,
     EaCService,
@@ -7,6 +7,7 @@ import {
     ApplicationsFlowService,
     DFSModifiersDialogComponent,
     FeedItem,
+    ApplicationsFlowStateContext,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCDevOpsAction,
@@ -16,6 +17,7 @@ import {
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'lcu-enterprise',
@@ -52,9 +54,11 @@ export class EnterpriseComponent implements OnInit {
         ];
     }
 
-    public get Feed(): Array<FeedItem> {
-        return this.State?.Feed;
-    }
+    // public get Feed(): Array<FeedItem> {
+    //     return this.State?.Feed;
+    // }
+
+    public Feed: Array<FeedItem>;
 
     public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
         return this.State?.EaC?.Modifiers || {};
@@ -92,9 +96,11 @@ export class EnterpriseComponent implements OnInit {
         return this.Environment?.Sources || {};
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc?.State;
+    // }
+
+    public State: ApplicationsFlowState;
 
     public Slices: { [key: string]: number };
 
@@ -108,12 +114,14 @@ export class EnterpriseComponent implements OnInit {
         protected appSvc: ApplicationsFlowService,
         protected dialog: MatDialog,
         protected eacSvc: EaCService,
-        protected router: Router
+        protected router: Router,
+        protected appFlowStateCtext: ApplicationsFlowStateContext
     ) {
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 
         this.SlicesCount = 5;
+        this.Feed = new Array<FeedItem>();
 
         this.Slices = {
             Modifiers: this.SlicesCount,
@@ -124,9 +132,24 @@ export class EnterpriseComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // this.handleStateChange().then((eac) => {});
-        // console.log("FEED on init: ", this.Feed)
+        this.appFlowStateCtext.Context.subscribe((state: any) => {
+            console.log('State Context: ', state);
+            this.State = state;
+
+            if (this.State) {
+                this.handleStateChange();
+            }
+        });
+        console.log('State OnInit: ', this.State);
     }
+
+    // public ngOnChanges(changes: SimpleChanges){
+    //     console.log("Changes: ", changes);
+    //     if(changes.eacSvc){
+    //         this.State = this.eacSvc.State;
+    //         this.Feed = this.State.Feed;
+    //     }
+    // }
 
     public HandleLeftClickEvent(event: any) {}
     public HandleRightClickEvent(event: any) {}
@@ -213,5 +236,11 @@ export class EnterpriseComponent implements OnInit {
     public UpgradeClicked() {}
 
     //HELPERS
-    // protected async handleStateChange(): Promise<void> {}
+    protected async handleStateChange(): Promise<void> {
+        console.log('State changed: ', this.State);
+        if (this.State?.Feed) {
+            this.Feed = this.State.Feed;
+            console.log('FEED: ', this.Feed);
+        }
+    }
 }

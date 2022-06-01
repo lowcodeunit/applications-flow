@@ -32,9 +32,11 @@ export class StateConfigFormComponent implements OnInit {
         return this.State?.EaC?.Applications[this.AppLookup];
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public get StateConfigNameFormControl(): AbstractControl {
         return this.StateConfigForm?.controls.name;
@@ -57,6 +59,9 @@ export class StateConfigFormComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.buildForm();
     }
 

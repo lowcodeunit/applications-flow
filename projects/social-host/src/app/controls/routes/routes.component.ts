@@ -53,9 +53,11 @@ export class RoutesComponent implements OnInit {
         return this.State?.EaC?.Enterprise;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
+
+    public State: ApplicationsFlowState;
 
     public get NumberOfApps(): any {
         return this.CurrentRouteApplicationLookups?.length || {};
@@ -124,7 +126,10 @@ export class RoutesComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        // this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
     }
 
     public EditRouteClicked() {

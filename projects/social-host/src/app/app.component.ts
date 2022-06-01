@@ -25,9 +25,11 @@ export class AppComponent implements OnDestroy, OnInit {
 
     protected initialized: boolean;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public IsSmScreen: boolean;
 
@@ -112,7 +114,10 @@ export class AppComponent implements OnDestroy, OnInit {
                 }
             });
 
-        this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+            this.handleStateChange().then((eac) => {});
+        });
     }
 
     protected async handleStateChange(): Promise<void> {

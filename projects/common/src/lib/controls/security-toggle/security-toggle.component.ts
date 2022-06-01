@@ -29,9 +29,11 @@ export class SecurityToggleComponent implements OnInit {
         return this.SecurityFormGroup?.controls.isTriggerSignIn;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public SecurityFormGroup: FormGroup;
 
@@ -45,6 +47,9 @@ export class SecurityToggleComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.setupSecurityFormGroup();
     }
 

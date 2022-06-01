@@ -205,9 +205,11 @@ export class ApplicationsComponent implements OnInit {
         return this.Environment?.Sources || {};
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
+
+    public State: ApplicationsFlowState;
 
     public get StateConfig(): EaCDataToken {
         // if(this.HasStateConfig){
@@ -303,17 +305,22 @@ export class ApplicationsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        // this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
     }
 
     //  API Methods
 
     public DeleteApplication(appLookup: string, appName: string): void {
-        this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
-            // if(status.Code === 0){
-            this.router.navigate(['/project', this.ProjectLookup]);
-            // }
-        });
+        this.eacSvc
+            .DeleteApplication(appLookup, appName)
+            .then((status: any) => {
+                // if(status.Code === 0){
+                this.router.navigate(['/project', this.ProjectLookup]);
+                // }
+            });
     }
 
     public HandleLeftClickEvent(event: any) {

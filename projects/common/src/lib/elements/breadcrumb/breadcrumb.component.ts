@@ -143,9 +143,11 @@ export class BreadcrumbComponent implements OnInit {
         return this.State?.EaC?.Projects[this.ProjectLookup] || {};
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public SkeletonEffect: string;
 
@@ -154,6 +156,9 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.handleStateChange().then((eac) => {});
 
         // console.log("state: ", this.State)

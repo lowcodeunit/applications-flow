@@ -176,9 +176,11 @@ export class DevopsSourceControlFormComponent
         );
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public BranchOptions: GitHubBranch[];
 
@@ -233,6 +235,9 @@ export class DevopsSourceControlFormComponent
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         console.log('source control lookup', this.EditingSourceControlLookup);
 
         if (this.EditingSourceControlLookup === null) {

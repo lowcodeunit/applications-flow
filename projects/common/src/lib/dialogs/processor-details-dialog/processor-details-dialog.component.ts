@@ -43,9 +43,11 @@ export class ProcessorDetailsDialogComponent implements OnInit {
         return Object.keys(this.Environment?.Sources || {});
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public get ProcessorDetailsFormGroup(): FormGroup {
         return this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup;
@@ -60,7 +62,11 @@ export class ProcessorDetailsDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

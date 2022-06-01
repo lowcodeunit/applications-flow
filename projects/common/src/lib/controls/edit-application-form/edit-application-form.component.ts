@@ -48,9 +48,11 @@ export class EditApplicationFormComponent implements OnInit {
         return this.ApplicationFormGroup?.controls.route;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public ApplicationFormGroup: FormGroup;
 
@@ -60,6 +62,9 @@ export class EditApplicationFormComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.setupApplicationForm();
     }
 

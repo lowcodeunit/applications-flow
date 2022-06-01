@@ -27,9 +27,11 @@ export class EditApplicationDialogComponent implements OnInit {
         return this.EditApplicationControl?.ApplicationFormGroup;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public ErrorMessage: string;
 

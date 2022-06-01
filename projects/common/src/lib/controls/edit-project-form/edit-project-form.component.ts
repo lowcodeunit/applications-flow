@@ -5,6 +5,7 @@ import {
     FormGroup,
     Validators,
 } from '@angular/forms';
+import { Application } from '@lcu/common';
 import { EaCProjectAsCode } from '@semanticjs/common';
 import {
     EaCService,
@@ -36,9 +37,11 @@ export class EditProjectFormComponent implements OnInit {
         return this.ProjectFormGroup.controls.name;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public ProjectFormGroup: FormGroup;
 
@@ -47,6 +50,9 @@ export class EditProjectFormComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.setupProjectForm();
     }
 

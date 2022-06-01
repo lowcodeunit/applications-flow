@@ -61,9 +61,11 @@ export class ApplicationsFlowProjectsElementComponent
         return Object.keys(this.State?.EaC?.Projects || {});
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     //  Constructors
     constructor(
@@ -79,6 +81,10 @@ export class ApplicationsFlowProjectsElementComponent
 
     public ngOnInit(): void {
         super.ngOnInit();
+
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
 
         this.handleStateChange().then((eac) => {});
 

@@ -34,9 +34,11 @@ export class BuildPipelineDialogComponent implements OnInit {
         return this.State.GitHub.HasConnection;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public ErrorMessage: string;
 
@@ -47,7 +49,11 @@ export class BuildPipelineDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

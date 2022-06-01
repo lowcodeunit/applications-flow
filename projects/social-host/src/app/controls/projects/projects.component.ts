@@ -56,9 +56,11 @@ export class ProjectsComponent implements OnInit {
         return this.State?.EaC?.Enterprise;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
+
+    public State: ApplicationsFlowState;
 
     public get Project(): EaCProjectAsCode {
         return this.State?.EaC?.Projects[this.ProjectLookup] || {};
@@ -207,7 +209,10 @@ export class ProjectsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        // this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
     }
 
     public EditCustomDomain() {

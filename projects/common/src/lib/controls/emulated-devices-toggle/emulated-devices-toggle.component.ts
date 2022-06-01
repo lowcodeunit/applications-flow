@@ -29,9 +29,11 @@ export class EmulatedDevicesToggleComponent implements OnInit {
         return this.EmulatedDevicesFormGroup?.controls.isTriggerSignIn;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public EmulatedDevicesFormGroup: FormGroup;
 
@@ -45,6 +47,9 @@ export class EmulatedDevicesToggleComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.setupEmulatedDevicesFormGroup();
     }
 

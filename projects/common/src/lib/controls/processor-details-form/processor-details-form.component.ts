@@ -116,9 +116,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
         return this.ProcessorDetailsFormGroup?.controls.security;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public get SourceControls(): { [lookup: string]: EaCSourceControl } {
         return this.Environment?.Sources || {};
@@ -183,6 +185,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
+
         if (!this.EditingApplication) {
             this.CreateNewApplication();
         } else {

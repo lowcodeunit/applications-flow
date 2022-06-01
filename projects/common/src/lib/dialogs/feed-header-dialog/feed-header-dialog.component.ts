@@ -93,9 +93,11 @@ export class FeedHeaderDialogComponent implements OnInit {
         return this.FeedHeaderFormGroup.controls.subtitle;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public get TitleFormControl(): AbstractControl {
         return this.FeedHeaderFormGroup?.controls.title;
@@ -187,6 +189,9 @@ export class FeedHeaderDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state: any) => {
+            this.State = state;
+        });
         this.setupFeedHeaderForm();
     }
 

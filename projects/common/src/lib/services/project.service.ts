@@ -233,11 +233,12 @@ export class ProjectService {
         forceEnsureUser: boolean = false
     ): Promise<EnterpriseAsCode> {
         return new Promise(async (resolve, reject) => {
+            console.log('State has valid conn: ', state);
             state.Loading = true;
 
             this.appsFlowSvc.HasValidConnection().subscribe(
                 async (response: BaseResponse) => {
-                    state.GitHub.HasConnection = response.Status.Code === 0;
+                    state.GitHub.HasConnection = response?.Status?.Code === 0;
 
                     if (state.GitHub.HasConnection || forceEnsureUser) {
                     } else {
