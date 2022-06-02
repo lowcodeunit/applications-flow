@@ -1,5 +1,9 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { UserAccountDialogComponent } from '../../dialogs/user-account-dialog/user-account-dialog.component';
+import { ProjectService } from '../../services/project.service';
+import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-page-header',
@@ -7,9 +11,17 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./page-header.component.scss'],
 })
 export class PageHeaderComponent implements OnInit {
+    @Input('state')
+    public State: ApplicationsFlowState;
+
     public IsSmScreen: boolean;
 
-    constructor(public breakpointObserver: BreakpointObserver) {}
+    constructor(
+        public breakpointObserver: BreakpointObserver,
+        protected dialog: MatDialog,
+        protected userAccountDialog: MatDialog,
+        protected projectSvc: ProjectService
+    ) {}
 
     public ngOnInit(): void {
         this.breakpointObserver
@@ -21,5 +33,19 @@ export class PageHeaderComponent implements OnInit {
                     this.IsSmScreen = false;
                 }
             });
+    }
+
+    /**
+     * Opens the users account modal passing in the users state so there is no lag in
+     *
+     * filling out user info
+     */
+    public OpenMyAccount() {
+        this.userAccountDialog.open(UserAccountDialogComponent, {
+            position: { top: '75px', right: '10px' },
+            width: '260px',
+            panelClass: 'user-account-dialog-container',
+            data: this.State,
+        });
     }
 }
