@@ -4,9 +4,7 @@
     <ng-container *ngIf="!State?.Loading">
         <div class="header-img-container" fxLayout="row">
             <div class="round-project-img" fxLayoutAlign="center center">
-                <mat-icon *ngIf="!Image" class="temp-icon"
-                    >flutter_dash</mat-icon
-                >
+                <mat-icon *ngIf="Icon" class="temp-icon">{{ Icon }}</mat-icon>
                 <img
                     *ngIf="Image"
                     [src]="Image"
@@ -38,38 +36,45 @@
                 <mat-icon>share</mat-icon>
             </button>
         </div>
+        <!-- fxLayoutAlign="center center" -->
+        <mat-card-header class="project-card-header">
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title
+                        class="project-card-name"
+                        *ngIf="Name"
+                        fxLayoutAlign="center center"
+                    >
+                        <!-- <mat-card-title class="project-card-name" *ngIf="Name"> -->
+                        {{ Name }}
+                        <!-- </mat-card-title> -->
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
 
-        <mat-card-header
-            class="project-card-header"
-            fxLayoutAlign="center center"
-        >
-            <mat-card-title class="project-card-name" *ngIf="Name">
-                {{ Name }}
-            </mat-card-title>
-
-            <mat-card-subtitle
-                class="project-card-description"
-                *ngIf="Description"
-            >
-                {{ Description }}
-            </mat-card-subtitle>
-
-            <mat-card-subtitle class="project-card-version" *ngIf="Version">
-                {{ Version }}
-            </mat-card-subtitle>
-
-            <mat-card-subtitle class="project-card-host">
-                <a
-                    class="host-anchor"
-                    *ngIf="Subtext"
-                    [href]="'https://' + Subtext"
-                    target="_blank"
-                    fxLayoutAlign="center center"
+                <mat-card-subtitle
+                    class="project-card-description"
+                    *ngIf="Description"
                 >
-                    {{ Subtext }}
-                    <mat-icon>launch</mat-icon>
-                </a>
-            </mat-card-subtitle>
+                    {{ Description }}
+                </mat-card-subtitle>
+
+                <mat-card-subtitle class="project-card-version" *ngIf="Version">
+                    {{ Version }}
+                </mat-card-subtitle>
+
+                <mat-card-subtitle class="project-card-host">
+                    <a
+                        class="host-anchor"
+                        *ngIf="Subtext"
+                        [href]="'https://' + Subtext"
+                        target="_blank"
+                        fxLayoutAlign="center center"
+                    >
+                        {{ Subtext }}
+                        <mat-icon>launch</mat-icon>
+                    </a>
+                </mat-card-subtitle>
+            </mat-expansion-panel>
         </mat-card-header>
 
         <mat-card-content class="card-content-container">
@@ -79,23 +84,8 @@
 
             <!-- <div class="promo-container"> -->
             <!-- <ng-content  select="[promo]"></ng-content> -->
-            <div
-                class="promo-container"
-                fxLayout="column"
-                fxLayoutAlign="center center"
-            >
-                <div>Access exclusive tools & insights</div>
 
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon class="gold-icon">emoji_events</mat-icon>
-
-                    <a class="upgrade-text" href="/dashboard/billing">
-                        Upgrade to premium now
-                    </a>
-                </div>
-            </div>
-
-            <div
+            <!-- <div
                 class="krakyn-container"
                 fxLayout="column"
                 fxLayoutAlign="center center"
@@ -111,10 +101,33 @@
                         Release The Krakyn
                     </a>
                 </div>
-            </div>
+            </div> -->
             <!-- </div> -->
         </mat-card-content>
-        <mat-card-actions class="actions-container">
+        <mat-card-actions
+            class="actions-container"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+        >
+            <div
+                *ngIf="Promo"
+                class="promo-container"
+                fxLayout="column"
+                fxLayoutAlign="center center"
+            >
+                <div>Access exclusive tools & insights</div>
+
+                <button
+                    mat-button
+                    class="info-card-sm-btn"
+                    (click)="LaunchBilling()"
+                >
+                    <mat-icon class="gold-icon">emoji_events</mat-icon>
+
+                    Upgrade to premium now
+                </button>
+            </div>
+
             <ng-content select="[action]"></ng-content>
         </mat-card-actions>
     </ng-container>

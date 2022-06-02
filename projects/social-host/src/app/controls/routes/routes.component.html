@@ -13,6 +13,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            promo="true"
             [subtext]="
                 Project?.Hosts
                     ? Project?.Hosts[Project?.Hosts?.length - 1] +
@@ -31,6 +32,8 @@
                 Unpack
               </button> -->
         </lcu-project-info-card>
+
+        <lcu-product-showcase></lcu-product-showcase>
 
         <!-- <lcu-analytics-card
             title="Temp Title"

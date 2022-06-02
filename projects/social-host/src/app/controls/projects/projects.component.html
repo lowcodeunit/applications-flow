@@ -9,6 +9,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            promo="true"
             [subtext]="
                 Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''
             "
@@ -24,7 +25,7 @@
                 action
                 color="warn"
                 mat-button
-                class="info-card-btn"
+                class="info-card-sm-btn"
                 (click)="DeleteProject(ProjectLookup, Project?.Project?.Name)"
             >
                 <mat-icon matTooltip="Delete {{ Project?.Project?.Name }}">
@@ -33,6 +34,8 @@
                 Delete Project
             </button>
         </lcu-project-info-card>
+
+        <lcu-product-showcase></lcu-product-showcase>
 
         <!-- <lcu-analytics-card
             title="Temp Title"

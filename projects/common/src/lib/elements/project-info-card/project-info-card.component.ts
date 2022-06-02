@@ -15,6 +15,9 @@ export class ProjectInfoCardComponent implements OnInit {
     @Input('image')
     public Image: string;
 
+    @Input('icon')
+    public Icon: string;
+
     @Input('is-editable')
     public IsEditable: boolean;
 
@@ -23,6 +26,9 @@ export class ProjectInfoCardComponent implements OnInit {
 
     @Input('name')
     public Name: string;
+
+    @Input('promo')
+    public Promo: boolean;
 
     @Input('subtext')
     public Subtext: string;
@@ -48,12 +54,18 @@ export class ProjectInfoCardComponent implements OnInit {
         this.RightClickEvent = new EventEmitter();
 
         this.SkeletonEffect = 'wave';
+
+        this.Promo = false;
     }
 
     public ngOnInit(): void {
         // console.log("loading = ", this.Loading)
         // console.log("is shareable: ", this.IsShareable);
         // console.log("is editable: ", this.IsEditable);
+    }
+
+    public LaunchBilling() {
+        window.location.href = '/dashboard/billing';
     }
 
     public LeftIconClicked() {

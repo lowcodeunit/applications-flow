@@ -5,6 +5,10 @@
         background-size: cover;
     }
 
+    ::ng-deep .mat-card-header-text {
+        margin-left: 20px !important;
+    }
+
     .mat-icon {
         display: inline-flex;
         vertical-align: middle;

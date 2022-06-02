@@ -15,14 +15,24 @@
 
     .promo-container {
         cursor: pointer;
-        margin: 10px;
+        margin: 10px 0px 0px;
+        width: 100%;
     }
 
     .info-card-btn {
         width: 100%;
         border-radius: 0px 0px 2px 2px;
-        border-top: 1px solid #b9dddd;
+        border-top: 1px solid #4a918e;
         margin: 0px !important;
+        background-color: #b9dddd !important;
+    }
+
+    .info-card-sm-btn {
+        width: 80%;
+        border-radius: 3px;
+        border: 1px solid #4a918e;
+        margin: 10px !important;
+        background-color: #b9dddd !important;
     }
 
     .main-slot-container {
@@ -87,5 +97,9 @@
         width: 24px;
         font-size: 24px;
         cursor: pointer;
+    }
+
+    .mat-card-header-text {
+        margin: 0px !important;
     }
 }

@@ -13,6 +13,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            promo="true"
             [subtext]="
                 Project?.Hosts
                     ? Project?.Hosts[Project?.Hosts?.length - 1] +
@@ -33,7 +34,7 @@
                 action
                 mat-raised-button
                 color="primary"
-                class="info-card-btn"
+                class="info-card-sm-btn"
                 href="/dashboard/page-builder?appLookup={{ ApplicationLookup }}"
                 matTooltip="New no code page builder for creating static sites."
                 target="_blank"
@@ -47,7 +48,7 @@
                 *ngIf="Application?.Processor?.Type === 'DFS'"
                 action
                 mat-button
-                class="info-card-btn"
+                class="info-card-sm-btn"
                 (click)="UpdateClicked()"
                 matTooltip="Update your application to the latest package"
             >
@@ -60,7 +61,7 @@
                 action
                 color="warn"
                 mat-button
-                class="info-card-btn"
+                class="info-card-sm-btn"
                 (click)="
                     DeleteApplication(
                         ApplicationLookup,
@@ -76,6 +77,8 @@
                 Delete Application
             </button>
         </lcu-project-info-card>
+
+        <lcu-product-showcase></lcu-product-showcase>
 
         <!-- Commented out until implemented -->
         <!-- <lcu-analytics-card

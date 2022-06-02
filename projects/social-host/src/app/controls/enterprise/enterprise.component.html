@@ -7,15 +7,11 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            promo="true"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
         >
-            <!-- <lcu-card-carousel
-        [stats]="Stats">
-        </lcu-card-carousel> -->
-
-            <!-- [routerLink]="['/iot']" -->
-            <a
+            <!-- <a
                 action
                 mat-button
                 class="info-card-btn mat-full-width"
@@ -24,18 +20,11 @@
                 <mat-icon>account_tree</mat-icon>
 
                 Access IoT Benefits
-            </a>
-
-            <!-- <button
-        action
-        mat-button
-        class="info-card-btn"
-        (click)="SettingsClicked()"
-      >
-        <mat-icon>outbox</mat-icon>
-        Unpack
-      </button> -->
+            </a> -->
         </lcu-project-info-card>
+
+        <lcu-product-showcase></lcu-product-showcase>
+
         <!-- Commented out until implemented -->
         <!-- <lcu-analytics-card
             matTooltip="Temp Title"
