@@ -5,6 +5,7 @@ import {
     LCUServiceSettings,
     MaterialModule,
 } from '@lcu/common';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +16,7 @@ import { KrakynToolComponent } from './elements/krakyn-tool/krakyn-tool.componen
     declarations: [AppComponent, KrakynToolComponent],
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         AppRoutingModule,
         ApplicationsFlowModule.forRoot(),
         MaterialModule,

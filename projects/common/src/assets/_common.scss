@@ -203,3 +203,14 @@ input:-webkit-autofill:active {
 .spinner-logo {
     display: none !important;
 }
+
+.user-account-dialog-container {
+    .mat-dialog-container {
+        padding: 0px !important;
+    }
+
+    .mat-dialog-content {
+        margin: 15px 0px !important;
+        padding: 0px !important;
+    }
+}

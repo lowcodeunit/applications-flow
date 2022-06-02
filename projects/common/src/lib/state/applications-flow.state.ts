@@ -38,6 +38,8 @@ export class ApplicationsFlowState {
 
     public UserEnterpriseLookup?: string;
 
+    public UserLicenseInfo?: LicenseAndBillingResponse;
+
     constructor() {
         this.GitHub = {};
 
@@ -149,6 +151,58 @@ export class GitHubWorkflowRun {
     public Workflow?: string;
 
     public UpdatedAt?: string;
+}
+
+export class LicenseAndBillingResponse {
+    public Email: string;
+
+    public License?: License;
+
+    public Plan?: Plan;
+
+    public Price?: Price;
+}
+
+export class License {
+    public Details?: string;
+
+    public ExpirationDate?: Date;
+
+    public IsLocked?: boolean;
+}
+
+export class Plan {
+    public Details?: string;
+
+    public Featured?: boolean;
+
+    public Features?: string[];
+
+    public HeaderName?: string;
+
+    public Lookup?: string;
+
+    public Name?: string;
+
+    public Popular?: string;
+
+    public Priority?: string;
+
+    public SuccessRedirect?: string;
+}
+
+export class Price {
+    public Currency?: string;
+
+    public Discount?: number;
+
+    public Interval?: string;
+
+    public Lookup?: string;
+
+    public Name?: string;
+
+    public Value?: number;
 }
 
 export class UnpackLowCodeUnitRequest {

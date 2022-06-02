@@ -28,6 +28,7 @@ export * from './lib/dialogs/edit-application-dialog/edit-application-dialog.com
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/dialogs/processor-details-dialog/processor-details-dialog.component';
 export * from './lib/dialogs/upgrade-dialog/upgrade-dialog.component';
+export * from './lib/dialogs/user-account-dialog/user-account-dialog.component';
 export * from './lib/dialogs/edit-project-dialog/edit-project-dialog.component';
 export * from './lib/services/project.service';
 export * from './lib/services/npm.service';

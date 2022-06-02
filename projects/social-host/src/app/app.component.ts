@@ -13,7 +13,6 @@ import {
 } from '@lowcodeunit/applications-flow-common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
-import { EaCApplicationAsCode } from '@semanticjs/common';
 
 @Component({
     selector: 'lcu-root',
@@ -70,6 +69,7 @@ export class AppComponent implements OnDestroy, OnInit {
                     if (this.State?.EaC) {
                         await Promise.all([
                             this.eacSvc.LoadUserFeed(1, 25, false),
+                            this.eacSvc.LoadUserInfo(),
                         ]).catch((err) => {
                             console.log(err);
                         });
