@@ -17,22 +17,39 @@
         </a>
 
         <a mat-button class="toolbar-action" href="/dashboard/discover">
-            <mat-icon>construction</mat-icon>
+            <mat-icon> travel_explore </mat-icon>
 
             Discover
         </a>
 
-        <a mat-button class="toolbar-action" href="/docs" target="_blank">
-            Docs
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>help</mat-icon>
 
-            <mat-icon>launch</mat-icon>
-        </a>
+            Support
+        </button>
+        <mat-menu #menu="matMenu">
+            <a
+                mat-menu-item
+                class="toolbar-action"
+                href="/docs"
+                target="_blank"
+            >
+                Docs
 
-        <a mat-button class="toolbar-action" href="/blog/" target="_blank">
-            Blog
+                <!-- <mat-icon>launch</mat-icon> -->
+            </a>
 
-            <mat-icon>launch</mat-icon>
-        </a>
+            <a
+                mat-menu-item
+                class="toolbar-action"
+                href="/blog/"
+                target="_blank"
+            >
+                Blog
+
+                <!-- <mat-icon>launch</mat-icon> -->
+            </a>
+        </mat-menu>
 
         <button
             mat-icon-button
