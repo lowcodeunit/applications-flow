@@ -4,12 +4,36 @@
     <div fxFlex></div>
 
     <ng-container *ngIf="!IsSmScreen">
-        <a mat-button class="toolbar-action" href="/docs" target="_blank"
-            >Docs</a
-        >
-        <a mat-button class="toolbar-action" href="/blog/" target="_blank"
-            >Blog</a
-        >
+        <a mat-button class="toolbar-action" href="/dashboard">
+            <mat-icon color="primary">group</mat-icon>
+
+            Teams
+        </a>
+
+        <a mat-button class="toolbar-action" href="/dashboard/krakyn">
+            <mat-icon color="primary">account_tree</mat-icon>
+
+            Krakyn
+        </a>
+
+        <a mat-button class="toolbar-action" href="/dashboard/trials">
+            <mat-icon color="primary">construction</mat-icon>
+
+            Trials
+        </a>
+
+        <a mat-button class="toolbar-action" href="/docs" target="_blank">
+            Docs
+
+            <mat-icon>launch</mat-icon>
+        </a>
+
+        <a mat-button class="toolbar-action" href="/blog/" target="_blank">
+            Blog
+
+            <mat-icon>launch</mat-icon>
+        </a>
+
         <button
             mat-icon-button
             matTooltip="My Account"
