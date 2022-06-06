@@ -1,0 +1,20 @@
+@import "../../../assets/common";
+@import "../../../assets/styles/social-card.scss";
+
+#accordion-card {
+    margin: 20px;
+    padding: 0px;
+}
+
+#discover-btn {
+    width: 95%;
+    color: var(--initial-primary);
+    &:hover {
+        background-color: var(--initial-accent);
+    }
+}
+
+.accordion-link {
+    color: var(--initial-primary);
+    text-decoration: none;
+}
