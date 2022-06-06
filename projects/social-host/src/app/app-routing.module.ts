@@ -5,7 +5,7 @@ import { EnterpriseComponent } from './controls/enterprise/enterprise.component'
 import { ProjectsComponent } from './controls/projects/projects.component';
 import { RoutesComponent } from './controls/routes/routes.component';
 import { IoTComponent } from './controls/iot/iot.component';
-import { TrialsComponent } from './controls/trials/trials.component';
+import { DiscoverComponent } from './controls/discover/discover.component';
 
 const routes: Routes = [
     {
@@ -14,7 +14,7 @@ const routes: Routes = [
     },
     { path: 'project/:projectLookup', component: ProjectsComponent },
     { path: 'route/:appRoute/:projectLookup', component: RoutesComponent },
-    { path: 'trials', component: TrialsComponent },
+    { path: 'discover', component: DiscoverComponent },
     { path: 'iiot', component: IoTComponent },
     { path: '', component: EnterpriseComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' },

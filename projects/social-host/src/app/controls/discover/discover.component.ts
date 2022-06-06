@@ -10,11 +10,11 @@ import {
 import { EaCApplicationAsCode } from '@semanticjs/common';
 
 @Component({
-    selector: 'lcu-trials',
-    templateUrl: './trials.component.html',
-    styleUrls: ['./trials.component.scss'],
+    selector: 'lcu-discover',
+    templateUrl: './discover.component.html',
+    styleUrls: ['./discover.component.scss'],
 })
-export class TrialsComponent implements OnInit {
+export class DiscoverComponent implements OnInit {
     constructor() {}
 
     public ngOnInit(): void {}
