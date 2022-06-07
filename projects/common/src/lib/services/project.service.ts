@@ -373,6 +373,8 @@ export class ProjectService {
 
                         if (response.Status.Code === 0) {
                             if (!forCheck) {
+                                state.Advertisements = response.Advertisements;
+
                                 state.Feed = response.Items;
 
                                 state.FeedSourceControlLookups =

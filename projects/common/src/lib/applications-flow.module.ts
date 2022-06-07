@@ -77,6 +77,7 @@ import { PageHeaderComponent } from './elements/page-header/page-header.componen
 import { ConnectedSourceComponent } from './controls/connected-source/connected-source.component';
 import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-account-dialog.component';
 import { ProductDiscoveryCardComponent } from './elements/product-discovery-card/product-discovery-card.component';
+import { AdvertisementCardComponent } from './elements/advertisement-card/advertisement-card.component';
 
 @NgModule({
     declarations: [
@@ -138,6 +139,7 @@ import { ProductDiscoveryCardComponent } from './elements/product-discovery-card
         ConnectedSourceComponent,
         UserAccountDialogComponent,
         ProductDiscoveryCardComponent,
+        AdvertisementCardComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -214,6 +216,7 @@ import { ProductDiscoveryCardComponent } from './elements/product-discovery-card
         ConnectedSourceComponent,
         UserAccountDialogComponent,
         ProductDiscoveryCardComponent,
+        AdvertisementCardComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

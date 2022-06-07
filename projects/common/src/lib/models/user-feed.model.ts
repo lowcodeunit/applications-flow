@@ -3,6 +3,8 @@ import { BaseResponse, Status } from '@lcu/common';
 export class UserFeedResponse extends BaseResponse {
     public Actions: Array<FeedItemAction>;
 
+    public Advertisements: Array<any>;
+
     public Items: Array<FeedItem>;
 
     public SourceControlLookups: Array<string>;

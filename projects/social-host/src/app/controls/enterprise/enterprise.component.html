@@ -63,10 +63,16 @@
     </div>
 
     <div right>
+        <ng-container *ngFor="let ad of State?.Advertisements">
+            <lcu-advertisement-card
+                [advertisement]="ad"
+            ></lcu-advertisement-card>
+        </ng-container>
         <!-- Projects
       secondary-slot-description="Add new quick project"
       action-text="Create Custom Project"-->
         <lcu-slotted-card
+            *ngIf="NumberOfProjects > 0"
             card-title="Projects"
             icon="work_outline"
             [main-slot-description]="
@@ -191,6 +197,7 @@
       secondary-slot-description="Add new source control"
       action-text="Create New Source Control" -->
         <lcu-slotted-card
+            *ngIf="NumberOfSourceControls > 0"
             card-title="Source Controls"
             icon="build"
             [main-slot-description]="
@@ -315,6 +322,7 @@
       secondary-slot-description="Add new pipeline"
       action-text="Create New Pipeline" -->
         <lcu-slotted-card
+            *ngIf="NumberOfBuildPipelines > 0"
             card-title="Build Pipeline"
             icon="plumbing"
             [main-slot-description]="
@@ -417,6 +425,7 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
         <lcu-slotted-card
+            *ngIf="NumberOfModifiers > 0"
             card-title="Modifiers"
             icon="sync_alt"
             [main-slot-description]="

@@ -1,0 +1,21 @@
+<mat-card class="ad-card">
+    <mat-card-header>
+        {{ Advertisement?.Lead }}
+    </mat-card-header>
+
+    <mat-card-content>
+        <img [src]="Advertisement?.Image" alt="image description" />
+        <p>{{ Advertisement?.Description }}</p>
+    </mat-card-content>
+
+    <mat-card-actions *ngFor="let action of Advertisement?.Actions">
+        <button
+            mat-button
+            (click)="ActionClicked(action?.Action)"
+            [color]="action?.color"
+        >
+            <mat-icon *ngIf="action?.Icon">{{ action?.Icon }}</mat-icon>
+            {{ action?.Text }}
+        </button>
+    </mat-card-actions>
+</mat-card>
