@@ -76,7 +76,7 @@ import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comm
 import { PageHeaderComponent } from './elements/page-header/page-header.component';
 import { ConnectedSourceComponent } from './controls/connected-source/connected-source.component';
 import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-account-dialog.component';
-import { ProductAccordionComponent } from './elements/product-accordion/product-accordion.component';
+import { ProductDiscoveryCardComponent } from './elements/product-discovery-card/product-discovery-card.component';
 
 @NgModule({
     declarations: [
@@ -137,7 +137,7 @@ import { ProductAccordionComponent } from './elements/product-accordion/product-
         PageHeaderComponent,
         ConnectedSourceComponent,
         UserAccountDialogComponent,
-        ProductAccordionComponent,
+        ProductDiscoveryCardComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -213,7 +213,7 @@ import { ProductAccordionComponent } from './elements/product-accordion/product-
         PageHeaderComponent,
         ConnectedSourceComponent,
         UserAccountDialogComponent,
-        ProductAccordionComponent,
+        ProductDiscoveryCardComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,
