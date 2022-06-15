@@ -1,70 +1,70 @@
 @import "../../../../../assets/common";
 
 :host ::ng-deep {
-  // .mat-horizontal-stepper-header-container {
-  //   display: none !important;
-  // }
+    // .mat-horizontal-stepper-header-container {
+    //   display: none !important;
+    // }
 
-  .divider-fill-vert {
-    min-height: 250px;
-  }
-
-  .octocat-icon {
-    height: 35px;
-    width: 35px;
-    margin-left: 0.25em;
-    margin-top: -5px;
-    display: inline-block;
-    background-size: cover;
-    background-position: 50%;
-    // background-image: url("assets/img/octocat-icon.jpg");
-  }
-
-  .welcome {
-    text-align: center;
-    width: 100%;
-    max-width: 550px;
-
-    .mat-display-2 {
-      margin-bottom: 1em;
-    }
-  }
-
-  .mat-card {
-    text-align: center;
-
-    .mat-card-header-text {
-      margin: auto;
+    .divider-fill-vert {
+        min-height: 250px;
     }
 
-    .mat-icon.org-icon {
-      width: 64px;
-      height: 64px;
-      font-size: 64px;
+    .octocat-icon {
+        height: 35px;
+        width: 35px;
+        margin-left: 0.25em;
+        margin-top: -5px;
+        display: inline-block;
+        background-size: cover;
+        background-position: 50%;
+        // background-image: url("assets/img/octocat-icon.jpg");
     }
-  }
 
-  .setup {
-    text-align: center;
-    width: 90%;
+    .welcome {
+        text-align: center;
+        width: 100%;
+        max-width: 550px;
 
-    .connect {
-      margin: auto;
-
-      h3 {
-        word-wrap: normal;
-      }
-
-      .github {
-        font-size: 36px;
-        line-height: 64px;
-        color: white;
-        white-space: normal;
-      }
+        .mat-display-2 {
+            margin-bottom: 1em;
+        }
     }
-  }
 
-  .loading {
-    text-align: center;
-  }
+    .mat-card {
+        text-align: center;
+
+        .mat-card-header-text {
+            margin: auto;
+        }
+
+        .mat-icon.org-icon {
+            width: 64px;
+            height: 64px;
+            font-size: 64px;
+        }
+    }
+
+    .setup {
+        text-align: center;
+        width: 90%;
+
+        .connect {
+            margin: auto;
+
+            h3 {
+                word-wrap: normal;
+            }
+
+            .github {
+                font-size: 36px;
+                line-height: 64px;
+                color: white;
+                white-space: normal;
+            }
+        }
+    }
+
+    .loading {
+        text-align: center;
+    }
 }

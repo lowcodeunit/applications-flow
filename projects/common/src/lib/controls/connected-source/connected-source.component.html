@@ -1,0 +1,98 @@
+<form
+    class="source-form"
+    [formGroup]="SourceFormGroup"
+    (ngSubmit)="SourceSubmit()"
+>
+    <mat-card class="flow-card">
+        <!-- SKELETON LOADING -->
+        <ng-container *ngIf="State?.Loading">
+            <mat-card-header fxLayoutAlign="space-between center">
+                <mat-card-title skeleton-text [effect]="SkeletonEffect">
+                    Connected Source Control
+                </mat-card-title>
+                <div fxLayoutAlign="space-around center">
+                    <div skeleton-text [effect]="SkeletonEffect">XXX</div>
+
+                    <mat-icon skeleton-text [effect]="SkeletonEffect">
+                        build
+                    </mat-icon>
+                </div>
+            </mat-card-header>
+
+            <mat-card-actions fxLayoutAlign="center center">
+                <div
+                    fxFlex="100%"
+                    skeleton-text
+                    [effect]="SkeletonEffect"
+                    fxLayoutAlign="center center"
+                >
+                    <mat-icon skeleton-text [effect]="SkeletonEffect">
+                        save
+                    </mat-icon>
+
+                    Save Connected Source
+                </div>
+            </mat-card-actions>
+        </ng-container>
+        <!-- END SKELETON LOADING -->
+
+        <!-- BEGIN ACTUAL CONTENT -->
+
+        <ng-container *ngIf="!State?.Loading">
+            <mat-card-header>
+                <mat-card-title> Connected Source Control </mat-card-title>
+
+                <div fxFlex></div>
+
+                <mat-icon
+                    matSuffix
+                    matTooltip="Connecting a source control will update the feed to only show items from the conntected source control, and will allow for automatic updating."
+                >
+                    info_outline
+                </mat-icon>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div>
+                    <mat-form-field class="mat-full-width">
+                        <mat-select
+                            formControlName="sourceControlLookup"
+                            placeholder="Source Control"
+                        >
+                            <ng-container
+                                *ngFor="
+                                    let srcCtrlLookup of SourceControlLookups
+                                "
+                            >
+                                <mat-option
+                                    [value]="srcCtrlLookup"
+                                    *ngIf="
+                                        SourceControls[srcCtrlLookup];
+                                        let srcCtrl
+                                    "
+                                >
+                                    {{ srcCtrl.Name }}
+                                </mat-option>
+                            </ng-container>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions fxLayoutAlign="center center">
+                <button
+                    mat-raised-button
+                    type="submit"
+                    fxFlex="100%"
+                    color="primary"
+                    [disabled]="
+                        !SourceFormGroup.valid || !SourceFormGroup.dirty
+                    "
+                >
+                    <mat-icon>save</mat-icon>
+                    Save Connected Source
+                </button>
+            </mat-card-actions>
+        </ng-container>
+    </mat-card>
+</form>

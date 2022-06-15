@@ -1,104 +1,109 @@
 <div
-  [fxLayout]="SelectedProjectLookup ? 'row' : 'row wrap'"
-  [fxLayout.lt-md]="SelectedProjectLookup ? 'row' : 'column'"
+    [fxLayout]="SelectedProjectLookup ? 'row' : 'row wrap'"
+    [fxLayout.lt-md]="SelectedProjectLookup ? 'row' : 'column'"
 >
-  <div class="no-projects" fxFlex="100%" *ngIf="ProjectLookups?.length <= 0">
-    <!-- <h1 class="spread mat-display-1">No projects configured</h1> -->
+    <div class="no-projects" fxFlex="100%" *ngIf="ProjectLookups?.length <= 0">
+        <!-- <h1 class="spread mat-display-1">No projects configured</h1> -->
 
-    <h2 class="spread mat-headline">
-      Create your first project to get started
-    </h2>
-  </div>
-  
-  <!-- [fxFlex]="SelectedProjectLookup ? '350px' : '30%'"
+        <h2 class="spread mat-headline">
+            Create your first project to get started
+        </h2>
+    </div>
+
+    <!-- [fxFlex]="SelectedProjectLookup ? '350px' : '30%'"
   fxFlex.lt-md="100%" vv-->
-  <div
-    
-    *ngFor="let projectLookup of ProjectLookups"
-    class="card-container"
-  >
-    <mat-card
-      class="spread project-card"
-      fxLayout="column"
-      fxLayoutAlign="space-between"
-      [class.selected-project]="projectLookup == SelectedProjectLookup"
-      *ngIf="Projects[projectLookup]; let project"
-    >
-      <mat-card-header>
-        <img mat-card-avatar="/assets/images/project-icon.png" />
-
-        <mat-card-title
-          class="mat-subheading-2"
-          [matTooltip]="project.Project.Description"
+    <div *ngFor="let projectLookup of ProjectLookups" class="card-container">
+        <mat-card
+            class="spread project-card"
+            fxLayout="column"
+            fxLayoutAlign="space-between"
+            [class.selected-project]="projectLookup == SelectedProjectLookup"
+            *ngIf="Projects[projectLookup]; let project"
         >
-          {{ project.Project.Name }}
-        </mat-card-title>
-      </mat-card-header>
+            <mat-card-header>
+                <img mat-card-avatar="/assets/images/project-icon.png" />
 
-      <mat-card-content>
-        <div class="spread">
-          <span class="mat-body-2">{{ GetPrimaryHost(project) }}</span>
-        </div>
-      </mat-card-content>
+                <mat-card-title
+                    class="mat-subheading-2"
+                    [matTooltip]="project.Project.Description"
+                >
+                    {{ project.Project.Name }}
+                </mat-card-title>
+            </mat-card-header>
 
-      <mat-card-actions>
-        <div class="data-app-actions">
-          <div fxFlex></div>
+            <mat-card-content>
+                <div class="spread">
+                    <span class="mat-body-2">{{
+                        GetPrimaryHost(project)
+                    }}</span>
+                </div>
+            </mat-card-content>
 
-          <a
-            mat-icon-button
-            href="https://{{ GetPrimaryHost(project) }}"
-            target="_blank"
-            
-          >
-            <mat-icon matTooltip="Launch">launch</mat-icon>
-          </a>
+            <mat-card-actions>
+                <div class="data-app-actions">
+                    <div fxFlex></div>
 
-          <button
-            mat-icon-button
-            color="accent"
-            (click)="ProjectSettings(projectLookup)"
-            *ngIf="SelectedProjectLookup != projectLookup"
-          >
-            <mat-icon matTooltip="Edit Project Settings">settings</mat-icon>
-          </button>
+                    <a
+                        mat-icon-button
+                        href="https://{{ GetPrimaryHost(project) }}"
+                        target="_blank"
+                    >
+                        <mat-icon matTooltip="Launch">launch</mat-icon>
+                    </a>
 
-          <button
-            mat-icon-button
-            color="accent"
-            (click)="ProjectSettings(null)"
-            *ngIf="SelectedProjectLookup == projectLookup"
-          >
-            <mat-icon matTooltip="Edit Project Settings">cancel</mat-icon>
-          </button>
+                    <button
+                        mat-icon-button
+                        color="accent"
+                        (click)="ProjectSettings(projectLookup)"
+                        *ngIf="SelectedProjectLookup != projectLookup"
+                    >
+                        <mat-icon matTooltip="Edit Project Settings"
+                            >settings</mat-icon
+                        >
+                    </button>
 
-          <button
-            mat-icon-button
-            color="warn"
-            (click)="DeleteProject(projectLookup, project.Project.Name)"
-          >
-            <mat-icon matTooltip="Delete {{ project.Project.Name }}">
-              delete_forever
-            </mat-icon>
-          </button>
-        </div>
+                    <button
+                        mat-icon-button
+                        color="accent"
+                        (click)="ProjectSettings(null)"
+                        *ngIf="SelectedProjectLookup == projectLookup"
+                    >
+                        <mat-icon matTooltip="Edit Project Settings"
+                            >cancel</mat-icon
+                        >
+                    </button>
 
-        <div class="data-app-fakes">
-          <div fxFlex></div>
+                    <button
+                        mat-icon-button
+                        color="warn"
+                        (click)="
+                            DeleteProject(projectLookup, project.Project.Name)
+                        "
+                    >
+                        <mat-icon
+                            matTooltip="Delete {{ project.Project.Name }}"
+                        >
+                            delete_forever
+                        </mat-icon>
+                    </button>
+                </div>
 
-          <button mat-icon-button disabled>
-            <mat-icon>fiber_manual_record</mat-icon>
-          </button>
+                <div class="data-app-fakes">
+                    <div fxFlex></div>
 
-          <button mat-icon-button disabled>
-            <mat-icon>fiber_manual_record</mat-icon>
-          </button>
+                    <button mat-icon-button disabled>
+                        <mat-icon>fiber_manual_record</mat-icon>
+                    </button>
 
-          <button mat-icon-button disabled>
-            <mat-icon>fiber_manual_record</mat-icon>
-          </button>
-        </div>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+                    <button mat-icon-button disabled>
+                        <mat-icon>fiber_manual_record</mat-icon>
+                    </button>
+
+                    <button mat-icon-button disabled>
+                        <mat-icon>fiber_manual_record</mat-icon>
+                    </button>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>

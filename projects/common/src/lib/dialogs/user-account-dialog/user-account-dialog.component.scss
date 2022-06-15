@@ -1,0 +1,136 @@
+@import "../../../assets/common";
+
+$Font-Color: mat-color(map-get($global-theme, primary), 100);
+
+$Thinky-color: mat-color(map-get($global-theme, primary), 700);
+
+.account-section-container {
+    width: 100%;
+}
+
+.account-section-content {
+    margin-left: 10px;
+}
+
+.toolbar-icon {
+    font-size: 50px !important;
+    height: 50px;
+    width: 50px;
+    color: $Thinky-color;
+}
+#account-header {
+    // width: 100%;
+}
+
+.user-info-container {
+    margin-left: 10px;
+}
+
+.user-info {
+    margin: 1px 0px;
+    font-size: 14px;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    max-width: 180px;
+}
+
+// .dialog-actions-container {
+//     padding: 10px 0px 0px 0px !important;
+// }
+
+#manage-container {
+    border-top: 1px solid $Font-Color;
+}
+
+#logout-container {
+    border-top: 1px solid $Font-Color;
+}
+
+#logout-section {
+    margin-top: 15px;
+}
+
+.menu-title {
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.menu-item {
+    margin: 5px 0px;
+    color: lightgray;
+    &:hover {
+        // color: $Font-Color;
+        // cursor: pointer;
+        cursor: not-allowed;
+    }
+}
+
+// .dialog-action {
+//     font-size: 11px;
+//     cursor: pointer;
+//     margin: 0px 5px;
+
+//     &:hover {
+//         color: $Font-Color;
+//     }
+// }
+
+// #back-icon {
+//     height: 20px;
+//     width: 20px;
+//     font-size: 20px;
+// }
+/////////////////////////Cancel screen///////////////
+.cancel-content-container {
+    // height: 100%;
+    overflow: hidden;
+}
+.cancel-header {
+    width: 100%;
+    padding: 15px 15px 0px; //60px with text area
+}
+.fathym-header-logo {
+    background-image: fathym-logo(thinky-circle, $Thinky-color);
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100px;
+    height: 100px;
+    background-size: 100px;
+    // margin-left: 15px;
+    // margin-top: 7px;
+}
+
+.vertical-line {
+    margin-top: 10px;
+    height: 80px;
+    width: 0.5px;
+    background-color: $Thinky-color;
+}
+
+.cancel-header-text {
+    font-size: 25px;
+    color: $Thinky-color;
+}
+.content-container {
+    padding: 15px;
+    color: $Font-Color;
+}
+.p-text {
+    font-weight: bold;
+    color: $Font-Color;
+}
+
+.reason-radio-button {
+    margin: 5px;
+}
+.feedback-field {
+    width: 100%;
+
+    .feedback-textarea {
+        width: 100%;
+    }
+}
+
+.cancel-button-container {
+    height: 150px;
+}

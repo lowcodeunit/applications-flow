@@ -1,96 +1,105 @@
-<form class="source-control-form" [formGroup]="SourceControlFormGroup" (ngSubmit)="SubmitSourceControl()">
+<form
+    class="source-control-form"
+    [formGroup]="SourceControlFormGroup"
+    (ngSubmit)="SubmitSourceControl()"
+>
+    <mat-card class="spread flow-card" *ngIf="ProcessorType != 'Redirect'">
+        <mat-card-header>
+            <mat-card-title *ngIf="!HasBuildFormControl.value">
+                Build & Source
+            </mat-card-title>
 
-<mat-card class="spread flow-card" *ngIf="ProcessorType != 'Redirect'">
-    <mat-card-header>
-      <mat-card-title *ngIf="!HasBuildFormControl.value">
-        Build & Source
-      </mat-card-title>
+            <mat-card-title *ngIf="HasBuildFormControl.value">
+                Source Control
+            </mat-card-title>
 
-      <mat-card-title *ngIf="HasBuildFormControl.value">
-        Source Control
-      </mat-card-title>
+            <div fxFlex></div>
 
-      <div fxFlex></div>
-
-      <mat-slide-toggle
-        formControlName="hasBuild"
-        matTooltip="Has Build?"
-      >
-      </mat-slide-toggle>
-
-      <mat-icon
-        matSuffix
-        matTooltip="Configure source control, DevOps CI/CD, and artifacts."
-      >
-        info_outline
-      </mat-icon>
-    </mat-card-header>
-
-    <mat-card-content>
-      <mat-form-field
-        class="mat-full-width"
-        *ngIf="
-          HasBuildFormControl.value && SourceControlLookups?.length > 0
-        "
-      >
-        <mat-select
-          formControlName="sourceControlLookup"
-          placeholder="Source Control"
-          (selectionChange)="SourceControlLookupChanged($event)"
-          [disabled]="
-            SourceControlFormControls?.Loading || HostingDetails?.Loading
-          "
-        >
-          <ng-container
-            *ngFor="let srcCtrlLookup of SourceControlLookups"
-          >
-            <mat-option
-              [value]="srcCtrlLookup"
-              *ngIf="SourceControls[srcCtrlLookup]; let srcCtrl"
+            <mat-slide-toggle
+                formControlName="hasBuild"
+                matTooltip="Has Build?"
             >
-              {{ srcCtrl.Name }}
-            </mat-option>
-          </ng-container>
-        </mat-select>
+            </mat-slide-toggle>
 
-        <div *ngIf="HasBuildFormControl?.value">
-          <h3>
-            @{{
-              SourceControlFormControls?.OrganizationFormControl?.value ||
-                SourceControl?.Organization
-            }}/{{
-              SourceControlFormControls?.RepositoryFormControl?.value ||
-                SourceControl?.Repository
-            }}
-          </h3>
+            <mat-icon
+                matSuffix
+                matTooltip="Configure source control, DevOps CI/CD, and artifacts."
+            >
+                info_outline
+            </mat-icon>
+        </mat-card-header>
 
-          <p>Organization and Repository pulled from build settings</p>
+        <mat-card-content>
+            <mat-form-field
+                class="mat-full-width"
+                *ngIf="
+                    HasBuildFormControl.value &&
+                    SourceControlLookups?.length > 0
+                "
+            >
+                <mat-select
+                    formControlName="sourceControlLookup"
+                    placeholder="Source Control"
+                    (selectionChange)="SourceControlLookupChanged($event)"
+                    [disabled]="
+                        SourceControlFormControls?.Loading ||
+                        HostingDetails?.Loading
+                    "
+                >
+                    <ng-container
+                        *ngFor="let srcCtrlLookup of SourceControlLookups"
+                    >
+                        <mat-option
+                            [value]="srcCtrlLookup"
+                            *ngIf="SourceControls[srcCtrlLookup]; let srcCtrl"
+                        >
+                            {{ srcCtrl.Name }}
+                        </mat-option>
+                    </ng-container>
+                </mat-select>
 
-          <mat-hint>
-            CurrentBuild:
-            {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
-          </mat-hint>
-        </div>
-      </mat-form-field>
+                <div *ngIf="HasBuildFormControl?.value">
+                    <h3>
+                        @{{
+                            SourceControlFormControls?.OrganizationFormControl
+                                ?.value || SourceControl?.Organization
+                        }}/{{
+                            SourceControlFormControls?.RepositoryFormControl
+                                ?.value || SourceControl?.Repository
+                        }}
+                    </h3>
 
-      <div *ngIf="SourceControlLookups?.length < 0">
-        <h3>
-          Create source control locations under the DevOps tab above.
-        </h3>
-      </div>
-    </mat-card-content>
-    <mat-card-actions fxLayoutAlign="center center">
+                    <p>
+                        Organization and Repository pulled from build settings
+                    </p>
 
-      <button 
-        mat-raised-button 
-        type="submit" 
-        fxFlex="100%" 
-        color="primary" 
-        [disabled]="!SourceControlFormGroup.valid || !SourceControlFormGroup.dirty">
-        <mat-icon>save</mat-icon>
-        Save
-      </button>
-      
-  </mat-card-actions>
-  </mat-card>
+                    <mat-hint>
+                        CurrentBuild:
+                        {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
+                    </mat-hint>
+                </div>
+            </mat-form-field>
+
+            <div *ngIf="SourceControlLookups?.length < 0">
+                <h3>
+                    Create source control locations under the DevOps tab above.
+                </h3>
+            </div>
+        </mat-card-content>
+        <mat-card-actions fxLayoutAlign="center center">
+            <button
+                mat-raised-button
+                type="submit"
+                fxFlex="100%"
+                color="primary"
+                [disabled]="
+                    !SourceControlFormGroup.valid ||
+                    !SourceControlFormGroup.dirty
+                "
+            >
+                <mat-icon>save</mat-icon>
+                Save
+            </button>
+        </mat-card-actions>
+    </mat-card>
 </form>

@@ -1,10 +1,10 @@
-@import '../../../../../../assets/common';
+@import "../../../../../../assets/common";
 
-  .title-icon {
+.title-icon {
     @include mat-icon-size(36px);
-  }
+}
 
 .card-divider {
-  @include divider(horizontal, 1px);
-  margin-top: 20px;
+    @include divider(horizontal, 1px);
+    margin-top: 20px;
 }

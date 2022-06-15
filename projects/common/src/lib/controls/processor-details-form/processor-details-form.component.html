@@ -1,77 +1,79 @@
-<form class="processor-details-form" [formGroup]="ProcessorDetailsFormGroup" (ngSubmit)="SaveProcessorDetails()">
-<!-- <mat-card class="spread flow-card"> -->
+<form
+    class="processor-details-form"
+    [formGroup]="ProcessorDetailsFormGroup"
+    (ngSubmit)="SaveProcessorDetails()"
+>
+    <!-- <mat-card class="spread flow-card"> -->
     <!-- <mat-card-header>
       <mat-card-title> Processor Details </mat-card-title>
     </mat-card-header> -->
 
     <ng-container *ngIf="State?.Loading">
+        <ng-container *ngFor="let fc of ValidFormControls">
+            <skeleton-block
+                [id]="fc"
+                class="s-block"
+                effect="wave"
+            ></skeleton-block>
+        </ng-container>
 
-      <ng-container *ngFor="let fc of ValidFormControls">
-
-        <skeleton-block  
-        [id]="fc"
-        class="s-block" 
-        effect="wave"
-        ></skeleton-block>
-        
-      </ng-container>
-
-      <lcu-loader *ngIf="LCUType === 'Redirect'" [loading]="State?.Loading"></lcu-loader>
-
+        <lcu-loader
+            *ngIf="LCUType === 'Redirect'"
+            [loading]="State?.Loading"
+        ></lcu-loader>
     </ng-container>
     <!-- END SKELETON -->
 
     <ng-container *ngIf="!State?.Loading">
-
-    <!-- <mat-card-content> -->
-      <mat-form-field class="mat-full-width">
-        <mat-select
-          placeholder="Type"
-          formControlName="procType"
-          (selectionChange)="ProcessorTypeChanged($event)"
-          required
-        >
-          <mat-option value="DFS">View Package</mat-option>
-
-          <mat-option value="Redirect">Redirect</mat-option>
-
-          <mat-option value="Proxy">Proxy</mat-option>
-
-          <mat-option value="OAuth">OAuth</mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <div [ngSwitch]="ProcessorType">
-        <div *ngSwitchCase="'DFS'">
-          <mat-form-field class="mat-full-width">
-            <input
-              matInput
-              placeholder="Default File"
-              formControlName="defaultFile"
-              required
-            />
-          </mat-form-field>
-
-          <mat-form-field class="mat-full-width">
+        <!-- <mat-card-content> -->
+        <mat-form-field class="mat-full-width">
             <mat-select
-              placeholder="Type"
-              formControlName="lcuType"
-              (selectionChange)="LCUTypeChanged($event)"
-              required
+                placeholder="Type"
+                formControlName="procType"
+                (selectionChange)="ProcessorTypeChanged($event)"
+                required
             >
-              <mat-option value="NPM">NPM</mat-option>
+                <mat-option value="DFS">View Package</mat-option>
 
-              <mat-option value="GitHub">GitHub</mat-option>
+                <mat-option value="Redirect">Redirect</mat-option>
 
-              <mat-option value="WordPress">WordPress</mat-option>
+                <mat-option value="Proxy">Proxy</mat-option>
 
-              <mat-option value="Zip">Zip</mat-option>
+                <mat-option value="OAuth">OAuth</mat-option>
             </mat-select>
-          </mat-form-field>
+        </mat-form-field>
 
-          <div [ngSwitch]="LCUType">
-            <div *ngSwitchCase="'GitHub'">
-              <!-- <lcu-source-control-form-controls
+        <div [ngSwitch]="ProcessorType">
+            <div *ngSwitchCase="'DFS'">
+                <mat-form-field class="mat-full-width">
+                    <input
+                        matInput
+                        placeholder="Default File"
+                        formControlName="defaultFile"
+                        required
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                    <mat-select
+                        placeholder="Type"
+                        formControlName="lcuType"
+                        (selectionChange)="LCUTypeChanged($event)"
+                        required
+                    >
+                        <mat-option value="NPM">NPM</mat-option>
+
+                        <mat-option value="GitHub">GitHub</mat-option>
+
+                        <mat-option value="WordPress">WordPress</mat-option>
+
+                        <mat-option value="Zip">Zip</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                    <div *ngSwitchCase="'GitHub'">
+                        <!-- <lcu-source-control-form-controls
                 [build-path]="EditingApplication?.LowCodeUnit?.Path"
                 [form-group]="ProcessorDetailsFormGroup"
                 [source-control]="DefaultSourceControl"
@@ -79,279 +81,289 @@
                 [use-build-path]="true"
               ></lcu-source-control-form-controls> -->
 
-              <mat-form-field class="mat-full-width">
-                <mat-select
-                  placeholder="Source Control"
-                  formControlName="sourceControl"
-                  (selectionChange)="SourceControlChanged($event)"
-                  required
-                >
-                  <mat-option 
-                    *ngFor="let scLookup of SourceControlLookups" 
-                    [value]="scLookup">
-                     {{scLookup}}
-                  </mat-option>
-                  
-    
-                  <!-- <mat-option value="Zip">Zip</mat-option> -->
-                </mat-select>
-              </mat-form-field>
+                        <mat-form-field class="mat-full-width">
+                            <mat-select
+                                placeholder="Source Control"
+                                formControlName="sourceControl"
+                                (selectionChange)="SourceControlChanged($event)"
+                                required
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let scLookup of SourceControlLookups
+                                    "
+                                    [value]="scLookup"
+                                >
+                                    {{ scLookup }}
+                                </mat-option>
 
-              <mat-form-field class="mat-full-width with-hint"
-                *ngIf="
-                SourceControlFormControl?.valid
-                "
-              >          
-                <mat-select
-                  formControlName="buildPath"
-                  placeholder="Build Path"
-                  required
-                >
-                  <ng-container *ngFor="let buildPath of BuildPathOptions">
-                    <mat-option [value]="buildPath">
-                      {{ buildPath }}
-                    </mat-option>
-                  </ng-container>
-                </mat-select>
-          
-                <mat-hint>
-                  The build path identifies which build action to use for your
-                  configuration.
-                </mat-hint>
-              </mat-form-field>
+                                <!-- <mat-option value="Zip">Zip</mat-option> -->
+                            </mat-select>
+                        </mat-form-field>
 
-              <mat-form-field
-                class="mat-full-width"
-                *ngIf="
-                  SourceControlFormControl?.valid
-                "
-              >
-                <input
-                  matInput
-                  placeholder="Build"
-                  formControlName="build"
-                  required
-                />
+                        <mat-form-field
+                            class="mat-full-width with-hint"
+                            *ngIf="SourceControlFormControl?.valid"
+                        >
+                            <mat-select
+                                formControlName="buildPath"
+                                placeholder="Build Path"
+                                required
+                            >
+                                <ng-container
+                                    *ngFor="let buildPath of BuildPathOptions"
+                                >
+                                    <mat-option [value]="buildPath">
+                                        {{ buildPath }}
+                                    </mat-option>
+                                </ng-container>
+                            </mat-select>
 
-                <mat-hint>
-                  Current Build:
-                  {{ EditingApplication?.LowCodeUnit?.CurrentBuild }}
-                </mat-hint>
-              </mat-form-field>
+                            <mat-hint>
+                                The build path identifies which build action to
+                                use for your configuration.
+                            </mat-hint>
+                        </mat-form-field>
+
+                        <mat-form-field
+                            class="mat-full-width"
+                            *ngIf="SourceControlFormControl?.valid"
+                        >
+                            <input
+                                matInput
+                                placeholder="Build"
+                                formControlName="build"
+                                required
+                            />
+
+                            <mat-hint>
+                                Current Build:
+                                {{
+                                    EditingApplication?.LowCodeUnit
+                                        ?.CurrentBuild
+                                }}
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngSwitchCase="'NPM'">
+                        <lcu-npm-package-select
+                            [npm-package]="
+                                EditingApplication?.LowCodeUnit?.Package
+                            "
+                            [npm-package-version]="
+                                EditingApplication?.LowCodeUnit?.Version
+                            "
+                            [form-group]="ProcessorDetailsFormGroup"
+                        ></lcu-npm-package-select>
+
+                        <mat-hint>
+                            Current Version:
+                            {{
+                                EditingApplication?.LowCodeUnit?.CurrentVersion
+                            }}
+                        </mat-hint>
+                    </div>
+
+                    <div *ngSwitchCase="'WordPress'">
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="API Root"
+                                formControlName="apiRoot"
+                                required
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngSwitchCase="'Zip'">
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="Zip File"
+                                formControlName="zipFile"
+                                required
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
 
-            <div *ngSwitchCase="'NPM'">
-              <lcu-npm-package-select
-                [npm-package]="EditingApplication?.LowCodeUnit?.Package"
-                [npm-package-version]="
-                  EditingApplication?.LowCodeUnit?.Version
-                "
-                [form-group]="ProcessorDetailsFormGroup"
-              ></lcu-npm-package-select>
+            <div *ngSwitchCase="'OAuth'">
+                <mat-form-field class="mat-full-width">
+                    <input
+                        matInput
+                        placeholder="Scopes (space separated)"
+                        formControlName="scopes"
+                        required
+                    />
+                </mat-form-field>
 
-              <mat-hint>
-                Current Version:
-                {{ EditingApplication?.LowCodeUnit?.CurrentVersion }}
-              </mat-hint>
+                <mat-form-field class="mat-full-width">
+                    <input
+                        matInput
+                        placeholder="Token Lookup"
+                        formControlName="tokenLookup"
+                        required
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                    <mat-select
+                        placeholder="Type"
+                        formControlName="lcuType"
+                        (selectionChange)="LCUTypeChanged($event)"
+                        required
+                    >
+                        <mat-option value="GitHubOAuth">GitHub</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                    <div *ngSwitchCase="'GitHubOAuth'">
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="Client ID"
+                                formControlName="clientId"
+                                required
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="Client Secret"
+                                formControlName="clientSecret"
+                                required
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
 
-            <div *ngSwitchCase="'WordPress'">
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="API Root"
-                  formControlName="apiRoot"
-                  required
-                />
-              </mat-form-field>
+            <div *ngSwitchCase="'Proxy'">
+                <mat-form-field class="mat-full-width">
+                    <input
+                        matInput
+                        placeholder="Inbound Path"
+                        formControlName="inboundPath"
+                        required
+                    />
+                </mat-form-field>
+
+                <mat-form-field class="mat-full-width">
+                    <mat-select
+                        placeholder="Type"
+                        formControlName="lcuType"
+                        (selectionChange)="LCUTypeChanged($event)"
+                        required
+                    >
+                        <mat-option value="API">API</mat-option>
+
+                        <mat-option value="SPA"
+                            >Single Page Application</mat-option
+                        >
+                    </mat-select>
+                </mat-form-field>
+
+                <div [ngSwitch]="LCUType">
+                    <div *ngSwitchCase="'API'">
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="API Root"
+                                formControlName="apiRoot"
+                                required
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="Allowed Methods (separate with spaces)"
+                                formControlName="methods"
+                            />
+                        </mat-form-field>
+
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="Security ({header}~{value})"
+                                formControlName="security"
+                                required
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngSwitchCase="'SPA'">
+                        <mat-form-field class="mat-full-width">
+                            <input
+                                matInput
+                                placeholder="SPA Root"
+                                formControlName="spaRoot"
+                                required
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
 
-            <div *ngSwitchCase="'Zip'">
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="Zip File"
-                  formControlName="zipFile"
-                  required
-                />
-              </mat-form-field>
+            <div *ngSwitchCase="'Redirect'">
+                <mat-form-field class="mat-full-width">
+                    <input
+                        matInput
+                        placeholder="Redirect URL"
+                        formControlName="redirect"
+                        required
+                    />
+                </mat-form-field>
+
+                <div>
+                    <mat-slide-toggle
+                        class="spread"
+                        formControlName="permanent"
+                    >
+                        Is Permanent?
+                    </mat-slide-toggle>
+
+                    <mat-slide-toggle
+                        class="spread"
+                        formControlName="preserveMethod"
+                    >
+                        Preserve Method?
+                    </mat-slide-toggle>
+
+                    <mat-icon
+                        class="spread"
+                        matSuffix
+                        (mouseenter)="DetermineTooltipText()"
+                        matTooltip="{{ redirectTooltip }}"
+                    >
+                        info_outline
+                    </mat-icon>
+                </div>
+
+                <div>
+                    <mat-slide-toggle
+                        class="spread"
+                        formControlName="includeRequest"
+                    >
+                        Include Path and Query?
+                    </mat-slide-toggle>
+
+                    <mat-icon
+                        class="spread"
+                        matSuffix
+                        matTooltip="Should the redirect include the path and query?"
+                    >
+                        info_outline
+                    </mat-icon>
+                </div>
             </div>
-          </div>
         </div>
-
-        <div *ngSwitchCase="'OAuth'">
-          <mat-form-field class="mat-full-width">
-            <input
-              matInput
-              placeholder="Scopes (space separated)"
-              formControlName="scopes"
-              required
-            />
-          </mat-form-field>
-
-          <mat-form-field class="mat-full-width">
-            <input
-              matInput
-              placeholder="Token Lookup"
-              formControlName="tokenLookup"
-              required
-            />
-          </mat-form-field>
-
-          <mat-form-field class="mat-full-width">
-            <mat-select
-              placeholder="Type"
-              formControlName="lcuType"
-              (selectionChange)="LCUTypeChanged($event)"
-              required
-            >
-              <mat-option value="GitHubOAuth">GitHub</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <div [ngSwitch]="LCUType">
-            <div *ngSwitchCase="'GitHubOAuth'">
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="Client ID"
-                  formControlName="clientId"
-                  required
-                />
-              </mat-form-field>
-
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="Client Secret"
-                  formControlName="clientSecret"
-                  required
-                />
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-
-        <div *ngSwitchCase="'Proxy'">
-          <mat-form-field class="mat-full-width">
-            <input
-              matInput
-              placeholder="Inbound Path"
-              formControlName="inboundPath"
-              required
-            />
-          </mat-form-field>
-
-          <mat-form-field class="mat-full-width">
-            <mat-select
-              placeholder="Type"
-              formControlName="lcuType"
-              (selectionChange)="LCUTypeChanged($event)"
-              required
-            >
-              <mat-option value="API">API</mat-option>
-
-              <mat-option value="SPA">Single Page Application</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <div [ngSwitch]="LCUType">
-            <div *ngSwitchCase="'API'">
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="API Root"
-                  formControlName="apiRoot"
-                  required
-                />
-              </mat-form-field>
-
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="Allowed Methods (separate with spaces)"
-                  formControlName="methods"
-                />
-              </mat-form-field>
-
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="Security ({header}~{value})"
-                  formControlName="security"
-                  required
-                />
-              </mat-form-field>
-            </div>
-
-            <div *ngSwitchCase="'SPA'">
-              <mat-form-field class="mat-full-width">
-                <input
-                  matInput
-                  placeholder="SPA Root"
-                  formControlName="spaRoot"
-                  required
-                />
-              </mat-form-field>
-            </div>
-          </div>
-        </div>
-
-        <div *ngSwitchCase="'Redirect'">
-          <mat-form-field class="mat-full-width">
-            <input
-              matInput
-              placeholder="Redirect URL"
-              formControlName="redirect"
-              required
-            />
-          </mat-form-field>
-
-          <div>
-            <mat-slide-toggle 
-              class="spread" 
-              formControlName="permanent">
-              Is Permanent?
-            </mat-slide-toggle>
-
-            <mat-slide-toggle
-              class="spread"
-              formControlName="preserveMethod"
-            >
-              Preserve Method?
-            </mat-slide-toggle>
-
-            <mat-icon
-              class="spread"
-              matSuffix
-              (mouseenter)="DetermineTooltipText()"
-              matTooltip={{redirectTooltip}}
-            >
-              info_outline
-            </mat-icon>
-
-            
-          </div>
-          
-          <div>
-            <mat-slide-toggle 
-              class="spread" 
-              formControlName="includeRequest">
-              Include Path and Query?
-            </mat-slide-toggle>
-
-            <mat-icon
-              class="spread"
-              matSuffix
-              matTooltip="Should the redirect include the path and query?"
-            >
-              info_outline
-            </mat-icon>
-          </div>
-        </div>
-      </div>
-    <!-- </mat-card-content> -->
-    <!-- <mat-card-actions fxLayoutAlign="center center"> -->
+        <!-- </mat-card-content> -->
+        <!-- <mat-card-actions fxLayoutAlign="center center"> -->
 
         <!-- <button 
           *ngIf="HasSaveButton && !State?.Loading"
@@ -365,10 +377,8 @@
         </button> -->
         <!-- <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader> -->
 
-    <!-- </mat-card-actions> -->
+        <!-- </mat-card-actions> -->
+    </ng-container>
 
-  </ng-container>
-  
-<!-- </mat-card> -->
+    <!-- </mat-card> -->
 </form>
-  

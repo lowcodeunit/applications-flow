@@ -1,0 +1,30 @@
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# Only exists if Bazel was run
+/bazel-out
+
+#Code
+/public
+
+# dependencies
+/node_modules
+/.github
+/.angular
+/.husky
+
+# IDE - VSCode
+.vscode/*
+
+
+.editorconfig
+.gitignore
+
+
+LICENSE
+README.md
+package-lock.json
+
+

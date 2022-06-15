@@ -1,0 +1,32 @@
+<form
+    class="form-card"
+    [formGroup]="ProjectFormGroup"
+    (ngSubmit)="SubmitProjectControl()"
+>
+    <ng-container *ngIf="State?.Loading">
+        <skeleton-block class="s-block" effect="wave"></skeleton-block>
+
+        <skeleton-block class="s-block" effect="wave"></skeleton-block>
+    </ng-container>
+
+    <ng-container *ngIf="!State?.Loading">
+        <mat-form-field class="mat-full-width">
+            <input
+                matInput
+                placeholder="Name"
+                formControlName="name"
+                required
+            />
+        </mat-form-field>
+
+        <mat-form-field class="mat-full-width">
+            <textarea
+                matInput
+                placeholder="Description"
+                formControlName="description"
+                rows="3"
+                required
+            ></textarea>
+        </mat-form-field>
+    </ng-container>
+</form>

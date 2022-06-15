@@ -1,87 +1,97 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { UpgradeDialogComponent } from '../../dialogs/upgrade-dialog/upgrade-dialog.component';
+import { EaCApplicationAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
-  selector: 'lcu-project-info-card',
-  templateUrl: './project-info-card.component.html',
-  styleUrls: ['./project-info-card.component.scss']
+    selector: 'lcu-project-info-card',
+    templateUrl: './project-info-card.component.html',
+    styleUrls: ['./project-info-card.component.scss'],
 })
 export class ProjectInfoCardComponent implements OnInit {
-  
-  @Input('description')
-  public Description: string;
-  
-  @Input('image')
-  public Image: string;
+    @Input('app')
+    public App?: EaCApplicationAsCode;
 
-  @Input('is-editable')
-  public IsEditable: boolean;
+    @Input('description')
+    public Description: string;
 
-  @Input('is-shareable')
-  public IsShareable: boolean;
+    @Input('image')
+    public Image: string;
 
-  @Input('name')
-  public Name: string;
+    @Input('is-editable')
+    public IsEditable: boolean;
 
-  @Input('subtext')
-  public Subtext: string;
+    @Input('is-shareable')
+    public IsShareable: boolean;
 
-  @Input('version')
-  public Version: string;
+    @Input('name')
+    public Name: string;
 
-  @Output('left-click-event')
-  public LeftClickEvent: EventEmitter<{}>;
+    @Input('subtext')
+    public Subtext: string;
 
-  @Output('right-click-event')
-  public RightClickEvent: EventEmitter<{}>;
+    @Input('version')
+    public Version: string;
 
-  public get State(): ApplicationsFlowState{
-    return this.eacSvc.State;
-  }
+    @Output('left-click-event')
+    public LeftClickEvent: EventEmitter<{}>;
 
-  public SkeletonEffect: string;
+    @Output('right-click-event')
+    public RightClickEvent: EventEmitter<{}>;
 
+    public get State(): ApplicationsFlowState {
+        return this.eacSvc.State;
+    }
 
-  constructor(protected eacSvc: EaCService,protected dialog: MatDialog,) {
-    this.LeftClickEvent = new EventEmitter();
+    public SkeletonEffect: string;
 
-    this.RightClickEvent = new EventEmitter();
+    constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
+        this.LeftClickEvent = new EventEmitter();
 
-    this.SkeletonEffect = 'wave';
-   }
+        this.RightClickEvent = new EventEmitter();
 
-  public ngOnInit(): void {
-    // console.log("loading = ", this.Loading)
-    // console.log("is shareable: ", this.IsShareable);
-    // console.log("is editable: ", this.IsEditable);
-  }
+        this.SkeletonEffect = 'wave';
+    }
 
+    public ngOnInit(): void {
+        // console.log("loading = ", this.Loading)
+        // console.log("is shareable: ", this.IsShareable);
+        // console.log("is editable: ", this.IsEditable);
+    }
 
+    public DisplayVersion(): boolean {
+        if (this.Version) {
+            if (this.App?.LowCodeUnit?.Type.toLowerCase() === 'zip') {
+                return false;
+            } else if (this.App?.Processor?.Type.toLowerCase() !== 'dfs') {
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 
-  public LeftIconClicked(){
-    this.LeftClickEvent.emit({});
-  }
+    public LeftIconClicked() {
+        this.LeftClickEvent.emit({});
+    }
 
-  public RightIconClicked(){
-    console.log("share clicked")
-    this.RightClickEvent.emit({});
-  }
+    public RightIconClicked() {
+        console.log('share clicked');
+        this.RightClickEvent.emit({});
+    }
 
-  public UpgradeClicked(){
-    const dialogRef = this.dialog.open(UpgradeDialogComponent, {
-      width: '600px',
-      data: {
-      },
-    });
+    // public UpgradeClicked() {
+    //     const dialogRef = this.dialog.open(UpgradeDialogComponent, {
+    //         width: '600px',
+    //         data: {},
+    //     });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      // console.log('The dialog was closed');
-      // console.log("result:", result)
-    });
-
-  }
-
+    //     dialogRef.afterClosed().subscribe((result) => {
+    //         // console.log('The dialog was closed');
+    //         // console.log("result:", result)
+    //     });
+    // }
 }
