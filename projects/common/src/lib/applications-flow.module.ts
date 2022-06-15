@@ -78,6 +78,7 @@ import { ConnectedSourceComponent } from './controls/connected-source/connected-
 import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-account-dialog.component';
 import { ProductDiscoveryCardComponent } from './elements/product-discovery-card/product-discovery-card.component';
 import { AdvertisementCardComponent } from './elements/advertisement-card/advertisement-card.component';
+import { FeedFilterComponent } from './elements/feed-filter/feed-filter.component';
 
 @NgModule({
     declarations: [
@@ -140,6 +141,7 @@ import { AdvertisementCardComponent } from './elements/advertisement-card/advert
         UserAccountDialogComponent,
         ProductDiscoveryCardComponent,
         AdvertisementCardComponent,
+        FeedFilterComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -217,6 +219,7 @@ import { AdvertisementCardComponent } from './elements/advertisement-card/advert
         UserAccountDialogComponent,
         ProductDiscoveryCardComponent,
         AdvertisementCardComponent,
+        FeedFilterComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

@@ -20,6 +20,8 @@ export class ApplicationsFlowState {
 
     public FeedCheck?: UserFeedResponse;
 
+    public FeedFilters?: any;
+
     public FeedSourceControlLookups?: Array<string>;
 
     public GitHub?: GitHubSetupState;

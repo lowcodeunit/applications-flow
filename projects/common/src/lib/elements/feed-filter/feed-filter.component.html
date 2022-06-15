@@ -1,0 +1,42 @@
+<div class="filter-area" fxLayout="row" fxLayoutAlign="center center">
+    <div class="seperator"></div>
+    <div class="filter-text">Filter feed by:</div>
+    <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        aria-label="View Filters"
+        [disabled]="Filters?.length === 0"
+        #trigger="matMenuTrigger"
+        (menuOpened)="MenuOpen = trigger.menuOpen"
+        (menuClosed)="MenuOpen = trigger.menuOpen"
+    >
+        <mat-icon *ngIf="!MenuOpen">expand_more</mat-icon>
+        <mat-icon *ngIf="MenuOpen">expand_less</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+        <form
+            [formGroup]="FilterFormGroup"
+            fxLayout="column"
+            (ngSubmit)="Apply()"
+        >
+            <label
+                class="filter-label"
+                formArrayName="filters"
+                *ngFor="let filter of filtersFormArray.controls; let i = index"
+                (click)="$event.stopPropagation()"
+            >
+                <input
+                    type="checkbox"
+                    [formControlName]="i"
+                    (click)="
+                        $event.stopPropagation(); ToggleFilter(Filters[i].Name)
+                    "
+                />
+                {{ Filters[i].Name }}
+
+                <span class="checkmark"></span>
+            </label>
+            <button class="filter-button">Apply</button>
+        </form>
+    </mat-menu>
+</div>

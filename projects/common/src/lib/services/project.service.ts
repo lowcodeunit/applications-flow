@@ -90,7 +90,7 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, false, state),
+                            this.LoadUserFeed(1, 25, 'types=all', false, state),
                         ]);
                     } else {
                         state.Loading = false;
@@ -350,6 +350,7 @@ export class ProjectService {
     public async LoadUserFeed(
         page: number,
         pageSize: number,
+        filterStr: string,
         forCheck: boolean = false,
         state: ApplicationsFlowState
     ): Promise<Array<FeedItem>> {
@@ -364,6 +365,7 @@ export class ProjectService {
                 .LoadUserFeed(
                     page,
                     pageSize,
+                    filterStr,
                     result?.Project,
                     result?.Applications
                 )
@@ -372,8 +374,11 @@ export class ProjectService {
                         state.LoadingFeed = false;
 
                         if (response.Status.Code === 0) {
+                            // console.log('user feed response: ', response);
                             if (!forCheck) {
                                 state.Advertisements = response.Advertisements;
+
+                                state.FeedFilters = response.ItemTypes;
 
                                 state.Feed = response.Items;
 
@@ -454,7 +459,7 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, false, state),
+                            this.LoadUserFeed(1, 25, 'types=all', false, state),
                         ]);
                     } else {
                         state.Loading = false;
@@ -489,7 +494,7 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, false, state),
+                            this.LoadUserFeed(1, 25, 'types=all', false, state),
                         ]);
                     } else {
                         state.Loading = false;
@@ -564,7 +569,7 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, false, state),
+                            this.LoadUserFeed(1, 25, 'types=all', false, state),
                         ]);
                     } else {
                         state.Loading = false;
@@ -603,7 +608,7 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, false, state),
+                            this.LoadUserFeed(1, 25, 'types=all', false, state),
                         ]);
                     } else {
                         state.Loading = false;

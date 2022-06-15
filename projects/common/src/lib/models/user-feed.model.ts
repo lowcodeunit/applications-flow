@@ -1,11 +1,14 @@
 import { BaseResponse, Status } from '@lcu/common';
+import { Advertisement } from '../state/applications-flow.state';
 
 export class UserFeedResponse extends BaseResponse {
     public Actions: Array<FeedItemAction>;
 
-    public Advertisements: Array<any>;
+    public Advertisements: Array<Advertisement>;
 
     public Items: Array<FeedItem>;
+
+    public ItemTypes: Array<ItemType>;
 
     public SourceControlLookups: Array<string>;
 }
@@ -106,4 +109,8 @@ export class FeedEntry {
     public Title: string;
 
     public Type: string;
+}
+
+export class ItemType {
+    [key: string]: any;
 }
