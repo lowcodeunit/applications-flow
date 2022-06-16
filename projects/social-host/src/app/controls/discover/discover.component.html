@@ -1,149 +1,73 @@
 <mat-card class="lead">
-    <h2>Discover new Applications and Integrations</h2>
-
-    <p>Join thousands of users deploying applications with Fathym.</p>
-
-    <p>Start your account today. Cancel anytime.</p>
+    <h2>
+        Discover new applications and integrations included with your Fathym
+        license
+    </h2>
 </mat-card>
 
 <div fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-md="column">
-    <div fxFlex="60%" fxFlex.lt-md="90%">
-        <div
+    <div
+        fxFlex="90%"
+        fxFlex.lt-md="50%"
+        fxLayout="row wrap"
+        fxLayout.lt-md="column"
+        fxLayoutAlign="center center"
+    >
+        <!-- <div
             fxLayout="row"
             fxLayoutAlign="center center"
             fxLayout.lt-md="column"
+            fxFlex="90%" fxFlex.lt-md="50%"
             fxLayoutGap="2em"
+        > -->
+        <div
+            fxFlex="40%"
+            fxFlex.lt-md="100%"
+            *ngFor="let item of DiscoverItems"
         >
-            <div fxFlex="50%" fxFlex.lt-md="100%">
-                <mat-card>
-                    <mat-card-title>
-                        <mat-icon>home_iot_device</mat-icon>
+            <mat-card class="discover-card">
+                <mat-card-title>
+                    <mat-icon>{{ item.Icon }}</mat-icon>
 
-                        IoT Ensemble
-                    </mat-card-title>
+                    {{ item.Name }}
+                </mat-card-title>
 
-                    <img
-                        mat-card-image
-                        src="https://www.fathym.com/assets/images/screenshots/iot-ensemble-demo.png"
-                        alt="IoT Ensemble"
-                    />
+                <img
+                    mat-card-image
+                    [src]="item.Image"
+                    [alt]="item.Name"
+                    style="height: 100px"
+                />
 
-                    <mat-card-content>
-                        Connect your devices, understand your data and scale
-                        your IoT applications.
-                    </mat-card-content>
+                <mat-card-content>
+                    {{ item.Description }}
+                </mat-card-content>
 
-                    <mat-card-actions>
-                        <a
-                            mat-button
-                            color="accent"
-                            href="/iot/docs"
-                            target="_blank"
-                        >
-                            Documentation
-                        </a>
+                <mat-card-actions>
+                    <a
+                        mat-button
+                        color="accent"
+                        [href]="item.DocsLink"
+                        target="_blank"
+                    >
+                        Documentation
+                    </a>
 
-                        <div fxFlex></div>
+                    <div fxFlex></div>
 
-                        <a
-                            mat-raised-button
-                            color="primary"
-                            href="/dashboard/iot"
-                            target="_parent"
-                        >
-                            Launch IoT Ensemble
-                        </a>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-
-            <div fxFlex="50%" fxFlex.lt-md="100%">
-                <mat-card>
-                    <mat-card-title>
-                        <mat-icon>storm</mat-icon>
-
-                        Habistack
-                    </mat-card-title>
-
-                    <img
-                        mat-card-image
-                        src="https://www.fathym.com/assets/images/screenshots/habistack-demo.png"
-                        alt="Habistack"
-                    />
-
-                    <mat-card-content>
-                        Simple, accurate weather forecasts for the world we live
-                        in.
-                    </mat-card-content>
-
-                    <mat-card-actions>
-                        <a
-                            mat-button
-                            color="accent"
-                            href="/iot/docs"
-                            target="_blank"
-                            disabled
-                        >
-                            Documentation
-                        </a>
-
-                        <div fxFlex></div>
-
-                        <a
-                            mat-raised-button
-                            color="primary"
-                            href="/dashboard/forecast"
-                            target="_parent"
-                        >
-                            Launch Habistack
-                        </a>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
-
-            <div fxFlex="50%" fxFlex.lt-md="100%">
-                <mat-card>
-                    <mat-card-title>
-                        <mat-icon>local_car_wash</mat-icon>
-
-                        Proadject
-                    </mat-card-title>
-
-                    <img
-                        mat-card-image
-                        src="https://www.fathym.com/assets/images/screenshots/proadject-demo.png"
-                        alt="Proadject"
-                    />
-
-                    <mat-card-content>
-                        Simple, accurate weather and road condition forecasts
-                        for the routes we drive.
-                    </mat-card-content>
-
-                    <mat-card-actions>
-                        <a
-                            mat-button
-                            color="accent"
-                            href="/proadject/docs"
-                            target="_blank"
-                            disabled
-                        >
-                            Documentation
-                        </a>
-
-                        <div fxFlex></div>
-
-                        <a
-                            mat-raised-button
-                            color="primary"
-                            href="https://www.proadject.com/"
-                            target="_blank"
-                        >
-                            Launch Proadject
-                        </a>
-                    </mat-card-actions>
-                </mat-card>
-            </div>
+                    <a
+                        mat-raised-button
+                        color="primary"
+                        [href]="item.HomeLink"
+                        target="_parent"
+                        class="launch-btn"
+                    >
+                        Launch {{ item.Name }}
+                    </a>
+                </mat-card-actions>
+            </mat-card>
         </div>
+
+        <!-- </div> -->
     </div>
 </div>
