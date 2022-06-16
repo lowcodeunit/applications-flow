@@ -1,175 +1,173 @@
 import { Status } from '@lcu/common';
 
 export class IoTEnsembleState {
-  public AccessLicenseType?: string;
+    public AccessLicenseType?: string;
 
-  public AccessPlanGroup?: string;
+    public AccessPlanGroup?: string;
 
-  public DataInterval?: number;
+    public DataInterval?: number;
 
-  public DataRetention?: number;
+    public DataRetention?: number;
 
-  public DevicesConfig?: IoTEnsembleConnectedDevicesConfig;
+    public DevicesConfig?: IoTEnsembleConnectedDevicesConfig;
 
-  public Dashboard?: IoTEnsembleDashboardConfiguration;
+    public Dashboard?: IoTEnsembleDashboardConfiguration;
 
-  public Drawers?: IoTEnsembleDrawersConfig;
+    public Drawers?: IoTEnsembleDrawersConfig;
 
-  public Emulated?: EmulatedDeviceInfo;
+    public Emulated?: EmulatedDeviceInfo;
 
-  public Error?: ErrorContext;
+    public Error?: ErrorContext;
 
-  public ExpandedPayloadID?: string;
+    public ExpandedPayloadID?: string;
 
-  public HasAccess?: boolean;
+    public HasAccess?: boolean;
 
-  public Loading?: boolean;
+    public Loading?: boolean;
 
-  public SelectedDeviceID?: string;
+    public SelectedDeviceID?: string;
 
-  public Storage?: IoTEnsembleStorageConfiguration;
+    public Storage?: IoTEnsembleStorageConfiguration;
 
-  public Telemetry?: IoTEnsembleTelemetry;
+    public Telemetry?: IoTEnsembleTelemetry;
 
-  public UserEnterpriseLookup?: string;
+    public UserEnterpriseLookup?: string;
 }
 
 export class EmulatedDeviceInfo {
-  public Enabled?: boolean;
+    public Enabled?: boolean;
 
-  public Loading?: boolean;
+    public Loading?: boolean;
 }
 
 export class IoTEnsembleDashboardConfiguration {
-  public FreeboardConfig?: any;
+    public FreeboardConfig?: any;
 
-  public PowerBIConfig?: any;
+    public PowerBIConfig?: any;
 }
 
 export class ErrorContext {
-  public ActionPath?: string;
+    public ActionPath?: string;
 
-  public ActionTarget?: string;
+    public ActionTarget?: string;
 
-  public ActionText?: string;
+    public ActionText?: string;
 
-  public Message?: string;
+    public Message?: string;
 
-  public Title?: string;
+    public Title?: string;
 }
 
 export class IoTEnsembleDeviceEnrollment {
-  public DeviceName?: string;
+    public DeviceName?: string;
 }
 
 export class IoTEnsembleConnectedDevicesConfig {
-  public EnterpriseDevicesCount: number;
+    public EnterpriseDevicesCount: number;
 
-  public Devices?: IoTEnsembleDeviceInfo[];
+    public Devices?: IoTEnsembleDeviceInfo[];
 
-  public Loading?: boolean;
+    public Loading?: boolean;
 
-  public MaxDevicesCount?: number;
+    public MaxDevicesCount?: number;
 
-  public Page?: number;
+    public Page?: number;
 
-  public PageSize?: number;
+    public PageSize?: number;
 
-  public SASTokens?: { [deviceName: string]: string };
+    public SASTokens?: { [deviceName: string]: string };
 
-  public Status?: Status;
+    public Status?: Status;
 
-  public TotalDevices?: number;
+    public TotalDevices?: number;
 }
 
 export class IoTEnsembleDeviceInfo {
-  [prop: string]: any;
+    [prop: string]: any;
 
-  public ActivelySendingData?: boolean;
+    public ActivelySendingData?: boolean;
 
-  public AuthenticationType?: string;
+    public AuthenticationType?: string;
 
-  public CloudToDeviceMessageCount?: number;
+    public CloudToDeviceMessageCount?: number;
 
-  public ConnectionString?: string;
+    public ConnectionString?: string;
 
-  public DeviceID?: string;
+    public DeviceID?: string;
 
-  public DeviceName?: string;
+    public DeviceName?: string;
 
-  public LastStatusUpdate?: Status;
-
+    public LastStatusUpdate?: Status;
 }
 
 export class IoTEnsembleTelemetry {
+    public Enabled?: boolean;
 
-  public Enabled?: boolean;
+    public Loading?: boolean;
 
-  public Loading?: boolean;
+    public Page?: number;
 
-  public Page?: number;
+    public PageSize?: number;
 
-  public PageSize?: number;
+    public Payloads?: IoTEnsembleTelemetryPayload[];
 
-  public Payloads?: IoTEnsembleTelemetryPayload[];
+    public RefreshRate?: number;
 
-  public RefreshRate?: number;
+    public LastSyncedAt?: string;
 
-  public LastSyncedAt?: string;
-
-  public TotalPayloads?: number;
+    public TotalPayloads?: number;
 }
 
 export class IoTEnsembleTelemetryPayload {
-  [prop: string]: any;
+    [prop: string]: any;
 
-  public DeviceData?: { [prop: string]: any };
+    public DeviceData?: { [prop: string]: any };
 
-  public DeviceID?: string;
+    public DeviceID?: string;
 
-  public DeviceType?: string;
+    public DeviceType?: string;
 
-  public ID?: string;
+    public ID?: string;
 
-  public SensorMetadata?: { [prop: string]: any };
+    public SensorMetadata?: { [prop: string]: any };
 
-  public SensorReadings?: { [prop: string]: any };
+    public SensorReadings?: { [prop: string]: any };
 
-  public Timestamp?: Date;
+    public Timestamp?: Date;
 
-  public TotalPayloads?: number;
+    public TotalPayloads?: number;
 
-  public Version?: string;
+    public Version?: string;
 }
 
 export class IoTEnsembleDrawersConfig {
-  public DetailsActive: boolean;
+    public DetailsActive: boolean;
 
-  public HasBackdrop: boolean;
+    public HasBackdrop: boolean;
 
-  public NavActive: boolean;
+    public NavActive: boolean;
 }
 
 export class IoTEnsembleStorageConfiguration {
-  public APIKeys: IoTEnsembleAPIKeyData[];
+    public APIKeys: IoTEnsembleAPIKeyData[];
 
-  public OpenAPISource: string;
+    public OpenAPISource: string;
 }
 
 export class IoTEnsembleAPIKeyData {
-  public Key: string;
+    public Key: string;
 
-  public KeyName: string;
+    public KeyName: string;
 }
 
 export enum ColdQueryDataTypes {
-  Telemetry = 'Telemetry',
-  Observations = 'Observations',
-  SensorMetadata = 'SensorMetadata',
+    Telemetry = 'Telemetry',
+    Observations = 'Observations',
+    SensorMetadata = 'SensorMetadata',
 }
 
 export enum ColdQueryResultTypes {
-  CSV = 'CSV',
-  JSON = 'JSON',
-  JSONLines = 'JSONLines',
+    CSV = 'CSV',
+    JSON = 'JSON',
+    JSONLines = 'JSONLines',
 }

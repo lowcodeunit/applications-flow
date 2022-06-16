@@ -1,17 +1,27 @@
 <div stats class="carousel-container">
     <div class="chevron-container" fxLayout="row">
-        <button mat-icon-button class="chevron-button" id="left-chevron" (click)="LeftChevronClicked()">
+        <button
+            mat-icon-button
+            class="chevron-button"
+            id="left-chevron"
+            (click)="LeftChevronClicked()"
+        >
             <mat-icon>chevron_left</mat-icon>
         </button>
-        <button mat-icon-button class="chevron-button" id="right-chevron" (click)="RightChevronClicked()">
+        <button
+            mat-icon-button
+            class="chevron-button"
+            id="right-chevron"
+            (click)="RightChevronClicked()"
+        >
             <mat-icon>chevron_right</mat-icon>
         </button>
     </div>
     <ng-container *ngFor="let stat of Stats; let i = index">
-            <div class="carousel-item" [id]="'carousel-'+i">
-                <div class="carousel-title">{{stat.Name}}</div>
-                <div class="carousel-stat">{{stat.Stat}}</div>
-            </div>
+        <div class="carousel-item" [id]="'carousel-' + i">
+            <div class="carousel-title">{{ stat.Name }}</div>
+            <div class="carousel-stat">{{ stat.Stat }}</div>
+        </div>
     </ng-container>
     <div (click)="MoreDetailsClicked()">More details</div>
 </div>

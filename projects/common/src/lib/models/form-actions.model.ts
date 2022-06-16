@@ -1,7 +1,6 @@
 import { ActionsModel } from './actions.model';
 
 export class FormActionsModel {
-
     /**
      * Button actions
      */

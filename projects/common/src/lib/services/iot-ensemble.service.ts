@@ -5,46 +5,40 @@ import { IoTEnsembleState } from '../state/iot-ensemble.state';
 import { LCUServiceSettings } from '@lcu/common';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class IoTEnsembleService {
-  //  Fields
-  protected apiRoot: string;
+    //  Fields
+    protected apiRoot: string;
 
-  //  Properties
-  public State: IoTEnsembleState;
+    //  Properties
+    public State: IoTEnsembleState;
 
-  //  Constructors
-  constructor(
-    protected http: HttpClient,
-    protected settings: LCUServiceSettings
-  ) {
-    this.apiRoot = settings.APIRoot;
+    //  Constructors
+    constructor(
+        protected http: HttpClient,
+        protected settings: LCUServiceSettings
+    ) {
+        this.apiRoot = settings.APIRoot;
 
-    this.State = new IoTEnsembleState();
-  }
+        this.State = new IoTEnsembleState();
+    }
 
-  //  API Methods
-  public ColdQuery(): Observable<object> {
-    return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/iot/cold-query`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
-  
-  public ToggleEmulatedEnabled(): Observable<object> {
-    return this.http.get(
-      `${this.apiRoot}/api/lowcodeunit/userfeed`,
-      {
-        headers: this.loadHeaders(),
-      }
-    );
-  }
+    //  API Methods
+    public ColdQuery(): Observable<object> {
+        return this.http.get(`${this.apiRoot}/api/lowcodeunit/iot/cold-query`, {
+            headers: this.loadHeaders(),
+        });
+    }
 
-  //  Helpers
-  protected loadHeaders(): { [header: string]: string | string[] } {
-    return {};
-  }
+    public ToggleEmulatedEnabled(): Observable<object> {
+        return this.http.get(`${this.apiRoot}/api/lowcodeunit/userfeed`, {
+            headers: this.loadHeaders(),
+        });
+    }
+
+    //  Helpers
+    protected loadHeaders(): { [header: string]: string | string[] } {
+        return {};
+    }
 }

@@ -1,4 +1,4 @@
-import { SlotActionModel } from "./slot-action.model";
+import { SlotActionModel } from './slot-action.model';
 
 export class CardSlotModel {
     public ImageUrl: string;
@@ -8,6 +8,4 @@ export class CardSlotModel {
     public Description: string;
 
     public Actions?: Array<SlotActionModel>;
-
-
 }

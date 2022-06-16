@@ -1,39 +1,48 @@
-
+@import "../../../assets/styles/social-card";
 
 :host {
-  @import "../../../assets/styles/social-card";
-
-
-  .example-header-image {
-    background-size: cover;
-  }
-
-  .mat-icon {
-    display: inline-flex;
-    vertical-align: middle;
-
-    &.spin {
-      animation: rotate 1s ease-in-out infinite;
+    .example-header-image {
+        background-size: cover;
     }
 
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(-360deg);
-      }
-    }
-  }
+    .mat-icon {
+        display: inline-flex;
+        vertical-align: middle;
 
-  .tab {
-    margin: 2em;
+        &.spin {
+            animation: rotate 1s ease-in-out infinite;
+        }
 
-    .video {
-      iframe {
-        display: block;
-        margin: auto;
-      }
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(-360deg);
+            }
+        }
     }
-  }
+
+    .tab {
+        margin: 2em;
+
+        .video {
+            iframe {
+                display: block;
+                margin: auto;
+            }
+        }
+
+        .comment-field {
+            width: 90%;
+
+            ::ng-deep .mat-form-field-wrapper {
+                padding: 0px !important;
+            }
+
+            ::ng-deep .mat-form-field-underline {
+                bottom: 0px !important;
+            }
+        }
+    }
 }

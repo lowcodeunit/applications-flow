@@ -1,5 +1,9 @@
-@import '../../common/src/assets/common';
+@import "../../common/src/assets/common";
 
-body{
-    background-color:#EBECF0 !important;
+body {
+    background-color: #ebecf0 !important;
+}
+
+.error {
+    color: red;
 }

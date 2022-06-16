@@ -1,144 +1,179 @@
 <div>
-  <div [fxHide]="Loading">
-    <!-- <div style="position: absolute; top: 5px; right: 5px">
+    <div [fxHide]="Loading">
+        <!-- <div style="position: absolute; top: 5px; right: 5px">
       <button mat-mini-fab (click)="Cancel()">
         <mat-icon>cancel</mat-icon>
       </button>
     </div> -->
 
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <div
-        fxFlex="80%"
-        fxFlex.lt-md="100%"
-        fxLayout="column"
-        fxLayoutAlign="center center"
-      >
-        <div class="welcome margin-x-1" fxFlex="40%" fxFlex.lt-md="100%">
-          <h3 class="mat-title">Let's get your Project setup and running</h3>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <div
+                fxFlex="80%"
+                fxFlex.lt-md="100%"
+                fxLayout="column"
+                fxLayoutAlign="center center"
+            >
+                <div
+                    class="welcome margin-x-1"
+                    fxFlex="40%"
+                    fxFlex.lt-md="100%"
+                >
+                    <h3 class="mat-title">
+                        Let's get your Project setup and running
+                    </h3>
 
-          <div class="divider-fill-hor margin-y-4"></div>
-        </div>
-
-        <div class="setup margin-x-1" fxFlex="90%" fxFlex.lt-md="100%">
-          <form [formGroup]="ProjectFormGroup" (ngSubmit)="CreateProject()">
-            <mat-horizontal-stepper linear #projectStepper>
-              <mat-step
-                label="Connect Repository"
-                formGroupName="repoDetails"
-                [completed]="
-                  IsOrganizationValid && IsRepositoryValid && IsBranchValid
-                "
-              >
-                <div>
-                  <h3 class="mat-display-1 margin-bottom-4 margin-top-3">
-                    Connect your repository
-                  </h3>
-
-                  <div [fxShow]="!HostingDetails.Loading">
-                    <div class="margin-y-2">
-                      <lcu-source-control-form-controls
-                        [form-group]="RepoDetailsFormGroup"
-                        [source-control]="{}"
-                      ></lcu-source-control-form-controls>
-                    </div>
-
-                    <div class="margin-top-4">
-                      <button
-                        mat-button
-                        color="warn"
-                        (click)="Cancel()"
-                        type="button"
-                      >
-                        Cancel
-                      </button>
-
-                      <div fxFlex></div>
-
-                      <button
-                        mat-raised-button
-                        color="accent"
-                        (click)="ConfigureRepository()"
-                        type="button"
-                        [disabled]="!IsBranchValid"
-                      >
-                        Next
-                      </button>
-                    </div>
-                  </div>
-
-                  <div class="margin-3" *ngIf="HostingDetails.Loading">
-                    <lcu-loader
-                      style="margin: auto"
-                      [loading]="true"
-                    ></lcu-loader>
-
-                    <div class="margin-3">
-                      <h4 class="mat-title">Configuring</h4>
-                    </div>
-                  </div>
+                    <div class="divider-fill-hor margin-y-4"></div>
                 </div>
-              </mat-step>
 
-              <!-- [stepControl]="formArray.get([2])" -->
-              <mat-step
-                label="Configure Project"
-                formGroupName="projectDetails"
-              >
-                <h3 class="mat-display-1 margin-bottom-2">
-                  Configure build pipeline for
-                </h3>
-
-                <h4 class="mat-headline margin-bottom-2">
-                  <strong>
-                    @{{ RepoDetailsFormGroup.get("organization")?.value }}/{{
-                      RepoDetailsFormGroup.get("repository")?.value
-                    }}
-
-                    <br />
-
-                    <span
-                      *ngFor="let selBranch of SourceControl?.SelectedBranches"
+                <div class="setup margin-x-1" fxFlex="90%" fxFlex.lt-md="100%">
+                    <form
+                        [formGroup]="ProjectFormGroup"
+                        (ngSubmit)="CreateProject()"
                     >
-                      @{{ selBranch }}
-                    </span>
-                  </strong>
-                </h4>
+                        <mat-horizontal-stepper linear #projectStepper>
+                            <mat-step
+                                label="Connect Repository"
+                                formGroupName="repoDetails"
+                                [completed]="
+                                    IsOrganizationValid &&
+                                    IsRepositoryValid &&
+                                    IsBranchValid
+                                "
+                            >
+                                <div>
+                                    <h3
+                                        class="mat-display-1 margin-bottom-4 margin-top-3"
+                                    >
+                                        Connect your repository
+                                    </h3>
 
-                <div class="margin-y-2" *ngIf="!HostingDetails.Loading">
-                  <lcu-hosting-details-form-group
-                    [formGroup]="ProjectDetailsFormGroup"
-                    [details]="HostingDetails"
-                  ></lcu-hosting-details-form-group>
+                                    <div [fxShow]="!HostingDetails.Loading">
+                                        <div class="margin-y-2">
+                                            <lcu-source-control-form-controls
+                                                [form-group]="
+                                                    RepoDetailsFormGroup
+                                                "
+                                                [source-control]="{}"
+                                            ></lcu-source-control-form-controls>
+                                        </div>
+
+                                        <div class="margin-top-4">
+                                            <button
+                                                mat-button
+                                                color="warn"
+                                                (click)="Cancel()"
+                                                type="button"
+                                            >
+                                                Cancel
+                                            </button>
+
+                                            <div fxFlex></div>
+
+                                            <button
+                                                mat-raised-button
+                                                color="accent"
+                                                (click)="ConfigureRepository()"
+                                                type="button"
+                                                [disabled]="!IsBranchValid"
+                                            >
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="margin-3"
+                                        *ngIf="HostingDetails.Loading"
+                                    >
+                                        <lcu-loader
+                                            style="margin: auto"
+                                            [loading]="true"
+                                        ></lcu-loader>
+
+                                        <div class="margin-3">
+                                            <h4 class="mat-title">
+                                                Configuring
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-step>
+
+                            <!-- [stepControl]="formArray.get([2])" -->
+                            <mat-step
+                                label="Configure Project"
+                                formGroupName="projectDetails"
+                            >
+                                <h3 class="mat-display-1 margin-bottom-2">
+                                    Configure build pipeline for
+                                </h3>
+
+                                <h4 class="mat-headline margin-bottom-2">
+                                    <strong>
+                                        @{{
+                                            RepoDetailsFormGroup.get(
+                                                "organization"
+                                            )?.value
+                                        }}/{{
+                                            RepoDetailsFormGroup.get(
+                                                "repository"
+                                            )?.value
+                                        }}
+
+                                        <br />
+
+                                        <span
+                                            *ngFor="
+                                                let selBranch of SourceControl?.SelectedBranches
+                                            "
+                                        >
+                                            @{{ selBranch }}
+                                        </span>
+                                    </strong>
+                                </h4>
+
+                                <div
+                                    class="margin-y-2"
+                                    *ngIf="!HostingDetails.Loading"
+                                >
+                                    <lcu-hosting-details-form-group
+                                        [formGroup]="ProjectDetailsFormGroup"
+                                        [details]="HostingDetails"
+                                    ></lcu-hosting-details-form-group>
+                                </div>
+
+                                <div>
+                                    <button
+                                        mat-button
+                                        matStepperPrevious
+                                        type="button"
+                                    >
+                                        Back
+                                    </button>
+
+                                    <div fxFlex></div>
+
+                                    <button
+                                        mat-raised-button
+                                        color="primary"
+                                        [disabled]="!AreProjectDetailsValid"
+                                    >
+                                        Create Project
+                                    </button>
+                                </div>
+                            </mat-step>
+                        </mat-horizontal-stepper>
+                    </form>
                 </div>
-
-                <div>
-                  <button mat-button matStepperPrevious type="button">
-                    Back
-                  </button>
-
-                  <div fxFlex></div>
-
-                  <button
-                    mat-raised-button
-                    color="primary"
-                    [disabled]="!AreProjectDetailsValid"
-                  >
-                    Create Project
-                  </button>
-                </div>
-              </mat-step>
-            </mat-horizontal-stepper>
-          </form>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 
-  <div class="loading" *ngIf="Loading">
-    <lcu-loader [loading]="Loading"></lcu-loader>
+    <div class="loading" *ngIf="Loading">
+        <lcu-loader [loading]="Loading"></lcu-loader>
 
-    <div class="margin-3">
-      <p>Loading</p>
+        <div class="margin-3">
+            <p>Loading</p>
+        </div>
     </div>
-  </div>
 </div>

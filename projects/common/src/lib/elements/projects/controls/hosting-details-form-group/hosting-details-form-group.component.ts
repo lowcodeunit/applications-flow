@@ -1,169 +1,169 @@
 import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    Validators,
 } from '@angular/forms';
 import { EaCDevOpsAction, EaCArtifact } from '@semanticjs/common';
 import {
-  ProjectHostingDetails,
-  ProjectHostingOption,
+    ProjectHostingDetails,
+    ProjectHostingOption,
 } from '../../../../state/applications-flow.state';
 
 @Component({
-  selector: 'lcu-hosting-details-form-group',
-  templateUrl: './hosting-details-form-group.component.html',
-  styleUrls: ['./hosting-details-form-group.component.scss'],
+    selector: 'lcu-hosting-details-form-group',
+    templateUrl: './hosting-details-form-group.component.html',
+    styleUrls: ['./hosting-details-form-group.component.scss'],
 })
 export class HostingDetailsFormGroupComponent implements OnChanges, OnInit {
-  //  Fields
+    //  Fields
 
-  //  Properties
-  @Input('artifact')
-  public Artifact: EaCArtifact;
+    //  Properties
+    @Input('artifact')
+    public Artifact: EaCArtifact;
 
-  @Input('build-pipeline')
-  public BuildPipeline: string;
+    @Input('build-pipeline')
+    public BuildPipeline: string;
 
-  public get BuildPipelineFormControl(): AbstractControl {
-    return this.FormGroup.get('buildPipeline');
-  }
-
-  @Input('details')
-  public Details: ProjectHostingDetails;
-
-  @Input('devops-action')
-  public DevOpsAction: EaCDevOpsAction;
-
-  public get DevOpsActionNameFormControl(): AbstractControl {
-    return this.FormGroup.get('devOpsActionName');
-  }
-
-  @Input('disabled')
-  public Disabled: boolean;
-
-  public get FormGroup(): FormGroup {
-    return this.ParentFormGroup.get('hostingDetails') as FormGroup;
-  }
-
-  public get NPMTokenFormControl(): AbstractControl {
-    return this.FormGroup.get('npmToken');
-  }
-
-  @Input('organization')
-  public Organization: string;
-
-  @Input('formGroup')
-  public ParentFormGroup: FormGroup;
-
-  public get SelectedHostingOption(): ProjectHostingOption {
-    return this.Details?.HostingOptions?.find(
-      (ho) => ho.Lookup === this.BuildPipeline
-    );
-  }
-
-  public get SelectedHostingOptionInputControlValues(): {
-    [lookup: string]: any;
-  } {
-    return this.SelectedHostingOption?.Inputs?.reduce((prev, cur) => {
-      const res = {
-        ...prev,
-      };
-
-      res[cur.Lookup] = this.FormGroup.controls[cur.Lookup].value;
-
-      return res;
-    }, {});
-  }
-
-  //  Constructors
-  constructor(protected formBuilder: FormBuilder) {}
-
-  //  Life Cycle
-  public ngOnChanges(): void {}
-
-  public ngOnInit(): void {
-
-
-    this.BuildPipeline =
-      this.BuildPipeline || this.Details?.HostingOptions
-        ? this.Details?.HostingOptions[0]?.Lookup
-        : '';
-
-    if (this.FormGroup != null) {
-      this.ParentFormGroup.removeControl('hostingDetails');
+    public get BuildPipelineFormControl(): AbstractControl {
+        return this.FormGroup.get('buildPipeline');
     }
 
-    this.ParentFormGroup.addControl(
-      'hostingDetails',
-      this.formBuilder.group({
-        buildPipeline: [this.BuildPipeline, [Validators.required]],
-      })
-    );
+    @Input('details')
+    public Details: ProjectHostingDetails;
 
-    this.setupControlsForForm();
-  }
+    @Input('devops-action')
+    public DevOpsAction: EaCDevOpsAction;
 
-  //  API Methods
-  public BuildPipelineChanged(): void {
-    this.BuildPipeline = this.BuildPipelineFormControl.value;
-
-    this.setupControlsForForm();
-  }
-
-  //  Helpers
-  protected setupControlsForForm(): void {
-    for (const ctrlName in this.FormGroup.controls) {
-      if (ctrlName !== 'buildPipeline' && ctrlName !== 'devOpsAction') {
-        this.FormGroup.removeControl(ctrlName);
-      }
+    public get DevOpsActionNameFormControl(): AbstractControl {
+        return this.FormGroup.get('devOpsActionName');
     }
 
-    this.FormGroup.addControl(
-      'devOpsActionName',
-      this.formBuilder.control(
-        this.DevOpsAction?.Name || this.SelectedHostingOption?.Name || '',
-        [Validators.required]
-      )
-    );
+    @Input('disabled')
+    public Disabled: boolean;
 
-    this.SelectedHostingOption?.Inputs?.forEach((input) => {
-      const validators = input.Required ? [Validators.required] : [];
+    public get FormGroup(): FormGroup {
+        return this.ParentFormGroup.get('hostingDetails') as FormGroup;
+    }
 
-      this.FormGroup.addControl(
-        input.Lookup,
-        this.formBuilder.control(
-          this.Artifact[input.Lookup] || input.DefaultValue || '',
-          validators
-        )
-      );
+    public get NPMTokenFormControl(): AbstractControl {
+        return this.FormGroup.get('npmToken');
+    }
 
-      // if (this.Disabled) {
-      //   this.FormGroup.controls[input.Lookup].disable();
-      // }
-    });
+    @Input('organization')
+    public Organization: string;
 
-    if (this.BuildPipelineFormControl.value === 'npm-release') {
-      if (!this.FormGroup.controls.npmToken) {
-        this.FormGroup.addControl(
-          'npmToken',
-          this.formBuilder.control(
-            '',
-            this.Disabled ? [] : [Validators.required]
-          )
+    @Input('formGroup')
+    public ParentFormGroup: FormGroup;
+
+    public get SelectedHostingOption(): ProjectHostingOption {
+        return this.Details?.HostingOptions?.find(
+            (ho) => ho.Lookup === this.BuildPipeline
+        );
+    }
+
+    public get SelectedHostingOptionInputControlValues(): {
+        [lookup: string]: any;
+    } {
+        return this.SelectedHostingOption?.Inputs?.reduce((prev, cur) => {
+            const res = {
+                ...prev,
+            };
+
+            res[cur.Lookup] = this.FormGroup.controls[cur.Lookup].value;
+
+            return res;
+        }, {});
+    }
+
+    //  Constructors
+    constructor(protected formBuilder: FormBuilder) {}
+
+    //  Life Cycle
+    public ngOnChanges(): void {}
+
+    public ngOnInit(): void {
+        this.BuildPipeline =
+            this.BuildPipeline || this.Details?.HostingOptions
+                ? this.Details?.HostingOptions[0]?.Lookup
+                : '';
+
+        if (this.FormGroup != null) {
+            this.ParentFormGroup.removeControl('hostingDetails');
+        }
+
+        this.ParentFormGroup.addControl(
+            'hostingDetails',
+            this.formBuilder.group({
+                buildPipeline: [this.BuildPipeline, [Validators.required]],
+            })
         );
 
-        if (this.Disabled) {
-          this.FormGroup.controls.npmToken.disable();
-        }
-      }
-    } else if (
-      this.BuildPipelineFormControl.value === 'github-artifacts-release'
-    ) {
-      if (this.FormGroup.controls.npmToken) {
-        this.FormGroup.removeControl('npmToken');
-      }
+        this.setupControlsForForm();
     }
-  }
+
+    //  API Methods
+    public BuildPipelineChanged(): void {
+        this.BuildPipeline = this.BuildPipelineFormControl.value;
+
+        this.setupControlsForForm();
+    }
+
+    //  Helpers
+    protected setupControlsForForm(): void {
+        for (const ctrlName in this.FormGroup.controls) {
+            if (ctrlName !== 'buildPipeline' && ctrlName !== 'devOpsAction') {
+                this.FormGroup.removeControl(ctrlName);
+            }
+        }
+
+        this.FormGroup.addControl(
+            'devOpsActionName',
+            this.formBuilder.control(
+                this.DevOpsAction?.Name ||
+                    this.SelectedHostingOption?.Name ||
+                    '',
+                [Validators.required]
+            )
+        );
+
+        this.SelectedHostingOption?.Inputs?.forEach((input) => {
+            const validators = input.Required ? [Validators.required] : [];
+
+            this.FormGroup.addControl(
+                input.Lookup,
+                this.formBuilder.control(
+                    this.Artifact[input.Lookup] || input.DefaultValue || '',
+                    validators
+                )
+            );
+
+            // if (this.Disabled) {
+            //   this.FormGroup.controls[input.Lookup].disable();
+            // }
+        });
+
+        if (this.BuildPipelineFormControl.value === 'npm-release') {
+            if (!this.FormGroup.controls.npmToken) {
+                this.FormGroup.addControl(
+                    'npmToken',
+                    this.formBuilder.control(
+                        '',
+                        this.Disabled ? [] : [Validators.required]
+                    )
+                );
+
+                if (this.Disabled) {
+                    this.FormGroup.controls.npmToken.disable();
+                }
+            }
+        } else if (
+            this.BuildPipelineFormControl.value === 'github-artifacts-release'
+        ) {
+            if (this.FormGroup.controls.npmToken) {
+                this.FormGroup.removeControl('npmToken');
+            }
+        }
+    }
 }
