@@ -4,12 +4,66 @@
     <div fxFlex></div>
 
     <ng-container *ngIf="!IsSmScreen">
-        <a mat-button class="toolbar-action" href="/docs" target="_blank"
-            >Docs</a
-        >
-        <a mat-button class="toolbar-action" href="/blog/" target="_blank"
-            >Blog</a
-        >
+        <a mat-button class="toolbar-action" href="/dashboard">
+            <mat-icon>group</mat-icon>
+
+            Teams
+        </a>
+
+        <a mat-button class="toolbar-action" href="/dashboard/krakyn">
+            <mat-icon>account_tree</mat-icon>
+
+            Krakyn
+        </a>
+
+        <a mat-button class="toolbar-action" href="/dashboard/discover">
+            <mat-icon> travel_explore </mat-icon>
+
+            Discover
+        </a>
+
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>help</mat-icon>
+
+            Support
+        </button>
+        <mat-menu #menu="matMenu">
+            <a
+                mat-menu-item
+                class="toolbar-action"
+                href="/docs"
+                target="_blank"
+            >
+                Docs
+            </a>
+
+            <a
+                mat-menu-item
+                class="toolbar-action"
+                href="/blog/"
+                target="_blank"
+            >
+                Blog
+            </a>
+
+            <a
+                mat-menu-item
+                class="toolbar-action"
+                href="https://discord.com/channels/786363505862901760/786363629242155039"
+                target="_blank"
+            >
+                Discord
+            </a>
+            <a
+                mat-menu-item
+                class="toolbar-action"
+                href="mailto:support@fathym.com"
+                target="_blank"
+            >
+                Email
+            </a>
+        </mat-menu>
+
         <button
             mat-icon-button
             matTooltip="My Account"

@@ -15,7 +15,7 @@
         </lcu-card-carousel> -->
 
             <!-- [routerLink]="['/iot']" -->
-            <a
+            <!-- <a
                 action
                 mat-button
                 class="info-card-btn mat-full-width"
@@ -24,7 +24,7 @@
                 <mat-icon>account_tree</mat-icon>
 
                 Access IoT Benefits
-            </a>
+            </a> -->
 
             <!-- <button
         action
@@ -36,6 +36,8 @@
         Unpack
       </button> -->
         </lcu-project-info-card>
+
+        <lcu-product-discovery-card></lcu-product-discovery-card>
         <!-- Commented out until implemented -->
         <!-- <lcu-analytics-card
             matTooltip="Temp Title"
@@ -46,6 +48,8 @@
     <!-- CENTER FEED -->
     <div>
         <lcu-feed-header></lcu-feed-header>
+
+        <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter>
 
         <lcu-skeleton-feed-card
             *ngIf="State?.LoadingFeed"
@@ -61,10 +65,16 @@
     </div>
 
     <div right>
+        <ng-container *ngFor="let ad of State?.Advertisements">
+            <lcu-advertisement-card
+                [advertisement]="ad"
+            ></lcu-advertisement-card>
+        </ng-container>
         <!-- Projects
       secondary-slot-description="Add new quick project"
       action-text="Create Custom Project"-->
         <lcu-slotted-card
+            *ngIf="NumberOfProjects > 0"
             card-title="Projects"
             icon="work_outline"
             [main-slot-description]="
@@ -189,6 +199,7 @@
       secondary-slot-description="Add new source control"
       action-text="Create New Source Control" -->
         <lcu-slotted-card
+            *ngIf="NumberOfSourceControls > 0"
             card-title="Source Controls"
             icon="build"
             [main-slot-description]="
@@ -232,7 +243,7 @@
                                     class="slot-name"
                                 >
                                     {{ sc.Name | slice: 0:18 }}...
-                                </div> 
+                                </div>
                             *ngIf="
                                         sc.Name?.length < 21 ||
                                         sc.Name.length == 21
@@ -313,6 +324,7 @@
       secondary-slot-description="Add new pipeline"
       action-text="Create New Pipeline" -->
         <lcu-slotted-card
+            *ngIf="NumberOfPipelines > 0"
             card-title="Build Pipeline"
             icon="plumbing"
             [main-slot-description]="
@@ -415,6 +427,7 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
         <lcu-slotted-card
+            *ngIf="NumberOfModifiers > 0"
             card-title="Modifiers"
             icon="sync_alt"
             [main-slot-description]="

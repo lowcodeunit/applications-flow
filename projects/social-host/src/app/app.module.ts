@@ -24,12 +24,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SkeletonElementsModule } from 'skeleton-elements/angular';
 import { LazyElementModule } from '@lowcodeunit/lazy-element';
 import { IoTComponent } from './controls/iot/iot.component';
+import { DiscoverComponent } from './controls/discover/discover.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ProjectsComponent,
         RoutesComponent,
+        DiscoverComponent,
         EnterpriseComponent,
         IoTComponent,
         ApplicationsComponent,
@@ -63,6 +65,7 @@ import { IoTComponent } from './controls/iot/iot.component';
     entryComponents: [
         ProjectsComponent,
         RoutesComponent,
+        DiscoverComponent,
         EnterpriseComponent,
         ApplicationsComponent,
         IoTComponent,

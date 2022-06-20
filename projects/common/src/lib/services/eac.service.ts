@@ -226,11 +226,13 @@ export class EaCService {
     public async LoadUserFeed(
         page: number,
         pageSize: number,
-        forCheck: boolean = false
+        forCheck: boolean = false,
+        filterStr: string = ''
     ): Promise<void> {
         await this.projectService.LoadUserFeed(
             page,
             pageSize,
+            filterStr,
             forCheck,
             this.State
         );

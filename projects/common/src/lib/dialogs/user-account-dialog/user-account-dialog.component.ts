@@ -1,7 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Application } from '@lcu/common';
-import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { ProjectService } from '../../services/project.service';
 import {
     ApplicationsFlowState,
@@ -101,6 +99,13 @@ export class UserAccountDialogComponent implements OnInit {
         return this.UserInfo?.Plan?.Name
             ? this.UserInfo?.Plan?.Name
             : 'Fathym - Starter';
+    }
+
+    /**
+     * The interval of the plan ie annual or Monthly
+     */
+    public get PlanInterval(): string {
+        return this.UserInfo?.Price?.Interval;
     }
 
     constructor(

@@ -43,7 +43,7 @@ export class PageHeaderComponent implements OnInit {
     public OpenMyAccount() {
         this.userAccountDialog.open(UserAccountDialogComponent, {
             position: { top: '75px', right: '10px' },
-            width: '260px',
+            width: '350px',
             panelClass: 'user-account-dialog-container',
             data: this.State,
         });
