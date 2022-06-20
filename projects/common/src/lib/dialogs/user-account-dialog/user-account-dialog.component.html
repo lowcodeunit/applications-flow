@@ -19,10 +19,10 @@
                 >
                     <!-- <div class="user-info">Username</div> -->
                     <div *ngIf="!Loading" class="user-info">
-                        {{ UserInfo?.Email }}
+                        Username: {{ UserInfo?.Email }}
                     </div>
                     <div *ngIf="!Loading" class="user-info">
-                        {{ UserPlan }} License
+                        License: {{ UserPlan }} Plan - {{ PlanInterval }}
                     </div>
                 </div>
             </div>
