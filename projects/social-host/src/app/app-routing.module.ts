@@ -15,7 +15,7 @@ const routes: Routes = [
     { path: 'project/:projectLookup', component: ProjectsComponent },
     { path: 'route/:appRoute/:projectLookup', component: RoutesComponent },
     { path: 'discover', component: DiscoverComponent },
-    { path: 'iiot', component: IoTComponent },
+    { path: 'iot', component: IoTComponent },
     { path: '', component: EnterpriseComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
