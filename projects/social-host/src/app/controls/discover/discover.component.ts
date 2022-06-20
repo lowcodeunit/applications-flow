@@ -22,7 +22,7 @@ export class DiscoverComponent implements OnInit {
             {
                 Name: 'Fathym',
                 Icon: 'tap_and_play',
-                Image: 'https://www.fathym.com/assets/images/screenshots/iot-ensemble-demo.png',
+                Image: 'https://www.fathym.com/img/screenshots/SocialUIDashboard.PNG',
                 Description:
                     'Develop, automate, and manage modern web project delivery.',
                 DocsLink: '/docs',
@@ -31,7 +31,7 @@ export class DiscoverComponent implements OnInit {
             {
                 Name: 'IoT Ensemble',
                 Icon: 'cloud_sync',
-                Image: 'https://www.fathym.com/assets/images/screenshots/iot-ensemble-demo.png',
+                Image: 'https://www.fathym.com/img/screenshots/IoTDashboard.PNG',
                 Description:
                     'Connect devices, understand data and scale IoT applications.',
                 DocsLink: '/iot/docs',
@@ -40,7 +40,7 @@ export class DiscoverComponent implements OnInit {
             {
                 Name: 'Habistack',
                 Icon: 'storm',
-                Image: 'https://www.fathym.com/assets/images/screenshots/habistack-demo.png',
+                Image: 'https://www.fathym.com/img/screenshots/HabistackDashboard.PNG',
                 Description:
                     'Simple, accurate weather forecasts for the world we live in.',
                 DocsLink: '/forecast/docs',
@@ -49,7 +49,7 @@ export class DiscoverComponent implements OnInit {
             {
                 Name: 'Proadject',
                 Icon: 'local_car_wash',
-                Image: 'https://www.fathym.com/assets/images/screenshots/proadject-demo.png',
+                Image: 'https://www.fathym.com/img/screenshots/ProadjectDashboard.PNG',
                 Description:
                     'Weather and road conditions for the routes we travel.',
                 DocsLink: '/proadject/docs',
