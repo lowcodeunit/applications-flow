@@ -1,0 +1,27 @@
+<mat-card id="discovery-card">
+    <mat-card-content>
+        <mat-list>
+            <mat-list-item>
+                <a class="discover-link" href="/dashboard/krakyn">Krakyn</a>
+            </mat-list-item>
+
+            <mat-list-item>
+                <a class="discover-link" href="/dashboard/iot">IoT Ensemble</a>
+            </mat-list-item>
+
+            <mat-list-item>
+                <a class="discover-link" href="/dashboard/forecast"
+                    >Habistack</a
+                >
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+    <mat-card-actions
+        class="discovery-card-actions"
+        fxLayoutAlign="center center"
+    >
+        <button id="discover-btn" mat-button (click)="DiscoverMoreClicked()">
+            Discover More
+        </button>
+    </mat-card-actions>
+</mat-card>

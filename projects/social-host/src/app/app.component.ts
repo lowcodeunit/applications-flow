@@ -68,7 +68,14 @@ export class AppComponent implements OnDestroy, OnInit {
 
                     if (this.State?.EaC) {
                         await Promise.all([
-                            this.eacSvc.LoadUserFeed(1, 25, false),
+                            this.eacSvc.LoadUserFeed(
+                                1,
+                                25,
+                                false,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : ''
+                            ),
                             this.eacSvc.LoadUserInfo(),
                         ]).catch((err) => {
                             console.log(err);
@@ -77,7 +84,14 @@ export class AppComponent implements OnDestroy, OnInit {
 
                     if (!this.feedCheckInterval) {
                         this.feedCheckInterval = setInterval(() => {
-                            this.eacSvc.LoadUserFeed(1, 25, true);
+                            this.eacSvc.LoadUserFeed(
+                                1,
+                                25,
+                                true,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : ''
+                            );
                         }, 120 * 1000);
                     }
                 }

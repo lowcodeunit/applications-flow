@@ -76,6 +76,9 @@ import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comm
 import { PageHeaderComponent } from './elements/page-header/page-header.component';
 import { ConnectedSourceComponent } from './controls/connected-source/connected-source.component';
 import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-account-dialog.component';
+import { ProductDiscoveryCardComponent } from './elements/product-discovery-card/product-discovery-card.component';
+import { AdvertisementCardComponent } from './elements/advertisement-card/advertisement-card.component';
+import { FeedFilterComponent } from './elements/feed-filter/feed-filter.component';
 
 @NgModule({
     declarations: [
@@ -136,6 +139,9 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
         PageHeaderComponent,
         ConnectedSourceComponent,
         UserAccountDialogComponent,
+        ProductDiscoveryCardComponent,
+        AdvertisementCardComponent,
+        FeedFilterComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -211,6 +217,9 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
         PageHeaderComponent,
         ConnectedSourceComponent,
         UserAccountDialogComponent,
+        ProductDiscoveryCardComponent,
+        AdvertisementCardComponent,
+        FeedFilterComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,
