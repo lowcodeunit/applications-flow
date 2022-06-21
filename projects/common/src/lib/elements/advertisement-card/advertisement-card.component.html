@@ -1,21 +1,21 @@
 <mat-card class="ad-card">
     <div class="ad-text header">
-        {{ Advertisement?.Lead }}
+        {{ CurrentAd?.Lead }}
     </div>
 
     <mat-card-content fxLayout="column" fxLayoutAlign="center center">
         <img
             class="ad-image"
-            [src]="Advertisement?.Image"
+            [src]="CurrentAd?.Image"
             alt="image description"
         />
         <!-- <img class="ad-image" src="../../../assets/images/thinky.png" alt="image description" /> -->
 
-        <p class="ad-text">{{ Advertisement?.Description }}</p>
+        <p class="ad-text">{{ CurrentAd?.Description }}</p>
     </mat-card-content>
 
     <mat-card-actions
-        *ngFor="let action of Advertisement?.Actions"
+        *ngFor="let action of CurrentAd?.Actions"
         fxLayoutAlign="center center"
     >
         <button

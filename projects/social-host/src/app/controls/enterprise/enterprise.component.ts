@@ -7,6 +7,7 @@ import {
     ApplicationsFlowService,
     DFSModifiersDialogComponent,
     FeedItem,
+    Advertisement,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCDevOpsAction,
@@ -129,7 +130,6 @@ export class EnterpriseComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // this.handleStateChange().then((eac) => {});
         // console.log("FEED on init: ", this.Feed)
     }
 

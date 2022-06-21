@@ -65,11 +65,6 @@
     </div>
 
     <div right>
-        <ng-container *ngFor="let ad of State?.Advertisements">
-            <lcu-advertisement-card
-                [advertisement]="ad"
-            ></lcu-advertisement-card>
-        </ng-container>
         <!-- Projects
       secondary-slot-description="Add new quick project"
       action-text="Create Custom Project"-->
@@ -533,5 +528,12 @@
                 </button>
             </div>
         </lcu-slotted-card>
+
+        <!-- <ng-container *ngFor="let ad of State?.Advertisements"> -->
+        <lcu-advertisement-card
+            *ngIf="State?.Advertisements"
+            [advertisements]="State?.Advertisements"
+        ></lcu-advertisement-card>
+        <!-- </ng-container> -->
     </div>
 </lcu-three-column>
