@@ -17,18 +17,21 @@ export class AdvertisementCardComponent implements OnInit {
     ngOnInit(): void {}
 
     ngOnChanges(): void {
+        // 900000 = 15 mins
         if (this.Advertisements?.length > 0) {
             console.log('Ads: ', this.Advertisements);
             let i = 0;
             this.CurrentAd = this.Advertisements[i];
-            setTimeout(function () {
-                if (i + 1 > this.Advertisements.length - 1) {
+            setInterval(() => {
+                if (i + 1 > this.Advertisements?.length - 1) {
                     i = 0;
                 } else {
                     i++;
                 }
+
                 this.CurrentAd = this.Advertisements[i];
-            }, 900000);
+                console.log('current ad = ', this.CurrentAd);
+            }, 30000);
         }
     }
 

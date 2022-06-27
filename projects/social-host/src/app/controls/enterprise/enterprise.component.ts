@@ -7,7 +7,6 @@ import {
     ApplicationsFlowService,
     DFSModifiersDialogComponent,
     FeedItem,
-    Advertisement,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCDevOpsAction,
@@ -52,9 +51,10 @@ export class EnterpriseComponent implements OnInit {
             this.State?.EaC?.Enterprise?.PrimaryEnvironment
         ];
     }
+    public counter: number = 0;
 
     public get Feed(): Array<FeedItem> {
-        // console.log("Feed: ", this.State?.Feed)
+        // console.log("Feed: ", this.State?.Feed, " ", this.counter++)
         return this.State?.Feed;
     }
 
@@ -99,6 +99,8 @@ export class EnterpriseComponent implements OnInit {
     }
 
     public get State(): ApplicationsFlowState {
+        // console.log("State: ", this.counter++)
+
         return this.eacSvc?.State;
     }
 
