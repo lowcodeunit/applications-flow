@@ -229,6 +229,7 @@ export class EaCService {
         forCheck: boolean = false,
         filterStr: string = ''
     ): Promise<void> {
+        // console.log("page size: ", pageSize)
         await this.projectService.LoadUserFeed(
             page,
             pageSize,

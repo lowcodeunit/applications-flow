@@ -3,7 +3,7 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card
-            [name]="Enterprise?.Name"
+            [name]="this.State?.EaC?.Enterprise?.Name"
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
@@ -52,12 +52,12 @@
         <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter>
 
         <lcu-skeleton-feed-card
-            *ngIf="State?.LoadingFeed"
+            *ngIf="State?.LoadingFeed || !State?.Feed"
         ></lcu-skeleton-feed-card>
 
-        <ng-container *ngIf="!State?.LoadingFeed">
+        <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
             <lcu-main-feed-card
-                *ngFor="let feedItem of Feed"
+                *ngFor="let feedItem of State?.Feed"
                 [feed-item]="feedItem"
             >
             </lcu-main-feed-card>
@@ -74,11 +74,11 @@
       secondary-slot-description="Add new quick project"
       action-text="Create Custom Project"-->
         <lcu-slotted-card
-            *ngIf="NumberOfProjects > 0"
+            *ngIf="ProjectLookups?.length > 0"
             card-title="Projects"
             icon="work_outline"
             [main-slot-description]="
-                NumberOfProjects + ' project(s) configured'
+                ProjectLookups?.length + ' project(s) configured'
             "
             (main-action-clicked)="RouteToPath('/dashboard/create-project')"
         >
@@ -174,17 +174,17 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Projects')"
-                    *ngIf="NumberOfProjects > 5"
+                    *ngIf="ProjectLookups?.length > 5"
                 >
                     {{
-                        Slices.Projects == NumberOfProjects
+                        Slices.Projects == ProjectLookups?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Projects == NumberOfProjects
+                            Slices.Projects == ProjectLookups?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}
@@ -199,11 +199,11 @@
       secondary-slot-description="Add new source control"
       action-text="Create New Source Control" -->
         <lcu-slotted-card
-            *ngIf="NumberOfSourceControls > 0"
+            *ngIf="SourceControlLookups?.length > 0"
             card-title="Source Controls"
             icon="build"
             [main-slot-description]="
-                NumberOfSourceControls + ' source control(s) configured'
+                SourceControlLookups?.length + ' source control(s) configured'
             "
             (main-action-clicked)="OpenSourceControlDialog(null, null)"
         >
@@ -301,17 +301,17 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Sources')"
-                    *ngIf="NumberOfSourceControls > 5"
+                    *ngIf="SourceControlLookups?.length > 5"
                 >
                     {{
-                        Slices.Sources == NumberOfSourceControls
+                        Slices.Sources == SourceControlLookups?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Sources == NumberOfSourceControls
+                            Slices.Sources == SourceControlLookups?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}
@@ -324,11 +324,11 @@
       secondary-slot-description="Add new pipeline"
       action-text="Create New Pipeline" -->
         <lcu-slotted-card
-            *ngIf="NumberOfPipelines > 0"
+            *ngIf="DevOpsActionLookups?.length > 0"
             card-title="Build Pipeline"
             icon="plumbing"
             [main-slot-description]="
-                NumberOfPipelines + ' Pipeline(s) configured'
+                DevOpsActionLookups?.length + ' Pipeline(s) configured'
             "
             (main-action-clicked)="OpenBuildPipelineDialog(null)"
         >
@@ -343,7 +343,7 @@
                 >
                     <div
                         class="slot-content"
-                        *ngIf="DevOpsActions[doaLookup]; let doa"
+                        *ngIf="Environment?.DevOpsActions[doaLookup]; let doa"
                         fxLayout="row"
                         fxLayoutAlign="space-between center"
                     >
@@ -404,17 +404,17 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Pipelines')"
-                    *ngIf="NumberOfPipelines > 5"
+                    *ngIf="DevOpsActionLookups?.length > 5"
                 >
                     {{
-                        Slices.Pipelines == NumberOfPipelines
+                        Slices.Pipelines == DevOpsActionLookups?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Pipelines == NumberOfPipelines
+                            Slices.Pipelines == DevOpsActionLookups?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}
@@ -427,11 +427,11 @@
       secondary-slot-description="Add new request modifier"
       action-text="Create New Request Modifier" -->
         <lcu-slotted-card
-            *ngIf="NumberOfModifiers > 0"
+            *ngIf="ModifierLookups?.length > 0"
             card-title="Modifiers"
             icon="sync_alt"
             [main-slot-description]="
-                NumberOfModifiers + ' Modifier(s) configured'
+                ModifierLookups?.length + ' Modifier(s) configured'
             "
             (main-action-clicked)="OpenModifierDialog(null, null)"
         >
@@ -515,17 +515,17 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Modifiers')"
-                    *ngIf="NumberOfModifiers > 5"
+                    *ngIf="ModifierLookups?.length > 5"
                 >
                     {{
-                        Slices.Modifiers == NumberOfModifiers
+                        Slices.Modifiers == ModifierLookups?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Modifiers == NumberOfModifiers
+                            Slices.Modifiers == ModifierLookups?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}
