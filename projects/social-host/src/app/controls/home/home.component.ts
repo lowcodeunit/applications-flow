@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {
     ApplicationsFlowService,
     ApplicationsFlowState,
@@ -24,5 +24,6 @@ export class HomeComponent implements OnInit {
         protected eacSvc: EaCService
     ) {}
 
-    ngOnInit(): void {}
+    public ngOnInit(): void {}
+    public ngAfterViewInit() {}
 }
