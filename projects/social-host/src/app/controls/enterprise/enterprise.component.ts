@@ -128,10 +128,7 @@ export class EnterpriseComponent implements OnInit {
         };
     }
 
-    public ngOnInit(): void {
-        // this.handleStateChange().then((eac) => {});
-        // console.log("FEED on init: ", this.Feed)
-    }
+    public ngOnInit(): void {}
 
     public HandleLeftClickEvent(event: any) {}
     public HandleRightClickEvent(event: any) {}

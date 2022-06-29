@@ -79,6 +79,7 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
 import { ProductDiscoveryCardComponent } from './elements/product-discovery-card/product-discovery-card.component';
 import { AdvertisementCardComponent } from './elements/advertisement-card/advertisement-card.component';
 import { FeedFilterComponent } from './elements/feed-filter/feed-filter.component';
+import { QuestionCardComponent } from './elements/question-card/question-card.component';
 
 @NgModule({
     declarations: [
@@ -142,6 +143,7 @@ import { FeedFilterComponent } from './elements/feed-filter/feed-filter.componen
         ProductDiscoveryCardComponent,
         AdvertisementCardComponent,
         FeedFilterComponent,
+        QuestionCardComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -220,6 +222,7 @@ import { FeedFilterComponent } from './elements/feed-filter/feed-filter.componen
         ProductDiscoveryCardComponent,
         AdvertisementCardComponent,
         FeedFilterComponent,
+        QuestionCardComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

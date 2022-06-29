@@ -9,6 +9,7 @@ export * from './lib/elements/projects/controls/create-project-wizard/create-pro
 export * from './lib/elements/projects/controls/hosting-details-form-group/hosting-details-form-group.component';
 export * from './lib/elements/page-header/page-header.component';
 export * from './lib/elements/product-discovery-card/product-discovery-card.component';
+export * from './lib/elements/question-card/question-card.component';
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
 export * from './lib/models/user-feed.model';

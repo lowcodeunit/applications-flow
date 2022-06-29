@@ -2,6 +2,7 @@ import { EnterpriseAsCode } from '@semanticjs/common';
 import {
     FeedItem,
     FeedItemAction,
+    Question,
     UserFeedResponse,
 } from '../models/user-feed.model';
 
@@ -37,6 +38,8 @@ export class ApplicationsFlowState {
     public LoadingFeed?: boolean;
 
     // public Projects?: ProjectState[];
+
+    public Questions?: Array<Question>;
 
     public Unleashed?: boolean;
 

@@ -374,9 +374,11 @@ export class ProjectService {
                         state.LoadingFeed = false;
 
                         if (response.Status.Code === 0) {
-                            // console.log('user feed response: ', response);
+                            console.log('user feed response: ', response);
                             if (!forCheck) {
                                 state.Advertisements = response.Advertisements;
+
+                                state.Questions = response.Questions;
 
                                 state.FeedFilters = response.ItemTypes;
 
