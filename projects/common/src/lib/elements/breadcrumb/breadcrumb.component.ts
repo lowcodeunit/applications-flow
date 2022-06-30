@@ -155,14 +155,6 @@ export class BreadcrumbComponent implements OnInit {
 
     ngOnInit(): void {
         this.handleStateChange().then((eac) => {});
-
-        // console.log("state: ", this.State)
-
-        // console.log('selected enterprise: ', this.Enterprise);
-
-        // console.log('Selected project: ', this.SelectedProject.Project);
-
-        // console.log('SelectedRoute:', this.SelectedRoute);
     }
 
     public SetActiveEnterprise(entLookup: string): void {

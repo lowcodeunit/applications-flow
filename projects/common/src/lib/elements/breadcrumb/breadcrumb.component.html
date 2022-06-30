@@ -7,7 +7,7 @@
         </ng-container>
 
         <ng-container *ngIf="!State.Loading && Enterprise && !Loading">
-            <div class="crumb-name" [routerLink]="['']">
+            <div class="crumb-name" [routerLink]="['/enterprise']">
                 <mat-icon>home</mat-icon>
 
                 {{ Enterprise?.Name }}
@@ -20,7 +20,7 @@
             <mat-menu #enterpriseMenu="matMenu" xPosition="before">
                 <button
                     mat-menu-item
-                    [routerLink]="['']"
+                    [routerLink]="['/enterprise']"
                     (click)="SetActiveEnterprise(ent.Lookup)"
                     *ngFor="let ent of State.Enterprises"
                 >

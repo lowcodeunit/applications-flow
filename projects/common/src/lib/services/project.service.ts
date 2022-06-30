@@ -90,7 +90,15 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, 'types=all', false, state),
+                            this.LoadUserFeed(
+                                1,
+                                25,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : '',
+                                false,
+                                state
+                            ),
                         ]);
                     } else {
                         state.Loading = false;
@@ -461,7 +469,15 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, 'types=all', false, state),
+                            this.LoadUserFeed(
+                                1,
+                                25,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : '',
+                                false,
+                                state
+                            ),
                         ]);
                     } else {
                         state.Loading = false;
@@ -496,7 +512,15 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, 'types=all', false, state),
+                            this.LoadUserFeed(
+                                1,
+                                25,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : '',
+                                false,
+                                state
+                            ),
                         ]);
                     } else {
                         state.Loading = false;
@@ -571,7 +595,15 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, 'types=all', false, state),
+                            this.LoadUserFeed(
+                                1,
+                                25,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : '',
+                                false,
+                                state
+                            ),
                         ]);
                     } else {
                         state.Loading = false;
@@ -610,7 +642,15 @@ export class ProjectService {
 
                         var results = await Promise.all([
                             this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(1, 25, 'types=all', false, state),
+                            this.LoadUserFeed(
+                                1,
+                                25,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : '',
+                                false,
+                                state
+                            ),
                         ]);
                     } else {
                         state.Loading = false;

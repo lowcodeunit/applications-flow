@@ -193,7 +193,7 @@ export class ApplicationsFlowService {
         project: string,
         applications: string[]
     ): Observable<object> {
-        // console.log('page size: ', pageSize);
+        // console.log('types: ', types);
         var apps = JSON.stringify(applications || []);
         return this.http.get(
             `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&types=${types}&project=${project}&applications=${apps}`,
