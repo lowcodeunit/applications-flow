@@ -30,18 +30,34 @@
                 fxLayoutAlign="space-around center"
             >
                 <ng-container *ngFor="let action of FeedHeaderActions">
-                    <button
-                        mat-raised-button
-                        [color]="action.Color"
-                        (click)="HandleAction(action)"
-                        id="pr-btn"
-                    >
-                        <mat-icon *ngIf="action.Icon">{{
-                            action.Icon
-                        }}</mat-icon>
+                    <ng-container *ngIf="FeedHeaderActions?.length > 2">
+                        <button
+                            mat-raised-button
+                            [color]="action.Color"
+                            (click)="HandleAction(action)"
+                            class="action-btn-sm"
+                        >
+                            <mat-icon *ngIf="action.Icon">{{
+                                action.Icon
+                            }}</mat-icon>
 
-                        {{ action.Text }}
-                    </button>
+                            {{ action.Text }}
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="FeedHeaderActions?.length <= 2">
+                        <button
+                            mat-raised-button
+                            [color]="action.Color"
+                            (click)="HandleAction(action)"
+                            class="action-btn-lg"
+                        >
+                            <mat-icon *ngIf="action.Icon">{{
+                                action.Icon
+                            }}</mat-icon>
+
+                            {{ action.Text }}
+                        </button>
+                    </ng-container>
                 </ng-container>
             </mat-card-actions>
         </ng-container>
