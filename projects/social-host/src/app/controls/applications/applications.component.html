@@ -202,7 +202,7 @@
             icon="sync_alt"
             main-icon="edit"
             [main-slot-description]="
-                NumberOfModifiers + ' Modifier(s) configured'
+                ModifierLookups?.length + ' Modifier(s) configured'
             "
             (main-action-clicked)="OpenModifierDialog(null, null)"
         >
@@ -280,17 +280,17 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Modifiers')"
-                    *ngIf="NumberOfModifiers > 5"
+                    *ngIf="ModifierLookups?.length > 5"
                 >
                     {{
-                        Slices.Modifiers == NumberOfModifiers
+                        Slices.Modifiers == ModifierLookups?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Modifiers == NumberOfModifiers
+                            Slices.Modifiers == ModifierLookups?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}
