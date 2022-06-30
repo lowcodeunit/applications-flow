@@ -6,7 +6,6 @@ import {
     BuildPipelineDialogComponent,
     ApplicationsFlowService,
     DFSModifiersDialogComponent,
-    FeedItem,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCDevOpsAction,
@@ -52,10 +51,10 @@ export class EnterpriseComponent implements OnInit {
         ];
     }
 
-    public get Feed(): Array<FeedItem> {
-        // console.log("Feed: ", this.State?.Feed)
-        return this.State?.Feed;
-    }
+    // public get Feed(): Array<FeedItem> {
+    //     console.log("Feed: ", this.State?.Feed)
+    //     return this.State?.Feed;
+    // }
 
     public get FilterTypes(): Array<string> {
         return Object.values(this.State?.FeedFilters || {});
