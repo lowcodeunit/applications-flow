@@ -85,7 +85,8 @@
             card-title="Apps"
             icon="apps"
             [main-slot-description]="
-                NumberOfApps + ' application(s) configured'
+                CurrentRouteApplicationLookups?.length +
+                ' application(s) configured'
             "
             (main-action-clicked)="OpenNewAppDialog($event)"
         >
@@ -200,17 +201,19 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Applications')"
-                    *ngIf="NumberOfApps > 5"
+                    *ngIf="CurrentRouteApplicationLookups?.length > 5"
                 >
                     {{
-                        Slices.Applications == NumberOfApps
+                        Slices.Applications ==
+                        CurrentRouteApplicationLookups?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Applications == NumberOfApps
+                            Slices.Applications ==
+                            CurrentRouteApplicationLookups?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}

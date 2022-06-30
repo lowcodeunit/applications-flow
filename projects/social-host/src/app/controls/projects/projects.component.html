@@ -66,7 +66,9 @@
         <lcu-slotted-card
             card-title="Routes"
             icon="route"
-            [main-slot-description]="NumberOfRoutes + ' route(s) configured'"
+            [main-slot-description]="
+                ApplicationRoutes?.length + ' route(s) configured'
+            "
             (main-action-clicked)="OpenNewAppDialog($event)"
         >
             <div>
@@ -169,17 +171,17 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Routes')"
-                    *ngIf="NumberOfRoutes > 5"
+                    *ngIf="ApplicationRoutes?.length > 5"
                 >
                     {{
-                        Slices.Routes == NumberOfRoutes
+                        Slices.Routes == ApplicationRoutes?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Routes == NumberOfRoutes
+                            Slices.Routes == ApplicationRoutes?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}
@@ -243,7 +245,7 @@
             icon="sync_alt"
             main-icon="edit"
             [main-slot-description]="
-                NumberOfModifiers + ' Modifier(s) configured'
+                ProjectsModifierLookups?.length + ' Modifier(s) configured'
             "
             (main-action-clicked)="OpenModifierDialog(null, null)"
         >
@@ -312,17 +314,17 @@
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Modifiers')"
-                    *ngIf="NumberOfModifiers > 5"
+                    *ngIf="ProjectsModifierLookups?.length > 5"
                 >
                     {{
-                        Slices.Modifiers == NumberOfModifiers
+                        Slices.Modifiers == ProjectsModifierLookups?.length
                             ? "Show Less"
                             : "Show More"
                     }}
 
                     <mat-icon>
                         {{
-                            Slices.Modifiers == NumberOfModifiers
+                            Slices.Modifiers == ProjectsModifierLookups?.length
                                 ? "expand_less"
                                 : "expand_more"
                         }}
