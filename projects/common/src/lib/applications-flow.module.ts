@@ -80,6 +80,10 @@ import { ProductDiscoveryCardComponent } from './elements/product-discovery-card
 import { AdvertisementCardComponent } from './elements/advertisement-card/advertisement-card.component';
 import { FeedFilterComponent } from './elements/feed-filter/feed-filter.component';
 import { QuestionCardComponent } from './elements/question-card/question-card.component';
+import { TwoColumnComponent } from './elements/two-column/two-column.component';
+import { TeamMemberCardComponent } from './elements/team-member-card/team-member-card.component';
+import { ActivityCardComponent } from './elements/activity-card/activity-card.component';
+import { ProjectWizardCardComponent } from './elements/project-wizard-card/project-wizard-card.component';
 
 @NgModule({
     declarations: [
@@ -144,6 +148,10 @@ import { QuestionCardComponent } from './elements/question-card/question-card.co
         AdvertisementCardComponent,
         FeedFilterComponent,
         QuestionCardComponent,
+        TwoColumnComponent,
+        TeamMemberCardComponent,
+        ActivityCardComponent,
+        ProjectWizardCardComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -223,6 +231,10 @@ import { QuestionCardComponent } from './elements/question-card/question-card.co
         AdvertisementCardComponent,
         FeedFilterComponent,
         QuestionCardComponent,
+        TwoColumnComponent,
+        TeamMemberCardComponent,
+        ActivityCardComponent,
+        ProjectWizardCardComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

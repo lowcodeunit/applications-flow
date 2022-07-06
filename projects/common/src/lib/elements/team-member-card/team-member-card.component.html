@@ -1,0 +1,10 @@
+<mat-card class="social-card">
+    <mat-card-title>Team Members</mat-card-title>
+
+    <mat-card-content>
+        <div *ngIf="CurrentUser" fxLayout="column">
+            <mat-icon>person</mat-icon>
+            <div>{{ CurrentUser }}</div>
+        </div>
+    </mat-card-content>
+</mat-card>

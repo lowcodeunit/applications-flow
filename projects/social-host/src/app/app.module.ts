@@ -26,6 +26,8 @@ import { LazyElementModule } from '@lowcodeunit/lazy-element';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
+import { Enterprise1Component } from './controls/enterprise-1/enterprise-1.component';
+import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.component';
 
 @NgModule({
     declarations: [
@@ -34,6 +36,8 @@ import { HomeComponent } from './controls/home/home.component';
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,
+        Enterprise1Component,
+        Enterprise2Component,
         IoTComponent,
         ApplicationsComponent,
         HomeComponent,
@@ -69,6 +73,8 @@ import { HomeComponent } from './controls/home/home.component';
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,
+        Enterprise1Component,
+        Enterprise2Component,
         ApplicationsComponent,
         IoTComponent,
         HomeComponent,
