@@ -12,11 +12,17 @@ import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.compo
 
 const routes: Routes = [
     {
-        path: 'application/:appLookup/:appRoute/:projectLookup',
+        path: 'application/:enterprise/:appLookup/:appRoute/:projectLookup',
         component: ApplicationsComponent,
     },
-    { path: 'project/:projectLookup', component: ProjectsComponent },
-    { path: 'route/:appRoute/:projectLookup', component: RoutesComponent },
+    {
+        path: 'project/:enterprise/:projectLookup',
+        component: ProjectsComponent,
+    },
+    {
+        path: 'route/:enterprise/:appRoute/:projectLookup',
+        component: RoutesComponent,
+    },
     { path: 'discover', component: DiscoverComponent },
     { path: 'iot', component: IoTComponent },
     { path: 'enterprise', component: EnterpriseComponent },

@@ -1,4 +1,5 @@
-<lcu-breadcrumb [project-lookup]="ProjectLookup"> </lcu-breadcrumb>
+<lcu-breadcrumb [enterprise-path]="EntPath" [project-lookup]="ProjectLookup">
+</lcu-breadcrumb>
 
 <lcu-three-column>
     <!-- left column -->
@@ -93,6 +94,7 @@
                                     class="slot-header-anchor"
                                     [routerLink]="[
                                         '/route',
+                                        EntPath,
                                         appRoute,
                                         ProjectLookup
                                     ]"
@@ -132,6 +134,7 @@
                                     class="slot-action-anchor"
                                     [routerLink]="[
                                         '/route',
+                                        EntPath,
                                         appRoute,
                                         ProjectLookup
                                     ]"

@@ -43,7 +43,6 @@
       secondary-slot-description="Add new quick project"
       action-text="Create Custom Project"-->
         <lcu-slotted-card
-            *ngIf="ProjectLookups?.length > 0"
             card-title="Projects"
             icon="work_outline"
             [main-slot-description]="
@@ -73,7 +72,11 @@
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                                 <a
                                     class="slot-header-anchor"
-                                    [routerLink]="['/project', projectLookup]"
+                                    [routerLink]="[
+                                        '/project',
+                                        EntPath,
+                                        projectLookup
+                                    ]"
                                 >
                                     <div
                                         *ngIf="project.Project.Name"
@@ -99,7 +102,11 @@
                         >
                             <a
                                 class="slot-action-anchor"
-                                [routerLink]="['/project', projectLookup]"
+                                [routerLink]="[
+                                    '/project',
+                                    EntPath,
+                                    projectLookup
+                                ]"
                             >
                                 <mat-icon
                                     class="action-icon"

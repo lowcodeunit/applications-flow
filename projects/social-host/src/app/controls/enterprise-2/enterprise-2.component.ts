@@ -100,6 +100,8 @@ export class Enterprise2Component implements OnInit {
         return this.eacSvc?.State;
     }
 
+    public EntPath: string;
+
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
@@ -114,6 +116,7 @@ export class Enterprise2Component implements OnInit {
         protected eacSvc: EaCService,
         protected router: Router
     ) {
+        this.EntPath = 'enterprise-2';
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 

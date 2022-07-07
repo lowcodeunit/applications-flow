@@ -104,7 +104,11 @@
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                                 <a
                                     class="slot-header-anchor"
-                                    [routerLink]="['/project', projectLookup]"
+                                    [routerLink]="[
+                                        '/project',
+                                        EntPath,
+                                        projectLookup
+                                    ]"
                                 >
                                     <div
                                         *ngIf="project.Project.Name"
@@ -130,7 +134,11 @@
                         >
                             <a
                                 class="slot-action-anchor"
-                                [routerLink]="['/project', projectLookup]"
+                                [routerLink]="[
+                                    '/project',
+                                    EntPath,
+                                    projectLookup
+                                ]"
                             >
                                 <mat-icon
                                     class="action-icon"
