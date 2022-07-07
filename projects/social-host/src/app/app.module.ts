@@ -28,6 +28,7 @@ import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
 import { Enterprise1Component } from './controls/enterprise-1/enterprise-1.component';
 import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.component';
+import { Enterprise3Component } from './controls/enterprise-3/enterprise-3.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.compo
         EnterpriseComponent,
         Enterprise1Component,
         Enterprise2Component,
+        Enterprise3Component,
         IoTComponent,
         ApplicationsComponent,
         HomeComponent,
@@ -75,6 +77,7 @@ import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.compo
         EnterpriseComponent,
         Enterprise1Component,
         Enterprise2Component,
+        Enterprise3Component,
         ApplicationsComponent,
         IoTComponent,
         HomeComponent,

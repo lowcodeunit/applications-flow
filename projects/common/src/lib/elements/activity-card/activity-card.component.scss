@@ -1,10 +1,14 @@
 .feed-card {
-    height: 400px;
+    height: inherit;
     margin: 20px;
+    padding: 0px;
+}
+
+.card-title {
     padding: 10px;
 }
 
 .feed-container {
-    height: inherit;
+    height: calc(100% - 60px);
     overflow-y: scroll;
 }

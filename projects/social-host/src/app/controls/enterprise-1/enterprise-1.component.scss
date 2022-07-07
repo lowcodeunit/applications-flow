@@ -1,4 +1,13 @@
 @import "../../../../../common/src/assets/styles/social-card.scss";
+
+.fit-content {
+    height: 500px;
+
+    ::ng-deep .slotted-card-content {
+        overflow-y: scroll;
+    }
+}
+
 .enterprise-avatar-container {
     background-color: white;
     margin: 20px;

@@ -1,3 +1,14 @@
 .mid-row {
     height: 33%;
 }
+
+@media only screen and (max-width: 959px) {
+    // .col-container{
+    //     display: none;
+    // }
+    .top-row,
+    .mid-row,
+    .bottom-row {
+        width: 100%;
+    }
+}

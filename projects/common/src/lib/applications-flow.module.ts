@@ -84,6 +84,7 @@ import { TwoColumnComponent } from './elements/two-column/two-column.component';
 import { TeamMemberCardComponent } from './elements/team-member-card/team-member-card.component';
 import { ActivityCardComponent } from './elements/activity-card/activity-card.component';
 import { ProjectWizardCardComponent } from './elements/project-wizard-card/project-wizard-card.component';
+import { UsageStatsComponent } from './elements/usage-stats/usage-stats.component';
 
 @NgModule({
     declarations: [
@@ -152,6 +153,7 @@ import { ProjectWizardCardComponent } from './elements/project-wizard-card/proje
         TeamMemberCardComponent,
         ActivityCardComponent,
         ProjectWizardCardComponent,
+        UsageStatsComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -235,6 +237,7 @@ import { ProjectWizardCardComponent } from './elements/project-wizard-card/proje
         TeamMemberCardComponent,
         ActivityCardComponent,
         ProjectWizardCardComponent,
+        UsageStatsComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

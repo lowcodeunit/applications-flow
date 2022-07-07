@@ -26,6 +26,7 @@
     <!-- CENTER FEED -->
     <div middle-right>
         <lcu-activity-card
+            class="fit-content"
             [filter-types]="FilterTypes"
             [loading-feed]="State?.LoadingFeed"
             [feed]="State?.Feed"
@@ -43,7 +44,8 @@
       secondary-slot-description="Add new quick project"
       action-text="Create Custom Project"-->
         <lcu-slotted-card
-            card-title="Projects"
+            class="fit-content"
+            card-title="Project"
             icon="work_outline"
             [main-slot-description]="
                 ProjectLookups?.length + ' project(s) configured'
@@ -54,10 +56,7 @@
                 <div
                     class="main-slot-container"
                     fxLayout="row"
-                    *ngFor="
-                        let projectLookup of ProjectLookups
-                            | slice: 0:Slices.Projects
-                    "
+                    *ngFor="let projectLookup of ProjectLookups"
                 >
                     <div
                         class="slot-content"
@@ -146,7 +145,7 @@
                     </div>
                 </div>
 
-                <button
+                <!-- <button
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Projects')"
@@ -165,7 +164,7 @@
                                 : "expand_more"
                         }}
                     </mat-icon>
-                </button>
+                </button> -->
             </div>
 
             <!-- <div secondary></div> -->
