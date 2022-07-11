@@ -35,15 +35,13 @@
     </div>
 
     <div middle-left>
-        <!-- <ng-container *ngFor="let ad of State?.Advertisements">
-            <lcu-advertisement-card
-                [advertisement]="ad"
-            ></lcu-advertisement-card>
-        </ng-container> -->
-        <!-- Projects
-      secondary-slot-description="Add new quick project"
-      action-text="Create Custom Project"-->
+        <lcu-question-card
+            *ngIf="State?.Questions && ProjectLookups?.length <= 0"
+            [questions]="State?.Questions"
+        >
+        </lcu-question-card>
         <lcu-slotted-card
+            *ngIf="ProjectLookups?.length > 0"
             class="fit-content"
             card-title="Project"
             icon="work_outline"

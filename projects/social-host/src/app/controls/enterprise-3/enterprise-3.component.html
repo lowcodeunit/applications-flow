@@ -33,7 +33,13 @@
     </div>
 
     <div middle-left>
+        <lcu-question-card
+            *ngIf="State?.Questions && ProjectLookups?.length <= 0"
+            [questions]="State?.Questions"
+        >
+        </lcu-question-card>
         <lcu-slotted-card
+            *ngIf="ProjectLookups?.length > 0"
             class="fit-content"
             card-title="Project"
             icon="work_outline"

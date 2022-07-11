@@ -17,11 +17,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 
 @Component({
-    selector: 'lcu-enterprise-2',
-    templateUrl: './enterprise-2.component.html',
-    styleUrls: ['./enterprise-2.component.scss'],
+    selector: 'lcu-enterprise-4',
+    templateUrl: './enterprise-4.component.html',
+    styleUrls: ['./enterprise-4.component.scss'],
 })
-export class Enterprise2Component implements OnInit {
+export class Enterprise4Component implements OnInit {
     public get ActiveEnvironment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
     }
@@ -116,7 +116,7 @@ export class Enterprise2Component implements OnInit {
         protected eacSvc: EaCService,
         protected router: Router
     ) {
-        this.EntPath = 'enterprise-2';
+        this.EntPath = 'enterprise-4';
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 

@@ -85,7 +85,7 @@ export class EnterpriseComponent implements OnInit {
     }
 
     public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {});
+        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
     }
 
     public get SourceControlLookups(): Array<string> {

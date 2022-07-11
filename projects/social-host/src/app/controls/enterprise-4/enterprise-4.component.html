@@ -1,49 +1,46 @@
-<!-- <lcu-breadcrumb> </lcu-breadcrumb> -->
+<lcu-breadcrumb> </lcu-breadcrumb>
 
-<lcu-three-column>
-    <div left>
-        <lcu-project-info-card
-            [name]="Enterprise?.Name"
+<lcu-two-column>
+    <!-- <div top-left> -->
+    <!-- <lcu-project-info-card
+            [name]="this.State?.EaC?.Enterprise?.Name"
+            [is-editable]="IsInfoCardEditable"
+            [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            (left-click-event)="HandleLeftClickEvent($event)"
+            (right-click-event)="HandleRightClickEvent($event)"
         >
-        </lcu-project-info-card>
-    </div>
-
-    <!-- CENTER FEED -->
-    <div>
-        <lcu-question-card
-            *ngIf="State?.Questions"
-            [questions]="State?.Questions"
-        >
-        </lcu-question-card>
-
-        <lcu-feed-header></lcu-feed-header>
-
-        <!-- <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter> -->
-        <lcu-project-wizard-card></lcu-project-wizard-card>
-
-        <lcu-skeleton-feed-card
-            *ngIf="State?.LoadingFeed || !State?.Feed"
-        ></lcu-skeleton-feed-card>
-
-        <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
-            <lcu-main-feed-card
-                *ngFor="let feedItem of State?.Feed"
-                [feed-item]="feedItem"
-            >
-            </lcu-main-feed-card>
-        </ng-container>
-    </div>
-
-    <div right>
-        <ng-container *ngFor="let ad of State?.Advertisements">
+        </lcu-project-info-card> -->
+    <!-- </div> -->
+    <!-- <div top-right> -->
+    <!-- <lcu-usage-stats></lcu-usage-stats> -->
+    <!-- <ng-container *ngFor="let ad of State?.Advertisements">
             <lcu-advertisement-card
                 [advertisement]="ad"
             ></lcu-advertisement-card>
-        </ng-container>
+        </ng-container> -->
+    <!-- </div> -->
 
+    <!-- CENTER FEED -->
+    <div middle-right>
+        <lcu-activity-card
+            class="fit-content"
+            [filter-types]="FilterTypes"
+            [loading-feed]="State?.LoadingFeed"
+            [feed]="State?.Feed"
+        >
+        </lcu-activity-card>
+    </div>
+
+    <div middle-left>
+        <lcu-question-card
+            *ngIf="State?.Questions && ProjectLookups?.length <= 0"
+            [questions]="State?.Questions"
+        >
+        </lcu-question-card>
         <lcu-slotted-card
             *ngIf="ProjectLookups?.length > 0"
+            class="fit-content"
             card-title="Project"
             icon="work_outline"
             [main-slot-description]="
@@ -55,10 +52,7 @@
                 <div
                     class="main-slot-container"
                     fxLayout="row"
-                    *ngFor="
-                        let projectLookup of ProjectLookups
-                            | slice: 0:Slices.Projects
-                    "
+                    *ngFor="let projectLookup of ProjectLookups"
                 >
                     <div
                         class="slot-content"
@@ -132,22 +126,10 @@
                                 >
                             </a>
                         </div>
-
-                        <!-- <div class="slot-actions" *ngFor="let action of s.actions">
-
-                        <ng-container *ngIf="action.ButtonType === ICON">
-                            <mat-icon [matTooltip]="action.Label" click="SlotActionClickEvent(action.ClickEventName)">{{ action.Icon }}</mat-icon>
-                        </ng-container>
-
-                        <ng-container *ngIf="action.ButtonType === BUTTON">
-                            <mat-button click="SlotActionClickEvent(action.ClickEventName)">{{ action.Label }}</mat-button>
-                        </ng-container>
-
-                    </div> -->
                     </div>
                 </div>
 
-                <button
+                <!-- <button
                     mat-raised-button
                     class="mat-full-width"
                     (click)="ToggleSlices('Projects')"
@@ -166,10 +148,15 @@
                                 : "expand_more"
                         }}
                     </mat-icon>
-                </button>
+                </button> -->
             </div>
-
-            <!-- <div secondary></div> -->
         </lcu-slotted-card>
     </div>
-</lcu-three-column>
+    <div>
+        <lcu-project-wizard-card></lcu-project-wizard-card>
+
+        <lcu-team-member-card
+            [current-user]="State?.UserLicenseInfo?.Email"
+        ></lcu-team-member-card>
+    </div>
+</lcu-two-column>

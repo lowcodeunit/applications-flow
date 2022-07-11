@@ -10,6 +10,7 @@ import { HomeComponent } from './controls/home/home.component';
 import { Enterprise1Component } from './controls/enterprise-1/enterprise-1.component';
 import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.component';
 import { Enterprise3Component } from './controls/enterprise-3/enterprise-3.component';
+import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
 
 const routes: Routes = [
     {
@@ -30,6 +31,7 @@ const routes: Routes = [
     { path: 'enterprise-1', component: Enterprise1Component },
     { path: 'enterprise-2', component: Enterprise2Component },
     { path: 'enterprise-3', component: Enterprise3Component },
+    { path: 'enterprise-4', component: Enterprise4Component },
 
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' },

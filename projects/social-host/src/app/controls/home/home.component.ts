@@ -19,10 +19,27 @@ export class HomeComponent implements OnInit {
         return this.eacSvc?.State;
     }
 
+    public get ProjectLookups(): string[] {
+        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
+    }
+
+    public EntPath: string;
+
+    public Slices: { [key: string]: number };
+
+    public SlicesCount: number;
+
     constructor(
         protected appSvc: ApplicationsFlowService,
         protected eacSvc: EaCService
-    ) {}
+    ) {
+        this.EntPath = 'home';
+        this.SlicesCount = 5;
+
+        this.Slices = {
+            Projects: this.SlicesCount,
+        };
+    }
 
     public ngOnInit(): void {}
     public ngAfterViewInit() {}
