@@ -1,8 +1,10 @@
 <mat-card class="feed-card">
-    <mat-card-title class="card-title">Activity</mat-card-title>
-    <lcu-feed-header></lcu-feed-header>
+    <div class="activity-feed-header">
+        <mat-card-title class="card-title">Activity</mat-card-title>
+        <lcu-feed-header></lcu-feed-header>
 
-    <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter>
+        <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter>
+    </div>
     <mat-card-content class="feed-container">
         <lcu-skeleton-feed-card
             *ngIf="LoadingFeed || !Feed"

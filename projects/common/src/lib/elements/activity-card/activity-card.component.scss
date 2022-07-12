@@ -2,6 +2,7 @@
     height: inherit;
     margin: 20px;
     padding: 0px;
+    overflow-y: hidden;
 }
 
 .card-title {
@@ -9,6 +10,7 @@
 }
 
 .feed-container {
-    height: calc(100% - 210px);
+    //inherit = 500px
+    height: calc(500px - 225px);
     overflow-y: scroll;
 }
