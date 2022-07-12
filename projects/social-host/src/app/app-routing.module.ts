@@ -7,9 +7,6 @@ import { RoutesComponent } from './controls/routes/routes.component';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
-import { Enterprise1Component } from './controls/enterprise-1/enterprise-1.component';
-import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.component';
-import { Enterprise3Component } from './controls/enterprise-3/enterprise-3.component';
 import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
 
 const routes: Routes = [
@@ -27,15 +24,15 @@ const routes: Routes = [
     },
     { path: 'discover', component: DiscoverComponent },
     { path: 'iot', component: IoTComponent },
-    { path: 'enterprise', component: EnterpriseComponent },
-    { path: 'enterprise-1', component: Enterprise1Component },
-    { path: 'enterprise-2', component: Enterprise2Component },
-    { path: 'enterprise-3', component: Enterprise3Component },
-    { path: 'enterprise-4', component: Enterprise4Component },
-
+    { path: 'enterprise-0', component: HomeComponent },
+    { path: 'enterprise-1', component: EnterpriseComponent },
+    { path: 'enterprise-2', component: Enterprise4Component },
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
+// { path: 'enterprise-1', component: Enterprise1Component },
+//     { path: 'enterprise-2', component: Enterprise2Component },
+//     { path: 'enterprise-3', component: Enterprise3Component },
 
 @NgModule({
     imports: [

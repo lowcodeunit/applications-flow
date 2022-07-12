@@ -26,9 +26,6 @@ import { LazyElementModule } from '@lowcodeunit/lazy-element';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
-import { Enterprise1Component } from './controls/enterprise-1/enterprise-1.component';
-import { Enterprise2Component } from './controls/enterprise-2/enterprise-2.component';
-import { Enterprise3Component } from './controls/enterprise-3/enterprise-3.component';
 import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
 
 @NgModule({
@@ -38,9 +35,6 @@ import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.compo
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,
-        Enterprise1Component,
-        Enterprise2Component,
-        Enterprise3Component,
         Enterprise4Component,
         IoTComponent,
         ApplicationsComponent,
@@ -77,9 +71,6 @@ import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.compo
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,
-        Enterprise1Component,
-        Enterprise2Component,
-        Enterprise3Component,
         Enterprise4Component,
         ApplicationsComponent,
         IoTComponent,

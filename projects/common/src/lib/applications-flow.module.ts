@@ -85,6 +85,7 @@ import { TeamMemberCardComponent } from './elements/team-member-card/team-member
 import { ActivityCardComponent } from './elements/activity-card/activity-card.component';
 import { ProjectWizardCardComponent } from './elements/project-wizard-card/project-wizard-card.component';
 import { UsageStatsComponent } from './elements/usage-stats/usage-stats.component';
+import { SlottedCardLgComponent } from './elements/slotted-card-lg/slotted-card-lg.component';
 
 @NgModule({
     declarations: [
@@ -112,6 +113,7 @@ import { UsageStatsComponent } from './elements/usage-stats/usage-stats.componen
         DFSModifiersFormComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -194,6 +196,7 @@ import { UsageStatsComponent } from './elements/usage-stats/usage-stats.componen
         NpmPackageSelectComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -261,6 +264,7 @@ import { UsageStatsComponent } from './elements/usage-stats/usage-stats.componen
         NpmPackageSelectComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,

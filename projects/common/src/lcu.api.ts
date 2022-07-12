@@ -15,6 +15,7 @@ export * from './lib/elements/team-member-card/team-member-card.component';
 export * from './lib/elements/activity-card/activity-card.component';
 export * from './lib/elements/project-wizard-card/project-wizard-card.component';
 export * from './lib/elements/usage-stats/usage-stats.component';
+export * from './lib/elements/slotted-card-lg/slotted-card-lg.component';
 export * from './lib/models/dynamic-tabs.model';
 export * from './lib/models/project-actions.model';
 export * from './lib/models/user-feed.model';

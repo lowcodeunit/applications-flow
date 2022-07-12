@@ -23,6 +23,10 @@ export class HomeComponent implements OnInit {
         return Object.keys(this.State?.EaC?.Projects || {}).reverse();
     }
 
+    public get NumberOfProjects(): number {
+        return this.ProjectLookups?.length;
+    }
+
     public EntPath: string;
 
     public Slices: { [key: string]: number };
@@ -43,4 +47,17 @@ export class HomeComponent implements OnInit {
 
     public ngOnInit(): void {}
     public ngAfterViewInit() {}
+
+    public ToggleSlices(type: string) {
+        let count = this.Slices[type];
+
+        let length =
+            type === 'Projects' ? this.NumberOfProjects : this.SlicesCount;
+
+        if (count === length) {
+            this.Slices[type] = this.SlicesCount;
+        } else {
+            this.Slices[type] = length;
+        }
+    }
 }
