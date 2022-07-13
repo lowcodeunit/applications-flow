@@ -9,7 +9,7 @@
 
             Home
         </a> -->
-        <a mat-button class="toolbar-action" href="/dashboard">
+        <a mat-button class="toolbar-action" href="/dashboard/{{ EntPath }}">
             <mat-icon>view_compact</mat-icon>
 
             Dashboard
@@ -87,7 +87,11 @@
             <mat-icon>menu</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <a class="toolbar-menu-action" mat-menu-item href="/dashboard">
+            <a
+                class="toolbar-menu-action"
+                mat-menu-item
+                href="/dashboard/{{ EntPath }}"
+            >
                 Dashboard
             </a>
 

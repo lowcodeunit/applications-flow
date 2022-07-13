@@ -4,6 +4,7 @@ import {
     ApplicationsFlowState,
     EaCService,
 } from '@lowcodeunit/applications-flow-common';
+import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
 
 @Component({
     selector: 'lcu-home',
@@ -35,9 +36,12 @@ export class HomeComponent implements OnInit {
 
     constructor(
         protected appSvc: ApplicationsFlowService,
-        protected eacSvc: EaCService
+        protected eacSvc: EaCService,
+        protected socialSvc: SocialUIService
     ) {
-        this.EntPath = 'home';
+        this.EntPath = 'enterprise-0';
+        this.socialSvc.AssignEnterprisePath(this.EntPath);
+
         this.SlicesCount = 5;
 
         this.Slices = {

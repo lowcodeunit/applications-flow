@@ -13,6 +13,7 @@ import {
 } from '@lowcodeunit/applications-flow-common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
+import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
 
 @Component({
     selector: 'lcu-root',
@@ -32,14 +33,22 @@ export class AppComponent implements OnDestroy, OnInit {
 
     public IoTConfig: LazyElementConfig;
 
+    public EntPath: string;
+
     constructor(
         public breakpointObserver: BreakpointObserver,
         protected serviceSettings: LCUServiceSettings,
         protected eacSvc: EaCService,
         protected http: HttpClient,
         protected router: Router,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected socialSvc: SocialUIService
     ) {
+        socialSvc.changeEmitted$.subscribe((path) => {
+            console.log('path recieved: ', path);
+            this.EntPath = path;
+        });
+
         router.events.subscribe(async (event: RouterEvent) => {
             let changed = event instanceof NavigationEnd; //ActivationEnd
 

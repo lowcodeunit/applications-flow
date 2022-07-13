@@ -15,6 +15,7 @@ import {
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
 
 @Component({
     selector: 'lcu-enterprise-4',
@@ -114,9 +115,12 @@ export class Enterprise4Component implements OnInit {
         protected appSvc: ApplicationsFlowService,
         protected dialog: MatDialog,
         protected eacSvc: EaCService,
-        protected router: Router
+        protected router: Router,
+        protected socialSvc: SocialUIService
     ) {
-        this.EntPath = 'enterprise-4';
+        this.EntPath = 'enterprise-2';
+        this.socialSvc.AssignEnterprisePath(this.EntPath);
+
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 

@@ -86,6 +86,7 @@ import { ActivityCardComponent } from './elements/activity-card/activity-card.co
 import { ProjectWizardCardComponent } from './elements/project-wizard-card/project-wizard-card.component';
 import { UsageStatsComponent } from './elements/usage-stats/usage-stats.component';
 import { SlottedCardLgComponent } from './elements/slotted-card-lg/slotted-card-lg.component';
+import { SocialUIService } from './services/social-ui.service';
 
 @NgModule({
     declarations: [
@@ -304,6 +305,7 @@ export class ApplicationsFlowModule {
                 FormsService,
                 EaCService,
                 IoTEnsembleService,
+                SocialUIService,
             ],
         };
     }
