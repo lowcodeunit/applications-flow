@@ -48,6 +48,6 @@ export class ProjectWizardCardComponent implements OnInit {
                     40 +
                     'px';
             }
-        }, 5000);
+        }, 6000);
     }
 }

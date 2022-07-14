@@ -112,6 +112,7 @@
             card-title="Processor Detail"
             icon="developer_board"
             main-icon="edit"
+            button-text="Edit"
             [main-slot-description]="Application?.Processor?.Label"
             (main-action-clicked)="OpenProcessorDetailsDialog($event)"
         >
@@ -201,6 +202,7 @@
         <lcu-slotted-card
             card-title="Modifier"
             icon="sync_alt"
+            button-text="Add Modifier"
             main-icon="edit"
             [main-slot-description]="
                 ModifierLookups?.length + ' Modifier(s) configured'

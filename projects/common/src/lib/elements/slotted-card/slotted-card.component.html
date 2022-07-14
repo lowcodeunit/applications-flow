@@ -13,14 +13,14 @@
             mat-raised-button
             class="pointer"
             (click)="MainActionClickEvent()"
-            matTooltip="Add {{ CardTitle }}"
+            matTooltip="{{ ButtonText }}"
             *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
             color="accent"
         >
             <!-- <mat-icon>
                 {{ MainIcon }}
             </mat-icon> -->
-            <div>Add {{ CardTitle }}</div>
+            <div>{{ ButtonText }}</div>
         </button>
 
         <button

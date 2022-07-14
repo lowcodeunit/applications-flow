@@ -49,13 +49,51 @@
         </div>
     </div>
 
-    <!-- BOTTOM ROW 100 -->
+    <!-- MIDDLE FULL WIDTH ROW -->
 
     <div
-        class="bottom-row"
+        class="full-width-row"
         fxFlex.gt-md="100%"
         fxFlex.lt-md="50%"
         fxFlexOrder.lt-md="5"
+    >
+        <ng-content select="[middle-full-width]"></ng-content>
+    </div>
+    <!-- BOTTOM MIDDLE -->
+
+    <div class="bottom-mid-row" fxLayout="row" fxLayout.lt-md="column">
+        <div
+            class="col-mid-left"
+            fxFlex.gt-md="33.33%"
+            fxFlex.lt-md="50%"
+            fxFlexOrder.lt-md="6"
+        >
+            <ng-content select="[bottom-middle-left]"></ng-content>
+        </div>
+        <div
+            class="col-mid-cneter"
+            fxFlex.gt-md="33.33%"
+            fxFlex.lt-md="50%"
+            fxFlexOrder.lt-md="7"
+        >
+            <ng-content select="[bottom-middle-center]"></ng-content>
+        </div>
+        <div
+            class="col-mid-right"
+            fxFlex.gt-md="33.33%"
+            fxFlex.lt-md="50%"
+            fxFlexOrder.lt-md="8"
+        >
+            <ng-content select="[bottom-middle-right]"></ng-content>
+        </div>
+    </div>
+    <!-- BOTTOM ROW 100 -->
+
+    <div
+        class="full-width-row"
+        fxFlex.gt-md="100%"
+        fxFlex.lt-md="50%"
+        fxFlexOrder.lt-md="9"
     >
         <ng-content></ng-content>
     </div>

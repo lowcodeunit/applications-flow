@@ -37,11 +37,17 @@
                             (click)="HandleAction(action)"
                             class="action-btn-sm"
                         >
-                            <mat-icon *ngIf="action.Icon">{{
-                                action.Icon
-                            }}</mat-icon>
+                            <div
+                                fxLayout.gt-md="row"
+                                fxLayout.lt-md="column"
+                                fxLayoutAlign="center center"
+                            >
+                                <mat-icon *ngIf="action.Icon">{{
+                                    action.Icon
+                                }}</mat-icon>
 
-                            {{ action.Text }}
+                                <div class="action-text">{{ action.Text }}</div>
+                            </div>
                         </button>
                     </ng-container>
                     <ng-container *ngIf="FeedHeaderActions?.length <= 2">
@@ -50,12 +56,14 @@
                             [color]="action.Color"
                             (click)="HandleAction(action)"
                             class="action-btn-lg"
+                            fxLayout="row"
                         >
                             <mat-icon *ngIf="action.Icon">{{
                                 action.Icon
                             }}</mat-icon>
-
-                            {{ action.Text }}
+                            <div class="action-text">
+                                {{ action.Text }}
+                            </div>
                         </button>
                     </ng-container>
                 </ng-container>
@@ -95,9 +103,14 @@
             </div>
         </ng-container>
     </mat-card>
-
-    <mat-card class="social-card reload" *ngIf="State?.FeedCheck">
-        There are new items in your feed.
+    <!-- *ngIf="State?.FeedCheck" -->
+    <mat-card
+        class="social-card reload"
+        *ngIf="State?.FeedCheck"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+    >
+        <div>There are new items in your feed.</div>
 
         <button mat-raised-button (click)="ReloadFeed()">Reload Feed</button>
     </mat-card>

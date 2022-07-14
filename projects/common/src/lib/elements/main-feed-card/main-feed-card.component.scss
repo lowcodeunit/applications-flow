@@ -5,6 +5,10 @@
         background-size: cover;
     }
 
+    .feed-item-title {
+        word-break: break-all;
+    }
+
     .mat-icon {
         display: inline-flex;
         vertical-align: middle;

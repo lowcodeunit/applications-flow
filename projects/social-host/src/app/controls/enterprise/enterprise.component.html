@@ -209,6 +209,7 @@
         <lcu-slotted-card
             *ngIf="SourceControlLookups?.length > 0"
             card-title="Source Control"
+            button-text="Add Source Control"
             icon="build"
             [main-slot-description]="
                 SourceControlLookups?.length + ' source control(s) configured'
@@ -334,6 +335,7 @@
         <lcu-slotted-card
             *ngIf="DevOpsActionLookups?.length > 0"
             card-title="Build Pipeline"
+            button-text="Add Pipeline"
             icon="plumbing"
             [main-slot-description]="
                 DevOpsActionLookups?.length + ' Pipeline(s) configured'
@@ -437,6 +439,7 @@
         <lcu-slotted-card
             *ngIf="ModifierLookups?.length > 0"
             card-title="Modifier"
+            button-text="Add Modifier"
             icon="sync_alt"
             [main-slot-description]="
                 ModifierLookups?.length + ' Modifier(s) configured'
