@@ -15,7 +15,6 @@ export class ProjectWizardCardComponent implements OnInit {
     }
 
     public iframeLoaded() {
-        console.log('hello');
         var iFrameID = document?.querySelector('#wizard') as HTMLIFrameElement;
         if (iFrameID) {
             iFrameID.style.height = '0px';
