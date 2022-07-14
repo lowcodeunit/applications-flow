@@ -36,6 +36,7 @@
                             [color]="action.Color"
                             (click)="HandleAction(action)"
                             class="action-btn-sm"
+                            fxLayoutAlign="center center"
                         >
                             <div
                                 fxLayout.gt-md="row"
@@ -57,12 +58,19 @@
                             (click)="HandleAction(action)"
                             class="action-btn-lg"
                             fxLayout="row"
+                            fxLayoutAlign="center center"
                         >
-                            <mat-icon *ngIf="action.Icon">{{
-                                action.Icon
-                            }}</mat-icon>
-                            <div class="action-text">
-                                {{ action.Text }}
+                            <div
+                                fxLayout.gt-md="row"
+                                fxLayout.lt-md="column"
+                                fxLayoutAlign="center center"
+                            >
+                                <mat-icon *ngIf="action.Icon">{{
+                                    action.Icon
+                                }}</mat-icon>
+                                <div class="action-text">
+                                    {{ action.Text }}
+                                </div>
                             </div>
                         </button>
                     </ng-container>

@@ -1,6 +1,7 @@
 @import "../../../assets/styles/social-card";
 .stats-card {
-    height: 167px;
+    // height: 167px;
+    height: calc(100% - 70px);
 }
 
 .stats-content {
