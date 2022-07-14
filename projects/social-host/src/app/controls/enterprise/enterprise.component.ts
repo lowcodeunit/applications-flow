@@ -15,6 +15,7 @@ import {
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
 
 @Component({
     selector: 'lcu-enterprise',
@@ -85,7 +86,7 @@ export class EnterpriseComponent implements OnInit {
     }
 
     public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {});
+        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
     }
 
     public get SourceControlLookups(): Array<string> {
@@ -100,6 +101,8 @@ export class EnterpriseComponent implements OnInit {
         return this.eacSvc?.State;
     }
 
+    public EntPath: string;
+
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
@@ -112,8 +115,12 @@ export class EnterpriseComponent implements OnInit {
         protected appSvc: ApplicationsFlowService,
         protected dialog: MatDialog,
         protected eacSvc: EaCService,
-        protected router: Router
+        protected router: Router,
+        protected socialSvc: SocialUIService
     ) {
+        this.EntPath = 'enterprise-1';
+        this.socialSvc.AssignEnterprisePath(this.EntPath);
+
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 
@@ -127,10 +134,7 @@ export class EnterpriseComponent implements OnInit {
         };
     }
 
-    public ngOnInit(): void {
-        // this.handleStateChange().then((eac) => {});
-        // console.log("FEED on init: ", this.Feed)
-    }
+    public ngOnInit(): void {}
 
     public HandleLeftClickEvent(event: any) {}
     public HandleRightClickEvent(event: any) {}

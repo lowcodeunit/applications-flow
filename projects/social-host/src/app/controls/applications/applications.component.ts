@@ -254,6 +254,8 @@ export class ApplicationsComponent implements OnInit {
 
     public ApplicationLookup: string;
 
+    public EntPath: string;
+
     public CurrentApplicationRoute: string;
 
     public IsInfoCardEditable: boolean;
@@ -284,6 +286,7 @@ export class ApplicationsComponent implements OnInit {
         ];
 
         this.activatedRoute.params.subscribe((params: any) => {
+            this.EntPath = params['enterprise'];
             this.ApplicationLookup = params['appLookup'];
             this.CurrentApplicationRoute = params['appRoute'];
             this.ProjectLookup = params['projectLookup'];

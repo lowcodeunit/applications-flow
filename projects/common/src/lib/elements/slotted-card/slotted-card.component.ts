@@ -14,6 +14,9 @@ export class SlottedCardComponent implements OnInit {
     @Input('action-path')
     public ActionPath: string;
 
+    @Input('button-text')
+    public ButtonText: string;
+
     @Input('icon')
     public Icon: string;
 
