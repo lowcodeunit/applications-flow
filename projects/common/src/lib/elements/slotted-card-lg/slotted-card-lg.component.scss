@@ -1,0 +1,59 @@
+.col-info-card {
+    margin: 20px;
+    padding: 0px;
+    height: inherit;
+    overflow-y: hidden;
+}
+
+.slotted-card-header {
+    padding: 5px;
+}
+
+.slotted-card-content {
+    // overflow-y: scroll;
+    //inherit = 500px
+    height: calc(500px - 70px);
+}
+
+// .header-icon{
+//     height: 30px;
+//     width: 30px;
+//     font-size: 30px;
+// }
+::ng-deep .slotted-card-header .mat-card-header-text {
+    margin: 0px !important;
+}
+::ng-deep .slotted-card-header mat-card-title {
+    margin-bottom: 0px !important;
+}
+
+.card-title {
+    font-size: 22px;
+    margin-bottom: 0px !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.header-description {
+    background-color: #b9dddd;
+    padding: 10px;
+    // margin-left: -2px;
+}
+mat-card-actions {
+    margin-bottom: 0px !important;
+    margin-left: -1px !important;
+    margin-right: 0px !important;
+}
+.slotted-card-action-btn {
+    width: 100%;
+}
+
+.skeleton-item {
+    margin: 10px;
+}
+
+.mat-card-avatar {
+    width: 75% !important;
+}

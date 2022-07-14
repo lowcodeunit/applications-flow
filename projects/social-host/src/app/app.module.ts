@@ -25,6 +25,8 @@ import { SkeletonElementsModule } from 'skeleton-elements/angular';
 import { LazyElementModule } from '@lowcodeunit/lazy-element';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
+import { HomeComponent } from './controls/home/home.component';
+import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
 
 @NgModule({
     declarations: [
@@ -33,8 +35,10 @@ import { DiscoverComponent } from './controls/discover/discover.component';
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,
+        Enterprise4Component,
         IoTComponent,
         ApplicationsComponent,
+        HomeComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -61,14 +65,16 @@ import { DiscoverComponent } from './controls/discover/discover.component';
         },
     ],
     bootstrap: [AppComponent],
-    exports: [],
+    exports: [HomeComponent],
     entryComponents: [
         ProjectsComponent,
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,
+        Enterprise4Component,
         ApplicationsComponent,
         IoTComponent,
+        HomeComponent,
     ],
 })
 export class AppModule {}
