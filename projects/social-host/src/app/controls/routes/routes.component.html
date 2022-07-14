@@ -1,6 +1,7 @@
 <!-- <ng-container *ngIf="!State?.Loading"> -->
 
 <lcu-breadcrumb
+    [enterprise-path]="EntPath"
     [project-lookup]="ProjectLookup"
     [selected-route]="CurrentApplicationRoute"
 >
@@ -82,7 +83,8 @@
       secondary-slot-description="Add quick app"
       action-text="Create New Application" -->
         <lcu-slotted-card
-            card-title="Apps"
+            card-title="App"
+            button-text="Add App"
             icon="apps"
             [main-slot-description]="
                 CurrentRouteApplicationLookups?.length +
@@ -119,6 +121,7 @@
                                     class="slot-header-anchor"
                                     [routerLink]="[
                                         '/application',
+                                        EntPath,
                                         appLookup,
                                         CurrentApplicationRoute,
                                         ProjectLookup
@@ -153,6 +156,7 @@
                                 class="slot-action-anchor"
                                 [routerLink]="[
                                     '/application',
+                                    EntPath,
                                     appLookup,
                                     CurrentApplicationRoute,
                                     ProjectLookup

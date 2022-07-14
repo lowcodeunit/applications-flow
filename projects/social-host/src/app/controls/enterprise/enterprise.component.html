@@ -1,4 +1,4 @@
-<lcu-breadcrumb> </lcu-breadcrumb>
+<lcu-breadcrumb [enterprise-path]="EntPath"> </lcu-breadcrumb>
 
 <lcu-three-column>
     <div left>
@@ -75,7 +75,7 @@
       action-text="Create Custom Project"-->
         <lcu-slotted-card
             *ngIf="ProjectLookups?.length > 0"
-            card-title="Projects"
+            card-title="Project"
             icon="work_outline"
             [main-slot-description]="
                 ProjectLookups?.length + ' project(s) configured'
@@ -104,7 +104,11 @@
                                 <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                                 <a
                                     class="slot-header-anchor"
-                                    [routerLink]="['/project', projectLookup]"
+                                    [routerLink]="[
+                                        '/project',
+                                        EntPath,
+                                        projectLookup
+                                    ]"
                                 >
                                     <div
                                         *ngIf="project.Project.Name"
@@ -130,7 +134,11 @@
                         >
                             <a
                                 class="slot-action-anchor"
-                                [routerLink]="['/project', projectLookup]"
+                                [routerLink]="[
+                                    '/project',
+                                    EntPath,
+                                    projectLookup
+                                ]"
                             >
                                 <mat-icon
                                     class="action-icon"
@@ -200,7 +208,8 @@
       action-text="Create New Source Control" -->
         <lcu-slotted-card
             *ngIf="SourceControlLookups?.length > 0"
-            card-title="Source Controls"
+            card-title="Source Control"
+            button-text="Add Source Control"
             icon="build"
             [main-slot-description]="
                 SourceControlLookups?.length + ' source control(s) configured'
@@ -326,6 +335,7 @@
         <lcu-slotted-card
             *ngIf="DevOpsActionLookups?.length > 0"
             card-title="Build Pipeline"
+            button-text="Add Pipeline"
             icon="plumbing"
             [main-slot-description]="
                 DevOpsActionLookups?.length + ' Pipeline(s) configured'
@@ -428,7 +438,8 @@
       action-text="Create New Request Modifier" -->
         <lcu-slotted-card
             *ngIf="ModifierLookups?.length > 0"
-            card-title="Modifiers"
+            card-title="Modifier"
+            button-text="Add Modifier"
             icon="sync_alt"
             [main-slot-description]="
                 ModifierLookups?.length + ' Modifier(s) configured'

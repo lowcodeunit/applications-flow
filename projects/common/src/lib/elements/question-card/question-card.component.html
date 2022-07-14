@@ -1,0 +1,26 @@
+<mat-card class="social-card">
+    <div class="image-container" fxLayoutAlign="center center">
+        <img class="question-image" [src]="CurrentQuestion?.Image" />
+        <!-- <img class="question-image" src="../../../assets/images/thinky.png" /> -->
+    </div>
+
+    <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+        <h2>{{ CurrentQuestion.Title }}</h2>
+        <p class="question-description">
+            {{ CurrentQuestion?.Description }}
+        </p>
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="center center">
+        <ng-container *ngFor="let action of CurrentQuestion?.Actions">
+            <button
+                mat-raised-button
+                class="question-btn"
+                [color]="action.Color"
+                (click)="HandleAnswerBtn(action)"
+            >
+                <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
+                {{ action.Text }}
+            </button>
+        </ng-container>
+    </mat-card-actions>
+</mat-card>

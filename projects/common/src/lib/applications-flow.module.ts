@@ -79,6 +79,14 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
 import { ProductDiscoveryCardComponent } from './elements/product-discovery-card/product-discovery-card.component';
 import { AdvertisementCardComponent } from './elements/advertisement-card/advertisement-card.component';
 import { FeedFilterComponent } from './elements/feed-filter/feed-filter.component';
+import { QuestionCardComponent } from './elements/question-card/question-card.component';
+import { TwoColumnComponent } from './elements/two-column/two-column.component';
+import { TeamMemberCardComponent } from './elements/team-member-card/team-member-card.component';
+import { ActivityCardComponent } from './elements/activity-card/activity-card.component';
+import { ProjectWizardCardComponent } from './elements/project-wizard-card/project-wizard-card.component';
+import { UsageStatsComponent } from './elements/usage-stats/usage-stats.component';
+import { SlottedCardLgComponent } from './elements/slotted-card-lg/slotted-card-lg.component';
+import { SocialUIService } from './services/social-ui.service';
 
 @NgModule({
     declarations: [
@@ -106,6 +114,7 @@ import { FeedFilterComponent } from './elements/feed-filter/feed-filter.componen
         DFSModifiersFormComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -142,6 +151,12 @@ import { FeedFilterComponent } from './elements/feed-filter/feed-filter.componen
         ProductDiscoveryCardComponent,
         AdvertisementCardComponent,
         FeedFilterComponent,
+        QuestionCardComponent,
+        TwoColumnComponent,
+        TeamMemberCardComponent,
+        ActivityCardComponent,
+        ProjectWizardCardComponent,
+        UsageStatsComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -182,6 +197,7 @@ import { FeedFilterComponent } from './elements/feed-filter/feed-filter.componen
         NpmPackageSelectComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -220,6 +236,12 @@ import { FeedFilterComponent } from './elements/feed-filter/feed-filter.componen
         ProductDiscoveryCardComponent,
         AdvertisementCardComponent,
         FeedFilterComponent,
+        QuestionCardComponent,
+        TwoColumnComponent,
+        TeamMemberCardComponent,
+        ActivityCardComponent,
+        ProjectWizardCardComponent,
+        UsageStatsComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,
@@ -243,6 +265,7 @@ import { FeedFilterComponent } from './elements/feed-filter/feed-filter.componen
         NpmPackageSelectComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -282,6 +305,7 @@ export class ApplicationsFlowModule {
                 FormsService,
                 EaCService,
                 IoTEnsembleService,
+                SocialUIService,
             ],
         };
     }

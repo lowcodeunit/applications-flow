@@ -57,11 +57,12 @@ $Thinky-color: mat-color(map-get($global-theme, primary), 700);
 
 .menu-item {
     margin: 5px 0px;
-    color: lightgray;
+    // color: lightgray;
+    cursor: pointer;
     &:hover {
         // color: $Font-Color;
-        // cursor: pointer;
-        cursor: not-allowed;
+        cursor: pointer;
+        // cursor: not-allowed;
     }
 }
 
