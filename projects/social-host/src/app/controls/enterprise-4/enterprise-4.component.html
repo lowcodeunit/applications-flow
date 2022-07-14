@@ -1,8 +1,8 @@
 <lcu-breadcrumb [enterprise-path]="EntPath"> </lcu-breadcrumb>
 
 <lcu-two-column>
-    <!-- <div top-left> -->
-    <!-- <lcu-project-info-card
+    <div top-left>
+        <lcu-project-info-card
             [name]="this.State?.EaC?.Enterprise?.Name"
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
@@ -10,16 +10,16 @@
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
         >
-        </lcu-project-info-card> -->
-    <!-- </div> -->
-    <!-- <div top-right> -->
-    <!-- <lcu-usage-stats></lcu-usage-stats> -->
-    <!-- <ng-container *ngFor="let ad of State?.Advertisements">
+        </lcu-project-info-card>
+    </div>
+    <div top-right>
+        <lcu-usage-stats></lcu-usage-stats>
+        <!-- <ng-container *ngFor="let ad of State?.Advertisements">
             <lcu-advertisement-card
                 [advertisement]="ad"
             ></lcu-advertisement-card>
         </ng-container> -->
-    <!-- </div> -->
+    </div>
 
     <!-- CENTER FEED -->
     <div middle-right>
