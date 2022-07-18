@@ -118,8 +118,8 @@ export class EnterpriseComponent implements OnInit {
         protected router: Router,
         protected socialSvc: SocialUIService
     ) {
-        this.EntPath = 'enterprise-1';
-        this.socialSvc.AssignEnterprisePath(this.EntPath);
+        // this.EntPath = 'enterprise-1';
+        // this.socialSvc.AssignEnterprisePath(this.EntPath);
 
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
