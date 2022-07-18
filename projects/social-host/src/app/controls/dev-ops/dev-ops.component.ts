@@ -44,12 +44,10 @@ export class DevOpsComponent implements OnInit {
     }
 
     public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        console.log('env HERE: ', this.Environment);
         return this.Environment?.Sources || {};
     }
 
     public get State(): ApplicationsFlowState {
-        console.log('State: ', this.eacSvc?.State);
         return this.eacSvc?.State;
     }
 

@@ -87,6 +87,7 @@ import { ProjectWizardCardComponent } from './elements/project-wizard-card/proje
 import { UsageStatsComponent } from './elements/usage-stats/usage-stats.component';
 import { SlottedCardLgComponent } from './elements/slotted-card-lg/slotted-card-lg.component';
 import { SocialUIService } from './services/social-ui.service';
+import { DashboardToolbarComponent } from './elements/dashboard-toolbar/dashboard-toolbar.component';
 
 @NgModule({
     declarations: [
@@ -157,6 +158,7 @@ import { SocialUIService } from './services/social-ui.service';
         ActivityCardComponent,
         ProjectWizardCardComponent,
         UsageStatsComponent,
+        DashboardToolbarComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -242,6 +244,7 @@ import { SocialUIService } from './services/social-ui.service';
         ActivityCardComponent,
         ProjectWizardCardComponent,
         UsageStatsComponent,
+        DashboardToolbarComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

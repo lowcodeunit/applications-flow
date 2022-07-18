@@ -1,3 +1,5 @@
+<lcu-dashboard-toolbar></lcu-dashboard-toolbar>
+
 <lcu-breadcrumb> </lcu-breadcrumb>
 
 <lcu-two-column>
@@ -22,7 +24,7 @@
     </div>
 
     <!-- CENTER FEED -->
-    <div middle-right>
+    <div middle-right *ngIf="ProjectLookups?.length > 0">
         <lcu-activity-card
             class="fit-content"
             [filter-types]="FilterTypes"
@@ -32,7 +34,7 @@
         </lcu-activity-card>
     </div>
 
-    <div middle-left>
+    <div middle-left *ngIf="ProjectLookups?.length > 0">
         <lcu-question-card
             *ngIf="State?.Questions && ProjectLookups?.length <= 0"
             [questions]="State?.Questions"
@@ -144,11 +146,11 @@
             </div>
         </lcu-slotted-card-lg>
     </div>
-    <div middle-full-width>
+    <div middle-full-width *ngIf="ProjectLookups?.length <= 0">
         <lcu-project-wizard-card></lcu-project-wizard-card>
     </div>
 
-    <div>
+    <div *ngIf="ProjectLookups?.length > 0">
         <lcu-team-member-card
             [current-user]="State?.UserLicenseInfo?.Email"
         ></lcu-team-member-card>
