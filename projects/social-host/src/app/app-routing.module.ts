@@ -11,28 +11,24 @@ import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.compo
 
 const routes: Routes = [
     {
-        path: 'application/:enterprise/:appLookup/:appRoute/:projectLookup',
+        path: 'application/:appLookup/:appRoute/:projectLookup',
         component: ApplicationsComponent,
     },
     {
-        path: 'project/:enterprise/:projectLookup',
+        path: 'project/:projectLookup',
         component: ProjectsComponent,
     },
     {
-        path: 'route/:enterprise/:appRoute/:projectLookup',
+        path: 'route/:appRoute/:projectLookup',
         component: RoutesComponent,
     },
     { path: 'discover', component: DiscoverComponent },
     { path: 'iot', component: IoTComponent },
-    { path: 'enterprise-0', component: HomeComponent },
-    { path: 'enterprise-1', component: EnterpriseComponent },
-    { path: 'enterprise-2', component: Enterprise4Component },
+    { path: 'home', component: HomeComponent },
+    { path: 'enterprise', component: Enterprise4Component },
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
-// { path: 'enterprise-1', component: Enterprise1Component },
-//     { path: 'enterprise-2', component: Enterprise2Component },
-//     { path: 'enterprise-3', component: Enterprise3Component },
 
 @NgModule({
     imports: [

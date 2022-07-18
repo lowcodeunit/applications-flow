@@ -9,8 +9,8 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
     styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-    @Input('enterprise-path')
-    public EnterprisePath: string;
+    // @Input('enterprise-path')
+    // public EnterprisePath: string;
 
     @Input('application-lookup')
     public ApplicationLookup: string;
@@ -161,7 +161,7 @@ export class BreadcrumbComponent implements OnInit {
     }
 
     ngOnChanges() {
-        console.log('ent path bc: ', this.EnterprisePath);
+        // console.log('ent path bc: ', this.EnterprisePath);
     }
 
     public SetActiveEnterprise(entLookup: string): void {

@@ -166,7 +166,7 @@ export class ProjectsComponent implements OnInit {
         return routeSetResult;
     }
 
-    public EntPath: string;
+    // public EntPath: string;
 
     public Slices: { [key: string]: number };
 
@@ -189,8 +189,7 @@ export class ProjectsComponent implements OnInit {
     ) {
         this.activatedRoute.params.subscribe((params: any) => {
             this.ProjectLookup = params['projectLookup'];
-            this.EntPath = params['enterprise'];
-            console.log('entPath: ', this.EntPath);
+            // this.EntPath = params['enterprise'];
         });
 
         this.Stats = [
