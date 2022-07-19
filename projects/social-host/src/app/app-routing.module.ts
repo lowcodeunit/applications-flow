@@ -9,6 +9,8 @@ import { HomeComponent } from './controls/home/home.component';
 import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
 import { ModifiersComponent } from './controls/modifiers/modifiers.component';
 import { DevOpsComponent } from './controls/dev-ops/dev-ops.component';
+import { TeamMembersComponent } from './controls/team-members/team-members.component';
+import { ProjectPageComponent } from './controls/project-page/project-page.component';
 
 const routes: Routes = [
     {
@@ -29,6 +31,8 @@ const routes: Routes = [
     { path: 'home', component: HomeComponent },
     { path: 'iot', component: IoTComponent },
     { path: 'modifiers', component: ModifiersComponent },
+    { path: 'projects', component: ProjectPageComponent },
+    { path: 'teams', component: TeamMembersComponent },
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];

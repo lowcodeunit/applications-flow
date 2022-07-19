@@ -29,6 +29,8 @@ import { HomeComponent } from './controls/home/home.component';
 import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
 import { DevOpsComponent } from './controls/dev-ops/dev-ops.component';
 import { ModifiersComponent } from './controls/modifiers/modifiers.component';
+import { TeamMembersComponent } from './controls/team-members/team-members.component';
+import { ProjectPageComponent } from './controls/project-page/project-page.component';
 
 @NgModule({
     declarations: [
@@ -43,6 +45,8 @@ import { ModifiersComponent } from './controls/modifiers/modifiers.component';
         HomeComponent,
         DevOpsComponent,
         ModifiersComponent,
+        TeamMembersComponent,
+        ProjectPageComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -69,7 +73,7 @@ import { ModifiersComponent } from './controls/modifiers/modifiers.component';
         },
     ],
     bootstrap: [AppComponent],
-    exports: [],
+    exports: [TeamMembersComponent, ProjectPageComponent],
     entryComponents: [
         ProjectsComponent,
         RoutesComponent,

@@ -9,5 +9,28 @@
                 <div>Owner</div>
             </div>
         </div>
+        <div *ngIf="!CurrentUser" fxLayout="row" fxLayoutAlign="start center">
+            <skeleton-avatar
+                [showIcon]="true"
+                [effect]="SkeletonEffect"
+            ></skeleton-avatar>
+            <!-- <mat-icon skeleton-text class="member-icon" [effect]="SkeletonEffect">person</mat-icon> -->
+            <div>
+                <div
+                    skeleton-text
+                    class="skeleton-text"
+                    [effect]="SkeletonEffect"
+                >
+                    UserName
+                </div>
+                <div
+                    skeleton-text
+                    class="skeleton-text"
+                    [effect]="SkeletonEffect"
+                >
+                    Owner
+                </div>
+            </div>
+        </div>
     </mat-card-content>
 </mat-card>
