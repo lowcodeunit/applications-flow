@@ -84,6 +84,7 @@ export * from './lib/elements/main-feed-card/main-feed-card.component';
 export * from './lib/elements/project-info-card/project-info-card.component';
 export * from './lib/elements/two-column-header/two-column-header.component';
 export * from './lib/elements/dashboard-toolbar/dashboard-toolbar.component';
+export * from './lib/elements/project-card/project-card.component';
 export * from './lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
 export * from './lib/dialogs/edit-application-dialog/edit-application-dialog.component';
 export * from './lib/elements/card-carousel/card-carousel.component';
