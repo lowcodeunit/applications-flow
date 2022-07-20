@@ -1,3 +1,4 @@
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,7 +7,18 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./dashboard-toolbar.component.scss'],
 })
 export class DashboardToolbarComponent implements OnInit {
-    constructor() {}
+    public IsSmScreen: boolean;
+    constructor(public breakpointObserver: BreakpointObserver) {}
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.breakpointObserver
+            .observe(['(max-width: 959px)'])
+            .subscribe((state: BreakpointState) => {
+                if (state.matches) {
+                    this.IsSmScreen = true;
+                } else {
+                    this.IsSmScreen = false;
+                }
+            });
+    }
 }

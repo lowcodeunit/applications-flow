@@ -50,8 +50,11 @@ export class DevOpsComponent implements OnInit {
     public get State(): ApplicationsFlowState {
         return this.eacSvc?.State;
     }
+    public SkeletonEffect: string;
 
-    constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {}
+    constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
+        this.SkeletonEffect = 'wave';
+    }
 
     public ngOnInit(): void {}
 

@@ -24,7 +24,11 @@ export class ModifiersComponent implements OnInit {
     public get State(): ApplicationsFlowState {
         return this.eacSvc?.State;
     }
-    constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {}
+
+    public SkeletonEffect: string;
+    constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
+        this.SkeletonEffect = 'wave';
+    }
 
     ngOnInit(): void {}
 

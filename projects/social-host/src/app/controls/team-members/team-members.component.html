@@ -1,5 +1,17 @@
 <lcu-dashboard-toolbar></lcu-dashboard-toolbar>
-
+<p class="card-description" *ngIf="!State?.Loading">
+    Team members have accounts on Fathym and can create new sites or change
+    their settings, depending on their permissions.
+</p>
+<p
+    class="card-description"
+    *ngIf="State?.Loading"
+    skeleton-text
+    [effect]="SkeletonEffect"
+>
+    Team members have accounts on Fathym and can create new sites or change
+    their settings, depending on their permissions.
+</p>
 <lcu-team-member-card
     [current-user]="State?.UserLicenseInfo?.Email"
 ></lcu-team-member-card>

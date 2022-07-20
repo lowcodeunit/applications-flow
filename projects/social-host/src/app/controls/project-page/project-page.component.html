@@ -1,3 +1,7 @@
 <lcu-dashboard-toolbar></lcu-dashboard-toolbar>
 
-<lcu-project-card></lcu-project-card>
+<lcu-project-card *ngIf="ProjectLookups?.length > 0"></lcu-project-card>
+
+<lcu-project-wizard-card
+    *ngIf="ProjectLookups?.length <= 0"
+></lcu-project-wizard-card>

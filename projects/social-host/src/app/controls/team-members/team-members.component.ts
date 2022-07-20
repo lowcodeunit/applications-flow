@@ -12,8 +12,11 @@ export class TeamMembersComponent implements OnInit {
     public get State(): ApplicationsFlowState {
         return this.eacSvc?.State;
     }
+    public SkeletonEffect: string;
 
-    constructor(protected eacSvc: EaCService) {}
+    constructor(protected eacSvc: EaCService) {
+        this.SkeletonEffect = 'wave';
+    }
 
     ngOnInit(): void {}
 }

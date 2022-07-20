@@ -4,6 +4,10 @@
     height: calc(100% - 70px);
 }
 
+.usage-stats-title {
+    margin: 0px;
+}
+
 .stats-content {
     text-align: center;
 }
@@ -12,4 +16,8 @@
     font-size: 70px;
     height: 70px;
     width: 70px;
+}
+
+.usage-stats-img {
+    width: 100%;
 }

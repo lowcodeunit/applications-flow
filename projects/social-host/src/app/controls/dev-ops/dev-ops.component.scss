@@ -1,9 +1,25 @@
 @import "../../../../../common/src/assets/styles/social-card.scss";
 
 .fit-content {
-    height: 500px;
+    // height: 500px;
+    height: calc(100% - 40px);
 
     ::ng-deep .slotted-card-content {
-        overflow-y: scroll;
+        // overflow-y: scroll;
+        height: 100%;
+    }
+}
+
+.devops-card-container {
+    width: 100%;
+}
+
+.card-description {
+    height: 80px;
+}
+
+@media only screen and (max-width: 959px) {
+    .card-description {
+        height: 110px;
     }
 }

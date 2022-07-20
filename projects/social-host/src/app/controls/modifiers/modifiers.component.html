@@ -1,5 +1,26 @@
 <lcu-dashboard-toolbar></lcu-dashboard-toolbar>
 
+<p class="card-description" *ngIf="!State?.Loading">
+    Application file modifiers allow you to add third party software libraries
+    at runtime, support pre-rendering workflows for your dynamic content and
+    single page applications (SPAs). They can also support different types of
+    content manipulation, such as minification, compression and content
+    inlining. Fathym automatically sets up LCU Reg and HTML Base modifiers.
+</p>
+
+<p
+    class="card-description"
+    *ngIf="State?.Loading"
+    skeleton-text
+    [effect]="SkeletonEffect"
+>
+    Application file modifiers allow you to add third party software libraries
+    at runtime, support pre-rendering workflows for your dynamic content and
+    single page applications (SPAs). They can also support different types of
+    content manipulation, such as minification, compression and content
+    inlining. Fathym automatically sets up LCU Reg and HTML Base modifiers.
+</p>
+
 <lcu-slotted-card-lg
     class="fit-content"
     *ngIf="ModifierLookups?.length > 0"
