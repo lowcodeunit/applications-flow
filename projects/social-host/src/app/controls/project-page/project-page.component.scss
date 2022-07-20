@@ -1,8 +1,1 @@
 @import "../../../../../common/src/assets/styles/social-card.scss";
-
-.fit-content {
-    ::ng-deep .slotted-card-content {
-        // overflow-y: scroll;
-        height: 100%;
-    }
-}

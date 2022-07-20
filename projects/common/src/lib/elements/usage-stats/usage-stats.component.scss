@@ -2,14 +2,18 @@
 .stats-card {
     // height: 167px;
     height: calc(100% - 70px);
+    background-image: url("./assets/images/enterprise_usage_statistics.png");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .usage-stats-title {
-    margin: 0px;
+    text-align: center;
+    // margin: 0px;
 }
 
 .stats-content {
-    text-align: center;
+    height: 100%;
 }
 
 .icon {
@@ -18,6 +22,6 @@
     width: 70px;
 }
 
-.usage-stats-img {
-    width: 100%;
-}
+// .usage-stats-img {
+//     width: 100%;
+// }
