@@ -1,3 +1,144 @@
+<!-- TREE -->
+<button mat-button (click)="BuildTree()">BUILD TREE</button>
+<!-- <ng-container *ngIf="ProjectLookups?BuildTree():false"></ng-container> -->
+<lcu-slotted-card-lg
+    *ngIf="ProjectLookups?.length > 0"
+    class="fit-content"
+    card-title="Project"
+    icon="work_outline"
+    [main-slot-description]="ProjectLookups?.length + ' project(s) configured'"
+    (main-action-clicked)="RouteToPath('/dashboard/create-project')"
+>
+    <!-- <div> -->
+    <ng-container *ngIf="DataSource">
+        <mat-tree [dataSource]="DataSource" [treeControl]="treeControl">
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                <a class="slot-header-anchor" [routerLink]="node.routerLink">
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </a>
+                <!-- <button mat-icon-button></button> -->
+            </mat-tree-node>
+            <mat-tree-node
+                *matTreeNodeDef="let node; when: HasChild"
+                matTreeNodePadding
+            >
+                <button
+                    mat-icon-button
+                    matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name"
+                >
+                    <mat-icon class="mat-icon-rtl-mirror">
+                        {{
+                            treeControl.isExpanded(node)
+                                ? "expand_more"
+                                : "chevron_right"
+                        }}
+                    </mat-icon>
+                </button>
+                <a class="slot-header-anchor" [routerLink]="node.routerLink">
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </a>
+            </mat-tree-node>
+        </mat-tree>
+    </ng-container>
+
+    <!-- <div
+        class="main-slot-container"
+        fxLayout="row"
+        *ngFor="let projectLookup of ProjectLookups"
+    >
+        <div
+            class="slot-content"
+            *ngIf="State?.EaC?.Projects[projectLookup]; let project"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
+            <div class="slot-header-container">
+                <div class="slot-header" fxLayout="row">
+                    <a
+                        class="slot-header-anchor"
+                        [routerLink]="['/project', projectLookup]"
+                    >
+                        <div *ngIf="project.Project.Name" class="slot-name">
+                            {{ project.Project.Name }}
+                        </div>
+                    </a>
+                </div>
+
+                <div
+                    *ngIf="project.Project.Description"
+                    class="slot-description"
+                >
+                    {{ project.Project.Description }}
+                </div>
+            </div>
+
+            <div
+                class="slot-actions-container"
+                fxLayout="row"
+                fxLayoutAlign="space-around center"
+            >
+                <a
+                    class="slot-action-anchor"
+                    [routerLink]="['/project', projectLookup]"
+                >
+                    <mat-icon
+                        class="action-icon"
+                        matTooltip="Edit {{ project.Project.Name }}"
+                        >edit</mat-icon
+                    >
+                </a>
+                <a
+                    class="slot-action-anchor"
+                    [href]="
+                        'https://' + project?.Hosts[project?.Hosts?.length - 1]
+                    "
+                    target="_blank"
+                >
+                    <mat-icon
+                        class="action-icon"
+                        matTooltip="Launch {{ project.Project.Name }}"
+                        >launch</mat-icon
+                    >
+                </a>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <button
+                    mat-raised-button
+                    class="mat-full-width"
+                    (click)="ToggleSlices('Projects')"
+                    *ngIf="ProjectLookups?.length > 5"
+                >
+                    {{
+                        Slices.Projects == ProjectLookups?.length
+                            ? "Show Less"
+                            : "Show More"
+                    }}
+
+                    <mat-icon>
+                        {{
+                            Slices.Projects == ProjectLookups?.length
+                                ? "expand_less"
+                                : "expand_more"
+                        }}
+                    </mat-icon>
+                </button> -->
+    <!-- </div> -->
+</lcu-slotted-card-lg>
+
+<!-- Original -->
 <lcu-slotted-card-lg
     *ngIf="ProjectLookups?.length > 0"
     class="fit-content"
@@ -18,11 +159,8 @@
                 fxLayout="row"
                 fxLayoutAlign="space-between center"
             >
-                <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
                 <div class="slot-header-container">
                     <div class="slot-header" fxLayout="row">
-                        <!-- this icon is a temp placeholder -->
-                        <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
                         <a
                             class="slot-header-anchor"
                             [routerLink]="['/project', projectLookup]"
