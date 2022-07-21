@@ -1,38 +1,41 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationsComponent } from './controls/applications/applications.component';
-import { EnterpriseComponent } from './controls/enterprise/enterprise.component';
 import { ProjectsComponent } from './controls/projects/projects.component';
 import { RoutesComponent } from './controls/routes/routes.component';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
 import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
+import { ModifiersComponent } from './controls/modifiers/modifiers.component';
+import { DevOpsComponent } from './controls/dev-ops/dev-ops.component';
+import { TeamMembersComponent } from './controls/team-members/team-members.component';
+import { ProjectPageComponent } from './controls/project-page/project-page.component';
 
 const routes: Routes = [
     {
-        path: 'application/:enterprise/:appLookup/:appRoute/:projectLookup',
+        path: 'application/:appLookup/:appRoute/:projectLookup',
         component: ApplicationsComponent,
     },
     {
-        path: 'project/:enterprise/:projectLookup',
+        path: 'project/:projectLookup',
         component: ProjectsComponent,
     },
     {
-        path: 'route/:enterprise/:appRoute/:projectLookup',
+        path: 'route/:appRoute/:projectLookup',
         component: RoutesComponent,
     },
+    { path: 'devops', component: DevOpsComponent },
     { path: 'discover', component: DiscoverComponent },
+    { path: 'enterprise', component: Enterprise4Component },
+    { path: 'home', component: HomeComponent },
     { path: 'iot', component: IoTComponent },
-    { path: 'enterprise-0', component: HomeComponent },
-    { path: 'enterprise-1', component: EnterpriseComponent },
-    { path: 'enterprise-2', component: Enterprise4Component },
+    { path: 'modifiers', component: ModifiersComponent },
+    { path: 'projects', component: ProjectPageComponent },
+    { path: 'teams', component: TeamMembersComponent },
     { path: '', component: HomeComponent, pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
-// { path: 'enterprise-1', component: Enterprise1Component },
-//     { path: 'enterprise-2', component: Enterprise2Component },
-//     { path: 'enterprise-3', component: Enterprise3Component },
 
 @NgModule({
     imports: [

@@ -101,7 +101,7 @@ export class Enterprise4Component implements OnInit {
         return this.eacSvc?.State;
     }
 
-    public EntPath: string;
+    // public EntPath: string;
 
     public Slices: { [key: string]: number };
 
@@ -118,8 +118,8 @@ export class Enterprise4Component implements OnInit {
         protected router: Router,
         protected socialSvc: SocialUIService
     ) {
-        this.EntPath = 'enterprise-2';
-        this.socialSvc.AssignEnterprisePath(this.EntPath);
+        // this.EntPath = 'enterprise-2';
+        // this.socialSvc.AssignEnterprisePath(this.EntPath);
 
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;

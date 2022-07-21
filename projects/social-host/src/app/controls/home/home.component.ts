@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
         return this.ProjectLookups?.length;
     }
 
-    public EntPath: string;
+    // public EntPath: string;
 
     public Slices: { [key: string]: number };
 
@@ -85,8 +85,8 @@ export class HomeComponent implements OnInit {
         protected eacSvc: EaCService,
         protected socialSvc: SocialUIService
     ) {
-        this.EntPath = 'enterprise-0';
-        this.socialSvc.AssignEnterprisePath(this.EntPath);
+        // this.EntPath = 'enterprise-0';
+        // this.socialSvc.AssignEnterprisePath(this.EntPath);
 
         this.SlicesCount = 5;
 

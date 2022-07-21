@@ -14,8 +14,8 @@ export class PageHeaderComponent implements OnInit {
     @Input('state')
     public State: ApplicationsFlowState;
 
-    @Input('ent-path')
-    public EntPath: string;
+    // @Input('ent-path')
+    // public EntPath: string;
 
     public IsSmScreen: boolean;
 

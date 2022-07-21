@@ -44,7 +44,7 @@ export class AppComponent implements OnDestroy, OnInit {
         protected activatedRoute: ActivatedRoute,
         protected socialSvc: SocialUIService
     ) {
-        socialSvc.changeEmitted$.subscribe((path) => {
+        socialSvc.changeEmitted$.subscribe((path: string) => {
             this.EntPath = path;
         });
 

@@ -1,0 +1,28 @@
+.dashboard-toolbar {
+    background-color: white;
+}
+.toolbar-item {
+    margin: 10px;
+    text-decoration: none;
+    color: black;
+}
+.vl {
+    border-left: 2px solid black;
+    height: 20px;
+}
+
+.disabled {
+    color: grey;
+}
+
+@media only screen and (max-width: 959px) {
+    .dashboard-toolbar {
+        height: 45px;
+    }
+    .toolbar-item {
+        font-size: 12px;
+    }
+    .vl {
+        border-left: 1px solid black;
+    }
+}
