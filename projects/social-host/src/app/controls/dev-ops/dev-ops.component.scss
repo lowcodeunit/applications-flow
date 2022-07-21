@@ -14,12 +14,18 @@
     width: 100%;
 }
 
-.card-description {
-    height: 80px;
+.card-description-container {
+    height: 110px;
 }
 
 @media only screen and (max-width: 959px) {
-    .card-description {
+    .card-description-container {
         height: 110px;
+    }
+}
+
+@media only screen and (max-width: 1025px) {
+    .card-description-container {
+        height: 135px;
     }
 }

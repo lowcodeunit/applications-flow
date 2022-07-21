@@ -1,24 +1,28 @@
 <lcu-dashboard-toolbar></lcu-dashboard-toolbar>
 
 <div fxLayout="row" fxLayout.lt-md="column">
-    <div fxLayout="column" class="devops-card-container">
-        <p class="card-description" *ngIf="!State?.Loading">
-            Source control (or version control) is the practice of tracking and
-            managing changes to code. When a Fathym user creates a web project,
-            Fathym automatically creates a source control repository within a
-            user’s preferred GitHub organization (once connected).
-        </p>
-        <p
-            class="card-description"
-            *ngIf="State?.Loading"
-            skeleton-text
-            [effect]="SkeletonEffect"
-        >
-            Source control (or version control) is the practice of tracking and
-            managing changes to code. When a Fathym user creates a web project,
-            Fathym automatically creates a source control repository within a
-            user’s preferred GitHub organization (once connected).
-        </p>
+    <div fxLayout="column" class="devops-card-container" fxFlex="50%">
+        <div class="card-description-container" fxLayoutAlign.lt-md="start end">
+            <p class="card-description" *ngIf="!State?.Loading">
+                <b>Source Control</b> (or version control) is the practice of
+                tracking and managing changes to code. When a Fathym user
+                creates a web project, Fathym automatically creates a source
+                control repository within a user’s preferred GitHub organization
+                (once connected).
+            </p>
+            <p
+                class="card-description"
+                *ngIf="State?.Loading"
+                skeleton-text
+                [effect]="SkeletonEffect"
+            >
+                Source Control (or version control) is the practice of tracking
+                and managing changes to code. When a Fathym user creates a web
+                project, Fathym automatically creates a source control
+                repository within a user’s preferred GitHub organization (once
+                connected).
+            </p>
+        </div>
 
         <lcu-slotted-card-lg
             class="fit-content"
@@ -139,26 +143,25 @@
             </div>
         </lcu-slotted-card-lg>
     </div>
-    <div fxLayout="column" class="devops-card-container">
-        <p
-            class="card-description"
-            *ngIf="!State?.Loading"
-            fxLayoutAlign.lt-md="start end"
-        >
-            A Build Pipeline is used to generate Artifacts out of Source Code.
-            Fathym automates individual build pipelines for each source control
-            and application deployed on Fathym.
-        </p>
-        <p
-            class="card-description"
-            *ngIf="State?.Loading"
-            skeleton-text
-            [effect]="SkeletonEffect"
-        >
-            A Build Pipeline is used to generate Artifacts out of Source Code.
-            Fathym automates individual build pipelines for each source control
-            and application deployed on Fathym.
-        </p>
+    <div fxLayout="column" class="devops-card-container" fxFlex="50%">
+        <!-- fxLayoutAlign.lt-md="start end" -->
+        <div class="card-description-container" fxLayoutAlign.lt-md="start end">
+            <p class="card-description" *ngIf="!State?.Loading">
+                A <b>Build Pipeline</b> is used to generate Artifacts out of
+                Source Code. Fathym automates individual build pipelines for
+                each source control and application deployed on Fathym.
+            </p>
+            <p
+                class="card-description"
+                *ngIf="State?.Loading"
+                skeleton-text
+                [effect]="SkeletonEffect"
+            >
+                A Build Pipeline is used to generate Artifacts out of Source
+                Code. Fathym automates individual build pipelines for each
+                source control and application deployed on Fathym.
+            </p>
+        </div>
         <lcu-slotted-card-lg
             class="fit-content"
             *ngIf="DevOpsActionLookups?.length > 0"
