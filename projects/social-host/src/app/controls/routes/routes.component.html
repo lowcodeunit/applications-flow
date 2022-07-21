@@ -1,7 +1,6 @@
 <!-- <ng-container *ngIf="!State?.Loading"> -->
 
 <lcu-breadcrumb
-    [enterprise-path]="EntPath"
     [project-lookup]="ProjectLookup"
     [selected-route]="CurrentApplicationRoute"
 >
@@ -121,7 +120,6 @@
                                     class="slot-header-anchor"
                                     [routerLink]="[
                                         '/application',
-                                        EntPath,
                                         appLookup,
                                         CurrentApplicationRoute,
                                         ProjectLookup
@@ -156,7 +154,6 @@
                                 class="slot-action-anchor"
                                 [routerLink]="[
                                     '/application',
-                                    EntPath,
                                     appLookup,
                                     CurrentApplicationRoute,
                                     ProjectLookup

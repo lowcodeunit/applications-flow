@@ -24,6 +24,7 @@ export class FeedHeaderComponent implements OnInit {
     }
 
     public get FeedHeaderActions(): Array<FeedItemAction> {
+        // console.log('FeedActions: ', this.State?.FeedActions)
         return this.State?.FeedActions;
     }
 

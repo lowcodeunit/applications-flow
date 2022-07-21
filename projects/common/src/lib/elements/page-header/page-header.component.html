@@ -4,12 +4,12 @@
     <div fxFlex></div>
 
     <ng-container *ngIf="!IsSmScreen">
-        <!-- <a mat-button class="toolbar-action" href="/dashboard">
+        <a mat-button class="toolbar-action" href="/dashboard">
             <mat-icon>home</mat-icon>
 
             Home
-        </a> -->
-        <a mat-button class="toolbar-action" href="/dashboard/{{ EntPath }}">
+        </a>
+        <a mat-button class="toolbar-action" href="/dashboard/enterprise">
             <mat-icon>view_compact</mat-icon>
 
             Dashboard
@@ -87,11 +87,8 @@
             <mat-icon>menu</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-            <a
-                class="toolbar-menu-action"
-                mat-menu-item
-                href="/dashboard/{{ EntPath }}"
-            >
+            <a class="toolbar-menu-action" mat-menu-item href="/home"> Home </a>
+            <a class="toolbar-menu-action" mat-menu-item href="/dashboard">
                 Dashboard
             </a>
 

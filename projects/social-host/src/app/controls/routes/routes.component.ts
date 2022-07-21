@@ -81,7 +81,7 @@ export class RoutesComponent implements OnInit {
 
     public AppRoute: string;
 
-    public EntPath: string;
+    // public EntPath: string;
 
     public IsInfoCardEditable: boolean;
 
@@ -107,7 +107,6 @@ export class RoutesComponent implements OnInit {
         this.activatedRoute.params.subscribe((params) => {
             this.AppRoute = params['appRoute'];
             this.ProjectLookup = params['projectLookup'];
-            this.EntPath = params['enterprise'];
         });
 
         this.Stats = [

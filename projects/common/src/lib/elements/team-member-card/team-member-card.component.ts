@@ -12,7 +12,11 @@ export class TeamMemberCardComponent implements OnInit {
     @Input('current-user')
     public CurrentUser: string;
 
-    constructor() {}
+    public SkeletonEffect: string;
+
+    constructor() {
+        this.SkeletonEffect = 'wave';
+    }
 
     ngOnInit(): void {}
 }

@@ -27,6 +27,10 @@ import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
 import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
+import { DevOpsComponent } from './controls/dev-ops/dev-ops.component';
+import { ModifiersComponent } from './controls/modifiers/modifiers.component';
+import { TeamMembersComponent } from './controls/team-members/team-members.component';
+import { ProjectPageComponent } from './controls/project-page/project-page.component';
 
 @NgModule({
     declarations: [
@@ -39,6 +43,10 @@ import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.compo
         IoTComponent,
         ApplicationsComponent,
         HomeComponent,
+        DevOpsComponent,
+        ModifiersComponent,
+        TeamMembersComponent,
+        ProjectPageComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -65,7 +73,7 @@ import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.compo
         },
     ],
     bootstrap: [AppComponent],
-    exports: [HomeComponent],
+    exports: [TeamMembersComponent, ProjectPageComponent],
     entryComponents: [
         ProjectsComponent,
         RoutesComponent,
@@ -73,6 +81,8 @@ import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.compo
         EnterpriseComponent,
         Enterprise4Component,
         ApplicationsComponent,
+        DevOpsComponent,
+        ModifiersComponent,
         IoTComponent,
         HomeComponent,
     ],
