@@ -5,14 +5,15 @@
 
     <ng-container *ngIf="!IsSmScreen">
         <a mat-button class="toolbar-action" href="/dashboard">
-            <mat-icon>home</mat-icon>
+            <mat-icon>view_compact</mat-icon>
 
             Home
         </a>
-        <a mat-button class="toolbar-action" href="/dashboard/enterprise">
-            <mat-icon>view_compact</mat-icon>
 
-            Dashboard
+        <a mat-button class="toolbar-action" href="/dashboard/activity">
+            <mat-icon>dynamic_feed</mat-icon>
+
+            Activity
         </a>
 
         <a mat-button class="toolbar-action" href="/dashboard/krakyn">
@@ -32,6 +33,7 @@
 
             Support
         </button>
+
         <mat-menu #menu="matMenu">
             <a
                 mat-menu-item
