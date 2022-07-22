@@ -27,13 +27,13 @@ const routes: Routes = [
     },
     { path: 'devops', component: DevOpsComponent },
     { path: 'discover', component: DiscoverComponent },
-    { path: 'enterprise', component: Enterprise4Component },
     { path: 'home', component: HomeComponent },
     { path: 'iot', component: IoTComponent },
     { path: 'modifiers', component: ModifiersComponent },
     { path: 'projects', component: ProjectPageComponent },
     { path: 'teams', component: TeamMembersComponent },
-    { path: '', component: HomeComponent, pathMatch: 'full' },
+    { path: 'feed', component: HomeComponent },
+    { path: '', component: Enterprise4Component, pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
 
