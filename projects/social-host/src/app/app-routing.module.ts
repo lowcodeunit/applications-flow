@@ -32,7 +32,7 @@ const routes: Routes = [
     { path: 'modifiers', component: ModifiersComponent },
     { path: 'projects', component: ProjectPageComponent },
     { path: 'teams', component: TeamMembersComponent },
-    { path: 'feed', component: HomeComponent },
+    { path: 'activity', component: HomeComponent },
     { path: '', component: Enterprise4Component, pathMatch: 'full' },
     { path: '**', redirectTo: '' },
 ];
