@@ -6,7 +6,7 @@ import { RoutesComponent } from './controls/routes/routes.component';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
-import { Enterprise4Component } from './controls/enterprise-4/enterprise-4.component';
+import { Enterprise4Component } from './controls/enterprise/enterprise.component';
 import { ModifiersComponent } from './controls/modifiers/modifiers.component';
 import { DevOpsComponent } from './controls/dev-ops/dev-ops.component';
 import { TeamMembersComponent } from './controls/team-members/team-members.component';
@@ -27,7 +27,6 @@ const routes: Routes = [
     },
     { path: 'devops', component: DevOpsComponent },
     { path: 'discover', component: DiscoverComponent },
-    { path: 'home', component: HomeComponent },
     { path: 'iot', component: IoTComponent },
     { path: 'modifiers', component: ModifiersComponent },
     { path: 'projects', component: ProjectPageComponent },

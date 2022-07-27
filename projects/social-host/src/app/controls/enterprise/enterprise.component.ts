@@ -22,7 +22,7 @@ import { SocialUIService } from 'projects/common/src/lib/services/social-ui.serv
     templateUrl: './enterprise.component.html',
     styleUrls: ['./enterprise.component.scss'],
 })
-export class EnterpriseComponent implements OnInit {
+export class Enterprise4Component implements OnInit {
     public get ActiveEnvironment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
     }
@@ -101,7 +101,7 @@ export class EnterpriseComponent implements OnInit {
         return this.eacSvc?.State;
     }
 
-    public EntPath: string;
+    // public EntPath: string;
 
     public Slices: { [key: string]: number };
 
@@ -118,7 +118,7 @@ export class EnterpriseComponent implements OnInit {
         protected router: Router,
         protected socialSvc: SocialUIService
     ) {
-        // this.EntPath = 'enterprise-1';
+        // this.EntPath = 'enterprise-2';
         // this.socialSvc.AssignEnterprisePath(this.EntPath);
 
         this.IsInfoCardEditable = false;

@@ -1,0 +1,548 @@
+<lcu-breadcrumb> </lcu-breadcrumb>
+
+<lcu-three-column>
+    <div left>
+        <lcu-project-info-card
+            [name]="this.State?.EaC?.Enterprise?.Name"
+            [is-editable]="IsInfoCardEditable"
+            [is-shareable]="IsInfoCardShareable"
+            image="./assets/images/black_thinky.png"
+            (left-click-event)="HandleLeftClickEvent($event)"
+            (right-click-event)="HandleRightClickEvent($event)"
+        >
+            <!-- <lcu-card-carousel
+        [stats]="Stats">
+        </lcu-card-carousel> -->
+
+            <!-- [routerLink]="['/iot']" -->
+            <!-- <a
+                action
+                mat-button
+                class="info-card-btn mat-full-width"
+                href="/dashboard/iot"
+            >
+                <mat-icon>account_tree</mat-icon>
+
+                Access IoT Benefits
+            </a> -->
+
+            <!-- <button
+        action
+        mat-button
+        class="info-card-btn"
+        (click)="SettingsClicked()"
+      >
+        <mat-icon>outbox</mat-icon>
+        Unpack
+      </button> -->
+        </lcu-project-info-card>
+
+        <lcu-product-discovery-card></lcu-product-discovery-card>
+        <!-- Commented out until implemented -->
+        <!-- <lcu-analytics-card
+            matTooltip="Temp Title"
+            subtext="Text for testing purposes">
+        </lcu-analytics-card> -->
+    </div>
+
+    <!-- CENTER FEED -->
+    <div>
+        <lcu-feed-header></lcu-feed-header>
+
+        <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter>
+
+        <lcu-skeleton-feed-card
+            *ngIf="State?.LoadingFeed || !State?.Feed"
+        ></lcu-skeleton-feed-card>
+
+        <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
+            <lcu-main-feed-card
+                *ngFor="let feedItem of State?.Feed"
+                [feed-item]="feedItem"
+            >
+            </lcu-main-feed-card>
+        </ng-container>
+    </div>
+
+    <div right>
+        <ng-container *ngFor="let ad of State?.Advertisements">
+            <lcu-advertisement-card
+                [advertisement]="ad"
+            ></lcu-advertisement-card>
+        </ng-container>
+        <!-- Projects
+      secondary-slot-description="Add new quick project"
+      action-text="Create Custom Project"-->
+        <lcu-slotted-card
+            *ngIf="ProjectLookups?.length > 0"
+            card-title="Project"
+            icon="work_outline"
+            [main-slot-description]="
+                ProjectLookups?.length + ' project(s) configured'
+            "
+            (main-action-clicked)="RouteToPath('/dashboard/create-project')"
+        >
+            <div>
+                <div
+                    class="main-slot-container"
+                    fxLayout="row"
+                    *ngFor="
+                        let projectLookup of ProjectLookups
+                            | slice: 0:Slices.Projects
+                    "
+                >
+                    <div
+                        class="slot-content"
+                        *ngIf="State?.EaC?.Projects[projectLookup]; let project"
+                        fxLayout="row"
+                        fxLayoutAlign="space-between center"
+                    >
+                        <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                        <div class="slot-header-container">
+                            <div class="slot-header" fxLayout="row">
+                                <!-- this icon is a temp placeholder -->
+                                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                                <a
+                                    class="slot-header-anchor"
+                                    [routerLink]="[
+                                        '/project',
+                                        EntPath,
+                                        projectLookup
+                                    ]"
+                                >
+                                    <div
+                                        *ngIf="project.Project.Name"
+                                        class="slot-name"
+                                    >
+                                        {{ project.Project.Name }}
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div
+                                *ngIf="project.Project.Description"
+                                class="slot-description"
+                            >
+                                {{ project.Project.Description }}
+                            </div>
+                        </div>
+
+                        <div
+                            class="slot-actions-container"
+                            fxLayout="row"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <a
+                                class="slot-action-anchor"
+                                [routerLink]="[
+                                    '/project',
+                                    EntPath,
+                                    projectLookup
+                                ]"
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Edit {{ project.Project.Name }}"
+                                    >edit</mat-icon
+                                >
+                            </a>
+                            <a
+                                class="slot-action-anchor"
+                                [href]="
+                                    'https://' +
+                                    project?.Hosts[project?.Hosts?.length - 1]
+                                "
+                                target="_blank"
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Launch {{
+                                        project.Project.Name
+                                    }}"
+                                    >launch</mat-icon
+                                >
+                            </a>
+                        </div>
+
+                        <!-- <div class="slot-actions" *ngFor="let action of s.actions">
+
+                        <ng-container *ngIf="action.ButtonType === ICON">
+                            <mat-icon [matTooltip]="action.Label" click="SlotActionClickEvent(action.ClickEventName)">{{ action.Icon }}</mat-icon>
+                        </ng-container>
+
+                        <ng-container *ngIf="action.ButtonType === BUTTON">
+                            <mat-button click="SlotActionClickEvent(action.ClickEventName)">{{ action.Label }}</mat-button>
+                        </ng-container>
+
+                    </div> -->
+                    </div>
+                </div>
+
+                <button
+                    mat-raised-button
+                    class="mat-full-width"
+                    (click)="ToggleSlices('Projects')"
+                    *ngIf="ProjectLookups?.length > 5"
+                >
+                    {{
+                        Slices.Projects == ProjectLookups?.length
+                            ? "Show Less"
+                            : "Show More"
+                    }}
+
+                    <mat-icon>
+                        {{
+                            Slices.Projects == ProjectLookups?.length
+                                ? "expand_less"
+                                : "expand_more"
+                        }}
+                    </mat-icon>
+                </button>
+            </div>
+
+            <!-- <div secondary></div> -->
+        </lcu-slotted-card>
+
+        <!-- Sources
+      secondary-slot-description="Add new source control"
+      action-text="Create New Source Control" -->
+        <lcu-slotted-card
+            *ngIf="SourceControlLookups?.length > 0"
+            card-title="Source Control"
+            button-text="Add Source Control"
+            icon="build"
+            [main-slot-description]="
+                SourceControlLookups?.length + ' source control(s) configured'
+            "
+            (main-action-clicked)="OpenSourceControlDialog(null, null)"
+        >
+            <div>
+                <div
+                    class="main-slot-container"
+                    fxLayout="row"
+                    *ngFor="
+                        let scLookup of SourceControlLookups
+                            | slice: 0:Slices.Sources
+                    "
+                >
+                    <div
+                        class="slot-content"
+                        *ngIf="SourceControls[scLookup]; let sc"
+                        fxLayout="row"
+                        fxLayoutAlign="space-between center"
+                    >
+                        <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                        <div class="slot-header-container">
+                            <div
+                                class="slot-header"
+                                fxLayout="row"
+                                (click)="
+                                    OpenSourceControlDialog(sc.Lookup, sc.Name)
+                                "
+                            >
+                                <!-- this icon is a temp placeholder -->
+                                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+
+                                <!-- <a
+                  class="slot-action-anchor"
+                  (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
+                > -->
+                                <!-- <div
+                                    *ngIf="sc.Name?.length > 21"
+                                    class="slot-name"
+                                >
+                                    {{ sc.Name | slice: 0:18 }}...
+                                </div>
+                            *ngIf="
+                                        sc.Name?.length < 21 ||
+                                        sc.Name.length == 21
+                                    "-->
+                                <div class="slot-name">
+                                    {{ sc.Name }}
+                                </div>
+                                <!-- </a> -->
+                            </div>
+
+                            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+                        </div>
+
+                        <div
+                            class="slot-actions-container"
+                            fxLayout="row"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <a
+                                class="slot-action-anchor"
+                                (click)="
+                                    OpenSourceControlDialog(sc.Lookup, sc.Name)
+                                "
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Edit {{ sc.Lookup }}"
+                                    >edit</mat-icon
+                                >
+                            </a>
+                            <a
+                                class="slot-action-anchor"
+                                [href]="
+                                    'https://github.com/' +
+                                    sc.Organization +
+                                    '/' +
+                                    sc.Repository
+                                "
+                                target="_blank"
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Launch {{ sc.Lookup }}"
+                                    >launch</mat-icon
+                                >
+                            </a>
+                            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    mat-raised-button
+                    class="mat-full-width"
+                    (click)="ToggleSlices('Sources')"
+                    *ngIf="SourceControlLookups?.length > 5"
+                >
+                    {{
+                        Slices.Sources == SourceControlLookups?.length
+                            ? "Show Less"
+                            : "Show More"
+                    }}
+
+                    <mat-icon>
+                        {{
+                            Slices.Sources == SourceControlLookups?.length
+                                ? "expand_less"
+                                : "expand_more"
+                        }}
+                    </mat-icon>
+                </button>
+            </div>
+        </lcu-slotted-card>
+
+        <!-- Pipelines
+      secondary-slot-description="Add new pipeline"
+      action-text="Create New Pipeline" -->
+        <lcu-slotted-card
+            *ngIf="DevOpsActionLookups?.length > 0"
+            card-title="Build Pipeline"
+            button-text="Add Pipeline"
+            icon="plumbing"
+            [main-slot-description]="
+                DevOpsActionLookups?.length + ' Pipeline(s) configured'
+            "
+            (main-action-clicked)="OpenBuildPipelineDialog(null)"
+        >
+            <div>
+                <div
+                    class="main-slot-container"
+                    fxLayout="row"
+                    *ngFor="
+                        let doaLookup of DevOpsActionLookups
+                            | slice: 0:Slices.Pipelines
+                    "
+                >
+                    <div
+                        class="slot-content"
+                        *ngIf="Environment?.DevOpsActions[doaLookup]; let doa"
+                        fxLayout="row"
+                        fxLayoutAlign="space-between center"
+                    >
+                        <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                        <div class="slot-header-container">
+                            <div
+                                class="slot-header"
+                                fxLayout="row"
+                                (click)="
+                                    OpenBuildPipelineDialog(
+                                        doaLookup,
+                                        doa?.Name
+                                    )
+                                "
+                            >
+                                <!-- this icon is a temp placeholder -->
+                                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                                <!-- <div
+                                    *ngIf="doa?.Name?.length > 28"
+                                    class="slot-name"
+                                >
+                                    {{ doa?.Name | slice: 0:25 }}...
+                                </div> *ngIf="
+                                        doa?.Name?.length < 28 ||
+                                        doa?.Name?.length == 28
+                                    "-->
+                                <div class="slot-name">
+                                    {{ doa?.Name }}
+                                </div>
+                            </div>
+
+                            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+                        </div>
+
+                        <div
+                            class="slot-actions-container"
+                            fxLayout="row"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <a
+                                class="slot-action-anchor"
+                                (click)="OpenBuildPipelineDialog(doaLookup)"
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Edit {{ doa?.Name }}"
+                                    >edit</mat-icon
+                                >
+                            </a>
+                            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    mat-raised-button
+                    class="mat-full-width"
+                    (click)="ToggleSlices('Pipelines')"
+                    *ngIf="DevOpsActionLookups?.length > 5"
+                >
+                    {{
+                        Slices.Pipelines == DevOpsActionLookups?.length
+                            ? "Show Less"
+                            : "Show More"
+                    }}
+
+                    <mat-icon>
+                        {{
+                            Slices.Pipelines == DevOpsActionLookups?.length
+                                ? "expand_less"
+                                : "expand_more"
+                        }}
+                    </mat-icon>
+                </button>
+            </div>
+        </lcu-slotted-card>
+
+        <!-- Request Modifiers
+      secondary-slot-description="Add new request modifier"
+      action-text="Create New Request Modifier" -->
+        <lcu-slotted-card
+            *ngIf="ModifierLookups?.length > 0"
+            card-title="Modifier"
+            button-text="Add Modifier"
+            icon="sync_alt"
+            [main-slot-description]="
+                ModifierLookups?.length + ' Modifier(s) configured'
+            "
+            (main-action-clicked)="OpenModifierDialog(null, null)"
+        >
+            <div>
+                <div
+                    class="main-slot-container"
+                    fxLayout="row"
+                    *ngFor="
+                        let mdfrLookup of ModifierLookups
+                            | slice: 0:Slices.Modifiers
+                    "
+                >
+                    <div
+                        class="slot-content"
+                        *ngIf="Modifiers[mdfrLookup]; let mdfr"
+                        fxLayout="row"
+                        fxLayoutAlign="space-between center"
+                    >
+                        <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                        <div class="slot-header-container">
+                            <div
+                                class="slot-header"
+                                fxLayout="row"
+                                (click)="
+                                    OpenModifierDialog(mdfrLookup, mdfr?.Name)
+                                "
+                            >
+                                <!-- this icon is a temp placeholder -->
+                                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                                <!-- <div
+                                    *ngIf="mdfr?.Name?.length > 28"
+                                    class="slot-name"
+                                >
+                                    {{ mdfr?.Name | slice: 0:25 }}...
+                                </div> *ngIf="
+                                        mdfr?.Name?.length < 28 ||
+                                        mdfr?.Name?.length == 28
+                                    "-->
+                                <div class="slot-name">
+                                    {{ mdfr?.Name }}
+                                </div>
+                            </div>
+
+                            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+                        </div>
+
+                        <div
+                            class="slot-actions-container"
+                            fxLayout="row"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <!-- <button
+                mat-icon-button
+                color="warn"
+                (click)="DeletModifier(mdfrLookup, mdfr?.Name)"
+              >
+                <mat-icon matTooltip="Delete {{ mdfr?.Name }}">
+                  delete_forever
+                </mat-icon>
+              </button> -->
+                            <a
+                                class="slot-action-anchor"
+                                (click)="
+                                    OpenModifierDialog(mdfrLookup, mdfr?.Name)
+                                "
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Edit {{ mdfr?.Name }}"
+                                    >edit</mat-icon
+                                >
+                            </a>
+                            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                        <mat-icon class="action-icon">launch</mat-icon>
+                    </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    mat-raised-button
+                    class="mat-full-width"
+                    (click)="ToggleSlices('Modifiers')"
+                    *ngIf="ModifierLookups?.length > 5"
+                >
+                    {{
+                        Slices.Modifiers == ModifierLookups?.length
+                            ? "Show Less"
+                            : "Show More"
+                    }}
+
+                    <mat-icon>
+                        {{
+                            Slices.Modifiers == ModifierLookups?.length
+                                ? "expand_less"
+                                : "expand_more"
+                        }}
+                    </mat-icon>
+                </button>
+            </div>
+        </lcu-slotted-card>
+    </div>
+</lcu-three-column>

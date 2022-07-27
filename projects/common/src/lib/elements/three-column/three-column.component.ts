@@ -9,6 +9,8 @@ import { Component, OnInit } from '@angular/core';
 export class ThreeColumnComponent implements OnInit {
     public SmallScreen: boolean;
 
+    public Layout: string;
+
     constructor(public breakpointObserver: BreakpointObserver) {}
 
     ngOnInit(): void {
@@ -18,10 +20,24 @@ export class ThreeColumnComponent implements OnInit {
                 // console.log("Breakpoint: ", state.matches)
                 if (state.matches) {
                     this.SmallScreen = true;
+                    this.Layout = 'column';
                 } else {
+                    this.Layout = 'row';
                     this.SmallScreen = false;
                 }
-                // console.log("SmallScrren = " ,this.SmallScreen);
+                // console.log("SmallScreen = " ,this.SmallScreen);
             });
     }
+
+    // public Layout(): string{
+    //     if(this.SmallScreen){
+    //         // console.log("returning: col")
+    //         return "column";
+    //     }
+    //     else{
+    //         // console.log("returning: row")
+
+    //         return "row";
+    //     }
+    // }
 }
