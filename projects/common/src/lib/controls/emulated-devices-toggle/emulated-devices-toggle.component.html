@@ -5,7 +5,7 @@
 >
     <mat-card class="flow-card">
         <!-- SKELETON LOADING -->
-        <ng-container *ngIf="State?.Loading">
+        <ng-container *ngIf="Loading">
             <mat-card-header fxLayoutAlign="space-between center">
                 <mat-card-title skeleton-text [effect]="SkeletonEffect">
                     Emulated Devices Settings
@@ -38,7 +38,7 @@
 
         <!-- BEGIN ACTUAL CONTENT -->
 
-        <ng-container *ngIf="!State?.Loading">
+        <ng-container *ngIf="!Loading">
             <mat-card-header>
                 <mat-card-title> Emulated Device Settings </mat-card-title>
 

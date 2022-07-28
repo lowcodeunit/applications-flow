@@ -1,6 +1,13 @@
-<lcu-dashboard-toolbar></lcu-dashboard-toolbar>
+<lcu-dashboard-toolbar
+    [project-lookups]="ProjectLookups"
+></lcu-dashboard-toolbar>
 
-<lcu-breadcrumb> </lcu-breadcrumb>
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+>
+</lcu-breadcrumb>
 
 <lcu-two-column>
     <div top-left>
@@ -9,6 +16,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
         >
@@ -45,6 +53,7 @@
             class="fit-content"
             card-title="Project"
             icon="work_outline"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 ProjectLookups?.length + ' project(s) configured'
             "

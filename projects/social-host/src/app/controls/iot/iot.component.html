@@ -1,4 +1,9 @@
-<lcu-breadcrumb> </lcu-breadcrumb>
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+>
+</lcu-breadcrumb>
 
 <lcu-three-column>
     <div left>
@@ -7,6 +12,7 @@
             [is-editable]="false"
             [is-shareable]="false"
             image="./assets/images/thinky.png"
+            [loading]="State?.Loading"
         >
             <!-- <lcu-card-carousel
         [stats]="Stats">
@@ -39,6 +45,9 @@
         <div [innerHTML]="IoTElementHTML"></div>
 
         <!-- <lcu-main-feed-card
+          [active-environemnt]="State?.EaC?.Environments[ActiveEnvironmentLookup]"
+                [active-environment-lookup]="ActiveEnvironmentLookup"
+                [environment]="State?.EaC?.Environments[State?.EaC?.Enterprise?.PrimaryEnvironment]"
       [feed-item]="feedItem"
       *ngFor="let feedItem of State?.Feed"
     >
@@ -52,6 +61,7 @@
         <!-- <lcu-slotted-card
       title="Projects"
       icon="work_outline"
+      [loading]="State?.Loading"
       [main-slot-description]="NumberOfProjects + ' project(s) configured'"
       (main-action-clicked)="RouteToPath('/dashboard/create-project')"
     >

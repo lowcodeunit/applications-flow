@@ -1,4 +1,9 @@
-<lcu-breadcrumb> </lcu-breadcrumb>
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+>
+</lcu-breadcrumb>
 
 <lcu-three-column>
     <div left>
@@ -7,6 +12,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
         >
@@ -47,8 +53,15 @@
 
     <!-- CENTER FEED -->
     <div>
-        <lcu-feed-header></lcu-feed-header>
-
+        <lcu-feed-header
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [feed]="State?.Feed"
+            [feed-check]="State?.FeedCheck"
+            [source-control-lookup]="SourceControlLookup"
+            [has-gh-connection]="State?.GitHub?.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
+            [loading-feed]="State?.LoadingFeed"
+        ></lcu-feed-header>
         <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter>
 
         <lcu-skeleton-feed-card
@@ -58,6 +71,15 @@
         <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
             <lcu-main-feed-card
                 *ngFor="let feedItem of State?.Feed"
+                [active-environemnt]="
+                    State?.EaC?.Environments[ActiveEnvironmentLookup]
+                "
+                [active-environment-lookup]="ActiveEnvironmentLookup"
+                [environment]="
+                    State?.EaC?.Environments[
+                        State?.EaC?.Enterprise?.PrimaryEnvironment
+                    ]
+                "
                 [feed-item]="feedItem"
             >
             </lcu-main-feed-card>
@@ -77,6 +99,7 @@
             *ngIf="ProjectLookups?.length > 0"
             card-title="Project"
             icon="work_outline"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 ProjectLookups?.length + ' project(s) configured'
             "
@@ -211,6 +234,7 @@
             card-title="Source Control"
             button-text="Add Source Control"
             icon="build"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 SourceControlLookups?.length + ' source control(s) configured'
             "
@@ -337,6 +361,7 @@
             card-title="Build Pipeline"
             button-text="Add Pipeline"
             icon="plumbing"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 DevOpsActionLookups?.length + ' Pipeline(s) configured'
             "
@@ -441,6 +466,7 @@
             card-title="Modifier"
             button-text="Add Modifier"
             icon="sync_alt"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 ModifierLookups?.length + ' Modifier(s) configured'
             "

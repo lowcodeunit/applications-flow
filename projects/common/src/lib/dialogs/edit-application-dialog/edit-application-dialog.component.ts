@@ -27,11 +27,9 @@ export class EditApplicationDialogComponent implements OnInit {
         return this.EditApplicationControl?.ApplicationFormGroup;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public ErrorMessage: string;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         public eacSvc: EaCService,
@@ -40,7 +38,11 @@ export class EditApplicationDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

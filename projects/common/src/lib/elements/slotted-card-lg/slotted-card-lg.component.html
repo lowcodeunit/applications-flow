@@ -14,7 +14,7 @@
             class="pointer"
             (click)="MainActionClickEvent()"
             matTooltip="Add {{ CardTitle }}"
-            *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
+            *ngIf="!ActionPath && !Loading && ShowMainIcon"
             color="accent"
         >
             <!-- <mat-icon>
@@ -29,7 +29,7 @@
             skeleton-text
             [effect]="SkeletonEffect"
             class="header-icon"
-            *ngIf="State?.Loading"
+            *ngIf="Loading"
         >
             <!-- <mat-icon> add </mat-icon> -->
             <div>Add {{ CardTitle }}</div>
@@ -38,7 +38,7 @@
 
     <!-- SKELETON CONTENT -->
 
-    <ng-container *ngIf="State?.Loading">
+    <ng-container *ngIf="Loading">
         <mat-card-content>
             <div class="slot-main-container">
                 <div
@@ -117,7 +117,7 @@
 
     <!-- ACTUAL CONTENT -->
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <mat-card-content class="slotted-card-content">
             <div class="slot-main-container">
                 <div class="header-description">{{ MainSlotDescription }}</div>

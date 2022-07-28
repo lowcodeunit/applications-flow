@@ -53,11 +53,11 @@ export class FeedHeaderDialogComponent implements OnInit {
         return this.FeedHeaderFormGroup?.controls.editor;
     }
 
-    public get Environment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[
-            this.State?.EaC?.Enterprise?.PrimaryEnvironment
-        ];
-    }
+    // public get Environment(): EaCEnvironmentAsCode {
+    //     return this.State?.EaC?.Environments[
+    //         this.State?.EaC?.Enterprise?.PrimaryEnvironment
+    //     ];
+    // }
 
     public get TargetBranchFormControl(): AbstractControl {
         return this.FeedHeaderFormGroup.controls.targetBranch;
@@ -79,22 +79,12 @@ export class FeedHeaderDialogComponent implements OnInit {
         return this.FeedHeaderFormGroup.controls.sourceControl;
     }
 
-    public get SourceControlLookups(): Array<string> {
-        return this.State.FeedSourceControlLookups
-            ? this.State.FeedSourceControlLookups
-            : Object.keys(this.SourceControls || {});
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
+    // public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    //     return this.Environment?.Sources || {};
+    // }
 
     public get SubtitleFormControl(): AbstractControl {
         return this.FeedHeaderFormGroup.controls.subtitle;
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
     }
 
     public get TitleFormControl(): AbstractControl {
@@ -107,6 +97,8 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     public ErrorMessage: string;
 
+    public Environment: EaCEnvironmentAsCode;
+
     public FeedHeaderFormGroup: FormGroup;
 
     public Loading: boolean;
@@ -117,9 +109,15 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     public SourceControl: EaCSourceControl;
 
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
+    public SourceControlLookups: Array<string>;
+
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         protected appsFlowSvc: ApplicationsFlowService,
@@ -187,6 +185,25 @@ export class FeedHeaderDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            this.SourceControlLookups = this.State.FeedSourceControlLookups
+                ? this.State.FeedSourceControlLookups
+                : Object.keys(this.SourceControls || {});
+            if (
+                this.State.EaC.Environments &&
+                this.State?.EaC?.Enterprise?.PrimaryEnvironment
+            ) {
+                this.Environment =
+                    this.State?.EaC?.Environments[
+                        this.State?.EaC?.Enterprise?.PrimaryEnvironment
+                    ];
+            }
+
+            if (this.Environment) {
+                this.SourceControls = this.Environment?.Sources;
+            }
+        });
         this.setupFeedHeaderForm();
     }
 

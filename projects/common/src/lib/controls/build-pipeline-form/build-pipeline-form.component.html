@@ -17,7 +17,7 @@
 
     <!-- <mat-card-content> -->
 
-    <ng-container *ngIf="HostingDetails?.Loading || State?.Loading">
+    <ng-container *ngIf="HostingDetails?.Loading || Loading">
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
 
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
@@ -33,7 +33,7 @@
         <skeleton-block *ngIf="" class="s-block" effect="wave"></skeleton-block>
     </ng-container>
 
-    <ng-container *ngIf="!HostingDetails?.Loading && !State?.Loading">
+    <ng-container *ngIf="!HostingDetails?.Loading && !Loading">
         <!-- <div  *ngIf="!HostingDetails?.Loading"> -->
         <mat-form-field class="mat-full-width">
             <mat-select
@@ -133,7 +133,7 @@
     <!-- <mat-card-actions fxLayoutAlign="center center"> -->
 
     <!-- <button 
-          *ngIf="!State?.Loading"
+          *ngIf="!Loading"
           mat-raised-button 
           type="submit" 
           fxFlex="100%" 
@@ -142,7 +142,7 @@
           <mat-icon>save</mat-icon>
           Save Build Pipeline
         </button> -->
-    <!-- <lcu-loader [loading]="State?.Loading"></lcu-loader>   -->
+    <!-- <lcu-loader [loading]="Loading"></lcu-loader>   -->
 
     <!-- </mat-card-actions> -->
     <!-- </mat-card> -->

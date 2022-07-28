@@ -252,6 +252,14 @@ export class ApplicationsComponent implements OnInit {
         return curVersion;
     }
 
+    public get Loading(): boolean {
+        return (
+            this.State?.LoadingActiveEnterprise ||
+            this.State?.LoadingEnterprises ||
+            this.State?.Loading
+        );
+    }
+
     public ApplicationLookup: string;
 
     // public EntPath: string;

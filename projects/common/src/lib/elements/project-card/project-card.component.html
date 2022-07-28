@@ -3,6 +3,7 @@
     class="fit-content"
     card-title="Project"
     icon="work_outline"
+    [loading]="Loading"
     [main-slot-description]="ProjectLookups?.length + ' project(s) configured'"
     (main-action-clicked)="RouteToPath('/dashboard/create-project')"
 >
@@ -14,7 +15,7 @@
         >
             <div
                 class="slot-content"
-                *ngIf="State?.EaC?.Projects[projectLookup]; let project"
+                *ngIf="Projects[projectLookup]; let project"
                 fxLayout="row"
                 fxLayoutAlign="space-between center"
             >

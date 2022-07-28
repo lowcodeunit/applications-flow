@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
+import { EaCApplicationAsCode } from '@semanticjs/common';
 import { DFSModifiersFormComponent } from '../../controls/dfs-modifiers-form/dfs-modifiers-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -12,7 +13,6 @@ export interface DFSModifiersDialogData {
     applicationLookup?: string;
     modifierLookup?: string;
     modifierName?: string;
-    // modifiers:  { [lookup: string]: EaCDFSModifier };
     level: string;
     projectLookup?: string;
 }
@@ -26,14 +26,6 @@ export class DFSModifiersDialogComponent implements OnInit {
     @ViewChild(DFSModifiersFormComponent)
     public DFSModifersFormControls: DFSModifiersFormComponent;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
-    public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {});
-    }
-
     public get DFSModifersFormGroup(): FormGroup {
         return this.DFSModifersFormControls?.ModifierFormGroup;
     }
@@ -42,11 +34,17 @@ export class DFSModifiersDialogComponent implements OnInit {
         return this.DFSModifersFormControls?.ModifierSelectFormGroup;
     }
 
+    public Applications: Array<EaCApplicationAsCode>;
+
     public ErrorMessage: string;
 
     public ModifierDialogForm: FormGroup;
 
     public SaveDisabled: boolean;
+
+    public State: ApplicationsFlowState;
+
+    public ProjectLookups: Array<string>;
 
     constructor(
         protected eacSvc: EaCService,
@@ -59,6 +57,14 @@ export class DFSModifiersDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            if (this.State?.EaC?.Projects) {
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                );
+            }
+        });
         this.determineLevel();
     }
 

@@ -97,15 +97,29 @@ export class Enterprise4Component implements OnInit {
         return this.Environment?.Sources || {};
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
+    public get Loading(): boolean {
+        return (
+            this.State?.LoadingActiveEnterprise ||
+            this.State?.LoadingEnterprises ||
+            this.State?.Loading
+        );
     }
+
+    // public get State(): ApplicationsFlowState {
+    //     this.counter++;
+    //     console.log("called state", this.counter)
+    //     return this.eacSvc?.State;
+    // }
 
     // public EntPath: string;
 
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
+
+    public State: ApplicationsFlowState;
+
+    public counter: number;
 
     public IsInfoCardEditable: boolean;
 
@@ -120,6 +134,7 @@ export class Enterprise4Component implements OnInit {
     ) {
         // this.EntPath = 'enterprise-2';
         // this.socialSvc.AssignEnterprisePath(this.EntPath);
+        this.counter = 0;
 
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
@@ -134,7 +149,11 @@ export class Enterprise4Component implements OnInit {
         };
     }
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+        });
+    }
 
     public HandleLeftClickEvent(event: any) {}
     public HandleRightClickEvent(event: any) {}

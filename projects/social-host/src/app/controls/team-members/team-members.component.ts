@@ -12,6 +12,10 @@ export class TeamMembersComponent implements OnInit {
     public get State(): ApplicationsFlowState {
         return this.eacSvc?.State;
     }
+    public get ProjectLookups(): string[] {
+        // console.log("PJS: ",Object.keys(this.State?.EaC?.Projects || {}).reverse() )
+        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
+    }
     public SkeletonEffect: string;
 
     constructor(protected eacSvc: EaCService) {

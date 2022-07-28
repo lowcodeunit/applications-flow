@@ -11,8 +11,12 @@
         more-details
         [editing-application]="Application"
         [editing-application-lookup]="data.applicationLookup"
+        [environment]="
+            State?.EaC?.Environments[State?.EaC?.Enterprise?.PrimaryEnvironment]
+        "
         [source-control-lookups]="SourceControlLookups"
         [project-lookup]="data.projectLookup"
+        [loading]="State?.Loading"
         (save-form-event)="HandleSaveFormEvent($event)"
     >
     </lcu-processor-details-form>

@@ -10,15 +10,20 @@
         [current-route]="data.currentRoute"
         [editing-application]="NewApplication"
         [has-save-button]="HasSaveButton"
+        [loading]="State?.Loading"
     >
     </lcu-edit-application-form>
 
     <lcu-processor-details-form
         [editing-application]="NewApplication"
         [editing-application-lookup]="NewApplicationLookup"
+        [environment]="
+            State?.EaC?.Environments[State?.EaC?.Enterprise?.PrimaryEnvironment]
+        "
         [has-save-button]="HasSaveButton"
         [source-control-lookups]="SourceControlLookups"
         [project-lookup]="data.projectLookup"
+        [loading]="State?.Loading"
     >
     </lcu-processor-details-form>
 

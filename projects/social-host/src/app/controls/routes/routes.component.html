@@ -1,6 +1,10 @@
 <!-- <ng-container *ngIf="!State?.Loading"> -->
 
 <lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
     [project-lookup]="ProjectLookup"
     [selected-route]="CurrentApplicationRoute"
 >
@@ -13,6 +17,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
             [subtext]="
                 Project?.Hosts
                     ? Project?.Hosts[Project?.Hosts?.length - 1] +
@@ -42,14 +47,33 @@
 
     <!-- CENTER -->
     <div>
-        <lcu-feed-header></lcu-feed-header>
+        <lcu-feed-header
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [feed]="Feed"
+            [feed-check]="FeedCheck"
+            [source-control-lookup]="SourceControlLookup"
+            [has-gh-connection]="HasGHConnection"
+            [feed-header-actions]="FeedHeaderActions"
+            [loading-feed]="State?.LoadingFeed"
+        ></lcu-feed-header>
         <lcu-skeleton-feed-card
             *ngIf="State?.LoadingFeed"
         ></lcu-skeleton-feed-card>
 
         <ng-container *ngIf="!State?.LoadingFeed">
             <div *ngFor="let feedItem of State?.Feed">
-                <lcu-main-feed-card [feed-item]="feedItem">
+                <lcu-main-feed-card
+                    [active-environemnt]="
+                        State?.EaC?.Environments[ActiveEnvironmentLookup]
+                    "
+                    [active-environment-lookup]="ActiveEnvironmentLookup"
+                    [environment]="
+                        State?.EaC?.Environments[
+                            State?.EaC?.Enterprise?.PrimaryEnvironment
+                        ]
+                    "
+                    [feed-item]="feedItem"
+                >
                 </lcu-main-feed-card>
             </div>
         </ng-container>
@@ -85,6 +109,7 @@
             card-title="App"
             button-text="Add App"
             icon="apps"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 CurrentRouteApplicationLookups?.length +
                 ' application(s) configured'

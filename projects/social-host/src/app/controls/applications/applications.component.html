@@ -1,6 +1,12 @@
 <lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
     [project-lookup]="ProjectLookup"
+    [routed-application]="RoutedApplications"
     [application-lookup]="ApplicationLookup"
+    [applications-bank]="Applications"
     [selected-route]="CurrentApplicationRoute"
 >
 </lcu-breadcrumb>
@@ -13,6 +19,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
             [subtext]="
                 Project?.Hosts
                     ? Project?.Hosts[Project?.Hosts?.length - 1] +
@@ -91,14 +98,34 @@
     </div>
     <!-- CENTER -->
     <div>
-        <lcu-feed-header></lcu-feed-header>
+        <lcu-feed-header
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [feed]="State?.Feed"
+            [feed-check]="State?.FeedCheck"
+            [source-control-lookup]="SourceControlLookup"
+            [has-gh-connection]="State?.GitHub?.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
+            [loading-feed]="State?.LoadingFeed"
+        ></lcu-feed-header>
+
         <lcu-skeleton-feed-card
             *ngIf="State?.LoadingFeed"
         ></lcu-skeleton-feed-card>
 
         <ng-container *ngIf="!State?.LoadingFeed">
             <div *ngFor="let feedItem of State?.Feed">
-                <lcu-main-feed-card [feed-item]="feedItem">
+                <lcu-main-feed-card
+                    [active-environemnt]="
+                        State?.EaC?.Environments[ActiveEnvironmentLookup]
+                    "
+                    [active-environment-lookup]="ActiveEnvironmentLookup"
+                    [environment]="
+                        State?.EaC?.Environments[
+                            State?.EaC?.Enterprise?.PrimaryEnvironment
+                        ]
+                    "
+                    [feed-item]="feedItem"
+                >
                 </lcu-main-feed-card>
             </div>
         </ng-container>
@@ -112,6 +139,7 @@
             icon="developer_board"
             main-icon="edit"
             button-text="Edit"
+            [loading]="State?.Loading"
             [main-slot-description]="Application?.Processor?.Label"
             (main-action-clicked)="OpenProcessorDetailsDialog($event)"
         >
@@ -159,6 +187,7 @@
 
         <lcu-security-toggle
             [editing-application]="Application"
+            [loading]="State?.Loading"
             (save-form-event)="SaveSecuritySettings($event)"
         >
         </lcu-security-toggle>
@@ -191,6 +220,9 @@
 
         <lcu-connected-source
             [current-source]="Application?.LowCodeUnit?.SourceControllookup"
+            [source-controls]="SourceControls"
+            [source-control-lookups]="SourceControlLookups"
+            [loading]="State?.Loading"
             (save-form-event)="SaveConnectedSource($event)"
         >
         </lcu-connected-source>
@@ -202,6 +234,7 @@
             card-title="Modifier"
             icon="sync_alt"
             button-text="Add Modifier"
+            [loading]="State?.Loading"
             main-icon="edit"
             [main-slot-description]="
                 ModifierLookups?.length + ' Modifier(s) configured'

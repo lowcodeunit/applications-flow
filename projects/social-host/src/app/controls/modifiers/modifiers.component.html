@@ -1,4 +1,6 @@
-<lcu-dashboard-toolbar></lcu-dashboard-toolbar>
+<lcu-dashboard-toolbar
+    [project-lookups]="ProjectLookups"
+></lcu-dashboard-toolbar>
 
 <p class="card-description" *ngIf="!State?.Loading">
     Application file modifiers allow you to add third party software libraries
@@ -26,6 +28,7 @@
     *ngIf="ModifierLookups?.length > 0"
     card-title="Modifier"
     icon="sync_alt"
+    [loading]="State?.Loading"
     [main-slot-description]="
         ModifierLookups?.length + ' Modifier(s) configured'
     "

@@ -28,15 +28,9 @@ export class SourceControlDialogComponent implements OnInit {
         return this.DevopsSourceControl?.DevOpsSourceControlFormGroup;
     }
 
-    public get HasConnection(): boolean {
-        return this.State.GitHub.HasConnection;
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public ErrorMessage: string;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         public dialogRef: MatDialogRef<SourceControlDialogComponent>,
@@ -45,7 +39,11 @@ export class SourceControlDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

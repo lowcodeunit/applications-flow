@@ -74,6 +74,14 @@ export class HomeComponent implements OnInit {
         return this.ProjectLookups?.length;
     }
 
+    public get Loading(): boolean {
+        return (
+            this.State?.LoadingActiveEnterprise ||
+            this.State?.LoadingEnterprises ||
+            this.State?.Loading
+        );
+    }
+
     // public EntPath: string;
 
     public Slices: { [key: string]: number };

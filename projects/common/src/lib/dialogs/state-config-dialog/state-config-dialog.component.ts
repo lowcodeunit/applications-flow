@@ -22,19 +22,22 @@ export class StateConfigDialogComponent implements OnInit {
     @ViewChild(StateConfigFormComponent)
     public StateConfigForm: StateConfigFormComponent;
 
-    public get Application(): EaCApplicationAsCode {
-        return this.State?.EaC?.Applications[this.data.appLookup];
-    }
+    // public get Application(): EaCApplicationAsCode {
+    //     return this.State?.EaC?.Applications[this.data.appLookup];
+    // }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public get StateConfigFormControl(): AbstractControl {
         return this.StateConfigForm?.StateConfigForm;
     }
 
+    public Application: EaCApplicationAsCode;
     public ErrorMessage: string;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         protected eacSvc: EaCService,
@@ -43,7 +46,15 @@ export class StateConfigDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            if (this.State?.EaC?.Applications) {
+                this.Application =
+                    this.State?.EaC?.Applications[this.data.appLookup];
+            }
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

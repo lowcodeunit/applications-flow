@@ -27,31 +27,21 @@ export class ProcessorDetailsDialogComponent implements OnInit {
     @ViewChild(ProcessorDetailsFormComponent)
     public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
 
-    public get Application(): EaCApplicationAsCode {
-        return this.State?.EaC?.Applications[this.data.applicationLookup] || {};
-    }
-
-    public get Environment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[this.data.environmentLookup];
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
-
-    public get SourceControlLookups(): Array<string> {
-        return Object.keys(this.Environment?.Sources || {});
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public get ProcessorDetailsFormGroup(): FormGroup {
         return this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup;
     }
 
+    public Application: EaCApplicationAsCode;
+
     public ErrorMessage: string;
+
+    public Environment: EaCEnvironmentAsCode;
+
+    public State: ApplicationsFlowState;
+
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
+    public SourceControlLookups: Array<string>;
 
     constructor(
         protected eacSvc: EaCService,
@@ -60,7 +50,25 @@ export class ProcessorDetailsDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            if (this.State?.EaC?.Applications) {
+                this.Application =
+                    this.State?.EaC?.Applications[this.data.applicationLookup];
+            }
+            if (this.State?.EaC?.Environments) {
+                this.Environment =
+                    this.State?.EaC?.Environments[this.data.environmentLookup];
+            }
+            if (this.Environment?.Sources) {
+                this.SourceControls = this.Environment?.Sources;
+                this.SourceControlLookups = Object.keys(
+                    this.Environment?.Sources || {}
+                );
+            }
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

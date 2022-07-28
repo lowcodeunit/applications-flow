@@ -9,6 +9,7 @@
 <mat-dialog-content>
     <lcu-state-config-form
         [app-lookup]="data.appLookup"
+        [application]="Application"
         [config]="data.config"
         (status-event)="HandleStatusEvent($event)"
     >

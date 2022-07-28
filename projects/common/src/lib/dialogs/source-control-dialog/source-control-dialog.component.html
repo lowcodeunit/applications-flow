@@ -6,16 +6,17 @@
 </div>
 
 <mat-dialog-content>
-    <ng-container *ngIf="!HasConnection">
+    <ng-container *ngIf="!State?.GitHub?.HasConnection">
         <lcu-git-auth></lcu-git-auth>
     </ng-container>
 
-    <ng-conatiner *ngIf="HasConnection" fxLayout="column">
+    <ng-conatiner *ngIf="State?.GitHub?.HasConnection" fxLayout="column">
         <div fxLayoutAlign="center center">
             <lcu-devops-source-control-form
                 [environment]="data.environment"
                 [environment-lookup]="data.environmentLookup"
                 [editing-source-control-lookup]="data.scLookup"
+                [loading]="State?.Loading"
                 (save-status-event)="HandleSaveStatusEvent($event)"
             >
             </lcu-devops-source-control-form>

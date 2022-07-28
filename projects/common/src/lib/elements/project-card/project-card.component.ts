@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { EaCProjectAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-project-card',
@@ -8,13 +8,22 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
     styleUrls: ['./project-card.component.scss'],
 })
 export class ProjectCardComponent implements OnInit {
-    public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
-    }
+    @Input('loading')
+    public Loading: boolean;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
+    @Input('project-lookups')
+    public ProjectLookups: Array<string>;
+
+    @Input('projects')
+    public Projects: Array<EaCProjectAsCode>;
+
+    // public get ProjectLookups(): string[] {
+    //     return Object.keys(this.Projects || {}).reverse();
+    // }
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc?.State;
+    // }
     constructor(protected eacSvc: EaCService) {}
 
     public ngOnInit(): void {}

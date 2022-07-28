@@ -34,29 +34,21 @@ export class NewApplicationDialogComponent implements OnInit {
     @ViewChild(ProcessorDetailsFormComponent)
     public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
 
-    public get Environment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[this.data.environmentLookup];
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
-
-    public get SourceControlLookups(): Array<string> {
-        return Object.keys(this.Environment.Sources || {});
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public ErrorMessage: string;
+
+    public Environment: EaCEnvironmentAsCode;
 
     public HasSaveButton: boolean;
 
     public NewApplication: EaCApplicationAsCode;
 
     public NewApplicationLookup: string;
+
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
+    public SourceControlLookups: Array<string>;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         protected eacSvc: EaCService,
@@ -68,6 +60,19 @@ export class NewApplicationDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            if (this.State?.EaC?.Environments) {
+                this.Environment =
+                    this.State?.EaC?.Environments[this.data.environmentLookup];
+            }
+            if (this.Environment?.Sources) {
+                this.SourceControls = this.Environment?.Sources;
+                this.SourceControlLookups = Object.keys(
+                    this.Environment.Sources || {}
+                );
+            }
+        });
         this.SetupApplication(Guid.CreateRaw());
     }
 

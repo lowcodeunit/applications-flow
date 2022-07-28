@@ -30,15 +30,9 @@ export class BuildPipelineDialogComponent implements OnInit {
         return this.BuildPipelineControl?.BuildPipelineFormGroup;
     }
 
-    public get HasConnection(): boolean {
-        return this.State.GitHub.HasConnection;
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public ErrorMessage: string;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
@@ -47,7 +41,11 @@ export class BuildPipelineDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

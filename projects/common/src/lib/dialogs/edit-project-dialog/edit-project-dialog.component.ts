@@ -21,19 +21,23 @@ export class EditProjectDialogComponent implements OnInit {
     @ViewChild(EditProjectFormComponent)
     public EditProjectControl: EditProjectFormComponent;
 
-    public get Project(): EaCProjectAsCode {
-        return this.State?.EaC?.Projects[this.data.projectLookup];
-    }
+    // public get Project(): EaCProjectAsCode {
+    //     return this.State?.EaC?.Projects[this.data.projectLookup];
+    // }
 
     public get ProjectFormGroup(): FormGroup {
         return this.EditProjectControl?.ProjectFormGroup;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public ErrorMessage: string;
+
+    public Project: EaCProjectAsCode;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         public eacSvc: EaCService,
@@ -42,7 +46,15 @@ export class EditProjectDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            if (this.State?.EaC?.Projects) {
+                this.Project =
+                    this.State?.EaC?.Projects[this.data.projectLookup];
+            }
+        });
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

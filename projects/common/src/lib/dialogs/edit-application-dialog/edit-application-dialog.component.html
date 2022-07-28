@@ -13,6 +13,7 @@
         [application-lookup]="data.applicationLookup"
         [editing-application]="data.application"
         [project-lookup]="data.projectLookup"
+        [loading]="State?.Loading"
         (save-form-event)="HandleSaveApplicationEvent($event)"
     >
     </lcu-edit-application-form>

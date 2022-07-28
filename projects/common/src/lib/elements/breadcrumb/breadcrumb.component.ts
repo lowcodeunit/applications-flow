@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-breadcrumb',
@@ -9,164 +8,216 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
     styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-    // @Input('enterprise-path')
-    // public EnterprisePath: string;
-
     @Input('application-lookup')
     public ApplicationLookup: string;
 
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
+    @Input('enterprise')
+    public Enterprise: any;
+
+    @Input('enterprises')
+    public Enterprises: Array<any>;
+
+    @Input('loading')
+    public Loading: boolean;
+
+    @Input('projects')
+    public Projects: any;
 
     @Input('project-lookup')
     public ProjectLookup: string;
 
+    @Input('routed-application')
+    public RoutedApplications: {
+        [route: string]: { [lookup: string]: EaCApplicationAsCode };
+    };
+
     @Input('selected-route')
     public SelectedRoute: string;
 
-    public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
-        return this.State?.EaC?.Applications || {};
-    }
+    @Input('applications-bank')
+    public ApplicationsBank: { [lookup: string]: EaCApplicationAsCode };
 
-    public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
-        const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+    // public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
+    //     return this.State?.EaC?.Applications || {};
+    // }
 
-        this.SelectedProject?.ApplicationLookups?.forEach(
-            (appLookup: string) => {
-                apps[appLookup] = this.ApplicationsBank[appLookup];
-            }
-        );
-        return apps;
-    }
+    // public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
+    //     const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-    public get SelectedApplication(): EaCApplicationAsCode {
-        return this.State?.EaC?.Applications[this.ApplicationLookup] || {};
-    }
+    //     this.SelectedProject?.ApplicationLookups?.forEach(
+    //         (appLookup: string) => {
+    //             apps[appLookup] = this.ApplicationsBank[appLookup];
+    //         }
+    //     );
+    //     return apps;
+    // }
 
-    public get CurrentRouteApplicationLookups(): Array<string> {
-        return Object.keys(this.RoutedApplications[this.SelectedRoute] || {});
-    }
+    // public get SelectedApplication(): EaCApplicationAsCode {
+    //     return this.State?.EaC?.Applications[this.ApplicationLookup] || {};
+    // }
 
-    public get Loading(): boolean {
-        return (
-            this.State?.LoadingActiveEnterprise ||
-            this.State?.LoadingEnterprises
-        );
-    }
+    // public get CurrentRouteApplicationLookups(): Array<string> {
+    //     return Object.keys(this.RoutedApplications[this.SelectedRoute] || {});
+    // }
 
-    public get Projects(): any {
-        return this.State?.EaC?.Projects || {};
-    }
+    // public get Loading(): boolean {
+    //     return (
+    //         this.State?.LoadingActiveEnterprise ||
+    //         this.State?.LoadingEnterprises ||
+    // this.State?.Loading
+    //     );
+    // }
 
-    public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {});
-    }
+    // public get Projects(): any {
+    //     return this.State?.EaC?.Projects || {};
+    // }
 
-    public get Routes(): Array<string> {
-        return Object.keys(this.RoutedApplications || {});
-    }
+    // public get ProjectLookups(): string[] {
+    //     return Object.keys(this.State?.EaC?.Projects || {});
+    // }
 
-    public get RoutedApplications(): {
-        [route: string]: { [lookup: string]: EaCApplicationAsCode };
-    } {
-        const appLookups = Object.keys(this.Applications);
+    // public get Routes(): Array<string> {
+    //     return Object.keys(this.RoutedApplications || {});
+    // }
 
-        const apps = appLookups.map(
-            (appLookup) => this.Applications[appLookup]
-        );
+    // public get RoutedApplications(): {
+    //     [route: string]: { [lookup: string]: EaCApplicationAsCode };
+    // } {
+    //     const appLookups = Object.keys(this.Applications);
 
-        let appRoutes =
-            apps.map((app) => {
-                return app?.LookupConfig?.PathRegex.replace('.*', '');
-            }) || [];
+    //     const apps = appLookups.map(
+    //         (appLookup) => this.Applications[appLookup]
+    //     );
 
-        appRoutes = appRoutes.filter((ar) => ar != null);
+    //     let appRoutes =
+    //         apps.map((app) => {
+    //             return app?.LookupConfig?.PathRegex.replace('.*', '');
+    //         }) || [];
 
-        let routeBases: string[] = [];
+    //     appRoutes = appRoutes.filter((ar) => ar != null);
 
-        appRoutes?.forEach((appRoute) => {
-            const appRouteParts = appRoute.split('/');
+    //     let routeBases: string[] = [];
 
-            const appRouteBase = `/${appRouteParts[1]}`;
+    //     appRoutes?.forEach((appRoute) => {
+    //         const appRouteParts = appRoute.split('/');
 
-            if (routeBases.indexOf(appRouteBase) < 0) {
-                routeBases.push(appRouteBase);
-            }
-        });
+    //         const appRouteBase = `/${appRouteParts[1]}`;
 
-        let workingAppLookups = [...(appLookups || [])];
+    //         if (routeBases.indexOf(appRouteBase) < 0) {
+    //             routeBases.push(appRouteBase);
+    //         }
+    //     });
 
-        routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+    //     let workingAppLookups = [...(appLookups || [])];
 
-        const routeSet =
-            routeBases.reduce((prevRouteMap, currentRouteBase) => {
-                const routeMap = {
-                    ...prevRouteMap,
-                };
+    //     routeBases = routeBases.sort((a, b) => b.localeCompare(a));
 
-                const filteredAppLookups = workingAppLookups.filter((wal) => {
-                    const wa = this.Applications[wal];
+    //     const routeSet =
+    //         routeBases.reduce((prevRouteMap, currentRouteBase) => {
+    //             const routeMap = {
+    //                 ...prevRouteMap,
+    //             };
 
-                    return wa?.LookupConfig?.PathRegex.startsWith(
-                        currentRouteBase
-                    );
-                });
+    //             const filteredAppLookups = workingAppLookups.filter((wal) => {
+    //                 const wa = this.Applications[wal];
 
-                routeMap[currentRouteBase] =
-                    filteredAppLookups.reduce((prevAppMap, appLookup) => {
-                        const appMap = {
-                            ...prevAppMap,
-                        };
+    //                 return wa?.LookupConfig?.PathRegex.startsWith(
+    //                     currentRouteBase
+    //                 );
+    //             });
 
-                        appMap[appLookup] = this.Applications[appLookup];
+    //             routeMap[currentRouteBase] =
+    //                 filteredAppLookups.reduce((prevAppMap, appLookup) => {
+    //                     const appMap = {
+    //                         ...prevAppMap,
+    //                     };
 
-                        return appMap;
-                    }, {}) || {};
+    //                     appMap[appLookup] = this.Applications[appLookup];
 
-                workingAppLookups = workingAppLookups.filter((wa) => {
-                    return filteredAppLookups.indexOf(wa) < 0;
-                });
+    //                     return appMap;
+    //                 }, {}) || {};
 
-                return routeMap;
-            }, {}) || {};
+    //             workingAppLookups = workingAppLookups.filter((wa) => {
+    //                 return filteredAppLookups.indexOf(wa) < 0;
+    //             });
 
-        let routeSetKeys = Object.keys(routeSet);
+    //             return routeMap;
+    //         }, {}) || {};
 
-        routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+    //     let routeSetKeys = Object.keys(routeSet);
 
-        const routeSetResult = {};
+    //     routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
 
-        routeSetKeys?.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+    //     const routeSetResult = {};
 
-        return routeSetResult;
-    }
+    //     routeSetKeys?.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
 
-    public get SelectedProject(): any {
-        return this.State?.EaC?.Projects[this.ProjectLookup] || {};
-    }
+    //     return routeSetResult;
+    // }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get SelectedProject(): any {
+    //     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
+    // }
+
+    public Applications: { [lookup: string]: EaCApplicationAsCode };
+
+    public CurrentRouteApplicationLookups: Array<string>;
+
+    public Routes: Array<string>;
+
+    public SelectedProject: EaCProjectAsCode;
 
     public SkeletonEffect: string;
+
+    public SelectedApplication: EaCApplicationAsCode;
+
+    public ProjectLookups: Array<string>;
 
     constructor(protected eacSvc: EaCService) {
         this.SkeletonEffect = 'wave';
     }
 
-    ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
-    }
+    ngOnInit(): void {}
 
     ngOnChanges() {
-        // console.log('ent path bc: ', this.EnterprisePath);
+        if (this.ApplicationsBank && this.ApplicationLookup) {
+            this.SelectedApplication =
+                this.ApplicationsBank[this.ApplicationLookup];
+        }
+
+        if (this.Projects) {
+            this.ProjectLookups = Object.keys(this.Projects || {});
+
+            if (this.ProjectLookup) {
+                this.SelectedProject = this.Projects[this.ProjectLookup];
+            }
+        }
+
+        if (this.RoutedApplications) {
+            this.Routes = Object.keys(this.RoutedApplications || {});
+
+            if (this.SelectedRoute) {
+                this.CurrentRouteApplicationLookups = Object.keys(
+                    this.RoutedApplications[this.SelectedRoute]
+                );
+            }
+        }
+
+        if (this.SelectedProject && this.ApplicationsBank) {
+            this.Applications = {};
+
+            this.SelectedProject?.ApplicationLookups?.forEach(
+                (appLookup: string) => {
+                    this.Applications[appLookup] =
+                        this.ApplicationsBank[appLookup];
+                }
+            );
+        }
     }
 
     public SetActiveEnterprise(entLookup: string): void {
         this.eacSvc.SetActiveEnterprise(entLookup).then(() => {});
     }
 
-    protected async handleStateChange(): Promise<void> {}
+    // protected async handleStateChange(): Promise<void> {}
 }

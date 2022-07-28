@@ -35,6 +35,14 @@ export class IoTComponent implements OnInit {
         return this.eacSvc.State;
     }
 
+    public get Loading(): boolean {
+        return (
+            this.State?.LoadingActiveEnterprise ||
+            this.State?.LoadingEnterprises ||
+            this.State?.Loading
+        );
+    }
+
     //  Constructors
     constructor(
         protected sanitizer: DomSanitizer,

@@ -166,6 +166,14 @@ export class ProjectsComponent implements OnInit {
         return routeSetResult;
     }
 
+    public get Loading(): boolean {
+        return (
+            this.State?.LoadingActiveEnterprise ||
+            this.State?.LoadingEnterprises ||
+            this.State?.Loading
+        );
+    }
+
     // public EntPath: string;
 
     public Slices: { [key: string]: number };

@@ -79,6 +79,14 @@ export class RoutesComponent implements OnInit {
         return this.eacSvc.GenerateRoutedApplications(this.Applications);
     }
 
+    public get Loading(): boolean {
+        return (
+            this.State?.LoadingActiveEnterprise ||
+            this.State?.LoadingEnterprises ||
+            this.State?.Loading
+        );
+    }
+
     public AppRoute: string;
 
     // public EntPath: string;
