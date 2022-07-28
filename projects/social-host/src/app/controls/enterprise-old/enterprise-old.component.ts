@@ -18,11 +18,11 @@ import { Router } from '@angular/router';
 import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
 
 @Component({
-    selector: 'lcu-enterprise-4',
-    templateUrl: './enterprise-4.component.html',
-    styleUrls: ['./enterprise-4.component.scss'],
+    selector: 'lcu-enterprise',
+    templateUrl: './enterprise-old.component.html',
+    styleUrls: ['./enterprise-old.component.scss'],
 })
-export class Enterprise4Component implements OnInit {
+export class EnterpriseComponent implements OnInit {
     public get ActiveEnvironment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
     }
@@ -101,7 +101,7 @@ export class Enterprise4Component implements OnInit {
         return this.eacSvc?.State;
     }
 
-    // public EntPath: string;
+    public EntPath: string;
 
     public Slices: { [key: string]: number };
 
@@ -118,7 +118,7 @@ export class Enterprise4Component implements OnInit {
         protected router: Router,
         protected socialSvc: SocialUIService
     ) {
-        // this.EntPath = 'enterprise-2';
+        // this.EntPath = 'enterprise-1';
         // this.socialSvc.AssignEnterprisePath(this.EntPath);
 
         this.IsInfoCardEditable = false;
