@@ -7,7 +7,7 @@ import {
     ApplicationsFlowService,
     NewApplicationDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 
 @Component({
     selector: 'lcu-routes',
@@ -15,95 +15,45 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
     styleUrls: ['./routes.component.scss'],
 })
 export class RoutesComponent implements OnInit {
-    public get ActiveEnvironmentLookup(): string {
-        //  TODO:  Eventually support multiple environments
-        const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+    public ActiveEnvironmentLookup: string;
 
-        return envLookups[0];
-    }
-
-    public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
-        return this.State?.EaC?.Applications || {};
-    }
-
-    public get ApplicationRoutes(): Array<string> {
-        return Object.keys(this.RoutedApplications || {});
-    }
-
-    public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
-        const apps: { [lookup: string]: EaCApplicationAsCode } = {};
-
-        this.Project?.ApplicationLookups.forEach((appLookup: string) => {
-            apps[appLookup] = this.ApplicationsBank[appLookup];
-        });
-        return apps;
-    }
-
-    public get CurrentApplicationRoute(): any {
-        return this.AppRoute || {};
-    }
-
-    public get CurrentRouteApplicationLookups(): Array<string> {
-        return Object.keys(
-            this.RoutedApplications[this.CurrentApplicationRoute] || {}
-        );
-    }
-
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
-    public get NumberOfApps(): any {
-        return this.CurrentRouteApplicationLookups?.length || {};
-    }
-
-    public get Project(): any {
-        return this.State?.EaC?.Projects[this.ProjectLookup];
-    }
-
-    public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {});
-    }
-
-    public get Projects(): any {
-        return this.State?.EaC?.Projects || {};
-    }
-
-    public get RoutedApplications(): {
-        [route: string]: { [lookup: string]: EaCApplicationAsCode };
-    } {
-        return this.eacSvc.GenerateRoutedApplications(this.Applications);
-    }
-
-    public get Loading(): boolean {
-        return (
-            this.State?.LoadingActiveEnterprise ||
-            this.State?.LoadingEnterprises ||
-            this.State?.Loading
-        );
-    }
+    public Applications: { [lookup: string]: EaCApplicationAsCode };
 
     public AppRoute: string;
 
-    // public EntPath: string;
+    public ApplicationRoutes: Array<string>;
+
+    public CurrentRouteApplicationLookups: Array<string>;
+
+    public Enterprise: any;
 
     public IsInfoCardEditable: boolean;
 
     public IsInfoCardShareable: boolean;
 
+    public Project: EaCProjectAsCode;
+
+    public Projects: any;
+
     public ProjectLookup: string;
 
+    public ProjectLookups: Array<string>;
+
+    public Loading: boolean;
+
     public Routes: any;
+
+    public RoutedApplications: {
+        [route: string]: { [lookup: string]: EaCApplicationAsCode };
+    };
 
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
 
     public Stats: any[];
+
+    public State: ApplicationsFlowState;
 
     constructor(
         protected appSvc: ApplicationsFlowService,
@@ -134,7 +84,56 @@ export class RoutesComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+
+            //  TODO:  Eventually support multiple environments
+            this.ActiveEnvironmentLookup = Object.keys(
+                this.State?.EaC?.Environments
+            )[0];
+
+            if (this.State?.EaC?.Projects) {
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                );
+                this.Projects = this.State?.EaC?.Projects;
+            }
+
+            if (this.State?.EaC?.Enterprise) {
+                this.Enterprise = this.State.EaC.Enterprise;
+            }
+
+            this.Project = this.State?.EaC?.Projects[this.ProjectLookup];
+
+            if (
+                this.Project?.ApplicationLookups &&
+                this.State?.EaC?.Applications
+            ) {
+                const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+                this.Project?.ApplicationLookups.forEach(
+                    (appLookup: string) => {
+                        apps[appLookup] =
+                            this.State?.EaC?.Applications[appLookup];
+                    }
+                );
+
+                this.Applications = apps;
+            }
+
+            this.Loading =
+                this.State?.LoadingActiveEnterprise ||
+                this.State?.LoadingEnterprises ||
+                this.State?.Loading;
+
+            this.RoutedApplications = this.eacSvc.GenerateRoutedApplications(
+                this.Applications
+            );
+            this.ApplicationRoutes = Object.keys(this.RoutedApplications);
+            this.CurrentRouteApplicationLookups = Object.keys(
+                this.RoutedApplications[this.AppRoute]
+            );
+        });
     }
 
     public EditRouteClicked() {
@@ -149,7 +148,7 @@ export class RoutesComponent implements OnInit {
         console.log('Right Icon has been selected', event);
         console.log(
             'app:',
-            this.RoutedApplications[this.CurrentApplicationRoute][
+            this.RoutedApplications[this.AppRoute][
                 this.CurrentRouteApplicationLookups[0]
             ]
         );
@@ -188,7 +187,9 @@ export class RoutesComponent implements OnInit {
         let count = this.Slices[type];
 
         let length =
-            type === 'Applications' ? this.NumberOfApps : this.SlicesCount;
+            type === 'Applications'
+                ? this.CurrentRouteApplicationLookups?.length
+                : this.SlicesCount;
 
         if (count === length) {
             this.Slices[type] = this.SlicesCount;

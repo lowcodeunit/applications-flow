@@ -24,161 +24,109 @@ import { Router } from '@angular/router';
     styleUrls: ['./projects.component.scss'],
 })
 export class ProjectsComponent implements OnInit {
-    public get ActiveEnvironmentLookup(): string {
-        //  TODO:  Eventually support multiple environments
-        const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+    // public get ActiveEnvironmentLookup(): string {
+    //     //  TODO:  Eventually support multiple environments
+    //     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
-        return envLookups[0];
-    }
+    //     return envLookups[0];
+    // }
 
-    public get ApplicationLookups(): string[] {
-        return Object.keys(this.Project?.ApplicationLookups || {});
-    }
+    // public get ApplicationLookups(): string[] {
+    //     return Object.keys(this.Project?.ApplicationLookups || {});
+    // }
 
-    public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
-        return this.State?.EaC?.Applications || {};
-    }
+    // public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
+    //     return this.State?.EaC?.Applications || {};
+    // }
 
-    public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
-        const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+    // public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
+    //     const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-        this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
-            apps[appLookup] = this.ApplicationsBank[appLookup];
-        });
-        return apps;
-    }
+    //     this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
+    //         apps[appLookup] = this.State?.EaC?.Applications[appLookup];
+    //     });
+    //     return apps;
+    // }
 
-    public get ApplicationRoutes(): Array<string> {
-        return Object.keys(this.RoutedApplications || {});
-    }
+    // public get ApplicationRoutes(): Array<string> {
+    //     return Object.keys(this.RoutedApplications || {});
+    // }
 
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
+    // public get Enterprise(): any {
+    //     return this.State?.EaC?.Enterprise;
+    // }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
-    public get Project(): EaCProjectAsCode {
-        return this.State?.EaC?.Projects[this.ProjectLookup] || {};
-    }
+    // public get Project(): EaCProjectAsCode {
+    //     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
+    // }
 
-    public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {});
-    }
+    // public get ProjectLookups(): string[] {
+    //     return Object.keys(this.State?.EaC?.Projects || {});
+    // }
 
-    public get Projects(): any {
-        return this.State?.EaC?.Projects || {};
-    }
+    // public get Projects(): any {
+    //     return this.State?.EaC?.Projects || {};
+    // }
 
-    public get NumberOfRoutes(): number {
-        return this.ApplicationRoutes?.length;
-    }
+    // public get NumberOfRoutes(): number {
+    //     return this.ApplicationRoutes?.length;
+    // }
 
-    public get NumberOfModifiers(): number {
-        return this.ProjectsModifierLookups?.length;
-    }
+    // public get NumberOfModifiers(): number {
+    //     return this.ProjectsModifierLookups?.length;
+    // }
 
-    public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-        return this.State?.EaC?.Modifiers || {};
-    }
+    // public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    //     return this.State?.EaC?.Modifiers || {};
+    // }
 
-    public get ProjectsModifierLookups(): Array<string> {
-        return this.Project.ModifierLookups || [];
-    }
+    // public get ProjectsModifierLookups(): Array<string> {
+    //     return this.Project.ModifierLookups || [];
+    // }
 
-    public get RoutedApplications(): {
+    // public get Loading(): boolean {
+    //     return (
+    //         this.State?.LoadingActiveEnterprise ||
+    //         this.State?.LoadingEnterprises ||
+    //         this.State?.Loading
+    //     );
+    // }
+
+    public ActiveEnvironmentLookup: string;
+
+    public ApplicationLookups: Array<string>;
+
+    public Applications: { [lookup: string]: EaCApplicationAsCode };
+
+    public ApplicationRoutes: Array<string>;
+
+    public Enterprise: any;
+
+    public Modifiers: { [lookup: string]: EaCDFSModifier };
+
+    public Loading: boolean;
+
+    public Project: EaCProjectAsCode;
+
+    public Projects: any;
+
+    public ProjectLookups: Array<string>;
+
+    public ProjectsModifierLookups: Array<string>;
+
+    public RoutedApplications: {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
-    } {
-        const appLookups = Object.keys(this.Applications);
-
-        const apps = appLookups.map(
-            (appLookup) => this.Applications[appLookup]
-        );
-
-        let appRoutes =
-            apps.map((app) => {
-                // console.log("App from projects: ", app);
-                return app?.LookupConfig?.PathRegex.replace('.*', '');
-            }) || [];
-
-        appRoutes = appRoutes.filter((ar) => ar != null);
-
-        let routeBases: string[] = [];
-
-        appRoutes.forEach((appRoute) => {
-            const appRouteParts = appRoute.split('/');
-
-            const appRouteBase = `/${appRouteParts[1]}`;
-
-            if (routeBases.indexOf(appRouteBase) < 0) {
-                routeBases.push(appRouteBase);
-            }
-        });
-
-        let workingAppLookups = [...(appLookups || [])];
-
-        routeBases = routeBases.sort((a, b) => b.localeCompare(a));
-
-        const routeSet =
-            routeBases.reduce((prevRouteMap, currentRouteBase) => {
-                const routeMap = {
-                    ...prevRouteMap,
-                };
-
-                const filteredAppLookups = workingAppLookups.filter((wal) => {
-                    const wa = this.Applications[wal];
-
-                    return wa?.LookupConfig?.PathRegex.startsWith(
-                        currentRouteBase
-                    );
-                });
-
-                routeMap[currentRouteBase] =
-                    filteredAppLookups.reduce((prevAppMap, appLookup) => {
-                        const appMap = {
-                            ...prevAppMap,
-                        };
-
-                        appMap[appLookup] = this.Applications[appLookup];
-
-                        return appMap;
-                    }, {}) || {};
-
-                workingAppLookups = workingAppLookups.filter((wa) => {
-                    return filteredAppLookups.indexOf(wa) < 0;
-                });
-
-                return routeMap;
-            }, {}) || {};
-
-        let routeSetKeys = Object.keys(routeSet);
-
-        routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
-
-        const routeSetResult = {};
-
-        routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
-
-        // console.log("App Routes: ",routeSetResult)
-
-        return routeSetResult;
-    }
-
-    public get Loading(): boolean {
-        return (
-            this.State?.LoadingActiveEnterprise ||
-            this.State?.LoadingEnterprises ||
-            this.State?.Loading
-        );
-    }
-
-    // public EntPath: string;
+    };
 
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
+
+    public State: ApplicationsFlowState;
 
     public Stats: any[];
 
@@ -197,7 +145,6 @@ export class ProjectsComponent implements OnInit {
     ) {
         this.activatedRoute.params.subscribe((params: any) => {
             this.ProjectLookup = params['projectLookup'];
-            // this.EntPath = params['enterprise'];
         });
 
         this.Stats = [
@@ -218,7 +165,48 @@ export class ProjectsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+
+            //  TODO:  Eventually support multiple environments
+            this.ActiveEnvironmentLookup = Object.keys(
+                this.State?.EaC?.Environments || {}
+            )[0];
+
+            this.ApplicationLookups = Object.keys(
+                this.Project?.ApplicationLookups || {}
+            );
+
+            this.Project = this.State?.EaC?.Projects[this.ProjectLookup] || {};
+
+            const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+            this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
+                apps[appLookup] = this.State?.EaC?.Applications[appLookup];
+            });
+            this.Applications = apps;
+
+            this.RoutedApplications = this.eacSvc.GenerateRoutedApplications(
+                this.Applications
+            );
+
+            this.ProjectLookups = Object.keys(this.State?.EaC?.Projects || {});
+
+            this.Projects = this.State?.EaC?.Projects || {};
+
+            this.ApplicationRoutes = Object.keys(this.RoutedApplications || {});
+
+            this.Enterprise = this.State?.EaC?.Enterprise;
+
+            this.Modifiers = this.State?.EaC?.Modifiers || {};
+
+            this.ProjectsModifierLookups = this.Project.ModifierLookups || [];
+
+            this.Loading =
+                this.State?.LoadingActiveEnterprise ||
+                this.State?.LoadingEnterprises ||
+                this.State?.Loading;
+        });
     }
 
     public EditCustomDomain() {
@@ -318,9 +306,9 @@ export class ProjectsComponent implements OnInit {
 
         let length =
             type === 'Modifiers'
-                ? this.NumberOfModifiers
+                ? this.ProjectsModifierLookups?.length
                 : type === 'Routes'
-                ? this.NumberOfRoutes
+                ? this.ApplicationRoutes?.length
                 : this.SlicesCount;
 
         if (count === length) {

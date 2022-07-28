@@ -9,18 +9,25 @@ import {
     styleUrls: ['./team-members.component.scss'],
 })
 export class TeamMembersComponent implements OnInit {
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
-    public get ProjectLookups(): string[] {
-        // console.log("PJS: ",Object.keys(this.State?.EaC?.Projects || {}).reverse() )
-        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
-    }
     public SkeletonEffect: string;
+
+    public State: ApplicationsFlowState;
+
+    public ProjectLookups: Array<string>;
 
     constructor(protected eacSvc: EaCService) {
         this.SkeletonEffect = 'wave';
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+
+            if (this.State?.EaC?.Projects) {
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                ).reverse();
+            }
+        });
+    }
 }

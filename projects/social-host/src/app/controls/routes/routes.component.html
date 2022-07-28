@@ -6,22 +6,21 @@
     [loading]="Loading"
     [projects]="State?.EaC?.Projects"
     [project-lookup]="ProjectLookup"
-    [selected-route]="CurrentApplicationRoute"
+    [selected-route]="AppRoute"
 >
 </lcu-breadcrumb>
 
 <lcu-three-column>
     <div left>
         <lcu-project-info-card
-            [name]="CurrentApplicationRoute"
+            [name]="AppRoute"
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
             [loading]="State?.Loading"
             [subtext]="
                 Project?.Hosts
-                    ? Project?.Hosts[Project?.Hosts?.length - 1] +
-                      CurrentApplicationRoute
+                    ? Project?.Hosts[Project?.Hosts?.length - 1] + AppRoute
                     : ''
             "
             (left-click-event)="HandleLeftClickEvent($event)"
@@ -49,11 +48,10 @@
     <div>
         <lcu-feed-header
             [active-environment-lookup]="ActiveEnvironmentLookup"
-            [feed]="Feed"
-            [feed-check]="FeedCheck"
-            [source-control-lookup]="SourceControlLookup"
-            [has-gh-connection]="HasGHConnection"
-            [feed-header-actions]="FeedHeaderActions"
+            [feed]="State.Feed"
+            [feed-check]="State.FeedCheck"
+            [has-gh-connection]="State.GitHub.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
             [loading-feed]="State?.LoadingFeed"
         ></lcu-feed-header>
         <lcu-skeleton-feed-card
@@ -128,12 +126,7 @@
                 >
                     <div
                         class="slot-content"
-                        *ngIf="
-                            RoutedApplications[CurrentApplicationRoute][
-                                appLookup
-                            ];
-                            let app
-                        "
+                        *ngIf="RoutedApplications[AppRoute][appLookup]; let app"
                         fxLayout="row"
                         fxLayoutAlign="space-between center"
                     >
@@ -146,7 +139,7 @@
                                     [routerLink]="[
                                         '/application',
                                         appLookup,
-                                        CurrentApplicationRoute,
+                                        AppRoute,
                                         ProjectLookup
                                     ]"
                                 >
@@ -180,7 +173,7 @@
                                 [routerLink]="[
                                     '/application',
                                     appLookup,
-                                    CurrentApplicationRoute,
+                                    AppRoute,
                                     ProjectLookup
                                 ]"
                             >
