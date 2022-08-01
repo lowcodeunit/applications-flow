@@ -3,6 +3,7 @@
 ></lcu-dashboard-toolbar>
 
 <lcu-project-card
+    [applications-bank]="State?.EaC?.Applications"
     [loading]="State?.Loading"
     [project-lookups]="ProjectLookups"
     [projects]="State?.EaC?.Projects"

@@ -66,7 +66,7 @@
         <ng-container *ngIf="!State?.LoadingFeed">
             <div *ngFor="let feedItem of State?.Feed">
                 <lcu-main-feed-card
-                    [active-environemnt]="
+                    [active-environment]="
                         State?.EaC?.Environments[ActiveEnvironmentLookup]
                     "
                     [active-environment-lookup]="ActiveEnvironmentLookup"

@@ -19,29 +19,13 @@ import { EaCApplicationAsCode } from '@semanticjs/common';
 export class IoTComponent implements OnInit {
     public Context: Object;
 
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
-
     public IoTConfig: LazyElementConfig;
 
-    public get IoTElementHTML(): SafeHtml {
-        return this.sanitizer.bypassSecurityTrustHtml(
-            `<${this.IoTConfig.ElementName}></${this.IoTConfig.ElementName}>`
-        );
-    }
+    public IoTElementHTML: SafeHtml;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public Loading: boolean;
 
-    public get Loading(): boolean {
-        return (
-            this.State?.LoadingActiveEnterprise ||
-            this.State?.LoadingEnterprises ||
-            this.State?.Loading
-        );
-    }
+    public State: ApplicationsFlowState;
 
     //  Constructors
     constructor(
@@ -57,12 +41,22 @@ export class IoTComponent implements OnInit {
             ],
             ElementName: 'lcu-device-data-flow-manage-element',
         };
+
+        this.IoTElementHTML = this.sanitizer.bypassSecurityTrustHtml(
+            `<${this.IoTConfig.ElementName}></${this.IoTConfig.ElementName}>`
+        );
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+
+            this.Loading =
+                this.State?.LoadingActiveEnterprise ||
+                this.State?.LoadingEnterprises ||
+                this.State?.Loading;
+        });
     }
 
     //  Helpers
-    protected async handleStateChange(): Promise<void> {}
 }

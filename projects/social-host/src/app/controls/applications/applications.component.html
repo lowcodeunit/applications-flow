@@ -6,7 +6,7 @@
     [project-lookup]="ProjectLookup"
     [routed-application]="RoutedApplications"
     [application-lookup]="ApplicationLookup"
-    [applications-bank]="Applications"
+    [applications-bank]="State?.EaC?.Applications"
     [selected-route]="CurrentApplicationRoute"
 >
 </lcu-breadcrumb>
@@ -102,7 +102,6 @@
             [active-environment-lookup]="ActiveEnvironmentLookup"
             [feed]="State?.Feed"
             [feed-check]="State?.FeedCheck"
-            [source-control-lookup]="SourceControlLookup"
             [has-gh-connection]="State?.GitHub?.HasConnection"
             [feed-header-actions]="State?.FeedActions"
             [loading-feed]="State?.LoadingFeed"
@@ -115,7 +114,7 @@
         <ng-container *ngIf="!State?.LoadingFeed">
             <div *ngFor="let feedItem of State?.Feed">
                 <lcu-main-feed-card
-                    [active-environemnt]="
+                    [active-environment]="
                         State?.EaC?.Environments[ActiveEnvironmentLookup]
                     "
                     [active-environment-lookup]="ActiveEnvironmentLookup"
@@ -252,7 +251,7 @@
                 >
                     <div
                         class="slot-content"
-                        *ngIf="Modifiers[mdfrLookup]; let mdfr"
+                        *ngIf="State?.EaC?.Modifiers[mdfrLookup]; let mdfr"
                         fxLayout="row"
                         fxLayoutAlign="space-between center"
                     >

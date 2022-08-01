@@ -13,24 +13,34 @@ import { MatDialog } from '@angular/material/dialog';
     styleUrls: ['./modifiers.component.scss'],
 })
 export class ModifiersComponent implements OnInit {
-    public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-        return this.State?.EaC?.Modifiers || {};
-    }
+    public ModifierLookups: Array<string>;
 
-    public get ModifierLookups(): Array<string> {
-        return Object.keys(this.Modifiers || {});
-    }
+    public ProjectLookups: Array<string>;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
+    public State: ApplicationsFlowState;
 
     public SkeletonEffect: string;
+
     constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
         this.SkeletonEffect = 'wave';
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+
+            if (this.State?.EaC?.Modifiers) {
+                this.ModifierLookups = Object.keys(
+                    this.State?.EaC?.Modifiers || {}
+                );
+            }
+            if (this.State?.EaC?.Projects) {
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                ).reverse();
+            }
+        });
+    }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
         console.log('Modifier lookup: ', mdfrLookup);
@@ -40,7 +50,7 @@ export class ModifiersComponent implements OnInit {
             data: {
                 modifierLookup: mdfrLookup,
                 modifierName: mdfrName,
-                modifiers: this.Modifiers,
+                modifiers: this.State?.EaC?.Modifiers,
                 level: 'enterprise',
             },
         });

@@ -8,7 +8,7 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card
-            [name]="Enterprise?.Name"
+            [name]="State?.EaC?.Enterprise?.Name"
             image="./assets/images/black_thinky.png"
             [loading]="State?.Loading"
         >
@@ -27,7 +27,6 @@
             [active-environment-lookup]="ActiveEnvironmentLookup"
             [feed]="State?.Feed"
             [feed-check]="State?.FeedCheck"
-            [source-control-lookup]="SourceControlLookup"
             [has-gh-connection]="State?.GitHub?.HasConnection"
             [feed-header-actions]="State?.FeedActions"
             [loading-feed]="State?.LoadingFeed"
@@ -42,7 +41,7 @@
         <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
             <lcu-main-feed-card
                 *ngFor="let feedItem of State?.Feed"
-                [active-environemnt]="
+                [active-environment]="
                     State?.EaC?.Environments[ActiveEnvironmentLookup]
                 "
                 [active-environment-lookup]="ActiveEnvironmentLookup"

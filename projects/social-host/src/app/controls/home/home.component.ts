@@ -18,75 +18,62 @@ import { SocialUIService } from 'projects/common/src/lib/services/social-ui.serv
     styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
-
-    public get Environment(): EaCEnvironmentAsCode {
+    private get Environment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[
             this.State?.EaC?.Enterprise?.PrimaryEnvironment
         ];
     }
 
-    public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
+    private get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
         return this.Environment?.DevOpsActions || {};
     }
 
-    public get DevOpsActionLookups(): Array<string> {
+    private get DevOpsActionLookups(): Array<string> {
         return Object.keys(this.DevOpsActions || {});
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
-    public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    private get Modifiers(): { [lookup: string]: EaCDFSModifier } {
         return this.State?.EaC?.Modifiers || {};
     }
 
-    public get ModifierLookups(): Array<string> {
+    private get ModifierLookups(): Array<string> {
         return Object.keys(this.Modifiers || {});
     }
 
-    public get NumberOfSourceControls(): number {
+    private get NumberOfSourceControls(): number {
         return this.SourceControlLookups?.length;
     }
 
-    public get NumberOfModifiers(): number {
+    private get NumberOfModifiers(): number {
         return this.ModifierLookups?.length;
     }
 
-    public get NumberOfPipelines(): number {
+    private get NumberOfPipelines(): number {
         return this.DevOpsActionLookups?.length;
     }
-    public get SourceControlLookups(): Array<string> {
+    private get SourceControlLookups(): Array<string> {
         return Object.keys(this.SourceControls || {});
     }
 
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    private get SourceControls(): { [lookup: string]: EaCSourceControl } {
         return this.Environment?.Sources || {};
     }
 
-    public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
-    }
-
-    public get NumberOfProjects(): number {
+    private get NumberOfProjects(): number {
         return this.ProjectLookups?.length;
     }
 
-    public get Loading(): boolean {
-        return (
-            this.State?.LoadingActiveEnterprise ||
-            this.State?.LoadingEnterprises ||
-            this.State?.Loading
-        );
-    }
+    public ActiveEnvironmentLookup: string;
 
-    // public EntPath: string;
+    public Loading: boolean;
+
+    public ProjectLookups: Array<string>;
 
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
+
+    public State: ApplicationsFlowState;
 
     constructor(
         protected appSvc: ApplicationsFlowService,
@@ -106,8 +93,25 @@ export class HomeComponent implements OnInit {
         };
     }
 
-    public ngOnInit(): void {}
-    public ngAfterViewInit() {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+
+            this.Loading =
+                this.State?.LoadingActiveEnterprise ||
+                this.State?.LoadingEnterprises ||
+                this.State?.Loading;
+
+            this.ProjectLookups = Object.keys(
+                this.State?.EaC?.Projects || {}
+            ).reverse();
+
+            //  TODO:  Eventually support multiple environments
+            const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+            this.ActiveEnvironmentLookup = envLookups[0];
+        });
+    }
 
     public ToggleSlices(type: string) {
         let count = this.Slices[type];

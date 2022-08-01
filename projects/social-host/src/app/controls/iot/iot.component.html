@@ -8,7 +8,7 @@
 <lcu-three-column>
     <div left>
         <lcu-project-info-card
-            [name]="Enterprise?.Name + ' IoT'"
+            [name]="State?.EaC?.Enterprise?.Name + ' IoT'"
             [is-editable]="false"
             [is-shareable]="false"
             image="./assets/images/thinky.png"
@@ -45,7 +45,7 @@
         <div [innerHTML]="IoTElementHTML"></div>
 
         <!-- <lcu-main-feed-card
-          [active-environemnt]="State?.EaC?.Environments[ActiveEnvironmentLookup]"
+          [active-environment]="State?.EaC?.Environments[ActiveEnvironmentLookup]"
                 [active-environment-lookup]="ActiveEnvironmentLookup"
                 [environment]="State?.EaC?.Environments[State?.EaC?.Enterprise?.PrimaryEnvironment]"
       [feed-item]="feedItem"

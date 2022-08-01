@@ -25,9 +25,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
     protected initialized: boolean;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
 
     public IsSmScreen: boolean;
 
@@ -44,10 +42,6 @@ export class AppComponent implements OnDestroy, OnInit {
         protected activatedRoute: ActivatedRoute,
         protected socialSvc: SocialUIService
     ) {
-        socialSvc.changeEmitted$.subscribe((path: string) => {
-            this.EntPath = path;
-        });
-
         router.events.subscribe(async (event: RouterEvent) => {
             let changed = event instanceof NavigationEnd; //ActivationEnd
 
@@ -134,7 +128,10 @@ export class AppComponent implements OnDestroy, OnInit {
                 }
             });
 
-        this.handleStateChange().then((eac) => {});
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            this.handleStateChange().then((eac) => {});
+        });
     }
 
     protected async handleStateChange(): Promise<void> {

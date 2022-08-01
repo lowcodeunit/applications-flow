@@ -21,7 +21,7 @@
         <ng-container *ngIf="!LoadingFeed && Feed">
             <lcu-main-feed-card
                 *ngFor="let feedItem of Feed"
-                [active-environemnt]="ActiveEnvironment"
+                [active-environment]="ActiveEnvironment"
                 [active-environment-lookup]="ActiveEnvironmentLookup"
                 [environment]="Environment"
                 [feed-item]="feedItem"

@@ -18,45 +18,52 @@ import {
     styleUrls: ['./dev-ops.component.scss'],
 })
 export class DevOpsComponent implements OnInit {
-    public get ActiveEnvironmentLookup(): string {
+    private get ActiveEnvironmentLookup(): string {
         //  TODO:  Eventually support multiple environments
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
         return envLookups[0];
     }
 
-    public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
+    private get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
         return this.Environment?.DevOpsActions || {};
     }
 
-    public get DevOpsActionLookups(): Array<string> {
-        return Object.keys(this.DevOpsActions || {});
-    }
-
-    public get Environment(): EaCEnvironmentAsCode {
+    private get Environment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[
             this.State?.EaC?.Enterprise?.PrimaryEnvironment
         ];
     }
 
-    public get SourceControlLookups(): Array<string> {
-        return Object.keys(this.SourceControls || {});
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    private get SourceControls(): { [lookup: string]: EaCSourceControl } {
         return this.Environment?.Sources || {};
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
+    public DevOpsActionLookups: Array<string>;
+
+    public ProjectLookups: Array<string>;
+
+    public SourceControlLookups: Array<string>;
+
+    public State: ApplicationsFlowState;
+
     public SkeletonEffect: string;
 
     constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
         this.SkeletonEffect = 'wave';
     }
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+
+            this.DevOpsActionLookups = Object.keys(this.DevOpsActions || {});
+
+            this.SourceControlLookups = Object.keys(this.SourceControls || {});
+
+            this.ProjectLookups = Object.keys(this.State?.EaC?.Projects || {});
+        });
+    }
 
     public OpenBuildPipelineDialog(doaLookup: string, doaName: string = '') {
         const dialogRef = this.dialog.open(BuildPipelineDialogComponent, {
