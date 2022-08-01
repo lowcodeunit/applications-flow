@@ -2,60 +2,63 @@
     [project-lookups]="ProjectLookups"
 ></lcu-dashboard-toolbar>
 
-<p class="card-description" *ngIf="!State?.Loading">
-    Application file modifiers allow you to add third party software libraries
-    at runtime, support pre-rendering workflows for your dynamic content and
-    single page applications (SPAs). They can also support different types of
-    content manipulation, such as minification, compression and content
-    inlining. Fathym automatically sets up LCU Reg and HTML Base modifiers.
-</p>
+<div class="mods-container">
+    <p class="card-description" *ngIf="!State?.Loading">
+        Application file modifiers allow you to add third party software
+        libraries at runtime, support pre-rendering workflows for your dynamic
+        content and single page applications (SPAs). They can also support
+        different types of content manipulation, such as minification,
+        compression and content inlining. Fathym automatically sets up LCU Reg
+        and HTML Base modifiers.
+    </p>
 
-<p
-    class="card-description"
-    *ngIf="State?.Loading"
-    skeleton-text
-    [effect]="SkeletonEffect"
->
-    Application file modifiers allow you to add third party software libraries
-    at runtime, support pre-rendering workflows for your dynamic content and
-    single page applications (SPAs). They can also support different types of
-    content manipulation, such as minification, compression and content
-    inlining. Fathym automatically sets up LCU Reg and HTML Base modifiers.
-</p>
+    <p
+        class="card-description"
+        *ngIf="State?.Loading"
+        skeleton-text
+        [effect]="SkeletonEffect"
+    >
+        Application file modifiers allow you to add third party software
+        libraries at runtime, support pre-rendering workflows for your dynamic
+        content and single page applications (SPAs). They can also support
+        different types of content manipulation, such as minification,
+        compression and content inlining. Fathym automatically sets up LCU Reg
+        and HTML Base modifiers.
+    </p>
 
-<lcu-slotted-card-lg
-    class="fit-content"
-    *ngIf="ModifierLookups?.length > 0"
-    card-title="Modifier"
-    icon="sync_alt"
-    [loading]="State?.Loading"
-    [main-slot-description]="
-        ModifierLookups?.length + ' Modifier(s) configured'
-    "
-    (main-action-clicked)="OpenModifierDialog(null, null)"
->
-    <div>
-        <div
-            class="main-slot-container"
-            fxLayout="row"
-            *ngFor="let mdfrLookup of ModifierLookups"
-        >
+    <lcu-slotted-card-lg
+        class="fit-content"
+        *ngIf="ModifierLookups?.length > 0"
+        card-title="Modifier"
+        icon="sync_alt"
+        [loading]="State?.Loading"
+        [main-slot-description]="
+            ModifierLookups?.length + ' Modifier(s) configured'
+        "
+        (main-action-clicked)="OpenModifierDialog(null, null)"
+    >
+        <div>
             <div
-                class="slot-content"
-                *ngIf="State?.EaC?.Modifiers[mdfrLookup]; let mdfr"
+                class="main-slot-container"
                 fxLayout="row"
-                fxLayoutAlign="space-between center"
+                *ngFor="let mdfrLookup of ModifierLookups"
             >
-                <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
-                <div class="slot-header-container">
-                    <div
-                        class="slot-header"
-                        fxLayout="row"
-                        (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
-                    >
-                        <!-- this icon is a temp placeholder -->
-                        <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
-                        <!-- <div
+                <div
+                    class="slot-content"
+                    *ngIf="State?.EaC?.Modifiers[mdfrLookup]; let mdfr"
+                    fxLayout="row"
+                    fxLayoutAlign="space-between center"
+                >
+                    <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                    <div class="slot-header-container">
+                        <div
+                            class="slot-header"
+                            fxLayout="row"
+                            (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
+                        >
+                            <!-- this icon is a temp placeholder -->
+                            <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                            <!-- <div
                             *ngIf="mdfr?.Name?.length > 28"
                             class="slot-name"
                         >
@@ -64,20 +67,20 @@
                                 mdfr?.Name?.length < 28 ||
                                 mdfr?.Name?.length == 28
                             "-->
-                        <div class="slot-name">
-                            {{ mdfr?.Name }}
+                            <div class="slot-name">
+                                {{ mdfr?.Name }}
+                            </div>
                         </div>
+
+                        <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
                     </div>
 
-                    <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
-                </div>
-
-                <div
-                    class="slot-actions-container"
-                    fxLayout="row"
-                    fxLayoutAlign="space-around center"
-                >
-                    <!-- <button
+                    <div
+                        class="slot-actions-container"
+                        fxLayout="row"
+                        fxLayoutAlign="space-around center"
+                    >
+                        <!-- <button
         mat-icon-button
         color="warn"
         (click)="DeletModifier(mdfrLookup, mdfr?.Name)"
@@ -86,24 +89,24 @@
           delete_forever
         </mat-icon>
       </button> -->
-                    <a
-                        class="slot-action-anchor"
-                        (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
-                    >
-                        <mat-icon
-                            class="action-icon"
-                            matTooltip="Edit {{ mdfr?.Name }}"
-                            >edit</mat-icon
+                        <a
+                            class="slot-action-anchor"
+                            (click)="OpenModifierDialog(mdfrLookup, mdfr?.Name)"
                         >
-                    </a>
-                    <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                            <mat-icon
+                                class="action-icon"
+                                matTooltip="Edit {{ mdfr?.Name }}"
+                                >edit</mat-icon
+                            >
+                        </a>
+                        <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
                 <mat-icon class="action-icon">launch</mat-icon>
             </a> -->
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <!-- <button
+            <!-- <button
             mat-raised-button
             class="mat-full-width"
             (click)="ToggleSlices('Modifiers')"
@@ -122,5 +125,6 @@
                 }}
             </mat-icon>
         </button> -->
-    </div>
-</lcu-slotted-card-lg>
+        </div>
+    </lcu-slotted-card-lg>
+</div>

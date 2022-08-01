@@ -1,15 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
     ApplicationsFlowState,
     EaCService,
-    ApplicationsFlowService,
-    NewApplicationDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
-import { LazyElementConfig, LazyElementToken } from '@lowcodeunit/lazy-element';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { LazyElementConfig } from '@lowcodeunit/lazy-element';
 
 @Component({
     selector: 'lcu-iot',
@@ -48,7 +43,7 @@ export class IoTComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
 
             this.Loading =

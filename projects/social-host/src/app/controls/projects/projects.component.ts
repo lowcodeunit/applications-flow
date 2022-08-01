@@ -96,6 +96,84 @@ export class ProjectsComponent implements OnInit {
     //     );
     // }
 
+    protected get BuildRoutedApplications(): {
+        [route: string]: { [lookup: string]: EaCApplicationAsCode };
+    } {
+        const appLookups = Object.keys(this.Applications);
+
+        const apps = appLookups.map(
+            (appLookup) => this.Applications[appLookup]
+        );
+
+        let appRoutes =
+            apps.map((app) => {
+                // console.log("App from projects: ", app);
+                return app?.LookupConfig?.PathRegex.replace('.*', '');
+            }) || [];
+
+        appRoutes = appRoutes.filter((ar) => ar != null);
+
+        let routeBases: string[] = [];
+
+        appRoutes.forEach((appRoute) => {
+            const appRouteParts = appRoute.split('/');
+
+            const appRouteBase = `/${appRouteParts[1]}`;
+
+            if (routeBases.indexOf(appRouteBase) < 0) {
+                routeBases.push(appRouteBase);
+            }
+        });
+
+        let workingAppLookups = [...(appLookups || [])];
+
+        routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+        const routeSet =
+            routeBases.reduce((prevRouteMap, currentRouteBase) => {
+                const routeMap = {
+                    ...prevRouteMap,
+                };
+
+                const filteredAppLookups = workingAppLookups.filter((wal) => {
+                    const wa = this.Applications[wal];
+
+                    return wa?.LookupConfig?.PathRegex.startsWith(
+                        currentRouteBase
+                    );
+                });
+
+                routeMap[currentRouteBase] =
+                    filteredAppLookups.reduce((prevAppMap, appLookup) => {
+                        const appMap: any = {
+                            ...prevAppMap,
+                        };
+
+                        appMap[appLookup] = this.Applications[appLookup];
+
+                        return appMap;
+                    }, {}) || {};
+
+                workingAppLookups = workingAppLookups.filter((wa) => {
+                    return filteredAppLookups.indexOf(wa) < 0;
+                });
+
+                return routeMap;
+            }, {}) || {};
+
+        let routeSetKeys = Object.keys(routeSet);
+
+        routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+        const routeSetResult = {};
+
+        routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+        // console.log("App Routes: ",routeSetResult)
+
+        return routeSetResult;
+    }
+
     public ActiveEnvironmentLookup: string;
 
     public ApplicationLookups: Array<string>;
@@ -165,7 +243,7 @@ export class ProjectsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
 
             //  TODO:  Eventually support multiple environments
@@ -186,13 +264,11 @@ export class ProjectsComponent implements OnInit {
             });
             this.Applications = apps;
 
-            this.RoutedApplications = this.eacSvc.GenerateRoutedApplications(
-                this.Applications
-            );
-
             this.ProjectLookups = Object.keys(this.State?.EaC?.Projects || {});
 
             this.Projects = this.State?.EaC?.Projects || {};
+
+            this.RoutedApplications = this.BuildRoutedApplications;
 
             this.ApplicationRoutes = Object.keys(this.RoutedApplications || {});
 
@@ -221,7 +297,7 @@ export class ProjectsComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The domains dialog was closed');
             // console.log("result:", result)
         });
@@ -251,7 +327,7 @@ export class ProjectsComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result.event)
         });
@@ -266,7 +342,7 @@ export class ProjectsComponent implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result)
         });

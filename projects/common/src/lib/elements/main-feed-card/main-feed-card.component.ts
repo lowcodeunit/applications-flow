@@ -73,13 +73,13 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     public ngOnChanges() {
-        if (this.FeedItem.Status.Code === 0) {
+        if (this.FeedItem?.Status?.Code === 0) {
             this.Icon = 'check_circle';
             this.IconColor = 'green';
-        } else if (this.FeedItem.Status.Code === 1) {
+        } else if (this.FeedItem?.Status?.Code === 1) {
             this.Icon = 'cancel';
             this.IconColor = 'red';
-        } else if (this.FeedItem.Status.Code === 2) {
+        } else if (this.FeedItem?.Status?.Code === 2) {
             this.Icon = 'sync';
             this.IconColor = 'blue';
         } else {
@@ -124,7 +124,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result)
         });
@@ -161,7 +161,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
                             console.log(response);
                         }
                     },
-                    (err) => {
+                    (err: any) => {
                         console.log(err);
                     }
                 );

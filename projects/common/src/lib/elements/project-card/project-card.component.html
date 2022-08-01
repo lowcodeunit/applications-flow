@@ -1,9 +1,9 @@
 <!-- TREE -->
-<button mat-button (click)="BuildTree()">BUILD TREE</button>
 <!-- <ng-container *ngIf="ProjectLookups?BuildTree():false"></ng-container> -->
 <lcu-slotted-card-lg
     *ngIf="ProjectLookups?.length > 0"
     class="fit-content"
+    [loading]="Loading"
     card-title="Project"
     icon="work_outline"
     [main-slot-description]="ProjectLookups?.length + ' project(s) configured'"
@@ -139,7 +139,7 @@
 </lcu-slotted-card-lg>
 
 <!-- Original -->
-<lcu-slotted-card-lg
+<!-- <lcu-slotted-card-lg
     *ngIf="ProjectLookups?.length > 0"
     class="fit-content"
     card-title="Project"
@@ -213,25 +213,6 @@
             </div>
         </div>
 
-        <!-- <button
-                    mat-raised-button
-                    class="mat-full-width"
-                    (click)="ToggleSlices('Projects')"
-                    *ngIf="ProjectLookups?.length > 5"
-                >
-                    {{
-                        Slices.Projects == ProjectLookups?.length
-                            ? "Show Less"
-                            : "Show More"
-                    }}
-
-                    <mat-icon>
-                        {{
-                            Slices.Projects == ProjectLookups?.length
-                                ? "expand_less"
-                                : "expand_more"
-                        }}
-                    </mat-icon>
-                </button> -->
+        
     </div>
-</lcu-slotted-card-lg>
+</lcu-slotted-card-lg> -->

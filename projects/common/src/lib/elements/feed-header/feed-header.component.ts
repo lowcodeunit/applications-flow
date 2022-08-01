@@ -1,5 +1,4 @@
-import { Input } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FeedHeaderDialogComponent } from '../../dialogs/feed-header-dialog/feed-header-dialog.component';
 import { NewApplicationDialogComponent } from '../../dialogs/new-application-dialog/new-application-dialog.component';
@@ -67,6 +66,10 @@ export class FeedHeaderComponent implements OnInit {
     }
 
     public ngOnInit(): void {}
+
+    public ngOnChanges() {
+        console.log('feed header actions: ', this.FeedHeaderActions);
+    }
 
     public ngAfterViewInit() {
         this.addSelectBtn();

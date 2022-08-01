@@ -128,10 +128,10 @@ export class AppComponent implements OnDestroy, OnInit {
                 }
             });
 
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
-            this.handleStateChange().then((eac) => {});
         });
+        this.handleStateChange().then((eac) => {});
     }
 
     protected async handleStateChange(): Promise<void> {

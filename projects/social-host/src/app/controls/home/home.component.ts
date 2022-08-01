@@ -94,13 +94,16 @@ export class HomeComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
+            console.log('State home:', this.State);
 
             this.Loading =
                 this.State?.LoadingActiveEnterprise ||
                 this.State?.LoadingEnterprises ||
                 this.State?.Loading;
+
+            console.log('loading = ', this.Loading);
 
             this.ProjectLookups = Object.keys(
                 this.State?.EaC?.Projects || {}

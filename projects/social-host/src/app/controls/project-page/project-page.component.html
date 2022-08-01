@@ -2,13 +2,15 @@
     [project-lookups]="ProjectLookups"
 ></lcu-dashboard-toolbar>
 
-<lcu-project-card
-    [applications-bank]="State?.EaC?.Applications"
-    [loading]="State?.Loading"
-    [project-lookups]="ProjectLookups"
-    [projects]="State?.EaC?.Projects"
-></lcu-project-card>
+<div class="projects-container">
+    <lcu-project-card
+        [applications-bank]="State?.EaC?.Applications"
+        [loading]="State?.Loading"
+        [project-lookups]="ProjectLookups"
+        [projects]="State?.EaC?.Projects"
+    ></lcu-project-card>
 
-<lcu-project-wizard-card
-    *ngIf="ProjectLookups?.length <= 0"
-></lcu-project-wizard-card>
+    <lcu-project-wizard-card
+        *ngIf="ProjectLookups?.length <= 0"
+    ></lcu-project-wizard-card>
+</div>

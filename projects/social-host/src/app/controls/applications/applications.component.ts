@@ -60,6 +60,84 @@ export class ApplicationsComponent implements OnInit {
         return this.ModifierLookups?.length;
     }
 
+    protected get BuildRoutedApplications(): {
+        [route: string]: { [lookup: string]: EaCApplicationAsCode };
+    } {
+        const appLookups = Object.keys(this.Applications);
+
+        const apps = appLookups.map(
+            (appLookup) => this.Applications[appLookup]
+        );
+
+        let appRoutes =
+            apps.map((app) => {
+                // console.log("App from projects: ", app);
+                return app?.LookupConfig?.PathRegex.replace('.*', '');
+            }) || [];
+
+        appRoutes = appRoutes.filter((ar) => ar != null);
+
+        let routeBases: string[] = [];
+
+        appRoutes.forEach((appRoute) => {
+            const appRouteParts = appRoute.split('/');
+
+            const appRouteBase = `/${appRouteParts[1]}`;
+
+            if (routeBases.indexOf(appRouteBase) < 0) {
+                routeBases.push(appRouteBase);
+            }
+        });
+
+        let workingAppLookups = [...(appLookups || [])];
+
+        routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+        const routeSet =
+            routeBases.reduce((prevRouteMap, currentRouteBase) => {
+                const routeMap = {
+                    ...prevRouteMap,
+                };
+
+                const filteredAppLookups = workingAppLookups.filter((wal) => {
+                    const wa = this.Applications[wal];
+
+                    return wa?.LookupConfig?.PathRegex.startsWith(
+                        currentRouteBase
+                    );
+                });
+
+                routeMap[currentRouteBase] =
+                    filteredAppLookups.reduce((prevAppMap, appLookup) => {
+                        const appMap: any = {
+                            ...prevAppMap,
+                        };
+
+                        appMap[appLookup] = this.Applications[appLookup];
+
+                        return appMap;
+                    }, {}) || {};
+
+                workingAppLookups = workingAppLookups.filter((wa) => {
+                    return filteredAppLookups.indexOf(wa) < 0;
+                });
+
+                return routeMap;
+            }, {}) || {};
+
+        let routeSetKeys = Object.keys(routeSet);
+
+        routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+        const routeSetResult = {};
+
+        routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+        // console.log("App Routes: ",routeSetResult)
+
+        return routeSetResult;
+    }
+
     private get StateConfig(): EaCDataToken {
         if (this.Project?.DataTokens['lcu-state-config']) {
             return this.Project?.DataTokens['lcu-state-config'];
@@ -87,6 +165,10 @@ export class ApplicationsComponent implements OnInit {
     public ActiveEnvironmentLookup: string;
 
     public Application: EaCApplicationAsCode;
+
+    public Applications: {
+        [lookup: string]: EaCApplicationAsCode;
+    };
 
     public ApplicationLookup: string;
 
@@ -157,7 +239,7 @@ export class ApplicationsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
 
             this.Loading =
@@ -173,8 +255,9 @@ export class ApplicationsComponent implements OnInit {
                 apps[appLookup] = this.State?.EaC?.Applications[appLookup];
             });
 
-            this.RoutedApplications =
-                this.eacSvc.GenerateRoutedApplications(apps);
+            this.Applications = apps;
+
+            this.RoutedApplications = this.BuildRoutedApplications;
 
             this.Application =
                 this.State?.EaC?.Applications[this.ApplicationLookup] || {};
@@ -209,11 +292,13 @@ export class ApplicationsComponent implements OnInit {
     //  API Methods
 
     public DeleteApplication(appLookup: string, appName: string): void {
-        this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
-            // if(status.Code === 0){
-            this.router.navigate(['/project', this.ProjectLookup]);
-            // }
-        });
+        this.eacSvc
+            .DeleteApplication(appLookup, appName)
+            .then((status: any) => {
+                // if(status.Code === 0){
+                this.router.navigate(['/project', this.ProjectLookup]);
+                // }
+            });
     }
 
     public HandleLeftClickEvent(event: any) {

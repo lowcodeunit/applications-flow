@@ -44,7 +44,7 @@ export class ProjectCardComponent implements OnInit {
     } {
         const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-        this.Project.ApplicationLookups?.forEach((appLookup: string) => {
+        this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
             apps[appLookup] = this.ApplicationsBank[appLookup];
         });
         return apps;
@@ -58,83 +58,87 @@ export class ProjectCardComponent implements OnInit {
         return Object.keys(this.RoutedApplications[this.AppRoute] || {});
     }
 
-    // public get DataTree():Array<TreeNode>{
-    //   let tempTreeData: Array<TreeNode>= []
-    //     this.ProjectLookups?.forEach((pLookup: string) => {
-    //         let tempProj = this.Projects[pLookup];
-    //         this.Project = tempProj;
-    //         let tempProjNode: TreeNode = {
-    //             name: tempProj.Project.Name,
-    //             description: tempProj.Project.Description,
-    //             lookup: pLookup,
-    //             url: 'https://' + tempProj.Hosts[tempProj?.Hosts?.length - 1],
-    //             routerLink: "['/project'/" + pLookup + ']',
-    //         };
+    protected get RoutedApplications(): {
+        [route: string]: { [lookup: string]: EaCApplicationAsCode };
+    } {
+        const appLookups = Object.keys(this.Applications);
 
-    //         let tempRoutes = this.ApplicationRoutes;
-    //         console.log('temp Routes: ', tempRoutes);
+        const apps = appLookups.map(
+            (appLookup) => this.Applications[appLookup]
+        );
 
-    //         if (tempRoutes) {
-    //             let tempProjChildren: Array<TreeNode> = [];
-    //             tempRoutes.forEach((appRoute: string) => {
-    //                 this.AppRoute = appRoute;
-    //                 console.log("approute = ", this.AppRoute)
+        let appRoutes =
+            apps.map((app) => {
+                // console.log("App from projects: ", app);
+                return app?.LookupConfig?.PathRegex.replace('.*', '');
+            }) || [];
 
-    //                 let tempRouteNode: TreeNode = {
-    //                     name: this.AppRoute,
-    //                     url:
-    //                         'https://' +
-    //                         tempProj?.Hosts[tempProj?.Hosts?.length - 1] + "/" +
-    //                         appRoute,
-    //                     routerLink:
-    //                         "['/route'/" + this.AppRoute + '/' + pLookup + ']',
-    //                 };
-    //                 let tempApps = this.CurrentRouteApplicationLookups;
-    //                 console.log("temp apps: ", tempApps);
-    //                 if (tempApps) {
-    //                     let tempRouteChildren: Array<TreeNode> = [];
-    //                     tempApps.forEach((appLookup: string) => {
-    //                         let tempApp =
-    //                             this.RoutedApplications[this.AppRoute][appLookup];
-    //                         console.log('tempApp: ', tempApp);
-    //                         let tempAppNode: TreeNode = {
-    //                             lookup: appLookup,
-    //                             name: tempApp.Application.Name,
-    //                             url:
-    //                                 'https://' +
-    //                                 tempProj?.Hosts[
-    //                                     tempProj?.Hosts?.length - 1
-    //                                 ],
-    //                             description: tempApp.Application.Description,
-    //                             routerLink:
-    //                                 "['/application/'" +
-    //                                 appLookup +
-    //                                 '/' +
-    //                                 this.AppRoute +
-    //                                 '/' +
-    //                                 pLookup +
-    //                                 ']',
-    //                         };
-    //                         console.log('temp App Node: ', tempAppNode);
-    //                         tempRouteChildren.push(tempAppNode);
-    //                     });
-    //                     tempRouteNode.children = tempRouteChildren;
-    //                 }
-    //                 tempProjChildren.push(tempRouteNode);
-    //             });
-    //             tempProjNode.children = tempProjChildren;
-    //         }
-    //         tempTreeData.push(tempProjNode);
-    //     });
-    //     console.log('THE TREE: ', tempTreeData);
-    //     this.DataSource.data = tempTreeData;
+        appRoutes = appRoutes.filter((ar) => ar != null);
 
-    //     return tempTreeData;
-    // }
+        let routeBases: string[] = [];
+
+        appRoutes.forEach((appRoute) => {
+            const appRouteParts = appRoute.split('/');
+
+            const appRouteBase = `/${appRouteParts[1]}`;
+
+            if (routeBases.indexOf(appRouteBase) < 0) {
+                routeBases.push(appRouteBase);
+            }
+        });
+
+        let workingAppLookups = [...(appLookups || [])];
+
+        routeBases = routeBases.sort((a, b) => b.localeCompare(a));
+
+        const routeSet =
+            routeBases.reduce((prevRouteMap, currentRouteBase) => {
+                const routeMap = {
+                    ...prevRouteMap,
+                };
+
+                const filteredAppLookups = workingAppLookups.filter((wal) => {
+                    const wa = this.Applications[wal];
+
+                    return wa?.LookupConfig?.PathRegex.startsWith(
+                        currentRouteBase
+                    );
+                });
+
+                routeMap[currentRouteBase] =
+                    filteredAppLookups.reduce((prevAppMap, appLookup) => {
+                        const appMap: any = {
+                            ...prevAppMap,
+                        };
+
+                        appMap[appLookup] = this.Applications[appLookup];
+
+                        return appMap;
+                    }, {}) || {};
+
+                workingAppLookups = workingAppLookups.filter((wa) => {
+                    return filteredAppLookups.indexOf(wa) < 0;
+                });
+
+                return routeMap;
+            }, {}) || {};
+
+        let routeSetKeys = Object.keys(routeSet);
+
+        routeSetKeys = routeSetKeys.sort((a, b) => a.localeCompare(b));
+
+        const routeSetResult = {};
+
+        routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
+
+        // console.log("App Routes: ",routeSetResult)
+
+        return routeSetResult;
+    }
 
     treeControl = new FlatTreeControl<FlatNode>(
-        (node) => node.level,
-        (node) => node.expandable
+        (node: any) => node.level,
+        (node: any) => node.expandable
     );
 
     treeFlattener = new MatTreeFlattener(
@@ -153,7 +157,7 @@ export class ProjectCardComponent implements OnInit {
 
     public AppRoute: string;
 
-    public RoutedApplications: any;
+    // public RoutedApplications: any;
 
     constructor(
         protected eacSvc: EaCService,
@@ -165,11 +169,11 @@ export class ProjectCardComponent implements OnInit {
     public ngOnInit(): void {}
 
     public ngOnChanges() {
-        if (this.Applications) {
-            this.RoutedApplications = this.eacSvc.GenerateRoutedApplications(
-                this.Applications
-            );
-        }
+        // if (this.Applications) {
+        //     this.RoutedApplications = this.eacSvc.GenerateRoutedApplications(
+        //         this.Applications
+        //     );
+        // }
 
         if (this.Projects && this.ProjectLookups && this.Applications) {
             this.BuildTree();
@@ -190,17 +194,17 @@ export class ProjectCardComponent implements OnInit {
                 description: tempProj.Project.Description,
                 lookup: pLookup,
                 url: 'https://' + tempProj.Hosts[tempProj?.Hosts?.length - 1],
-                routerLink: "['/project'/" + pLookup + ']',
+                routerLink: '/project/' + pLookup,
             };
 
             let tempRoutes = this.ApplicationRoutes;
-            console.log('temp Routes: ', tempRoutes);
+            // console.log('temp Routes: ', tempRoutes);
 
             if (tempRoutes) {
                 let tempProjChildren: Array<TreeNode> = [];
                 tempRoutes.forEach((appRoute: string) => {
                     this.AppRoute = appRoute;
-                    console.log('approute = ', this.AppRoute);
+                    // console.log('approute = ', this.AppRoute);
 
                     let tempRouteNode: TreeNode = {
                         name: this.AppRoute,
@@ -209,11 +213,10 @@ export class ProjectCardComponent implements OnInit {
                             tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
                             '/' +
                             appRoute,
-                        routerLink:
-                            "['/route'/" + this.AppRoute + '/' + pLookup + ']',
+                        routerLink: '/route/' + this.AppRoute + '/' + pLookup,
                     };
                     let tempApps = this.CurrentRouteApplicationLookups;
-                    console.log('temp apps: ', tempApps);
+                    // console.log('temp apps: ', tempApps);
                     if (tempApps) {
                         let tempRouteChildren: Array<TreeNode> = [];
                         tempApps.forEach((appLookup: string) => {
@@ -221,7 +224,7 @@ export class ProjectCardComponent implements OnInit {
                                 this.RoutedApplications[this.AppRoute][
                                     appLookup
                                 ];
-                            console.log('tempApp: ', tempApp);
+                            // console.log('tempApp: ', tempApp);
                             let tempAppNode: TreeNode = {
                                 lookup: appLookup,
                                 name: tempApp.Application.Name,
@@ -232,15 +235,14 @@ export class ProjectCardComponent implements OnInit {
                                     ],
                                 description: tempApp.Application.Description,
                                 routerLink:
-                                    "['/application/'" +
+                                    '/application/' +
                                     appLookup +
                                     '/' +
                                     this.AppRoute +
                                     '/' +
-                                    pLookup +
-                                    ']',
+                                    pLookup,
                             };
-                            console.log('temp App Node: ', tempAppNode);
+                            // console.log('temp App Node: ', tempAppNode);
                             tempRouteChildren.push(tempAppNode);
                         });
                         tempRouteNode.children = tempRouteChildren;
