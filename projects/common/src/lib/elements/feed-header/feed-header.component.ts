@@ -68,7 +68,7 @@ export class FeedHeaderComponent implements OnInit {
     public ngOnInit(): void {}
 
     public ngOnChanges() {
-        console.log('feed header actions: ', this.FeedHeaderActions);
+        // console.log('feed header actions: ', this.FeedHeaderActions);
     }
 
     public ngAfterViewInit() {

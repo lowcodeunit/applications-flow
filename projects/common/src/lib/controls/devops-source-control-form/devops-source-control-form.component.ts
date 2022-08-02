@@ -90,35 +90,35 @@ export class DevopsSourceControlFormComponent
     //  Properties
 
     public get BranchesFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'branches'
         );
     }
 
     public get BuildPathFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'buildPath'
         );
     }
 
     public get DevOpsActionLookupFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get('devOpsActionLookup');
+        return this.DevOpsSourceControlFormGroup?.get('devOpsActionLookup');
     }
 
     public get MainBranchFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'mainBranch'
         );
     }
 
     public get OrganizationFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'organization'
         );
     }
 
     public get RepositoryFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'repository'
         );
     }
@@ -224,8 +224,8 @@ export class DevopsSourceControlFormComponent
                 }
             }
 
-            if (this.DevOpsAction.ArtifactLookups) {
-                this.ArtifactLookups = this.DevOpsAction.ArtifactLookups;
+            if (this.DevOpsAction?.ArtifactLookups) {
+                this.ArtifactLookups = this.DevOpsAction?.ArtifactLookups;
 
                 this.ArtifactLookup = this.DevOpsAction?.ArtifactLookups[0];
             }
@@ -234,13 +234,15 @@ export class DevopsSourceControlFormComponent
             this.DevOpsActionLookups = Object.keys(this.DevOpsActions || {});
         }
 
+        console.log('devopsAction lookups: ', this.DevOpsActionLookups);
+
         if (this.Environment?.Sources && this.EditingSourceControlLookup) {
             this.EditingSourceControl =
                 this.Environment?.Sources[this.EditingSourceControlLookup];
         }
 
         if (!!this.DevOpsActionLookupFormControl?.value) {
-            this.DevOpsActionLookup = this.DevOpsActionLookupFormControl.value;
+            this.DevOpsActionLookup = this.DevOpsActionLookupFormControl?.value;
         }
 
         if (!!this.EditingSourceControl?.DevOpsActionTriggerLookups) {
@@ -249,6 +251,7 @@ export class DevopsSourceControlFormComponent
         } else {
             this.DevOpsActionLookup = null;
         }
+        console.log('devops action lookup = ', this.DevOpsActionLookup);
     }
 
     //  API Methods
@@ -608,7 +611,7 @@ export class DevopsSourceControlFormComponent
 
                     this.configureDevOpsAction();
                 },
-                (err) => {
+                (err: any) => {
                     this.HostingDetails.Loading = false;
                 }
             );

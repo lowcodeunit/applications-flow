@@ -3,7 +3,7 @@ export class TreeNode {
     name: string;
     url: string;
     lookup?: string;
-    routerLink: string;
+    routerLink: any;
     children?: TreeNode[];
 }
 

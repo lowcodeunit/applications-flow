@@ -177,17 +177,12 @@ export class FeedHeaderDialogComponent implements OnInit {
         this.Slices = {
             Sources: this.SlicesCount,
         };
-
-        if (this.SourceControlLookups.length === 1) {
-            this.SourceControl =
-                this.Environment?.Sources[this.SourceControlLookups[0]];
-        }
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
-            this.SourceControlLookups = this.State.FeedSourceControlLookups
+            this.SourceControlLookups = this.State?.FeedSourceControlLookups
                 ? this.State.FeedSourceControlLookups
                 : Object.keys(this.SourceControls || {});
             if (
@@ -202,6 +197,11 @@ export class FeedHeaderDialogComponent implements OnInit {
 
             if (this.Environment) {
                 this.SourceControls = this.Environment?.Sources;
+            }
+
+            if (this.SourceControlLookups?.length === 1) {
+                this.SourceControl =
+                    this.Environment?.Sources[this.SourceControlLookups[0]];
             }
         });
         this.setupFeedHeaderForm();

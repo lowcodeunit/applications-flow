@@ -40,7 +40,7 @@ export class SourceControlDialogComponent implements OnInit {
     ) {}
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
         });
     }

@@ -184,7 +184,7 @@ export class ProjectCardComponent implements OnInit {
         window.location.href = path;
     }
 
-    public BuildTree(): Array<TreeNode> {
+    public BuildTree() {
         let tempTreeData: Array<TreeNode> = [];
         this.ProjectLookups?.forEach((pLookup: string) => {
             let tempProj = this.Projects[pLookup];
@@ -194,17 +194,15 @@ export class ProjectCardComponent implements OnInit {
                 description: tempProj.Project.Description,
                 lookup: pLookup,
                 url: 'https://' + tempProj.Hosts[tempProj?.Hosts?.length - 1],
-                routerLink: '/project/' + pLookup,
+                routerLink: ['/project', pLookup],
             };
 
             let tempRoutes = this.ApplicationRoutes;
-            // console.log('temp Routes: ', tempRoutes);
 
             if (tempRoutes) {
                 let tempProjChildren: Array<TreeNode> = [];
                 tempRoutes.forEach((appRoute: string) => {
                     this.AppRoute = appRoute;
-                    // console.log('approute = ', this.AppRoute);
 
                     let tempRouteNode: TreeNode = {
                         name: this.AppRoute,
@@ -213,10 +211,10 @@ export class ProjectCardComponent implements OnInit {
                             tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
                             '/' +
                             appRoute,
-                        routerLink: '/route/' + this.AppRoute + '/' + pLookup,
+                        routerLink: ['/route', this.AppRoute, pLookup],
                     };
+
                     let tempApps = this.CurrentRouteApplicationLookups;
-                    // console.log('temp apps: ', tempApps);
                     if (tempApps) {
                         let tempRouteChildren: Array<TreeNode> = [];
                         tempApps.forEach((appLookup: string) => {
@@ -224,7 +222,6 @@ export class ProjectCardComponent implements OnInit {
                                 this.RoutedApplications[this.AppRoute][
                                     appLookup
                                 ];
-                            // console.log('tempApp: ', tempApp);
                             let tempAppNode: TreeNode = {
                                 lookup: appLookup,
                                 name: tempApp.Application.Name,
@@ -234,15 +231,13 @@ export class ProjectCardComponent implements OnInit {
                                         tempProj?.Hosts?.length - 1
                                     ],
                                 description: tempApp.Application.Description,
-                                routerLink:
-                                    '/application/' +
-                                    appLookup +
-                                    '/' +
-                                    this.AppRoute +
-                                    '/' +
+                                routerLink: [
+                                    '/application',
+                                    appLookup,
+                                    this.AppRoute,
                                     pLookup,
+                                ],
                             };
-                            // console.log('temp App Node: ', tempAppNode);
                             tempRouteChildren.push(tempAppNode);
                         });
                         tempRouteNode.children = tempRouteChildren;
@@ -253,10 +248,10 @@ export class ProjectCardComponent implements OnInit {
             }
             tempTreeData.push(tempProjNode);
         });
-        console.log('THE TREE: ', tempTreeData);
+        // console.log('THE TREE: ', tempTreeData);
         this.DataSource.data = tempTreeData;
 
-        return tempTreeData;
+        // return tempTreeData;
     }
 
     public HandleRoute(route: string) {

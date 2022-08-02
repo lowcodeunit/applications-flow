@@ -142,6 +142,9 @@ export class RoutesComponent implements OnInit {
     ) {
         this.activatedRoute.params.subscribe((params: any) => {
             this.AppRoute = params['appRoute'];
+            // if(this.AppRoute.charAt(0) !== '/'){
+            //     this.AppRoute = '/'+this.AppRoute;
+            // }
             this.ProjectLookup = params['projectLookup'];
         });
 
@@ -165,10 +168,13 @@ export class RoutesComponent implements OnInit {
         this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
 
-            //  TODO:  Eventually support multiple environments
-            this.ActiveEnvironmentLookup = Object.keys(
-                this.State?.EaC?.Environments
-            )[0];
+            // console.log("Routes state: ", this.State)
+
+            if (this.State?.EaC?.Environments) {
+                //  TODO:  Eventually support multiple environments
+                const env = Object.keys(this.State?.EaC?.Environments) || {};
+                this.ActiveEnvironmentLookup = env[0];
+            }
 
             if (this.State?.EaC?.Projects) {
                 this.ProjectLookups = Object.keys(
@@ -204,13 +210,16 @@ export class RoutesComponent implements OnInit {
                 this.State?.LoadingEnterprises ||
                 this.State?.Loading;
 
-            this.RoutedApplications = this.BuildRoutedApplications;
+            if (this.Applications) {
+                this.RoutedApplications = this.BuildRoutedApplications;
 
-            this.ApplicationRoutes = Object.keys(this.RoutedApplications);
+                this.ApplicationRoutes =
+                    Object.keys(this.BuildRoutedApplications) || [];
 
-            this.CurrentRouteApplicationLookups = Object.keys(
-                this.BuildRoutedApplications[this.AppRoute]
-            );
+                this.CurrentRouteApplicationLookups =
+                    Object.keys(this.BuildRoutedApplications[this.AppRoute]) ||
+                    [];
+            }
         });
     }
 
@@ -226,7 +235,7 @@ export class RoutesComponent implements OnInit {
         console.log('Right Icon has been selected', event);
         console.log(
             'app:',
-            this.RoutedApplications[this.AppRoute][
+            this.BuildRoutedApplications[this.AppRoute][
                 this.CurrentRouteApplicationLookups[0]
             ]
         );

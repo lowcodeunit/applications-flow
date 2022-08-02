@@ -196,10 +196,14 @@ export class BreadcrumbComponent implements OnInit {
         if (this.RoutedApplications) {
             this.Routes = Object.keys(this.RoutedApplications || {});
 
+            // console.log('routed apps: ', this.RoutedApplications);
+
             if (this.SelectedRoute) {
-                this.CurrentRouteApplicationLookups = Object.keys(
-                    this.RoutedApplications[this.SelectedRoute]
-                );
+                // console.log('selected route: ', this.SelectedRoute)
+
+                this.CurrentRouteApplicationLookups =
+                    Object.keys(this.RoutedApplications[this.SelectedRoute]) ||
+                    [];
             }
         }
 
