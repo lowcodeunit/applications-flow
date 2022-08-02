@@ -28,6 +28,7 @@
         class="action-button"
         mat-raised-button
         fxFlex="25%"
+        fxFlex.lt-md="30%"
         (click)="CloseDialog()"
     >
         Cancel
@@ -38,6 +39,7 @@
         mat-raised-button
         type="submit"
         fxFlex="25%"
+        fxFlex.lt-md="30%"
         color="primary"
         (click)="SaveProject()"
         [disabled]="!ProjectFormGroup?.valid || !ProjectFormGroup?.dirty"
