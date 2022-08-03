@@ -149,7 +149,12 @@
 
 <!-- MOBILE VIEW -->
 
-<div class="breadcrumb-container" fxLayout="row" fxLayoutAlign="start center">
+<div
+    class="breadcrumb-container"
+    *ngIf="IsSmScreen"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+>
     <ng-container *ngIf="Loading">
         <mat-icon skeleton-text [effect]="SkeletonEffect"
             >chevron_left</mat-icon
