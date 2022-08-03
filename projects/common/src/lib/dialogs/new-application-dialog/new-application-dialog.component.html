@@ -37,11 +37,13 @@
     div
     fxLayout="row"
     fxLayoutAlign="end center"
+    fxLayoutAlign.lt-md="center center"
 >
     <button
         class="action-button"
         mat-raised-button
         fxFlex="25%"
+        fxFlex.lt-md="30%"
         (click)="CloseDialog()"
     >
         Cancel
@@ -56,6 +58,7 @@
         mat-raised-button
         color="primary"
         fxFlex="25%"
+        fxFlex.lt-md="60%"
         class="new-app-submit"
         (click)="SaveApplication()"
         [disabled]="

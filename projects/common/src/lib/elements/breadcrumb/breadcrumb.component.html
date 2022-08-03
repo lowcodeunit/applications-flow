@@ -1,4 +1,4 @@
-<div class="breadcrumb-container" fxLayout="row wrap">
+<div class="breadcrumb-container" *ngIf="!IsSmScreen" fxLayout="row wrap">
     <div fxLayout="row" fxLayoutAlign="center center">
         <ng-container *ngIf="Loading">
             <mat-icon skeleton-text [effect]="SkeletonEffect">home</mat-icon>
@@ -145,4 +145,138 @@
             </mat-menu>
         </ng-container>
     </div>
+</div>
+
+<!-- MOBILE VIEW -->
+
+<div class="breadcrumb-container" fxLayout="row" fxLayoutAlign="start center">
+    <ng-container *ngIf="Loading">
+        <mat-icon skeleton-text [effect]="SkeletonEffect"
+            >chevron_left</mat-icon
+        >
+
+        <div skeleton-text [effect]="SkeletonEffect">Current Path</div>
+
+        <mat-icon skeleton-text [effect]="SkeletonEffect">expand_more</mat-icon>
+    </ng-container>
+
+    <ng-container *ngIf="!Loading">
+        <button
+            *ngIf="ReturnRouterLink"
+            mat-icon-button
+            [routerLink]="ReturnRouterLink"
+        >
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <ng-container [ngSwitch]="CurrentLevel">
+            <ng-container *ngSwitchCase="'ent'">
+                <div class="crumb-name" [routerLink]="['/enterprise']">
+                    <!-- <mat-icon>home</mat-icon> -->
+
+                    {{ Enterprise?.Name }}
+                </div>
+
+                <button mat-icon-button [matMenuTriggerFor]="enterpriseMenu">
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+
+                <mat-menu #enterpriseMenu="matMenu" xPosition="before">
+                    <button
+                        mat-menu-item
+                        [routerLink]="['/enterprise']"
+                        (click)="SetActiveEnterprise(ent.Lookup)"
+                        *ngFor="let ent of Enterprises"
+                    >
+                        <span>{{ ent.Name }}</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'project'">
+                <div
+                    class="crumb-name"
+                    [routerLink]="['/project', ProjectLookup]"
+                >
+                    {{ SelectedProject?.Project?.Name }}
+                </div>
+
+                <button mat-icon-button [matMenuTriggerFor]="projectMenu">
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+
+                <mat-menu #projectMenu="matMenu" xPosition="before">
+                    <button
+                        mat-menu-item
+                        *ngFor="let projectLookup of ProjectLookups"
+                        [routerLink]="['/project', projectLookup]"
+                    >
+                        <span *ngIf="Projects[projectLookup]; let pro">{{
+                            pro.Project?.Name
+                        }}</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'route'">
+                <div
+                    class="crumb-name"
+                    [routerLink]="['/route', SelectedRoute, ProjectLookup]"
+                >
+                    {{ SelectedRoute }}
+                </div>
+
+                <button mat-icon-button [matMenuTriggerFor]="routeMenu">
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+
+                <mat-menu #routeMenu="matMenu" xPosition="before">
+                    <button
+                        mat-menu-item
+                        *ngFor="let appRoute of Routes"
+                        [routerLink]="['/route', appRoute, ProjectLookup]"
+                    >
+                        <span *ngIf="appRoute">{{ appRoute }}</span>
+                    </button>
+                </mat-menu>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="'app'">
+                <div
+                    class="crumb-name"
+                    [routerLink]="[
+                        '/application',
+                        ApplicationLookup,
+                        SelectedRoute,
+                        ProjectLookup
+                    ]"
+                >
+                    {{ SelectedApplication?.Application?.Name }}
+                </div>
+                <button mat-icon-button [matMenuTriggerFor]="applicationMenu">
+                    <mat-icon>expand_more</mat-icon>
+                </button>
+
+                <mat-menu #applicationMenu="matMenu" xPosition="before">
+                    <button
+                        mat-menu-item
+                        *ngFor="let appLookup of CurrentRouteApplicationLookups"
+                        [routerLink]="[
+                            '/application',
+                            appLookup,
+                            SelectedRoute,
+                            ProjectLookup
+                        ]"
+                    >
+                        <span
+                            *ngIf="
+                                RoutedApplications[SelectedRoute][appLookup];
+                                let app
+                            "
+                            >{{ app.Application?.Name }}</span
+                        >
+                    </button>
+                </mat-menu>
+            </ng-container>
+        </ng-container>
+    </ng-container>
 </div>
