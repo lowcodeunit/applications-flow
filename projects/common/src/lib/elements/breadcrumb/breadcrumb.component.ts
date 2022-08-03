@@ -43,9 +43,13 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
 
     public BPSub: Subscription;
 
+    public CurrentLevel: string;
+
     public CurrentRouteApplicationLookups: Array<string>;
 
     public IsSmScreen: boolean;
+
+    public ReturnRouterLink: any;
 
     public Routes: Array<string>;
 
@@ -114,6 +118,12 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
                 }
             );
         }
+
+        if (this.IsSmScreen) {
+            this.CurrentLevel = this.determineLastLevel();
+
+            this.ReturnRouterLink = this.determineReturnRouterLink();
+        }
     }
 
     public ngOnDestroy(): void {
@@ -124,17 +134,38 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         this.eacSvc.SetActiveEnterprise(entLookup).then(() => {});
     }
 
-    protected determineLastLevel() {
+    protected determineLastLevel(): string {
         let lastLevel: string;
         if (this.Enterprise) {
             lastLevel = 'ent';
-        } else if (this.ProjectLookup) {
+        }
+        if (this.ProjectLookup) {
             lastLevel = 'project';
-        } else if (this.SelectedRoute) {
+        }
+        if (this.SelectedRoute) {
             lastLevel = 'route';
-        } else if (this.SelectedApplication) {
+        }
+        if (this.SelectedApplication) {
             lastLevel = 'app';
         }
+        return lastLevel;
+    }
+
+    protected determineReturnRouterLink(): any {
+        let rLink;
+        if (this.Enterprise) {
+            rLink = null;
+        }
+        if (this.ProjectLookup) {
+            rLink = ['/enterprise'];
+        }
+        if (this.SelectedRoute) {
+            rLink = ['/project', this.ProjectLookup];
+        }
+        if (this.SelectedApplication) {
+            rLink = ['/route', this.SelectedRoute, this.ProjectLookup];
+        }
+        return rLink;
     }
 
     // protected async handleStateChange(): Promise<void> {}
