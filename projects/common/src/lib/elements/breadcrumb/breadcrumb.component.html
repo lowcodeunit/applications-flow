@@ -1,4 +1,4 @@
-<div class="breadcrumb-container" fxLayout="row wrap">
+<div class="breadcrumb-container" *ngIf="!IsSmScreen" fxLayout="row wrap">
     <div fxLayout="row" fxLayoutAlign="center center">
         <ng-container *ngIf="Loading">
             <mat-icon skeleton-text [effect]="SkeletonEffect">home</mat-icon>
@@ -145,4 +145,14 @@
             </mat-menu>
         </ng-container>
     </div>
+</div>
+
+<div class="breadcrumb-container">
+    <ng-container *ngIf="Loading">
+        <mat-icon skeleton-text [effect]="SkeletonEffect"
+            >chevron_left</mat-icon
+        >
+
+        <div skeleton-text [effect]="SkeletonEffect">Current Path</div>
+    </ng-container>
 </div>
