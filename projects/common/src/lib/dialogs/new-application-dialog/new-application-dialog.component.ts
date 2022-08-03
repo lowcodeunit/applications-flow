@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Guid, Status } from '@lcu/common';
@@ -8,6 +8,7 @@ import {
     EaCSourceControl,
     EnterpriseAsCode,
 } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { EditApplicationFormComponent } from '../../controls/edit-application-form/edit-application-form.component';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
 import {
@@ -27,7 +28,7 @@ export interface NewApplicationDialogData {
     templateUrl: './new-application-dialog.component.html',
     styleUrls: ['./new-application-dialog.component.scss'],
 })
-export class NewApplicationDialogComponent implements OnInit {
+export class NewApplicationDialogComponent implements OnInit, OnDestroy {
     @ViewChild(EditApplicationFormComponent)
     public ApplicationFormControls: EditApplicationFormComponent;
 
@@ -50,6 +51,8 @@ export class NewApplicationDialogComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     constructor(
         protected eacSvc: EaCService,
         public dialogRef: MatDialogRef<NewApplicationDialogComponent>,
@@ -60,7 +63,7 @@ export class NewApplicationDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.StateSub = this.eacSvc.State.subscribe((state) => {
             this.State = state;
             if (this.State?.EaC?.Environments) {
                 this.Environment =
@@ -74,6 +77,10 @@ export class NewApplicationDialogComponent implements OnInit {
             }
         });
         this.SetupApplication(Guid.CreateRaw());
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

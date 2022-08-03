@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
@@ -8,13 +8,14 @@ import {
     NewApplicationDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-routes',
     templateUrl: './routes.component.html',
     styleUrls: ['./routes.component.scss'],
 })
-export class RoutesComponent implements OnInit {
+export class RoutesComponent implements OnInit, OnDestroy {
     protected get BuildRoutedApplications(): {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
     } {
@@ -133,6 +134,8 @@ export class RoutesComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     constructor(
         protected appSvc: ApplicationsFlowService,
         protected activatedRoute: ActivatedRoute,
@@ -165,62 +168,70 @@ export class RoutesComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
-            this.State = state;
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
 
-            // console.log("Routes state: ", this.State)
+                // console.log("Routes state: ", this.State)
 
-            if (this.State?.EaC?.Environments) {
-                //  TODO:  Eventually support multiple environments
-                const env = Object.keys(this.State?.EaC?.Environments) || {};
-                this.ActiveEnvironmentLookup = env[0];
+                if (this.State?.EaC?.Environments) {
+                    //  TODO:  Eventually support multiple environments
+                    const env =
+                        Object.keys(this.State?.EaC?.Environments) || {};
+                    this.ActiveEnvironmentLookup = env[0];
+                }
+
+                if (this.State?.EaC?.Projects) {
+                    this.ProjectLookups = Object.keys(
+                        this.State?.EaC?.Projects || {}
+                    );
+                    this.Projects = this.State?.EaC?.Projects;
+                }
+
+                if (this.State?.EaC?.Enterprise) {
+                    this.Enterprise = this.State.EaC.Enterprise;
+                }
+
+                this.Project = this.State?.EaC?.Projects[this.ProjectLookup];
+
+                if (
+                    this.Project?.ApplicationLookups &&
+                    this.State?.EaC?.Applications
+                ) {
+                    const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+                    this.Project?.ApplicationLookups.forEach(
+                        (appLookup: string) => {
+                            apps[appLookup] =
+                                this.State?.EaC?.Applications[appLookup];
+                        }
+                    );
+
+                    this.Applications = apps;
+                }
+
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
+
+                if (this.Applications) {
+                    this.RoutedApplications = this.BuildRoutedApplications;
+
+                    this.ApplicationRoutes =
+                        Object.keys(this.BuildRoutedApplications) || [];
+
+                    this.CurrentRouteApplicationLookups =
+                        Object.keys(
+                            this.BuildRoutedApplications[this.AppRoute]
+                        ) || [];
+                }
             }
+        );
+    }
 
-            if (this.State?.EaC?.Projects) {
-                this.ProjectLookups = Object.keys(
-                    this.State?.EaC?.Projects || {}
-                );
-                this.Projects = this.State?.EaC?.Projects;
-            }
-
-            if (this.State?.EaC?.Enterprise) {
-                this.Enterprise = this.State.EaC.Enterprise;
-            }
-
-            this.Project = this.State?.EaC?.Projects[this.ProjectLookup];
-
-            if (
-                this.Project?.ApplicationLookups &&
-                this.State?.EaC?.Applications
-            ) {
-                const apps: { [lookup: string]: EaCApplicationAsCode } = {};
-
-                this.Project?.ApplicationLookups.forEach(
-                    (appLookup: string) => {
-                        apps[appLookup] =
-                            this.State?.EaC?.Applications[appLookup];
-                    }
-                );
-
-                this.Applications = apps;
-            }
-
-            this.Loading =
-                this.State?.LoadingActiveEnterprise ||
-                this.State?.LoadingEnterprises ||
-                this.State?.Loading;
-
-            if (this.Applications) {
-                this.RoutedApplications = this.BuildRoutedApplications;
-
-                this.ApplicationRoutes =
-                    Object.keys(this.BuildRoutedApplications) || [];
-
-                this.CurrentRouteApplicationLookups =
-                    Object.keys(this.BuildRoutedApplications[this.AppRoute]) ||
-                    [];
-            }
-        });
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     public EditRouteClicked() {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     ApplicationsFlowState,
     EaCService,
@@ -16,13 +16,14 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-enterprise',
     templateUrl: './enterprise.component.html',
     styleUrls: ['./enterprise.component.scss'],
 })
-export class Enterprise4Component implements OnInit {
+export class Enterprise4Component implements OnInit, OnDestroy {
     private get ActiveEnvironmentLookup(): string {
         //  TODO:  Eventually support multiple environments
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
@@ -90,6 +91,8 @@ export class Enterprise4Component implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     public counter: number;
 
     public IsInfoCardEditable: boolean;
@@ -119,22 +122,28 @@ export class Enterprise4Component implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
-            this.State = state;
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
 
-            this.Loading =
-                this.State?.LoadingActiveEnterprise ||
-                this.State?.LoadingEnterprises ||
-                this.State?.Loading;
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
 
-            this.ProjectLookups = Object.keys(
-                this.State?.EaC?.Projects || {}
-            ).reverse();
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                ).reverse();
 
-            this.ActiveEnvironment =
-                this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
-            this.FilterTypes = Object.values(this.State?.FeedFilters || {});
-        });
+                this.ActiveEnvironment =
+                    this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+                this.FilterTypes = Object.values(this.State?.FeedFilters || {});
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     public HandleLeftClickEvent(event: any) {}

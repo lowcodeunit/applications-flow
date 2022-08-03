@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { BuildPipelineFormComponent } from '../../controls/build-pipeline-form/build-pipeline-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -22,7 +23,7 @@ export interface BPDialogData {
     templateUrl: './build-pipeline-dialog.component.html',
     styleUrls: ['./build-pipeline-dialog.component.scss'],
 })
-export class BuildPipelineDialogComponent implements OnInit {
+export class BuildPipelineDialogComponent implements OnInit, OnDestroy {
     @ViewChild(BuildPipelineFormComponent)
     public BuildPipelineControl: BuildPipelineFormComponent;
 
@@ -34,6 +35,8 @@ export class BuildPipelineDialogComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     constructor(
         public dialogRef: MatDialogRef<BuildPipelineDialogComponent>,
         protected eacSvc: EaCService,
@@ -42,9 +45,15 @@ export class BuildPipelineDialogComponent implements OnInit {
     ) {}
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
-            this.State = state;
-        });
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+            }
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

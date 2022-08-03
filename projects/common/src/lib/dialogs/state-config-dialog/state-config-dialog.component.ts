@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { StateConfigFormComponent } from '../../controls/state-config-form/state-config-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -18,7 +19,7 @@ export interface StateConfigDialogData {
     templateUrl: './state-config-dialog.component.html',
     styleUrls: ['./state-config-dialog.component.scss'],
 })
-export class StateConfigDialogComponent implements OnInit {
+export class StateConfigDialogComponent implements OnInit, OnDestroy {
     @ViewChild(StateConfigFormComponent)
     public StateConfigForm: StateConfigFormComponent;
 
@@ -35,9 +36,12 @@ export class StateConfigDialogComponent implements OnInit {
     }
 
     public Application: EaCApplicationAsCode;
+
     public ErrorMessage: string;
 
     public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     constructor(
         protected eacSvc: EaCService,
@@ -47,13 +51,19 @@ export class StateConfigDialogComponent implements OnInit {
     ) {}
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
-            this.State = state;
-            if (this.State?.EaC?.Applications) {
-                this.Application =
-                    this.State?.EaC?.Applications[this.data.appLookup];
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+                if (this.State?.EaC?.Applications) {
+                    this.Application =
+                        this.State?.EaC?.Applications[this.data.appLookup];
+                }
             }
-        });
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

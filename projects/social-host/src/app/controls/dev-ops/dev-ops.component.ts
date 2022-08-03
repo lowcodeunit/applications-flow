@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {
     ApplicationsFlowState,
@@ -11,13 +11,14 @@ import {
     EaCEnvironmentAsCode,
     EaCSourceControl,
 } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-dev-ops',
     templateUrl: './dev-ops.component.html',
     styleUrls: ['./dev-ops.component.scss'],
 })
-export class DevOpsComponent implements OnInit {
+export class DevOpsComponent implements OnInit, OnDestroy {
     private get ActiveEnvironmentLookup(): string {
         //  TODO:  Eventually support multiple environments
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
@@ -47,6 +48,8 @@ export class DevOpsComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     public SkeletonEffect: string;
 
     constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
@@ -54,15 +57,27 @@ export class DevOpsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
-            this.State = state;
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
 
-            this.DevOpsActionLookups = Object.keys(this.DevOpsActions || {});
+                this.DevOpsActionLookups = Object.keys(
+                    this.DevOpsActions || {}
+                );
 
-            this.SourceControlLookups = Object.keys(this.SourceControls || {});
+                this.SourceControlLookups = Object.keys(
+                    this.SourceControls || {}
+                );
 
-            this.ProjectLookups = Object.keys(this.State?.EaC?.Projects || {});
-        });
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                );
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     public OpenBuildPipelineDialog(doaLookup: string, doaName: string = '') {

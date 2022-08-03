@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     ApplicationsFlowState,
@@ -17,13 +17,14 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-projects',
     templateUrl: './projects.component.html',
     styleUrls: ['./projects.component.scss'],
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
     // public get ActiveEnvironmentLookup(): string {
     //     //  TODO:  Eventually support multiple environments
     //     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
@@ -206,6 +207,8 @@ export class ProjectsComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     public Stats: any[];
 
     public ProjectLookup: string;
@@ -243,46 +246,61 @@ export class ProjectsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
-            this.State = state;
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
 
-            //  TODO:  Eventually support multiple environments
-            this.ActiveEnvironmentLookup = Object.keys(
-                this.State?.EaC?.Environments || {}
-            )[0];
+                //  TODO:  Eventually support multiple environments
+                this.ActiveEnvironmentLookup = Object.keys(
+                    this.State?.EaC?.Environments || {}
+                )[0];
 
-            this.ApplicationLookups = Object.keys(
-                this.Project?.ApplicationLookups || {}
-            );
+                this.ApplicationLookups = Object.keys(
+                    this.Project?.ApplicationLookups || {}
+                );
 
-            this.Project = this.State?.EaC?.Projects[this.ProjectLookup] || {};
+                this.Project =
+                    this.State?.EaC?.Projects[this.ProjectLookup] || {};
 
-            const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+                const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-            this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
-                apps[appLookup] = this.State?.EaC?.Applications[appLookup];
-            });
-            this.Applications = apps;
+                this.Project?.ApplicationLookups?.forEach(
+                    (appLookup: string) => {
+                        apps[appLookup] =
+                            this.State?.EaC?.Applications[appLookup];
+                    }
+                );
+                this.Applications = apps;
 
-            this.ProjectLookups = Object.keys(this.State?.EaC?.Projects || {});
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                );
 
-            this.Projects = this.State?.EaC?.Projects || {};
+                this.Projects = this.State?.EaC?.Projects || {};
 
-            this.RoutedApplications = this.BuildRoutedApplications;
+                this.RoutedApplications = this.BuildRoutedApplications;
 
-            this.ApplicationRoutes = Object.keys(this.RoutedApplications || {});
+                this.ApplicationRoutes = Object.keys(
+                    this.RoutedApplications || {}
+                );
 
-            this.Enterprise = this.State?.EaC?.Enterprise;
+                this.Enterprise = this.State?.EaC?.Enterprise;
 
-            this.Modifiers = this.State?.EaC?.Modifiers || {};
+                this.Modifiers = this.State?.EaC?.Modifiers || {};
 
-            this.ProjectsModifierLookups = this.Project.ModifierLookups || [];
+                this.ProjectsModifierLookups =
+                    this.Project.ModifierLookups || [];
 
-            this.Loading =
-                this.State?.LoadingActiveEnterprise ||
-                this.State?.LoadingEnterprises ||
-                this.State?.Loading;
-        });
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     public EditCustomDomain() {

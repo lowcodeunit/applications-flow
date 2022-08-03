@@ -1,10 +1,11 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCApplicationAsCode } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { DFSModifiersFormComponent } from '../../controls/dfs-modifiers-form/dfs-modifiers-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -22,7 +23,7 @@ export interface DFSModifiersDialogData {
     templateUrl: './dfs-modifiers-dialog.component.html',
     styleUrls: ['./dfs-modifiers-dialog.component.scss'],
 })
-export class DFSModifiersDialogComponent implements OnInit {
+export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     @ViewChild(DFSModifiersFormComponent)
     public DFSModifersFormControls: DFSModifiersFormComponent;
 
@@ -44,6 +45,8 @@ export class DFSModifiersDialogComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     public ProjectLookups: Array<string>;
 
     constructor(
@@ -57,7 +60,7 @@ export class DFSModifiersDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.StateSub = this.eacSvc.State.subscribe((state) => {
             this.State = state;
             if (this.State?.EaC?.Projects) {
                 this.ProjectLookups = Object.keys(
@@ -66,6 +69,10 @@ export class DFSModifiersDialogComponent implements OnInit {
             }
         });
         this.determineLevel();
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

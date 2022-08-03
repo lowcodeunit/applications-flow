@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Status } from '@lcu/common';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { DevopsSourceControlFormComponent } from '../../controls/devops-source-control-form/devops-source-control-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -20,7 +21,7 @@ export interface SCDialogData {
     templateUrl: './source-control-dialog.component.html',
     styleUrls: ['./source-control-dialog.component.scss'],
 })
-export class SourceControlDialogComponent implements OnInit {
+export class SourceControlDialogComponent implements OnInit, OnDestroy {
     @ViewChild(DevopsSourceControlFormComponent)
     public DevopsSourceControl: DevopsSourceControlFormComponent;
 
@@ -32,6 +33,8 @@ export class SourceControlDialogComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     constructor(
         public dialogRef: MatDialogRef<SourceControlDialogComponent>,
         protected eacSvc: EaCService,
@@ -40,9 +43,15 @@ export class SourceControlDialogComponent implements OnInit {
     ) {}
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
-            this.State = state;
-        });
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+            }
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

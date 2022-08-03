@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     ApplicationsFlowState,
     EaCService,
 } from '@lowcodeunit/applications-flow-common';
+import { Subscription } from 'rxjs';
 @Component({
     selector: 'lcu-team-members',
     templateUrl: './team-members.component.html',
     styleUrls: ['./team-members.component.scss'],
 })
-export class TeamMembersComponent implements OnInit {
+export class TeamMembersComponent implements OnInit, OnDestroy {
     public SkeletonEffect: string;
 
     public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     public ProjectLookups: Array<string>;
 
@@ -20,7 +23,7 @@ export class TeamMembersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
+        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
             this.State = state;
 
             if (this.State?.EaC?.Projects) {
@@ -29,5 +32,9 @@ export class TeamMembersComponent implements OnInit {
                 ).reverse();
             }
         });
+    }
+
+    ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,6 +8,7 @@ import {
     EaCEnvironmentAsCode,
     EaCSourceControl,
 } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -23,7 +24,7 @@ export interface ProcessorDetailsDialogData {
     templateUrl: './processor-details-dialog.component.html',
     styleUrls: ['./processor-details-dialog.component.scss'],
 })
-export class ProcessorDetailsDialogComponent implements OnInit {
+export class ProcessorDetailsDialogComponent implements OnInit, OnDestroy {
     @ViewChild(ProcessorDetailsFormComponent)
     public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
 
@@ -39,6 +40,8 @@ export class ProcessorDetailsDialogComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     public SourceControls: { [lookup: string]: EaCSourceControl };
 
     public SourceControlLookups: Array<string>;
@@ -51,23 +54,33 @@ export class ProcessorDetailsDialogComponent implements OnInit {
     ) {}
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
-            this.State = state;
-            if (this.State?.EaC?.Applications) {
-                this.Application =
-                    this.State?.EaC?.Applications[this.data.applicationLookup];
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+                if (this.State?.EaC?.Applications) {
+                    this.Application =
+                        this.State?.EaC?.Applications[
+                            this.data.applicationLookup
+                        ];
+                }
+                if (this.State?.EaC?.Environments) {
+                    this.Environment =
+                        this.State?.EaC?.Environments[
+                            this.data.environmentLookup
+                        ];
+                }
+                if (this.Environment?.Sources) {
+                    this.SourceControls = this.Environment?.Sources;
+                    this.SourceControlLookups = Object.keys(
+                        this.Environment?.Sources || {}
+                    );
+                }
             }
-            if (this.State?.EaC?.Environments) {
-                this.Environment =
-                    this.State?.EaC?.Environments[this.data.environmentLookup];
-            }
-            if (this.Environment?.Sources) {
-                this.SourceControls = this.Environment?.Sources;
-                this.SourceControlLookups = Object.keys(
-                    this.Environment?.Sources || {}
-                );
-            }
-        });
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

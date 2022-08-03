@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import {
     ApplicationsFlowState,
     EaCService,
 } from '@lowcodeunit/applications-flow-common';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-iot',
     templateUrl: './iot.component.html',
     styleUrls: ['./iot.component.scss'],
 })
-export class IoTComponent implements OnInit {
+export class IoTComponent implements OnInit, OnDestroy {
     public Context: Object;
 
     public IoTConfig: LazyElementConfig;
@@ -21,6 +22,8 @@ export class IoTComponent implements OnInit {
     public Loading: boolean;
 
     public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     //  Constructors
     constructor(
@@ -43,14 +46,20 @@ export class IoTComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
-            this.State = state;
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
 
-            this.Loading =
-                this.State?.LoadingActiveEnterprise ||
-                this.State?.LoadingEnterprises ||
-                this.State?.Loading;
-        });
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     //  Helpers

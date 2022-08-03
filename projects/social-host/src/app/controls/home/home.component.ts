@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {
+    Component,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+} from '@angular/core';
 import {
     ApplicationsFlowService,
     ApplicationsFlowState,
@@ -11,13 +17,14 @@ import {
     EaCSourceControl,
 } from '@semanticjs/common';
 import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
     private get Environment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[
             this.State?.EaC?.Enterprise?.PrimaryEnvironment
@@ -75,6 +82,8 @@ export class HomeComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     constructor(
         protected appSvc: ApplicationsFlowService,
         protected eacSvc: EaCService,
@@ -94,26 +103,34 @@ export class HomeComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
-            this.State = state;
-            console.log('State home:', this.State);
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+                console.log('State home:', this.State);
 
-            this.Loading =
-                this.State?.LoadingActiveEnterprise ||
-                this.State?.LoadingEnterprises ||
-                this.State?.Loading;
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
 
-            console.log('loading = ', this.Loading);
+                console.log('loading = ', this.Loading);
 
-            this.ProjectLookups = Object.keys(
-                this.State?.EaC?.Projects || {}
-            ).reverse();
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                ).reverse();
 
-            //  TODO:  Eventually support multiple environments
-            const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+                //  TODO:  Eventually support multiple environments
+                const envLookups = Object.keys(
+                    this.State?.EaC?.Environments || {}
+                );
 
-            this.ActiveEnvironmentLookup = envLookups[0];
-        });
+                this.ActiveEnvironmentLookup = envLookups[0];
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     public ToggleSlices(type: string) {

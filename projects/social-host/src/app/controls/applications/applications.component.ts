@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from '@lcu/common';
 import {
@@ -24,13 +24,14 @@ import {
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-applications',
     templateUrl: './applications.component.html',
     styleUrls: ['./applications.component.scss'],
 })
-export class ApplicationsComponent implements OnInit {
+export class ApplicationsComponent implements OnInit, OnDestroy {
     @ViewChild(EditApplicationFormComponent)
     public ApplicationFormControls: EditApplicationFormComponent;
 
@@ -198,6 +199,8 @@ export class ApplicationsComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     public Stats: any;
 
     public Slices: { [key: string]: number };
@@ -239,54 +242,66 @@ export class ApplicationsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
-            this.State = state;
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
 
-            this.Loading =
-                this.State?.LoadingActiveEnterprise ||
-                this.State?.LoadingEnterprises ||
-                this.State?.Loading;
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
 
-            this.Project = this.State?.EaC?.Projects[this.ProjectLookup] || {};
+                this.Project =
+                    this.State?.EaC?.Projects[this.ProjectLookup] || {};
 
-            const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+                const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-            this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
-                apps[appLookup] = this.State?.EaC?.Applications[appLookup];
-            });
+                this.Project?.ApplicationLookups?.forEach(
+                    (appLookup: string) => {
+                        apps[appLookup] =
+                            this.State?.EaC?.Applications[appLookup];
+                    }
+                );
 
-            this.Applications = apps;
+                this.Applications = apps;
 
-            this.RoutedApplications = this.BuildRoutedApplications;
+                this.RoutedApplications = this.BuildRoutedApplications;
 
-            this.Application =
-                this.State?.EaC?.Applications[this.ApplicationLookup] || {};
+                this.Application =
+                    this.State?.EaC?.Applications[this.ApplicationLookup] || {};
 
-            let curVersion;
-            switch (this.Application?.LowCodeUnit?.Type) {
-                case 'GitHub':
-                    curVersion = `Build: ${this.Application.LowCodeUnit.CurrentBuild}`;
-                    break;
+                let curVersion;
+                switch (this.Application?.LowCodeUnit?.Type) {
+                    case 'GitHub':
+                        curVersion = `Build: ${this.Application.LowCodeUnit.CurrentBuild}`;
+                        break;
 
-                case 'NPM':
-                    curVersion = `Version: ${this.Application.LowCodeUnit.CurrentVersion}`;
-                    break;
+                    case 'NPM':
+                        curVersion = `Version: ${this.Application.LowCodeUnit.CurrentVersion}`;
+                        break;
+                }
+                this.CurrentVersion = curVersion;
+
+                this.SourceControls = this.Environment?.Sources || {};
+
+                this.SourceControlLookups = Object.keys(
+                    this.Environment?.Sources || {}
+                );
+
+                this.ModifierLookups = this.Application?.ModifierLookups || [];
+
+                //  TODO:  Eventually support multiple environments
+                const envLookups = Object.keys(
+                    this.State?.EaC?.Environments || {}
+                );
+
+                this.ActiveEnvironmentLookup = envLookups[0];
             }
-            this.CurrentVersion = curVersion;
+        );
+    }
 
-            this.SourceControls = this.Environment?.Sources || {};
-
-            this.SourceControlLookups = Object.keys(
-                this.Environment?.Sources || {}
-            );
-
-            this.ModifierLookups = this.Application?.ModifierLookups || [];
-
-            //  TODO:  Eventually support multiple environments
-            const envLookups = Object.keys(this.State?.EaC?.Environments || {});
-
-            this.ActiveEnvironmentLookup = envLookups[0];
-        });
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     //  API Methods

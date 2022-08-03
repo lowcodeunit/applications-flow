@@ -3,21 +3,24 @@ import {
     DFSModifiersDialogComponent,
     EaCService,
 } from '@lowcodeunit/applications-flow-common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-modifiers',
     templateUrl: './modifiers.component.html',
     styleUrls: ['./modifiers.component.scss'],
 })
-export class ModifiersComponent implements OnInit {
+export class ModifiersComponent implements OnInit, OnDestroy {
     public ModifierLookups: Array<string>;
 
     public ProjectLookups: Array<string>;
 
     public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     public SkeletonEffect: string;
 
@@ -26,20 +29,26 @@ export class ModifiersComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.eacSvc.State.subscribe((state) => {
-            this.State = state;
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
 
-            if (this.State?.EaC?.Modifiers) {
-                this.ModifierLookups = Object.keys(
-                    this.State?.EaC?.Modifiers || {}
-                );
+                if (this.State?.EaC?.Modifiers) {
+                    this.ModifierLookups = Object.keys(
+                        this.State?.EaC?.Modifiers || {}
+                    );
+                }
+                if (this.State?.EaC?.Projects) {
+                    this.ProjectLookups = Object.keys(
+                        this.State?.EaC?.Projects || {}
+                    ).reverse();
+                }
             }
-            if (this.State?.EaC?.Projects) {
-                this.ProjectLookups = Object.keys(
-                    this.State?.EaC?.Projects || {}
-                ).reverse();
-            }
-        });
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {

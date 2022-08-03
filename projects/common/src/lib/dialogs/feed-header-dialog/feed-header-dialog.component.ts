@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -15,6 +15,7 @@ import {
     EaCSourceControl,
     Status,
 } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { FeedEntry } from '../../models/user-feed.model';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService } from '../../services/eac.service';
@@ -36,7 +37,7 @@ export interface FeedHeaderDialogData {
     templateUrl: './feed-header-dialog.component.html',
     styleUrls: ['./feed-header-dialog.component.scss'],
 })
-export class FeedHeaderDialogComponent implements OnInit {
+export class FeedHeaderDialogComponent implements OnInit, OnDestroy {
     public get ActionIconControl(): AbstractControl {
         return this.FeedHeaderFormGroup?.controls.actionIcon;
     }
@@ -119,6 +120,8 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     public State: ApplicationsFlowState;
 
+    public StateSub: Subscription;
+
     constructor(
         protected appsFlowSvc: ApplicationsFlowService,
         protected eacSvc: EaCService,
@@ -180,31 +183,37 @@ export class FeedHeaderDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.eacSvc.State.subscribe((state: ApplicationsFlowState) => {
-            this.State = state;
-            this.SourceControlLookups = this.State?.FeedSourceControlLookups
-                ? this.State.FeedSourceControlLookups
-                : Object.keys(this.SourceControls || {});
-            if (
-                this.State.EaC.Environments &&
-                this.State?.EaC?.Enterprise?.PrimaryEnvironment
-            ) {
-                this.Environment =
-                    this.State?.EaC?.Environments[
-                        this.State?.EaC?.Enterprise?.PrimaryEnvironment
-                    ];
-            }
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+                this.SourceControlLookups = this.State?.FeedSourceControlLookups
+                    ? this.State.FeedSourceControlLookups
+                    : Object.keys(this.SourceControls || {});
+                if (
+                    this.State.EaC.Environments &&
+                    this.State?.EaC?.Enterprise?.PrimaryEnvironment
+                ) {
+                    this.Environment =
+                        this.State?.EaC?.Environments[
+                            this.State?.EaC?.Enterprise?.PrimaryEnvironment
+                        ];
+                }
 
-            if (this.Environment) {
-                this.SourceControls = this.Environment?.Sources;
-            }
+                if (this.Environment) {
+                    this.SourceControls = this.Environment?.Sources;
+                }
 
-            if (this.SourceControlLookups?.length === 1) {
-                this.SourceControl =
-                    this.Environment?.Sources[this.SourceControlLookups[0]];
+                if (this.SourceControlLookups?.length === 1) {
+                    this.SourceControl =
+                        this.Environment?.Sources[this.SourceControlLookups[0]];
+                }
             }
-        });
+        );
         this.setupFeedHeaderForm();
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

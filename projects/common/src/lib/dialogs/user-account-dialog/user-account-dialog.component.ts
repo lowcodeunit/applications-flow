@@ -1,6 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { EaCService } from '../../services/eac.service';
 import { ProjectService } from '../../services/project.service';
 import {
     ApplicationsFlowState,
@@ -12,7 +14,7 @@ import {
     templateUrl: './user-account-dialog.component.html',
     styleUrls: ['./user-account-dialog.component.scss'],
 })
-export class UserAccountDialogComponent implements OnInit {
+export class UserAccountDialogComponent implements OnInit, OnDestroy {
     /**
      * Optional feedback given by user
      */
@@ -88,29 +90,22 @@ export class UserAccountDialogComponent implements OnInit {
      */
     public RegisteredSince: Date;
 
-    public get UserInfo(): LicenseAndBillingResponse {
-        return this.State?.UserLicenseInfo;
-    }
+    public UserInfo: LicenseAndBillingResponse;
 
-    public get State(): ApplicationsFlowState {
-        return this.data;
-    }
+    public State: ApplicationsFlowState;
 
-    public get UserPlan(): string {
-        return this.UserInfo?.Plan?.Name
-            ? this.UserInfo?.Plan?.Name
-            : 'Fathym - Starter';
-    }
+    public StateSub: Subscription;
+
+    public UserPlan: string;
 
     /**
      * The interval of the plan ie annual or Monthly
      */
-    public get PlanInterval(): string {
-        return this.UserInfo?.Price?.Interval;
-    }
+    public PlanInterval: string;
 
     constructor(
         protected dialogRef: MatDialogRef<UserAccountDialogComponent>,
+        protected eacSvc: EaCService,
         @Inject(MAT_DIALOG_DATA) public data: ApplicationsFlowState,
         protected projectSvc: ProjectService
     ) {
@@ -121,7 +116,25 @@ export class UserAccountDialogComponent implements OnInit {
         this.userStateChanged();
     }
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+
+                this.UserInfo = this.State?.UserLicenseInfo;
+
+                this.UserPlan = this.UserInfo?.Plan?.Name
+                    ? this.UserInfo?.Plan?.Name
+                    : 'Fathym - Starter';
+
+                this.PlanInterval = this.UserInfo?.Price?.Interval;
+            }
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
+    }
 
     // public ChangeEmail() {
     //     console.log('change email clicked');
