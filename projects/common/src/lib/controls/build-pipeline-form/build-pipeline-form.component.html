@@ -3,20 +3,6 @@
     [formGroup]="BuildPipelineFormGroup"
     (ngSubmit)="SubmitBuildPipeline()"
 >
-    <!-- <mat-card
-      class="spread"  
-    > -->
-    <!-- <mat-card-header>
-        <mat-card-title> Build Pipeline </mat-card-title>
-
-        <mat-hint>
-          Changes made here are reflected for all sources using this
-          DevOpsAction
-        </mat-hint>
-      </mat-card-header> -->
-
-    <!-- <mat-card-content> -->
-
     <ng-container *ngIf="HostingDetails?.Loading || Loading">
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
 
