@@ -170,7 +170,16 @@ export class ProjectCardComponent implements OnInit {
 
     public ngOnChanges() {
         if (this.Projects && this.ProjectLookups && this.Applications) {
-            this.BuildTree();
+            let temp = this.BuildTree();
+            // console.log("to string: ", JSON.stringify(temp))
+
+            if (JSON.stringify(this.DataSource.data) !== JSON.stringify(temp)) {
+                // console.log('Its different')
+                this.DataSource.data = temp;
+            }
+            // else{
+            //     console.log('it aint different')
+            // }
         }
     }
 
@@ -178,7 +187,7 @@ export class ProjectCardComponent implements OnInit {
         window.location.href = path;
     }
 
-    public BuildTree() {
+    public BuildTree(): Array<TreeNode> {
         let tempTreeData: Array<TreeNode> = [];
         this.ProjectLookups?.forEach((pLookup: string) => {
             let tempProj = this.Projects[pLookup];
@@ -245,7 +254,7 @@ export class ProjectCardComponent implements OnInit {
             tempTreeData.push(tempProjNode);
         });
         // console.log('THE TREE: ', tempTreeData);
-        this.DataSource.data = tempTreeData;
+        return tempTreeData;
 
         // return tempTreeData;
     }
