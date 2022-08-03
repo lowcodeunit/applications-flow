@@ -169,12 +169,6 @@ export class ProjectCardComponent implements OnInit {
     public ngOnInit(): void {}
 
     public ngOnChanges() {
-        // if (this.Applications) {
-        //     this.RoutedApplications = this.eacSvc.GenerateRoutedApplications(
-        //         this.Applications
-        //     );
-        // }
-
         if (this.Projects && this.ProjectLookups && this.Applications) {
             this.BuildTree();
         }
@@ -193,7 +187,9 @@ export class ProjectCardComponent implements OnInit {
                 name: tempProj.Project.Name,
                 description: tempProj.Project.Description,
                 lookup: pLookup,
-                url: 'https://' + tempProj.Hosts[tempProj?.Hosts?.length - 1],
+                url:
+                    'https://www.' +
+                    tempProj.Hosts[tempProj?.Hosts?.length - 1],
                 routerLink: ['/project', pLookup],
             };
 
@@ -207,10 +203,9 @@ export class ProjectCardComponent implements OnInit {
                     let tempRouteNode: TreeNode = {
                         name: this.AppRoute,
                         url:
-                            'https://' +
+                            'https://www.' +
                             tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
-                            '/' +
-                            appRoute,
+                            this.AppRoute,
                         routerLink: ['/route', this.AppRoute, pLookup],
                     };
 
@@ -226,10 +221,11 @@ export class ProjectCardComponent implements OnInit {
                                 lookup: appLookup,
                                 name: tempApp.Application.Name,
                                 url:
-                                    'https://' +
+                                    'https://www.' +
                                     tempProj?.Hosts[
                                         tempProj?.Hosts?.length - 1
-                                    ],
+                                    ] +
+                                    this.AppRoute,
                                 description: tempApp.Application.Description,
                                 routerLink: [
                                     '/application',
