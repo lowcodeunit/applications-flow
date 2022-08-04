@@ -143,6 +143,7 @@ export class BuildPipelineFormComponent implements OnInit {
         //for some reason this value is coming back undefined
         // console.log("build pipeline value: ", this.BuildPipelineFormControl?.value)
         this.BuildPipeline = this.BuildPipelineFormControl?.value;
+        // this.loadProjectHostingDetails();
 
         this.setupControlsForForm();
     }
@@ -237,7 +238,15 @@ export class BuildPipelineFormComponent implements OnInit {
     }
 
     //  Helpers
+
+    protected getSelectedHostingOption() {
+        this.SelectedHostingOption = this.HostingDetails?.HostingOptions?.find(
+            (ho) => ho.Lookup === this.BuildPipeline
+        );
+    }
     protected setupControlsForForm(): void {
+        this.getSelectedHostingOption();
+
         // this.BuildPipeline =
         //         this.BuildPipeline || this.HostingDetails?.HostingOptions
         //           ? this.HostingDetails?.HostingOptions[0]?.Lookup
@@ -271,7 +280,7 @@ export class BuildPipelineFormComponent implements OnInit {
             )
         );
 
-        // console.log("selected hosting options: ", this.SelectedHostingOption.Inputs);
+        // console.log("selected hosting options: ", this.SelectedHostingOption?.Inputs);
 
         this.SelectedHostingOption?.Inputs?.forEach((input) => {
             const validators = input.Required ? [Validators.required] : [];
@@ -327,8 +336,9 @@ export class BuildPipelineFormComponent implements OnInit {
                 const hostOption = this.HostingDetails?.HostingOptions?.find(
                     (ho) => ho.Path === this.DevOpsAction.Path
                 );
+
                 this.BuildPipeline = hostOption?.Lookup;
-                this.SelectedHostingOption = hostOption;
+                // this.SelectedHostingOption = hostOption;
 
                 // console.log("Build Pipeline HERE= ", this.BuildPipeline);
 
