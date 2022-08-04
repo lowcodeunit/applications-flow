@@ -1,7 +1,7 @@
 <mat-card class="project-info-card">
     <!-- ACTUAL CONTENT -->
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <div class="header-img-container" fxLayout="row">
             <div class="round-project-img" fxLayoutAlign="center center">
                 <mat-icon *ngIf="!Image" class="temp-icon"
@@ -123,7 +123,7 @@
     </ng-container>
 
     <!-- SKELETON CONTENT -->
-    <ng-container *ngIf="State?.Loading">
+    <ng-container *ngIf="Loading">
         <div class="header-img-container" fxLayout="row">
             <skeleton-avatar
                 class="round-project-img"

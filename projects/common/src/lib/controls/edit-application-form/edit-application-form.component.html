@@ -18,7 +18,7 @@
       </mat-card-header> -->
 
     <!-- <mat-card-content> -->
-    <ng-container *ngIf="State?.Loading">
+    <ng-container *ngIf="Loading">
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
 
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
@@ -26,7 +26,7 @@
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
     </ng-container>
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <mat-form-field class="mat-full-width">
             <input
                 matInput
@@ -60,7 +60,7 @@
     <!-- <mat-card-actions fxLayoutAlign="center center">
 
         <button 
-        *ngIf="HasSaveButton && !State?.Loading"
+        *ngIf="HasSaveButton && !Loading"
           mat-raised-button 
           type="submit" 
           fxFlex="100%" 
@@ -69,7 +69,7 @@
           <mat-icon>save</mat-icon>
           Save
         </button>
-        <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader>
+        <lcu-loader *ngIf="HasSaveButton" [loading]="Loading"></lcu-loader>
         
     </mat-card-actions> -->
     <!-- </mat-card> -->

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from '@lcu/common';
 import {
@@ -23,15 +23,15 @@ import {
     EaCSourceControl,
 } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
-import { EaCDFSModifier } from '@semanticjs/common';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-applications',
     templateUrl: './applications.component.html',
     styleUrls: ['./applications.component.scss'],
 })
-export class ApplicationsComponent implements OnInit {
+export class ApplicationsComponent implements OnInit, OnDestroy {
     @ViewChild(EditApplicationFormComponent)
     public ApplicationFormControls: EditApplicationFormComponent;
 
@@ -44,84 +44,24 @@ export class ApplicationsComponent implements OnInit {
     @ViewChild(ProcessorDetailsFormComponent)
     public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
 
-    public get Application(): EaCApplicationAsCode {
-        return this.State?.EaC?.Applications[this.ApplicationLookup] || {};
-    }
-
-    public get Applications(): any {
-        return this.State?.EaC?.Applications;
-    }
-
-    public get ApplicationLookups(): Array<string> {
-        return Object.keys(
-            this.RoutedApplications[this.CurrentApplicationRoute] || {}
-        );
-    }
-
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
-
-    public get Environment(): EaCEnvironmentAsCode {
+    private get Environment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[
             this.State?.EaC?.Enterprise?.PrimaryEnvironment
         ];
     }
 
-    public get EnvironmentLookup(): string {
+    private get EnvironmentLookup(): string {
         //  TODO:  Eventually support multiple environments
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
         return envLookups[0];
     }
 
-    public get DefaultSourceControl(): EaCSourceControl {
-        return {
-            Organization: this.Application?.LowCodeUnit?.Organization,
-            Repository: this.Application?.LowCodeUnit?.Repository,
-        };
-    }
-
-    public get HasStateConfig(): boolean {
-        if (this.Application.ModifierLookups['lcu-reg']) {
-            return true;
-        }
-    }
-
-    // public get HasStateConfig(): boolean {
-    //   if(this.Application.ModifierLookups['lcu-reg']){
-    //     return true;
-    //   }
-    //   else if(this.Project.ModifierLookups['lcu-reg']){
-    //     return true;
-    //   }
-    //   else{
-    //     return false;
-    //   }
-
-    // }
-
-    public get NumberOfModifiers(): number {
+    private get NumberOfModifiers(): number {
         return this.ModifierLookups?.length;
     }
 
-    public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-        return this.State?.EaC?.Modifiers || {};
-    }
-
-    public get ModifierLookups(): Array<string> {
-        return this.Application.ModifierLookups || [];
-    }
-
-    public get Project(): EaCProjectAsCode {
-        return this.State?.EaC?.Projects[this.ProjectLookup] || {};
-    }
-
-    public get Projects(): any {
-        return this.State?.EaC?.Projects || {};
-    }
-
-    public get RoutedApplications(): {
+    protected get BuildRoutedApplications(): {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
     } {
         const appLookups = Object.keys(this.Applications);
@@ -132,7 +72,8 @@ export class ApplicationsComponent implements OnInit {
 
         let appRoutes =
             apps.map((app) => {
-                return app.LookupConfig?.PathRegex.replace('.*', '');
+                // console.log("App from projects: ", app);
+                return app?.LookupConfig?.PathRegex.replace('.*', '');
             }) || [];
 
         appRoutes = appRoutes.filter((ar) => ar != null);
@@ -162,14 +103,14 @@ export class ApplicationsComponent implements OnInit {
                 const filteredAppLookups = workingAppLookups.filter((wal) => {
                     const wa = this.Applications[wal];
 
-                    return wa.LookupConfig?.PathRegex.startsWith(
+                    return wa?.LookupConfig?.PathRegex.startsWith(
                         currentRouteBase
                     );
                 });
 
                 routeMap[currentRouteBase] =
                     filteredAppLookups.reduce((prevAppMap, appLookup) => {
-                        const appMap = {
+                        const appMap: any = {
                             ...prevAppMap,
                         };
 
@@ -193,38 +134,22 @@ export class ApplicationsComponent implements OnInit {
 
         routeSetKeys.forEach((rsk) => (routeSetResult[rsk] = routeSet[rsk]));
 
+        // console.log("App Routes: ",routeSetResult)
+
         return routeSetResult;
     }
 
-    public get SourceControlLookups(): Array<string> {
-        return Object.keys(this.Environment?.Sources || {});
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
-    public get StateConfig(): EaCDataToken {
-        // if(this.HasStateConfig){
-        // console.log("Project: ", this.Project)
-        // console.log("Application: ", this.Application)
-
+    private get StateConfig(): EaCDataToken {
         if (this.Project?.DataTokens['lcu-state-config']) {
             return this.Project?.DataTokens['lcu-state-config'];
         } else if (this.Application?.DataTokens['lcu-state-config']) {
             return this.Application?.DataTokens['lcu-state-config'];
-        }
-        // }
-        else {
+        } else {
             return null;
         }
     }
 
-    public get Version(): string {
+    private get Version(): string {
         let version;
         switch (this.Application?.LowCodeUnit?.Type) {
             case 'GitHub':
@@ -238,31 +163,43 @@ export class ApplicationsComponent implements OnInit {
         return version;
     }
 
-    public get CurrentVersion(): string {
-        let curVersion;
-        switch (this.Application?.LowCodeUnit?.Type) {
-            case 'GitHub':
-                curVersion = `Build: ${this.Application.LowCodeUnit.CurrentBuild}`;
-                break;
+    public ActiveEnvironmentLookup: string;
 
-            case 'NPM':
-                curVersion = `Version: ${this.Application.LowCodeUnit.CurrentVersion}`;
-                break;
-        }
-        return curVersion;
-    }
+    public Application: EaCApplicationAsCode;
+
+    public Applications: {
+        [lookup: string]: EaCApplicationAsCode;
+    };
 
     public ApplicationLookup: string;
 
-    // public EntPath: string;
-
     public CurrentApplicationRoute: string;
+
+    public CurrentVersion: string;
 
     public IsInfoCardEditable: boolean;
 
     public IsInfoCardShareable: boolean;
 
+    public Loading: boolean;
+
+    public ModifierLookups: Array<string>;
+
+    public Project: EaCProjectAsCode;
+
+    public RoutedApplications: {
+        [route: string]: { [lookup: string]: EaCApplicationAsCode };
+    };
+
     public SkeletonEffect: string;
+
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
+    public SourceControlLookups: Array<string>;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     public Stats: any;
 
@@ -305,17 +242,78 @@ export class ApplicationsComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
+
+                this.Project =
+                    this.State?.EaC?.Projects[this.ProjectLookup] || {};
+
+                const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+
+                this.Project?.ApplicationLookups?.forEach(
+                    (appLookup: string) => {
+                        apps[appLookup] =
+                            this.State?.EaC?.Applications[appLookup];
+                    }
+                );
+
+                this.Applications = apps;
+
+                this.RoutedApplications = this.BuildRoutedApplications;
+
+                this.Application =
+                    this.State?.EaC?.Applications[this.ApplicationLookup] || {};
+
+                let curVersion;
+                switch (this.Application?.LowCodeUnit?.Type) {
+                    case 'GitHub':
+                        curVersion = `Build: ${this.Application.LowCodeUnit.CurrentBuild}`;
+                        break;
+
+                    case 'NPM':
+                        curVersion = `Version: ${this.Application.LowCodeUnit.CurrentVersion}`;
+                        break;
+                }
+                this.CurrentVersion = curVersion;
+
+                this.SourceControls = this.Environment?.Sources || {};
+
+                this.SourceControlLookups = Object.keys(
+                    this.Environment?.Sources || {}
+                );
+
+                this.ModifierLookups = this.Application?.ModifierLookups || [];
+
+                //  TODO:  Eventually support multiple environments
+                const envLookups = Object.keys(
+                    this.State?.EaC?.Environments || {}
+                );
+
+                this.ActiveEnvironmentLookup = envLookups[0];
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     //  API Methods
 
     public DeleteApplication(appLookup: string, appName: string): void {
-        this.eacSvc.DeleteApplication(appLookup, appName).then((status) => {
-            // if(status.Code === 0){
-            this.router.navigate(['/project', this.ProjectLookup]);
-            // }
-        });
+        this.eacSvc
+            .DeleteApplication(appLookup, appName)
+            .then((status: any) => {
+                // if(status.Code === 0){
+                this.router.navigate(['/project', this.ProjectLookup]);
+                // }
+            });
     }
 
     public HandleLeftClickEvent(event: any) {

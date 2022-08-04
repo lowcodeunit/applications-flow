@@ -1,10 +1,16 @@
-<lcu-breadcrumb> </lcu-breadcrumb>
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+>
+</lcu-breadcrumb>
 
 <lcu-three-column>
     <div left>
         <lcu-project-info-card
-            [name]="Enterprise?.Name"
+            [name]="State?.EaC?.Enterprise?.Name"
             image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
         >
         </lcu-project-info-card>
     </div>
@@ -17,8 +23,14 @@
         >
         </lcu-question-card>
 
-        <lcu-feed-header></lcu-feed-header>
-
+        <lcu-feed-header
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [feed]="State?.Feed"
+            [feed-check]="State?.FeedCheck"
+            [has-gh-connection]="State?.GitHub?.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
+            [loading-feed]="State?.LoadingFeed"
+        ></lcu-feed-header>
         <!-- <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter> -->
         <lcu-project-wizard-card></lcu-project-wizard-card>
 
@@ -29,6 +41,15 @@
         <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
             <lcu-main-feed-card
                 *ngFor="let feedItem of State?.Feed"
+                [active-environment]="
+                    State?.EaC?.Environments[ActiveEnvironmentLookup]
+                "
+                [active-environment-lookup]="ActiveEnvironmentLookup"
+                [environment]="
+                    State?.EaC?.Environments[
+                        State?.EaC?.Enterprise?.PrimaryEnvironment
+                    ]
+                "
                 [feed-item]="feedItem"
             >
             </lcu-main-feed-card>

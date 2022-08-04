@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -15,6 +15,7 @@ import {
     EaCSourceControl,
     Status,
 } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { FeedEntry } from '../../models/user-feed.model';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCService } from '../../services/eac.service';
@@ -36,7 +37,7 @@ export interface FeedHeaderDialogData {
     templateUrl: './feed-header-dialog.component.html',
     styleUrls: ['./feed-header-dialog.component.scss'],
 })
-export class FeedHeaderDialogComponent implements OnInit {
+export class FeedHeaderDialogComponent implements OnInit, OnDestroy {
     public get ActionIconControl(): AbstractControl {
         return this.FeedHeaderFormGroup?.controls.actionIcon;
     }
@@ -53,11 +54,11 @@ export class FeedHeaderDialogComponent implements OnInit {
         return this.FeedHeaderFormGroup?.controls.editor;
     }
 
-    public get Environment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[
-            this.State?.EaC?.Enterprise?.PrimaryEnvironment
-        ];
-    }
+    // public get Environment(): EaCEnvironmentAsCode {
+    //     return this.State?.EaC?.Environments[
+    //         this.State?.EaC?.Enterprise?.PrimaryEnvironment
+    //     ];
+    // }
 
     public get TargetBranchFormControl(): AbstractControl {
         return this.FeedHeaderFormGroup.controls.targetBranch;
@@ -79,22 +80,12 @@ export class FeedHeaderDialogComponent implements OnInit {
         return this.FeedHeaderFormGroup.controls.sourceControl;
     }
 
-    public get SourceControlLookups(): Array<string> {
-        return this.State.FeedSourceControlLookups
-            ? this.State.FeedSourceControlLookups
-            : Object.keys(this.SourceControls || {});
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
+    // public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    //     return this.Environment?.Sources || {};
+    // }
 
     public get SubtitleFormControl(): AbstractControl {
         return this.FeedHeaderFormGroup.controls.subtitle;
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
     }
 
     public get TitleFormControl(): AbstractControl {
@@ -107,6 +98,8 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     public ErrorMessage: string;
 
+    public Environment: EaCEnvironmentAsCode;
+
     public FeedHeaderFormGroup: FormGroup;
 
     public Loading: boolean;
@@ -117,9 +110,17 @@ export class FeedHeaderDialogComponent implements OnInit {
 
     public SourceControl: EaCSourceControl;
 
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
+    public SourceControlLookups: Array<string>;
+
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     constructor(
         protected appsFlowSvc: ApplicationsFlowService,
@@ -179,15 +180,40 @@ export class FeedHeaderDialogComponent implements OnInit {
         this.Slices = {
             Sources: this.SlicesCount,
         };
-
-        if (this.SourceControlLookups.length === 1) {
-            this.SourceControl =
-                this.Environment?.Sources[this.SourceControlLookups[0]];
-        }
     }
 
     public ngOnInit(): void {
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+                this.SourceControlLookups = this.State?.FeedSourceControlLookups
+                    ? this.State.FeedSourceControlLookups
+                    : Object.keys(this.SourceControls || {});
+                if (
+                    this.State.EaC.Environments &&
+                    this.State?.EaC?.Enterprise?.PrimaryEnvironment
+                ) {
+                    this.Environment =
+                        this.State?.EaC?.Environments[
+                            this.State?.EaC?.Enterprise?.PrimaryEnvironment
+                        ];
+                }
+
+                if (this.Environment) {
+                    this.SourceControls = this.Environment?.Sources;
+                }
+
+                if (this.SourceControlLookups?.length === 1) {
+                    this.SourceControl =
+                        this.Environment?.Sources[this.SourceControlLookups[0]];
+                }
+            }
+        );
         this.setupFeedHeaderForm();
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

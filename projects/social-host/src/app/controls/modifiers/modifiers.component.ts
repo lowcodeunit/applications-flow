@@ -3,34 +3,53 @@ import {
     DFSModifiersDialogComponent,
     EaCService,
 } from '@lowcodeunit/applications-flow-common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { EaCDFSModifier } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-modifiers',
     templateUrl: './modifiers.component.html',
     styleUrls: ['./modifiers.component.scss'],
 })
-export class ModifiersComponent implements OnInit {
-    public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-        return this.State?.EaC?.Modifiers || {};
-    }
+export class ModifiersComponent implements OnInit, OnDestroy {
+    public ModifierLookups: Array<string>;
 
-    public get ModifierLookups(): Array<string> {
-        return Object.keys(this.Modifiers || {});
-    }
+    public ProjectLookups: Array<string>;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     public SkeletonEffect: string;
+
     constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
         this.SkeletonEffect = 'wave';
     }
 
-    ngOnInit(): void {}
+    ngOnInit(): void {
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+
+                if (this.State?.EaC?.Modifiers) {
+                    this.ModifierLookups = Object.keys(
+                        this.State?.EaC?.Modifiers || {}
+                    );
+                }
+                if (this.State?.EaC?.Projects) {
+                    this.ProjectLookups = Object.keys(
+                        this.State?.EaC?.Projects || {}
+                    ).reverse();
+                }
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
+    }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
         console.log('Modifier lookup: ', mdfrLookup);
@@ -40,7 +59,7 @@ export class ModifiersComponent implements OnInit {
             data: {
                 modifierLookup: mdfrLookup,
                 modifierName: mdfrName,
-                modifiers: this.Modifiers,
+                modifiers: this.State?.EaC?.Modifiers,
                 level: 'enterprise',
             },
         });

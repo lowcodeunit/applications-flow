@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-project-info-card',
@@ -25,6 +24,9 @@ export class ProjectInfoCardComponent implements OnInit {
     @Input('is-shareable')
     public IsShareable: boolean;
 
+    @Input('loading')
+    public Loading: boolean;
+
     @Input('name')
     public Name: string;
 
@@ -39,10 +41,6 @@ export class ProjectInfoCardComponent implements OnInit {
 
     @Output('right-click-event')
     public RightClickEvent: EventEmitter<{}>;
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
 
     public SkeletonEffect: string;
 

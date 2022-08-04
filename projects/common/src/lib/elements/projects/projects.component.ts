@@ -5,12 +5,9 @@ import {
     LcuElementComponent,
     BaseResponse,
 } from '@lcu/common';
-import { ApplicationsFlowState } from './../../state/applications-flow.state';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import { EaCEnvironmentAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
-
-declare var window: Window;
 
 export class ApplicationsFlowProjectsElementState {}
 
@@ -32,38 +29,38 @@ export class ApplicationsFlowProjectsElementComponent
     protected projMon: NodeJS.Timeout;
 
     //  Properties
-    public get ActiveEnvironment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
-    }
+    // public get ActiveEnvironment(): EaCEnvironmentAsCode {
+    //     return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+    // }
 
-    public get ActiveEnvironmentLookup(): string {
-        //  TODO:  Eventually support multiple environments
-        const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+    // public get ActiveEnvironmentLookup(): string {
+    //     //  TODO:  Eventually support multiple environments
+    //     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
-        return envLookups[0];
-    }
+    //     return envLookups[0];
+    // }
 
-    public get CreatingProject(): boolean {
-        return this.eacSvc.CreatingProject;
-    }
+    // public get CreatingProject(): boolean {
+    //     return this.eacSvc.CreatingProject;
+    // }
 
-    public get EditingProject(): EaCProjectAsCode {
-        return this.State?.EaC?.Projects
-            ? this.State?.EaC?.Projects[this.EditingProjectLookup]
-            : null;
-    }
+    // public get EditingProject(): EaCProjectAsCode {
+    //     return this.State?.EaC?.Projects
+    //         ? this.State?.EaC?.Projects[this.EditingProjectLookup]
+    //         : null;
+    // }
 
-    public get EditingProjectLookup(): string {
-        return this.eacSvc.EditingProjectLookup;
-    }
+    // public get EditingProjectLookup(): string {
+    //     return this.eacSvc.EditingProjectLookup;
+    // }
 
-    public get ProjectLookups(): Array<string> {
-        return Object.keys(this.State?.EaC?.Projects || {});
-    }
+    // public get ProjectLookups(): Array<string> {
+    //     return Object.keys(this.State?.EaC?.Projects || {});
+    // }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     //  Constructors
     constructor(
@@ -80,10 +77,12 @@ export class ApplicationsFlowProjectsElementComponent
     public ngOnInit(): void {
         super.ngOnInit();
 
-        this.handleStateChange().then((eac) => {});
+        // this.handleStateChange().then((eac) => {});
 
         // this.setupProjectMonitor();
     }
+
+    public ngOnChanges() {}
 
     //  API Methods
     public async ActiveEnterpriseChanged(
@@ -92,22 +91,22 @@ export class ApplicationsFlowProjectsElementComponent
         await this.eacSvc.SetActiveEnterprise(event.value);
     }
 
-    public ConfigureDevOpsAction(devOpsActionLookup: string): void {
-        this.State.Loading = true;
+    // public ConfigureDevOpsAction(devOpsActionLookup: string): void {
+    //     this.State.Loading = true;
 
-        this.appsFlowSvc
-            .ConfigureDevOpsAction(devOpsActionLookup)
-            .subscribe((response: BaseResponse) => {
-                if (response.Status.Code === 0) {
-                    this.eacSvc.LoadEnterpriseAsCode();
-                } else {
-                    this.State.Loading = false;
-                }
-            });
-    }
+    //     this.appsFlowSvc
+    //         .ConfigureDevOpsAction(devOpsActionLookup)
+    //         .subscribe((response: BaseResponse) => {
+    //             if (response.Status.Code === 0) {
+    //                 this.eacSvc.LoadEnterpriseAsCode();
+    //             } else {
+    //                 this.State.Loading = false;
+    //             }
+    //         });
+    // }
 
     //  Helpers
-    protected async handleStateChange(): Promise<void> {
-        this.State.Loading = true;
-    }
+    // protected async handleStateChange(): Promise<void> {
+    //     this.State.Loading = true;
+    // }
 }

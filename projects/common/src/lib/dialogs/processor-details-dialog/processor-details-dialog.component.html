@@ -11,8 +11,12 @@
         more-details
         [editing-application]="Application"
         [editing-application-lookup]="data.applicationLookup"
+        [environment]="
+            State?.EaC?.Environments[State?.EaC?.Enterprise?.PrimaryEnvironment]
+        "
         [source-control-lookups]="SourceControlLookups"
         [project-lookup]="data.projectLookup"
+        [loading]="State?.Loading"
         (save-form-event)="HandleSaveFormEvent($event)"
     >
     </lcu-processor-details-form>
@@ -32,6 +36,7 @@
         class="action-button"
         mat-raised-button
         fxFlex="25%"
+        fxFlex.lt-md="30%"
         (click)="CloseDialog()"
     >
         Cancel
@@ -42,6 +47,7 @@
         mat-raised-button
         type="submit"
         fxFlex="25%"
+        fxFlex.lt-md="30%"
         color="primary"
         (click)="SaveProcessorDetails()"
         [disabled]="

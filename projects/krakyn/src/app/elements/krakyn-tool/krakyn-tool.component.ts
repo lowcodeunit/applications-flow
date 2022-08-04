@@ -1,11 +1,6 @@
 import { Component, Injector, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
     ApplicationsFlowState,
-    // EaCService,
-    // SourceControlDialogComponent,
-    // BuildPipelineDialogComponent,
-    // ApplicationsFlowService,
     ProjectService,
 } from '@lowcodeunit/applications-flow-common';
 import {
@@ -41,7 +36,7 @@ export class EaCNapkinIDELayoutManager {
     styleUrls: ['./krakyn-tool.component.scss'],
 })
 export class KrakynToolComponent implements OnInit {
-    public get EnterpriseName(): string {
+    private get EnterpriseName(): string {
         return this.State?.EaC?.Enterprise?.Name;
     }
 
