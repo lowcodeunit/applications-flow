@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-slotted-card-lg',
@@ -32,12 +31,15 @@ export class SlottedCardLgComponent implements OnInit {
     @Input('secondary-slot-description')
     public SecondarySlotDescription: string;
 
+    @Input('loading')
+    public Loading: boolean;
+
     @Output('main-action-clicked')
     public MainActionClicked: EventEmitter<{}>;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public SkeletonEffect: string;
 

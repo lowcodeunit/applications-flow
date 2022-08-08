@@ -7,15 +7,16 @@
 </div>
 
 <mat-dialog-content>
-    <ng-container *ngIf="!HasConnection">
+    <ng-container *ngIf="!State?.GitHub?.HasConnection">
         <lcu-git-auth></lcu-git-auth>
     </ng-container>
 
-    <ng-container *ngIf="HasConnection">
+    <ng-container *ngIf="State?.GitHub?.HasConnection">
         <lcu-build-pipeline-form
             [devops-action-lookup]="data.devopsActionLookup"
             [environment]="data.environment"
             [environment-lookup]="data.environmentLookup"
+            [loading]="State?.Loading"
             (response-event)="HandleResponseEvent($event)"
         >
         </lcu-build-pipeline-form>
@@ -57,6 +58,7 @@
             mat-raised-button
             type="submit"
             fxFlex="25%"
+            fxFlex.lt-md="30%"
             color="primary"
             (click)="SaveBuildPipeline()"
             [disabled]="

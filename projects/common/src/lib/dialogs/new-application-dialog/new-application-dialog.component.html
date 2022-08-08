@@ -10,15 +10,20 @@
         [current-route]="data.currentRoute"
         [editing-application]="NewApplication"
         [has-save-button]="HasSaveButton"
+        [loading]="State?.Loading"
     >
     </lcu-edit-application-form>
 
     <lcu-processor-details-form
         [editing-application]="NewApplication"
         [editing-application-lookup]="NewApplicationLookup"
+        [environment]="
+            State?.EaC?.Environments[State?.EaC?.Enterprise?.PrimaryEnvironment]
+        "
         [has-save-button]="HasSaveButton"
         [source-control-lookups]="SourceControlLookups"
         [project-lookup]="data.projectLookup"
+        [loading]="State?.Loading"
     >
     </lcu-processor-details-form>
 
@@ -32,11 +37,13 @@
     div
     fxLayout="row"
     fxLayoutAlign="end center"
+    fxLayoutAlign.lt-md="center center"
 >
     <button
         class="action-button"
         mat-raised-button
         fxFlex="25%"
+        fxFlex.lt-md="30%"
         (click)="CloseDialog()"
     >
         Cancel
@@ -51,6 +58,7 @@
         mat-raised-button
         color="primary"
         fxFlex="25%"
+        fxFlex.lt-md="60%"
         class="new-app-submit"
         (click)="SaveApplication()"
         [disabled]="

@@ -11,7 +11,6 @@ import {
     EaCService,
     SaveApplicationAsCodeEventRequest,
 } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-state-config-form',
@@ -22,19 +21,14 @@ export class StateConfigFormComponent implements OnInit {
     @Input('app-lookup')
     public AppLookup: string;
 
+    @Input('application')
+    public Application: EaCApplicationAsCode;
+
     @Input('config')
     public Config: EaCDataToken;
 
     @Output('status-event')
     public StatusEvent: EventEmitter<Status>;
-
-    public get Application(): EaCApplicationAsCode {
-        return this.State?.EaC?.Applications[this.AppLookup];
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
 
     public get StateConfigNameFormControl(): AbstractControl {
         return this.StateConfigForm?.controls.name;
@@ -59,6 +53,8 @@ export class StateConfigFormComponent implements OnInit {
     public ngOnInit(): void {
         this.buildForm();
     }
+
+    public ngOnChanges(): void {}
 
     public SaveStateConfig() {
         let app = this.Application;

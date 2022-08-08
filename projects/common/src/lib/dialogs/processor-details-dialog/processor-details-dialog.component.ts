@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -8,6 +8,7 @@ import {
     EaCEnvironmentAsCode,
     EaCSourceControl,
 } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
 import { EaCService } from '../../services/eac.service';
 import { ApplicationsFlowState } from '../../state/applications-flow.state';
@@ -23,35 +24,27 @@ export interface ProcessorDetailsDialogData {
     templateUrl: './processor-details-dialog.component.html',
     styleUrls: ['./processor-details-dialog.component.scss'],
 })
-export class ProcessorDetailsDialogComponent implements OnInit {
+export class ProcessorDetailsDialogComponent implements OnInit, OnDestroy {
     @ViewChild(ProcessorDetailsFormComponent)
     public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
-
-    public get Application(): EaCApplicationAsCode {
-        return this.State?.EaC?.Applications[this.data.applicationLookup] || {};
-    }
-
-    public get Environment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[this.data.environmentLookup];
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
-
-    public get SourceControlLookups(): Array<string> {
-        return Object.keys(this.Environment?.Sources || {});
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
 
     public get ProcessorDetailsFormGroup(): FormGroup {
         return this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup;
     }
 
+    public Application: EaCApplicationAsCode;
+
     public ErrorMessage: string;
+
+    public Environment: EaCEnvironmentAsCode;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
+
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
+    public SourceControlLookups: Array<string>;
 
     constructor(
         protected eacSvc: EaCService,
@@ -60,7 +53,35 @@ export class ProcessorDetailsDialogComponent implements OnInit {
         protected snackBar: MatSnackBar
     ) {}
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+                if (this.State?.EaC?.Applications) {
+                    this.Application =
+                        this.State?.EaC?.Applications[
+                            this.data.applicationLookup
+                        ];
+                }
+                if (this.State?.EaC?.Environments) {
+                    this.Environment =
+                        this.State?.EaC?.Environments[
+                            this.data.environmentLookup
+                        ];
+                }
+                if (this.Environment?.Sources) {
+                    this.SourceControls = this.Environment?.Sources;
+                    this.SourceControlLookups = Object.keys(
+                        this.Environment?.Sources || {}
+                    );
+                }
+            }
+        );
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
+    }
 
     public CloseDialog() {
         this.dialogRef.close();

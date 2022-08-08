@@ -17,7 +17,6 @@ import {
     EaCService,
     SaveApplicationAsCodeEventRequest,
 } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-processor-details-form',
@@ -31,6 +30,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
     @Input('editing-application-lookup')
     public EditingApplicationLookup: string;
 
+    @Input('environment')
+    public Environment: EaCEnvironmentAsCode;
+
     @Input('has-save-button')
     public HasSaveButton: boolean;
 
@@ -40,17 +42,14 @@ export class ProcessorDetailsFormComponent implements OnInit {
     @Input('project-lookup')
     public ProjectLookup: string;
 
+    @Input('loading')
+    public Loading: boolean;
+
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
 
     public get APIRootFormControl(): AbstractControl {
         return this.ProcessorDetailsFormGroup?.controls.apiRoot;
-    }
-
-    public get Environment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[
-            this.State?.EaC?.Enterprise?.PrimaryEnvironment
-        ];
     }
 
     public get BuildFormControl(): AbstractControl {
@@ -116,14 +115,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
         return this.ProcessorDetailsFormGroup?.controls.security;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
-
     public get SourceControlFormControl(): AbstractControl {
         return this.ProcessorDetailsFormGroup?.controls.sourceControl;
     }
@@ -166,6 +157,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     public redirectTooltip: string;
 
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
     public ProcessorDetailsFormGroup: FormGroup;
 
     public ProcessorType: string;
@@ -187,6 +180,12 @@ export class ProcessorDetailsFormComponent implements OnInit {
             this.CreateNewApplication();
         } else {
             this.setupProcessorDetailsForm();
+        }
+    }
+
+    public ngOnChanges() {
+        if (this.Environment?.Sources) {
+            this.SourceControls = this.Environment?.Sources;
         }
     }
 
@@ -398,7 +397,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected listBuildPaths(): void {
-        this.State.Loading = true;
+        this.Loading = true;
 
         console.log(
             'Source Control: ',
@@ -416,7 +415,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 this.BuildPathOptions = response.Model;
                 console.log('build path options: ', this.BuildPathOptions);
 
-                this.State.Loading = false;
+                this.Loading = false;
 
                 // if (this.BuildPathOptions?.length === 1) {
                 //   this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);

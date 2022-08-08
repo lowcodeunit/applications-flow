@@ -1,39 +1,29 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { ActivatedRoute, Router } from '@angular/router';
 import {
     ApplicationsFlowState,
     EaCService,
-    ApplicationsFlowService,
-    NewApplicationDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
-import { LazyElementConfig, LazyElementToken } from '@lowcodeunit/lazy-element';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import { LazyElementConfig } from '@lowcodeunit/lazy-element';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-iot',
     templateUrl: './iot.component.html',
     styleUrls: ['./iot.component.scss'],
 })
-export class IoTComponent implements OnInit {
+export class IoTComponent implements OnInit, OnDestroy {
     public Context: Object;
-
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
 
     public IoTConfig: LazyElementConfig;
 
-    public get IoTElementHTML(): SafeHtml {
-        return this.sanitizer.bypassSecurityTrustHtml(
-            `<${this.IoTConfig.ElementName}></${this.IoTConfig.ElementName}>`
-        );
-    }
+    public IoTElementHTML: SafeHtml;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public Loading: boolean;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     //  Constructors
     constructor(
@@ -49,12 +39,28 @@ export class IoTComponent implements OnInit {
             ],
             ElementName: 'lcu-device-data-flow-manage-element',
         };
+
+        this.IoTElementHTML = this.sanitizer.bypassSecurityTrustHtml(
+            `<${this.IoTConfig.ElementName}></${this.IoTConfig.ElementName}>`
+        );
     }
 
     public ngOnInit(): void {
-        this.handleStateChange().then((eac) => {});
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
     }
 
     //  Helpers
-    protected async handleStateChange(): Promise<void> {}
 }

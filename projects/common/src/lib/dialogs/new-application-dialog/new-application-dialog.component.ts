@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Guid, Status } from '@lcu/common';
@@ -8,6 +8,7 @@ import {
     EaCSourceControl,
     EnterpriseAsCode,
 } from '@semanticjs/common';
+import { Subscription } from 'rxjs';
 import { EditApplicationFormComponent } from '../../controls/edit-application-form/edit-application-form.component';
 import { ProcessorDetailsFormComponent } from '../../controls/processor-details-form/processor-details-form.component';
 import {
@@ -27,36 +28,30 @@ export interface NewApplicationDialogData {
     templateUrl: './new-application-dialog.component.html',
     styleUrls: ['./new-application-dialog.component.scss'],
 })
-export class NewApplicationDialogComponent implements OnInit {
+export class NewApplicationDialogComponent implements OnInit, OnDestroy {
     @ViewChild(EditApplicationFormComponent)
     public ApplicationFormControls: EditApplicationFormComponent;
 
     @ViewChild(ProcessorDetailsFormComponent)
     public ProcessorDetailsFormControls: ProcessorDetailsFormComponent;
 
-    public get Environment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[this.data.environmentLookup];
-    }
-
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment?.Sources || {};
-    }
-
-    public get SourceControlLookups(): Array<string> {
-        return Object.keys(this.Environment.Sources || {});
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public ErrorMessage: string;
+
+    public Environment: EaCEnvironmentAsCode;
 
     public HasSaveButton: boolean;
 
     public NewApplication: EaCApplicationAsCode;
 
     public NewApplicationLookup: string;
+
+    public SourceControls: { [lookup: string]: EaCSourceControl };
+
+    public SourceControlLookups: Array<string>;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     constructor(
         protected eacSvc: EaCService,
@@ -68,7 +63,24 @@ export class NewApplicationDialogComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.StateSub = this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            if (this.State?.EaC?.Environments) {
+                this.Environment =
+                    this.State?.EaC?.Environments[this.data.environmentLookup];
+            }
+            if (this.Environment?.Sources) {
+                this.SourceControls = this.Environment?.Sources;
+                this.SourceControlLookups = Object.keys(
+                    this.Environment.Sources || {}
+                );
+            }
+        });
         this.SetupApplication(Guid.CreateRaw());
+    }
+
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
 
     public CloseDialog() {

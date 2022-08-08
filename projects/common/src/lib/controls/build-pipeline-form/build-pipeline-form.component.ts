@@ -10,7 +10,6 @@ import {
     EaCArtifact,
     EaCDevOpsAction,
     EaCEnvironmentAsCode,
-    EaCSourceControl,
 } from '@semanticjs/common';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
 import {
@@ -18,7 +17,6 @@ import {
     SaveEnvironmentAsCodeEventRequest,
 } from '../../services/eac.service';
 import {
-    ApplicationsFlowState,
     ProjectHostingDetails,
     ProjectHostingOption,
 } from '../../state/applications-flow.state';
@@ -46,20 +44,23 @@ export class BuildPipelineFormComponent implements OnInit {
     @Input('environment-lookup')
     public EnvironmentLookup: string;
 
-    @Input('hosting-details')
+    // @Input('hosting-details')
     public HostingDetails: ProjectHostingDetails;
+
+    @Input('loading')
+    public Loading: boolean;
 
     @Output('response-event')
     public ResponseEvent: EventEmitter<any>;
 
-    public get Artifact(): EaCArtifact {
+    protected get Artifact(): EaCArtifact {
         // console.log("ARTIFACT: ", this.Environment?.Artifacts[this.ArtifactLookup]);
         return this.Environment?.Artifacts && this.ArtifactLookup
             ? this.Environment?.Artifacts[this.ArtifactLookup] || {}
             : {};
     }
 
-    public get ArtifactLookup(): string {
+    protected get ArtifactLookup(): string {
         const artLookup = this.DevOpsAction?.ArtifactLookups
             ? this.DevOpsAction?.ArtifactLookups[0]
             : null;
@@ -71,13 +72,13 @@ export class BuildPipelineFormComponent implements OnInit {
         return this.BuildPipelineFormGroup?.get('buildPipeline');
     }
 
-    public get DevOpsAction(): EaCDevOpsAction {
+    protected get DevOpsAction(): EaCDevOpsAction {
         return this.Environment.DevOpsActions && this.DevOpsActionLookup
             ? this.Environment.DevOpsActions[this.DevOpsActionLookup] || {}
             : {};
     }
 
-    public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
+    protected get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
         return this.Environment.DevOpsActions || {};
     }
 
@@ -89,18 +90,11 @@ export class BuildPipelineFormComponent implements OnInit {
         return this.BuildPipelineFormGroup.get('npmToken');
     }
 
-    // (ho) => ho.Lookup === this.BuildPipeline
-    public get SelectedHostingOption(): ProjectHostingOption {
-        return this.HostingDetails?.HostingOptions?.find(
-            (ho) => ho.Lookup === this.BuildPipeline
-        );
-    }
-
-    public get SelectedHostingOptionInputControlValues(): {
+    protected get SelectedHostingOptionInputControlValues(): {
         [lookup: string]: any;
     } {
         return this.SelectedHostingOption?.Inputs?.reduce((prev, cur) => {
-            const res = {
+            const res: any = {
                 ...prev,
             };
 
@@ -111,19 +105,17 @@ export class BuildPipelineFormComponent implements OnInit {
         }, {});
     }
 
-    public get SourceControlLookups(): Array<string> {
-        return Object.keys(this.SourceControls || {});
-    }
+    // public DevOpsAction: EaCDevOpsAction;
 
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
-        return this.Environment.Sources || {};
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public DevOpsActions: { [lookup: string]: EaCDevOpsAction };
 
     public BuildPipelineFormGroup: FormGroup;
+
+    // public SelectedHostingOptionInputControlValues: {
+    //     [lookup: string]: any;
+    // };
+
+    public SelectedHostingOption: ProjectHostingOption;
 
     constructor(
         protected eacSvc: EaCService,
@@ -136,23 +128,13 @@ export class BuildPipelineFormComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        // console.log('BuildPipeline = ', this.BuildPipeline)
-
-        // this.BuildPipelineFormGroup = this.formBuilder.group({});
-
-        // if (this.BuildPipelineFormGroup != null) {
-        //   this.BuildPipelineFormGroup.removeControl('hostingDetails');
-        // }
-
-        // this.BuildPipelineFormGroup.addControl(
-        //   'hostingDetails',
-        this.BuildPipelineFormGroup = this.formBuilder.group({
-            // buildPipeline: [this.BuildPipeline, [Validators.required]],
-        });
-        // );
+        this.BuildPipelineFormGroup = this.formBuilder.group({});
 
         this.loadProjectHostingDetails();
-        // this.setupControlsForForm();
+    }
+
+    public ngOnChanges() {
+        this.loadProjectHostingDetails();
     }
 
     //API METHODS
@@ -161,6 +143,7 @@ export class BuildPipelineFormComponent implements OnInit {
         //for some reason this value is coming back undefined
         // console.log("build pipeline value: ", this.BuildPipelineFormControl?.value)
         this.BuildPipeline = this.BuildPipelineFormControl?.value;
+        // this.loadProjectHostingDetails();
 
         this.setupControlsForForm();
     }
@@ -255,7 +238,15 @@ export class BuildPipelineFormComponent implements OnInit {
     }
 
     //  Helpers
+
+    protected getSelectedHostingOption() {
+        this.SelectedHostingOption = this.HostingDetails?.HostingOptions?.find(
+            (ho) => ho.Lookup === this.BuildPipeline
+        );
+    }
     protected setupControlsForForm(): void {
+        this.getSelectedHostingOption();
+
         // this.BuildPipeline =
         //         this.BuildPipeline || this.HostingDetails?.HostingOptions
         //           ? this.HostingDetails?.HostingOptions[0]?.Lookup
@@ -289,7 +280,7 @@ export class BuildPipelineFormComponent implements OnInit {
             )
         );
 
-        // console.log("selected hosting options: ", this.SelectedHostingOption.Inputs);
+        // console.log("selected hosting options: ", this.SelectedHostingOption?.Inputs);
 
         this.SelectedHostingOption?.Inputs?.forEach((input) => {
             const validators = input.Required ? [Validators.required] : [];
@@ -308,9 +299,9 @@ export class BuildPipelineFormComponent implements OnInit {
         });
 
         if (this.BuildPipelineFormControl?.value === 'npm-release') {
-            console.log('npm release');
+            // console.log('npm release');
             if (!this.BuildPipelineFormGroup?.controls?.npmToken) {
-                console.log('npm token if');
+                // console.log('npm token if');
                 this.BuildPipelineFormGroup.addControl(
                     'npmToken',
                     this.formBuilder.control(
@@ -337,13 +328,17 @@ export class BuildPipelineFormComponent implements OnInit {
         this.appsFlowSvc.LoadProjectHostingDetails().subscribe(
             (response: BaseModeledResponse<ProjectHostingDetails>) => {
                 this.HostingDetails = response.Model;
-                // console.log("response: ", response);
+                // console.log('response: ', response);
                 this.HostingDetails.Loading = false;
+
+                // console.log(' DevOpsAction.Path: ', this.DevOpsAction.Path);
 
                 const hostOption = this.HostingDetails?.HostingOptions?.find(
                     (ho) => ho.Path === this.DevOpsAction.Path
                 );
+
                 this.BuildPipeline = hostOption?.Lookup;
+                // this.SelectedHostingOption = hostOption;
 
                 // console.log("Build Pipeline HERE= ", this.BuildPipeline);
 

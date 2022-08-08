@@ -3,8 +3,15 @@
 .fit-content {
     height: 500px;
 
-    ::ng-deep .slotted-card-content {
-        overflow-y: scroll;
+    // ::ng-deep .slotted-card-content {
+    //     overflow-y: scroll;
+    // }
+    ::ng-deep lcu-slotted-card-lg {
+        height: 500px;
+        .slotted-card-content {
+            overflow-y: scroll;
+            height: 430px;
+        }
     }
 }
 .usage-stats-col {

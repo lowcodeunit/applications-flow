@@ -1,6 +1,6 @@
 <div>
     <mat-card class="social-card">
-        <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
+        <ng-container *ngIf="!LoadingFeed && Feed">
             <!-- COMMENTED OUT ANNOUNCEMENT BUTTON -->
             <!-- <div
                 class="gh-card-container"
@@ -79,7 +79,7 @@
         </ng-container>
 
         <!-- SKELETON -->
-        <ng-container *ngIf="State?.LoadingFeed || !State?.Feed">
+        <ng-container *ngIf="LoadingFeed || !Feed">
             <!-- COMMENTED OUT SKELETON  FOR ANNOUNCEMENT BTN -->
             <!-- <div
                 id="gh-card-skeleton"
@@ -111,10 +111,9 @@
             </div>
         </ng-container>
     </mat-card>
-    <!-- *ngIf="State?.FeedCheck" -->
     <mat-card
         class="social-card reload"
-        *ngIf="State?.FeedCheck"
+        *ngIf="FeedCheck"
         fxLayout="row"
         fxLayoutAlign="center center"
     >

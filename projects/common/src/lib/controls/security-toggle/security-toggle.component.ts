@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-security-toggle',
@@ -18,6 +17,9 @@ export class SecurityToggleComponent implements OnInit {
     @Input('editing-application')
     public EditingApplication: EaCApplicationAsCode;
 
+    @Input('loading')
+    public Loading: boolean;
+
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
 
@@ -27,10 +29,6 @@ export class SecurityToggleComponent implements OnInit {
 
     public get IsTriggerSignInFormControl(): AbstractControl {
         return this.SecurityFormGroup?.controls.isTriggerSignIn;
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
     }
 
     public SecurityFormGroup: FormGroup;

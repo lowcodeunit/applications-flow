@@ -1,4 +1,11 @@
-<lcu-breadcrumb [project-lookup]="ProjectLookup"> </lcu-breadcrumb>
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
+    [project-lookup]="ProjectLookup"
+>
+</lcu-breadcrumb>
 
 <lcu-three-column>
     <!-- left column -->
@@ -9,6 +16,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
             [subtext]="
                 Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''
             "
@@ -43,15 +51,32 @@
 
     <!-- center column -->
     <div>
-        <lcu-feed-header></lcu-feed-header>
-
+        <lcu-feed-header
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [feed]="State?.Feed"
+            [feed-check]="State?.FeedCheck"
+            [has-gh-connection]="State?.GitHub?.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
+            [loading-feed]="State?.LoadingFeed"
+        ></lcu-feed-header>
         <lcu-skeleton-feed-card
             *ngIf="State?.LoadingFeed"
         ></lcu-skeleton-feed-card>
 
         <ng-container *ngIf="!State?.LoadingFeed">
             <div *ngFor="let feedItem of State?.Feed">
-                <lcu-main-feed-card [feed-item]="feedItem">
+                <lcu-main-feed-card
+                    [active-environment]="
+                        State?.EaC?.Environments[ActiveEnvironmentLookup]
+                    "
+                    [active-environment-lookup]="ActiveEnvironmentLookup"
+                    [environment]="
+                        State?.EaC?.Environments[
+                            State?.EaC?.Enterprise?.PrimaryEnvironment
+                        ]
+                    "
+                    [feed-item]="feedItem"
+                >
                 </lcu-main-feed-card>
             </div>
         </ng-container>
@@ -67,6 +92,7 @@
             card-title="Route"
             button-text="Add Route"
             icon="route"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 ApplicationRoutes?.length + ' route(s) configured'
             "
@@ -196,6 +222,7 @@
             card-title="Custom Domain"
             button-text="Add Domain"
             icon="domain"
+            [loading]="State?.Loading"
             [show-main-icon]="false"
             main-slot-description="Current Domain"
         >
@@ -246,6 +273,7 @@
             card-title="Modifier"
             button-text="Add Modifier"
             icon="sync_alt"
+            [loading]="State?.Loading"
             main-icon="edit"
             [main-slot-description]="
                 ProjectsModifierLookups?.length + ' Modifier(s) configured'

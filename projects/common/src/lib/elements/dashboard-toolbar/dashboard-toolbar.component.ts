@@ -1,7 +1,6 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-dashboard-toolbar',
@@ -9,14 +8,16 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
     styleUrls: ['./dashboard-toolbar.component.scss'],
 })
 export class DashboardToolbarComponent implements OnInit {
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    @Input('project-lookups')
+    public ProjectLookups: Array<string>;
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
-    public get ProjectLookups(): string[] {
-        // console.log("PJS: ",Object.keys(this.State?.EaC?.Projects || {}).reverse() )
-        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
-    }
+    // public get ProjectLookups(): string[] {
+    //     // console.log("PJS: ",Object.keys(this.State?.EaC?.Projects || {}).reverse() )
+    //     return Object.keys(this.State?.EaC?.Projects || {}).reverse();
+    // }
 
     public IsSmScreen: boolean;
 

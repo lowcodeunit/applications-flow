@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-emulated-devices-toggle',
@@ -17,6 +16,9 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 export class EmulatedDevicesToggleComponent implements OnInit {
     @Input('editing-application')
     public EditingApplication: EaCApplicationAsCode;
+
+    @Input('loading')
+    public Loading: boolean;
 
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
@@ -29,9 +31,9 @@ export class EmulatedDevicesToggleComponent implements OnInit {
         return this.EmulatedDevicesFormGroup?.controls.isTriggerSignIn;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public EmulatedDevicesFormGroup: FormGroup;
 

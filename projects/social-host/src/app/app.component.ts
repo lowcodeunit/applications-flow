@@ -14,6 +14,7 @@ import {
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
 import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-root',
@@ -25,9 +26,11 @@ export class AppComponent implements OnDestroy, OnInit {
 
     protected initialized: boolean;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public RouterSub: Subscription;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     public IsSmScreen: boolean;
 
@@ -44,11 +47,7 @@ export class AppComponent implements OnDestroy, OnInit {
         protected activatedRoute: ActivatedRoute,
         protected socialSvc: SocialUIService
     ) {
-        socialSvc.changeEmitted$.subscribe((path: string) => {
-            this.EntPath = path;
-        });
-
-        router.events.subscribe(async (event: RouterEvent) => {
+        this.RouterSub = router.events.subscribe(async (event: RouterEvent) => {
             let changed = event instanceof NavigationEnd; //ActivationEnd
 
             if (changed) {
@@ -121,6 +120,9 @@ export class AppComponent implements OnDestroy, OnInit {
         if (this.feedCheckInterval) {
             clearInterval(this.feedCheckInterval);
         }
+
+        this.RouterSub.unsubscribe();
+        this.StateSub.unsubscribe();
     }
 
     public ngOnInit(): void {
@@ -134,6 +136,11 @@ export class AppComponent implements OnDestroy, OnInit {
                 }
             });
 
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+            }
+        );
         this.handleStateChange().then((eac) => {});
     }
 
@@ -145,7 +152,7 @@ export class AppComponent implements OnDestroy, OnInit {
         this.loadStyles();
 
         // this.eacSvc.SetActiveEnterprise(this.State?.Enterprises[0].Lookup);
-        console.log('state = ', this.State);
+        // console.log('state = ', this.State);
         // console.log("enterprise = ", this.State?.Enterprises)
     }
 

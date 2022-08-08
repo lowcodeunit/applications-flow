@@ -8,7 +8,7 @@
       <mat-card-title> Processor Details </mat-card-title>
     </mat-card-header> -->
 
-    <ng-container *ngIf="State?.Loading">
+    <ng-container *ngIf="Loading">
         <ng-container *ngFor="let fc of ValidFormControls">
             <skeleton-block
                 [id]="fc"
@@ -19,12 +19,12 @@
 
         <lcu-loader
             *ngIf="LCUType === 'Redirect'"
-            [loading]="State?.Loading"
+            [loading]="Loading"
         ></lcu-loader>
     </ng-container>
     <!-- END SKELETON -->
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <!-- <mat-card-content> -->
         <mat-form-field class="mat-full-width">
             <mat-select
@@ -366,7 +366,7 @@
         <!-- <mat-card-actions fxLayoutAlign="center center"> -->
 
         <!-- <button 
-          *ngIf="HasSaveButton && !State?.Loading"
+          *ngIf="HasSaveButton && !Loading"
           mat-raised-button 
           type="submit" 
           fxFlex="100%" 
@@ -375,7 +375,7 @@
           <mat-icon>save</mat-icon>
           Save Processor Details
         </button> -->
-        <!-- <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader> -->
+        <!-- <lcu-loader *ngIf="HasSaveButton" [loading]="Loading"></lcu-loader> -->
 
         <!-- </mat-card-actions> -->
     </ng-container>

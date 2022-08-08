@@ -7,7 +7,11 @@ import {
 } from '@angular/forms';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
-import { EaCDFSModifier, EaCProjectAsCode } from '@semanticjs/common';
+import {
+    EaCApplicationAsCode,
+    EaCDFSModifier,
+    EaCProjectAsCode,
+} from '@semanticjs/common';
 import { Guid } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
 import {
@@ -15,7 +19,6 @@ import {
     SaveDFSModifierEventRequest,
 } from '../../services/eac.service';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-dfs-modifier-form',
@@ -28,29 +31,23 @@ export class DFSModifiersFormComponent implements OnInit {
     //  Properties
     public CurrentType: string;
 
-    // @Input('data')
-    // public Data: {
-    //   Modifiers: { [lookup: string]: EaCDFSModifier };
-    //   Project: EaCProjectAsCode;
-    //   ProjectLookup: string;
-    // };
-
     @Input('editing-modifier-lookup')
     public EditingModifierLookup: string;
 
-    /**Specific Modifiers for either the project or appliaction */
-
-    // @Input('modifiers')
-    // public Modifiers:  { [lookup: string]: EaCDFSModifier };
+    @Input('applications')
+    public Applications: EaCApplicationAsCode;
 
     @Input('application-lookup')
     public ApplicationLookup: string;
 
-    @Input('project')
-    public Project: EaCProjectAsCode;
+    @Input('projects')
+    public Projects: Array<EaCProjectAsCode>;
 
     @Input('project-lookup')
     public ProjectLookup: string;
+
+    @Input('modifiers')
+    public Modifiers: { [lookup: string]: EaCDFSModifier };
 
     /**which level is the dfs modifier being edited ent project or app */
     @Input('level')
@@ -64,20 +61,6 @@ export class DFSModifiersFormComponent implements OnInit {
         return this.ModifierFormGroup?.controls.details;
     }
 
-    public get EditingModifier(): EaCDFSModifier {
-        let mdfr = this.Modifiers
-            ? this.Modifiers[this.EditingModifierLookup]
-            : null;
-
-        if (mdfr == null && this.EditingModifierLookup) {
-            mdfr = {};
-        }
-
-        return mdfr;
-    }
-
-    // public EditingModifierLookup: string;
-
     public get EnabledFormControl(): AbstractControl {
         return this.ModifierFormGroup?.controls.enabled;
     }
@@ -88,22 +71,6 @@ export class DFSModifiersFormComponent implements OnInit {
 
     public get LocationFormControl(): AbstractControl {
         return this.ModifierFormGroup?.controls.location;
-    }
-
-    public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-        return this.State?.EaC?.Modifiers;
-    }
-
-    public get ModifierLookups(): Array<string> {
-        if (this.ProjectLookup) {
-            return this.State?.EaC?.Projects[this.ProjectLookup]
-                ?.ModifierLookups;
-        } else if (this.ApplicationLookup) {
-            return this.State.EaC?.Applications[this.ApplicationLookup]
-                ?.ModifierLookups;
-        } else {
-            return Object.keys(this.Modifiers || {});
-        }
     }
 
     public get MultiSelectFormControl(): AbstractControl {
@@ -122,10 +89,6 @@ export class DFSModifiersFormComponent implements OnInit {
         return this.ModifierFormGroup?.controls.priority;
     }
 
-    // public get Project(): EaCProjectAsCode {
-    //   return this.Data.Project || {};
-    // }
-
     public get ScriptFormControl(): AbstractControl {
         return this.ModifierFormGroup?.controls.script;
     }
@@ -142,17 +105,19 @@ export class DFSModifiersFormComponent implements OnInit {
         return this.ModifierFormGroup?.controls.stateDataToken;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public get TypeFormControl(): AbstractControl {
         return this.ModifierFormGroup?.controls.type;
     }
 
+    public EditingModifier: EaCDFSModifier;
+
     public ModifierFormGroup: FormGroup;
 
     public ModifierSelectFormGroup: FormGroup;
+
+    public ModifierLookups: Array<string>;
+
+    public Project: EaCProjectAsCode;
 
     //  Constructors
     constructor(
@@ -171,6 +136,31 @@ export class DFSModifiersFormComponent implements OnInit {
             this.setupModifierForm();
         } else {
             this.setupModifierSelectForm();
+        }
+    }
+
+    public ngOnChanges(): void {
+        if (this.ProjectLookup) {
+            this.ModifierLookups =
+                this.Projects[this.ProjectLookup]?.ModifierLookups;
+        } else if (this.ApplicationLookup) {
+            this.ModifierLookups =
+                this.Applications[this.ApplicationLookup]?.ModifierLookups;
+        } else {
+            this.ModifierLookups = Object.keys(this.Modifiers || {});
+        }
+
+        let mdfr = this.Modifiers
+            ? this.Modifiers[this.EditingModifierLookup]
+            : null;
+
+        if (mdfr == null && this.EditingModifierLookup) {
+            mdfr = {};
+        }
+        this.EditingModifier = mdfr;
+
+        if (this.ProjectLookup && this.Projects) {
+            this.Project = this.Projects[this.ProjectLookup];
         }
     }
 

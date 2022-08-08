@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     ApplicationsFlowState,
     EaCService,
@@ -16,96 +16,84 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-enterprise',
     templateUrl: './enterprise.component.html',
     styleUrls: ['./enterprise.component.scss'],
 })
-export class Enterprise4Component implements OnInit {
-    public get ActiveEnvironment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
-    }
-
-    public get ActiveEnvironmentLookup(): string {
+export class Enterprise4Component implements OnInit, OnDestroy {
+    private get ActiveEnvironmentLookup(): string {
         //  TODO:  Eventually support multiple environments
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
         return envLookups[0];
     }
 
-    public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
+    private get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
         return this.Environment?.DevOpsActions || {};
     }
 
-    public get DevOpsActionLookups(): Array<string> {
+    private get DevOpsActionLookups(): Array<string> {
         return Object.keys(this.DevOpsActions || {});
     }
 
-    public get Enterprise(): any {
-        return this.State?.EaC?.Enterprise;
-    }
-
-    public get Environment(): EaCEnvironmentAsCode {
+    private get Environment(): EaCEnvironmentAsCode {
         return this.State?.EaC?.Environments[
             this.State?.EaC?.Enterprise?.PrimaryEnvironment
         ];
     }
 
-    // public get Feed(): Array<FeedItem> {
-    //     console.log("Feed: ", this.State?.Feed)
-    //     return this.State?.Feed;
-    // }
-
-    public get FilterTypes(): Array<string> {
-        return Object.values(this.State?.FeedFilters || {});
-    }
-
-    public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
+    private get Modifiers(): { [lookup: string]: EaCDFSModifier } {
         return this.State?.EaC?.Modifiers || {};
     }
 
-    public get ModifierLookups(): Array<string> {
+    private get ModifierLookups(): Array<string> {
         return Object.keys(this.Modifiers || {});
     }
 
-    public get NumberOfSourceControls(): number {
+    private get NumberOfSourceControls(): number {
         return this.SourceControlLookups?.length;
     }
 
-    public get NumberOfModifiers(): number {
+    private get NumberOfModifiers(): number {
         return this.ModifierLookups?.length;
     }
 
-    public get NumberOfPipelines(): number {
+    private get NumberOfPipelines(): number {
         return this.DevOpsActionLookups?.length;
     }
 
-    public get NumberOfProjects(): number {
+    private get NumberOfProjects(): number {
         return this.ProjectLookups?.length;
     }
 
-    public get ProjectLookups(): string[] {
-        return Object.keys(this.State?.EaC?.Projects || {}).reverse();
-    }
-
-    public get SourceControlLookups(): Array<string> {
+    private get SourceControlLookups(): Array<string> {
         return Object.keys(this.SourceControls || {});
     }
 
-    public get SourceControls(): { [lookup: string]: EaCSourceControl } {
+    private get SourceControls(): { [lookup: string]: EaCSourceControl } {
         return this.Environment?.Sources || {};
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc?.State;
-    }
+    public ActiveEnvironment: EaCEnvironmentAsCode;
 
-    // public EntPath: string;
+    public FilterTypes: Array<string>;
+
+    public Loading: boolean;
+
+    public ProjectLookups: Array<string>;
 
     public Slices: { [key: string]: number };
 
     public SlicesCount: number;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
+
+    public counter: number;
 
     public IsInfoCardEditable: boolean;
 
@@ -118,8 +106,7 @@ export class Enterprise4Component implements OnInit {
         protected router: Router,
         protected socialSvc: SocialUIService
     ) {
-        // this.EntPath = 'enterprise-2';
-        // this.socialSvc.AssignEnterprisePath(this.EntPath);
+        this.counter = 0;
 
         this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
@@ -134,7 +121,30 @@ export class Enterprise4Component implements OnInit {
         };
     }
 
-    public ngOnInit(): void {}
+    public ngOnInit(): void {
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
+
+                this.ProjectLookups = Object.keys(
+                    this.State?.EaC?.Projects || {}
+                ).reverse();
+
+                this.ActiveEnvironment =
+                    this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+                this.FilterTypes = Object.values(this.State?.FeedFilters || {});
+            }
+        );
+    }
+
+    public ngOnDestroy() {
+        this.StateSub.unsubscribe();
+    }
 
     public HandleLeftClickEvent(event: any) {}
     public HandleRightClickEvent(event: any) {}

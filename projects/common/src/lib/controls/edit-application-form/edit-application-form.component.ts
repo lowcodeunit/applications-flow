@@ -10,7 +10,6 @@ import {
     EaCService,
     SaveApplicationAsCodeEventRequest,
 } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-edit-application-form',
@@ -33,6 +32,9 @@ export class EditApplicationFormComponent implements OnInit {
     @Input('project-lookup')
     public ProjectLookup: string;
 
+    @Input('loading')
+    public Loading: boolean;
+
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
 
@@ -46,10 +48,6 @@ export class EditApplicationFormComponent implements OnInit {
 
     public get RouteFormControl(): AbstractControl {
         return this.ApplicationFormGroup?.controls.route;
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
     }
 
     public ApplicationFormGroup: FormGroup;

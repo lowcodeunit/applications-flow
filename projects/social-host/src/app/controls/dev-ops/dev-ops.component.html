@@ -1,4 +1,6 @@
-<lcu-dashboard-toolbar></lcu-dashboard-toolbar>
+<lcu-dashboard-toolbar
+    [project-lookups]="ProjectLookups"
+></lcu-dashboard-toolbar>
 
 <div fxLayout="row" fxLayout.lt-md="column">
     <div fxLayout="column" class="devops-card-container" fxFlex="50%">
@@ -29,6 +31,7 @@
             *ngIf="SourceControlLookups?.length > 0"
             card-title="Source Control"
             icon="build"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 SourceControlLookups?.length + ' source control(s) configured'
             "
@@ -167,6 +170,7 @@
             *ngIf="DevOpsActionLookups?.length > 0"
             card-title="Build Pipeline"
             icon="plumbing"
+            [loading]="State?.Loading"
             [main-slot-description]="
                 DevOpsActionLookups?.length + ' Pipeline(s) configured'
             "
