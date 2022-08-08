@@ -1,5 +1,6 @@
 <lcu-dashboard-toolbar
     [project-lookups]="ProjectLookups"
+    [loading]="State?.Loading"
 ></lcu-dashboard-toolbar>
 
 <lcu-breadcrumb
@@ -12,7 +13,7 @@
 <lcu-two-column>
     <div top-left>
         <lcu-project-info-card
-            [name]="this.State?.EaC?.Enterprise?.Name"
+            [name]="State?.EaC?.Enterprise?.Name"
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
