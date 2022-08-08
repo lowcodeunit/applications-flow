@@ -14,7 +14,8 @@
 </div>
 
 <mat-dialog-content>
-    <lcu-domains [data]="DomainData"> </lcu-domains>
+    <lcu-domains [data]="DomainData" (result-event)="HandleResultEvent($event)">
+    </lcu-domains>
 
     <!-- <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center" >
         {{ ErrorMessage }}

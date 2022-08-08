@@ -1,6 +1,6 @@
 import { FormsService } from './../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
     AbstractControl,
     FormControl,
@@ -51,6 +51,9 @@ export class DomainsComponent implements OnInit {
         ProjectLookup: string;
     };
 
+    @Output('result-event')
+    public ResultEvent: EventEmitter<any>;
+
     public get Host(): EaCHost {
         return this.Data?.Hosts[this.HostLookup];
     }
@@ -80,10 +83,15 @@ export class DomainsComponent implements OnInit {
         return this.Data.ProjectLookup;
     }
 
+    public Error: string;
+
     constructor(
         protected formsService: FormsService,
         protected eacSvc: EaCService
-    ) {}
+    ) {
+        this.ResultEvent = new EventEmitter();
+        this.Error = '';
+    }
 
     public ngOnInit(): void {
         this.formName = 'DomainForm';
@@ -124,9 +132,14 @@ export class DomainsComponent implements OnInit {
     }
 
     protected setupForm(): void {
+        const regEx = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
         this.Form = new FormGroup({
             domain: new FormControl(this.HostLookup || '', {
-                validators: [Validators.required, Validators.minLength(3)],
+                validators: [
+                    Validators.required,
+                    Validators.minLength(3),
+                    Validators.pattern(regEx),
+                ],
                 updateOn: 'change',
             }),
         });
@@ -163,14 +176,23 @@ export class DomainsComponent implements OnInit {
      * Save changes
      */
     protected save(): void {
-        this.eacSvc.SaveProjectAsCode({
-            ProjectLookup: this.ProjectLookup,
-            Project: {
-                ...this.Project,
-                // Hosts: [...this.Project.Hosts, this.Domain.value],
-                Hosts: [this.Domain.value],
-            },
-        });
+        this.eacSvc
+            .SaveProjectAsCode({
+                ProjectLookup: this.ProjectLookup,
+                Project: {
+                    ...this.Project,
+                    // Hosts: [...this.Project.Hosts, this.Domain.value],
+                    Hosts: [this.Domain.value],
+                },
+            })
+            .then((result) => {
+                console.log('domain result: ', result);
+                if (result.Code != 0) {
+                    this.Error = result.Message;
+                } else {
+                    this.ResultEvent.emit(result);
+                }
+            });
         this.formsService.UpdateValuesReference({
             Id: this.formName,
             Form: this.Form,

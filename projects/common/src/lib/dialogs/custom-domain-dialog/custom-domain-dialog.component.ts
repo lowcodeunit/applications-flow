@@ -1,5 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Status } from '@lcu/common';
 import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
 
 export interface CDDialogData {
@@ -19,7 +21,8 @@ export class CustomDomainDialogComponent implements OnInit {
 
     constructor(
         public dialogRef: MatDialogRef<CustomDomainDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: CDDialogData
+        @Inject(MAT_DIALOG_DATA) public data: CDDialogData,
+        protected snackBar: MatSnackBar
     ) {
         this.DomainData = {
             Hosts: this.data.hosts,
@@ -33,5 +36,14 @@ export class CustomDomainDialogComponent implements OnInit {
 
     public CloseDialog() {
         this.dialogRef.close();
+    }
+
+    public HandleResultEvent(event: Status) {
+        if (event.Code === 0) {
+            this.snackBar.open('Custom Domain Succesfully Created', 'Dismiss', {
+                duration: 5000,
+            });
+            this.CloseDialog();
+        }
     }
 }
