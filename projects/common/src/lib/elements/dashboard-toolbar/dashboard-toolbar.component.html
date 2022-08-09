@@ -10,13 +10,13 @@
         <div class="vl"></div>
 
         <a
-            *ngIf="ProjectLookups?.length > 0"
+            *ngIf="ProjectLookups?.length > 0 || Loading"
             class="toolbar-item"
             href="/dashboard/devops"
             >DevOps</a
         >
         <a
-            *ngIf="ProjectLookups?.length <= 0"
+            *ngIf="ProjectLookups?.length <= 0 && !Loading"
             matTooltip="Add a project to unlock this feature"
             class="toolbar-item disabled"
             >DevOps</a
