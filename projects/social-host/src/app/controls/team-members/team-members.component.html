@@ -1,6 +1,8 @@
 <lcu-dashboard-toolbar
     [project-lookups]="ProjectLookups"
+    [loading]="State?.Loading"
 ></lcu-dashboard-toolbar>
+
 <div class="teams-container">
     <p class="card-description" *ngIf="!State?.Loading">
         Team members can create new sites or change their settings, depending on
