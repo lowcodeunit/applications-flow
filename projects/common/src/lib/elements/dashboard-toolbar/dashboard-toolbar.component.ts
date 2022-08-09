@@ -10,6 +10,10 @@ import { EaCService } from '../../services/eac.service';
 export class DashboardToolbarComponent implements OnInit {
     @Input('project-lookups')
     public ProjectLookups: Array<string>;
+
+    @Input('loading')
+    public Loading: boolean;
+
     // public get State(): ApplicationsFlowState {
     //     return this.eacSvc.State;
     // }
