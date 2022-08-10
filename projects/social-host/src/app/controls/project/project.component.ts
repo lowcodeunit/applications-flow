@@ -20,83 +20,11 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'lcu-projects',
-    templateUrl: './projects.component.html',
-    styleUrls: ['./projects.component.scss'],
+    selector: 'lcu-project',
+    templateUrl: './project.component.html',
+    styleUrls: ['./project.component.scss'],
 })
-export class ProjectsComponent implements OnInit, OnDestroy {
-    // public get ActiveEnvironmentLookup(): string {
-    //     //  TODO:  Eventually support multiple environments
-    //     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
-
-    //     return envLookups[0];
-    // }
-
-    // public get ApplicationLookups(): string[] {
-    //     return Object.keys(this.Project?.ApplicationLookups || {});
-    // }
-
-    // public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
-    //     return this.State?.EaC?.Applications || {};
-    // }
-
-    // public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
-    //     const apps: { [lookup: string]: EaCApplicationAsCode } = {};
-
-    //     this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
-    //         apps[appLookup] = this.State?.EaC?.Applications[appLookup];
-    //     });
-    //     return apps;
-    // }
-
-    // public get ApplicationRoutes(): Array<string> {
-    //     return Object.keys(this.RoutedApplications || {});
-    // }
-
-    // public get Enterprise(): any {
-    //     return this.State?.EaC?.Enterprise;
-    // }
-
-    // public get State(): ApplicationsFlowState {
-    //     return this.eacSvc.State;
-    // }
-
-    // public get Project(): EaCProjectAsCode {
-    //     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
-    // }
-
-    // public get ProjectLookups(): string[] {
-    //     return Object.keys(this.State?.EaC?.Projects || {});
-    // }
-
-    // public get Projects(): any {
-    //     return this.State?.EaC?.Projects || {};
-    // }
-
-    // public get NumberOfRoutes(): number {
-    //     return this.ApplicationRoutes?.length;
-    // }
-
-    // public get NumberOfModifiers(): number {
-    //     return this.ProjectsModifierLookups?.length;
-    // }
-
-    // public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-    //     return this.State?.EaC?.Modifiers || {};
-    // }
-
-    // public get ProjectsModifierLookups(): Array<string> {
-    //     return this.Project.ModifierLookups || [];
-    // }
-
-    // public get Loading(): boolean {
-    //     return (
-    //         this.State?.LoadingActiveEnterprise ||
-    //         this.State?.LoadingEnterprises ||
-    //         this.State?.Loading
-    //     );
-    // }
-
+export class ProjectComponent implements OnInit {
     protected get BuildRoutedApplications(): {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
     } {
@@ -185,6 +113,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
 
     public Enterprise: any;
 
+    public FilterTypes: Array<string>;
+
     public Modifiers: { [lookup: string]: EaCDFSModifier };
 
     public Loading: boolean;
@@ -228,24 +158,11 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             this.ProjectLookup = params['projectLookup'];
         });
 
-        this.Stats = [
-            { Name: 'Retention Rate', Stat: '85%' },
-            { Name: 'Bounce Rate', Stat: '38%' },
-            { Name: 'Someother Rate', Stat: '5%' },
-        ];
-
         this.IsInfoCardEditable = true;
         this.IsInfoCardShareable = false;
-
-        this.SlicesCount = 5;
-
-        this.Slices = {
-            Routes: this.SlicesCount,
-            Modifiers: this.SlicesCount,
-        };
     }
 
-    public ngOnInit(): void {
+    ngOnInit(): void {
         this.StateSub = this.eacSvc.State.subscribe(
             (state: ApplicationsFlowState) => {
                 this.State = state;
@@ -291,6 +208,8 @@ export class ProjectsComponent implements OnInit, OnDestroy {
                 this.ProjectsModifierLookups =
                     this.Project.ModifierLookups || [];
 
+                this.FilterTypes = Object.values(this.State?.FeedFilters || {});
+
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
                     this.State?.LoadingEnterprises ||
@@ -302,120 +221,4 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     public ngOnDestroy() {
         this.StateSub.unsubscribe();
     }
-
-    public EditCustomDomain() {
-        const dialogRef = this.dialog.open(CustomDomainDialogComponent, {
-            width: '600px',
-            data: {
-                hosts: this.State.EaC.Hosts,
-                primaryHost:
-                    this.Project?.Hosts[this.Project?.Hosts?.length - 1],
-                project: this.Project,
-                projectLookup: this.ProjectLookup,
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-            // console.log('The domains dialog was closed');
-            // console.log("result:", result)
-        });
-    }
-
-    public DeleteProject(projectLookup: string, projectName: string): void {
-        this.eacSvc
-            .DeleteProject(projectLookup, projectName)
-            .then((status: Status) => {
-                this.router.navigate(['/enterprises']);
-            });
-    }
-
-    public HandleLeftClickEvent(event: any) {
-        this.OpenEditProjectModal();
-    }
-
-    public HandleRightClickEvent(event: any) {
-        console.log('Right Icon has been selected', event);
-    }
-
-    public OpenEditProjectModal() {
-        const dialogRef = this.dialog.open(EditProjectDialogComponent, {
-            width: '600px',
-            data: {
-                projectLookup: this.ProjectLookup,
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-            // console.log('The dialog was closed');
-            // console.log("result:", result.event)
-        });
-    }
-
-    public OpenNewAppDialog(event: any) {
-        const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
-            width: '600px',
-            data: {
-                projectLookup: this.ProjectLookup,
-                environmentLookup: this.ActiveEnvironmentLookup,
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-            // console.log('The dialog was closed');
-            // console.log("result:", result)
-        });
-    }
-
-    public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
-        // throw new Error('Not implemented: OpenModifierDialog');
-        const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
-            width: '600px',
-            data: {
-                modifierLookup: mdfrLookup,
-                modifierName: mdfrName,
-                projectLookup: this.ProjectLookup,
-                level: 'project',
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-            // console.log('The dialog was closed');
-            // console.log("result:", result)
-        });
-    }
-
-    public SettingsClicked() {
-        console.log('Settings Clicked');
-    }
-
-    public UpgradeClicked() {
-        console.log('Upgarde clicked');
-    }
-
-    public LaunchBuildClicked() {
-        console.log('launch build clicked');
-    }
-    public ToggleSlices(type: string) {
-        let count = this.Slices[type];
-
-        let length =
-            type === 'Modifiers'
-                ? this.ProjectsModifierLookups?.length
-                : type === 'Routes'
-                ? this.ApplicationRoutes?.length
-                : this.SlicesCount;
-
-        if (count === length) {
-            this.Slices[type] = this.SlicesCount;
-        } else {
-            this.Slices[type] = length;
-        }
-    }
-
-    public ViewBuildDetails() {
-        console.log('View build details clicked');
-    }
-
-    //HELPERS
-    protected async handleStateChange(): Promise<void> {}
 }

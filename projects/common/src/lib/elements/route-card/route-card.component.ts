@@ -1,32 +1,20 @@
 import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {
     MatTreeFlatDataSource,
     MatTreeFlattener,
 } from '@angular/material/tree';
 import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
+import { NewApplicationDialogComponent } from '../../dialogs/new-application-dialog/new-application-dialog.component';
 import { FlatNode, TreeNode } from '../../models/tree-node.model';
-import { EaCService } from '../../services/eac.service';
-import { SocialUIService } from '../../services/social-ui.service';
 
 @Component({
-    selector: 'lcu-project-card',
-    templateUrl: './project-card.component.html',
-    styleUrls: ['./project-card.component.scss'],
+    selector: 'lcu-route-card',
+    templateUrl: './route-card.component.html',
+    styleUrls: ['./route-card.component.scss'],
 })
-export class ProjectCardComponent implements OnInit {
-    @Input('applications-bank')
-    public ApplicationsBank: Array<EaCApplicationAsCode>;
-
-    @Input('loading')
-    public Loading: boolean;
-
-    @Input('project-lookups')
-    public ProjectLookups: Array<string>;
-
-    @Input('projects')
-    public Projects: Array<EaCProjectAsCode>;
-
+export class RouteCardComponent implements OnInit {
     private transformer = (node: TreeNode, level: number) => {
         return {
             expandable: !!node.children && node.children.length > 0,
@@ -39,6 +27,12 @@ export class ProjectCardComponent implements OnInit {
         };
     };
 
+    @Input('applications-bank')
+    public ApplicationsBank: Array<EaCApplicationAsCode>;
+
+    @Input('loading')
+    public Loading: boolean;
+
     protected get Applications(): {
         [lookup: string]: EaCApplicationAsCode;
     } {
@@ -48,10 +42,6 @@ export class ProjectCardComponent implements OnInit {
             apps[appLookup] = this.ApplicationsBank[appLookup];
         });
         return apps;
-    }
-
-    protected get ApplicationRoutes(): Array<string> {
-        return Object.keys(this.RoutedApplications || {});
     }
 
     protected get CurrentRouteApplicationLookups(): Array<string> {
@@ -135,17 +125,16 @@ export class ProjectCardComponent implements OnInit {
 
         return routeSetResult;
     }
-
-    treeControl = new FlatTreeControl<FlatNode>(
+    public treeControl = new FlatTreeControl<FlatNode>(
         (node: any) => node.level,
         (node: any) => node.expandable
     );
 
-    treeFlattener = new MatTreeFlattener(
+    protected treeFlattener = new MatTreeFlattener(
         this.transformer,
-        (node) => node.level,
-        (node) => node.expandable,
-        (node) => node.children
+        (node: any) => node.level,
+        (node: any) => node.expandable,
+        (node: any) => node.children
     );
 
     public DataSource = new MatTreeFlatDataSource(
@@ -159,110 +148,38 @@ export class ProjectCardComponent implements OnInit {
     @Input('project-lookup')
     public ProjectLookup: string;
 
+    @Input('active-environment-lookup')
+    public ActiveEnvironmentLookup: string;
+
+    public ApplicationRoutes: Array<string>;
+
     public AppRoute: string;
 
-    // public RoutedApplications: any;
-
-    constructor() {}
+    constructor(protected dialog: MatDialog) {}
 
     public HasChild = (_: number, node: FlatNode) => node.expandable;
 
-    public ngOnInit(): void {}
-
-    public ngOnChanges() {
-        if (this.Projects && this.ProjectLookups && this.Applications) {
-            let temp = this.BuildProjectTree();
-            // console.log("to string: ", JSON.stringify(temp))
+    ngOnInit(): void {
+        if (this.ProjectLookup && this.Project) {
+            let temp = this.BuildRouteTree();
 
             if (JSON.stringify(this.DataSource.data) !== JSON.stringify(temp)) {
-                // console.log('Its different')
+                console.log('Its different: ', JSON.stringify(temp));
                 this.DataSource.data = temp;
             }
         }
     }
 
-    public RouteToPath(path: string): void {
-        window.location.href = path;
-    }
-
-    public BuildProjectTree(): Array<TreeNode> {
-        let tempTreeData: Array<TreeNode> = [];
-        this.ProjectLookups?.forEach((pLookup: string) => {
-            let tempProj = this.Projects[pLookup];
-            this.Project = tempProj;
-            let tempProjNode: TreeNode = {
-                name: tempProj.Project.Name,
-                description: tempProj.Project.Description,
-                lookup: pLookup,
-                url: 'https://' + tempProj.Hosts[tempProj?.Hosts?.length - 1],
-                routerLink: ['/project', pLookup],
-            };
-
-            let tempRoutes = this.ApplicationRoutes;
-
-            if (tempRoutes) {
-                let tempProjChildren: Array<TreeNode> = [];
-                tempRoutes.forEach((appRoute: string) => {
-                    this.AppRoute = appRoute;
-
-                    let tempRouteNode: TreeNode = {
-                        name: this.AppRoute,
-                        url:
-                            'https://' +
-                            tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
-                            this.AppRoute,
-                        routerLink: ['/route', this.AppRoute, pLookup],
-                    };
-
-                    let tempApps = this.CurrentRouteApplicationLookups;
-                    if (tempApps) {
-                        let tempRouteChildren: Array<TreeNode> = [];
-                        tempApps.forEach((appLookup: string) => {
-                            let tempApp =
-                                this.RoutedApplications[this.AppRoute][
-                                    appLookup
-                                ];
-                            let tempAppNode: TreeNode = {
-                                lookup: appLookup,
-                                name: tempApp.Application.Name,
-                                url:
-                                    'https://' +
-                                    tempProj?.Hosts[
-                                        tempProj?.Hosts?.length - 1
-                                    ] +
-                                    this.AppRoute,
-                                description: tempApp.Application.Description,
-                                routerLink: [
-                                    '/application',
-                                    appLookup,
-                                    this.AppRoute,
-                                    pLookup,
-                                ],
-                            };
-                            tempRouteChildren.push(tempAppNode);
-                        });
-                        tempRouteNode.children = tempRouteChildren;
-                    }
-                    tempProjChildren.push(tempRouteNode);
-                });
-                tempProjNode.children = tempProjChildren;
-            }
-            tempTreeData.push(tempProjNode);
-        });
-        // console.log('THE TREE: ', tempTreeData);
-        return tempTreeData;
-
-        // return tempTreeData;
-    }
+    ngOnChanges() {}
 
     public BuildRouteTree() {
         console.log('called route tree');
         let tempTreeData: Array<TreeNode> = [];
 
-        let tempRoutes = this.ApplicationRoutes;
-        if (tempRoutes) {
+        this.ApplicationRoutes = Object.keys(this.RoutedApplications || {});
+        if (this.ApplicationRoutes) {
             // let tempProjChildren: Array<TreeNode> = [];
-            tempRoutes.forEach((appRoute: string) => {
+            this.ApplicationRoutes.forEach((appRoute: string) => {
                 this.AppRoute = appRoute;
 
                 let tempRouteNode: TreeNode = {
@@ -309,5 +226,20 @@ export class ProjectCardComponent implements OnInit {
 
     public HandleRoute(route: string) {
         console.log('route: ', route);
+    }
+
+    public OpenNewAppDialog(event: any) {
+        const dialogRef = this.dialog.open(NewApplicationDialogComponent, {
+            width: '600px',
+            data: {
+                projectLookup: this.ProjectLookup,
+                environmentLookup: this.ActiveEnvironmentLookup,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+            // console.log('The dialog was closed');
+            // console.log("result:", result)
+        });
     }
 }

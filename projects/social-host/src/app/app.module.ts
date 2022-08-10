@@ -9,7 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ProjectsComponent } from './controls/projects/projects.component';
+import { ProjectComponent } from './controls/project/project.component';
 import { RoutesComponent } from './controls/routes/routes.component';
 import { EnterpriseComponent } from './controls/enterprise-old/enterprise-old.component';
 import { ApplicationsComponent } from './controls/applications/applications.component';
@@ -35,7 +35,7 @@ import { ProjectPageComponent } from './controls/project-page/project-page.compo
 @NgModule({
     declarations: [
         AppComponent,
-        ProjectsComponent,
+        ProjectComponent,
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,
@@ -75,7 +75,7 @@ import { ProjectPageComponent } from './controls/project-page/project-page.compo
     bootstrap: [AppComponent],
     exports: [TeamMembersComponent, ProjectPageComponent],
     entryComponents: [
-        ProjectsComponent,
+        ProjectComponent,
         RoutesComponent,
         DiscoverComponent,
         EnterpriseComponent,

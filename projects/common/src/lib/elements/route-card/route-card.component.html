@@ -1,13 +1,13 @@
 <!-- TREE -->
-<!-- <ng-container *ngIf="ProjectLookups?BuildTree():false"></ng-container> -->
 <lcu-slotted-card-lg
-    *ngIf="ProjectLookups?.length > 0"
+    *ngIf="ProjectLookup"
     class="fit-content"
+    card-title="Route"
+    button-text="Add Route"
+    icon="route"
     [loading]="Loading"
-    card-title="Project"
-    icon="work_outline"
-    [main-slot-description]="ProjectLookups?.length + ' project(s) configured'"
-    (main-action-clicked)="RouteToPath('/dashboard/create-project')"
+    [main-slot-description]="ApplicationRoutes?.length + ' route(s) configured'"
+    (main-action-clicked)="OpenNewAppDialog($event)"
 >
     <!-- <div> -->
     <ng-container *ngIf="DataSource">
