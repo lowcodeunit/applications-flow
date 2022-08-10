@@ -1,13 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
     ApplicationsFlowState,
     EaCService,
     ApplicationsFlowService,
-    CustomDomainDialogComponent,
-    NewApplicationDialogComponent,
-    DFSModifiersDialogComponent,
-    EditProjectDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCApplicationAsCode,

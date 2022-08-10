@@ -164,7 +164,7 @@ export class RouteCardComponent implements OnInit {
             let temp = this.BuildRouteTree();
 
             if (JSON.stringify(this.DataSource.data) !== JSON.stringify(temp)) {
-                console.log('Its different: ', JSON.stringify(temp));
+                // console.log('Its different: ', JSON.stringify(temp));
                 this.DataSource.data = temp;
             }
         }
@@ -173,7 +173,7 @@ export class RouteCardComponent implements OnInit {
     ngOnChanges() {}
 
     public BuildRouteTree() {
-        console.log('called route tree');
+        // console.log('called route tree');
         let tempTreeData: Array<TreeNode> = [];
 
         this.ApplicationRoutes = Object.keys(this.RoutedApplications || {});
@@ -225,7 +225,7 @@ export class RouteCardComponent implements OnInit {
     }
 
     public HandleRoute(route: string) {
-        console.log('route: ', route);
+        // console.log('route: ', route);
     }
 
     public OpenNewAppDialog(event: any) {

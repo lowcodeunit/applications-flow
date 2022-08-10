@@ -1,5 +1,5 @@
 <lcu-dashboard-toolbar
-    [project-lookups]="ProjectLookups"
+    [project-lookup]="ProjectLookup"
     [loading]="State?.Loading"
 ></lcu-dashboard-toolbar>
 
@@ -60,9 +60,9 @@
         </lcu-activity-card>
     </div>
 
-    <div middle-left *ngIf="ProjectLookups?.length > 0">
+    <div middle-left *ngIf="ProjectLookup">
         <lcu-route-card
-            *ngIf="ProjectLookups?.length > 0"
+            *ngIf="ProjectLookup"
             class="fit-content"
             [active-environment-lookup]="ActiveEnvironmentLookup"
             [applications-bank]="State?.EaC?.Applications"

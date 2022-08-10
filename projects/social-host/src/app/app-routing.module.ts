@@ -11,6 +11,7 @@ import { DevOpsComponent } from './controls/dev-ops/dev-ops.component';
 import { TeamMembersComponent } from './controls/team-members/team-members.component';
 import { ProjectPageComponent } from './controls/project-page/project-page.component';
 import { ProjectComponent } from './controls/project/project.component';
+import { RoutesPageComponent } from './controls/routes-page/routes-page.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,10 @@ const routes: Routes = [
     {
         path: 'route/:appRoute/:projectLookup',
         component: RoutesComponent,
+    },
+    {
+        path: 'applications/:projectLookup',
+        component: RoutesPageComponent,
     },
     { path: 'devops', component: DevOpsComponent },
     { path: 'discover', component: DiscoverComponent },

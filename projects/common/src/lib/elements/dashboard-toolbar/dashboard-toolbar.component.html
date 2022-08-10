@@ -1,5 +1,5 @@
 <mat-toolbar class="dashboard-toolbar">
-    <ng-container>
+    <ng-container *ngIf="ProjectLookups">
         <a class="toolbar-item" href="/dashboard/enterprise">Overview</a>
         <div class="vl"></div>
 
@@ -28,24 +28,28 @@
         <!-- <span>Manage (krakyn)</span> -->
     </ng-container>
 
-    <!-- <ng-container >
-        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
-            <mat-icon>more_horiz</mat-icon>
-        </button>
-        <mat-menu #menu="matMenu">
-            <a class="toolbar-item" mat-menu-item href="/dashboard/enterprise">Overview</a>
+    <ng-container *ngIf="ProjectLookup">
+        <a class="toolbar-item" href="/dashboard/project/{{ ProjectLookup }}"
+            >Project Overview</a
+        >
+        <div class="vl"></div>
 
-            <a class="toolbar-item" mat-menu-item href="/dashboard/projects">Projects</a>
+        <a class="toolbar-item" href="/applications/{{ ProjectLookup }}"
+            >Applications</a
+        >
+        <div class="vl"></div>
 
-            <a class="toolbar-item" mat-menu-item href="/dashboard/teams">Teams</a>
+        <a class="toolbar-item" href="/dashboard/teams">Teams</a>
+        <div class="vl"></div>
 
-            <a class="toolbar-item" mat-menu-item href="/dashboard/devops">DevOps</a>
+        <a class="toolbar-item disabled" href="/dashboard/teams">Domains</a>
+        <div class="vl"></div>
 
-            <span>Domains</span>
-            <a class="toolbar-item" mat-menu-item href="/dashboard/modifiers">Mods</a>
-            <span>Manage (krakyn)</span>
-            
-        </mat-menu>
+        <a class="toolbar-item disabled" href="/dashboard/state-config"
+            >State Config</a
+        >
+        <div class="vl"></div>
 
-    </ng-container> -->
+        <a class="toolbar-item" href="/dashboard/modifiers">Mods</a>
+    </ng-container>
 </mat-toolbar>

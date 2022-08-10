@@ -14,14 +14,11 @@ export class DashboardToolbarComponent implements OnInit {
     @Input('loading')
     public Loading: boolean;
 
-    // public get State(): ApplicationsFlowState {
-    //     return this.eacSvc.State;
-    // }
+    // @Input('type')
+    // public Type: string;
 
-    // public get ProjectLookups(): string[] {
-    //     // console.log("PJS: ",Object.keys(this.State?.EaC?.Projects || {}).reverse() )
-    //     return Object.keys(this.State?.EaC?.Projects || {}).reverse();
-    // }
+    @Input('project-lookup')
+    public ProjectLookup: string;
 
     public IsSmScreen: boolean;
 
@@ -40,5 +37,9 @@ export class DashboardToolbarComponent implements OnInit {
                     this.IsSmScreen = false;
                 }
             });
+
+        // if(!this.Type){
+        //     this.Type = "ent";
+        // }
     }
 }
