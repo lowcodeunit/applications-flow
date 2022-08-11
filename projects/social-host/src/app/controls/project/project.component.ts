@@ -217,4 +217,19 @@ export class ProjectComponent implements OnInit {
     public ngOnDestroy() {
         this.StateSub.unsubscribe();
     }
+
+    public DeleteProject(projectLookup: string, projectName: string): void {
+        this.eacSvc
+            .DeleteProject(projectLookup, projectName)
+            .then((status: Status) => {
+                this.router.navigate(['/enterprises']);
+            });
+    }
+
+    public HandleRightClickEvent(event: any) {
+        console.log('right event: ', event);
+    }
+    public HandleLeftClickEvent(event: any) {
+        console.log('leftt event: ', event);
+    }
 }
