@@ -167,7 +167,7 @@ export class DFSModifiersFormComponent implements OnInit {
 
     //  API Methods
     public CreateNewModifier(): void {
-        console.log('CREATE NEW MOD');
+        // console.log('CREATE NEW MOD');
         this.SetEditingModifier(Guid.CreateRaw());
     }
 
@@ -327,14 +327,14 @@ export class DFSModifiersFormComponent implements OnInit {
     }
 
     protected setupModifierSelectForm() {
-        console.log('setup mod select form');
+        // console.log('setup mod select form');
         this.ModifierSelectFormGroup = this.formBldr.group({
             multiSelect: [this.ModifierLookups ? this.ModifierLookups : []],
         });
     }
 
     protected setupModifierForm(): void {
-        console.log('editing mod: ', this.EditingModifier);
+        // console.log('editing mod: ', this.EditingModifier);
         if (this.EditingModifier != null) {
             this.CurrentType = this.EditingModifier?.Type;
 
@@ -358,7 +358,7 @@ export class DFSModifiersFormComponent implements OnInit {
 
             this.setupTypeForm();
         } else {
-            console.log('setup new form');
+            // console.log('setup new form');
             this.ModifierFormGroup = this.formBldr.group({
                 name: ['', Validators.required],
                 type: ['', Validators.required],

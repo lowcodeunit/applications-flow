@@ -60,7 +60,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        console.log('dfs data: ', this.data);
+        // console.log('dfs data: ', this.data);
         this.StateSub = this.eacSvc.State.subscribe((state) => {
             this.State = state;
             if (this.State?.EaC?.Projects) {
@@ -88,7 +88,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     }
 
     public HandleSaveFormEvent(event: Status) {
-        console.log('event: ', event);
+        // console.log('event: ', event);
         if (event.Code === 0) {
             this.snackBar.open('DFS Modifier Saved Successfully', 'Dismiss', {
                 duration: 5000,
@@ -111,7 +111,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
                 !this.SelectedModifiersFormGroup?.valid ||
                 !this.SelectedModifiersFormGroup?.dirty;
         }
-        console.log('Save disabled: ', this.SaveDisabled);
+        // console.log('Save disabled: ', this.SaveDisabled);
         return this.SaveDisabled;
     }
 
@@ -174,7 +174,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     }
 
     protected determineLevel() {
-        console.log('LEVEL: ', this.data.level);
+        // console.log('LEVEL: ', this.data.level);
         switch (this.data.level.toLowerCase()) {
             case 'enterprise': {
                 this.setupEntForm();
