@@ -104,12 +104,14 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
         if (this.DFSModifersFormGroup) {
             this.SaveDisabled =
                 !this.DFSModifersFormGroup?.valid ||
+                !this.DFSModifersFormGroup?.dirty ||
                 !this.ModifierDialogForm?.valid;
         } else if (this.SelectedModifiersFormGroup) {
             this.SaveDisabled =
                 !this.SelectedModifiersFormGroup?.valid ||
                 !this.SelectedModifiersFormGroup?.dirty;
         }
+        console.log('Save disabled: ', this.SaveDisabled);
         return this.SaveDisabled;
     }
 
