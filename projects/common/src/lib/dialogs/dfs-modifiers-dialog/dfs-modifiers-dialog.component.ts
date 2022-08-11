@@ -60,6 +60,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        console.log('dfs data: ', this.data);
         this.StateSub = this.eacSvc.State.subscribe((state) => {
             this.State = state;
             if (this.State?.EaC?.Projects) {
@@ -130,36 +131,49 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     public SaveDFSModifier() {
         // console.log("level at save: ", this.data.level)
 
+        let status: Status;
+
         switch (this.data.level) {
             case 'enterprise': {
                 if (this.ModifierDialogForm.controls.applyToAllProjects.value) {
                     //save modifier add it to the ModifierLookups of all projects
-                    this.DFSModifersFormControls.SaveModifierForAllProjects(
-                        this.ProjectLookups
-                    );
+                    status =
+                        this.DFSModifersFormControls.SaveModifierForAllProjects(
+                            this.ProjectLookups
+                        );
                 } else {
                     //save modifier
-                    this.DFSModifersFormControls.SaveModifier();
+                    status = this.DFSModifersFormControls.SaveModifier();
                 }
             }
             case 'project': {
-                this.DFSModifersFormControls.SaveModifier(
+                status = this.DFSModifersFormControls.SaveModifier(
                     this.data.projectLookup
                 );
             }
 
             case 'application': {
-                this.DFSModifersFormControls.SaveModifierForApplication(
-                    this.data.applicationLookup
-                );
+                status =
+                    this.DFSModifersFormControls.SaveModifierForApplication(
+                        this.data.applicationLookup
+                    );
             }
+        }
+        if (status.Code === 0) {
+            this.snackBar.open('DFS Modifier Saved Successfully', 'Dismiss', {
+                duration: 5000,
+            });
+        } else {
+            this.snackBar.open('DFS Modifier Failed to Save', 'Dismiss', {
+                duration: 5000,
+            });
         }
         // this.DFSModifersFormControls.SaveModifier();
     }
 
     protected determineLevel() {
-        // console.log("LEVEL: ", this.data.level)
-        switch (this.data.level) {
+        console.log('LEVEL: ', this.data.level);
+        switch (this.data.level.toLowerCase()) {
             case 'enterprise': {
                 this.setupEntForm();
             }

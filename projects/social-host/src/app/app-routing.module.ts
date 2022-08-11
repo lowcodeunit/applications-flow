@@ -34,6 +34,7 @@ const routes: Routes = [
     { path: 'discover', component: DiscoverComponent },
     { path: 'iot', component: IoTComponent },
     { path: 'modifiers', component: ModifiersComponent },
+    { path: 'modifiers/:projectLookup', component: ModifiersComponent },
     { path: 'projects', component: ProjectPageComponent },
     { path: 'teams', component: TeamMembersComponent },
     { path: 'activity', component: HomeComponent },
