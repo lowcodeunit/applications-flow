@@ -6,13 +6,13 @@ import { Status } from '@lcu/common';
 import {
     ApplicationsFlowState,
     EaCService,
+    StateConfigFormComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCApplicationAsCode,
     EaCDataToken,
     EaCProjectAsCode,
 } from '@semanticjs/common';
-import { StateConfigFormComponent } from 'projects/common/src/lib/controls/state-config-form/state-config-form.component';
 import { Subscription } from 'rxjs';
 
 @Component({

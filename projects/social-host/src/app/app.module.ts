@@ -98,6 +98,8 @@ import { StateConfigPageComponent } from './controls/state-config-page/state-con
         ModifiersComponent,
         IoTComponent,
         HomeComponent,
+        CustomDomainPageComponent,
+        StateConfigPageComponent,
     ],
 })
 export class AppModule {}
