@@ -12,6 +12,7 @@ import { TeamMembersComponent } from './controls/team-members/team-members.compo
 import { ProjectPageComponent } from './controls/project-page/project-page.component';
 import { ProjectComponent } from './controls/project/project.component';
 import { RoutesPageComponent } from './controls/routes-page/routes-page.component';
+import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
 
 const routes: Routes = [
     {
@@ -30,6 +31,7 @@ const routes: Routes = [
         path: 'applications/:projectLookup',
         component: RoutesPageComponent,
     },
+    { path: 'domains/:projectLookup', component: CustomDomainPageComponent },
     { path: 'devops', component: DevOpsComponent },
     { path: 'discover', component: DiscoverComponent },
     { path: 'iot', component: IoTComponent },

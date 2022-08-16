@@ -1,6 +1,6 @@
 import { FormsService } from './../../../../../services/forms.service';
 import { CardFormConfigModel } from './../../../../../models/card-form-config.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
     AbstractControl,
     FormControl,
@@ -15,7 +15,7 @@ import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
     templateUrl: './domains.component.html',
     styleUrls: ['./domains.component.scss'],
 })
-export class DomainsComponent implements OnInit {
+export class DomainsComponent implements OnInit, OnChanges {
     /**
      * Card / Form Config
      */
@@ -31,10 +31,14 @@ export class DomainsComponent implements OnInit {
      */
     protected formName: string;
 
+    public Host: EaCHost;
+
     /**
      * When form is dirty, ties into formsService.DisableForms
      */
     public IsDirty: boolean;
+
+    public HostDNSInstance: string;
 
     /**
      * Access form control for root directory
@@ -51,46 +55,62 @@ export class DomainsComponent implements OnInit {
         ProjectLookup: string;
     };
 
-    public get Host(): EaCHost {
-        return this.Data?.Hosts[this.HostLookup];
-    }
+    // protected get Host(): EaCHost {
+    //     return this.Data?.Hosts[this.Data?.PrimaryHost];
+    // }
 
-    public get HostLookup(): string {
-        // let hostKeys = Object.keys(this.Data?.Hosts || {});
+    // public get HostLookup(): string {
+    //     // let hostKeys = Object.keys(this.Data?.Hosts || {});
 
-        // hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
+    //     // hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
 
-        // return hostKeys[0];
-        return this.PrimaryHost;
-    }
+    //     // return hostKeys[0];
+    //     return this.Data.PrimaryHost;
+    // }
 
-    public get HostDNSInstance(): string {
-        return this.Host ? this.Host?.HostDNSInstance : null;
-    }
+    // protected get HostDNSInstance(): string {
+    //     return this.Host ? this.Host?.HostDNSInstance : null;
+    // }
 
-    public get PrimaryHost(): string {
-        return this.Data.PrimaryHost;
-    }
+    // public get PrimaryHost(): string {
+    //     return this.Data.PrimaryHost;
+    // }
 
-    public get Project(): EaCProjectAsCode {
-        return this.Data.Project;
-    }
+    // public get Project(): EaCProjectAsCode {
+    //     return this.Data.Project;
+    // }
 
-    public get ProjectLookup(): string {
-        return this.Data.ProjectLookup;
-    }
+    // public get ProjectLookup(): string {
+    //     return this.Data.ProjectLookup;
+    // }
 
     constructor(
         protected formsService: FormsService,
         protected eacSvc: EaCService
-    ) {}
+    ) {
+        this.Form = new FormGroup({});
+    }
 
     public ngOnInit(): void {
         this.formName = 'DomainForm';
+    }
 
-        this.setupForm();
+    public ngOnChanges() {
+        if (this.Data?.Hosts && this.Data?.PrimaryHost) {
+            this.Host = this.Data?.Hosts[this.Data?.PrimaryHost];
+        }
+        this.HostDNSInstance = this.Host ? this.Host?.HostDNSInstance : null;
 
-        this.config();
+        // console.log("data from domains: ", this.Data);
+
+        // console.log('hello primary host: ', this.Data?.PrimaryHost)
+
+        if (this.Data?.PrimaryHost) {
+            this.setupForm();
+        }
+        if (this.HostDNSInstance) {
+            this.config();
+        }
     }
 
     protected config(): void {
@@ -124,8 +144,9 @@ export class DomainsComponent implements OnInit {
     }
 
     protected setupForm(): void {
+        // console.log("p-host: ", this.Data?.PrimaryHost)
         this.Form = new FormGroup({
-            domain: new FormControl(this.HostLookup || '', {
+            domain: new FormControl(this.Data?.PrimaryHost || '', {
                 validators: [Validators.required, Validators.minLength(3)],
                 updateOn: 'change',
             }),
@@ -164,9 +185,9 @@ export class DomainsComponent implements OnInit {
      */
     protected save(): void {
         this.eacSvc.SaveProjectAsCode({
-            ProjectLookup: this.ProjectLookup,
+            ProjectLookup: this.Data?.ProjectLookup,
             Project: {
-                ...this.Project,
+                ...this.Data?.Project,
                 // Hosts: [...this.Project.Hosts, this.Domain.value],
                 Hosts: [this.Domain.value],
             },

@@ -32,6 +32,8 @@ import { ModifiersComponent } from './controls/modifiers/modifiers.component';
 import { TeamMembersComponent } from './controls/team-members/team-members.component';
 import { ProjectPageComponent } from './controls/project-page/project-page.component';
 import { RoutesPageComponent } from './controls/routes-page/routes-page.component';
+import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
+import { StateConfigPageComponent } from './controls/state-config-page/state-config-page.component';
 
 @NgModule({
     declarations: [
@@ -49,6 +51,8 @@ import { RoutesPageComponent } from './controls/routes-page/routes-page.componen
         TeamMembersComponent,
         ProjectPageComponent,
         RoutesPageComponent,
+        CustomDomainPageComponent,
+        StateConfigPageComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -75,7 +79,13 @@ import { RoutesPageComponent } from './controls/routes-page/routes-page.componen
         },
     ],
     bootstrap: [AppComponent],
-    exports: [TeamMembersComponent, ProjectPageComponent, RoutesPageComponent],
+    exports: [
+        TeamMembersComponent,
+        ProjectPageComponent,
+        RoutesPageComponent,
+        CustomDomainPageComponent,
+        StateConfigPageComponent,
+    ],
     entryComponents: [
         ProjectComponent,
         RoutesComponent,
