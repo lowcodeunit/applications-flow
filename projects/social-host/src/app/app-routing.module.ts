@@ -13,6 +13,7 @@ import { ProjectPageComponent } from './controls/project-page/project-page.compo
 import { ProjectComponent } from './controls/project/project.component';
 import { RoutesPageComponent } from './controls/routes-page/routes-page.component';
 import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
+import { StateConfigPageComponent } from './controls/state-config-page/state-config-page.component';
 
 const routes: Routes = [
     {
@@ -39,6 +40,10 @@ const routes: Routes = [
     { path: 'modifiers/:projectLookup', component: ModifiersComponent },
     { path: 'projects', component: ProjectPageComponent },
     { path: 'teams', component: TeamMembersComponent },
+    {
+        path: 'state-config/:projectLookup/:appLookup',
+        component: StateConfigPageComponent,
+    },
     { path: 'activity', component: HomeComponent },
     { path: '', component: Enterprise4Component, pathMatch: 'full' },
     { path: '**', redirectTo: '' },

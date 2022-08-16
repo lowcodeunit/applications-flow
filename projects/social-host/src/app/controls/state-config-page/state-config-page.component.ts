@@ -7,7 +7,11 @@ import {
     ApplicationsFlowState,
     EaCService,
 } from '@lowcodeunit/applications-flow-common';
-import { EaCApplicationAsCode } from '@semanticjs/common';
+import {
+    EaCApplicationAsCode,
+    EaCDataToken,
+    EaCProjectAsCode,
+} from '@semanticjs/common';
 import { StateConfigFormComponent } from 'projects/common/src/lib/controls/state-config-form/state-config-form.component';
 import { Subscription } from 'rxjs';
 
@@ -24,6 +28,8 @@ export class StateConfigPageComponent implements OnInit {
         return this.StateConfigForm?.StateConfigForm;
     }
 
+    public StateConfig: EaCDataToken;
+
     public Application: EaCApplicationAsCode;
 
     public ApplicationLookup: string;
@@ -34,12 +40,17 @@ export class StateConfigPageComponent implements OnInit {
 
     public StateSub: Subscription;
 
+    public Project: EaCProjectAsCode;
+
+    public ProjectLookup: string;
+
     constructor(
         protected activatedRoute: ActivatedRoute,
         protected eacSvc: EaCService,
         protected snackBar: MatSnackBar
     ) {
         this.activatedRoute.params.subscribe((params: any) => {
+            this.ProjectLookup = params['projectLookup'];
             this.ApplicationLookup = params['appLookup'];
         });
     }
@@ -51,6 +62,17 @@ export class StateConfigPageComponent implements OnInit {
                 if (this.State?.EaC?.Applications) {
                     this.Application =
                         this.State?.EaC?.Applications[this.ApplicationLookup];
+                }
+
+                this.Project =
+                    this.State?.EaC?.Projects[this.ProjectLookup] || {};
+
+                if (this.Project?.DataTokens['lcu-state-config']) {
+                    return this.Project?.DataTokens['lcu-state-config'];
+                } else if (this.Application?.DataTokens['lcu-state-config']) {
+                    return this.Application?.DataTokens['lcu-state-config'];
+                } else {
+                    return null;
                 }
             }
         );

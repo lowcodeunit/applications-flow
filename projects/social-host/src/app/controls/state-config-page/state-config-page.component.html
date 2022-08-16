@@ -1,15 +1,7 @@
 <mat-card>
-    <div class="dialog-header" fxLayoutAlign="space-between center">
-        <h2 mat-card-title>State Config</h2>
-
-        <button mat-icon-button (click)="CloseDialog()">
-            <mat-icon>cancel</mat-icon>
-        </button>
-    </div>
-
     <mat-card-content>
         <lcu-state-config-form
-            [app-lookup]="data.appLookup"
+            [app-lookup]="ApplicationLookup"
             [application]="Application"
             [config]="data.config"
             (status-event)="HandleStatusEvent($event)"
@@ -27,16 +19,6 @@
         fxLayout="row"
         fxLayoutAlign="end center"
     >
-        <button
-            class="action-button"
-            mat-raised-button
-            fxFlex="25%"
-            fxFlex.lt-md="30%"
-            (click)="CloseDialog()"
-        >
-            Cancel
-        </button>
-
         <!--  -->
         <button
             *ngIf="!State?.Loading"
