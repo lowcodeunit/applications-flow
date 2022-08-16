@@ -68,11 +68,13 @@ export class StateConfigPageComponent implements OnInit {
                     this.State?.EaC?.Projects[this.ProjectLookup] || {};
 
                 if (this.Project?.DataTokens['lcu-state-config']) {
-                    return this.Project?.DataTokens['lcu-state-config'];
+                    this.StateConfig =
+                        this.Project?.DataTokens['lcu-state-config'];
                 } else if (this.Application?.DataTokens['lcu-state-config']) {
-                    return this.Application?.DataTokens['lcu-state-config'];
+                    this.StateConfig =
+                        this.Application?.DataTokens['lcu-state-config'];
                 } else {
-                    return null;
+                    this.StateConfig = null;
                 }
             }
         );
