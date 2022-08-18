@@ -42,7 +42,9 @@ export class SecurityToggleComponent implements OnInit {
         this.SkeletonEffect = 'wave';
     }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void {}
+
+    public ngOnChanges() {
         this.setupSecurityFormGroup();
     }
 

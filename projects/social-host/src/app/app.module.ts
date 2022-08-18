@@ -12,7 +12,7 @@ import { AppComponent } from './app.component';
 import { ProjectComponent } from './controls/project/project.component';
 import { RoutesComponent } from './controls/routes/routes.component';
 import { EnterpriseComponent } from './controls/enterprise-old/enterprise-old.component';
-import { ApplicationsComponent } from './controls/applications/applications.component';
+import { ApplicationsOldComponent } from './controls/applications-old/applications-old.component';
 import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
 import { environment } from '../environments/environment';
 import { MatCardModule } from '@angular/material/card';
@@ -34,6 +34,7 @@ import { ProjectPageComponent } from './controls/project-page/project-page.compo
 import { RoutesPageComponent } from './controls/routes-page/routes-page.component';
 import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
 import { StateConfigPageComponent } from './controls/state-config-page/state-config-page.component';
+import { ApplicationComponent } from './controls/application/application.component';
 
 @NgModule({
     declarations: [
@@ -44,7 +45,7 @@ import { StateConfigPageComponent } from './controls/state-config-page/state-con
         EnterpriseComponent,
         Enterprise4Component,
         IoTComponent,
-        ApplicationsComponent,
+        ApplicationsOldComponent,
         HomeComponent,
         DevOpsComponent,
         ModifiersComponent,
@@ -53,6 +54,7 @@ import { StateConfigPageComponent } from './controls/state-config-page/state-con
         RoutesPageComponent,
         CustomDomainPageComponent,
         StateConfigPageComponent,
+        ApplicationComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -85,6 +87,7 @@ import { StateConfigPageComponent } from './controls/state-config-page/state-con
         RoutesPageComponent,
         CustomDomainPageComponent,
         StateConfigPageComponent,
+        ApplicationComponent,
     ],
     entryComponents: [
         ProjectComponent,
@@ -93,7 +96,7 @@ import { StateConfigPageComponent } from './controls/state-config-page/state-con
         DiscoverComponent,
         EnterpriseComponent,
         Enterprise4Component,
-        ApplicationsComponent,
+        ApplicationsOldComponent,
         DevOpsComponent,
         ModifiersComponent,
         IoTComponent,

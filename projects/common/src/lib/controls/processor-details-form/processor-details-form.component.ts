@@ -36,6 +36,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
     @Input('has-save-button')
     public HasSaveButton: boolean;
 
+    @Input('is-disabled')
+    public IsDisabled: boolean;
+
     @Input('source-control-lookups')
     public SourceControlLookups: Array<string>;
 
@@ -175,17 +178,22 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.SaveFormEvent = new EventEmitter();
     }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void {}
+
+    public ngOnChanges() {
+        if (this.Environment?.Sources) {
+            this.SourceControls = this.Environment?.Sources;
+        }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
         } else {
             this.setupProcessorDetailsForm();
         }
-    }
 
-    public ngOnChanges() {
-        if (this.Environment?.Sources) {
-            this.SourceControls = this.Environment?.Sources;
+        if (this.IsDisabled) {
+            this.ProcessorDetailsFormGroup.disable();
+        } else {
+            this.ProcessorDetailsFormGroup.enable();
         }
     }
 
@@ -467,7 +475,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
         // console.log('EDITING APP = ', this.EditingApplication);
-
+        this.ProcessorDetailsFormGroup;
         if (this.EditingApplication != null) {
             this.ProcessorDetailsFormGroup = this.formBldr.group({
                 procType: [this.ProcessorType, [Validators.required]],

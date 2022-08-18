@@ -94,13 +94,13 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
             }
         }
 
-        if (this.RoutedApplications) {
+        if (Object.keys(this.RoutedApplications).length !== 0) {
             this.Routes = Object.keys(this.RoutedApplications || {});
 
-            // console.log('routed apps: ', this.RoutedApplications);
+            console.log('routed apps: ', this.RoutedApplications);
 
             if (this.SelectedRoute) {
-                // console.log('selected route: ', this.SelectedRoute)
+                console.log('selected route: ', this.SelectedRoute);
 
                 this.CurrentRouteApplicationLookups =
                     Object.keys(this.RoutedApplications[this.SelectedRoute]) ||

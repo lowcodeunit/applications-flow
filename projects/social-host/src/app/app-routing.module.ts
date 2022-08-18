@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ApplicationsComponent } from './controls/applications/applications.component';
+import { ApplicationsOldComponent } from './controls/applications-old/applications-old.component';
 import { RoutesComponent } from './controls/routes/routes.component';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
@@ -14,11 +14,12 @@ import { ProjectComponent } from './controls/project/project.component';
 import { RoutesPageComponent } from './controls/routes-page/routes-page.component';
 import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
 import { StateConfigPageComponent } from './controls/state-config-page/state-config-page.component';
+import { ApplicationComponent } from './controls/application/application.component';
 
 const routes: Routes = [
     {
-        path: 'application/:appLookup/:appRoute/:projectLookup',
-        component: ApplicationsComponent,
+        path: 'application-old/:appLookup/:appRoute/:projectLookup',
+        component: ApplicationsOldComponent,
     },
     {
         path: 'project/:projectLookup',
@@ -29,8 +30,12 @@ const routes: Routes = [
         component: RoutesComponent,
     },
     {
-        path: 'applications/:projectLookup',
+        path: 'routes/:projectLookup',
         component: RoutesPageComponent,
+    },
+    {
+        path: 'application/:appLookup/:appRoute/:projectLookup',
+        component: ApplicationComponent,
     },
     { path: 'domains/:projectLookup', component: CustomDomainPageComponent },
     { path: 'devops', component: DevOpsComponent },
