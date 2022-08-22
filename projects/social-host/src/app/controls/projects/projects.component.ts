@@ -308,8 +308,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             width: '600px',
             data: {
                 hosts: this.State.EaC.Hosts,
-                primaryHost:
-                    this.Project?.Hosts[this.Project?.Hosts?.length - 1],
+                primaryHost: this.Project?.PrimaryHost,
                 project: this.Project,
                 projectLookup: this.ProjectLookup,
             },
