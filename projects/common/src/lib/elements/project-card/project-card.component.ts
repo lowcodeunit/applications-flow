@@ -204,14 +204,13 @@ export class ProjectCardComponent implements OnInit {
                 let tempProjChildren: Array<TreeNode> = [];
                 tempRoutes.forEach((appRoute: string) => {
                     this.AppRoute = appRoute;
-
+                    // routerLink: ['/route', this.AppRoute, pLookup],
                     let tempRouteNode: TreeNode = {
                         name: this.AppRoute,
                         url:
                             'https://' +
                             tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
                             this.AppRoute,
-                        routerLink: ['/route', this.AppRoute, pLookup],
                     };
 
                     let tempApps = this.CurrentRouteApplicationLookups;

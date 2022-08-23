@@ -13,7 +13,11 @@
     <ng-container *ngIf="DataSource">
         <mat-tree [dataSource]="DataSource" [treeControl]="treeControl">
             <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
-                <a class="slot-header-anchor" [routerLink]="node.routerLink">
+                <a
+                    *ngIf="node.routerLink"
+                    class="slot-header-anchor"
+                    [routerLink]="node.routerLink"
+                >
                     <div *ngIf="node.name" class="slot-name">
                         {{ node.name }}
                     </div>
@@ -21,12 +25,21 @@
                         {{ node.description }}
                     </div>
                 </a>
+                <div *ngIf="!node.routerLink" class="tree-header">
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </div>
                 <div
                     class="slot-actions-container"
                     fxLayout="row"
                     fxLayoutAlign="space-around center"
                 >
                     <a
+                        *ngIf="node.routerLink"
                         class="slot-action-anchor"
                         [routerLink]="node.routerLink"
                     >
@@ -67,7 +80,11 @@
                         }}
                     </mat-icon>
                 </button>
-                <a class="slot-header-anchor" [routerLink]="node.routerLink">
+                <a
+                    *ngIf="node.routerLink"
+                    class="slot-header-anchor"
+                    [routerLink]="node.routerLink"
+                >
                     <div *ngIf="node.name" class="slot-name">
                         {{ node.name }}
                     </div>
@@ -75,12 +92,21 @@
                         {{ node.description }}
                     </div>
                 </a>
+                <div *ngIf="!node.routerLink" class="tree-header">
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </div>
                 <div
                     class="slot-actions-container"
                     fxLayout="row"
                     fxLayoutAlign="space-around center"
                 >
                     <a
+                        *ngIf="node.routerLink"
                         class="slot-action-anchor"
                         [routerLink]="node.routerLink"
                     >
