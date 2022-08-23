@@ -111,17 +111,21 @@
 
     <div middle-left>
         <mat-card class="fit-content app-form-card">
-            <div class="dialog-header" fxLayoutAlign="space-between center">
+            <div class="app-form-header" fxLayoutAlign="space-between center">
                 <h2 mat-card-title>
                     Edit Application: {{ Application?.Application?.Name }}
                 </h2>
 
-                <button mat-icon-button (click)="ToggleEditForm()">
+                <button
+                    mat-icon-button
+                    (click)="ToggleEditForm()"
+                    [matTooltip]="IsDisabled ? 'Enable form' : 'Disable form'"
+                >
                     <mat-icon>edit</mat-icon>
                 </button>
             </div>
 
-            <mat-card-content class="app-card-content">
+            <mat-card-content class="app-card-content" *ngIf="!State?.Loading">
                 <lcu-edit-application-form
                     [application-lookup]="ApplicationLookup"
                     [editing-application]="Application"

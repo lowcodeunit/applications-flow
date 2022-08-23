@@ -132,8 +132,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     public get ValidFormControls(): Array<AbstractControl> {
         let vfc: Array<AbstractControl> = new Array<AbstractControl>();
-        for (const field in this.ProcessorDetailsFormGroup.controls) {
-            const control = this.ProcessorDetailsFormGroup.get(field);
+        for (const field in this.ProcessorDetailsFormGroup?.controls) {
+            const control = this.ProcessorDetailsFormGroup?.get(field);
             if (control.valid) {
                 vfc.push(control);
             }
@@ -186,7 +186,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
-        } else {
+        } else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
             this.setupProcessorDetailsForm();
         }
 
