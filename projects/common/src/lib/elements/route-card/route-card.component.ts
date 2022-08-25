@@ -159,7 +159,9 @@ export class RouteCardComponent implements OnInit {
 
     public HasChild = (_: number, node: FlatNode) => node.expandable;
 
-    ngOnInit(): void {
+    ngOnInit(): void {}
+
+    ngOnChanges() {
         if (this.ProjectLookup && this.Project) {
             let temp = this.BuildRouteTree();
 
@@ -169,8 +171,6 @@ export class RouteCardComponent implements OnInit {
             }
         }
     }
-
-    ngOnChanges() {}
 
     public BuildRouteTree() {
         // console.log('called route tree');

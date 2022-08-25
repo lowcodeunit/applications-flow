@@ -74,3 +74,18 @@
     // border-top: 1px solid #b9dddd;
     margin: 0px !important;
 }
+
+@media only screen and (max-width: 850px) {
+    #version-control-container {
+        margin: 0px 20px;
+    }
+    .version-item {
+        width: 200px;
+    }
+    #version-container {
+        width: 125px;
+    }
+    .app-card-content {
+        height: 350px;
+    }
+}
