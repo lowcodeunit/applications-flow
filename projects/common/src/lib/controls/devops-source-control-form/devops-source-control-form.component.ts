@@ -135,7 +135,7 @@ export class DevopsSourceControlFormComponent
 
     public CreatingRepository: boolean;
 
-    public DevOpsAction: any;
+    public DevOpsAction: EaCDevOpsAction;
 
     public DevOpsActions: { [lookup: string]: EaCDevOpsAction };
 
@@ -242,6 +242,10 @@ export class DevopsSourceControlFormComponent
         }
 
         if (!!this.DevOpsActionLookupFormControl?.value) {
+            console.log(
+                'DevOpsActionLookupFormControl: ',
+                this.DevOpsActionLookupFormControl?.value
+            );
             this.DevOpsActionLookup = this.DevOpsActionLookupFormControl?.value;
         }
 
@@ -252,6 +256,7 @@ export class DevopsSourceControlFormComponent
             this.DevOpsActionLookup = null;
         }
         console.log('devops action lookup = ', this.DevOpsActionLookup);
+        // console.log('form value', this.DevOpsActionLookupFormControl.value);
     }
 
     //  API Methods
@@ -287,7 +292,12 @@ export class DevopsSourceControlFormComponent
         this.CreatingRepository = false;
     }
 
+    public Log() {
+        console.log('form value', this.DevOpsActionLookupFormControl.value);
+    }
+
     public DevOpsActionLookupChanged(event: MatSelectChange): void {
+        this.DevOpsActionLookup = event.value;
         this.configureDevOpsAction();
     }
 
