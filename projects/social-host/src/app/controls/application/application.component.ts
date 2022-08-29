@@ -182,6 +182,8 @@ export class ApplicationComponent implements OnInit {
 
     public CurrentVersion: string;
 
+    public FilterTypes: any;
+
     public IsInfoCardEditable: boolean;
 
     public IsInfoCardShareable: boolean;
@@ -308,6 +310,8 @@ export class ApplicationComponent implements OnInit {
                 );
 
                 this.ActiveEnvironmentLookup = envLookups[0];
+
+                this.FilterTypes = Object.values(this.State?.FeedFilters || {});
             }
         );
     }
