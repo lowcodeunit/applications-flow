@@ -2,6 +2,7 @@
     class="form-card"
     [formGroup]="DevOpsSourceControlFormGroup"
     (ngSubmit)="SubmitSourceControl()"
+    (click)="Log()"
 >
     <!-- <mat-card class="spread" class="sc-card"> -->
     <!-- <mat-card-header>
@@ -48,6 +49,7 @@
                     placeholder="DevOps Action"
                     [disabled]="HostingDetails?.Loading"
                     (selectionChange)="DevOpsActionLookupChanged($event)"
+                    required
                 >
                     <ng-container
                         *ngFor="let devOpsActionLookup of DevOpsActionLookups"
@@ -58,6 +60,7 @@
                                 DevOpsActions[devOpsActionLookup];
                                 let devOpsAction
                             "
+                            [matTooltip]="devOpsAction.Name"
                         >
                             {{ devOpsAction.Name }}
                         </mat-option>
