@@ -55,35 +55,6 @@ export class DomainsComponent implements OnInit, OnChanges {
         ProjectLookup: string;
     };
 
-    // protected get Host(): EaCHost {
-    //     return this.Data?.Hosts[this.Data?.PrimaryHost];
-    // }
-
-    // public get HostLookup(): string {
-    //     // let hostKeys = Object.keys(this.Data?.Hosts || {});
-
-    //     // hostKeys = hostKeys.filter(hk => hk.indexOf('|') < 0);
-
-    //     // return hostKeys[0];
-    //     return this.Data.PrimaryHost;
-    // }
-
-    // protected get HostDNSInstance(): string {
-    //     return this.Host ? this.Host?.HostDNSInstance : null;
-    // }
-
-    // public get PrimaryHost(): string {
-    //     return this.Data.PrimaryHost;
-    // }
-
-    // public get Project(): EaCProjectAsCode {
-    //     return this.Data.Project;
-    // }
-
-    // public get ProjectLookup(): string {
-    //     return this.Data.ProjectLookup;
-    // }
-
     constructor(
         protected formsService: FormsService,
         protected eacSvc: EaCService

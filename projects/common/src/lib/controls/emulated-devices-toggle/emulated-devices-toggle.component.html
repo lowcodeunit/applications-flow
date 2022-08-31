@@ -47,6 +47,7 @@
                 <mat-slide-toggle
                     formControlName="isPrivate"
                     matTooltip="Is Secure Application?"
+                    (change)="HandleIsPrivate($event)"
                 >
                 </mat-slide-toggle>
 
@@ -60,7 +61,7 @@
 
             <mat-card-content>
                 <div>
-                    <div *ngIf="IsPrivateFormControl.value">
+                    <div *ngIf="IsPrivate">
                         <div>
                             <mat-slide-toggle formControlName="isTriggerSignIn">
                                 Is Trigger Sign In Application?

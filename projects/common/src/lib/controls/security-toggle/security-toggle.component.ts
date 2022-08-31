@@ -31,6 +31,8 @@ export class SecurityToggleComponent implements OnInit {
         return this.SecurityFormGroup?.controls.isTriggerSignIn;
     }
 
+    public IsPrivate: boolean;
+
     public SecurityFormGroup: FormGroup;
 
     public ProcessorType: string;
@@ -55,6 +57,10 @@ export class SecurityToggleComponent implements OnInit {
             this.SecurityFormGroup.value
         );
         this.SaveFormEvent.emit(this.SecurityFormGroup.value);
+    }
+
+    public HandleIsPrivate(event: any) {
+        this.IsPrivate = this.IsPrivateFormControl.value;
     }
 
     protected setupSecurityFormGroup() {

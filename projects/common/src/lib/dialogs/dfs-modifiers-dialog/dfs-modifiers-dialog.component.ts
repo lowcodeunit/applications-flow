@@ -39,6 +39,8 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
 
     public ErrorMessage: string;
 
+    public IsPreconfigured: boolean;
+
     public ModifierDialogForm: FormGroup;
 
     public SaveDisabled: boolean;
@@ -70,6 +72,8 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
             }
         });
         this.determineLevel();
+
+        this.IsPreconfigured = this.CheckPreconfigured();
     }
 
     public ngOnDestroy(): void {
@@ -111,11 +115,11 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
                 !this.SelectedModifiersFormGroup?.valid ||
                 !this.SelectedModifiersFormGroup?.dirty;
         }
-        // console.log('Save disabled: ', this.SaveDisabled);
+        console.log('Save disabled: ', this.SaveDisabled);
         return this.SaveDisabled;
     }
 
-    public IsPreconfigured(): boolean {
+    public CheckPreconfigured(): boolean {
         if (this.data.modifierLookup) {
             if (
                 this.data.modifierLookup === 'html-base' ||

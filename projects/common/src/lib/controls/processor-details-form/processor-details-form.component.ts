@@ -156,6 +156,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     public IsPreserve: boolean;
 
+    public IsSourceControlValid: boolean;
+
     public LCUType: string;
 
     public redirectTooltip: string;
@@ -347,6 +349,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     public SourceControlChanged(event: any) {
+        this.IsSourceControlValid = this.SourceControlFormControl.valid;
         this.listBuildPaths();
     }
 
@@ -497,6 +500,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 [Validators.required]
             )
         );
+
+        this.IsSourceControlValid = this.SourceControlFormControl.valid;
 
         this.ProcessorDetailsFormGroup.addControl(
             'buildPath',

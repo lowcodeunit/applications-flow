@@ -186,6 +186,7 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public BuildProjectTree(): Array<TreeNode> {
+        console.log('calling build project tree');
         let tempTreeData: Array<TreeNode> = [];
         this.ProjectLookups?.forEach((pLookup: string) => {
             let tempProj = this.Projects[pLookup];
