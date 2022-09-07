@@ -35,6 +35,7 @@
                                     Domain.invalid || Domain.disabled ? '/' : ''
                                 "
                                 formControlName="domain"
+                                [errorStateMatcher]="matcher"
                             />
 
                             <mat-hint>

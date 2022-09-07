@@ -5,10 +5,28 @@ import {
     AbstractControl,
     FormControl,
     FormGroup,
+    FormGroupDirective,
+    NgForm,
     Validators,
 } from '@angular/forms';
 import { EaCService } from '../../../../../services/eac.service';
 import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+/** Error when invalid control is dirty, touched, or submitted. */
+export class URLErrorStateMatcher implements ErrorStateMatcher {
+    isErrorState(
+        control: FormControl | null,
+        form: FormGroupDirective | NgForm | null
+    ): boolean {
+        const isSubmitted = form && form.submitted;
+        return !!(
+            control &&
+            control.invalid &&
+            (control.dirty || control.touched || isSubmitted)
+        );
+    }
+}
 
 @Component({
     selector: 'lcu-domains',
@@ -16,6 +34,7 @@ import { EaCHost, EaCProjectAsCode } from '@semanticjs/common';
     styleUrls: ['./domains.component.scss'],
 })
 export class DomainsComponent implements OnInit {
+    public matcher = new URLErrorStateMatcher();
     /**
      * Card / Form Config
      */
