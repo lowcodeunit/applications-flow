@@ -47,6 +47,10 @@
                             <mat-error *ngIf="Domain.hasError('required')">
                                 Domain is required
                             </mat-error>
+
+                            <mat-error *ngIf="Domain.hasError('pattern')">
+                                Domain must be a valid URL
+                            </mat-error>
                         </mat-form-field>
 
                         <button

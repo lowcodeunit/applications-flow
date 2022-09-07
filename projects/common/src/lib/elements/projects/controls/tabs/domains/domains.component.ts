@@ -126,7 +126,14 @@ export class DomainsComponent implements OnInit {
     protected setupForm(): void {
         this.Form = new FormGroup({
             domain: new FormControl(this.HostLookup || '', {
-                validators: [Validators.required, Validators.minLength(3)],
+                validators: [
+                    Validators.required,
+                    Validators.minLength(3),
+                    Validators.pattern(
+                        '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'
+                    ),
+                    Validators.pattern('[^-s]'),
+                ],
                 updateOn: 'change',
             }),
         });
