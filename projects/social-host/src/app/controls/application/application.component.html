@@ -230,6 +230,8 @@
         <lcu-security-toggle
             [editing-application]="Application"
             [loading]="State?.Loading"
+            [access-rights]="AccessRights"
+            [license-configs]="LicenseConfigs"
             (save-form-event)="SaveSecuritySettings($event)"
         >
         </lcu-security-toggle>

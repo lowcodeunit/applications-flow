@@ -455,6 +455,8 @@ export class EaCService {
     ): Promise<Status> {
         const state = this.stateSubject.getValue();
 
+        // console.log("app req: ", req);
+
         const saveEaC: EnterpriseAsCode = {
             EnterpriseLookup: state.EaC.EnterpriseLookup,
             Applications: {},

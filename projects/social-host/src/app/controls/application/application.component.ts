@@ -167,6 +167,7 @@ export class ApplicationComponent implements OnInit {
         }
         return version;
     }
+    public AccessRights: any;
 
     public ActiveEnvironmentLookup: string;
 
@@ -189,6 +190,8 @@ export class ApplicationComponent implements OnInit {
     public IsInfoCardShareable: boolean;
 
     public Loading: boolean;
+
+    public LicenseConfigs: any;
 
     public ModifierLookups: Array<string>;
 
@@ -258,6 +261,8 @@ export class ApplicationComponent implements OnInit {
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
+                console.log('State: ', this.State);
+
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
                     this.State?.LoadingEnterprises ||
@@ -300,6 +305,14 @@ export class ApplicationComponent implements OnInit {
 
                 this.SourceControlLookups = Object.keys(
                     this.Environment?.Sources || {}
+                );
+
+                this.AccessRights = Object.keys(
+                    this.State?.EaC?.AccessRights || []
+                );
+
+                this.LicenseConfigs = Object.keys(
+                    this.State?.EaC?.LicenseConfigurations || []
                 );
 
                 this.ModifierLookups = this.Application?.ModifierLookups || [];
@@ -481,6 +494,13 @@ export class ApplicationComponent implements OnInit {
             .IsPrivateFormControl.value
             ? this.SecurityToggleFormControls.IsTriggerSignInFormControl.value
             : false;
+        // console.log("ARL: ", this.SecurityToggleFormControls.AccessRightsFormControl.value);
+        app.AccessRightLookups =
+            this.SecurityToggleFormControls.AccessRightsFormControl.value;
+        // console.log("LCL: ", this.SecurityToggleFormControls.LicenseConfigsFormControl.value);
+
+        app.LicenseConfigurationLookups =
+            this.SecurityToggleFormControls.LicenseConfigsFormControl.value;
 
         if (!app.LookupConfig.PathRegex.startsWith('/')) {
             app.LookupConfig.PathRegex = `/${app.LookupConfig.PathRegex}`;

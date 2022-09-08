@@ -20,8 +20,18 @@ export class SecurityToggleComponent implements OnInit {
     @Input('loading')
     public Loading: boolean;
 
+    @Input('access-rights')
+    public AccessRights: any;
+
+    @Input('license-configs')
+    public LicenseConfigs: any;
+
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
+
+    public get AccessRightsFormControl(): AbstractControl {
+        return this.SecurityFormGroup?.controls.accessRights;
+    }
 
     public get IsPrivateFormControl(): AbstractControl {
         return this.SecurityFormGroup?.controls.isPrivate;
@@ -29,6 +39,10 @@ export class SecurityToggleComponent implements OnInit {
 
     public get IsTriggerSignInFormControl(): AbstractControl {
         return this.SecurityFormGroup?.controls.isTriggerSignIn;
+    }
+
+    public get LicenseConfigsFormControl(): AbstractControl {
+        return this.SecurityFormGroup?.controls.licenseConfigs;
     }
 
     public IsPrivate: boolean;
@@ -47,6 +61,7 @@ export class SecurityToggleComponent implements OnInit {
     public ngOnInit(): void {}
 
     public ngOnChanges() {
+        this.IsPrivate = this.EditingApplication.LookupConfig?.IsPrivate;
         this.setupSecurityFormGroup();
     }
 
@@ -83,6 +98,18 @@ export class SecurityToggleComponent implements OnInit {
             this.formBldr.control(
                 this.EditingApplication.LookupConfig?.IsTriggerSignIn || false,
                 [Validators.required]
+            )
+        );
+
+        this.SecurityFormGroup.addControl(
+            'accessRights',
+            this.formBldr.control(this.EditingApplication?.AccessRightLookups)
+        );
+
+        this.SecurityFormGroup.addControl(
+            'licenseConfigs',
+            this.formBldr.control(
+                this.EditingApplication?.LicenseConfigurationLookups
             )
         );
     }
