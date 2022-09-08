@@ -5,19 +5,16 @@
 >
     <mat-card class="spread flow-card" *ngIf="ProcessorType != 'Redirect'">
         <mat-card-header>
-            <mat-card-title *ngIf="!HasBuildFormControl.value">
-                Build & Source
-            </mat-card-title>
+            <mat-card-title *ngIf="!HasBuild"> Build & Source </mat-card-title>
 
-            <mat-card-title *ngIf="HasBuildFormControl.value">
-                Source Control
-            </mat-card-title>
+            <mat-card-title *ngIf="HasBuild"> Source Control </mat-card-title>
 
             <div fxFlex></div>
 
             <mat-slide-toggle
                 formControlName="hasBuild"
                 matTooltip="Has Build?"
+                (change)="HandleHasBuild($event)"
             >
             </mat-slide-toggle>
 
@@ -32,10 +29,7 @@
         <mat-card-content>
             <mat-form-field
                 class="mat-full-width"
-                *ngIf="
-                    HasBuildFormControl.value &&
-                    SourceControlLookups?.length > 0
-                "
+                *ngIf="HasBuild && SourceControlLookups?.length > 0"
             >
                 <mat-select
                     formControlName="sourceControlLookup"
@@ -58,7 +52,7 @@
                     </ng-container>
                 </mat-select>
 
-                <div *ngIf="HasBuildFormControl?.value">
+                <div *ngIf="HasBuild">
                     <h3>
                         @{{
                             SourceControlFormControls?.OrganizationFormControl

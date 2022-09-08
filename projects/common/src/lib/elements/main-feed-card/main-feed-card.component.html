@@ -131,9 +131,11 @@
                 [color]="action.Color"
                 (click)="HandleAction(action)"
             >
-                <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <mat-icon *ngIf="action.Icon">{{ action.Icon }}</mat-icon>
 
-                {{ action.Text }}
+                    <div class="feed-card-action-text">{{ action.Text }}</div>
+                </div>
             </button>
         </ng-container>
     </mat-card-actions>
