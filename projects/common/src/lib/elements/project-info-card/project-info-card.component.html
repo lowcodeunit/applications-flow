@@ -41,6 +41,11 @@
 
         <mat-card-header
             class="project-card-header"
+            id="header-margin"
+            [ngStyle]="{
+                'margin-top':
+                    this.IsEditable || this.IsShareable ? '0px' : '50px'
+            }"
             fxLayoutAlign="center center"
         >
             <mat-card-title class="project-card-name" *ngIf="Name">
@@ -134,6 +139,7 @@
 
         <mat-card-header
             class="project-card-header"
+            id="header-margin-loading"
             fxLayoutAlign="center center"
         >
             <mat-card-title

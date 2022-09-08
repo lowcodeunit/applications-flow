@@ -9,7 +9,7 @@
     ::ng-deep lcu-slotted-card-lg {
         height: 500px;
         .slotted-card-content {
-            overflow-y: scroll;
+            overflow-y: auto;
             height: 430px;
         }
     }

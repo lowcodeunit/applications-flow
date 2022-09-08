@@ -361,8 +361,8 @@ export class EaCService {
 
     public async SaveDFSModifier(
         req: SaveDFSModifierEventRequest
-    ): Promise<void> {
-        await this.handleSaveDFSModifier(req);
+    ): Promise<Status> {
+        return await this.handleSaveDFSModifier(req);
     }
 
     public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<Status> {
@@ -455,6 +455,8 @@ export class EaCService {
     ): Promise<Status> {
         const state = this.stateSubject.getValue();
 
+        // console.log("app req: ", req);
+
         const saveEaC: EnterpriseAsCode = {
             EnterpriseLookup: state.EaC.EnterpriseLookup,
             Applications: {},
@@ -515,6 +517,8 @@ export class EaCService {
                 ModifierLookups: req.ModifierLookups,
             };
         }
+
+        console.log('Save mod eac: ', saveEaC);
 
         const status = await this.projectService.SaveEnterpriseAsCode(
             state,

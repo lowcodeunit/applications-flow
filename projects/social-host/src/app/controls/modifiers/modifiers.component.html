@@ -1,5 +1,12 @@
 <lcu-dashboard-toolbar
+    *ngIf="!ProjectLookup"
     [project-lookups]="ProjectLookups"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<lcu-dashboard-toolbar
+    *ngIf="ProjectLookup"
+    [project-lookup]="ProjectLookup"
     [loading]="State?.Loading"
 ></lcu-dashboard-toolbar>
 

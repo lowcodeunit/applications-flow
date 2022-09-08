@@ -1,0 +1,83 @@
+<lcu-dashboard-toolbar
+    [project-lookup]="ProjectLookup"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
+    [project-lookup]="ProjectLookup"
+>
+</lcu-breadcrumb>
+
+<lcu-two-column>
+    <div top-left>
+        <lcu-project-info-card
+            [name]="Project?.Project?.Name"
+            [description]="Project?.Project?.Description"
+            [is-editable]="IsInfoCardEditable"
+            [is-shareable]="IsInfoCardShareable"
+            image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
+            [subtext]="
+                Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''
+            "
+            (left-click-event)="HandleLeftClickEvent($event)"
+            (right-click-event)="HandleRightClickEvent($event)"
+        >
+            <button
+                action
+                color="warn"
+                mat-button
+                class="info-card-btn"
+                (click)="DeleteProject(ProjectLookup, Project?.Project?.Name)"
+            >
+                <mat-icon matTooltip="Delete {{ Project?.Project?.Name }}">
+                    delete_forever
+                </mat-icon>
+                Delete Project
+            </button>
+        </lcu-project-info-card>
+    </div>
+    <div top-right class="usage-stats-col">
+        <lcu-usage-stats class="usage-stats"></lcu-usage-stats>
+    </div>
+
+    <!-- CENTER FEED -->
+    <div middle-right *ngIf="ProjectLookups?.length > 0">
+        <lcu-activity-card
+            class="fit-content"
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [filter-types]="FilterTypes"
+            [loading-feed]="State?.LoadingFeed"
+            [feed]="State?.Feed"
+            [feed-check]="State?.FeedCheck"
+            [has-gh-connection]="State?.GitHub?.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
+        >
+        </lcu-activity-card>
+    </div>
+
+    <div middle-left *ngIf="ProjectLookup">
+        <lcu-route-card
+            *ngIf="ProjectLookup"
+            class="fit-content"
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [applications-bank]="State?.EaC?.Applications"
+            [loading]="State?.Loading"
+            [project-lookup]="ProjectLookup"
+            [project]="Project"
+        ></lcu-route-card>
+    </div>
+    <div middle-full-width *ngIf="ProjectLookups?.length <= 0">
+        <lcu-project-wizard-card></lcu-project-wizard-card>
+    </div>
+
+    <div>
+        <lcu-team-member-card
+            [current-user]="State?.UserLicenseInfo?.Email"
+        ></lcu-team-member-card>
+    </div>
+</lcu-two-column>

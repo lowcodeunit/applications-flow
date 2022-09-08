@@ -27,11 +27,11 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'lcu-applications',
-    templateUrl: './applications.component.html',
-    styleUrls: ['./applications.component.scss'],
+    selector: 'lcu-applications-old',
+    templateUrl: './applications-old.component.html',
+    styleUrls: ['./applications-old.component.scss'],
 })
-export class ApplicationsComponent implements OnInit, OnDestroy {
+export class ApplicationsOldComponent implements OnInit, OnDestroy {
     @ViewChild(EditApplicationFormComponent)
     public ApplicationFormControls: EditApplicationFormComponent;
 

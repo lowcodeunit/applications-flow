@@ -55,4 +55,10 @@
     .action-text {
         overflow-wrap: break-word !important;
     }
+
+    @media only screen and (max-width: 850px) {
+        .action-text {
+            font-size: 11px;
+        }
+    }
 }

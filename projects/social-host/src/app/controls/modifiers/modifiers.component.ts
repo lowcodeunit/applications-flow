@@ -4,9 +4,9 @@ import {
     EaCService,
 } from '@lowcodeunit/applications-flow-common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { EaCDFSModifier } from '@semanticjs/common';
 import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'lcu-modifiers',
@@ -16,6 +16,8 @@ import { Subscription } from 'rxjs';
 export class ModifiersComponent implements OnInit, OnDestroy {
     public ModifierLookups: Array<string>;
 
+    public ProjectLookup: string;
+
     public ProjectLookups: Array<string>;
 
     public State: ApplicationsFlowState;
@@ -24,8 +26,22 @@ export class ModifiersComponent implements OnInit, OnDestroy {
 
     public SkeletonEffect: string;
 
-    constructor(protected eacSvc: EaCService, protected dialog: MatDialog) {
+    constructor(
+        private activatedRoute: ActivatedRoute,
+        protected eacSvc: EaCService,
+        protected dialog: MatDialog
+    ) {
         this.SkeletonEffect = 'wave';
+
+        this.activatedRoute.params.subscribe((params: any) => {
+            console.log('params: ', params);
+            if (params) {
+                this.ProjectLookup = params['projectLookup'];
+            } else {
+                this.ProjectLookup = null;
+            }
+            console.log('pjl:', this.ProjectLookup);
+        });
     }
 
     ngOnInit(): void {
@@ -54,13 +70,20 @@ export class ModifiersComponent implements OnInit, OnDestroy {
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
         console.log('Modifier lookup: ', mdfrLookup);
         // throw new Error('Not implemented: OpenModifierDialog');
+        let level: string;
+        if (this.ProjectLookup) {
+            level = 'project';
+        } else {
+            level = 'enterprise';
+        }
         const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
             width: '600px',
             data: {
                 modifierLookup: mdfrLookup,
                 modifierName: mdfrName,
                 modifiers: this.State?.EaC?.Modifiers,
-                level: 'enterprise',
+                level: level,
+                projectLookup: this.ProjectLookup,
             },
         });
 

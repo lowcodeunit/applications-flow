@@ -103,7 +103,7 @@
 
                         <mat-form-field
                             class="mat-full-width with-hint"
-                            *ngIf="SourceControlFormControl?.valid"
+                            *ngIf="IsSourceControlValid"
                         >
                             <mat-select
                                 formControlName="buildPath"
@@ -127,7 +127,7 @@
 
                         <mat-form-field
                             class="mat-full-width"
-                            *ngIf="SourceControlFormControl?.valid"
+                            *ngIf="IsSourceControlValid"
                         >
                             <input
                                 matInput
