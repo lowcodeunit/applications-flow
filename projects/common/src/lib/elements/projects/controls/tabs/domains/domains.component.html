@@ -52,6 +52,10 @@
                             <mat-error *ngIf="Domain.hasError('pattern')">
                                 Domain must be a valid URL
                             </mat-error>
+
+                            <mat-error *ngIf="Domain.hasError('whitespace')">
+                                Domain cannot contain spaces
+                            </mat-error>
                         </mat-form-field>
 
                         <button

@@ -112,6 +112,12 @@ export class DomainsComponent implements OnInit {
         this.config();
     }
 
+    public noWhitespaceValidator(control: FormControl) {
+        const isWhitespace = (control.value || '').trim().length === 0;
+        const isValid = !isWhitespace;
+        return isValid ? null : { whitespace: true };
+    }
+
     protected config(): void {
         this.Config = new CardFormConfigModel({
             Icon: 'head',
@@ -151,7 +157,7 @@ export class DomainsComponent implements OnInit {
                     Validators.pattern(
                         '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'
                     ),
-                    // Validators.pattern('[^-s]'),
+                    this.noWhitespaceValidator,
                 ],
                 updateOn: 'change',
             }),
