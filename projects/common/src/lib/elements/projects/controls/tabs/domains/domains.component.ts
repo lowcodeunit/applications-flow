@@ -151,7 +151,7 @@ export class DomainsComponent implements OnInit {
                     Validators.pattern(
                         '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?'
                     ),
-                    Validators.pattern('[^-s]'),
+                    // Validators.pattern('[^-s]'),
                 ],
                 updateOn: 'change',
             }),
