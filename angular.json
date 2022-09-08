@@ -104,8 +104,7 @@
                             "namedChunks": false,
                             "extractLicenses": true,
                             "vendorChunk": false,
-                            "buildOptimizer": true,
-                            "optimize": true
+                            "buildOptimizer": true
                         }
                     }
                 },
