@@ -1,0 +1,14 @@
+<lcu-dashboard-toolbar
+    [project-lookup]="ProjectLookup"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<div class="routes-container" *ngIf="ActiveEnvironmentLookup && Project">
+    <lcu-route-card
+        [active-environment-lookup]="ActiveEnvironmentLookup"
+        [applications-bank]="State?.EaC?.Applications"
+        [loading]="State?.Loading"
+        [project-lookup]="ProjectLookup"
+        [project]="Project"
+    ></lcu-route-card>
+</div>

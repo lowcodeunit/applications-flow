@@ -13,6 +13,7 @@
 
 .disabled {
     color: grey;
+    pointer-events: none;
 }
 
 @media only screen and (max-width: 959px) {
@@ -20,9 +21,11 @@
         height: 45px;
     }
     .toolbar-item {
-        font-size: 12px;
+        font-size: 11px;
+        margin: 5px;
     }
     .vl {
         border-left: 1px solid black;
+        height: 12px;
     }
 }

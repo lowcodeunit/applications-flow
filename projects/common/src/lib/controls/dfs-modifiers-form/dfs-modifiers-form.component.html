@@ -7,7 +7,7 @@
     <form
         [formGroup]="ModifierFormGroup"
         (ngSubmit)="SaveModifier()"
-        *ngIf="EditingModifier"
+        *ngIf="EditingModifierLookup"
     >
         <div class="form-card">
             <!-- <mat-card class="spread"> -->
@@ -191,7 +191,7 @@
     </div> -->
     </form>
 
-    <form [formGroup]="ModifierSelectFormGroup" *ngIf="!EditingModifier">
+    <form [formGroup]="ModifierSelectFormGroup" *ngIf="!EditingModifierLookup">
         <div class="spread" *ngIf="!EditingModifier">
             <span class="apps-actions">
                 <button

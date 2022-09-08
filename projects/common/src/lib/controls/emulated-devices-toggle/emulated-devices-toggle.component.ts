@@ -37,6 +37,8 @@ export class EmulatedDevicesToggleComponent implements OnInit {
 
     public EmulatedDevicesFormGroup: FormGroup;
 
+    public IsPrivate: boolean;
+
     public ProcessorType: string;
 
     public SkeletonEffect: string;
@@ -59,6 +61,10 @@ export class EmulatedDevicesToggleComponent implements OnInit {
         this.SaveFormEvent.emit(this.EmulatedDevicesFormGroup.value);
     }
 
+    public HandleIsPrivate(event: any) {
+        this.IsPrivate = this.IsPrivateFormControl.value;
+    }
+
     protected setupEmulatedDevicesFormGroup() {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
         this.EmulatedDevicesFormGroup = this.formBldr.group({});
@@ -73,5 +79,7 @@ export class EmulatedDevicesToggleComponent implements OnInit {
                 [Validators.required]
             )
         );
+
+        this.IsPrivate = this.IsPrivateFormControl.valid;
     }
 }

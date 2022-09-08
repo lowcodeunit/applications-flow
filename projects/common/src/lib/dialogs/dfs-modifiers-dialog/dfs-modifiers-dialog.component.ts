@@ -39,6 +39,8 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
 
     public ErrorMessage: string;
 
+    public IsPreconfigured: boolean;
+
     public ModifierDialogForm: FormGroup;
 
     public SaveDisabled: boolean;
@@ -60,6 +62,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
+        // console.log('dfs data: ', this.data);
         this.StateSub = this.eacSvc.State.subscribe((state) => {
             this.State = state;
             if (this.State?.EaC?.Projects) {
@@ -69,6 +72,8 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
             }
         });
         this.determineLevel();
+
+        this.IsPreconfigured = this.CheckPreconfigured();
     }
 
     public ngOnDestroy(): void {
@@ -87,7 +92,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     }
 
     public HandleSaveFormEvent(event: Status) {
-        console.log('event: ', event);
+        // console.log('event: ', event);
         if (event.Code === 0) {
             this.snackBar.open('DFS Modifier Saved Successfully', 'Dismiss', {
                 duration: 5000,
@@ -103,16 +108,18 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
         if (this.DFSModifersFormGroup) {
             this.SaveDisabled =
                 !this.DFSModifersFormGroup?.valid ||
+                !this.DFSModifersFormGroup?.dirty ||
                 !this.ModifierDialogForm?.valid;
         } else if (this.SelectedModifiersFormGroup) {
             this.SaveDisabled =
                 !this.SelectedModifiersFormGroup?.valid ||
                 !this.SelectedModifiersFormGroup?.dirty;
         }
+        console.log('Save disabled: ', this.SaveDisabled);
         return this.SaveDisabled;
     }
 
-    public IsPreconfigured(): boolean {
+    public CheckPreconfigured(): boolean {
         if (this.data.modifierLookup) {
             if (
                 this.data.modifierLookup === 'html-base' ||
@@ -130,36 +137,49 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     public SaveDFSModifier() {
         // console.log("level at save: ", this.data.level)
 
+        let status: Status;
+
         switch (this.data.level) {
             case 'enterprise': {
                 if (this.ModifierDialogForm.controls.applyToAllProjects.value) {
                     //save modifier add it to the ModifierLookups of all projects
-                    this.DFSModifersFormControls.SaveModifierForAllProjects(
-                        this.ProjectLookups
-                    );
+                    status =
+                        this.DFSModifersFormControls.SaveModifierForAllProjects(
+                            this.ProjectLookups
+                        );
                 } else {
                     //save modifier
-                    this.DFSModifersFormControls.SaveModifier();
+                    status = this.DFSModifersFormControls.SaveModifier();
                 }
             }
             case 'project': {
-                this.DFSModifersFormControls.SaveModifier(
+                status = this.DFSModifersFormControls.SaveModifier(
                     this.data.projectLookup
                 );
             }
 
             case 'application': {
-                this.DFSModifersFormControls.SaveModifierForApplication(
-                    this.data.applicationLookup
-                );
+                status =
+                    this.DFSModifersFormControls.SaveModifierForApplication(
+                        this.data.applicationLookup
+                    );
             }
+        }
+        if (status.Code === 0) {
+            this.snackBar.open('DFS Modifier Saved Successfully', 'Dismiss', {
+                duration: 5000,
+            });
+        } else {
+            this.snackBar.open('DFS Modifier Failed to Save', 'Dismiss', {
+                duration: 5000,
+            });
         }
         // this.DFSModifersFormControls.SaveModifier();
     }
 
     protected determineLevel() {
-        // console.log("LEVEL: ", this.data.level)
-        switch (this.data.level) {
+        // console.log('LEVEL: ', this.data.level);
+        switch (this.data.level.toLowerCase()) {
             case 'enterprise': {
                 this.setupEntForm();
             }

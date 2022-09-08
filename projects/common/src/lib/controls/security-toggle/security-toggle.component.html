@@ -47,6 +47,7 @@
                 <mat-slide-toggle
                     formControlName="isPrivate"
                     matTooltip="Is Secure Application?"
+                    (change)="HandleIsPrivate($event)"
                 >
                 </mat-slide-toggle>
 
@@ -60,8 +61,8 @@
 
             <mat-card-content>
                 <div>
-                    <div *ngIf="IsPrivateFormControl.value">
-                        <div>
+                    <div *ngIf="IsPrivate">
+                        <div class="toggle-container">
                             <mat-slide-toggle formControlName="isTriggerSignIn">
                                 Is Trigger Sign In Application?
                             </mat-slide-toggle>
@@ -72,6 +73,48 @@
                             >
                                 info_outline
                             </mat-icon>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="fill">
+                                <mat-label>Access Rights</mat-label>
+                                <mat-select
+                                    formControlName="accessRights"
+                                    multiple
+                                >
+                                    <!-- <mat-select-trigger>
+                                    {{accessRights?.value?.[0] || ''}}
+                                    <span *ngIf="(accessRights.value?.length || 0) > 1" class="example-additional-selection">
+                                      (+{{(accessRights.value?.length || 0) - 1}} {{accessRights.value?.length === 2 ? 'other' : 'others'}})
+                                    </span>
+                                  </mat-select-trigger> -->
+                                    <mat-option
+                                        *ngFor="let rights of AccessRights"
+                                        [value]="rights"
+                                        >{{ rights }}</mat-option
+                                    >
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div>
+                            <mat-form-field appearance="fill">
+                                <mat-label>License Configs</mat-label>
+                                <mat-select
+                                    formControlName="licenseConfigs"
+                                    multiple
+                                >
+                                    <!-- <mat-select-trigger>
+                                    {{licenseConfigs.value?.[0] || ''}}
+                                    <span *ngIf="(licenseConfigs.value?.length || 0) > 1" class="example-additional-selection">
+                                      (+{{(licenseConfigs.value?.length || 0) - 1}} {{licenseConfigs.value?.length === 2 ? 'other' : 'others'}})
+                                    </span>
+                                  </mat-select-trigger> -->
+                                    <mat-option
+                                        *ngFor="let configs of LicenseConfigs"
+                                        [value]="configs"
+                                        >{{ configs }}</mat-option
+                                    >
+                                </mat-select>
+                            </mat-form-field>
                         </div>
                     </div>
                 </div>

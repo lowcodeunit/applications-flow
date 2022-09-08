@@ -94,13 +94,16 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
             }
         }
 
-        if (this.RoutedApplications) {
+        if (
+            this.RoutedApplications &&
+            Object.keys(this.RoutedApplications)?.length !== 0
+        ) {
             this.Routes = Object.keys(this.RoutedApplications || {});
 
-            // console.log('routed apps: ', this.RoutedApplications);
+            console.log('routed apps: ', this.RoutedApplications);
 
             if (this.SelectedRoute) {
-                // console.log('selected route: ', this.SelectedRoute)
+                console.log('selected route: ', this.SelectedRoute);
 
                 this.CurrentRouteApplicationLookups =
                     Object.keys(this.RoutedApplications[this.SelectedRoute]) ||
@@ -163,8 +166,11 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
             rLink = ['/project', this.ProjectLookup];
         }
         if (this.SelectedApplication) {
-            rLink = ['/route', this.SelectedRoute, this.ProjectLookup];
+            rLink = ['/project', this.ProjectLookup];
+
+            // rLink = ['/route', this.SelectedRoute, this.ProjectLookup];
         }
+        console.log('rlink: ', rLink);
         return rLink;
     }
 
