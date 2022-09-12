@@ -30,7 +30,7 @@ const routes: Routes = [
         component: RoutesComponent,
     },
     {
-        path: 'routes/:projectLookup',
+        path: 'applications/:projectLookup',
         component: RoutesPageComponent,
     },
     {
