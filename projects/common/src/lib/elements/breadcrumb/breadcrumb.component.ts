@@ -77,6 +77,13 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
                 } else {
                     this.IsSmScreen = false;
                 }
+                console.log('small: ', this.IsSmScreen);
+
+                if (this.IsSmScreen) {
+                    this.CurrentLevel = this.determineCurrentLevel();
+
+                    this.ReturnRouterLink = this.determineReturnRouterLink();
+                }
             });
     }
 
@@ -123,7 +130,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         }
 
         if (this.IsSmScreen) {
-            this.CurrentLevel = this.determineLastLevel();
+            this.CurrentLevel = this.determineCurrentLevel();
 
             this.ReturnRouterLink = this.determineReturnRouterLink();
         }
@@ -137,7 +144,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         this.eacSvc.SetActiveEnterprise(entLookup).then(() => {});
     }
 
-    protected determineLastLevel(): string {
+    protected determineCurrentLevel(): string {
         let lastLevel: string;
         if (this.Enterprise) {
             lastLevel = 'ent';
@@ -145,9 +152,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         if (this.ProjectLookup) {
             lastLevel = 'project';
         }
-        if (this.SelectedRoute) {
-            lastLevel = 'route';
-        }
+        // if (this.SelectedRoute) {
+        //     lastLevel = 'route';
+        // }
         if (this.SelectedApplication) {
             lastLevel = 'app';
         }

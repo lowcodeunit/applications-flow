@@ -61,8 +61,10 @@ export class SecurityToggleComponent implements OnInit {
     public ngOnInit(): void {}
 
     public ngOnChanges() {
-        this.IsPrivate = this.EditingApplication.LookupConfig?.IsPrivate;
-        this.setupSecurityFormGroup();
+        if (this.IsPrivate === null || this.IsPrivate === undefined) {
+            this.IsPrivate = this.EditingApplication.LookupConfig?.IsPrivate;
+            this.setupSecurityFormGroup();
+        }
     }
 
     public SecuritySubmit() {
@@ -79,6 +81,7 @@ export class SecurityToggleComponent implements OnInit {
     }
 
     protected setupSecurityFormGroup() {
+        console.log('setting form');
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
         this.SecurityFormGroup = this.formBldr.group({});
         this.setupSecurityForm();
