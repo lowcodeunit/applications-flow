@@ -81,7 +81,7 @@ export class SecurityToggleComponent implements OnInit {
     }
 
     protected setupSecurityFormGroup() {
-        console.log('setting form');
+        // console.log('setting form');
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
         this.SecurityFormGroup = this.formBldr.group({});
         this.setupSecurityForm();
