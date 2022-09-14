@@ -33,7 +33,7 @@
         ></lcu-feed-header>
         <!-- <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter> -->
         <lcu-project-wizard-card
-            *ngIf="ProjectLookups?.length <= 0"
+            *ngIf="ProjectLookups?.length <= 0 && !State?.Loading"
         ></lcu-project-wizard-card>
 
         <lcu-skeleton-feed-card
@@ -63,7 +63,7 @@
             </lcu-main-feed-card>
         </ng-container>
         <lcu-project-wizard-card
-            *ngIf="ProjectLookups?.length > 0"
+            *ngIf="ProjectLookups?.length > 0 && !State?.Loading"
         ></lcu-project-wizard-card>
     </div>
 
