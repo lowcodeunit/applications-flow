@@ -192,12 +192,12 @@ export class ProcessorDetailsFormComponent implements OnInit {
             this.setupProcessorDetailsForm();
         }
 
-        if (this.IsDisabled) {
-            this.setupProcessorDetailsForm();
-            this.ProcessorDetailsFormGroup.disable();
-        } else {
-            this.ProcessorDetailsFormGroup.enable();
-        }
+        // if (this.IsDisabled) {
+        //     this.setupProcessorDetailsForm();
+        //     this.ProcessorDetailsFormGroup.disable();
+        // } else {
+        //     this.ProcessorDetailsFormGroup.enable();
+        // }
     }
 
     public CreateNewApplication(): void {

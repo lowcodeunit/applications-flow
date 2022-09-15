@@ -162,6 +162,23 @@
                     </div>
 
                     <div *ngSwitchCase="'NPM'">
+                        <mat-form-field class="mat-full-width">
+                            <mat-select
+                                placeholder="Source Control"
+                                formControlName="sourceControl"
+                                (selectionChange)="SourceControlChanged($event)"
+                                required
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let scLookup of SourceControlLookups
+                                    "
+                                    [value]="scLookup"
+                                >
+                                    {{ scLookup }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                         <lcu-npm-package-select
                             [npm-package]="
                                 EditingApplication?.LowCodeUnit?.Package

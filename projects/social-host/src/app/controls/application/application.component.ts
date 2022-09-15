@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from '@lcu/common';
 import {
@@ -242,7 +242,7 @@ export class ApplicationComponent implements OnInit {
             this.ProjectLookup = params['projectLookup'];
         });
 
-        this.IsInfoCardEditable = true;
+        this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 
         this.SkeletonEffect = 'wave';
@@ -334,6 +334,8 @@ export class ApplicationComponent implements OnInit {
     }
 
     //  API Methods
+
+    public CancelEditApp() {}
 
     public DeleteApplication(appLookup: string, appName: string): void {
         this.eacSvc

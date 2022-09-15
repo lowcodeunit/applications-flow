@@ -116,13 +116,13 @@
                     Edit Application: {{ Application?.Application?.Name }}
                 </h2>
 
-                <button
+                <!-- <button
                     mat-icon-button
                     (click)="ToggleEditForm()"
                     [matTooltip]="IsDisabled ? 'Enable form' : 'Disable form'"
                 >
                     <mat-icon>edit</mat-icon>
-                </button>
+                </button> -->
             </div>
 
             <mat-card-content class="app-card-content" *ngIf="!State?.Loading">
@@ -161,58 +161,73 @@
                 class="actions-container"
                 div
                 fxLayout="row"
-                fxLayoutAlign="end center"
+                fxLayoutAlign="space-between center"
             >
-                <!-- <button
-                class="action-button"
-                mat-raised-button
-                fxFlex="25%"
-                fxFlex.lt-md="30%"
-                (click)="CloseDialog()"
-            >
-                Cancel
-            </button> -->
-
                 <button
-                    *ngIf="
-                        ProcessorDetailsFormControls &&
-                        ApplicationFormControls &&
-                        !State?.Loading
-                    "
-                    mat-raised-button
-                    color="primary"
-                    fxFlex="25%"
-                    fxFlex.lt-md="60%"
-                    class="new-app-submit"
-                    (click)="SaveApplication()"
-                    [disabled]="
-                        !ProcessorDetailsFormControls?.ProcessorDetailsFormGroup
-                            ?.valid ||
-                        !ApplicationFormControls?.ApplicationFormGroup?.valid
+                    *ngIf="!State?.Loading"
+                    action
+                    color="warn"
+                    mat-button
+                    class="delete-btn"
+                    (click)="
+                        DeleteApplication(
+                            ApplicationLookup,
+                            Application?.Application?.Name
+                        )
                     "
                 >
-                    Save Application
+                    <mat-icon
+                        matTooltip="Delete {{ Application?.Application?.Name }}"
+                    >
+                        delete_forever
+                    </mat-icon>
+                    Delete
                 </button>
+
+                <div
+                    class="right-actions"
+                    fxLayout="row"
+                    fxLayoutAlign="end center"
+                >
+                    <button
+                        *ngIf="
+                            ProcessorDetailsFormControls &&
+                            ApplicationFormControls &&
+                            !State?.Loading
+                        "
+                        class="action-button"
+                        mat-raised-button
+                        fxFlex="25%"
+                        fxFlex.lt-md="30%"
+                        (click)="CancelEditApp()"
+                    >
+                        Cancel
+                    </button>
+
+                    <button
+                        *ngIf="
+                            ProcessorDetailsFormControls &&
+                            ApplicationFormControls &&
+                            !State?.Loading
+                        "
+                        mat-raised-button
+                        color="primary"
+                        fxFlex="25%"
+                        fxFlex.lt-md="60%"
+                        class="new-app-submit"
+                        (click)="SaveApplication()"
+                        [disabled]="
+                            !ProcessorDetailsFormControls
+                                ?.ProcessorDetailsFormGroup?.valid ||
+                            !ApplicationFormControls?.ApplicationFormGroup
+                                ?.valid
+                        "
+                    >
+                        Save
+                    </button>
+                </div>
             </mat-card-actions>
         </mat-card>
-
-        <button
-            action
-            color="warn"
-            mat-button
-            class="delete-btn"
-            (click)="
-                DeleteApplication(
-                    ApplicationLookup,
-                    Application?.Application?.Name
-                )
-            "
-        >
-            <mat-icon matTooltip="Delete {{ Application?.Application?.Name }}">
-                delete_forever
-            </mat-icon>
-            Delete Application
-        </button>
     </div>
     <div middle-right>
         <lcu-activity-card
