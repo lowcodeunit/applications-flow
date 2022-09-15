@@ -1,4 +1,10 @@
 <mat-toolbar class="dashboard-toolbar">
+    <a class="toolbar-item" href="/dashboard" fxLayoutAlign="center center">
+        <mat-icon>home</mat-icon>
+    </a>
+
+    <div class="vl"></div>
+
     <ng-container *ngIf="ProjectLookups">
         <a class="toolbar-item" href="/dashboard/enterprise">Overview</a>
         <div class="vl"></div>
