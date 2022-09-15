@@ -168,6 +168,7 @@
                     action
                     color="warn"
                     mat-button
+                    [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
                     class="delete-btn"
                     (click)="
                         DeleteApplication(
@@ -177,11 +178,12 @@
                     "
                 >
                     <mat-icon
+                        *ngIf="IsSmScreen"
                         matTooltip="Delete {{ Application?.Application?.Name }}"
                     >
                         delete_forever
                     </mat-icon>
-                    Delete
+                    <div *ngIf="!IsSmScreen">Delete</div>
                 </button>
 
                 <div
@@ -189,6 +191,7 @@
                     fxLayout="row"
                     fxLayoutAlign="end center"
                 >
+                    <!-- fxFlex.lt-md="30%" -->
                     <button
                         *ngIf="
                             ProcessorDetailsFormControls &&
@@ -196,13 +199,16 @@
                             !State?.Loading
                         "
                         class="action-button"
-                        mat-raised-button
+                        mat-button
+                        [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
                         fxFlex="25%"
-                        fxFlex.lt-md="30%"
                         (click)="CancelEditApp()"
                     >
-                        Cancel
+                        <div *ngIf="!IsSmScreen">Cancel</div>
+
+                        <mat-icon *ngIf="IsSmScreen">highlight_off</mat-icon>
                     </button>
+                    <!-- fxFlex.lt-md="60%" -->
 
                     <button
                         *ngIf="
@@ -210,10 +216,10 @@
                             ApplicationFormControls &&
                             !State?.Loading
                         "
-                        mat-raised-button
+                        mat-button
+                        [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
                         color="primary"
                         fxFlex="25%"
-                        fxFlex.lt-md="60%"
                         class="new-app-submit"
                         (click)="SaveApplication()"
                         [disabled]="
@@ -223,7 +229,8 @@
                                 ?.valid
                         "
                     >
-                        Save
+                        <div *ngIf="!IsSmScreen">Save</div>
+                        <mat-icon *ngIf="IsSmScreen">save</mat-icon>
                     </button>
                 </div>
             </mat-card-actions>

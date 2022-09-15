@@ -28,6 +28,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
     selector: 'lcu-application',
@@ -179,6 +180,8 @@ export class ApplicationComponent implements OnInit {
 
     public ApplicationLookup: string;
 
+    public BPSub: Subscription;
+
     public CurrentApplicationRoute: string;
 
     public CurrentVersion: string;
@@ -188,6 +191,8 @@ export class ApplicationComponent implements OnInit {
     public IsInfoCardEditable: boolean;
 
     public IsInfoCardShareable: boolean;
+
+    public IsSmScreen: boolean;
 
     public Loading: boolean;
 
@@ -224,6 +229,7 @@ export class ApplicationComponent implements OnInit {
     constructor(
         protected appSvc: ApplicationsFlowService,
         private activatedRoute: ActivatedRoute,
+        public breakpointObserver: BreakpointObserver,
         protected eacSvc: EaCService,
         protected dialog: MatDialog,
         protected router: Router,
@@ -257,6 +263,16 @@ export class ApplicationComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.BPSub = this.breakpointObserver
+            .observe(['(max-width: 959px)'])
+            .subscribe((state: BreakpointState) => {
+                if (state.matches) {
+                    this.IsSmScreen = true;
+                } else {
+                    this.IsSmScreen = false;
+                }
+                console.log('small: ', this.IsSmScreen);
+            });
         this.StateSub = this.eacSvc.State.subscribe(
             (state: ApplicationsFlowState) => {
                 this.State = state;
@@ -335,7 +351,10 @@ export class ApplicationComponent implements OnInit {
 
     //  API Methods
 
-    public CancelEditApp() {}
+    public CancelEditApp() {
+        this.ProcessorDetailsFormControls.ngOnChanges();
+        this.ApplicationFormControls.ngOnChanges();
+    }
 
     public DeleteApplication(appLookup: string, appName: string): void {
         this.eacSvc
