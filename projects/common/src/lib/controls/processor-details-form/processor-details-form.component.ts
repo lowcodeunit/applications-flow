@@ -518,7 +518,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.ProcessorDetailsFormGroup.addControl(
             'build',
             this.formBldr.control(
-                this.EditingApplication.LowCodeUnit?.CurrentBuild || 'latest',
+                this.EditingApplication.LowCodeUnit?.Build || 'latest',
                 [Validators.required]
             )
         );
