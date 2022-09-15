@@ -152,9 +152,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         if (this.ProjectLookup) {
             lastLevel = 'project';
         }
-        // if (this.SelectedRoute) {
-        //     lastLevel = 'route';
-        // }
+        if (this.SelectedRoute) {
+            lastLevel = 'route';
+        }
         if (this.SelectedApplication) {
             lastLevel = 'app';
         }
@@ -173,9 +173,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
             rLink = ['/project', this.ProjectLookup];
         }
         if (this.SelectedApplication) {
-            rLink = ['/project', this.ProjectLookup];
+            // rLink = ['/project', this.ProjectLookup];
 
-            // rLink = ['/route', this.SelectedRoute, this.ProjectLookup];
+            rLink = ['/route', this.SelectedRoute, this.ProjectLookup];
         }
         console.log('rlink: ', rLink);
         return rLink;

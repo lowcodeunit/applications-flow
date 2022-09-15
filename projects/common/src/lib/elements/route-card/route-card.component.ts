@@ -189,6 +189,7 @@ export class RouteCardComponent implements OnInit {
                         'https://' +
                         this.Project?.Hosts[this.Project?.Hosts?.length - 1] +
                         this.AppRoute,
+                    routerLink: ['/route', this.AppRoute, this.ProjectLookup],
                 };
 
                 let tempApps = this.CurrentRouteApplicationLookups;

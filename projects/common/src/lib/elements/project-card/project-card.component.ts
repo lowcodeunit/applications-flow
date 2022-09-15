@@ -212,6 +212,7 @@ export class ProjectCardComponent implements OnInit {
                             'https://' +
                             tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
                             this.AppRoute,
+                        routerLink: ['/route', this.AppRoute, pLookup],
                     };
 
                     let tempApps = this.CurrentRouteApplicationLookups;
