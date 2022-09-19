@@ -352,7 +352,7 @@ export class ApplicationComponent implements OnInit {
     //  API Methods
 
     public CancelEditApp() {
-        this.ProcessorDetailsFormControls.ngOnChanges();
+        this.ProcessorDetailsFormControls.SetupProcessorDetailsForm();
         this.ApplicationFormControls.ngOnChanges();
     }
 

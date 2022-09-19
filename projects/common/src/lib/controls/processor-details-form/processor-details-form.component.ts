@@ -188,12 +188,13 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
-        } else {
-            this.setupProcessorDetailsForm();
         }
-        // else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
+        // else {
         //     this.setupProcessorDetailsForm();
         // }
+        else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
+            this.SetupProcessorDetailsForm();
+        }
 
         // if (this.IsDisabled) {
         //     this.setupProcessorDetailsForm();
@@ -349,7 +350,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.EditingApplication = new EaCApplicationAsCode();
         this.EditingApplicationLookup = appLookup;
 
-        this.setupProcessorDetailsForm();
+        this.SetupProcessorDetailsForm();
     }
 
     public SourceControlChanged(event: any) {
@@ -478,7 +479,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
     }
 
-    protected setupProcessorDetailsForm(): void {
+    public SetupProcessorDetailsForm(): void {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
         // console.log('EDITING APP = ', this.EditingApplication);
