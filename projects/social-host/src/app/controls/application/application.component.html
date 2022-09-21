@@ -64,13 +64,13 @@
             id="version-control-container"
             fxLayout="row"
             fxFlex="20%"
-            fxLayoutAlign="space-between center"
+            fxLayoutAlign="center center"
         >
             <ng-container *ngIf="Loading">
-                <skeleton-block
+                <!-- <skeleton-block
                     class="version-skeleton"
                     [effect]="SkeletonEffect"
-                ></skeleton-block>
+                ></skeleton-block> -->
                 <skeleton-block
                     class="version-skeleton"
                     [effect]="SkeletonEffect"
@@ -78,7 +78,7 @@
             </ng-container>
 
             <ng-container *ngIf="!Loading">
-                <div
+                <!-- <div
                     class="version-item"
                     id="version-container"
                     fxLayoutAlign="center center"
@@ -86,7 +86,7 @@
                     {{
                         CurrentVersion ? CurrentVersion : "Package not deployed"
                     }}
-                </div>
+                </div> -->
 
                 <button
                     *ngIf="
@@ -110,11 +110,26 @@
     <!-- CENTER FEED -->
 
     <div middle-left>
-        <mat-card class="fit-content app-form-card">
+        <mat-card class="fit-content" id="app-form-card">
             <div class="app-form-header" fxLayoutAlign="space-between center">
                 <h2 class="edit-app-header" mat-card-title>
                     Edit Application: {{ Application?.Application?.Name }}
                 </h2>
+                <!-- class="version-item" -->
+                <div
+                    *ngIf="!Loading"
+                    id="version-container"
+                    fxLayoutAlign="center center"
+                >
+                    {{
+                        CurrentVersion ? CurrentVersion : "Package not deployed"
+                    }}
+                </div>
+                <skeleton-block
+                    *ngIf="Loading"
+                    class="version-skeleton"
+                    [effect]="SkeletonEffect"
+                ></skeleton-block>
 
                 <!-- <button
                     mat-icon-button
@@ -125,7 +140,7 @@
                 </button> -->
             </div>
 
-            <mat-card-content class="app-card-content">
+            <mat-card-content id="app-card-content">
                 <ng-conatiner *ngIf="!State?.Loading">
                     <lcu-edit-application-form
                         [application-lookup]="ApplicationLookup"
@@ -304,6 +319,7 @@
             [access-rights]="AccessRights"
             [license-configs]="LicenseConfigs"
             (save-form-event)="SaveSecuritySettings($event)"
+            (is-private-changed)="HandleIsPrivateChanged($event)"
         >
         </lcu-security-toggle>
     </div>

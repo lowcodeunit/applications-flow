@@ -29,6 +29,9 @@ export class SecurityToggleComponent implements OnInit {
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
 
+    @Output('is-private-changed')
+    public IsPrivateChanged: EventEmitter<any>;
+
     public get AccessRightsFormControl(): AbstractControl {
         return this.SecurityFormGroup?.controls.accessRights;
     }
@@ -55,6 +58,7 @@ export class SecurityToggleComponent implements OnInit {
 
     constructor(protected eacSvc: EaCService, protected formBldr: FormBuilder) {
         this.SaveFormEvent = new EventEmitter();
+        this.IsPrivateChanged = new EventEmitter();
         this.SkeletonEffect = 'wave';
     }
 
@@ -78,6 +82,7 @@ export class SecurityToggleComponent implements OnInit {
 
     public HandleIsPrivate(event: any) {
         this.IsPrivate = this.IsPrivateFormControl.value;
+        this.IsPrivateChanged.emit(this.IsPrivate);
     }
 
     protected setupSecurityFormGroup() {

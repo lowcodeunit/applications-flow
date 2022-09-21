@@ -355,6 +355,16 @@ export class ApplicationComponent implements OnInit {
                 this.ActiveEnvironmentLookup = envLookups[0];
 
                 this.FilterTypes = Object.values(this.State?.FeedFilters || {});
+
+                this.HandleIsPrivateChanged(
+                    this.Application?.LookupConfig?.IsPrivate
+                );
+
+                // if(this.Application?.LookupConfig?.IsPrivate){
+
+                //     document.getElementById('app-form-card').style.height = '830px';
+                //     document.getElementById('app-card-content').style.height = '690px';
+                // }
             }
         );
     }
@@ -390,6 +400,16 @@ export class ApplicationComponent implements OnInit {
         //   this.ProcessorDetailsFormControls.ProcessorDetailsFormGroup.disable();
         // }
         this.IsDisabled = !this.IsDisabled;
+    }
+
+    public HandleIsPrivateChanged(isPrivate: boolean) {
+        if (isPrivate) {
+            document.getElementById('app-form-card').style.height = '830px';
+            document.getElementById('app-card-content').style.height = '690px';
+        } else {
+            document.getElementById('app-form-card').style.height = '650px';
+            document.getElementById('app-card-content').style.height = '515px';
+        }
     }
 
     public HandleLeftClickEvent(event: any) {
