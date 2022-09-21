@@ -412,7 +412,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected listBuildPaths(): void {
-        this.Loading = true;
+        // this.Loading = true;
 
         console.log(
             'Source Control: ',
@@ -430,7 +430,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 this.BuildPathOptions = response.Model;
                 console.log('build path options: ', this.BuildPathOptions);
 
-                this.Loading = false;
+                // this.Loading = false;
 
                 // if (this.BuildPathOptions?.length === 1) {
                 //   this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);

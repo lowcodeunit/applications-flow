@@ -101,7 +101,7 @@
                 >
                     <mat-icon>outbox</mat-icon>
 
-                    Update Package: {{ Version }}
+                    Update Package: {{ CurrentVersion }}
                 </button>
             </ng-container>
         </div>
@@ -121,9 +121,7 @@
                     id="version-container"
                     fxLayoutAlign="center center"
                 >
-                    {{
-                        CurrentVersion ? CurrentVersion : "Package not deployed"
-                    }}
+                    {{ Version ? Version : "Package not deployed" }}
                 </div>
                 <skeleton-block
                     *ngIf="Loading"
