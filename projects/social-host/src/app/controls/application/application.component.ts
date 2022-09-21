@@ -155,19 +155,19 @@ export class ApplicationComponent implements OnInit {
         }
     }
 
-    private get Version(): string {
-        let version;
-        switch (this.Application?.LowCodeUnit?.Type) {
-            case 'GitHub':
-                version = this.Application.LowCodeUnit.Build;
-                break;
+    // private get Version(): string {
+    //     let version;
+    //     switch (this.Application?.LowCodeUnit?.Type) {
+    //         case 'GitHub':
+    //             version = this.Application?.LowCodeUnit?.Build;
+    //             break;
 
-            case 'NPM':
-                version = this.Application.LowCodeUnit.Version;
-                break;
-        }
-        return version;
-    }
+    //         case 'NPM':
+    //             version = this.Application?.LowCodeUnit?.Version;
+    //             break;
+    //     }
+    //     return version;
+    // }
     public AccessRights: any;
 
     public ActiveEnvironmentLookup: string;
@@ -225,6 +225,8 @@ export class ApplicationComponent implements OnInit {
     public ProjectLookup: string;
 
     public IsDisabled: boolean;
+
+    public Version: string;
 
     constructor(
         protected appSvc: ApplicationsFlowService,
@@ -308,14 +310,26 @@ export class ApplicationComponent implements OnInit {
                 let curVersion;
                 switch (this.Application?.LowCodeUnit?.Type) {
                     case 'GitHub':
-                        curVersion = `Build: ${this.Application.LowCodeUnit.CurrentBuild}`;
+                        curVersion = `Build: ${this.Application.LowCodeUnit.Build}`;
                         break;
 
                     case 'NPM':
-                        curVersion = `Version: ${this.Application.LowCodeUnit.CurrentVersion}`;
+                        curVersion = `Version: ${this.Application.LowCodeUnit.Version}`;
                         break;
                 }
                 this.CurrentVersion = curVersion;
+
+                switch (this.Application?.LowCodeUnit?.Type) {
+                    case 'GitHub':
+                        this.Version =
+                            this.Application?.LowCodeUnit?.CurrentBuild;
+                        break;
+
+                    case 'NPM':
+                        this.Version =
+                            this.Application?.LowCodeUnit?.CurrentVersion;
+                        break;
+                }
 
                 this.SourceControls = this.Environment?.Sources || {};
 
@@ -389,6 +403,32 @@ export class ApplicationComponent implements OnInit {
         // this.SaveApplication();
     }
 
+    // public IsSaveDisabled(): boolean{
+    //     let disabled: boolean;
+    //     console.log(" pro valid = ",this.ProcessorDetailsFormControls
+    //     ?.ProcessorDetailsFormGroup?.valid )
+    //     console.log("app valid = ",
+    // this.ApplicationFormControls?.ApplicationFormGroup
+    //     ?.valid )
+
+    //     console.log("dirty = ",(this.ProcessorDetailsFormControls
+    //         ?.ProcessorDetailsFormGroup?.dirty ||
+    //     this.ApplicationFormControls?.ApplicationFormGroup
+    //         ?.dirty) )
+
+    //     disabled = !((this.ProcessorDetailsFormControls
+    //         ?.ProcessorDetailsFormGroup?.valid &&
+    //     this.ApplicationFormControls?.ApplicationFormGroup
+    //         ?.valid) &&
+    //         (this.ProcessorDetailsFormControls
+    //         ?.ProcessorDetailsFormGroup?.dirty ||
+    //     this.ApplicationFormControls?.ApplicationFormGroup
+    //         ?.dirty));
+    //         console.log("dis = ", disabled);
+
+    //     return !disabled;
+    // }
+
     public OpenEditAppModal() {
         const dialogRef = this.dialog.open(EditApplicationDialogComponent, {
             width: '600px',
@@ -427,8 +467,8 @@ export class ApplicationComponent implements OnInit {
             ApplicationLookup: this.ApplicationLookup,
             ApplicationName: this.Application.Application?.Name,
             Version:
-                this.Application.LowCodeUnit?.Version ||
-                this.Application.LowCodeUnit?.Build,
+                this.Application?.LowCodeUnit?.Version ||
+                this.Application?.LowCodeUnit?.Build,
         });
     }
 
