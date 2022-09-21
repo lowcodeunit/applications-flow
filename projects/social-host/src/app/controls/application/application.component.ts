@@ -356,9 +356,11 @@ export class ApplicationComponent implements OnInit {
 
                 this.FilterTypes = Object.values(this.State?.FeedFilters || {});
 
-                this.HandleIsPrivateChanged(
-                    this.Application?.LookupConfig?.IsPrivate
-                );
+                if (this.Application?.LookupConfig?.IsPrivate) {
+                    this.HandleIsPrivateChanged(
+                        this.Application?.LookupConfig?.IsPrivate
+                    );
+                }
 
                 // if(this.Application?.LookupConfig?.IsPrivate){
 
@@ -403,6 +405,7 @@ export class ApplicationComponent implements OnInit {
     }
 
     public HandleIsPrivateChanged(isPrivate: boolean) {
+        // this.TempIsPrivate = isPrivate;
         if (isPrivate) {
             document.getElementById('app-form-card').style.height = '830px';
             document.getElementById('app-card-content').style.height = '690px';
