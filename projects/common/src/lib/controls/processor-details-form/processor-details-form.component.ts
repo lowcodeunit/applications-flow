@@ -188,13 +188,12 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
-        }
-        // else {
-        //     this.setupProcessorDetailsForm();
-        // }
-        else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
+        } else {
             this.SetupProcessorDetailsForm();
         }
+        // else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
+        //     this.SetupProcessorDetailsForm();
+        // }
 
         // if (this.IsDisabled) {
         //     this.setupProcessorDetailsForm();
