@@ -1,5 +1,15 @@
 <mat-card class="social-card">
-    <mat-card-title>Members</mat-card-title>
+    <div class="team-member-header">
+        <mat-card-title>Members</mat-card-title>
+        <button
+            mat-raised-button
+            class="add-member-btn"
+            color="primary"
+            (click)="OpenAddMemberModal()"
+        >
+            Add Member
+        </button>
+    </div>
 
     <mat-card-content>
         <div *ngIf="CurrentUser" fxLayout="row" fxLayoutAlign="start center">

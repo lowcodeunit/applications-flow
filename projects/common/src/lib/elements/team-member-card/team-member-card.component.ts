@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTeamMemberDialogComponent } from '../../dialogs/add-team-member-dialog/add-team-member-dialog.component';
 
 @Component({
     selector: 'lcu-team-member-card',
@@ -6,6 +8,9 @@ import { Component, Input, OnInit } from '@angular/core';
     styleUrls: ['./team-member-card.component.scss'],
 })
 export class TeamMemberCardComponent implements OnInit {
+    @Input('enterprise')
+    public Enterprise: any;
+
     @Input('team-members')
     public TeamMembers: Array<any>;
 
@@ -14,9 +19,18 @@ export class TeamMemberCardComponent implements OnInit {
 
     public SkeletonEffect: string;
 
-    constructor() {
+    constructor(protected dialog: MatDialog) {
         this.SkeletonEffect = 'wave';
     }
 
-    ngOnInit(): void {}
+    public ngOnInit(): void {}
+
+    public OpenAddMemberModal() {
+        const dialogRef = this.dialog.open(AddTeamMemberDialogComponent, {
+            width: '600px',
+            data: {
+                enterprise: this.Enterprise,
+            },
+        });
+    }
 }
