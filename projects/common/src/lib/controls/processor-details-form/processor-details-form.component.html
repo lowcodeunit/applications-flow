@@ -153,7 +153,10 @@
 
                             <mat-hint>
                                 Current Build:
-                                {{ EditingApplication?.LowCodeUnit?.Build }}
+                                {{
+                                    EditingApplication?.LowCodeUnit
+                                        ?.CurrentBuild
+                                }}
                             </mat-hint>
                         </mat-form-field>
                     </div>
@@ -188,7 +191,9 @@
 
                         <mat-hint>
                             Current Version:
-                            {{ EditingApplication?.LowCodeUnit?.Version }}
+                            {{
+                                EditingApplication?.LowCodeUnit?.CurrentVersion
+                            }}
                         </mat-hint>
                     </div>
 
