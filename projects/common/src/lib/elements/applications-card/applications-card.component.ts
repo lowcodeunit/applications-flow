@@ -60,7 +60,7 @@ export class ApplicationsCardComponent implements OnInit {
         return Object.keys(this.RoutedApplications || {});
     }
 
-    protected get CurrentRouteApplicationLookups(): Array<string> {
+    public get CurrentRouteApplicationLookups(): Array<string> {
         return Object.keys(this.RoutedApplications[this.AppRoute] || {});
     }
 
