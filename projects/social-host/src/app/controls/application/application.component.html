@@ -64,21 +64,21 @@
             id="version-control-container"
             fxLayout="row"
             fxFlex="20%"
-            fxLayoutAlign="space-between center"
+            fxLayoutAlign="center center"
         >
-            <ng-container *ngIf="State?.Loading">
-                <skeleton-block
+            <ng-container *ngIf="Loading">
+                <!-- <skeleton-block
                     class="version-skeleton"
                     [effect]="SkeletonEffect"
-                ></skeleton-block>
+                ></skeleton-block> -->
                 <skeleton-block
                     class="version-skeleton"
                     [effect]="SkeletonEffect"
                 ></skeleton-block>
             </ng-container>
 
-            <ng-container *ngIf="!State?.Loading">
-                <div
+            <ng-container *ngIf="!Loading">
+                <!-- <div
                     class="version-item"
                     id="version-container"
                     fxLayoutAlign="center center"
@@ -86,7 +86,7 @@
                     {{
                         CurrentVersion ? CurrentVersion : "Package not deployed"
                     }}
-                </div>
+                </div> -->
 
                 <button
                     *ngIf="
@@ -101,7 +101,7 @@
                 >
                     <mat-icon>outbox</mat-icon>
 
-                    Update Package: {{ Version }}
+                    Update Package: {{ CurrentVersion }}
                 </button>
             </ng-container>
         </div>
@@ -110,109 +110,193 @@
     <!-- CENTER FEED -->
 
     <div middle-left>
-        <mat-card class="fit-content app-form-card">
+        <mat-card class="fit-content" id="app-form-card">
             <div class="app-form-header" fxLayoutAlign="space-between center">
-                <h2 mat-card-title>
+                <h2 class="edit-app-header" mat-card-title>
                     Edit Application: {{ Application?.Application?.Name }}
                 </h2>
+                <!-- class="version-item" -->
+                <div
+                    *ngIf="!Loading"
+                    id="version-container"
+                    fxLayoutAlign="center center"
+                >
+                    {{ Version ? Version : "Package not deployed" }}
+                </div>
+                <skeleton-block
+                    *ngIf="Loading"
+                    class="version-skeleton"
+                    [effect]="SkeletonEffect"
+                ></skeleton-block>
 
-                <button
+                <!-- <button
                     mat-icon-button
                     (click)="ToggleEditForm()"
                     [matTooltip]="IsDisabled ? 'Enable form' : 'Disable form'"
                 >
                     <mat-icon>edit</mat-icon>
-                </button>
+                </button> -->
             </div>
 
-            <mat-card-content class="app-card-content" *ngIf="!State?.Loading">
-                <lcu-edit-application-form
-                    [application-lookup]="ApplicationLookup"
-                    [editing-application]="Application"
-                    [is-disabled]="IsDisabled"
-                    [project-lookup]="ProjectLookup"
-                    [loading]="State?.Loading"
-                    (save-form-event)="HandleSaveApplicationEvent($event)"
-                >
-                </lcu-edit-application-form>
+            <mat-card-content id="app-card-content">
+                <ng-conatiner *ngIf="!State?.Loading">
+                    <lcu-edit-application-form
+                        [application-lookup]="ApplicationLookup"
+                        [editing-application]="Application"
+                        [is-disabled]="IsDisabled"
+                        [project-lookup]="ProjectLookup"
+                        [loading]="Loading"
+                        (save-form-event)="HandleSaveApplicationEvent($event)"
+                    >
+                    </lcu-edit-application-form>
 
-                <lcu-processor-details-form
-                    [editing-application]="Application"
-                    [editing-application-lookup]="ApplicationLookup"
-                    [environment]="
-                        State?.EaC?.Environments[
-                            State?.EaC?.Enterprise?.PrimaryEnvironment
-                        ]
-                    "
-                    [has-save-button]="HasSaveButton"
-                    [is-disabled]="IsDisabled"
-                    [source-control-lookups]="SourceControlLookups"
-                    [project-lookup]="ProjectLookup"
-                    [loading]="State?.Loading"
-                >
-                </lcu-processor-details-form>
+                    <lcu-processor-details-form
+                        [editing-application]="Application"
+                        [editing-application-lookup]="ApplicationLookup"
+                        [environment]="
+                            State?.EaC?.Environments[
+                                State?.EaC?.Enterprise?.PrimaryEnvironment
+                            ]
+                        "
+                        [has-save-button]="HasSaveButton"
+                        [is-disabled]="IsDisabled"
+                        [source-control-lookups]="SourceControlLookups"
+                        [project-lookup]="ProjectLookup"
+                        [loading]="Loading"
+                    >
+                    </lcu-processor-details-form>
 
-                <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center">
-                    {{ ErrorMessage }}
-                </mat-error>
+                    <mat-error
+                        *ngIf="ErrorMessage"
+                        fxLayoutAlign="center center"
+                    >
+                        {{ ErrorMessage }}
+                    </mat-error>
+                </ng-conatiner>
+
+                <ng-container *ngIf="State?.Loading">
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                </ng-container>
             </mat-card-content>
 
             <mat-card-actions
                 class="actions-container"
                 div
                 fxLayout="row"
-                fxLayoutAlign="end center"
+                fxLayoutAlign="space-between center"
             >
-                <!-- <button
-                class="action-button"
-                mat-raised-button
-                fxFlex="25%"
-                fxFlex.lt-md="30%"
-                (click)="CloseDialog()"
-            >
-                Cancel
-            </button> -->
-
                 <button
-                    *ngIf="
-                        ProcessorDetailsFormControls &&
-                        ApplicationFormControls &&
-                        !State?.Loading
-                    "
-                    mat-raised-button
-                    color="primary"
-                    fxFlex="25%"
-                    fxFlex.lt-md="60%"
-                    class="new-app-submit"
-                    (click)="SaveApplication()"
-                    [disabled]="
-                        !ProcessorDetailsFormControls?.ProcessorDetailsFormGroup
-                            ?.valid ||
-                        !ApplicationFormControls?.ApplicationFormGroup?.valid
+                    *ngIf="!State?.Loading"
+                    action
+                    color="warn"
+                    mat-button
+                    [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
+                    class="delete-btn"
+                    (click)="
+                        DeleteApplication(
+                            ApplicationLookup,
+                            Application?.Application?.Name
+                        )
                     "
                 >
-                    Save Application
+                    <mat-icon
+                        *ngIf="IsSmScreen"
+                        matTooltip="Delete {{ Application?.Application?.Name }}"
+                    >
+                        delete_forever
+                    </mat-icon>
+                    <div *ngIf="!IsSmScreen">Delete</div>
                 </button>
+
+                <div
+                    class="right-actions"
+                    fxLayout="row"
+                    fxLayoutAlign="end center"
+                >
+                    <!-- fxFlex.lt-md="30%" -->
+                    <button
+                        *ngIf="
+                            ProcessorDetailsFormControls &&
+                            ApplicationFormControls &&
+                            !State?.Loading
+                        "
+                        class="action-button"
+                        mat-button
+                        [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
+                        fxFlex="25%"
+                        (click)="CancelEditApp()"
+                    >
+                        <div *ngIf="!IsSmScreen">Cancel</div>
+
+                        <mat-icon *ngIf="IsSmScreen">highlight_off</mat-icon>
+                    </button>
+                    <!-- fxFlex.lt-md="60%" -->
+
+                    <button
+                        *ngIf="
+                            ProcessorDetailsFormControls &&
+                            ApplicationFormControls &&
+                            !State?.Loading
+                        "
+                        mat-button
+                        [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
+                        color="primary"
+                        fxFlex="25%"
+                        class="new-app-submit"
+                        (click)="SaveApplication()"
+                        [disabled]="
+                            !(
+                                this.ProcessorDetailsFormControls
+                                    ?.ProcessorDetailsFormGroup?.valid &&
+                                this.ApplicationFormControls
+                                    ?.ApplicationFormGroup?.valid &&
+                                (this.ProcessorDetailsFormControls
+                                    ?.ProcessorDetailsFormGroup?.dirty ||
+                                    this.ApplicationFormControls
+                                        ?.ApplicationFormGroup?.dirty)
+                            )
+                        "
+                    >
+                        <div *ngIf="!IsSmScreen">Save</div>
+                        <mat-icon *ngIf="IsSmScreen">save</mat-icon>
+                    </button>
+                </div>
             </mat-card-actions>
         </mat-card>
-
-        <button
-            action
-            color="warn"
-            mat-button
-            class="delete-btn"
-            (click)="
-                DeleteApplication(
-                    ApplicationLookup,
-                    Application?.Application?.Name
-                )
-            "
-        >
-            <mat-icon matTooltip="Delete {{ Application?.Application?.Name }}">
-                delete_forever
-            </mat-icon>
-            Delete Application
-        </button>
     </div>
     <div middle-right>
         <lcu-activity-card
@@ -233,6 +317,7 @@
             [access-rights]="AccessRights"
             [license-configs]="LicenseConfigs"
             (save-form-event)="SaveSecuritySettings($event)"
+            (is-private-changed)="HandleIsPrivateChanged($event)"
         >
         </lcu-security-toggle>
     </div>

@@ -8,6 +8,9 @@ import { EaCService } from '../../services/eac.service';
     styleUrls: ['./feed-filter.component.scss'],
 })
 export class FeedFilterComponent implements OnInit {
+    @Input('feed-check')
+    public FeedCheck: any;
+
     @Input('filter-types')
     public FilterTypes: Array<string>;
 
@@ -124,6 +127,10 @@ export class FeedFilterComponent implements OnInit {
             });
         }
         return fString;
+    }
+
+    public ReloadFeed(): void {
+        this.eacSvc.ReloadFeed();
     }
 
     public ToggleFilter(name: string) {

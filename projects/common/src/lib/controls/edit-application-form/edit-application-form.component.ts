@@ -64,11 +64,12 @@ export class EditApplicationFormComponent implements OnInit {
 
     public ngOnChanges() {
         this.setupApplicationForm();
-        if (this.IsDisabled) {
-            this.ApplicationFormGroup.disable();
-        } else {
-            this.ApplicationFormGroup.enable();
-        }
+        // if (this.IsDisabled) {
+        //     this.ApplicationFormGroup.disable();
+        // } else {
+        //     this.ApplicationFormGroup.enable();
+        // }
+        console.log('loading: ', this.Loading);
     }
 
     public SubmitApplicationControl() {

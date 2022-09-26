@@ -1,15 +1,13 @@
 <div class="breadcrumb-container" *ngIf="!IsSmScreen" fxLayout="row wrap">
     <div fxLayout="row" fxLayoutAlign="center center">
         <ng-container *ngIf="Loading">
-            <mat-icon skeleton-text [effect]="SkeletonEffect">home</mat-icon>
+            <!-- <mat-icon skeleton-text [effect]="SkeletonEffect">home</mat-icon> -->
 
             <div skeleton-text [effect]="SkeletonEffect">Enterprise Name</div>
         </ng-container>
 
         <ng-container *ngIf="Enterprise && !Loading">
             <div class="crumb-name" [routerLink]="['/enterprise']">
-                <mat-icon>home</mat-icon>
-
                 {{ Enterprise?.Name }}
             </div>
 
@@ -64,7 +62,7 @@
         </ng-container>
     </div>
 
-    <!-- <div *ngIf="SelectedRoute" fxLayout="row" fxLayoutAlign="center center">
+    <div *ngIf="SelectedRoute" fxLayout="row" fxLayoutAlign="center center">
         <span class="seperator">/</span>
 
         <ng-container *ngIf="Loading">
@@ -93,7 +91,7 @@
                 </button>
             </mat-menu>
         </ng-container>
-    </div> -->
+    </div>
 
     <div
         *ngIf="SelectedApplication && ApplicationLookup"

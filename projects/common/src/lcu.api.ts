@@ -3,6 +3,7 @@ export * from './lib/services/applications-flow.service';
 export * from './lib/state/applications-flow-state.context';
 export * from './lib/state/applications-flow.state';
 export * from './lib/elements/advertisement-card/advertisement-card.component';
+export * from './lib/elements/applications-card/applications-card.component';
 export * from './lib/elements/feed-filter/feed-filter.component';
 export * from './lib/elements/projects/controls/forms/source-control/source-control.component';
 export * from './lib/elements/projects/controls/create-project-wizard/create-project-wizard.component';

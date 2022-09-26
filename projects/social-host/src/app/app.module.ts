@@ -10,7 +10,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './controls/project/project.component';
-import { RoutesComponent } from './controls/routes/routes.component';
+import { RoutesOldComponent } from './controls/routes-old/routes-old.component';
 import { EnterpriseComponent } from './controls/enterprise-old/enterprise-old.component';
 import { ApplicationsOldComponent } from './controls/applications-old/applications-old.component';
 import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
@@ -35,12 +35,13 @@ import { RoutesPageComponent } from './controls/routes-page/routes-page.componen
 import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
 import { StateConfigPageComponent } from './controls/state-config-page/state-config-page.component';
 import { ApplicationComponent } from './controls/application/application.component';
+import { RoutesComponent } from './controls/routes/routes.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         ProjectComponent,
-        RoutesComponent,
+        RoutesOldComponent,
         DiscoverComponent,
         EnterpriseComponent,
         Enterprise4Component,
@@ -55,6 +56,7 @@ import { ApplicationComponent } from './controls/application/application.compone
         CustomDomainPageComponent,
         StateConfigPageComponent,
         ApplicationComponent,
+        RoutesComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -88,10 +90,12 @@ import { ApplicationComponent } from './controls/application/application.compone
         CustomDomainPageComponent,
         StateConfigPageComponent,
         ApplicationComponent,
+        RoutesComponent,
     ],
     entryComponents: [
         ProjectComponent,
         RoutesComponent,
+        RoutesOldComponent,
         RoutesPageComponent,
         DiscoverComponent,
         EnterpriseComponent,
