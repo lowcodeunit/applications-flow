@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { EnterpriseAsCode } from '@semanticjs/common';
 import { AddTeamMemberDialogComponent } from '../../dialogs/add-team-member-dialog/add-team-member-dialog.component';
 
 @Component({
@@ -9,13 +10,16 @@ import { AddTeamMemberDialogComponent } from '../../dialogs/add-team-member-dial
 })
 export class TeamMemberCardComponent implements OnInit {
     @Input('enterprise')
-    public Enterprise: any;
+    public Enterprise: EnterpriseAsCode;
 
     @Input('team-members')
     public TeamMembers: Array<any>;
 
     @Input('current-user')
     public CurrentUser: string;
+
+    @Input('project-lookup')
+    public ProjectLookup: string;
 
     public SkeletonEffect: string;
 
@@ -30,6 +34,7 @@ export class TeamMemberCardComponent implements OnInit {
             width: '600px',
             data: {
                 enterprise: this.Enterprise,
+                projectLookup: this.ProjectLookup,
             },
         });
     }

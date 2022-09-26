@@ -8,10 +8,15 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EaCService } from '../../services/eac.service';
+import { EaCProjectAsCode, EnterpriseAsCode } from '@semanticjs/common';
+import {
+    EaCService,
+    SaveProjectAsCodeEventRequest,
+} from '../../services/eac.service';
 
 export interface AddTeamMemberDialogData {
     enterprise: any;
+    projectLookup: string;
 }
 
 @Component({
@@ -47,10 +52,25 @@ export class AddTeamMemberDialogComponent implements OnInit {
         console.log('ent: ', this.Enterprise);
     }
 
+    //include current project, ent lookup, relyingparty, accessconfig and then the user list
+
     public AddMember() {
         console.log('ent lookup: ', this.Enterprise.ParentEnterpriseLookup);
         console.log('invited: ', this.Email.value);
         console.log('permission: ', this.Permission.value);
+
+        let proj: EaCProjectAsCode;
+        proj.RelyingParty.AccessConfigurations[
+            this.Enterprise.Projects[
+                this.data.projectLookup
+            ].RelyingParty.DefaultAccessConfigurationLookup
+        ].Usernames = [this.Email.value];
+
+        const saveProjectRequest: SaveProjectAsCodeEventRequest = {
+            Project: proj,
+            ProjectLookup: this.data.projectLookup,
+        };
+        this.eacSvc.SaveProjectAsCode(saveProjectRequest);
     }
 
     public BuildForm() {
