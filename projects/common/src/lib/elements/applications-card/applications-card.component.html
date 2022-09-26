@@ -1,12 +1,12 @@
 <!-- TREE -->
 <lcu-slotted-card-lg
-    *ngIf="ProjectLookup"
+    *ngIf="ApplicationsBank"
     class="fit-content"
-    card-title="Route"
-    button-text="Add Route"
-    icon="route"
+    card-title="Application"
     [loading]="Loading"
-    [main-slot-description]="ApplicationRoutes?.length + ' route(s) configured'"
+    [main-slot-description]="
+        CurrentRouteApplicationLookups?.length + ' route(s) configured'
+    "
     (main-action-clicked)="OpenNewAppDialog($event)"
 >
     <!-- <div> -->

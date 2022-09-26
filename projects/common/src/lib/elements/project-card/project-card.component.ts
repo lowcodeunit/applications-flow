@@ -6,8 +6,6 @@ import {
 } from '@angular/material/tree';
 import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { FlatNode, TreeNode } from '../../models/tree-node.model';
-import { EaCService } from '../../services/eac.service';
-import { SocialUIService } from '../../services/social-ui.service';
 
 @Component({
     selector: 'lcu-project-card',
@@ -212,6 +210,7 @@ export class ProjectCardComponent implements OnInit {
                             'https://' +
                             tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
                             this.AppRoute,
+                        routerLink: ['/route', this.AppRoute, pLookup],
                     };
 
                     let tempApps = this.CurrentRouteApplicationLookups;

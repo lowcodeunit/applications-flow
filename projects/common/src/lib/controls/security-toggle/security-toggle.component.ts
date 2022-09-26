@@ -29,6 +29,9 @@ export class SecurityToggleComponent implements OnInit {
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
 
+    @Output('is-private-changed')
+    public IsPrivateChanged: EventEmitter<any>;
+
     public get AccessRightsFormControl(): AbstractControl {
         return this.SecurityFormGroup?.controls.accessRights;
     }
@@ -55,14 +58,17 @@ export class SecurityToggleComponent implements OnInit {
 
     constructor(protected eacSvc: EaCService, protected formBldr: FormBuilder) {
         this.SaveFormEvent = new EventEmitter();
+        this.IsPrivateChanged = new EventEmitter();
         this.SkeletonEffect = 'wave';
     }
 
     public ngOnInit(): void {}
 
     public ngOnChanges() {
-        this.IsPrivate = this.EditingApplication.LookupConfig?.IsPrivate;
-        this.setupSecurityFormGroup();
+        if (this.IsPrivate === null || this.IsPrivate === undefined) {
+            this.IsPrivate = this.EditingApplication.LookupConfig?.IsPrivate;
+            this.setupSecurityFormGroup();
+        }
     }
 
     public SecuritySubmit() {
@@ -76,9 +82,11 @@ export class SecurityToggleComponent implements OnInit {
 
     public HandleIsPrivate(event: any) {
         this.IsPrivate = this.IsPrivateFormControl.value;
+        this.IsPrivateChanged.emit(this.IsPrivate);
     }
 
     protected setupSecurityFormGroup() {
+        // console.log('setting form');
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
         this.SecurityFormGroup = this.formBldr.group({});
         this.setupSecurityForm();

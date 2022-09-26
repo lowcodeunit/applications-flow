@@ -10,11 +10,29 @@ import { NewApplicationDialogComponent } from '../../dialogs/new-application-dia
 import { FlatNode, TreeNode } from '../../models/tree-node.model';
 
 @Component({
-    selector: 'lcu-route-card',
-    templateUrl: './route-card.component.html',
-    styleUrls: ['./route-card.component.scss'],
+    selector: 'lcu-applications-card',
+    templateUrl: './applications-card.component.html',
+    styleUrls: ['./applications-card.component.scss'],
 })
-export class RouteCardComponent implements OnInit {
+export class ApplicationsCardComponent implements OnInit {
+    @Input('active-environment-lookup')
+    public ActiveEnvironmentLookup: string;
+
+    @Input('applications-bank')
+    public ApplicationsBank: Array<EaCApplicationAsCode>;
+
+    @Input('app-route')
+    public AppRoute: string;
+
+    @Input('loading')
+    public Loading: boolean;
+
+    @Input('project')
+    public Project: EaCProjectAsCode;
+
+    @Input('project-lookup')
+    public ProjectLookup: string;
+
     private transformer = (node: TreeNode, level: number) => {
         return {
             expandable: !!node.children && node.children.length > 0,
@@ -27,12 +45,6 @@ export class RouteCardComponent implements OnInit {
         };
     };
 
-    @Input('applications-bank')
-    public ApplicationsBank: Array<EaCApplicationAsCode>;
-
-    @Input('loading')
-    public Loading: boolean;
-
     protected get Applications(): {
         [lookup: string]: EaCApplicationAsCode;
     } {
@@ -44,7 +56,11 @@ export class RouteCardComponent implements OnInit {
         return apps;
     }
 
-    protected get CurrentRouteApplicationLookups(): Array<string> {
+    protected get ApplicationRoutes(): Array<string> {
+        return Object.keys(this.RoutedApplications || {});
+    }
+
+    public get CurrentRouteApplicationLookups(): Array<string> {
         return Object.keys(this.RoutedApplications[this.AppRoute] || {});
     }
 
@@ -125,16 +141,17 @@ export class RouteCardComponent implements OnInit {
 
         return routeSetResult;
     }
-    public treeControl = new FlatTreeControl<FlatNode>(
+
+    treeControl = new FlatTreeControl<FlatNode>(
         (node: any) => node.level,
         (node: any) => node.expandable
     );
 
-    protected treeFlattener = new MatTreeFlattener(
+    treeFlattener = new MatTreeFlattener(
         this.transformer,
-        (node: any) => node.level,
-        (node: any) => node.expandable,
-        (node: any) => node.children
+        (node) => node.level,
+        (node) => node.expandable,
+        (node) => node.children
     );
 
     public DataSource = new MatTreeFlatDataSource(
@@ -142,46 +159,74 @@ export class RouteCardComponent implements OnInit {
         this.treeFlattener
     );
 
-    @Input('project')
-    public Project: EaCProjectAsCode;
-
-    @Input('project-lookup')
-    public ProjectLookup: string;
-
-    @Input('active-environment-lookup')
-    public ActiveEnvironmentLookup: string;
-
-    public ApplicationRoutes: Array<string>;
-
-    public AppRoute: string;
+    // public RoutedApplications: any;
 
     constructor(protected dialog: MatDialog) {}
 
     public HasChild = (_: number, node: FlatNode) => node.expandable;
 
-    ngOnInit(): void {}
+    public ngOnInit(): void {}
 
-    ngOnChanges() {
-        if (this.ProjectLookup && this.Project) {
-            let temp = this.BuildRouteTree();
+    public ngOnChanges() {
+        console.log('app bank: ', this.ApplicationsBank);
+        if (this.ApplicationsBank) {
+            let temp = this.BuildProjectTree();
+            console.log('to string: ', JSON.stringify(temp));
 
             if (JSON.stringify(this.DataSource.data) !== JSON.stringify(temp)) {
-                // console.log('Its different: ', JSON.stringify(temp));
+                // console.log('Its different')
                 this.DataSource.data = temp;
             }
         }
     }
 
-    public BuildRouteTree() {
-        // console.log('called route tree');
+    public RouteToPath(path: string): void {
+        window.location.href = path;
+    }
+
+    public BuildProjectTree(): Array<TreeNode> {
+        console.log('calling build project tree');
         let tempTreeData: Array<TreeNode> = [];
 
-        this.ApplicationRoutes = Object.keys(this.RoutedApplications || {});
-        if (this.ApplicationRoutes) {
+        let tempApps = this.CurrentRouteApplicationLookups;
+        if (tempApps) {
+            let tempRouteChildren: Array<TreeNode> = [];
+            tempApps.forEach((appLookup: string) => {
+                let tempApp = this.RoutedApplications[this.AppRoute][appLookup];
+                let tempAppNode: TreeNode = {
+                    lookup: appLookup,
+                    name: tempApp.Application.Name,
+                    url:
+                        'https://' +
+                        this.Project?.Hosts[this.Project?.Hosts?.length - 1] +
+                        this.AppRoute,
+                    description: tempApp.Application.Description,
+                    routerLink: [
+                        '/application',
+                        appLookup,
+                        this.AppRoute,
+                        this.ProjectLookup,
+                    ],
+                };
+                tempTreeData.push(tempAppNode);
+            });
+        }
+
+        // console.log('THE TREE: ', tempTreeData);
+        return tempTreeData;
+
+        // return tempTreeData;
+    }
+
+    public BuildRouteTree() {
+        console.log('called route tree');
+        let tempTreeData: Array<TreeNode> = [];
+
+        let tempRoutes = this.ApplicationRoutes;
+        if (tempRoutes) {
             // let tempProjChildren: Array<TreeNode> = [];
-            this.ApplicationRoutes.forEach((appRoute: string) => {
+            tempRoutes.forEach((appRoute: string) => {
                 this.AppRoute = appRoute;
-                // routerLink: ['/route', this.AppRoute, this.ProjectLookup],
 
                 let tempRouteNode: TreeNode = {
                     name: this.AppRoute,
@@ -226,7 +271,7 @@ export class RouteCardComponent implements OnInit {
     }
 
     public HandleRoute(route: string) {
-        // console.log('route: ', route);
+        console.log('route: ', route);
     }
 
     public OpenNewAppDialog(event: any) {

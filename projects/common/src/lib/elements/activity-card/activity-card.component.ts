@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FeedItem, FeedItemAction } from '../../models/user-feed.model';
+import { EaCService } from '../../services/eac.service';
 
 @Component({
     selector: 'lcu-activity-card',
@@ -31,7 +32,11 @@ export class ActivityCardComponent implements OnInit {
     @Input('feed-header-actions')
     public FeedHeaderActions: Array<FeedItemAction>;
 
-    constructor() {}
+    constructor(protected eacSvc: EaCService) {}
 
     ngOnInit(): void {}
+
+    public ReloadFeed(): void {
+        this.eacSvc.ReloadFeed();
+    }
 }
