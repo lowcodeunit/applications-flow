@@ -1,4 +1,5 @@
 <lcu-dashboard-toolbar
+    [app-lookup]="ApplicationLookup"
     [project-lookup]="ProjectLookup"
     [loading]="State?.Loading"
 ></lcu-dashboard-toolbar>
@@ -310,6 +311,32 @@
             [feed-header-actions]="State?.FeedActions"
         >
         </lcu-activity-card>
+
+        <div class="state-config-card">
+            <mat-card class="social-card" *ngIf="!State?.Loading">
+                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-actions>
+                    <button
+                        mat-raised-button
+                        class="config-btn"
+                        (click)="OpenEditConfigDialog()"
+                    >
+                        Edit Config
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card class="social-card" *ngIf="State?.Loading">
+                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-actions>
+                    <skeleton-block
+                        width="100%"
+                        height="36px"
+                        [effect]="SkeletonEffect"
+                    ></skeleton-block>
+                </mat-card-actions>
+            </mat-card>
+        </div>
 
         <lcu-security-toggle
             [editing-application]="Application"

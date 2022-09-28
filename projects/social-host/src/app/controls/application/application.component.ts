@@ -407,11 +407,15 @@ export class ApplicationComponent implements OnInit {
     public HandleIsPrivateChanged(isPrivate: boolean) {
         // this.TempIsPrivate = isPrivate;
         if (isPrivate) {
-            document.getElementById('app-form-card').style.height = '830px';
-            document.getElementById('app-card-content').style.height = '690px';
+            // document.getElementById('app-form-card').style.height = '830px';
+            // document.getElementById('app-card-content').style.height = '690px';
+            document.getElementById('app-form-card').style.height = '960px';
+            document.getElementById('app-card-content').style.height = '828px';
         } else {
-            document.getElementById('app-form-card').style.height = '650px';
-            document.getElementById('app-card-content').style.height = '515px';
+            // document.getElementById('app-form-card').style.height = '650px';
+            // document.getElementById('app-card-content').style.height = '515px';
+            document.getElementById('app-form-card').style.height = '780px';
+            document.getElementById('app-card-content').style.height = '648px';
         }
     }
 

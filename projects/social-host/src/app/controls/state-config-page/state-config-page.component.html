@@ -1,4 +1,13 @@
+<lcu-dashboard-toolbar
+    [app-lookup]="ApplicationLookup"
+    [project-lookup]="ProjectLookup"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
 <mat-card>
+    <mat-card-header>
+        <h2>State Config: {{ Application.Application.Name }}</h2>
+    </mat-card-header>
     <mat-card-content>
         <lcu-state-config-form
             [app-lookup]="ApplicationLookup"
