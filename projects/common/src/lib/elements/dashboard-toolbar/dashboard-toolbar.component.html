@@ -34,7 +34,7 @@
         <!-- <span>Manage (krakyn)</span> -->
     </ng-container>
 
-    <ng-container *ngIf="ProjectLookup && !AppLookup">
+    <ng-container *ngIf="ProjectLookup">
         <a class="toolbar-item" href="/dashboard/project/{{ ProjectLookup }}"
             >Project Overview</a
         >
@@ -65,7 +65,7 @@
         >
     </ng-container>
 
-    <ng-container *ngIf="AppLookup">
+    <!-- <ng-container *ngIf="AppLookup">
         <a class="toolbar-item" href="/dashboard/project/{{ ProjectLookup }}"
             >Project Overview</a
         >
@@ -96,5 +96,5 @@
         <a class="toolbar-item" href="/dashboard/modifiers/{{ ProjectLookup }}"
             >Mods</a
         >
-    </ng-container>
+    </ng-container> -->
 </mat-toolbar>
