@@ -8,6 +8,9 @@ import { EaCService } from '../../services/eac.service';
     styleUrls: ['./dashboard-toolbar.component.scss'],
 })
 export class DashboardToolbarComponent implements OnInit {
+    @Input('app-lookup')
+    public AppLookup: string;
+
     @Input('project-lookups')
     public ProjectLookups: Array<string>;
 
@@ -37,6 +40,8 @@ export class DashboardToolbarComponent implements OnInit {
                     this.IsSmScreen = false;
                 }
             });
+
+        // console.log('app lookup = ', this.AppLookup);
 
         // if(!this.Type){
         //     this.Type = "ent";
