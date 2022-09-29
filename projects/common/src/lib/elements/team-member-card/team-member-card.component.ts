@@ -21,6 +21,9 @@ export class TeamMemberCardComponent implements OnInit {
     @Input('project-lookup')
     public ProjectLookup: string;
 
+    @Input('projects')
+    public Projects: any;
+
     public SkeletonEffect: string;
 
     constructor(protected dialog: MatDialog) {
@@ -35,6 +38,7 @@ export class TeamMemberCardComponent implements OnInit {
             data: {
                 enterprise: this.Enterprise,
                 projectLookup: this.ProjectLookup,
+                projects: this.Projects,
             },
         });
     }
