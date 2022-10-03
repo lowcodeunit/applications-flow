@@ -31,15 +31,15 @@ export class StateConfigFormComponent implements OnInit {
     public StatusEvent: EventEmitter<Status>;
 
     public get StateConfigNameFormControl(): AbstractControl {
-        return this.StateConfigForm?.controls.name;
+        return this.StateConfigForm?.controls?.name;
     }
 
     public get StateConfigDescriptionFormControl(): AbstractControl {
-        return this.StateConfigForm?.controls.description;
+        return this.StateConfigForm?.controls?.description;
     }
 
     public get StateConfigValueFormControl(): AbstractControl {
-        return this.StateConfigForm?.controls.value;
+        return this.StateConfigForm?.controls?.value;
     }
 
     public StateConfigForm: FormGroup;
@@ -62,9 +62,9 @@ export class StateConfigFormComponent implements OnInit {
         console.log('APP = ', app);
 
         app.DataTokens['lcu-state-config'] = {
-            Name: this.StateConfigNameFormControl.value,
-            Description: this.StateConfigDescriptionFormControl.value,
-            Value: this.StateConfigValueFormControl.value,
+            Name: this.StateConfigNameFormControl?.value,
+            Description: this.StateConfigDescriptionFormControl?.value,
+            Value: this.StateConfigValueFormControl?.value,
         };
         const saveAppReq: SaveApplicationAsCodeEventRequest = {
             ApplicationLookup: this.AppLookup || Guid.CreateRaw(),
