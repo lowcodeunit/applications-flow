@@ -168,10 +168,10 @@ export class ApplicationsCardComponent implements OnInit {
     public ngOnInit(): void {}
 
     public ngOnChanges() {
-        console.log('app bank: ', this.ApplicationsBank);
+        // console.log('app bank: ', this.ApplicationsBank);
         if (this.ApplicationsBank) {
             let temp = this.BuildProjectTree();
-            console.log('to string: ', JSON.stringify(temp));
+            // console.log('to string: ', JSON.stringify(temp));
 
             if (JSON.stringify(this.DataSource.data) !== JSON.stringify(temp)) {
                 // console.log('Its different')
@@ -193,13 +193,18 @@ export class ApplicationsCardComponent implements OnInit {
             let tempRouteChildren: Array<TreeNode> = [];
             tempApps.forEach((appLookup: string) => {
                 let tempApp = this.RoutedApplications[this.AppRoute][appLookup];
+                console.log('tempApp: ', tempApp);
+                let appPath = tempApp.LookupConfig?.PathRegex.substring(
+                    0,
+                    tempApp.LookupConfig?.PathRegex.length - 2
+                );
                 let tempAppNode: TreeNode = {
                     lookup: appLookup,
                     name: tempApp.Application.Name,
                     url:
                         'https://' +
                         this.Project?.Hosts[this.Project?.Hosts?.length - 1] +
-                        this.AppRoute,
+                        appPath,
                     description: tempApp.Application.Description,
                     routerLink: [
                         '/application',
