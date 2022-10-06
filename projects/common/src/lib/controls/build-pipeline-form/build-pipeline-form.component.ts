@@ -206,16 +206,15 @@ export class BuildPipelineFormComponent implements OnInit {
 
                 doa.SecretLookups = [secretLookup];
 
-                saveEnvReq.Environment.Secrets[secretLookup] = {
-                    Name: 'NPM Access Token',
-                    DataTokenLookup: secretLookup,
-                    KnownAs: 'NPM_TOKEN',
-                };
+                if (!saveEnvReq.Environment.Secrets[secretLookup]) {
+                    saveEnvReq.Environment.Secrets[secretLookup] = {
+                        Name: 'NPM Access Token',
+                        DataTokenLookup: secretLookup,
+                        KnownAs: 'NPM_TOKEN',
+                    };
+                }
 
                 saveEnvReq.EnterpriseDataTokens[secretLookup] = {
-                    Name: saveEnvReq.Environment.Secrets[secretLookup].Name,
-                    Description:
-                        saveEnvReq.Environment.Secrets[secretLookup].Name,
                     Value: this.NPMTokenFormControl.value,
                 };
             }
