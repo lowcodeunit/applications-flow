@@ -1,7 +1,17 @@
 <lcu-dashboard-toolbar
     [project-lookups]="ProjectLookups"
+    [project-lookup]="ProjectLookup"
     [loading]="State?.Loading"
 ></lcu-dashboard-toolbar>
+
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
+    [project-lookup]="ProjectLookup"
+>
+</lcu-breadcrumb>
 
 <div class="teams-container">
     <p class="card-description" *ngIf="!State?.Loading">
