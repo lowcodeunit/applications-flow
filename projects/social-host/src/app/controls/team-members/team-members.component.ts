@@ -23,6 +23,8 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
 
     public ProjectLookups: Array<string>;
 
+    public Loading: boolean;
+
     constructor(
         protected eacSvc: EaCService,
         private activatedRoute: ActivatedRoute
@@ -49,6 +51,11 @@ export class TeamMembersComponent implements OnInit, OnDestroy {
                         this.State?.EaC?.Projects || {}
                     ).reverse();
                 }
+
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
             }
         );
     }
