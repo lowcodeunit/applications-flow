@@ -230,6 +230,7 @@ export class BuildPipelineFormComponent implements OnInit {
 
             saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
         }
+        console.log('env req: ', saveEnvReq);
 
         this.eacSvc.SaveEnvironmentAsCode(saveEnvReq).then((res) => {
             this.ResponseEvent.emit(res);
