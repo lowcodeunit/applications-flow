@@ -1,10 +1,4 @@
-import {
-    Component,
-    ElementRef,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
     ApplicationsFlowService,
     ApplicationsFlowState,
@@ -72,6 +66,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     public ActiveEnvironmentLookup: string;
 
+    public FilterTypes: Array<string>;
+
     public Loading: boolean;
 
     public ProjectLookups: Array<string>;
@@ -125,6 +121,8 @@ export class HomeComponent implements OnInit, OnDestroy {
                 );
 
                 this.ActiveEnvironmentLookup = envLookups[0];
+
+                this.FilterTypes = Object.values(this.State?.FeedFilters || {});
             }
         );
     }

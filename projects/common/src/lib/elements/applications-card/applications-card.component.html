@@ -1,0 +1,142 @@
+<!-- TREE -->
+<lcu-slotted-card-lg
+    *ngIf="ApplicationsBank"
+    class="fit-content"
+    card-title="Application"
+    [loading]="Loading"
+    [main-slot-description]="
+        CurrentRouteApplicationLookups?.length + ' route(s) configured'
+    "
+    (main-action-clicked)="OpenNewAppDialog($event)"
+>
+    <!-- <div> -->
+    <ng-container *ngIf="DataSource">
+        <mat-tree [dataSource]="DataSource" [treeControl]="treeControl">
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+                <a
+                    *ngIf="node.routerLink"
+                    class="slot-header-anchor"
+                    [routerLink]="node.routerLink"
+                >
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </a>
+                <div
+                    *ngIf="!node.routerLink"
+                    class="tree-header"
+                    [routerLink]="node.routerLink"
+                >
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </div>
+                <div
+                    class="slot-actions-container"
+                    fxLayout="row"
+                    fxLayoutAlign="space-around center"
+                >
+                    <a
+                        *ngIf="node.routerLink"
+                        class="slot-action-anchor"
+                        [routerLink]="node.routerLink"
+                    >
+                        <mat-icon
+                            class="action-icon"
+                            matTooltip="Edit {{ node.name }}"
+                            >edit</mat-icon
+                        >
+                    </a>
+                    <a
+                        class="slot-action-anchor"
+                        [href]="node.url"
+                        target="_blank"
+                    >
+                        <mat-icon
+                            class="action-icon"
+                            matTooltip="Launch {{ node.name }}"
+                            >launch</mat-icon
+                        >
+                    </a>
+                </div>
+                <!-- <button mat-icon-button></button> -->
+            </mat-tree-node>
+            <mat-tree-node
+                *matTreeNodeDef="let node; when: HasChild"
+                matTreeNodePadding
+            >
+                <button
+                    mat-icon-button
+                    matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name"
+                >
+                    <mat-icon class="mat-icon-rtl-mirror">
+                        {{
+                            treeControl.isExpanded(node)
+                                ? "expand_more"
+                                : "chevron_right"
+                        }}
+                    </mat-icon>
+                </button>
+                <a
+                    *ngIf="node.routerLink"
+                    class="slot-header-anchor"
+                    [routerLink]="node.routerLink"
+                >
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </a>
+                <div
+                    *ngIf="!node.routerLink"
+                    class="tree-header"
+                    [routerLink]="node.routerLink"
+                >
+                    <div *ngIf="node.name" class="slot-name">
+                        {{ node.name }}
+                    </div>
+                    <div *ngIf="node.description" class="slot-description">
+                        {{ node.description }}
+                    </div>
+                </div>
+                <div
+                    class="slot-actions-container"
+                    fxLayout="row"
+                    fxLayoutAlign="space-around center"
+                >
+                    <a
+                        *ngIf="node.routerLink"
+                        class="slot-action-anchor"
+                        [routerLink]="node.routerLink"
+                    >
+                        <mat-icon
+                            class="action-icon"
+                            matTooltip="Edit {{ node.name }}"
+                            >edit</mat-icon
+                        >
+                    </a>
+                    <a
+                        class="slot-action-anchor"
+                        [href]="node.url"
+                        target="_blank"
+                    >
+                        <mat-icon
+                            class="action-icon"
+                            matTooltip="Launch {{ node.name }}"
+                            >launch</mat-icon
+                        >
+                    </a>
+                </div>
+            </mat-tree-node>
+        </mat-tree>
+    </ng-container>
+</lcu-slotted-card-lg>

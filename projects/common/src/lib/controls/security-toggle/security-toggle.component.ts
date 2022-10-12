@@ -20,8 +20,21 @@ export class SecurityToggleComponent implements OnInit {
     @Input('loading')
     public Loading: boolean;
 
+    @Input('access-rights')
+    public AccessRights: any;
+
+    @Input('license-configs')
+    public LicenseConfigs: any;
+
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
+
+    @Output('is-private-changed')
+    public IsPrivateChanged: EventEmitter<any>;
+
+    public get AccessRightsFormControl(): AbstractControl {
+        return this.SecurityFormGroup?.controls.accessRights;
+    }
 
     public get IsPrivateFormControl(): AbstractControl {
         return this.SecurityFormGroup?.controls.isPrivate;
@@ -31,6 +44,12 @@ export class SecurityToggleComponent implements OnInit {
         return this.SecurityFormGroup?.controls.isTriggerSignIn;
     }
 
+    public get LicenseConfigsFormControl(): AbstractControl {
+        return this.SecurityFormGroup?.controls.licenseConfigs;
+    }
+
+    public IsPrivate: boolean;
+
     public SecurityFormGroup: FormGroup;
 
     public ProcessorType: string;
@@ -39,11 +58,17 @@ export class SecurityToggleComponent implements OnInit {
 
     constructor(protected eacSvc: EaCService, protected formBldr: FormBuilder) {
         this.SaveFormEvent = new EventEmitter();
+        this.IsPrivateChanged = new EventEmitter();
         this.SkeletonEffect = 'wave';
     }
 
-    public ngOnInit(): void {
-        this.setupSecurityFormGroup();
+    public ngOnInit(): void {}
+
+    public ngOnChanges() {
+        if (this.IsPrivate === null || this.IsPrivate === undefined) {
+            this.IsPrivate = this.EditingApplication.LookupConfig?.IsPrivate;
+            this.setupSecurityFormGroup();
+        }
     }
 
     public SecuritySubmit() {
@@ -55,7 +80,13 @@ export class SecurityToggleComponent implements OnInit {
         this.SaveFormEvent.emit(this.SecurityFormGroup.value);
     }
 
+    public HandleIsPrivate(event: any) {
+        this.IsPrivate = this.IsPrivateFormControl.value;
+        this.IsPrivateChanged.emit(this.IsPrivate);
+    }
+
     protected setupSecurityFormGroup() {
+        // console.log('setting form');
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
         this.SecurityFormGroup = this.formBldr.group({});
         this.setupSecurityForm();
@@ -75,6 +106,18 @@ export class SecurityToggleComponent implements OnInit {
             this.formBldr.control(
                 this.EditingApplication.LookupConfig?.IsTriggerSignIn || false,
                 [Validators.required]
+            )
+        );
+
+        this.SecurityFormGroup.addControl(
+            'accessRights',
+            this.formBldr.control(this.EditingApplication?.AccessRightLookups)
+        );
+
+        this.SecurityFormGroup.addControl(
+            'licenseConfigs',
+            this.formBldr.control(
+                this.EditingApplication?.LicenseConfigurationLookups
             )
         );
     }

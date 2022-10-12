@@ -1,0 +1,357 @@
+<lcu-dashboard-toolbar
+    [app-lookup]="ApplicationLookup"
+    [project-lookup]="ProjectLookup"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
+    [project-lookup]="ProjectLookup"
+    [routed-application]="RoutedApplications"
+    [application-lookup]="ApplicationLookup"
+    [applications-bank]="State?.EaC?.Applications"
+    [selected-route]="CurrentApplicationRoute"
+>
+</lcu-breadcrumb>
+
+<lcu-two-column>
+    <div top-left>
+        <lcu-project-info-card
+            [name]="Application?.Application?.Name"
+            [description]="Application?.Application?.Description"
+            [is-editable]="IsInfoCardEditable"
+            [is-shareable]="IsInfoCardShareable"
+            image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
+            [subtext]="
+                Project?.Hosts
+                    ? Project?.Hosts[Project?.Hosts?.length - 1] +
+                      Application?.Processor?.BaseHref
+                    : ''
+            "
+            [app]="Application"
+            (left-click-event)="HandleLeftClickEvent($event)"
+            (right-click-event)="HandleRightClickEvent($event)"
+        >
+            <!-- Commented out until implemented -->
+            <!-- <lcu-card-carousel
+                        [stats]="Stats">
+                    </lcu-card-carousel> -->
+
+            <a
+                *ngIf="Application?.LowCodeUnit?.Type === 'Zip'"
+                action
+                mat-raised-button
+                color="primary"
+                class="info-card-btn"
+                href="/dashboard/page-builder?appLookup={{ ApplicationLookup }}"
+                matTooltip="New no code page builder for creating static sites."
+                target="_blank"
+            >
+                <mat-icon>construction</mat-icon>
+
+                (New) Custom Page Builder
+            </a>
+        </lcu-project-info-card>
+    </div>
+
+    <div top-right class="usage-stats-col" fxLayout="column">
+        <lcu-usage-stats class="usage-stats" fxFlex="80%"></lcu-usage-stats>
+
+        <div
+            id="version-control-container"
+            fxLayout="row"
+            fxFlex="20%"
+            fxLayoutAlign="center center"
+        >
+            <ng-container *ngIf="Loading">
+                <!-- <skeleton-block
+                    class="version-skeleton"
+                    [effect]="SkeletonEffect"
+                ></skeleton-block> -->
+                <skeleton-block
+                    class="version-skeleton"
+                    [effect]="SkeletonEffect"
+                ></skeleton-block>
+            </ng-container>
+
+            <ng-container *ngIf="!Loading">
+                <!-- <div
+                    class="version-item"
+                    id="version-container"
+                    fxLayoutAlign="center center"
+                >
+                    {{
+                        CurrentVersion ? CurrentVersion : "Package not deployed"
+                    }}
+                </div> -->
+
+                <button
+                    *ngIf="
+                        Application?.Processor?.Type === 'DFS' &&
+                        Application?.LowCodeUnit?.Type !== 'Zip'
+                    "
+                    action
+                    mat-button
+                    class="update-version-btn version-item"
+                    (click)="UpdateClicked()"
+                    matTooltip="Update your application to the latest package"
+                >
+                    <mat-icon>outbox</mat-icon>
+
+                    Update Package: {{ CurrentVersion }}
+                </button>
+            </ng-container>
+        </div>
+    </div>
+
+    <!-- CENTER FEED -->
+
+    <div middle-left>
+        <mat-card class="fit-content" id="app-form-card">
+            <div class="app-form-header" fxLayoutAlign="space-between center">
+                <h2 class="edit-app-header" mat-card-title>
+                    Edit Application: {{ Application?.Application?.Name }}
+                </h2>
+                <!-- class="version-item" -->
+                <div
+                    *ngIf="!Loading"
+                    id="version-container"
+                    fxLayoutAlign="center center"
+                >
+                    {{ Version ? Version : "Package not deployed" }}
+                </div>
+                <skeleton-block
+                    *ngIf="Loading"
+                    class="version-skeleton"
+                    [effect]="SkeletonEffect"
+                ></skeleton-block>
+
+                <!-- <button
+                    mat-icon-button
+                    (click)="ToggleEditForm()"
+                    [matTooltip]="IsDisabled ? 'Enable form' : 'Disable form'"
+                >
+                    <mat-icon>edit</mat-icon>
+                </button> -->
+            </div>
+
+            <mat-card-content id="app-card-content">
+                <ng-conatiner *ngIf="!State?.Loading">
+                    <lcu-edit-application-form
+                        [application-lookup]="ApplicationLookup"
+                        [editing-application]="Application"
+                        [is-disabled]="IsDisabled"
+                        [project-lookup]="ProjectLookup"
+                        [loading]="Loading"
+                        (save-form-event)="HandleSaveApplicationEvent($event)"
+                    >
+                    </lcu-edit-application-form>
+
+                    <lcu-processor-details-form
+                        [editing-application]="Application"
+                        [editing-application-lookup]="ApplicationLookup"
+                        [environment]="
+                            State?.EaC?.Environments[
+                                State?.EaC?.Enterprise?.PrimaryEnvironment
+                            ]
+                        "
+                        [has-save-button]="HasSaveButton"
+                        [is-disabled]="IsDisabled"
+                        [source-control-lookups]="SourceControlLookups"
+                        [project-lookup]="ProjectLookup"
+                        [loading]="Loading"
+                    >
+                    </lcu-processor-details-form>
+
+                    <mat-error
+                        *ngIf="ErrorMessage"
+                        fxLayoutAlign="center center"
+                    >
+                        {{ ErrorMessage }}
+                    </mat-error>
+                </ng-conatiner>
+
+                <ng-container *ngIf="State?.Loading">
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                    <skeleton-block
+                        [id]="fc"
+                        class="s-block"
+                        effect="wave"
+                    ></skeleton-block>
+                </ng-container>
+            </mat-card-content>
+
+            <mat-card-actions
+                class="actions-container"
+                div
+                fxLayout="row"
+                fxLayoutAlign="space-between center"
+            >
+                <button
+                    *ngIf="!State?.Loading"
+                    action
+                    color="warn"
+                    mat-button
+                    [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
+                    class="delete-btn"
+                    (click)="
+                        DeleteApplication(
+                            ApplicationLookup,
+                            Application?.Application?.Name
+                        )
+                    "
+                >
+                    <mat-icon
+                        *ngIf="IsSmScreen"
+                        matTooltip="Delete {{ Application?.Application?.Name }}"
+                    >
+                        delete_forever
+                    </mat-icon>
+                    <div *ngIf="!IsSmScreen">Delete</div>
+                </button>
+
+                <div
+                    class="right-actions"
+                    fxLayout="row"
+                    fxLayoutAlign="end center"
+                >
+                    <!-- fxFlex.lt-md="30%" -->
+                    <button
+                        *ngIf="
+                            ProcessorDetailsFormControls &&
+                            ApplicationFormControls &&
+                            !State?.Loading
+                        "
+                        class="action-button"
+                        mat-button
+                        [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
+                        fxFlex="25%"
+                        (click)="CancelEditApp()"
+                    >
+                        <div *ngIf="!IsSmScreen">Cancel</div>
+
+                        <mat-icon *ngIf="IsSmScreen">highlight_off</mat-icon>
+                    </button>
+                    <!-- fxFlex.lt-md="60%" -->
+
+                    <button
+                        *ngIf="
+                            ProcessorDetailsFormControls &&
+                            ApplicationFormControls &&
+                            !State?.Loading
+                        "
+                        mat-button
+                        [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
+                        color="primary"
+                        fxFlex="25%"
+                        class="new-app-submit"
+                        (click)="SaveApplication()"
+                        [disabled]="
+                            !(
+                                this.ProcessorDetailsFormControls
+                                    ?.ProcessorDetailsFormGroup?.valid &&
+                                this.ApplicationFormControls
+                                    ?.ApplicationFormGroup?.valid &&
+                                (this.ProcessorDetailsFormControls
+                                    ?.ProcessorDetailsFormGroup?.dirty ||
+                                    this.ApplicationFormControls
+                                        ?.ApplicationFormGroup?.dirty)
+                            )
+                        "
+                    >
+                        <div *ngIf="!IsSmScreen">Save</div>
+                        <mat-icon *ngIf="IsSmScreen">save</mat-icon>
+                    </button>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div middle-right>
+        <lcu-activity-card
+            class="fit-content"
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [filter-types]="FilterTypes"
+            [loading-feed]="State?.LoadingFeed"
+            [feed]="State?.Feed"
+            [feed-check]="State?.FeedCheck"
+            [has-gh-connection]="State?.GitHub?.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
+        >
+        </lcu-activity-card>
+
+        <div class="state-config-card">
+            <mat-card class="social-card" *ngIf="!State?.Loading">
+                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-actions>
+                    <button
+                        mat-raised-button
+                        class="config-btn"
+                        (click)="OpenEditConfigDialog()"
+                    >
+                        Edit Config
+                    </button>
+                </mat-card-actions>
+            </mat-card>
+
+            <mat-card class="social-card" *ngIf="State?.Loading">
+                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-actions>
+                    <skeleton-block
+                        width="100%"
+                        height="36px"
+                        [effect]="SkeletonEffect"
+                    ></skeleton-block>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+
+        <lcu-security-toggle
+            [editing-application]="Application"
+            [loading]="State?.Loading"
+            [access-rights]="AccessRights"
+            [license-configs]="LicenseConfigs"
+            (save-form-event)="SaveSecuritySettings($event)"
+            (is-private-changed)="HandleIsPrivateChanged($event)"
+        >
+        </lcu-security-toggle>
+    </div>
+
+    <!-- <div>
+        <lcu-team-member-card
+            [current-user]="State?.UserLicenseInfo?.Email"
+        ></lcu-team-member-card>
+    </div> -->
+</lcu-two-column>

@@ -36,6 +36,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
     @Input('has-save-button')
     public HasSaveButton: boolean;
 
+    @Input('is-disabled')
+    public IsDisabled: boolean;
+
     @Input('source-control-lookups')
     public SourceControlLookups: Array<string>;
 
@@ -129,8 +132,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     public get ValidFormControls(): Array<AbstractControl> {
         let vfc: Array<AbstractControl> = new Array<AbstractControl>();
-        for (const field in this.ProcessorDetailsFormGroup.controls) {
-            const control = this.ProcessorDetailsFormGroup.get(field);
+        for (const field in this.ProcessorDetailsFormGroup?.controls) {
+            const control = this.ProcessorDetailsFormGroup?.get(field);
             if (control.valid) {
                 vfc.push(control);
             }
@@ -152,6 +155,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
     public IsPermanent: boolean;
 
     public IsPreserve: boolean;
+
+    public IsSourceControlValid: boolean;
 
     public LCUType: string;
 
@@ -175,18 +180,27 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.SaveFormEvent = new EventEmitter();
     }
 
-    public ngOnInit(): void {
-        if (!this.EditingApplication) {
-            this.CreateNewApplication();
-        } else {
-            this.setupProcessorDetailsForm();
-        }
-    }
+    public ngOnInit(): void {}
 
     public ngOnChanges() {
         if (this.Environment?.Sources) {
             this.SourceControls = this.Environment?.Sources;
         }
+        if (!this.EditingApplication) {
+            this.CreateNewApplication();
+        } else {
+            this.SetupProcessorDetailsForm();
+        }
+        // else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
+        //     this.SetupProcessorDetailsForm();
+        // }
+
+        // if (this.IsDisabled) {
+        //     this.setupProcessorDetailsForm();
+        //     this.ProcessorDetailsFormGroup.disable();
+        // } else {
+        //     this.ProcessorDetailsFormGroup.enable();
+        // }
     }
 
     public CreateNewApplication(): void {
@@ -335,10 +349,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.EditingApplication = new EaCApplicationAsCode();
         this.EditingApplicationLookup = appLookup;
 
-        this.setupProcessorDetailsForm();
+        this.SetupProcessorDetailsForm();
     }
 
     public SourceControlChanged(event: any) {
+        this.IsSourceControlValid = this.SourceControlFormControl.valid;
         this.listBuildPaths();
     }
 
@@ -397,7 +412,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected listBuildPaths(): void {
-        this.Loading = true;
+        // this.Loading = true;
 
         console.log(
             'Source Control: ',
@@ -415,7 +430,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 this.BuildPathOptions = response.Model;
                 console.log('build path options: ', this.BuildPathOptions);
 
-                this.Loading = false;
+                // this.Loading = false;
 
                 // if (this.BuildPathOptions?.length === 1) {
                 //   this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
@@ -463,11 +478,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
     }
 
-    protected setupProcessorDetailsForm(): void {
+    public SetupProcessorDetailsForm(): void {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
         // console.log('EDITING APP = ', this.EditingApplication);
-
+        this.ProcessorDetailsFormGroup;
         if (this.EditingApplication != null) {
             this.ProcessorDetailsFormGroup = this.formBldr.group({
                 procType: [this.ProcessorType, [Validators.required]],
@@ -489,6 +504,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 [Validators.required]
             )
         );
+
+        this.IsSourceControlValid = this.SourceControlFormControl.valid;
 
         this.ProcessorDetailsFormGroup.addControl(
             'buildPath',

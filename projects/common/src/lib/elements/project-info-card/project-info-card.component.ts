@@ -52,11 +52,9 @@ export class ProjectInfoCardComponent implements OnInit {
         this.SkeletonEffect = 'wave';
     }
 
-    public ngOnInit(): void {
-        // console.log("loading = ", this.Loading)
-        // console.log("is shareable: ", this.IsShareable);
-        // console.log("is editable: ", this.IsEditable);
-    }
+    public ngOnInit(): void {}
+
+    public ngOnChanges() {}
 
     public DisplayVersion(): boolean {
         if (this.Version) {

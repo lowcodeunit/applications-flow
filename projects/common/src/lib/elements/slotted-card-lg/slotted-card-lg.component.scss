@@ -10,9 +10,7 @@
 }
 
 .slotted-card-content {
-    // overflow-y: scroll;
-    //inherit = 500px
-    height: calc(500px - 70px);
+    height: 430px;
 }
 
 // .header-icon{
@@ -56,4 +54,14 @@ mat-card-actions {
 
 .mat-card-avatar {
     width: 75% !important;
+}
+
+@media only screen and (max-width: 850px) {
+    .col-info-card {
+        height: unset;
+    }
+
+    .slotted-card-content {
+        height: unset !important;
+    }
 }

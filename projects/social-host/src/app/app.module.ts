@@ -9,10 +9,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ProjectsComponent } from './controls/projects/projects.component';
-import { RoutesComponent } from './controls/routes/routes.component';
+import { ProjectComponent } from './controls/project/project.component';
+import { RoutesOldComponent } from './controls/routes-old/routes-old.component';
 import { EnterpriseComponent } from './controls/enterprise-old/enterprise-old.component';
-import { ApplicationsComponent } from './controls/applications/applications.component';
+import { ApplicationsOldComponent } from './controls/applications-old/applications-old.component';
 import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
 import { environment } from '../environments/environment';
 import { MatCardModule } from '@angular/material/card';
@@ -31,22 +31,32 @@ import { DevOpsComponent } from './controls/dev-ops/dev-ops.component';
 import { ModifiersComponent } from './controls/modifiers/modifiers.component';
 import { TeamMembersComponent } from './controls/team-members/team-members.component';
 import { ProjectPageComponent } from './controls/project-page/project-page.component';
+import { RoutesPageComponent } from './controls/routes-page/routes-page.component';
+import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
+import { StateConfigPageComponent } from './controls/state-config-page/state-config-page.component';
+import { ApplicationComponent } from './controls/application/application.component';
+import { RoutesComponent } from './controls/routes/routes.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        ProjectsComponent,
-        RoutesComponent,
+        ProjectComponent,
+        RoutesOldComponent,
         DiscoverComponent,
         EnterpriseComponent,
         Enterprise4Component,
         IoTComponent,
-        ApplicationsComponent,
+        ApplicationsOldComponent,
         HomeComponent,
         DevOpsComponent,
         ModifiersComponent,
         TeamMembersComponent,
         ProjectPageComponent,
+        RoutesPageComponent,
+        CustomDomainPageComponent,
+        StateConfigPageComponent,
+        ApplicationComponent,
+        RoutesComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -73,18 +83,30 @@ import { ProjectPageComponent } from './controls/project-page/project-page.compo
         },
     ],
     bootstrap: [AppComponent],
-    exports: [TeamMembersComponent, ProjectPageComponent],
-    entryComponents: [
-        ProjectsComponent,
+    exports: [
+        TeamMembersComponent,
+        ProjectPageComponent,
+        RoutesPageComponent,
+        CustomDomainPageComponent,
+        StateConfigPageComponent,
+        ApplicationComponent,
         RoutesComponent,
+    ],
+    entryComponents: [
+        ProjectComponent,
+        RoutesComponent,
+        RoutesOldComponent,
+        RoutesPageComponent,
         DiscoverComponent,
         EnterpriseComponent,
         Enterprise4Component,
-        ApplicationsComponent,
+        ApplicationsOldComponent,
         DevOpsComponent,
         ModifiersComponent,
         IoTComponent,
         HomeComponent,
+        CustomDomainPageComponent,
+        StateConfigPageComponent,
     ],
 })
 export class AppModule {}

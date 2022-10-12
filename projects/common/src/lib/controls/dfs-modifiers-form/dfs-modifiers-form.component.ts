@@ -12,13 +12,14 @@ import {
     EaCDFSModifier,
     EaCProjectAsCode,
 } from '@semanticjs/common';
-import { Guid } from '@lcu/common';
+import { Guid, Status } from '@lcu/common';
 import { MatSelectChange } from '@angular/material/select';
 import {
     EaCService,
     SaveDFSModifierEventRequest,
 } from '../../services/eac.service';
 import { ApplicationsFlowService } from '../../services/applications-flow.service';
+import { CdkDropListGroup } from '@angular/cdk/drag-drop';
 
 @Component({
     selector: 'lcu-dfs-modifier-form',
@@ -129,15 +130,7 @@ export class DFSModifiersFormComponent implements OnInit {
     }
 
     //  Life Cycle
-    public ngOnInit(): void {
-        if (this.Level === 'enterprise' && !this.EditingModifierLookup) {
-            this.CreateNewModifier();
-        } else if (this.EditingModifierLookup) {
-            this.setupModifierForm();
-        } else {
-            this.setupModifierSelectForm();
-        }
-    }
+    public ngOnInit(): void {}
 
     public ngOnChanges(): void {
         if (this.ProjectLookup) {
@@ -162,10 +155,19 @@ export class DFSModifiersFormComponent implements OnInit {
         if (this.ProjectLookup && this.Projects) {
             this.Project = this.Projects[this.ProjectLookup];
         }
+
+        if (this.Level === 'enterprise' && !this.EditingModifierLookup) {
+            this.CreateNewModifier();
+        } else if (this.EditingModifierLookup) {
+            this.setupModifierForm();
+        } else {
+            this.setupModifierSelectForm();
+        }
     }
 
     //  API Methods
     public CreateNewModifier(): void {
+        // console.log('CREATE NEW MOD');
         this.SetEditingModifier(Guid.CreateRaw());
     }
 
@@ -173,7 +175,12 @@ export class DFSModifiersFormComponent implements OnInit {
         this.eacSvc.DeleteModifier(modifierLookup, modifierName).then();
     }
 
-    public SaveModifierForAllProjects(projectLookups: Array<string>) {
+    // public DetermineSave(){
+
+    // }
+
+    public SaveModifierForAllProjects(projectLookups: Array<string>): Status {
+        let saveStatus: Status;
         const saveMdfrReq: SaveDFSModifierEventRequest = {
             Modifier: {
                 ...this.EditingModifier,
@@ -191,10 +198,14 @@ export class DFSModifiersFormComponent implements OnInit {
 
         saveMdfrReq.Modifier.Details = JSON.stringify(details);
 
-        this.eacSvc.SaveDFSModifier(saveMdfrReq);
+        this.eacSvc.SaveDFSModifier(saveMdfrReq).then((status) => {
+            saveStatus = status;
+        });
+        return saveStatus;
     }
 
-    public SaveModifierForApplication(applicationLookup: string): void {
+    public SaveModifierForApplication(applicationLookup: string): Status {
+        let saveStatus: Status;
         if (this.ModifierFormGroup) {
             const saveMdfrReq: SaveDFSModifierEventRequest = {
                 Modifier: {
@@ -213,21 +224,27 @@ export class DFSModifiersFormComponent implements OnInit {
 
             saveMdfrReq.Modifier.Details = JSON.stringify(details);
 
-            this.eacSvc.SaveDFSModifier(saveMdfrReq);
+            this.eacSvc.SaveDFSModifier(saveMdfrReq).then((status) => {
+                saveStatus = status;
+            });
         } else if (this.ModifierSelectFormGroup) {
             const saveMdfrReq: SaveDFSModifierEventRequest = {
                 ModifierLookups: this.MultiSelectFormControl.value,
                 ApplicationLookup: applicationLookup,
             };
-            this.eacSvc.SaveDFSModifier(saveMdfrReq);
+            this.eacSvc.SaveDFSModifier(saveMdfrReq).then((status) => {
+                saveStatus = status;
+            });
         }
+        return saveStatus;
     }
 
     /**
      *
      * Saves a modifier, saves a modifier to a project
      */
-    public SaveModifier(projectLookup: string = null): void {
+    public SaveModifier(projectLookup: string = null): Status {
+        let saveStatus: Status;
         if (this.ModifierFormGroup) {
             const saveMdfrReq: SaveDFSModifierEventRequest = {
                 Modifier: {
@@ -246,14 +263,19 @@ export class DFSModifiersFormComponent implements OnInit {
 
             saveMdfrReq.Modifier.Details = JSON.stringify(details);
 
-            this.eacSvc.SaveDFSModifier(saveMdfrReq);
+            this.eacSvc.SaveDFSModifier(saveMdfrReq).then((status) => {
+                saveStatus = status;
+            });
         } else if (this.ModifierSelectFormGroup) {
             const saveMdfrReq: SaveDFSModifierEventRequest = {
                 ModifierLookups: this.MultiSelectFormControl.value,
                 ProjectLookups: [projectLookup],
             };
-            this.eacSvc.SaveDFSModifier(saveMdfrReq);
+            this.eacSvc.SaveDFSModifier(saveMdfrReq).then((status) => {
+                saveStatus = status;
+            });
         }
+        return saveStatus;
     }
 
     public SetEditingModifier(modifierLookup: string): void {
@@ -305,12 +327,14 @@ export class DFSModifiersFormComponent implements OnInit {
     }
 
     protected setupModifierSelectForm() {
+        // console.log('setup mod select form');
         this.ModifierSelectFormGroup = this.formBldr.group({
             multiSelect: [this.ModifierLookups ? this.ModifierLookups : []],
         });
     }
 
     protected setupModifierForm(): void {
+        // console.log('editing mod: ', this.EditingModifier);
         if (this.EditingModifier != null) {
             this.CurrentType = this.EditingModifier?.Type;
 
@@ -333,6 +357,15 @@ export class DFSModifiersFormComponent implements OnInit {
             });
 
             this.setupTypeForm();
+        } else {
+            // console.log('setup new form');
+            this.ModifierFormGroup = this.formBldr.group({
+                name: ['', Validators.required],
+                type: ['', Validators.required],
+                priority: ['', Validators.required],
+                enabled: ['', []],
+                pathFilter: ['', Validators.required],
+            });
         }
     }
 

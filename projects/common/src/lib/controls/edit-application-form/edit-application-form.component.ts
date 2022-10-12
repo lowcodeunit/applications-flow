@@ -23,6 +23,9 @@ export class EditApplicationFormComponent implements OnInit {
     @Input('current-route')
     public CurrentRoute: string;
 
+    @Input('is-disabled')
+    public IsDisabled: boolean;
+
     @Input('editing-application')
     public EditingApplication: EaCApplicationAsCode;
 
@@ -57,8 +60,16 @@ export class EditApplicationFormComponent implements OnInit {
         this.HasSaveButton = true;
     }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void {}
+
+    public ngOnChanges() {
         this.setupApplicationForm();
+        // if (this.IsDisabled) {
+        //     this.ApplicationFormGroup.disable();
+        // } else {
+        //     this.ApplicationFormGroup.enable();
+        // }
+        console.log('loading: ', this.Loading);
     }
 
     public SubmitApplicationControl() {

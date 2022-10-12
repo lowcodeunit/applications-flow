@@ -20,83 +20,11 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'lcu-projects',
-    templateUrl: './projects.component.html',
-    styleUrls: ['./projects.component.scss'],
+    selector: 'lcu-projects-old',
+    templateUrl: './projects-old.component.html',
+    styleUrls: ['./projects-old.component.scss'],
 })
-export class ProjectsComponent implements OnInit, OnDestroy {
-    // public get ActiveEnvironmentLookup(): string {
-    //     //  TODO:  Eventually support multiple environments
-    //     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
-
-    //     return envLookups[0];
-    // }
-
-    // public get ApplicationLookups(): string[] {
-    //     return Object.keys(this.Project?.ApplicationLookups || {});
-    // }
-
-    // public get ApplicationsBank(): { [lookup: string]: EaCApplicationAsCode } {
-    //     return this.State?.EaC?.Applications || {};
-    // }
-
-    // public get Applications(): { [lookup: string]: EaCApplicationAsCode } {
-    //     const apps: { [lookup: string]: EaCApplicationAsCode } = {};
-
-    //     this.Project?.ApplicationLookups?.forEach((appLookup: string) => {
-    //         apps[appLookup] = this.State?.EaC?.Applications[appLookup];
-    //     });
-    //     return apps;
-    // }
-
-    // public get ApplicationRoutes(): Array<string> {
-    //     return Object.keys(this.RoutedApplications || {});
-    // }
-
-    // public get Enterprise(): any {
-    //     return this.State?.EaC?.Enterprise;
-    // }
-
-    // public get State(): ApplicationsFlowState {
-    //     return this.eacSvc.State;
-    // }
-
-    // public get Project(): EaCProjectAsCode {
-    //     return this.State?.EaC?.Projects[this.ProjectLookup] || {};
-    // }
-
-    // public get ProjectLookups(): string[] {
-    //     return Object.keys(this.State?.EaC?.Projects || {});
-    // }
-
-    // public get Projects(): any {
-    //     return this.State?.EaC?.Projects || {};
-    // }
-
-    // public get NumberOfRoutes(): number {
-    //     return this.ApplicationRoutes?.length;
-    // }
-
-    // public get NumberOfModifiers(): number {
-    //     return this.ProjectsModifierLookups?.length;
-    // }
-
-    // public get Modifiers(): { [lookup: string]: EaCDFSModifier } {
-    //     return this.State?.EaC?.Modifiers || {};
-    // }
-
-    // public get ProjectsModifierLookups(): Array<string> {
-    //     return this.Project.ModifierLookups || [];
-    // }
-
-    // public get Loading(): boolean {
-    //     return (
-    //         this.State?.LoadingActiveEnterprise ||
-    //         this.State?.LoadingEnterprises ||
-    //         this.State?.Loading
-    //     );
-    // }
-
+export class ProjectsOldComponent implements OnInit, OnDestroy {
     protected get BuildRoutedApplications(): {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
     } {

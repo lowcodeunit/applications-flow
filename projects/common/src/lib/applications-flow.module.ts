@@ -89,6 +89,8 @@ import { SlottedCardLgComponent } from './elements/slotted-card-lg/slotted-card-
 import { SocialUIService } from './services/social-ui.service';
 import { DashboardToolbarComponent } from './elements/dashboard-toolbar/dashboard-toolbar.component';
 import { ProjectCardComponent } from './elements/project-card/project-card.component';
+import { RouteCardComponent } from './elements/route-card/route-card.component';
+import { ApplicationsCardComponent } from './elements/applications-card/applications-card.component';
 
 @NgModule({
     declarations: [
@@ -161,6 +163,8 @@ import { ProjectCardComponent } from './elements/project-card/project-card.compo
         UsageStatsComponent,
         DashboardToolbarComponent,
         ProjectCardComponent,
+        RouteCardComponent,
+        ApplicationsCardComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -248,6 +252,8 @@ import { ProjectCardComponent } from './elements/project-card/project-card.compo
         UsageStatsComponent,
         DashboardToolbarComponent,
         ProjectCardComponent,
+        RouteCardComponent,
+        ApplicationsCardComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

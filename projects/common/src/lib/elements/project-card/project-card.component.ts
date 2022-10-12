@@ -6,8 +6,6 @@ import {
 } from '@angular/material/tree';
 import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { FlatNode, TreeNode } from '../../models/tree-node.model';
-import { EaCService } from '../../services/eac.service';
-import { SocialUIService } from '../../services/social-ui.service';
 
 @Component({
     selector: 'lcu-project-card',
@@ -153,16 +151,17 @@ export class ProjectCardComponent implements OnInit {
         this.treeFlattener
     );
 
+    @Input('project')
     public Project: EaCProjectAsCode;
+
+    @Input('project-lookup')
+    public ProjectLookup: string;
 
     public AppRoute: string;
 
     // public RoutedApplications: any;
 
-    constructor(
-        protected eacSvc: EaCService,
-        protected socialSvc: SocialUIService
-    ) {}
+    constructor() {}
 
     public HasChild = (_: number, node: FlatNode) => node.expandable;
 
@@ -170,16 +169,13 @@ export class ProjectCardComponent implements OnInit {
 
     public ngOnChanges() {
         if (this.Projects && this.ProjectLookups && this.Applications) {
-            let temp = this.BuildTree();
+            let temp = this.BuildProjectTree();
             // console.log("to string: ", JSON.stringify(temp))
 
             if (JSON.stringify(this.DataSource.data) !== JSON.stringify(temp)) {
                 // console.log('Its different')
                 this.DataSource.data = temp;
             }
-            // else{
-            //     console.log('it aint different')
-            // }
         }
     }
 
@@ -187,7 +183,8 @@ export class ProjectCardComponent implements OnInit {
         window.location.href = path;
     }
 
-    public BuildTree(): Array<TreeNode> {
+    public BuildProjectTree(): Array<TreeNode> {
+        console.log('calling build project tree');
         let tempTreeData: Array<TreeNode> = [];
         this.ProjectLookups?.forEach((pLookup: string) => {
             let tempProj = this.Projects[pLookup];
@@ -206,7 +203,7 @@ export class ProjectCardComponent implements OnInit {
                 let tempProjChildren: Array<TreeNode> = [];
                 tempRoutes.forEach((appRoute: string) => {
                     this.AppRoute = appRoute;
-
+                    // routerLink: ['/route', this.AppRoute, pLookup],
                     let tempRouteNode: TreeNode = {
                         name: this.AppRoute,
                         url: 'https://' + tempProj.PrimaryHost + this.AppRoute,
@@ -250,6 +247,58 @@ export class ProjectCardComponent implements OnInit {
         return tempTreeData;
 
         // return tempTreeData;
+    }
+
+    public BuildRouteTree() {
+        console.log('called route tree');
+        let tempTreeData: Array<TreeNode> = [];
+
+        let tempRoutes = this.ApplicationRoutes;
+        if (tempRoutes) {
+            // let tempProjChildren: Array<TreeNode> = [];
+            tempRoutes.forEach((appRoute: string) => {
+                this.AppRoute = appRoute;
+
+                let tempRouteNode: TreeNode = {
+                    name: this.AppRoute,
+                    url:
+                        'https://' +
+                        this.Project?.Hosts[this.Project?.Hosts?.length - 1] +
+                        this.AppRoute,
+                    routerLink: ['/route', this.AppRoute, this.ProjectLookup],
+                };
+
+                let tempApps = this.CurrentRouteApplicationLookups;
+                if (tempApps) {
+                    let tempRouteChildren: Array<TreeNode> = [];
+                    tempApps.forEach((appLookup: string) => {
+                        let tempApp =
+                            this.RoutedApplications[this.AppRoute][appLookup];
+                        let tempAppNode: TreeNode = {
+                            lookup: appLookup,
+                            name: tempApp.Application.Name,
+                            url:
+                                'https://' +
+                                this.Project?.Hosts[
+                                    this.Project?.Hosts?.length - 1
+                                ] +
+                                this.AppRoute,
+                            description: tempApp.Application.Description,
+                            routerLink: [
+                                '/application',
+                                appLookup,
+                                this.AppRoute,
+                                this.ProjectLookup,
+                            ],
+                        };
+                        tempRouteChildren.push(tempAppNode);
+                    });
+                    tempRouteNode.children = tempRouteChildren;
+                }
+                tempTreeData.push(tempRouteNode);
+            });
+        }
+        return tempTreeData;
     }
 
     public HandleRoute(route: string) {

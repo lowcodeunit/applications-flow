@@ -1,0 +1,8 @@
+<lcu-dashboard-toolbar
+    [project-lookup]="ProjectLookup"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<div class="domain-container" fxLayoutAlign="center center">
+    <lcu-domains *ngIf="DomainData" [data]="DomainData"> </lcu-domains>
+</div>

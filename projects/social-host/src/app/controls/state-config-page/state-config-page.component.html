@@ -1,0 +1,46 @@
+<lcu-dashboard-toolbar
+    [app-lookup]="ApplicationLookup"
+    [project-lookup]="ProjectLookup"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<mat-card>
+    <mat-card-header>
+        <h2>State Config: {{ Application.Application.Name }}</h2>
+    </mat-card-header>
+    <mat-card-content>
+        <lcu-state-config-form
+            [app-lookup]="ApplicationLookup"
+            [application]="Application"
+            [config]="StateConfig"
+            (status-event)="HandleStatusEvent($event)"
+        >
+        </lcu-state-config-form>
+
+        <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center">
+            {{ ErrorMessage }}
+        </mat-error>
+    </mat-card-content>
+
+    <mat-card-actions
+        class="actions-container"
+        div
+        fxLayout="row"
+        fxLayoutAlign="end center"
+    >
+        <button
+            *ngIf="!State?.Loading"
+            mat-raised-button
+            type="submit"
+            fxFlex="25%"
+            fxFlex.lt-md="30%"
+            color="primary"
+            (click)="SaveStateConfig()"
+            [disabled]="
+                !StateConfigFormControl?.dirty || !StateConfigFormControl?.valid
+            "
+        >
+            Save
+        </button>
+    </mat-card-actions>
+</mat-card>

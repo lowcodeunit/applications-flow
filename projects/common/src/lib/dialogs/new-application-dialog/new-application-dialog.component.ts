@@ -6,7 +6,6 @@ import {
     EaCApplicationAsCode,
     EaCEnvironmentAsCode,
     EaCSourceControl,
-    EnterpriseAsCode,
 } from '@semanticjs/common';
 import { Subscription } from 'rxjs';
 import { EditApplicationFormComponent } from '../../controls/edit-application-form/edit-application-form.component';

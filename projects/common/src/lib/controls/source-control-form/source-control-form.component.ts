@@ -52,6 +52,8 @@ export class SourceControlFormComponent implements OnInit {
         return this.Environment.Sources || {};
     }
 
+    public HasBuild: boolean;
+
     public SourceControlFormGroup: FormGroup;
 
     public ProcessorType: string;
@@ -62,6 +64,10 @@ export class SourceControlFormComponent implements OnInit {
 
     public ngOnInit(): void {
         this.setupSourceControlForm();
+    }
+
+    public HandleHasBuild(event: any) {
+        this.HasBuild = this.HasBuildFormControl.value;
     }
 
     public SourceControlLookupChanged(event: MatSelectChange): void {
