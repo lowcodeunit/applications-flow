@@ -100,9 +100,13 @@
                     (click)="UpdateClicked()"
                     matTooltip="Update your application to the latest package"
                 >
-                    <mat-icon>outbox</mat-icon>
-
-                    Update Package: {{ CurrentVersion }}
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <mat-icon>outbox</mat-icon>
+                        <div *ngIf="!IsSmScreen">
+                            Update Package: {{ CurrentVersion }}
+                        </div>
+                        <div *ngIf="IsSmScreen">Update</div>
+                    </div>
                 </button>
             </ng-container>
         </div>

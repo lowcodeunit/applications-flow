@@ -1,11 +1,4 @@
-import {
-    Component,
-    EventEmitter,
-    Input,
-    OnInit,
-    Output,
-    ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
     AbstractControl,
     FormBuilder,
@@ -16,10 +9,8 @@ import { MatSelectChange } from '@angular/material/select';
 import {
     EaCApplicationAsCode,
     EaCEnvironmentAsCode,
-    EaCProjectAsCode,
     EaCSourceControl,
 } from '@semanticjs/common';
-import { SourceControlFormControlsComponent } from '../../elements/projects/controls/forms/source-control/source-control.component';
 
 @Component({
     selector: 'lcu-source-control-form',
