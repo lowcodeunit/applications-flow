@@ -26,6 +26,8 @@ export class ModifiersComponent implements OnInit, OnDestroy {
 
     public SkeletonEffect: string;
 
+    public Loading: boolean;
+
     constructor(
         private activatedRoute: ActivatedRoute,
         protected eacSvc: EaCService,
@@ -59,6 +61,11 @@ export class ModifiersComponent implements OnInit, OnDestroy {
                         this.State?.EaC?.Projects || {}
                     ).reverse();
                 }
+
+                this.Loading =
+                    this.State?.LoadingActiveEnterprise ||
+                    this.State?.LoadingEnterprises ||
+                    this.State?.Loading;
             }
         );
     }

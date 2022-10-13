@@ -221,6 +221,12 @@ export class ProjectCardComponent implements OnInit {
                                 this.RoutedApplications[this.AppRoute][
                                     appLookup
                                 ];
+                            let appPath =
+                                tempApp.LookupConfig?.PathRegex.substring(
+                                    0,
+                                    tempApp.LookupConfig?.PathRegex.length - 2
+                                );
+
                             let tempAppNode: TreeNode = {
                                 lookup: appLookup,
                                 name: tempApp.Application.Name,
@@ -229,7 +235,7 @@ export class ProjectCardComponent implements OnInit {
                                     tempProj?.Hosts[
                                         tempProj?.Hosts?.length - 1
                                     ] +
-                                    this.AppRoute,
+                                    appPath,
                                 description: tempApp.Application.Description,
                                 routerLink: [
                                     '/application',

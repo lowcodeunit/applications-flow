@@ -46,6 +46,7 @@ const routes: Routes = [
     { path: 'modifiers/:projectLookup', component: ModifiersComponent },
     { path: 'projects', component: ProjectPageComponent },
     { path: 'teams', component: TeamMembersComponent },
+    { path: 'teams/:projectLookup', component: TeamMembersComponent },
     {
         path: 'state-config/:projectLookup/:appLookup',
         component: StateConfigPageComponent,
