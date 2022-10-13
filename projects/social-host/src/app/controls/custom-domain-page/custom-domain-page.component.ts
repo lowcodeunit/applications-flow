@@ -25,6 +25,8 @@ export class CustomDomainPageComponent implements OnInit {
 
     public ProjectLookup: string;
 
+    public Loading: boolean;
+
     constructor(
         private activatedRoute: ActivatedRoute,
         protected eacSvc: EaCService
@@ -62,6 +64,11 @@ export class CustomDomainPageComponent implements OnInit {
 
                 // console.log("domain data: ", this.DomainData)
             }
+
+            this.Loading =
+                this.State?.LoadingActiveEnterprise ||
+                this.State?.LoadingEnterprises ||
+                this.State?.Loading;
         });
     }
 }
