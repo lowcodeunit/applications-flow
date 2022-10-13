@@ -1,0 +1,58 @@
+@import "../../../../../common/src/assets/styles/social-card.scss";
+
+.fit-content {
+    height: 500px;
+
+    // ::ng-deep .slotted-card-content {
+    //     overflow-y: scroll;
+    // }
+    ::ng-deep lcu-slotted-card-lg {
+        height: 500px;
+        .slotted-card-content {
+            overflow-y: auto;
+            height: 430px;
+        }
+    }
+}
+.usage-stats-col {
+    height: 100%;
+}
+.usage-stats {
+    height: 100%;
+}
+
+.header-main-container {
+    padding: 15px 30px;
+    height: 170px;
+}
+
+.header-name {
+    font-size: 30px;
+}
+.header-description {
+    margin: 10px 0px;
+    font-size: 18px;
+}
+.action-icon {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 850px) {
+    .fit-content {
+        height: unset;
+
+        ::ng-deep lcu-slotted-card-lg {
+            height: unset;
+            .slotted-card-content {
+                height: unset !important;
+            }
+        }
+    }
+    .header-name {
+        font-size: 20px;
+    }
+
+    .header-description {
+        font-size: 12px;
+    }
+}

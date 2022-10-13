@@ -7,7 +7,6 @@ import {
 } from '@angular/forms';
 import { EaCApplicationAsCode } from '@semanticjs/common';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-emulated-devices-toggle',
@@ -17,6 +16,9 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
 export class EmulatedDevicesToggleComponent implements OnInit {
     @Input('editing-application')
     public EditingApplication: EaCApplicationAsCode;
+
+    @Input('loading')
+    public Loading: boolean;
 
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
@@ -29,11 +31,13 @@ export class EmulatedDevicesToggleComponent implements OnInit {
         return this.EmulatedDevicesFormGroup?.controls.isTriggerSignIn;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public EmulatedDevicesFormGroup: FormGroup;
+
+    public IsPrivate: boolean;
 
     public ProcessorType: string;
 
@@ -57,6 +61,10 @@ export class EmulatedDevicesToggleComponent implements OnInit {
         this.SaveFormEvent.emit(this.EmulatedDevicesFormGroup.value);
     }
 
+    public HandleIsPrivate(event: any) {
+        this.IsPrivate = this.IsPrivateFormControl.value;
+    }
+
     protected setupEmulatedDevicesFormGroup() {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
         this.EmulatedDevicesFormGroup = this.formBldr.group({});
@@ -71,5 +79,7 @@ export class EmulatedDevicesToggleComponent implements OnInit {
                 [Validators.required]
             )
         );
+
+        this.IsPrivate = this.IsPrivateFormControl.valid;
     }
 }

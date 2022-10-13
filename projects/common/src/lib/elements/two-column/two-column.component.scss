@@ -1,0 +1,23 @@
+.top-row {
+    display: flex;
+}
+
+.col-top-left .col-top-right {
+    flex: 1;
+}
+
+.mid-row {
+    height: 33%;
+}
+
+@media only screen and (max-width: 959px) {
+    // .col-container{
+    //     display: none;
+    // }
+    .top-row,
+    .mid-row,
+    .bottom-mid-row,
+    .full-width-row {
+        width: 100%;
+    }
+}

@@ -2,11 +2,14 @@ import { EnterpriseAsCode } from '@semanticjs/common';
 import {
     FeedItem,
     FeedItemAction,
+    Question,
     UserFeedResponse,
 } from '../models/user-feed.model';
 
 export class ApplicationsFlowState {
     public ActiveEnterpriseLookup?: string;
+
+    public Advertisements?: Array<Advertisement>;
 
     public EaC?: EnterpriseAsCode;
 
@@ -17,6 +20,8 @@ export class ApplicationsFlowState {
     public FeedActions?: Array<FeedItemAction>;
 
     public FeedCheck?: UserFeedResponse;
+
+    public FeedFilters?: any;
 
     public FeedSourceControlLookups?: Array<string>;
 
@@ -33,6 +38,8 @@ export class ApplicationsFlowState {
     public LoadingFeed?: boolean;
 
     // public Projects?: ProjectState[];
+
+    public Questions?: Array<Question>;
 
     public Unleashed?: boolean;
 
@@ -94,6 +101,18 @@ export class ApplicationsFlowState {
 
 //   public Version?: string;
 // }
+
+export class Advertisement {
+    public Actions?: Array<FeedItemAction>;
+
+    public Description?: string;
+
+    public Image?: string;
+
+    public Lead?: string;
+
+    public Position?: number;
+}
 
 export class GitHubSetupState {
     public BranchOptions?: GitHubBranch[];

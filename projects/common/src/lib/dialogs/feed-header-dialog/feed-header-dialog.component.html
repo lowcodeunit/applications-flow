@@ -157,6 +157,7 @@
 
             <div
                 fxLayout="row"
+                fxLayout.lt-md="column"
                 fxLayoutAlign="center center"
                 *ngIf="BranchOptions?.length > 0"
             >
@@ -230,7 +231,11 @@
                 </mat-form-field>
             </div>
 
-            <div fxLayout="row" fxLayoutAlign="space-around center">
+            <div
+                fxLayout="row"
+                fxLayout.lt-md="column"
+                fxLayoutAlign="space-around center"
+            >
                 <mat-form-field *ngIf="OrganizationOptions?.length > 0">
                     <mat-select
                         formControlName="organization"
@@ -266,6 +271,7 @@
 
             <div
                 fxLayout="row"
+                fxLayout.lt-md="column"
                 fxLayoutAlign="space-around center"
                 *ngIf="BranchOptions?.length > 0"
             >
@@ -310,6 +316,7 @@
         class="action-button"
         mat-raised-button
         fxFlex="25%"
+        fxFlex.lt-md="30%"
         (click)="CloseDialog()"
     >
         Cancel

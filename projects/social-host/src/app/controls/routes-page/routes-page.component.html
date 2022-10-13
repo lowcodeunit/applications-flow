@@ -1,0 +1,24 @@
+<lcu-dashboard-toolbar
+    [project-lookup]="ProjectLookup"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+<!-- [selected-route]="AppRoute"
+    [routed-application]="RoutedApplications" -->
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
+    [project-lookup]="ProjectLookup"
+>
+</lcu-breadcrumb>
+
+<div class="routes-container" *ngIf="ActiveEnvironmentLookup && Project">
+    <lcu-route-card
+        [active-environment-lookup]="ActiveEnvironmentLookup"
+        [applications-bank]="State?.EaC?.Applications"
+        [loading]="State?.Loading"
+        [project-lookup]="ProjectLookup"
+        [project]="Project"
+    ></lcu-route-card>
+</div>

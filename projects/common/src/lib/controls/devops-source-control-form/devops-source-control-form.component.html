@@ -2,6 +2,7 @@
     class="form-card"
     [formGroup]="DevOpsSourceControlFormGroup"
     (ngSubmit)="SubmitSourceControl()"
+    (click)="Log()"
 >
     <!-- <mat-card class="spread" class="sc-card"> -->
     <!-- <mat-card-header>
@@ -16,8 +17,8 @@
 
     <!-- <mat-card-content> -->
 
-    <ng-container *ngIf="State?.Loading">
-        <lcu-loader [loading]="State?.Loading"></lcu-loader>
+    <ng-container *ngIf="Loading">
+        <lcu-loader [loading]="Loading"></lcu-loader>
 
         <!-- <skeleton-block 
           class="s-block"
@@ -40,7 +41,7 @@
         ></skeleton-block> -->
     </ng-container>
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <div class="card">
             <mat-form-field class="mat-full-width">
                 <mat-select
@@ -48,6 +49,7 @@
                     placeholder="DevOps Action"
                     [disabled]="HostingDetails?.Loading"
                     (selectionChange)="DevOpsActionLookupChanged($event)"
+                    required
                 >
                     <ng-container
                         *ngFor="let devOpsActionLookup of DevOpsActionLookups"
@@ -58,6 +60,7 @@
                                 DevOpsActions[devOpsActionLookup];
                                 let devOpsAction
                             "
+                            [matTooltip]="devOpsAction.Name"
                         >
                             {{ devOpsAction.Name }}
                         </mat-option>
@@ -396,7 +399,7 @@
 
     <!-- <button 
         mat-raised-button 
-        *ngIf="!State?.Loading"
+        *ngIf="!Loading"
         type="submit" 
         fxFlex="100%" 
         color="primary" 
@@ -404,7 +407,7 @@
         <mat-icon>save</mat-icon>
         Save Source Control
       </button>
-      <lcu-loader [loading]="State?.Loading"></lcu-loader> -->
+      <lcu-loader [loading]="Loading"></lcu-loader> -->
 
     <!-- </mat-card-actions> -->
     <!-- </mat-card> -->

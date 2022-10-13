@@ -1,0 +1,267 @@
+<lcu-dashboard-toolbar
+    [project-lookups]="ProjectLookups"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<div fxLayout="row" fxLayout.lt-md="column">
+    <div fxLayout="column" class="devops-card-container" fxFlex="50%">
+        <div class="card-description-container" fxLayoutAlign.lt-md="start end">
+            <p class="card-description" *ngIf="!State?.Loading">
+                <b>Source Control</b> (or version control) is the practice of
+                tracking and managing changes to code. When a Fathym user
+                creates a web project, Fathym automatically creates a source
+                control repository within a user’s preferred GitHub organization
+                (once connected).
+            </p>
+            <p
+                class="card-description"
+                *ngIf="State?.Loading"
+                skeleton-text
+                [effect]="SkeletonEffect"
+            >
+                Source Control (or version control) is the practice of tracking
+                and managing changes to code. When a Fathym user creates a web
+                project, Fathym automatically creates a source control
+                repository within a user’s preferred GitHub organization (once
+                connected).
+            </p>
+        </div>
+
+        <lcu-slotted-card-lg
+            class="fit-content"
+            *ngIf="SourceControlLookups?.length > 0"
+            card-title="Source Control"
+            icon="build"
+            [loading]="State?.Loading"
+            [main-slot-description]="
+                SourceControlLookups?.length + ' source control(s) configured'
+            "
+            (main-action-clicked)="OpenSourceControlDialog(null, null)"
+        >
+            <div>
+                <div
+                    class="main-slot-container"
+                    fxLayout="row"
+                    *ngFor="let scLookup of SourceControlLookups"
+                >
+                    <div
+                        class="slot-content"
+                        *ngIf="SourceControls[scLookup]; let sc"
+                        fxLayout="row"
+                        fxLayoutAlign="space-between center"
+                    >
+                        <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                        <div class="slot-header-container">
+                            <div
+                                class="slot-header"
+                                fxLayout="row"
+                                (click)="
+                                    OpenSourceControlDialog(sc.Lookup, sc.Name)
+                                "
+                            >
+                                <!-- this icon is a temp placeholder -->
+                                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+
+                                <!-- <a
+              class="slot-action-anchor"
+              (click)="OpenSourceControlDialog(sc.Lookup, sc.Name)"
+            > -->
+                                <!-- <div
+                                *ngIf="sc.Name?.length > 21"
+                                class="slot-name"
+                            >
+                                {{ sc.Name | slice: 0:18 }}...
+                            </div>
+                        *ngIf="
+                                    sc.Name?.length < 21 ||
+                                    sc.Name.length == 21
+                                "-->
+                                <div class="slot-name">
+                                    {{ sc.Name }}
+                                </div>
+                                <!-- </a> -->
+                            </div>
+
+                            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+                        </div>
+
+                        <div
+                            class="slot-actions-container"
+                            fxLayout="row"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <a
+                                class="slot-action-anchor"
+                                (click)="
+                                    OpenSourceControlDialog(sc.Lookup, sc.Name)
+                                "
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Edit {{ sc.Lookup }}"
+                                    >edit</mat-icon
+                                >
+                            </a>
+                            <a
+                                class="slot-action-anchor"
+                                [href]="
+                                    'https://github.com/' +
+                                    sc.Organization +
+                                    '/' +
+                                    sc.Repository
+                                "
+                                target="_blank"
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Launch {{ sc.Lookup }}"
+                                    >launch</mat-icon
+                                >
+                            </a>
+                            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                    <mat-icon class="action-icon">launch</mat-icon>
+                </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <button
+                mat-raised-button
+                class="mat-full-width"
+                (click)="ToggleSlices('Sources')"
+                *ngIf="SourceControlLookups?.length > 5"
+            >
+                {{
+                    Slices.Sources == SourceControlLookups?.length
+                        ? "Show Less"
+                        : "Show More"
+                }}
+                <mat-icon>
+                    {{
+                        Slices.Sources == SourceControlLookups?.length
+                            ? "expand_less"
+                            : "expand_more"
+                    }}
+                </mat-icon>
+            </button> -->
+            </div>
+        </lcu-slotted-card-lg>
+    </div>
+    <div fxLayout="column" class="devops-card-container" fxFlex="50%">
+        <!-- fxLayoutAlign.lt-md="start end" -->
+        <div class="card-description-container" fxLayoutAlign.lt-md="start end">
+            <p class="card-description" *ngIf="!State?.Loading">
+                A <b>Build Pipeline</b> is used to generate Artifacts out of
+                Source Code. Fathym automates individual build pipelines for
+                each source control and application deployed on Fathym.
+            </p>
+            <p
+                class="card-description"
+                *ngIf="State?.Loading"
+                skeleton-text
+                [effect]="SkeletonEffect"
+            >
+                A Build Pipeline is used to generate Artifacts out of Source
+                Code. Fathym automates individual build pipelines for each
+                source control and application deployed on Fathym.
+            </p>
+        </div>
+        <lcu-slotted-card-lg
+            class="fit-content"
+            *ngIf="DevOpsActionLookups?.length > 0"
+            card-title="Build Pipeline"
+            icon="plumbing"
+            [loading]="State?.Loading"
+            [main-slot-description]="
+                DevOpsActionLookups?.length + ' Pipeline(s) configured'
+            "
+            (main-action-clicked)="OpenBuildPipelineDialog(null)"
+        >
+            <div>
+                <div
+                    class="main-slot-container"
+                    fxLayout="row"
+                    *ngFor="let doaLookup of DevOpsActionLookups"
+                >
+                    <div
+                        class="slot-content"
+                        *ngIf="Environment?.DevOpsActions[doaLookup]; let doa"
+                        fxLayout="row"
+                        fxLayoutAlign="space-between center"
+                    >
+                        <!-- <img [src]="slot.imgUrl" [alt]="slot.Name"> -->
+                        <div class="slot-header-container">
+                            <div
+                                class="slot-header"
+                                fxLayout="row"
+                                (click)="
+                                    OpenBuildPipelineDialog(
+                                        doaLookup,
+                                        doa?.Name
+                                    )
+                                "
+                            >
+                                <!-- this icon is a temp placeholder -->
+                                <!-- <mat-icon class="slot-icon">work_outline</mat-icon> -->
+                                <!-- <div
+                                *ngIf="doa?.Name?.length > 28"
+                                class="slot-name"
+                            >
+                                {{ doa?.Name | slice: 0:25 }}...
+                            </div> *ngIf="
+                                    doa?.Name?.length < 28 ||
+                                    doa?.Name?.length == 28
+                                "-->
+                                <div class="slot-name">
+                                    {{ doa?.Name }}
+                                </div>
+                            </div>
+
+                            <!-- <div *ngIf="project.Project.Description" class="slot-description">{{project.Project.Description}}</div> -->
+                        </div>
+
+                        <div
+                            class="slot-actions-container"
+                            fxLayout="row"
+                            fxLayoutAlign="space-around center"
+                        >
+                            <a
+                                class="slot-action-anchor"
+                                (click)="OpenBuildPipelineDialog(doaLookup)"
+                            >
+                                <mat-icon
+                                    class="action-icon"
+                                    matTooltip="Edit {{ doa?.Name }}"
+                                    >edit</mat-icon
+                                >
+                            </a>
+                            <!-- <a class="slot-action-anchor"  [href]="project.Hosts[project.Hosts.length-1]" target="_blank">
+                    <mat-icon class="action-icon">launch</mat-icon>
+                </a> -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <button
+                mat-raised-button
+                class="mat-full-width"
+                (click)="ToggleSlices('Pipelines')"
+                *ngIf="DevOpsActionLookups?.length > 5"
+            >
+                {{
+                    Slices.Pipelines == DevOpsActionLookups?.length
+                        ? "Show Less"
+                        : "Show More"
+                }}
+                <mat-icon>
+                    {{
+                        Slices.Pipelines == DevOpsActionLookups?.length
+                            ? "expand_less"
+                            : "expand_more"
+                    }}
+                </mat-icon>
+            </button> -->
+            </div>
+        </lcu-slotted-card-lg>
+    </div>
+</div>

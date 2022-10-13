@@ -1,7 +1,8 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Application } from '@lcu/common';
-import { ApplicationsFlowService } from '../../services/applications-flow.service';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { EaCService } from '../../services/eac.service';
 import { ProjectService } from '../../services/project.service';
 import {
     ApplicationsFlowState,
@@ -13,7 +14,7 @@ import {
     templateUrl: './user-account-dialog.component.html',
     styleUrls: ['./user-account-dialog.component.scss'],
 })
-export class UserAccountDialogComponent implements OnInit {
+export class UserAccountDialogComponent implements OnInit, OnDestroy {
     /**
      * Optional feedback given by user
      */
@@ -89,22 +90,22 @@ export class UserAccountDialogComponent implements OnInit {
      */
     public RegisteredSince: Date;
 
-    public get UserInfo(): LicenseAndBillingResponse {
-        return this.State?.UserLicenseInfo;
-    }
+    public UserInfo: LicenseAndBillingResponse;
 
-    public get State(): ApplicationsFlowState {
-        return this.data;
-    }
+    public State: ApplicationsFlowState;
 
-    public get UserPlan(): string {
-        return this.UserInfo?.Plan?.Name
-            ? this.UserInfo?.Plan?.Name
-            : 'Fathym - Starter';
-    }
+    public StateSub: Subscription;
+
+    public UserPlan: string;
+
+    /**
+     * The interval of the plan ie annual or Monthly
+     */
+    public PlanInterval: string;
 
     constructor(
         protected dialogRef: MatDialogRef<UserAccountDialogComponent>,
+        protected eacSvc: EaCService,
         @Inject(MAT_DIALOG_DATA) public data: ApplicationsFlowState,
         protected projectSvc: ProjectService
     ) {
@@ -113,27 +114,42 @@ export class UserAccountDialogComponent implements OnInit {
         this.IsInitialReason = true;
         // console.log('DATA: ', this.data);
         this.userStateChanged();
-        // this.LogoutClicked = new EventEmitter<any>();
     }
 
     public ngOnInit(): void {
-        // this.projectSvc.LoadUserLicenseInfo(this.State);
-        // console.log("userdata: ", this.State)
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+
+                this.UserInfo = this.State?.UserLicenseInfo;
+
+                this.UserPlan = this.UserInfo?.Plan?.Name
+                    ? this.UserInfo?.Plan?.Name
+                    : 'Fathym - Starter';
+
+                this.PlanInterval = this.UserInfo?.Price?.Interval;
+            }
+        );
     }
 
-    public ChangeEmail() {
-        console.log('change email clicked');
+    public ngOnDestroy(): void {
+        this.StateSub.unsubscribe();
     }
+
+    // public ChangeEmail() {
+    //     console.log('change email clicked');
+    // }
 
     public ChangePassword() {
-        console.log('change password clicked');
+        // console.log('change password clicked');
+        window.location.href = '/.auth/B2C_1_PASSWORD_RESET';
     }
 
     /**
      * Logs out the user
      */
     public Logout() {
-        // window.location.replace('/.oauth/logout');
+        window.location.href = '/.oauth/logout';
     }
 
     /**
@@ -147,9 +163,9 @@ export class UserAccountDialogComponent implements OnInit {
     /**
      * Toggles ManagingSubscription to false in order to exit the editing state
      */
-    public GoBack() {
-        this.ManagingSubscription = false;
-    }
+    // public GoBack() {
+    //     this.ManagingSubscription = false;
+    // }
 
     public GoBackToUserAccount() {
         // console.log("User Given Feedback", this.CancellationFeedback);
@@ -182,24 +198,23 @@ export class UserAccountDialogComponent implements OnInit {
 
     /**
      * Sends user to area where they can upgade their plan
-     *
-     * TODO figure out where to send the user
      */
     public ChangePlan() {
         console.log('Upgarde selected');
+        window.location.href = '/dashboard/billing/upgrade';
     }
 
     /**
      * Checks to see if the user has selected a reason why
      * they are canceling to enable the confirmation button
      */
-    public CheckIfReasonGiven() {
-        if (this.ReasonForLeaving && this.ReasonForLeaving.length > 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+    // public CheckIfReasonGiven() {
+    //     if (this.ReasonForLeaving && this.ReasonForLeaving.length > 0) {
+    //         return false;
+    //     } else {
+    //         return true;
+    //     }
+    // }
 
     /**
      * Closes the dialog while also checking to see if the user supplied any additional feedback

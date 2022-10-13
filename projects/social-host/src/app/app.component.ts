@@ -13,6 +13,8 @@ import {
 } from '@lowcodeunit/applications-flow-common';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { LazyElementConfig } from '@lowcodeunit/lazy-element';
+import { SocialUIService } from 'projects/common/src/lib/services/social-ui.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'lcu-root',
@@ -24,13 +26,17 @@ export class AppComponent implements OnDestroy, OnInit {
 
     protected initialized: boolean;
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public RouterSub: Subscription;
+
+    public State: ApplicationsFlowState;
+
+    public StateSub: Subscription;
 
     public IsSmScreen: boolean;
 
     public IoTConfig: LazyElementConfig;
+
+    public EntPath: string;
 
     constructor(
         public breakpointObserver: BreakpointObserver,
@@ -38,9 +44,10 @@ export class AppComponent implements OnDestroy, OnInit {
         protected eacSvc: EaCService,
         protected http: HttpClient,
         protected router: Router,
-        protected activatedRoute: ActivatedRoute
+        protected activatedRoute: ActivatedRoute,
+        protected socialSvc: SocialUIService
     ) {
-        router.events.subscribe(async (event: RouterEvent) => {
+        this.RouterSub = router.events.subscribe(async (event: RouterEvent) => {
             let changed = event instanceof NavigationEnd; //ActivationEnd
 
             if (changed) {
@@ -68,7 +75,14 @@ export class AppComponent implements OnDestroy, OnInit {
 
                     if (this.State?.EaC) {
                         await Promise.all([
-                            this.eacSvc.LoadUserFeed(1, 25, false),
+                            this.eacSvc.LoadUserFeed(
+                                1,
+                                25,
+                                false,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : ''
+                            ),
                             this.eacSvc.LoadUserInfo(),
                         ]).catch((err) => {
                             console.log(err);
@@ -77,7 +91,14 @@ export class AppComponent implements OnDestroy, OnInit {
 
                     if (!this.feedCheckInterval) {
                         this.feedCheckInterval = setInterval(() => {
-                            this.eacSvc.LoadUserFeed(1, 25, true);
+                            this.eacSvc.LoadUserFeed(
+                                1,
+                                25,
+                                true,
+                                localStorage.getItem('activeFilter')
+                                    ? localStorage.getItem('activeFilter')
+                                    : ''
+                            );
                         }, 120 * 1000);
                     }
                 }
@@ -99,6 +120,9 @@ export class AppComponent implements OnDestroy, OnInit {
         if (this.feedCheckInterval) {
             clearInterval(this.feedCheckInterval);
         }
+
+        this.RouterSub.unsubscribe();
+        this.StateSub.unsubscribe();
     }
 
     public ngOnInit(): void {
@@ -112,6 +136,11 @@ export class AppComponent implements OnDestroy, OnInit {
                 }
             });
 
+        this.StateSub = this.eacSvc.State.subscribe(
+            (state: ApplicationsFlowState) => {
+                this.State = state;
+            }
+        );
         this.handleStateChange().then((eac) => {});
     }
 
@@ -123,7 +152,7 @@ export class AppComponent implements OnDestroy, OnInit {
         this.loadStyles();
 
         // this.eacSvc.SetActiveEnterprise(this.State?.Enterprises[0].Lookup);
-        console.log('state = ', this.State);
+        // console.log('state = ', this.State);
         // console.log("enterprise = ", this.State?.Enterprises)
     }
 

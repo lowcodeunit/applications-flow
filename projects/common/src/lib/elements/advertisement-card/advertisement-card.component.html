@@ -1,0 +1,30 @@
+<mat-card class="ad-card">
+    <div class="ad-text header">
+        {{ Advertisement?.Lead }}
+    </div>
+
+    <mat-card-content fxLayout="column" fxLayoutAlign="center center">
+        <img
+            class="ad-image"
+            [src]="Advertisement?.Image"
+            alt="image description"
+        />
+        <!-- <img class="ad-image" src="../../../assets/images/thinky.png" alt="image description" /> -->
+
+        <p class="ad-text">{{ Advertisement?.Description }}</p>
+    </mat-card-content>
+
+    <mat-card-actions
+        *ngFor="let action of Advertisement?.Actions"
+        fxLayoutAlign="center center"
+    >
+        <button
+            mat-button
+            (click)="ActionClicked(action?.Action)"
+            [color]="action?.color"
+        >
+            <mat-icon *ngIf="action?.Icon">{{ action?.Icon }}</mat-icon>
+            {{ action?.Text }}
+        </button>
+    </mat-card-actions>
+</mat-card>

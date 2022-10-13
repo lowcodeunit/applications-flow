@@ -1,4 +1,25 @@
 @import "../../../../../common/src/assets/styles/social-card.scss";
+
+.fit-content {
+    height: 500px;
+
+    // ::ng-deep .slotted-card-content {
+    //     overflow-y: scroll;
+    // }
+    ::ng-deep lcu-slotted-card-lg {
+        height: 500px;
+        .slotted-card-content {
+            overflow-y: auto;
+            height: 430px;
+        }
+    }
+}
+.usage-stats-col {
+    height: 100%;
+}
+.usage-stats {
+    height: 100%;
+}
 .enterprise-avatar-container {
     background-color: white;
     margin: 20px;

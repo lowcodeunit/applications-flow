@@ -76,6 +76,21 @@ import { FeedCommentFormComponent } from './controls/feed-comment-form/feed-comm
 import { PageHeaderComponent } from './elements/page-header/page-header.component';
 import { ConnectedSourceComponent } from './controls/connected-source/connected-source.component';
 import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-account-dialog.component';
+import { ProductDiscoveryCardComponent } from './elements/product-discovery-card/product-discovery-card.component';
+import { AdvertisementCardComponent } from './elements/advertisement-card/advertisement-card.component';
+import { FeedFilterComponent } from './elements/feed-filter/feed-filter.component';
+import { QuestionCardComponent } from './elements/question-card/question-card.component';
+import { TwoColumnComponent } from './elements/two-column/two-column.component';
+import { TeamMemberCardComponent } from './elements/team-member-card/team-member-card.component';
+import { ActivityCardComponent } from './elements/activity-card/activity-card.component';
+import { ProjectWizardCardComponent } from './elements/project-wizard-card/project-wizard-card.component';
+import { UsageStatsComponent } from './elements/usage-stats/usage-stats.component';
+import { SlottedCardLgComponent } from './elements/slotted-card-lg/slotted-card-lg.component';
+import { SocialUIService } from './services/social-ui.service';
+import { DashboardToolbarComponent } from './elements/dashboard-toolbar/dashboard-toolbar.component';
+import { ProjectCardComponent } from './elements/project-card/project-card.component';
+import { RouteCardComponent } from './elements/route-card/route-card.component';
+import { ApplicationsCardComponent } from './elements/applications-card/applications-card.component';
 
 @NgModule({
     declarations: [
@@ -103,6 +118,7 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
         DFSModifiersFormComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -136,6 +152,19 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
         PageHeaderComponent,
         ConnectedSourceComponent,
         UserAccountDialogComponent,
+        ProductDiscoveryCardComponent,
+        AdvertisementCardComponent,
+        FeedFilterComponent,
+        QuestionCardComponent,
+        TwoColumnComponent,
+        TeamMemberCardComponent,
+        ActivityCardComponent,
+        ProjectWizardCardComponent,
+        UsageStatsComponent,
+        DashboardToolbarComponent,
+        ProjectCardComponent,
+        RouteCardComponent,
+        ApplicationsCardComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -176,6 +205,7 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
         NpmPackageSelectComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -211,6 +241,19 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
         PageHeaderComponent,
         ConnectedSourceComponent,
         UserAccountDialogComponent,
+        ProductDiscoveryCardComponent,
+        AdvertisementCardComponent,
+        FeedFilterComponent,
+        QuestionCardComponent,
+        TwoColumnComponent,
+        TeamMemberCardComponent,
+        ActivityCardComponent,
+        ProjectWizardCardComponent,
+        UsageStatsComponent,
+        DashboardToolbarComponent,
+        ProjectCardComponent,
+        RouteCardComponent,
+        ApplicationsCardComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,
@@ -234,6 +277,7 @@ import { UserAccountDialogComponent } from './dialogs/user-account-dialog/user-a
         NpmPackageSelectComponent,
         ThreeColumnComponent,
         SlottedCardComponent,
+        SlottedCardLgComponent,
         ProjectInfoCardComponent,
         AnalyticsCardComponent,
         FeedCardSmComponent,
@@ -273,6 +317,7 @@ export class ApplicationsFlowModule {
                 FormsService,
                 EaCService,
                 IoTEnsembleService,
+                SocialUIService,
             ],
         };
     }

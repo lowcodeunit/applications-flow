@@ -8,23 +8,38 @@
       <mat-card-title> Processor Details </mat-card-title>
     </mat-card-header> -->
 
-    <ng-container *ngIf="State?.Loading">
-        <ng-container *ngFor="let fc of ValidFormControls">
-            <skeleton-block
-                [id]="fc"
-                class="s-block"
-                effect="wave"
-            ></skeleton-block>
-        </ng-container>
+    <ng-container *ngIf="Loading">
+        <!-- <ng-container *ngFor="let fc of ValidFormControls"> -->
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <!-- </ng-container> -->
 
         <lcu-loader
             *ngIf="LCUType === 'Redirect'"
-            [loading]="State?.Loading"
+            [loading]="Loading"
         ></lcu-loader>
     </ng-container>
     <!-- END SKELETON -->
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <!-- <mat-card-content> -->
         <mat-form-field class="mat-full-width">
             <mat-select
@@ -103,7 +118,7 @@
 
                         <mat-form-field
                             class="mat-full-width with-hint"
-                            *ngIf="SourceControlFormControl?.valid"
+                            *ngIf="IsSourceControlValid"
                         >
                             <mat-select
                                 formControlName="buildPath"
@@ -127,7 +142,7 @@
 
                         <mat-form-field
                             class="mat-full-width"
-                            *ngIf="SourceControlFormControl?.valid"
+                            *ngIf="IsSourceControlValid"
                         >
                             <input
                                 matInput
@@ -147,6 +162,23 @@
                     </div>
 
                     <div *ngSwitchCase="'NPM'">
+                        <mat-form-field class="mat-full-width">
+                            <mat-select
+                                placeholder="Source Control"
+                                formControlName="sourceControl"
+                                (selectionChange)="SourceControlChanged($event)"
+                                required
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let scLookup of SourceControlLookups
+                                    "
+                                    [value]="scLookup"
+                                >
+                                    {{ scLookup }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                         <lcu-npm-package-select
                             [npm-package]="
                                 EditingApplication?.LowCodeUnit?.Package
@@ -366,7 +398,7 @@
         <!-- <mat-card-actions fxLayoutAlign="center center"> -->
 
         <!-- <button 
-          *ngIf="HasSaveButton && !State?.Loading"
+          *ngIf="HasSaveButton && !Loading"
           mat-raised-button 
           type="submit" 
           fxFlex="100%" 
@@ -375,7 +407,7 @@
           <mat-icon>save</mat-icon>
           Save Processor Details
         </button> -->
-        <!-- <lcu-loader *ngIf="HasSaveButton" [loading]="State?.Loading"></lcu-loader> -->
+        <!-- <lcu-loader *ngIf="HasSaveButton" [loading]="Loading"></lcu-loader> -->
 
         <!-- </mat-card-actions> -->
     </ng-container>

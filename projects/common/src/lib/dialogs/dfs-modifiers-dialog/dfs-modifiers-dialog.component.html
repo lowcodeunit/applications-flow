@@ -8,10 +8,13 @@
 
 <mat-dialog-content>
     <lcu-dfs-modifier-form
+        [applications]="this.State?.EaC?.Applications"
         [application-lookup]="data.applicationLookup"
         [project-lookup]="data.projectLookup"
+        [projects]="this.State?.EaC?.Projects"
         [editing-modifier-lookup]="data.modifierLookup"
         [level]="data.level"
+        [modifiers]="State?.EaC?.Modifiers"
     >
     </lcu-dfs-modifier-form>
 
@@ -36,7 +39,7 @@
 >
     <div fxLayoutAlign="start center">
         <button
-            *ngIf="!IsPreconfigured()"
+            *ngIf="!IsPreconfigured"
             mat-raised-button
             color="warn"
             (click)="DeleteModifier()"

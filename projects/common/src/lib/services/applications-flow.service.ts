@@ -189,12 +189,14 @@ export class ApplicationsFlowService {
     public LoadUserFeed(
         page: number,
         pageSize: number,
+        types: string,
         project: string,
         applications: string[]
     ): Observable<object> {
+        // console.log('types: ', types);
         var apps = JSON.stringify(applications || []);
         return this.http.get(
-            `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&project=${project}&applications=${apps}`,
+            `${this.apiRoot}/api/lowcodeunit/userfeed?page=${page}&pageSize=${pageSize}&types=${types}&project=${project}&applications=${apps}`,
             {
                 headers: this.loadHeaders(),
             }

@@ -1,0 +1,21 @@
+@import "../../../assets/styles/social-card.scss";
+
+.fit-content {
+    // height: 500px;
+
+    ::ng-deep .slotted-card-content {
+        height: 100%;
+    }
+}
+
+.slot-actions-container {
+    margin-right: 10px;
+}
+
+.tree-header {
+    font-size: 10px;
+    text-decoration: none;
+    color: black;
+    min-width: 100px;
+    width: 100%;
+}

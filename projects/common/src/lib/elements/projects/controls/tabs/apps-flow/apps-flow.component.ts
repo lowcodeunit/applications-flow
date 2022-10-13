@@ -12,7 +12,6 @@ import {
 import {
     EaCApplicationAsCode,
     EaCEnvironmentAsCode,
-    EaCProcessor,
     EaCProjectAsCode,
     EaCSourceControl,
 } from '@semanticjs/common';
