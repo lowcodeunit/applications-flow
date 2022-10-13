@@ -1,11 +1,9 @@
-import { Input } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FeedHeaderDialogComponent } from '../../dialogs/feed-header-dialog/feed-header-dialog.component';
 import { NewApplicationDialogComponent } from '../../dialogs/new-application-dialog/new-application-dialog.component';
 import { FeedItemAction } from '../../models/user-feed.model';
 import { EaCService } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-feed-header',
@@ -13,27 +11,46 @@ import { ApplicationsFlowState } from '../../state/applications-flow.state';
     styleUrls: ['./feed-header.component.scss'],
 })
 export class FeedHeaderComponent implements OnInit {
+    @Input('active-environment-lookup')
+    public ActiveEnvironmentLookup: string;
+
+    @Input('feed')
+    public Feed: any;
+
+    @Input('feed-check')
+    public FeedCheck: any;
+
     @Input('source-control-lookup')
     public SourceControlLookup: string;
 
-    public get ActiveEnvironmentLookup(): string {
-        //  TODO:  Eventually support multiple environments
-        const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+    @Input('has-gh-connection')
+    public HasGHConnection: boolean;
 
-        return envLookups[0];
-    }
+    @Input('feed-header-actions')
+    public FeedHeaderActions: Array<FeedItemAction>;
 
-    public get FeedHeaderActions(): Array<FeedItemAction> {
-        return this.State?.FeedActions;
-    }
+    @Input('loading-feed')
+    public LoadingFeed: boolean;
 
-    public get HasGHConnection(): boolean {
-        return this.State?.GitHub?.HasConnection;
-    }
+    // public get ActiveEnvironmentLookup(): string {
+    //     //  TODO:  Eventually support multiple environments
+    //     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    //     return envLookups[0];
+    // }
+
+    // public get FeedHeaderActions(): Array<FeedItemAction> {
+    //     // console.log('FeedActions: ', this.State?.FeedActions)
+    //     return this.State?.FeedActions;
+    // }
+
+    // public get HasGHConnection(): boolean {
+    //     return this.State?.GitHub?.HasConnection;
+    // }
+
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
 
     public ModalHeader: string;
 
@@ -49,6 +66,10 @@ export class FeedHeaderComponent implements OnInit {
     }
 
     public ngOnInit(): void {}
+
+    public ngOnChanges() {
+        // console.log('feed header actions: ', this.FeedHeaderActions);
+    }
 
     public ngAfterViewInit() {
         this.addSelectBtn();

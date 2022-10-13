@@ -33,7 +33,6 @@ import {
     SaveEnvironmentAsCodeEventRequest,
 } from '../../services/eac.service';
 import {
-    ApplicationsFlowState,
     GitHubBranch,
     GitHubOrganization,
     GitHubRepository,
@@ -58,6 +57,9 @@ export class DevopsSourceControlFormComponent
 
     @Input('environment-lookup')
     public EnvironmentLookup: string;
+
+    @Input('loading')
+    public Loading: boolean;
 
     @Output('save-status-event')
     public SaveStatusEvent: EventEmitter<Status>;
@@ -87,98 +89,45 @@ export class DevopsSourceControlFormComponent
 
     //  Properties
 
-    public get ArtifactLookups(): Array<string> {
-        return this.DevOpsAction?.ArtifactLookups;
-    }
-
-    public get ArtifactLookup(): string {
-        const artLookup = this.DevOpsAction?.ArtifactLookups
-            ? this.DevOpsAction?.ArtifactLookups[0]
-            : null;
-        return artLookup;
-    }
-
-    public get Artifact(): EaCArtifact {
-        return this.Environment?.Artifacts && this.ArtifactLookup
-            ? this.Environment?.Artifacts[this.ArtifactLookup] || {}
-            : {};
-    }
     public get BranchesFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'branches'
         );
     }
 
     public get BuildPathFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'buildPath'
         );
     }
 
-    public get DevOpsActionLookups(): Array<string> {
-        // console.log(this.DevOpsActions);
-        return Object.keys(this.DevOpsActions || {});
-    }
-
-    public get DevOpsAction(): any {
-        return this.Environment.DevOpsActions && this.DevOpsActionLookup
-            ? this.Environment.DevOpsActions[this.DevOpsActionLookup] || {}
-            : {};
-    }
-
-    public get DevOpsActionLookup(): string {
-        if (!!this.DevOpsActionLookupFormControl?.value) {
-            return this.DevOpsActionLookupFormControl.value;
-        }
-
-        if (!!this.EditingSourceControl?.DevOpsActionTriggerLookups) {
-            return this.EditingSourceControl?.DevOpsActionTriggerLookups[0];
-        } else {
-            return null;
-        }
-    }
-
     public get DevOpsActionLookupFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get('devOpsActionLookup');
-    }
-
-    public get DevOpsActions(): { [lookup: string]: EaCDevOpsAction } {
-        return this.Environment.DevOpsActions || {};
-    }
-
-    public get EditingSourceControl(): EaCSourceControl {
-        let sc = this.Environment?.Sources
-            ? this.Environment?.Sources[this.EditingSourceControlLookup]
-            : null;
-
-        if (sc == null && this.EditingSourceControlLookup) {
-            sc = {};
-        }
-
-        return sc;
+        return this.DevOpsSourceControlFormGroup?.get('devOpsActionLookup');
     }
 
     public get MainBranchFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'mainBranch'
         );
     }
 
     public get OrganizationFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'organization'
         );
     }
 
     public get RepositoryFormControl(): AbstractControl {
-        return this.DevOpsSourceControlFormGroup.get(
+        return this.DevOpsSourceControlFormGroup?.get(
             this.SourceControlRoot + 'repository'
         );
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public Artifact: EaCArtifact;
+
+    public ArtifactLookup: string;
+
+    public ArtifactLookups: Array<string>;
 
     public BranchOptions: GitHubBranch[];
 
@@ -186,11 +135,19 @@ export class DevopsSourceControlFormComponent
 
     public CreatingRepository: boolean;
 
+    public DevOpsAction: EaCDevOpsAction;
+
+    public DevOpsActions: { [lookup: string]: EaCDevOpsAction };
+
+    public DevOpsActionLookup: string;
+
+    public DevOpsActionLookups: Array<string>;
+
     public DevOpsSourceControlFormGroup: FormGroup;
 
-    public HostingDetails: ProjectHostingDetails;
+    public EditingSourceControl: EaCSourceControl;
 
-    public Loading: boolean;
+    public HostingDetails: ProjectHostingDetails;
 
     public OrganizationOptions: GitHubOrganization[];
 
@@ -209,6 +166,8 @@ export class DevopsSourceControlFormComponent
         protected formBuilder: FormBuilder
     ) {
         this.SaveStatusEvent = new EventEmitter();
+
+        this.EditingSourceControl = {};
 
         this.BuildPath = null;
 
@@ -249,6 +208,57 @@ export class DevopsSourceControlFormComponent
         this.RefreshOrganizations();
     }
 
+    public ngOnChanges() {
+        if (this.Environment) {
+            if (this.Environment?.Artifacts && this.ArtifactLookup) {
+                this.Artifact =
+                    this.Environment?.Artifacts[this.ArtifactLookup];
+            }
+
+            if (this.Environment?.DevOpsActions) {
+                this.DevOpsActions = this.Environment.DevOpsActions;
+
+                if (this.DevOpsActionLookup) {
+                    this.DevOpsAction =
+                        this.Environment.DevOpsActions[this.DevOpsActionLookup];
+                }
+            }
+
+            if (this.DevOpsAction?.ArtifactLookups) {
+                this.ArtifactLookups = this.DevOpsAction?.ArtifactLookups;
+
+                this.ArtifactLookup = this.DevOpsAction?.ArtifactLookups[0];
+            }
+        }
+        if (this.DevOpsActions) {
+            this.DevOpsActionLookups = Object.keys(this.DevOpsActions || {});
+        }
+
+        console.log('devopsAction lookups: ', this.DevOpsActionLookups);
+
+        if (this.Environment?.Sources && this.EditingSourceControlLookup) {
+            this.EditingSourceControl =
+                this.Environment?.Sources[this.EditingSourceControlLookup];
+        }
+
+        if (!!this.DevOpsActionLookupFormControl?.value) {
+            console.log(
+                'DevOpsActionLookupFormControl: ',
+                this.DevOpsActionLookupFormControl?.value
+            );
+            this.DevOpsActionLookup = this.DevOpsActionLookupFormControl?.value;
+        }
+
+        if (!!this.EditingSourceControl?.DevOpsActionTriggerLookups) {
+            this.DevOpsActionLookup =
+                this.EditingSourceControl?.DevOpsActionTriggerLookups[0];
+        } else {
+            this.DevOpsActionLookup = null;
+        }
+        console.log('devops action lookup = ', this.DevOpsActionLookup);
+        // console.log('form value', this.DevOpsActionLookupFormControl.value);
+    }
+
     //  API Methods
     public AddBranchOption(event: MatChipInputEvent): void {
         this.addBranchOption(event.value);
@@ -282,7 +292,12 @@ export class DevopsSourceControlFormComponent
         this.CreatingRepository = false;
     }
 
+    public Log() {
+        console.log('form value', this.DevOpsActionLookupFormControl.value);
+    }
+
     public DevOpsActionLookupChanged(event: MatSelectChange): void {
+        this.DevOpsActionLookup = event.value;
         this.configureDevOpsAction();
     }
 
@@ -380,11 +395,11 @@ export class DevopsSourceControlFormComponent
     public SaveSourceControl(): void {
         const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
             Environment: {
-                ...this.Environment,
+                // ...this.Environment,
                 Sources: this.Environment.Sources || {},
             },
-            EnvironmentLookup: this.EnvironmentLookup,
-            EnterpriseDataTokens: {},
+            // EnvironmentLookup: this.EnvironmentLookup,
+            // EnterpriseDataTokens: {},
         };
 
         let source: EaCSourceControl = {
@@ -606,7 +621,7 @@ export class DevopsSourceControlFormComponent
 
                     this.configureDevOpsAction();
                 },
-                (err) => {
+                (err: any) => {
                     this.HostingDetails.Loading = false;
                 }
             );

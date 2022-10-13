@@ -1,0 +1,35 @@
+<mat-card class="feed-card">
+    <div class="activity-feed-header">
+        <mat-card-title class="card-title">Activity</mat-card-title>
+        <lcu-feed-header
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [feed]="Feed"
+            [feed-check]="FeedCheck"
+            [source-control-lookup]="SourceControlLookup"
+            [has-gh-connection]="HasGHConnection"
+            [feed-header-actions]="FeedHeaderActions"
+            [loading-feed]="LoadingFeed"
+        ></lcu-feed-header>
+
+        <lcu-feed-filter
+            [filter-types]="FilterTypes"
+            [feed-check]="FeedCheck"
+        ></lcu-feed-filter>
+    </div>
+    <mat-card-content class="feed-container">
+        <lcu-skeleton-feed-card
+            *ngIf="LoadingFeed || !Feed"
+        ></lcu-skeleton-feed-card>
+
+        <ng-container *ngIf="!LoadingFeed && Feed">
+            <lcu-main-feed-card
+                *ngFor="let feedItem of Feed"
+                [active-environment]="ActiveEnvironment"
+                [active-environment-lookup]="ActiveEnvironmentLookup"
+                [environment]="Environment"
+                [feed-item]="feedItem"
+            >
+            </lcu-main-feed-card>
+        </ng-container>
+    </mat-card-content>
+</mat-card>

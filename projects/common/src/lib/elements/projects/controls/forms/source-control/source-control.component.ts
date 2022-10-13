@@ -112,6 +112,14 @@ export class SourceControlFormControlsComponent
     @Input('use-build-path')
     public UseBuildPath: boolean;
 
+    public IsBranchesFormValid: boolean;
+
+    public IsBuildPathValid: boolean;
+
+    public IsOrgFormValid: boolean;
+
+    public IsRepoFormValid: boolean;
+
     //  Constructors
     constructor(
         protected formBuilder: FormBuilder,
@@ -152,7 +160,9 @@ export class SourceControlFormControlsComponent
         this.addBranchOption(event.option.value);
     }
 
-    public BuildPathChanged(event: MatSelectChange): void {}
+    public BuildPathChanged(event: MatSelectChange): void {
+        this.IsBuildPathValid = this.BuildPathFormControl.valid;
+    }
 
     public CreateRepository(): void {
         this.CreatingRepository = true;
@@ -170,6 +180,8 @@ export class SourceControlFormControlsComponent
 
     public OrganizationChanged(event: MatSelectChange): void {
         const org = this.OrganizationFormControl;
+
+        this.IsOrgFormValid = this.OrganizationFormControl.valid;
 
         this.RepositoryFormControl.reset();
 
@@ -207,6 +219,8 @@ export class SourceControlFormControlsComponent
 
     public RepositoryChanged(event: MatSelectChange): void {
         const repo = this.RepositoryFormControl;
+
+        this.IsRepoFormValid = this.RepositoryFormControl.valid;
 
         if (this.UseBranches) {
             this.BranchesFormControl.reset();
@@ -252,6 +266,8 @@ export class SourceControlFormControlsComponent
         }
 
         this.BranchesInput.nativeElement.blur();
+
+        this.IsBranchesFormValid = this.BranchesFormControl.valid;
 
         this.emitBranchesChanged();
     }
@@ -419,6 +435,8 @@ export class SourceControlFormControlsComponent
             )
         );
 
+        this.IsOrgFormValid = this.OrganizationFormControl.valid;
+
         this.FormGroup.addControl(
             [this.SourceControlRoot, 'repository'].join(''),
             new FormControl(
@@ -426,6 +444,8 @@ export class SourceControlFormControlsComponent
                 Validators.required
             )
         );
+
+        this.IsRepoFormValid = this.RepositoryFormControl.valid;
 
         if (this.UseBranches) {
             this.FormGroup.addControl(
@@ -435,6 +455,7 @@ export class SourceControlFormControlsComponent
                     Validators.required
                 )
             );
+            this.IsBranchesFormValid = this.BranchesFormControl.valid;
 
             this.SelectedBranches = this.SourceControl?.Branches;
 
@@ -452,6 +473,8 @@ export class SourceControlFormControlsComponent
                 [this.SourceControlRoot, 'buildPath'].join(''),
                 new FormControl(this.BuildPath ?? '', Validators.required)
             );
+
+            this.IsBuildPathValid = this.BuildPathFormControl.valid;
         }
     }
 }

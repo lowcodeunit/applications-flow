@@ -1,0 +1,36 @@
+<mat-card class="social-card">
+    <mat-card-title>Members</mat-card-title>
+
+    <mat-card-content>
+        <div *ngIf="CurrentUser" fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="member-icon">person</mat-icon>
+            <div>
+                <div class="username">{{ CurrentUser }}</div>
+                <div>Owner</div>
+            </div>
+        </div>
+        <div *ngIf="!CurrentUser" fxLayout="row" fxLayoutAlign="start center">
+            <skeleton-avatar
+                [showIcon]="true"
+                [effect]="SkeletonEffect"
+            ></skeleton-avatar>
+            <!-- <mat-icon skeleton-text class="member-icon" [effect]="SkeletonEffect">person</mat-icon> -->
+            <div>
+                <div
+                    skeleton-text
+                    class="skeleton-text"
+                    [effect]="SkeletonEffect"
+                >
+                    UserName
+                </div>
+                <div
+                    skeleton-text
+                    class="skeleton-text"
+                    [effect]="SkeletonEffect"
+                >
+                    Owner
+                </div>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

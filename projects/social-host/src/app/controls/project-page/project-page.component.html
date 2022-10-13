@@ -1,0 +1,17 @@
+<lcu-dashboard-toolbar
+    [project-lookups]="ProjectLookups"
+    [loading]="State?.Loading"
+></lcu-dashboard-toolbar>
+
+<div class="projects-container">
+    <lcu-project-card
+        [applications-bank]="State?.EaC?.Applications"
+        [loading]="State?.Loading"
+        [project-lookups]="ProjectLookups"
+        [projects]="State?.EaC?.Projects"
+    ></lcu-project-card>
+
+    <lcu-project-wizard-card
+        *ngIf="ProjectLookups?.length <= 0"
+    ></lcu-project-wizard-card>
+</div>

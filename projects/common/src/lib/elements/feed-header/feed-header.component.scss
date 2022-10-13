@@ -39,4 +39,26 @@
     .social-card.reload {
         text-align: right;
     }
+
+    .feed-header-actions {
+        padding: 5px !important;
+    }
+
+    .action-btn-sm {
+        width: 150px;
+    }
+
+    .action-btn-lg {
+        width: 190px;
+    }
+
+    .action-text {
+        overflow-wrap: break-word !important;
+    }
+
+    @media only screen and (max-width: 850px) {
+        .action-text {
+            font-size: 11px;
+        }
+    }
 }

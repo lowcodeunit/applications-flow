@@ -1,4 +1,4 @@
-<app-host-dashboard-card-element
+<!-- <app-host-dashboard-card-element
     [context]="{ Title: 'Projects', Icon: 'language' }"
 >
     <nav>
@@ -21,7 +21,6 @@
                 </mat-option>
             </mat-select>
 
-            <!-- Toggle between Caged Krakyn and Unleashed Krakyn (Flow Tool) -->
         </mat-form-field>
 
         <a
@@ -50,14 +49,9 @@
             </h2>
         </div>
 
-        <!-- <lcu-git-auth *ngIf="!State.GitHub.HasConnection"></lcu-git-auth> -->
-
-        <!-- *ngIf="State.GitHub.HasConnection" -->
+        
         <ng-container>
-            <!-- <div *ngIf="!CreatingProject">
-        Creating
-        <lcu-create-project-wizard></lcu-create-project-wizard>
-      </div> -->
+            
 
             <ng-container *ngIf="!State.Unleashed">
                 <ng-container *ngIf="State">
@@ -86,7 +80,6 @@
             </ng-container>
 
             <ng-container *ngIf="State.Unleashed">
-                <!-- Shannon flow tool control implemented -->
             </ng-container>
         </ng-container>
     </ng-container>
@@ -95,13 +88,9 @@
         <lcu-loader [loading]="State?.Loading"></lcu-loader>
 
         <div class="margin-3">
-            <!-- <p *ngIf="!State.UserEnterpriseLookup">Loading your projects</p> -->
-
-            <!-- <p *ngIf="State.UserEnterpriseLookup">Loading your Dashboard.</p> -->
+            
         </div>
     </div>
 
-    <!-- <div>
-    <pre>{{ State | json }}</pre>
-  </div> -->
-</app-host-dashboard-card-element>
+    
+</app-host-dashboard-card-element> -->

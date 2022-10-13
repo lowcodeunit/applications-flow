@@ -1,7 +1,8 @@
 <div>
     <mat-card class="social-card">
-        <ng-container *ngIf="!State?.LoadingFeed">
-            <div
+        <ng-container *ngIf="!LoadingFeed && Feed">
+            <!-- COMMENTED OUT ANNOUNCEMENT BUTTON -->
+            <!-- <div
                 class="gh-card-container"
                 fxLayout="row"
                 fxLayoutAlign="center center"
@@ -19,47 +20,68 @@
                         Create Team Announcement
                     </button>
 
-                    <!-- <mat-form-field appearance="fill" class="gh-input">
-            <mat-label>{{ InputLabel }}</mat-label>
-            <input matInput type="text" [(ngModel)]="value" (click)="OpenFHDialog('Announcement')"/>
-          </mat-form-field> -->
                 </div>
 
-                <!-- <button
-          fxFlex="15%"
-          mat-button
-          (click)="Submit()"
-          id="submit-btn"
-          color="primary"
-        >
-          Submit
-        </button> -->
-            </div>
+            </div> -->
 
             <mat-card-actions
+                class="feed-header-actions"
                 fxLayout="row"
                 fxLayoutAlign="space-around center"
             >
                 <ng-container *ngFor="let action of FeedHeaderActions">
-                    <button
-                        mat-raised-button
-                        [color]="action.Color"
-                        (click)="HandleAction(action)"
-                        id="pr-btn"
-                    >
-                        <mat-icon *ngIf="action.Icon">{{
-                            action.Icon
-                        }}</mat-icon>
+                    <ng-container *ngIf="FeedHeaderActions?.length > 2">
+                        <button
+                            mat-raised-button
+                            [color]="action.Color"
+                            (click)="HandleAction(action)"
+                            class="action-btn-sm"
+                            fxLayoutAlign="center center"
+                        >
+                            <div
+                                fxLayout.gt-md="row"
+                                fxLayout.lt-md="column"
+                                fxLayoutAlign="center center"
+                            >
+                                <mat-icon *ngIf="action.Icon">{{
+                                    action.Icon
+                                }}</mat-icon>
 
-                        {{ action.Text }}
-                    </button>
+                                <div class="action-text">{{ action.Text }}</div>
+                            </div>
+                        </button>
+                    </ng-container>
+                    <ng-container *ngIf="FeedHeaderActions?.length <= 2">
+                        <button
+                            mat-raised-button
+                            [color]="action.Color"
+                            (click)="HandleAction(action)"
+                            class="action-btn-lg"
+                            fxLayout="row"
+                            fxLayoutAlign="center center"
+                        >
+                            <div
+                                fxLayout.gt-md="row"
+                                fxLayout.lt-md="column"
+                                fxLayoutAlign="center center"
+                            >
+                                <mat-icon *ngIf="action.Icon">{{
+                                    action.Icon
+                                }}</mat-icon>
+                                <div class="action-text">
+                                    {{ action.Text }}
+                                </div>
+                            </div>
+                        </button>
+                    </ng-container>
                 </ng-container>
             </mat-card-actions>
         </ng-container>
 
         <!-- SKELETON -->
-        <ng-container *ngIf="State?.LoadingFeed">
-            <div
+        <ng-container *ngIf="LoadingFeed || !Feed">
+            <!-- COMMENTED OUT SKELETON  FOR ANNOUNCEMENT BTN -->
+            <!-- <div
                 id="gh-card-skeleton"
                 fxLayout="row"
                 fxLayoutAlign="center center"
@@ -77,15 +99,8 @@
                     ></skeleton-block>
                 </div>
 
-                <!-- <div
-          skeleton-text
-          fxFlex="15%"
-          [effect]="SkeletonEffect"
-          style="margin: 0px 10px"
-        >
-          Submit
-        </div> -->
-            </div>
+               
+            </div> -->
 
             <div fxLayout="row" fxLayoutAlign="space-around center">
                 <div skeleton-text [effect]="SkeletonEffect">Pull Request</div>
@@ -93,16 +108,17 @@
                 <div skeleton-text [effect]="SkeletonEffect">
                     Feature Branch
                 </div>
-                <!-- <div skeleton-text [effect]="SkeletonEffect">
-          <mat-icon>more_horiz</mat-icon>
-        </div> -->
             </div>
         </ng-container>
     </mat-card>
-
-    <mat-card class="social-card reload" *ngIf="State?.FeedCheck">
-        There are new items in your feed.
+    <!-- <mat-card
+        class="social-card reload"
+        *ngIf="FeedCheck"
+        fxLayout="row"
+        fxLayoutAlign="center center"
+    >
+        <div>There are new items in your feed.</div>
 
         <button mat-raised-button (click)="ReloadFeed()">Reload Feed</button>
-    </mat-card>
+    </mat-card> -->
 </div>

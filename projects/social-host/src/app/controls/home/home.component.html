@@ -1,0 +1,77 @@
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+>
+</lcu-breadcrumb>
+
+<lcu-three-column>
+    <div left>
+        <lcu-project-info-card
+            [name]="State?.EaC?.Enterprise?.Name"
+            image="./assets/images/black_thinky.png"
+            [loading]="State?.Loading"
+        >
+        </lcu-project-info-card>
+    </div>
+
+    <!-- CENTER FEED -->
+    <div>
+        <lcu-question-card
+            *ngIf="State?.Questions"
+            [questions]="State?.Questions"
+        >
+        </lcu-question-card>
+
+        <lcu-feed-header
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [feed]="State?.Feed"
+            [feed-check]="State?.FeedCheck"
+            [has-gh-connection]="State?.GitHub?.HasConnection"
+            [feed-header-actions]="State?.FeedActions"
+            [loading-feed]="State?.LoadingFeed"
+        ></lcu-feed-header>
+        <!-- <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter> -->
+        <lcu-project-wizard-card
+            *ngIf="ProjectLookups?.length <= 0 && !State?.Loading"
+        ></lcu-project-wizard-card>
+
+        <lcu-skeleton-feed-card
+            *ngIf="State?.LoadingFeed || !State?.Feed"
+        ></lcu-skeleton-feed-card>
+
+        <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
+            <lcu-feed-filter
+                [filter-types]="FilterTypes"
+                [feed-check]="State?.FeedCheck"
+            >
+            </lcu-feed-filter>
+
+            <lcu-main-feed-card
+                *ngFor="let feedItem of State?.Feed"
+                [active-environment]="
+                    State?.EaC?.Environments[ActiveEnvironmentLookup]
+                "
+                [active-environment-lookup]="ActiveEnvironmentLookup"
+                [environment]="
+                    State?.EaC?.Environments[
+                        State?.EaC?.Enterprise?.PrimaryEnvironment
+                    ]
+                "
+                [feed-item]="feedItem"
+            >
+            </lcu-main-feed-card>
+        </ng-container>
+        <lcu-project-wizard-card
+            *ngIf="ProjectLookups?.length > 0 && !State?.Loading"
+        ></lcu-project-wizard-card>
+    </div>
+
+    <div right>
+        <ng-container *ngFor="let ad of State?.Advertisements">
+            <lcu-advertisement-card
+                [advertisement]="ad"
+            ></lcu-advertisement-card>
+        </ng-container>
+    </div>
+</lcu-three-column>

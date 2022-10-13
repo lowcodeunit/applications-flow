@@ -10,7 +10,6 @@ import {
     EaCService,
     SaveApplicationAsCodeEventRequest,
 } from '../../services/eac.service';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 
 @Component({
     selector: 'lcu-edit-application-form',
@@ -24,6 +23,9 @@ export class EditApplicationFormComponent implements OnInit {
     @Input('current-route')
     public CurrentRoute: string;
 
+    @Input('is-disabled')
+    public IsDisabled: boolean;
+
     @Input('editing-application')
     public EditingApplication: EaCApplicationAsCode;
 
@@ -32,6 +34,9 @@ export class EditApplicationFormComponent implements OnInit {
 
     @Input('project-lookup')
     public ProjectLookup: string;
+
+    @Input('loading')
+    public Loading: boolean;
 
     @Output('save-form-event')
     public SaveFormEvent: EventEmitter<{}>;
@@ -48,10 +53,6 @@ export class EditApplicationFormComponent implements OnInit {
         return this.ApplicationFormGroup?.controls.route;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
-
     public ApplicationFormGroup: FormGroup;
 
     constructor(protected formBldr: FormBuilder, protected eacSvc: EaCService) {
@@ -59,8 +60,16 @@ export class EditApplicationFormComponent implements OnInit {
         this.HasSaveButton = true;
     }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void {}
+
+    public ngOnChanges() {
         this.setupApplicationForm();
+        // if (this.IsDisabled) {
+        //     this.ApplicationFormGroup.disable();
+        // } else {
+        //     this.ApplicationFormGroup.enable();
+        // }
+        console.log('loading: ', this.Loading);
     }
 
     public SubmitApplicationControl() {

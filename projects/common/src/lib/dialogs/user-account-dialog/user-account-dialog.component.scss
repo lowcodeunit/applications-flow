@@ -31,7 +31,7 @@ $Thinky-color: mat-color(map-get($global-theme, primary), 700);
     font-size: 14px;
     overflow-wrap: break-word;
     word-wrap: break-word;
-    max-width: 180px;
+    max-width: 280px;
 }
 
 // .dialog-actions-container {
@@ -57,11 +57,12 @@ $Thinky-color: mat-color(map-get($global-theme, primary), 700);
 
 .menu-item {
     margin: 5px 0px;
-    color: lightgray;
+    // color: lightgray;
+    cursor: pointer;
     &:hover {
         // color: $Font-Color;
-        // cursor: pointer;
-        cursor: not-allowed;
+        cursor: pointer;
+        // cursor: not-allowed;
     }
 }
 

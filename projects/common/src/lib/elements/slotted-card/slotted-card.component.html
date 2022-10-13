@@ -3,38 +3,42 @@
         class="slotted-card-header"
         fxLayoutAlign="space-between center"
     >
-        <div mat-card-avatar fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon class="header-icon">{{ Icon }}</mat-icon>
-            <div class="card-title">{{ CardTitle }}</div>
-        </div>
+        <!-- mat-card-avatar -->
+        <mat-card-title fxLayout="row" fxLayoutAlign="start center">
+            <!-- <mat-icon class="header-icon">{{ Icon }}</mat-icon> -->
+            <div class="card-title">{{ CardTitle }}s</div>
+        </mat-card-title>
 
         <button
-            mat-mini-fab
-            class="header-icon pointer"
+            mat-raised-button
+            class="pointer"
             (click)="MainActionClickEvent()"
-            matTooltip="Add {{ CardTitle }}"
-            *ngIf="!ActionPath && !State?.Loading && ShowMainIcon"
+            matTooltip="{{ ButtonText }}"
+            *ngIf="!ActionPath && !Loading && ShowMainIcon"
+            color="accent"
         >
-            <mat-icon>
+            <!-- <mat-icon>
                 {{ MainIcon }}
-            </mat-icon>
+            </mat-icon> -->
+            <div>{{ ButtonText }}</div>
         </button>
 
         <button
-            mat-mini-fab
+            mat-raised-button
             color="accent"
             skeleton-text
             [effect]="SkeletonEffect"
             class="header-icon"
-            *ngIf="State?.Loading"
+            *ngIf="Loading"
         >
-            <mat-icon> add </mat-icon>
+            <!-- <mat-icon> add </mat-icon> -->
+            <div>Add {{ CardTitle }}</div>
         </button>
     </mat-card-header>
 
     <!-- SKELETON CONTENT -->
 
-    <ng-container *ngIf="State?.Loading">
+    <ng-container *ngIf="Loading">
         <mat-card-content>
             <div class="slot-main-container">
                 <div
@@ -113,8 +117,8 @@
 
     <!-- ACTUAL CONTENT -->
 
-    <ng-container *ngIf="!State?.Loading">
-        <mat-card-content>
+    <ng-container *ngIf="!Loading">
+        <mat-card-content class="slotted-card-content">
             <div class="slot-main-container">
                 <div class="header-description">{{ MainSlotDescription }}</div>
 

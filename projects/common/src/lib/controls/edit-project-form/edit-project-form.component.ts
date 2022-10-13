@@ -28,25 +28,35 @@ export class EditProjectFormComponent implements OnInit {
         return this.ProjectFormGroup.controls.description;
     }
 
-    public get Project(): EaCProjectAsCode {
-        return this.State?.EaC?.Projects[this.ProjectLookup];
-    }
+    // public get Project(): EaCProjectAsCode {
+    //     return this.State?.EaC?.Projects[this.ProjectLookup];
+    // }
 
     public get NameFormControl(): AbstractControl {
         return this.ProjectFormGroup.controls.name;
     }
 
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    // public get State(): ApplicationsFlowState {
+    //     return this.eacSvc.State;
+    // }
+
+    public Project: EaCProjectAsCode;
 
     public ProjectFormGroup: FormGroup;
+
+    public State: ApplicationsFlowState;
 
     constructor(protected eacSvc: EaCService, protected formBldr: FormBuilder) {
         this.SaveFormEvent = new EventEmitter();
     }
 
     ngOnInit(): void {
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+            if (this.State?.EaC?.Projects) {
+                this.Project = this.State.EaC.Projects[this.ProjectLookup];
+            }
+        });
         this.setupProjectForm();
     }
 

@@ -1,11 +1,19 @@
 import { BaseResponse, Status } from '@lcu/common';
+import { Advertisement } from '../state/applications-flow.state';
+import { ActionsModel } from './actions.model';
 
 export class UserFeedResponse extends BaseResponse {
     public Actions: Array<FeedItemAction>;
 
+    public Advertisements: Array<Advertisement>;
+
     public Items: Array<FeedItem>;
 
+    public ItemTypes: Array<ItemType>;
+
     public SourceControlLookups: Array<string>;
+
+    public Questions: Array<Question>;
 }
 
 export class FeedItem {
@@ -104,4 +112,18 @@ export class FeedEntry {
     public Title: string;
 
     public Type: string;
+}
+
+export class ItemType {
+    [key: string]: any;
+}
+
+export class Question {
+    public Actions: Array<ActionsModel>;
+
+    public Description: string;
+
+    public Image: string;
+
+    public Title: string;
 }

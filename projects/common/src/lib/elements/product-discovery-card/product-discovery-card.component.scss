@@ -1,0 +1,27 @@
+@import "../../../assets/common";
+@import "../../../assets/styles/social-card.scss";
+
+#discovery-card {
+    margin: 20px;
+    padding: 0px;
+}
+
+mat-card-actions {
+    margin-bottom: -1px !important;
+    margin-left: 0px !important;
+    margin-right: -0.5px !important;
+}
+
+.discovery-card-actions {
+    padding: 0px !important;
+}
+
+#discover-btn {
+    width: 100%;
+    color: black;
+}
+
+.discover-link {
+    color: var(--initial-primary);
+    text-decoration: none;
+}

@@ -1,5 +1,5 @@
 <div [formGroup]="FormGroup">
-    <div class="card" *ngIf="OrganizationFormControl?.valid || !Loading">
+    <div class="card" *ngIf="IsOrgFormValid || !Loading">
         <mat-form-field
             class="mat-full-width with-hint"
             *ngIf="OrganizationOptions?.length > 0"
@@ -55,28 +55,18 @@
         </mat-form-field>
     </div>
 
-    <div
-        class="card"
-        *ngIf="
-            RepositoryFormControl?.valid ||
-            (OrganizationFormControl?.valid && !Loading)
-        "
-    >
+    <div class="card" *ngIf="IsRepoFormValid || (IsOrgFormValid && !Loading)">
         <mat-form-field class="mat-full-width">
             <mat-icon class="org-icon" matPrefix>description</mat-icon>
 
             <mat-select
                 [formControlName]="SourceControlRoot + 'repository'"
                 [placeholder]="
-                    OrganizationFormControl?.valid
+                    IsOrgFormValid
                         ? 'Repository'
                         : 'Repository (select organization first)'
                 "
-                [disabled]="
-                    !OrganizationFormControl?.valid ||
-                    Loading ||
-                    RepositoryDisabled
-                "
+                [disabled]="!IsOrgFormValid || Loading || RepositoryDisabled"
                 (selectionChange)="RepositoryChanged($event)"
                 *ngIf="!CreatingRepository"
                 required
@@ -101,7 +91,7 @@
                 matSuffix
                 (click)="CreateRepository()"
                 [fxHide]="Loading || RepositoryDisabled"
-                *ngIf="!CreatingRepository && OrganizationFormControl?.valid"
+                *ngIf="!CreatingRepository && IsOrgFormValid"
             >
                 add_circle
             </mat-icon>
@@ -110,7 +100,7 @@
                 mat-button
                 type="button"
                 (click)="SaveRepository()"
-                *ngIf="CreatingRepository && RepositoryFormControl?.valid"
+                *ngIf="CreatingRepository && IsRepoFormValid"
             >
                 <mat-icon matSuffix color="primary"> save </mat-icon>
             </button>
@@ -129,10 +119,8 @@
     <div
         class="card"
         *ngIf="
-            (BranchesFormControl?.valid ||
-                (OrganizationFormControl?.valid &&
-                    RepositoryFormControl?.valid &&
-                    !Loading)) &&
+            (IsBranchesFormValid ||
+                (IsOrgFormValid && IsRepoFormValid && !Loading)) &&
             !CreatingRepository &&
             UseBranches
         "
@@ -234,10 +222,8 @@
     <div
         class="card"
         *ngIf="
-            (BuildPathFormControl?.valid ||
-                (OrganizationFormControl?.valid &&
-                    RepositoryFormControl?.valid &&
-                    !Loading)) &&
+            (IsBuildPathValid ||
+                (IsOrgFormValid && IsRepoFormValid && !Loading)) &&
             !CreatingRepository &&
             UseBuildPath
         "
@@ -271,26 +257,20 @@
             <lcu-loader style="margin: auto" [loading]="true"></lcu-loader>
 
             <div class="margin-3">
-                <h4 class="mat-title" *ngIf="!OrganizationFormControl?.valid">
+                <h4 class="mat-title" *ngIf="!IsOrgFormValid">
                     Loading organizations
                 </h4>
 
                 <h4
                     class="mat-title"
-                    *ngIf="
-                        OrganizationFormControl?.valid &&
-                        !RepositoryFormControl?.valid
-                    "
+                    *ngIf="IsOrgFormValid && !IsRepoFormValid"
                 >
                     Loading repositories
                 </h4>
 
                 <h4
                     class="mat-title"
-                    *ngIf="
-                        RepositoryFormControl?.valid &&
-                        !BranchesFormControl?.valid
-                    "
+                    *ngIf="IsRepoFormValid && !IsBranchesFormValid"
                 >
                     Loading branches
                 </h4>
@@ -298,9 +278,8 @@
                 <h4
                     class="mat-title"
                     *ngIf="
-                        (RepositoryFormControl?.valid ||
-                            BranchesFormControl?.valid) &&
-                        !BuildPathFormControl?.valid
+                        (IsRepoFormValid || IsBranchesFormValid) &&
+                        !IsBuildPathValid
                     "
                 >
                     Loading build paths

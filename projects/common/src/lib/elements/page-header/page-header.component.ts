@@ -14,6 +14,9 @@ export class PageHeaderComponent implements OnInit {
     @Input('state')
     public State: ApplicationsFlowState;
 
+    // @Input('ent-path')
+    // public EntPath: string;
+
     public IsSmScreen: boolean;
 
     constructor(
@@ -43,7 +46,7 @@ export class PageHeaderComponent implements OnInit {
     public OpenMyAccount() {
         this.userAccountDialog.open(UserAccountDialogComponent, {
             position: { top: '75px', right: '10px' },
-            width: '260px',
+            width: '350px',
             panelClass: 'user-account-dialog-container',
             data: this.State,
         });

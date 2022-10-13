@@ -15,8 +15,8 @@ import {
 } from '@semanticjs/common';
 import { FeedEntry, FeedItem } from '../models/user-feed.model';
 import { HttpClient } from '@angular/common/http';
-import { Status } from '@lcu/common';
-import { Observable } from 'rxjs';
+import { BaseResponse, Status } from '@lcu/common';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export class SaveApplicationAsCodeEventRequest {
     public Application?: EaCApplicationAsCode;
@@ -54,6 +54,9 @@ export class SaveProjectAsCodeEventRequest {
     providedIn: 'root',
 })
 export class EaCService {
+    //Fields
+    protected stateSubject: BehaviorSubject<ApplicationsFlowState>;
+
     //  Properties
     public get EditingProjectLookup(): string {
         return this.projectService.EditingProjectLookup;
@@ -63,14 +66,15 @@ export class EaCService {
         return this.projectService.CreatingProject;
     }
 
-    public State: ApplicationsFlowState;
+    public State: Observable<ApplicationsFlowState>;
 
     //  Constructors
     constructor(
         protected projectService: ProjectService,
         protected http: HttpClient
     ) {
-        this.State = new ApplicationsFlowState();
+        this.stateSubject = new BehaviorSubject(new ApplicationsFlowState());
+        this.State = this.stateSubject.asObservable();
     }
 
     //  API Methods
@@ -85,8 +89,9 @@ export class EaCService {
         if (
             confirm(`Are you sure you want to delete application '${appName}'?`)
         ) {
+            const state = this.stateSubject.getValue();
             const eac: EnterpriseAsCode = {
-                EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+                EnterpriseLookup: state.EaC.EnterpriseLookup,
                 Applications: {},
             };
 
@@ -94,10 +99,12 @@ export class EaCService {
                 Application: {},
             };
 
-            return await this.projectService.EnterpriseAsCodeRemovals(
-                this.State,
+            const status = await this.projectService.EnterpriseAsCodeRemovals(
+                state,
                 eac
             );
+            this.stateSubject.next(state);
+            return status;
         }
     }
 
@@ -110,23 +117,27 @@ export class EaCService {
                 `Are you sure you want to delete Build Pipeline '${doaName}'?`
             )
         ) {
+            const state = this.stateSubject.getValue();
+
             const eac: EnterpriseAsCode = {
-                EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+                EnterpriseLookup: state.EaC.EnterpriseLookup,
                 Environments: {},
             };
 
-            eac.Environments[this.State.EaC.Enterprise.PrimaryEnvironment] = {
+            eac.Environments[state.EaC.Enterprise.PrimaryEnvironment] = {
                 DevOpsActions: {},
             };
 
             eac.Environments[
-                this.State.EaC.Enterprise.PrimaryEnvironment
+                state.EaC.Enterprise.PrimaryEnvironment
             ].DevOpsActions[doaLookup] = {};
 
-            return await this.projectService.EnterpriseAsCodeRemovals(
-                this.State,
+            const status = await this.projectService.EnterpriseAsCodeRemovals(
+                state,
                 eac
             );
+            this.stateSubject.next(state);
+            return status;
         }
     }
 
@@ -139,17 +150,21 @@ export class EaCService {
                 `Are you sure you want to delete Modifier '${modifierName}'?`
             )
         ) {
+            const state = this.stateSubject.getValue();
+
             const eac: EnterpriseAsCode = {
-                EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+                EnterpriseLookup: state.EaC.EnterpriseLookup,
                 Modifiers: {},
             };
 
             eac.Modifiers[modifierLookup] = {};
 
-            return await this.projectService.EnterpriseAsCodeRemovals(
-                this.State,
+            const status = await this.projectService.EnterpriseAsCodeRemovals(
+                state,
                 eac
             );
+            this.stateSubject.next(state);
+            return status;
         }
     }
 
@@ -160,8 +175,10 @@ export class EaCService {
         if (
             confirm(`Are you sure you want to delete Project '${projectName}'?`)
         ) {
+            const state = this.stateSubject.getValue();
+
             const eac: EnterpriseAsCode = {
-                EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+                EnterpriseLookup: state.EaC.EnterpriseLookup,
                 Projects: {},
             };
 
@@ -169,10 +186,13 @@ export class EaCService {
                 Project: {},
             };
 
-            return await this.projectService.EnterpriseAsCodeRemovals(
-                this.State,
+            const status = await this.projectService.EnterpriseAsCodeRemovals(
+                state,
                 eac
             );
+
+            this.stateSubject.next(state);
+            return status;
         }
     }
 
@@ -185,23 +205,28 @@ export class EaCService {
                 `Are you sure you want to delete Source Control '${srcName}'?`
             )
         ) {
+            const state = this.stateSubject.getValue();
+
             const eac: EnterpriseAsCode = {
-                EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+                EnterpriseLookup: state.EaC.EnterpriseLookup,
                 Environments: {},
             };
 
-            eac.Environments[this.State.EaC.Enterprise.PrimaryEnvironment] = {
+            eac.Environments[state.EaC.Enterprise.PrimaryEnvironment] = {
                 Sources: {},
             };
 
-            eac.Environments[
-                this.State.EaC.Enterprise.PrimaryEnvironment
-            ].Sources[srcLookup] = {};
+            eac.Environments[state.EaC.Enterprise.PrimaryEnvironment].Sources[
+                srcLookup
+            ] = {};
 
-            return await this.projectService.EnterpriseAsCodeRemovals(
-                this.State,
+            const status = await this.projectService.EnterpriseAsCodeRemovals(
+                state,
                 eac
             );
+
+            this.stateSubject.next(state);
+            return status;
         }
     }
 
@@ -209,31 +234,55 @@ export class EaCService {
     //   await this.projectService.EnsureUserEnterprise(this.State);
     // });
 
-    public async EnsureUserEnterprise(): Promise<void> {
-        await this.projectService.EnsureUserEnterprise(this.State);
+    public async EnsureUserEnterprise(): Promise<BaseResponse> {
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.EnsureUserEnterprise(state);
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async EnterpriseAsCodeRemovals(
         eac: EnterpriseAsCode
     ): Promise<Status> {
-        return this.projectService.EnterpriseAsCodeRemovals(this.State, eac);
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.EnterpriseAsCodeRemovals(
+            state,
+            eac
+        );
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async GetActiveEnterprise(): Promise<void> {
-        await this.projectService.GetActiveEnterprise(this.State);
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.GetActiveEnterprise(state);
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async LoadUserFeed(
         page: number,
         pageSize: number,
-        forCheck: boolean = false
-    ): Promise<void> {
-        await this.projectService.LoadUserFeed(
+        forCheck: boolean = false,
+        filterStr: string = ''
+    ): Promise<Array<FeedItem>> {
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.LoadUserFeed(
             page,
             pageSize,
+            filterStr,
             forCheck,
-            this.State
+            state
         );
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     public GenerateRoutedApplications(applications: {
@@ -241,39 +290,67 @@ export class EaCService {
     }): {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
     } {
-        return this.projectService.GenerateRoutedApplications(
+        const state = this.stateSubject.getValue();
+
+        const status = this.projectService.GenerateRoutedApplications(
             applications,
-            this.State
+            state
         );
+        this.stateSubject.next(state);
+        return status;
     }
 
-    public async HasValidConnection(): Promise<void> {
-        await this.projectService.HasValidConnection(this.State);
+    public async HasValidConnection(): Promise<EnterpriseAsCode> {
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.HasValidConnection(state);
+
+        this.stateSubject.next(state);
+        return status;
     }
 
-    public async ListEnterprises(): Promise<void> {
-        await this.projectService.ListEnterprises(this.State);
+    public async ListEnterprises(): Promise<Array<any>> {
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.ListEnterprises(state);
+
+        this.stateSubject.next(state);
+        return status;
     }
 
-    public async LoadEnterpriseAsCode(): Promise<void> {
-        await this.projectService.LoadEnterpriseAsCode(this.State);
+    public async LoadEnterpriseAsCode(): Promise<EnterpriseAsCode> {
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.LoadEnterpriseAsCode(state);
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async LoadUserInfo(): Promise<void> {
-        await this.projectService.LoadUserLicenseInfo(this.State);
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.LoadUserLicenseInfo(state);
+        this.stateSubject.next(state);
+        return status;
     }
 
     public ReloadFeed() {
-        if (this.State.FeedCheck) {
-            this.State.Feed = this.State.FeedCheck.Items;
+        const state = this.stateSubject.getValue();
 
-            this.State.FeedActions = this.State.FeedCheck.Actions;
+        if (state.FeedCheck) {
+            state.Feed = state.FeedCheck.Items;
 
-            this.State.FeedSourceControlLookups =
-                this.State.FeedCheck.SourceControlLookups;
+            state.FeedActions = state.FeedCheck.Actions;
+
+            state.FeedSourceControlLookups =
+                state.FeedCheck.SourceControlLookups;
         }
 
-        this.State.FeedCheck = null;
+        state.FeedCheck = null;
+
+        this.stateSubject.next(state);
+        return state;
     }
 
     public async SaveApplicationAsCode(
@@ -284,12 +361,19 @@ export class EaCService {
 
     public async SaveDFSModifier(
         req: SaveDFSModifierEventRequest
-    ): Promise<void> {
-        await this.handleSaveDFSModifier(req);
+    ): Promise<Status> {
+        return await this.handleSaveDFSModifier(req);
     }
 
     public async SaveEnterpriseAsCode(eac: EnterpriseAsCode): Promise<Status> {
-        return await this.projectService.SaveEnterpriseAsCode(this.State, eac);
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.SaveEnterpriseAsCode(
+            state,
+            eac
+        );
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async SaveEnvironmentAsCode(
@@ -304,34 +388,64 @@ export class EaCService {
         return await this.handleSaveProject(req.ProjectLookup, req.Project);
     }
 
-    public async SetActiveEnterprise(entLookup: any): Promise<void> {
-        this.projectService.SetActiveEnterprise(this.State, entLookup);
+    public async SetActiveEnterprise(entLookup: any): Promise<Status> {
+        const state = this.stateSubject.getValue();
+
+        const status = this.projectService.SetActiveEnterprise(
+            state,
+            entLookup
+        );
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async SetCreatingProject(creatingProject: boolean): Promise<void> {
-        this.projectService.SetCreatingProject(creatingProject);
+        const state = this.stateSubject.getValue();
+
+        const status = this.projectService.SetCreatingProject(creatingProject);
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async SetEditProjectSettings(projectLookup: string): Promise<void> {
-        await this.projectService.SetEditProjectSettings(
-            this.State,
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.SetEditProjectSettings(
+            state,
             projectLookup
         );
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async SubmitFeedEntry(entry: FeedEntry): Promise<Status> {
-        return await this.projectService.SubmitFeedEntry(this.State, entry);
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.SubmitFeedEntry(state, entry);
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     public async UnpackLowCodeUnit(
         req: UnpackLowCodeUnitRequest
-    ): Promise<void> {
+    ): Promise<Status> {
         if (
             confirm(
                 `Are you sure you want to unpack application '${req.ApplicationName}' with version '${req.Version}'?`
             )
         ) {
-            await this.projectService.UnpackLowCodeUnit(this.State, req);
+            const state = this.stateSubject.getValue();
+
+            const status = await this.projectService.UnpackLowCodeUnit(
+                state,
+                req
+            );
+
+            this.stateSubject.next(state);
+            return status;
         }
     }
 
@@ -339,8 +453,12 @@ export class EaCService {
     protected async handleSaveApplication(
         req: SaveApplicationAsCodeEventRequest
     ): Promise<Status> {
+        const state = this.stateSubject.getValue();
+
+        // console.log("app req: ", req);
+
         const saveEaC: EnterpriseAsCode = {
-            EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+            EnterpriseLookup: state.EaC.EnterpriseLookup,
             Applications: {},
             Projects: {},
         };
@@ -359,17 +477,22 @@ export class EaCService {
             saveEaC.Applications[req.ApplicationLookup] = req.Application;
         }
 
-        return await this.projectService.SaveEnterpriseAsCode(
-            this.State,
+        const status = await this.projectService.SaveEnterpriseAsCode(
+            state,
             saveEaC
         );
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     protected async handleSaveDFSModifier(
         req: SaveDFSModifierEventRequest
-    ): Promise<void> {
+    ): Promise<Status> {
+        const state = this.stateSubject.getValue();
+
         const saveEaC: EnterpriseAsCode = {
-            EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+            EnterpriseLookup: state.EaC.EnterpriseLookup,
             Modifiers: {},
             Projects: {},
             Applications: {},
@@ -395,14 +518,24 @@ export class EaCService {
             };
         }
 
-        await this.projectService.SaveEnterpriseAsCode(this.State, saveEaC);
+        console.log('Save mod eac: ', saveEaC);
+
+        const status = await this.projectService.SaveEnterpriseAsCode(
+            state,
+            saveEaC
+        );
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     protected async handleSaveEnvironment(
         req: SaveEnvironmentAsCodeEventRequest
     ): Promise<Status> {
+        const state = this.stateSubject.getValue();
+
         const saveEaC: EnterpriseAsCode = {
-            EnterpriseLookup: this.State?.EaC?.EnterpriseLookup,
+            EnterpriseLookup: state?.EaC?.EnterpriseLookup,
             DataTokens: {},
             Environments: {},
         };
@@ -415,10 +548,13 @@ export class EaCService {
             saveEaC.DataTokens = req.EnterpriseDataTokens;
         }
 
-        return await this.projectService.SaveEnterpriseAsCode(
-            this.State,
+        const status = await this.projectService.SaveEnterpriseAsCode(
+            state,
             saveEaC
         );
+
+        this.stateSubject.next(state);
+        return status;
     }
 
     protected async handleSaveProject(
@@ -427,30 +563,33 @@ export class EaCService {
     ): Promise<Status> {
         const projHosts: { [lookup: string]: EaCHost } = {};
 
+        const state = this.stateSubject.getValue();
+
         project?.Hosts?.forEach((host: any) => {
-            projHosts[host] = this.State.EaC.Hosts[host];
+            projHosts[host] = state.EaC.Hosts[host];
         });
 
         const saveEaC: EnterpriseAsCode = {
-            EnterpriseLookup: this.State.EaC.EnterpriseLookup,
+            EnterpriseLookup: state.EaC.EnterpriseLookup,
             Enterprise: {
-                ...this.State.EaC.Enterprise,
+                ...state.EaC.Enterprise,
                 PrimaryHost: project.Hosts[0],
             },
             Hosts: projHosts,
-            // Providers: this.State.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
+            // Providers: state.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
             Projects: {},
         };
 
         saveEaC.Projects[projectLookup] = project;
 
         let status = await this.projectService.SaveEnterpriseAsCode(
-            this.State,
+            state,
             saveEaC
         );
 
         this.SetEditProjectSettings(projectLookup);
 
+        this.stateSubject.next(state);
         return status;
     }
 }

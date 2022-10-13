@@ -5,7 +5,7 @@
         "name": "Fathym"
     },
     "scripts": {
-        "build": "npm run build:common && npm run build:lcu && npm run build:demo && npm run build:social-host",
+        "build": "npm run build:common && concurrently \"npm run build:lcu\" \"npm run build:demo\" \"npm run build:social-host\"",
         "build:common": "ng build common --configuration production",
         "build:demo": "ng build demo --configuration production",
         "build:krakyn": "ng build krakyn --configuration production",
@@ -57,7 +57,7 @@
         "@angular/platform-browser-dynamic": "13.2.2",
         "@angular/router": "13.2.2",
         "@aspnet/signalr": "^1.1.4",
-        "@kolkov/angular-editor": "^2.0.0",
+        "@kolkov/angular-editor": "2.0.0",
         "@lcu/common": "1.84.755-angular-13",
         "@lowcodeunit-devkit/ng-lcu": "^1.28.161",
         "@lowcodeunit/app-host-common": "1.23.100-angular-13",

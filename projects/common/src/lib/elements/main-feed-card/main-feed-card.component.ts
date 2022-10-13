@@ -6,9 +6,8 @@ import { BaseModeledResponse } from '@lcu/common';
 import { SourceControlDialogComponent } from '../../dialogs/source-control-dialog/source-control-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { EaCEnvironmentAsCode } from '@semanticjs/common';
-import { ApplicationsFlowState } from '../../state/applications-flow.state';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder } from '@angular/forms';
 import { FeedCommentFormComponent } from '../../controls/feed-comment-form/feed-comment-form.component';
 
 @Component({
@@ -22,59 +21,37 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     @ViewChild(FeedCommentFormComponent)
     public FeedCommentFormControls: FeedCommentFormComponent;
 
-    public get ActiveEnvironment(): EaCEnvironmentAsCode {
-        return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
-    }
+    @Input('active-environment')
+    public ActiveEnvironment: EaCEnvironmentAsCode;
 
-    public get ActiveEnvironmentLookup(): string {
-        //  TODO:  Eventually support multiple environments
-        const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+    @Input('active-environment-lookup')
+    public ActiveEnvironmentLookup: string;
 
-        return envLookups[0];
-    }
+    @Input('environment')
+    public Environment: EaCEnvironmentAsCode;
+
+    @Input('feed-item')
+    public FeedItem: FeedItem;
+
+    // public get ActiveEnvironment(): EaCEnvironmentAsCode {
+    //     return this.State?.EaC?.Environments[this.ActiveEnvironmentLookup];
+    // }
+
+    // public get ActiveEnvironmentLookup(): string {
+    //     //  TODO:  Eventually support multiple environments
+    //     const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+
+    //     return envLookups[0];
+    // }
 
     public get CommentControl(): AbstractControl {
         return this.FeedCommentFormControls?.FeedCommentsFormGroup?.controls
             .comment;
     }
 
-    public get Environment(): EaCEnvironmentAsCode {
-        // console.log("Ent Environment var: ", this.State?.EaC?.Environments[this.State?.EaC?.Enterprise?.PrimaryEnvironment]);
-        return this.State?.EaC?.Environments[
-            this.State?.EaC?.Enterprise?.PrimaryEnvironment
-        ];
-    }
+    public Icon: string;
 
-    @Input('feed-item')
-    public FeedItem: FeedItem;
-
-    public get Icon(): string {
-        if (this.FeedItem.Status.Code === 0) {
-            return 'check_circle';
-        } else if (this.FeedItem.Status.Code === 1) {
-            return 'cancel';
-        } else if (this.FeedItem.Status.Code === 2) {
-            return 'sync';
-        } else {
-            return 'help_outline';
-        }
-    }
-
-    public get IconColor(): string {
-        if (this.FeedItem.Status.Code === 0) {
-            return 'green';
-        } else if (this.FeedItem.Status.Code === 1) {
-            return 'red';
-        } else if (this.FeedItem.Status.Code === 2) {
-            return 'blue';
-        } else {
-            return 'gray';
-        }
-    }
-
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public IconColor: string;
 
     constructor(
         protected eacSvc: EaCService,
@@ -93,6 +70,22 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     public ngOnInit(): void {
         this.handleRefresh();
         this.SanitizeVideos();
+    }
+
+    public ngOnChanges() {
+        if (this.FeedItem?.Status?.Code === 0) {
+            this.Icon = 'check_circle';
+            this.IconColor = 'green';
+        } else if (this.FeedItem?.Status?.Code === 1) {
+            this.Icon = 'cancel';
+            this.IconColor = 'red';
+        } else if (this.FeedItem?.Status?.Code === 2) {
+            this.Icon = 'sync';
+            this.IconColor = 'blue';
+        } else {
+            this.Icon = 'help_outline';
+            this.IconColor = 'gray';
+        }
     }
 
     //  API Methods
@@ -131,7 +124,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result) => {
+        dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result)
         });
@@ -168,7 +161,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
                             console.log(response);
                         }
                     },
-                    (err) => {
+                    (err: any) => {
                         console.log(err);
                     }
                 );

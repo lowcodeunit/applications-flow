@@ -8,12 +8,13 @@ import { ApplicationsFlowState } from 'projects/common/src/lib/state/application
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-    public get State(): ApplicationsFlowState {
-        return this.eacSvc.State;
-    }
+    public State: ApplicationsFlowState;
 
     constructor(protected eacSvc: EaCService) {
         this.eacSvc.LoadUserInfo();
+        this.eacSvc.State.subscribe((state) => {
+            this.State = state;
+        });
     }
 
     public ReturnToDashboard() {

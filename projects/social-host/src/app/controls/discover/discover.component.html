@@ -1,0 +1,73 @@
+<mat-card class="lead">
+    <h2>
+        Discover new applications and integrations included with your Fathym
+        license
+    </h2>
+</mat-card>
+
+<div fxLayout="row" fxLayoutAlign="center center" fxLayout.lt-md="column">
+    <div
+        fxFlex="90%"
+        fxFlex.lt-md="50%"
+        fxLayout="row wrap"
+        fxLayout.lt-md="column"
+        fxLayoutAlign="center center"
+    >
+        <!-- <div
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            fxLayout.lt-md="column"
+            fxFlex="90%" fxFlex.lt-md="50%"
+            fxLayoutGap="2em"
+        > -->
+        <div
+            fxFlex="40%"
+            fxFlex.lt-md="100%"
+            *ngFor="let item of DiscoverItems"
+        >
+            <mat-card class="discover-card">
+                <mat-card-title>
+                    <mat-icon>{{ item.Icon }}</mat-icon>
+
+                    {{ item.Name }}
+                </mat-card-title>
+
+                <img
+                    mat-card-image
+                    [src]="item.Image"
+                    [alt]="item.Name"
+                    style="height: 200px"
+                />
+
+                <mat-card-content>
+                    {{ item.Description }}
+                </mat-card-content>
+
+                <mat-card-actions>
+                    <a
+                        class="doc-btn"
+                        mat-button
+                        [href]="item.DocsLink"
+                        target="_blank"
+                    >
+                        Learn More
+                    </a>
+
+                    <div fxFlex></div>
+
+                    <a
+                        mat-raised-button
+                        color="primary"
+                        [href]="item.HomeLink"
+                        target="_parent"
+                        class="launch-btn"
+                    >
+                        Launch {{ item.Name }}
+                    </a>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+
+        <!-- </div> -->
+    </div>
+</div>

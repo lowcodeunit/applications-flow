@@ -1,7 +1,7 @@
 <mat-card class="project-info-card">
     <!-- ACTUAL CONTENT -->
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <div class="header-img-container" fxLayout="row">
             <div class="round-project-img" fxLayoutAlign="center center">
                 <mat-icon *ngIf="!Image" class="temp-icon"
@@ -41,6 +41,11 @@
 
         <mat-card-header
             class="project-card-header"
+            id="header-margin"
+            [ngStyle]="{
+                'margin-top':
+                    this.IsEditable || this.IsShareable ? '0px' : '50px'
+            }"
             fxLayoutAlign="center center"
         >
             <mat-card-title class="project-card-name" *ngIf="Name">
@@ -98,7 +103,7 @@
                 </div>
             </div>
 
-            <div
+            <!-- <div
                 class="krakyn-container"
                 fxLayout="column"
                 fxLayoutAlign="center center"
@@ -114,7 +119,7 @@
                         Release The Krakyn
                     </a>
                 </div>
-            </div>
+            </div> -->
             <!-- </div> -->
         </mat-card-content>
         <mat-card-actions class="actions-container">
@@ -123,7 +128,7 @@
     </ng-container>
 
     <!-- SKELETON CONTENT -->
-    <ng-container *ngIf="State?.Loading">
+    <ng-container *ngIf="Loading">
         <div class="header-img-container" fxLayout="row">
             <skeleton-avatar
                 class="round-project-img"
@@ -134,6 +139,7 @@
 
         <mat-card-header
             class="project-card-header"
+            id="header-margin-loading"
             fxLayoutAlign="center center"
         >
             <mat-card-title
@@ -144,15 +150,15 @@
                 Name of card
             </mat-card-title>
 
-            <mat-card-subtitle
+            <!-- <mat-card-subtitle
                 skeleton-text
                 [effect]="SkeletonEffect"
                 class="project-card-description"
             >
                 Description Text
-            </mat-card-subtitle>
+            </mat-card-subtitle> -->
 
-            <mat-card-subtitle class="project-card-host">
+            <!-- <mat-card-subtitle class="project-card-host">
                 <div
                     skeleton-text
                     [effect]="SkeletonEffect"
@@ -160,7 +166,7 @@
                 >
                     https://www.fathym.com
                 </div>
-            </mat-card-subtitle>
+            </mat-card-subtitle> -->
         </mat-card-header>
         <mat-card-content class="card-content-container">
             <div
@@ -200,7 +206,7 @@
                 </div>
             </div>
         </mat-card-content>
-        <mat-card-actions
+        <!-- <mat-card-actions
             class="actions-container-skeleton"
             fxLayoutAlign="center center"
         >
@@ -219,7 +225,7 @@
                 >
                 Unpack
             </div>
-        </mat-card-actions>
+        </mat-card-actions> -->
     </ng-container>
     <!-- END SKELETON CONTENT -->
 </mat-card>
