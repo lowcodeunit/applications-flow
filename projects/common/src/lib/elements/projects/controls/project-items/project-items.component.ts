@@ -38,7 +38,7 @@ export class ProjectItemsComponent implements OnInit {
     }
 
     public GetPrimaryHost(project: EaCProjectAsCode): string {
-        return project.Hosts[project.Hosts.length - 1];
+        return project.PrimaryHost;
     }
 
     /**

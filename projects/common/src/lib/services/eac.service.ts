@@ -573,7 +573,7 @@ export class EaCService {
             EnterpriseLookup: state.EaC.EnterpriseLookup,
             Enterprise: {
                 ...state.EaC.Enterprise,
-                PrimaryHost: project.Hosts[0],
+                PrimaryHost: project.PrimaryHost,
             },
             Hosts: projHosts,
             // Providers: state.EaC.Providers,  //  TODO:  Remove after all providers ADB2C's have been upgraded
