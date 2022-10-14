@@ -193,7 +193,7 @@ export class ProjectCardComponent implements OnInit {
                 name: tempProj.Project.Name,
                 description: tempProj.Project.Description,
                 lookup: pLookup,
-                url: 'https://' + tempProj.Hosts[tempProj?.Hosts?.length - 1],
+                url: 'https://' + tempProj.PrimaryHost,
                 routerLink: ['/project', pLookup],
             };
 
@@ -206,10 +206,7 @@ export class ProjectCardComponent implements OnInit {
                     // routerLink: ['/route', this.AppRoute, pLookup],
                     let tempRouteNode: TreeNode = {
                         name: this.AppRoute,
-                        url:
-                            'https://' +
-                            tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
-                            this.AppRoute,
+                        url: 'https://' + tempProj.PrimaryHost + this.AppRoute,
                         routerLink: ['/route', this.AppRoute, pLookup],
                     };
 
@@ -232,10 +229,8 @@ export class ProjectCardComponent implements OnInit {
                                 name: tempApp.Application.Name,
                                 url:
                                     'https://' +
-                                    tempProj?.Hosts[
-                                        tempProj?.Hosts?.length - 1
-                                    ] +
-                                    appPath,
+                                    tempProj.PrimaryHost +
+                                    this.AppRoute,
                                 description: tempApp.Application.Description,
                                 routerLink: [
                                     '/application',
