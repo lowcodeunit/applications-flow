@@ -23,6 +23,8 @@ export class RoutesPageComponent implements OnInit {
 
     public StateSub: Subscription;
 
+    public Loading: boolean;
+
     constructor(
         protected eacSvc: EaCService,
         private activatedRoute: ActivatedRoute
@@ -41,6 +43,11 @@ export class RoutesPageComponent implements OnInit {
             )[0];
 
             this.Project = this.State?.EaC?.Projects[this.ProjectLookup] || {};
+
+            this.Loading =
+                this.State?.LoadingActiveEnterprise ||
+                this.State?.LoadingEnterprises ||
+                this.State?.Loading;
         });
     }
     ngOnDestroy() {

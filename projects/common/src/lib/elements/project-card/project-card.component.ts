@@ -218,6 +218,12 @@ export class ProjectCardComponent implements OnInit {
                                 this.RoutedApplications[this.AppRoute][
                                     appLookup
                                 ];
+                            let appPath =
+                                tempApp.LookupConfig?.PathRegex.substring(
+                                    0,
+                                    tempApp.LookupConfig?.PathRegex.length - 2
+                                );
+
                             let tempAppNode: TreeNode = {
                                 lookup: appLookup,
                                 name: tempApp.Application.Name,
