@@ -267,10 +267,7 @@ export class ProjectCardComponent implements OnInit {
 
                 let tempRouteNode: TreeNode = {
                     name: this.AppRoute,
-                    url:
-                        'https://' +
-                        this.Project?.Hosts[this.Project?.Hosts?.length - 1] +
-                        this.AppRoute,
+                    url: 'https://' + this.Project?.PrimaryHost + this.AppRoute,
                     routerLink: ['/route', this.AppRoute, this.ProjectLookup],
                 };
 
@@ -285,9 +282,7 @@ export class ProjectCardComponent implements OnInit {
                             name: tempApp.Application.Name,
                             url:
                                 'https://' +
-                                this.Project?.Hosts[
-                                    this.Project?.Hosts?.length - 1
-                                ] +
+                                this.Project?.PrimaryHost +
                                 this.AppRoute,
                             description: tempApp.Application.Description,
                             routerLink: [
