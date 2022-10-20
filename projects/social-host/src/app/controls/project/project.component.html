@@ -21,9 +21,7 @@
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
             [loading]="State?.Loading"
-            [subtext]="
-                Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''
-            "
+            [subtext]="Project?.PrimaryHost ? Project?.PrimaryHost : ''"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
         >
