@@ -53,11 +53,10 @@ export class CustomDomainPageComponent implements OnInit {
                     this.State?.EaC?.Projects[this.ProjectLookup] || {};
             }
 
-            if (this.Project?.Hosts && this.State?.EaC?.Hosts) {
+            if (this.Project?.PrimaryHost && this.State?.EaC?.Hosts) {
                 this.DomainData = {
                     Hosts: this.State?.EaC?.Hosts,
-                    PrimaryHost:
-                        this.Project?.Hosts[this.Project?.Hosts?.length - 1],
+                    PrimaryHost: this.Project?.PrimaryHost,
                     Project: this.Project,
                     ProjectLookup: this.ProjectLookup,
                 };

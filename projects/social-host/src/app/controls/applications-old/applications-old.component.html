@@ -21,9 +21,8 @@
             image="./assets/images/black_thinky.png"
             [loading]="State?.Loading"
             [subtext]="
-                Project?.Hosts
-                    ? Project?.Hosts[Project?.Hosts?.length - 1] +
-                      Application?.Processor?.BaseHref
+                Project?.PrimaryHost
+                    ? Project?.PrimaryHost + Application?.Processor?.BaseHref
                     : ''
             "
             [version]="CurrentVersion ? CurrentVersion : 'Package not deployed'"

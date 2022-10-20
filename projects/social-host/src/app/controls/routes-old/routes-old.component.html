@@ -20,9 +20,7 @@
             image="./assets/images/black_thinky.png"
             [loading]="State?.Loading"
             [subtext]="
-                Project?.Hosts
-                    ? Project?.Hosts[Project?.Hosts?.length - 1] + AppRoute
-                    : ''
+                Project?.PrimaryHost ? Project?.PrimaryHost + AppRoute : ''
             "
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
@@ -187,10 +185,7 @@
                             <!-- TODO fix href to add on  app.LookupConfig.PathRegex removing the .* -->
                             <a
                                 class="slot-action-anchor"
-                                [href]="
-                                    'https://' +
-                                    Project?.Hosts[Project?.Hosts?.length - 1]
-                                "
+                                [href]="'https://' + Project?.PrimaryHost"
                                 target="_blank"
                             >
                                 <mat-icon
