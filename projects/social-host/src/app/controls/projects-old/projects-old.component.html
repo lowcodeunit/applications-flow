@@ -17,9 +17,7 @@
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
             [loading]="State?.Loading"
-            [subtext]="
-                Project?.Hosts ? Project?.Hosts[Project?.Hosts?.length - 1] : ''
-            "
+            [subtext]="Project?.PrimaryHost ? PrimaryHost : ''"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
         >
@@ -172,16 +170,12 @@
                                     class="slot-action-anchor"
                                     [href]="
                                         'https://' +
-                                        Project?.Hosts[
-                                            Project?.Hosts?.length - 1
-                                        ] +
+                                        Project?.PrimaryHost +
                                         appRoute
                                     "
                                     target="_blank"
                                     matTooltip="Launch {{
-                                        Project?.Hosts[
-                                            Project?.Hosts?.length - 1
-                                        ] + appRoute
+                                        Project?.PrimaryHost + appRoute
                                     }}"
                                 >
                                     <mat-icon class="action-icon"
@@ -234,12 +228,10 @@
                 >
                     <div class="slot-header-container" fxLayout="column">
                         <div class="slot-header" fxLayout="row">
-                            <div *ngIf="Project?.Hosts" class="slot-name">
+                            <div *ngIf="Project?.PrimaryHost" class="slot-name">
                                 {{
-                                    Project?.Hosts
-                                        ? Project?.Hosts[
-                                              Project?.Hosts?.length - 1
-                                          ]
+                                    Project?.PrimaryHost
+                                        ? Project?.PrimaryHost
                                         : ""
                                 }}
                             </div>
