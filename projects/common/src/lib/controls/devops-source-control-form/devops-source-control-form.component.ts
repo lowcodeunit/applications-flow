@@ -398,7 +398,7 @@ export class DevopsSourceControlFormComponent
                 // ...this.Environment,
                 Sources: this.Environment.Sources || {},
             },
-            // EnvironmentLookup: this.EnvironmentLookup,
+            EnvironmentLookup: this.EnvironmentLookup,
             // EnterpriseDataTokens: {},
         };
 

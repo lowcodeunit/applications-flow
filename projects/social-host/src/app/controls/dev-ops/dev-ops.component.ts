@@ -109,6 +109,16 @@ export class DevOpsComponent implements OnInit, OnDestroy {
             },
         });
 
+        console.log(
+            'OpenSourceControlDialog Env: ',
+            this.Environment.Environment.Name
+        );
+
+        console.log(
+            'OpenSourceControlDialog EnvLookup: ',
+            this.ActiveEnvironmentLookup
+        );
+
         dialogRef.afterClosed().subscribe((result: any) => {
             // console.log('The dialog was closed');
             // console.log("result:", result)

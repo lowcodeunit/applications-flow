@@ -162,7 +162,7 @@ export class BuildPipelineFormComponent implements OnInit {
                 // Secrets: this.Environment.Secrets || {},
                 // Sources: this.Environment.Sources || {},
             },
-            // EnvironmentLookup: this.EnvironmentLookup,
+            EnvironmentLookup: this.EnvironmentLookup,
             // EnterpriseDataTokens: {},
         };
 
