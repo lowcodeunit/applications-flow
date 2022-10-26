@@ -389,6 +389,7 @@ export class DevopsSourceControlFormComponent
             'source control submitted: ',
             this.DevOpsSourceControlFormGroup.value
         );
+        // console.log("saving source: ", this.EnvironmentLookup)
         this.SaveSourceControl();
     }
 
