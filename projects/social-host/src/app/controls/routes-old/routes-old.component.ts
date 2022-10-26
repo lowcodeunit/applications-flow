@@ -1,30 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
     ApplicationsFlowState,
     EaCService,
     ApplicationsFlowService,
-    CustomDomainDialogComponent,
     NewApplicationDialogComponent,
-    DFSModifiersDialogComponent,
-    EditProjectDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
-import {
-    EaCApplicationAsCode,
-    EaCProjectAsCode,
-    Status,
-} from '@semanticjs/common';
-import { MatDialog } from '@angular/material/dialog';
-import { EaCDFSModifier } from '@semanticjs/common';
-import { Router } from '@angular/router';
+import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { Subscription } from 'rxjs';
 
 @Component({
-    selector: 'lcu-projects-old',
-    templateUrl: './projects-old.component.html',
-    styleUrls: ['./projects-old.component.scss'],
+    selector: 'lcu-routes-old',
+    templateUrl: './routes-old.component.html',
+    styleUrls: ['./routes-old.component.scss'],
 })
-export class ProjectsOldComponent implements OnInit, OnDestroy {
+export class RoutesOldComponent implements OnInit, OnDestroy {
     protected get BuildRoutedApplications(): {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
     } {
@@ -105,25 +96,31 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
 
     public ActiveEnvironmentLookup: string;
 
-    public ApplicationLookups: Array<string>;
-
     public Applications: { [lookup: string]: EaCApplicationAsCode };
+
+    public AppRoute: string;
 
     public ApplicationRoutes: Array<string>;
 
+    public CurrentRouteApplicationLookups: Array<string>;
+
     public Enterprise: any;
 
-    public Modifiers: { [lookup: string]: EaCDFSModifier };
+    public IsInfoCardEditable: boolean;
 
-    public Loading: boolean;
+    public IsInfoCardShareable: boolean;
 
     public Project: EaCProjectAsCode;
 
     public Projects: any;
 
+    public ProjectLookup: string;
+
     public ProjectLookups: Array<string>;
 
-    public ProjectsModifierLookups: Array<string>;
+    public Loading: boolean;
+
+    public Routes: any;
 
     public RoutedApplications: {
         [route: string]: { [lookup: string]: EaCApplicationAsCode };
@@ -133,26 +130,24 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
 
     public SlicesCount: number;
 
+    public Stats: any[];
+
     public State: ApplicationsFlowState;
 
     public StateSub: Subscription;
 
-    public Stats: any[];
-
-    public ProjectLookup: string;
-
-    public IsInfoCardEditable: boolean;
-
-    public IsInfoCardShareable: boolean;
-
     constructor(
         protected appSvc: ApplicationsFlowService,
-        private activatedRoute: ActivatedRoute,
+        protected activatedRoute: ActivatedRoute,
         protected eacSvc: EaCService,
-        protected dialog: MatDialog,
-        protected router: Router
+        protected router: Router,
+        protected dialog: MatDialog
     ) {
         this.activatedRoute.params.subscribe((params: any) => {
+            this.AppRoute = params['appRoute'];
+            // if(this.AppRoute.charAt(0) !== '/'){
+            //     this.AppRoute = '/'+this.AppRoute;
+            // }
             this.ProjectLookup = params['projectLookup'];
         });
 
@@ -162,14 +157,13 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
             { Name: 'Someother Rate', Stat: '5%' },
         ];
 
-        this.IsInfoCardEditable = true;
+        this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 
         this.SlicesCount = 5;
 
         this.Slices = {
-            Routes: this.SlicesCount,
-            Modifiers: this.SlicesCount,
+            Applications: this.SlicesCount,
         };
     }
 
@@ -178,51 +172,60 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                //  TODO:  Eventually support multiple environments
-                this.ActiveEnvironmentLookup = Object.keys(
-                    this.State?.EaC?.Environments || {}
-                )[0];
+                // console.log("Routes state: ", this.State)
 
-                this.ApplicationLookups = Object.keys(
-                    this.Project?.ApplicationLookups || {}
-                );
+                if (this.State?.EaC?.Environments) {
+                    //  TODO:  Eventually support multiple environments
+                    const env =
+                        Object.keys(this.State?.EaC?.Environments) || {};
+                    this.ActiveEnvironmentLookup = env[0];
+                }
 
-                this.Project =
-                    this.State?.EaC?.Projects[this.ProjectLookup] || {};
+                if (this.State?.EaC?.Projects) {
+                    this.ProjectLookups = Object.keys(
+                        this.State?.EaC?.Projects || {}
+                    );
+                    this.Projects = this.State?.EaC?.Projects;
+                }
 
-                const apps: { [lookup: string]: EaCApplicationAsCode } = {};
+                if (this.State?.EaC?.Enterprise) {
+                    this.Enterprise = this.State.EaC.Enterprise;
+                }
 
-                this.Project?.ApplicationLookups?.forEach(
-                    (appLookup: string) => {
-                        apps[appLookup] =
-                            this.State?.EaC?.Applications[appLookup];
-                    }
-                );
-                this.Applications = apps;
+                this.Project = this.State?.EaC?.Projects[this.ProjectLookup];
 
-                this.ProjectLookups = Object.keys(
-                    this.State?.EaC?.Projects || {}
-                );
+                if (
+                    this.Project?.ApplicationLookups &&
+                    this.State?.EaC?.Applications
+                ) {
+                    const apps: { [lookup: string]: EaCApplicationAsCode } = {};
 
-                this.Projects = this.State?.EaC?.Projects || {};
+                    this.Project?.ApplicationLookups.forEach(
+                        (appLookup: string) => {
+                            apps[appLookup] =
+                                this.State?.EaC?.Applications[appLookup];
+                        }
+                    );
 
-                this.RoutedApplications = this.BuildRoutedApplications;
-
-                this.ApplicationRoutes = Object.keys(
-                    this.RoutedApplications || {}
-                );
-
-                this.Enterprise = this.State?.EaC?.Enterprise;
-
-                this.Modifiers = this.State?.EaC?.Modifiers || {};
-
-                this.ProjectsModifierLookups =
-                    this.Project.ModifierLookups || [];
+                    this.Applications = apps;
+                }
 
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
                     this.State?.LoadingEnterprises ||
                     this.State?.Loading;
+
+                if (this.Applications) {
+                    this.RoutedApplications = this.BuildRoutedApplications;
+
+                    this.ApplicationRoutes =
+                        Object.keys(this.BuildRoutedApplications) || [];
+
+                    this.CurrentRouteApplicationLookups =
+                        Object.keys(
+                            this.BuildRoutedApplications[this.AppRoute]
+                        ) || [];
+                }
             }
         );
     }
@@ -231,51 +234,26 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
         this.StateSub.unsubscribe();
     }
 
-    public EditCustomDomain() {
-        const dialogRef = this.dialog.open(CustomDomainDialogComponent, {
-            width: '600px',
-            data: {
-                hosts: this.State.EaC.Hosts,
-                primaryHost: this.Project?.PrimaryHost,
-                project: this.Project,
-                projectLookup: this.ProjectLookup,
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-            // console.log('The domains dialog was closed');
-            // console.log("result:", result)
-        });
-    }
-
-    public DeleteProject(projectLookup: string, projectName: string): void {
-        this.eacSvc
-            .DeleteProject(projectLookup, projectName)
-            .then((status: Status) => {
-                this.router.navigate(['/enterprises']);
-            });
+    public EditRouteClicked() {
+        console.log('Edit Route clicked');
     }
 
     public HandleLeftClickEvent(event: any) {
-        this.OpenEditProjectModal();
+        console.log('Left Icon has been selected', event);
     }
 
     public HandleRightClickEvent(event: any) {
         console.log('Right Icon has been selected', event);
+        console.log(
+            'app:',
+            this.BuildRoutedApplications[this.AppRoute][
+                this.CurrentRouteApplicationLookups[0]
+            ]
+        );
     }
 
-    public OpenEditProjectModal() {
-        const dialogRef = this.dialog.open(EditProjectDialogComponent, {
-            width: '600px',
-            data: {
-                projectLookup: this.ProjectLookup,
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-            // console.log('The dialog was closed');
-            // console.log("result:", result.event)
-        });
+    public LaunchRouteClicked() {
+        console.log('Launch Route clicked');
     }
 
     public OpenNewAppDialog(event: any) {
@@ -283,6 +261,7 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
             width: '600px',
             data: {
                 projectLookup: this.ProjectLookup,
+                currentRoute: this.AppRoute,
                 environmentLookup: this.ActiveEnvironmentLookup,
             },
         });
@@ -293,43 +272,21 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
         });
     }
 
-    public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
-        // throw new Error('Not implemented: OpenModifierDialog');
-        const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
-            width: '600px',
-            data: {
-                modifierLookup: mdfrLookup,
-                modifierName: mdfrName,
-                projectLookup: this.ProjectLookup,
-                level: 'project',
-            },
-        });
-
-        dialogRef.afterClosed().subscribe((result: any) => {
-            // console.log('The dialog was closed');
-            // console.log("result:", result)
-        });
+    public RouteToPath() {
+        let path = '/dashboard/create-project?projectId=' + this.ProjectLookup;
+        this.router.navigate([path]);
     }
 
     public SettingsClicked() {
         console.log('Settings Clicked');
     }
 
-    public UpgradeClicked() {
-        console.log('Upgarde clicked');
-    }
-
-    public LaunchBuildClicked() {
-        console.log('launch build clicked');
-    }
     public ToggleSlices(type: string) {
         let count = this.Slices[type];
 
         let length =
-            type === 'Modifiers'
-                ? this.ProjectsModifierLookups?.length
-                : type === 'Routes'
-                ? this.ApplicationRoutes?.length
+            type === 'Applications'
+                ? this.CurrentRouteApplicationLookups?.length
                 : this.SlicesCount;
 
         if (count === length) {
@@ -339,8 +296,16 @@ export class ProjectsOldComponent implements OnInit, OnDestroy {
         }
     }
 
-    public ViewBuildDetails() {
-        console.log('View build details clicked');
+    public TrashRouteClicked() {
+        console.log('Trash Route clicked');
+    }
+
+    public UpgradeClicked() {
+        console.log('Upgarde clicked');
+    }
+
+    public UploadRouteClicked() {
+        console.log('Upload Route clicked');
     }
 
     //HELPERS

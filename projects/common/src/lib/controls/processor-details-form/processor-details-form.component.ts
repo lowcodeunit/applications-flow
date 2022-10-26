@@ -188,15 +188,19 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
-        } else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
-            this.setupProcessorDetailsForm();
-        }
-
-        if (this.IsDisabled) {
-            this.ProcessorDetailsFormGroup.disable();
         } else {
-            this.ProcessorDetailsFormGroup.enable();
+            this.SetupProcessorDetailsForm();
         }
+        // else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
+        //     this.SetupProcessorDetailsForm();
+        // }
+
+        // if (this.IsDisabled) {
+        //     this.setupProcessorDetailsForm();
+        //     this.ProcessorDetailsFormGroup.disable();
+        // } else {
+        //     this.ProcessorDetailsFormGroup.enable();
+        // }
     }
 
     public CreateNewApplication(): void {
@@ -345,7 +349,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.EditingApplication = new EaCApplicationAsCode();
         this.EditingApplicationLookup = appLookup;
 
-        this.setupProcessorDetailsForm();
+        this.SetupProcessorDetailsForm();
     }
 
     public SourceControlChanged(event: any) {
@@ -408,7 +412,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected listBuildPaths(): void {
-        this.Loading = true;
+        // this.Loading = true;
 
         console.log(
             'Source Control: ',
@@ -426,7 +430,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 this.BuildPathOptions = response.Model;
                 console.log('build path options: ', this.BuildPathOptions);
 
-                this.Loading = false;
+                // this.Loading = false;
 
                 // if (this.BuildPathOptions?.length === 1) {
                 //   this.BuildPathFormControl.setValue(this.BuildPathOptions[0]);
@@ -474,7 +478,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
     }
 
-    protected setupProcessorDetailsForm(): void {
+    public SetupProcessorDetailsForm(): void {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
         // console.log('EDITING APP = ', this.EditingApplication);

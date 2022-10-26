@@ -22,6 +22,7 @@ export class DevOpsComponent implements OnInit, OnDestroy {
     private get ActiveEnvironmentLookup(): string {
         //  TODO:  Eventually support multiple environments
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
+        console.log('ActiveEnvironmentLookup: ', envLookups[0]);
 
         return envLookups[0];
     }

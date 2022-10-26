@@ -6,8 +6,6 @@ import {
 } from '@angular/material/tree';
 import { EaCApplicationAsCode, EaCProjectAsCode } from '@semanticjs/common';
 import { FlatNode, TreeNode } from '../../models/tree-node.model';
-import { EaCService } from '../../services/eac.service';
-import { SocialUIService } from '../../services/social-ui.service';
 
 @Component({
     selector: 'lcu-project-card',
@@ -195,7 +193,7 @@ export class ProjectCardComponent implements OnInit {
                 name: tempProj.Project.Name,
                 description: tempProj.Project.Description,
                 lookup: pLookup,
-                url: 'https://' + tempProj.Hosts[tempProj?.Hosts?.length - 1],
+                url: 'https://' + tempProj.PrimaryHost,
                 routerLink: ['/project', pLookup],
             };
 
@@ -208,10 +206,8 @@ export class ProjectCardComponent implements OnInit {
                     // routerLink: ['/route', this.AppRoute, pLookup],
                     let tempRouteNode: TreeNode = {
                         name: this.AppRoute,
-                        url:
-                            'https://' +
-                            tempProj?.Hosts[tempProj?.Hosts?.length - 1] +
-                            this.AppRoute,
+                        url: 'https://' + tempProj.PrimaryHost + this.AppRoute,
+                        routerLink: ['/route', this.AppRoute, pLookup],
                     };
 
                     let tempApps = this.CurrentRouteApplicationLookups;
@@ -222,14 +218,18 @@ export class ProjectCardComponent implements OnInit {
                                 this.RoutedApplications[this.AppRoute][
                                     appLookup
                                 ];
+                            let appPath =
+                                tempApp.LookupConfig?.PathRegex.substring(
+                                    0,
+                                    tempApp.LookupConfig?.PathRegex.length - 2
+                                );
+
                             let tempAppNode: TreeNode = {
                                 lookup: appLookup,
                                 name: tempApp.Application.Name,
                                 url:
                                     'https://' +
-                                    tempProj?.Hosts[
-                                        tempProj?.Hosts?.length - 1
-                                    ] +
+                                    tempProj.PrimaryHost +
                                     this.AppRoute,
                                 description: tempApp.Application.Description,
                                 routerLink: [
@@ -267,10 +267,7 @@ export class ProjectCardComponent implements OnInit {
 
                 let tempRouteNode: TreeNode = {
                     name: this.AppRoute,
-                    url:
-                        'https://' +
-                        this.Project?.Hosts[this.Project?.Hosts?.length - 1] +
-                        this.AppRoute,
+                    url: 'https://' + this.Project?.PrimaryHost + this.AppRoute,
                     routerLink: ['/route', this.AppRoute, this.ProjectLookup],
                 };
 
@@ -285,9 +282,7 @@ export class ProjectCardComponent implements OnInit {
                             name: tempApp.Application.Name,
                             url:
                                 'https://' +
-                                this.Project?.Hosts[
-                                    this.Project?.Hosts?.length - 1
-                                ] +
+                                this.Project?.PrimaryHost +
                                 this.AppRoute,
                             description: tempApp.Application.Description,
                             routerLink: [

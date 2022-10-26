@@ -91,6 +91,7 @@ import { DashboardToolbarComponent } from './elements/dashboard-toolbar/dashboar
 import { ProjectCardComponent } from './elements/project-card/project-card.component';
 import { RouteCardComponent } from './elements/route-card/route-card.component';
 import { AddTeamMemberDialogComponent } from './dialogs/add-team-member-dialog/add-team-member-dialog.component';
+import { ApplicationsCardComponent } from './elements/applications-card/applications-card.component';
 
 @NgModule({
     declarations: [
@@ -165,6 +166,7 @@ import { AddTeamMemberDialogComponent } from './dialogs/add-team-member-dialog/a
         ProjectCardComponent,
         RouteCardComponent,
         AddTeamMemberDialogComponent,
+        ApplicationsCardComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -254,6 +256,7 @@ import { AddTeamMemberDialogComponent } from './dialogs/add-team-member-dialog/a
         ProjectCardComponent,
         RouteCardComponent,
         AddTeamMemberDialogComponent,
+        ApplicationsCardComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

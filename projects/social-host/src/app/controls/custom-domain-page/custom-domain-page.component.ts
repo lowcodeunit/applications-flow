@@ -25,6 +25,8 @@ export class CustomDomainPageComponent implements OnInit {
 
     public ProjectLookup: string;
 
+    public Loading: boolean;
+
     constructor(
         private activatedRoute: ActivatedRoute,
         protected eacSvc: EaCService
@@ -51,17 +53,21 @@ export class CustomDomainPageComponent implements OnInit {
                     this.State?.EaC?.Projects[this.ProjectLookup] || {};
             }
 
-            if (this.Project?.Hosts && this.State?.EaC?.Hosts) {
+            if (this.Project?.PrimaryHost && this.State?.EaC?.Hosts) {
                 this.DomainData = {
                     Hosts: this.State?.EaC?.Hosts,
-                    PrimaryHost:
-                        this.Project?.Hosts[this.Project?.Hosts?.length - 1],
+                    PrimaryHost: this.Project?.PrimaryHost,
                     Project: this.Project,
                     ProjectLookup: this.ProjectLookup,
                 };
 
                 // console.log("domain data: ", this.DomainData)
             }
+
+            this.Loading =
+                this.State?.LoadingActiveEnterprise ||
+                this.State?.LoadingEnterprises ||
+                this.State?.Loading;
         });
     }
 }

@@ -395,11 +395,11 @@ export class DevopsSourceControlFormComponent
     public SaveSourceControl(): void {
         const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
             Environment: {
-                ...this.Environment,
+                // ...this.Environment,
                 Sources: this.Environment.Sources || {},
             },
-            EnvironmentLookup: this.EnvironmentLookup,
-            EnterpriseDataTokens: {},
+            // EnvironmentLookup: this.EnvironmentLookup,
+            // EnterpriseDataTokens: {},
         };
 
         let source: EaCSourceControl = {

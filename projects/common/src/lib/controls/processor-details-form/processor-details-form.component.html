@@ -9,13 +9,28 @@
     </mat-card-header> -->
 
     <ng-container *ngIf="Loading">
-        <ng-container *ngFor="let fc of ValidFormControls">
-            <skeleton-block
-                [id]="fc"
-                class="s-block"
-                effect="wave"
-            ></skeleton-block>
-        </ng-container>
+        <!-- <ng-container *ngFor="let fc of ValidFormControls"> -->
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <skeleton-block
+            [id]="fc"
+            class="s-block"
+            effect="wave"
+        ></skeleton-block>
+        <!-- </ng-container> -->
 
         <lcu-loader
             *ngIf="LCUType === 'Redirect'"
@@ -147,6 +162,23 @@
                     </div>
 
                     <div *ngSwitchCase="'NPM'">
+                        <mat-form-field class="mat-full-width">
+                            <mat-select
+                                placeholder="Source Control"
+                                formControlName="sourceControl"
+                                (selectionChange)="SourceControlChanged($event)"
+                                required
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let scLookup of SourceControlLookups
+                                    "
+                                    [value]="scLookup"
+                                >
+                                    {{ scLookup }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                         <lcu-npm-package-select
                             [npm-package]="
                                 EditingApplication?.LowCodeUnit?.Package

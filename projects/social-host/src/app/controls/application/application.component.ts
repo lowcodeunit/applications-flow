@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Guid } from '@lcu/common';
 import {
@@ -28,6 +28,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 
 @Component({
     selector: 'lcu-application',
@@ -154,19 +155,19 @@ export class ApplicationComponent implements OnInit {
         }
     }
 
-    private get Version(): string {
-        let version;
-        switch (this.Application?.LowCodeUnit?.Type) {
-            case 'GitHub':
-                version = this.Application.LowCodeUnit.Build;
-                break;
+    // private get Version(): string {
+    //     let version;
+    //     switch (this.Application?.LowCodeUnit?.Type) {
+    //         case 'GitHub':
+    //             version = this.Application?.LowCodeUnit?.Build;
+    //             break;
 
-            case 'NPM':
-                version = this.Application.LowCodeUnit.Version;
-                break;
-        }
-        return version;
-    }
+    //         case 'NPM':
+    //             version = this.Application?.LowCodeUnit?.Version;
+    //             break;
+    //     }
+    //     return version;
+    // }
     public AccessRights: any;
 
     public ActiveEnvironmentLookup: string;
@@ -179,6 +180,8 @@ export class ApplicationComponent implements OnInit {
 
     public ApplicationLookup: string;
 
+    public BPSub: Subscription;
+
     public CurrentApplicationRoute: string;
 
     public CurrentVersion: string;
@@ -188,6 +191,8 @@ export class ApplicationComponent implements OnInit {
     public IsInfoCardEditable: boolean;
 
     public IsInfoCardShareable: boolean;
+
+    public IsSmScreen: boolean;
 
     public Loading: boolean;
 
@@ -221,9 +226,12 @@ export class ApplicationComponent implements OnInit {
 
     public IsDisabled: boolean;
 
+    public Version: string;
+
     constructor(
         protected appSvc: ApplicationsFlowService,
         private activatedRoute: ActivatedRoute,
+        public breakpointObserver: BreakpointObserver,
         protected eacSvc: EaCService,
         protected dialog: MatDialog,
         protected router: Router,
@@ -242,7 +250,7 @@ export class ApplicationComponent implements OnInit {
             this.ProjectLookup = params['projectLookup'];
         });
 
-        this.IsInfoCardEditable = true;
+        this.IsInfoCardEditable = false;
         this.IsInfoCardShareable = false;
 
         this.SkeletonEffect = 'wave';
@@ -257,6 +265,16 @@ export class ApplicationComponent implements OnInit {
     }
 
     public ngOnInit(): void {
+        this.BPSub = this.breakpointObserver
+            .observe(['(max-width: 959px)'])
+            .subscribe((state: BreakpointState) => {
+                if (state.matches) {
+                    this.IsSmScreen = true;
+                } else {
+                    this.IsSmScreen = false;
+                }
+                console.log('small: ', this.IsSmScreen);
+            });
         this.StateSub = this.eacSvc.State.subscribe(
             (state: ApplicationsFlowState) => {
                 this.State = state;
@@ -292,14 +310,26 @@ export class ApplicationComponent implements OnInit {
                 let curVersion;
                 switch (this.Application?.LowCodeUnit?.Type) {
                     case 'GitHub':
-                        curVersion = `Build: ${this.Application.LowCodeUnit.CurrentBuild}`;
+                        curVersion = `Build: ${this.Application.LowCodeUnit.Build}`;
                         break;
 
                     case 'NPM':
-                        curVersion = `Version: ${this.Application.LowCodeUnit.CurrentVersion}`;
+                        curVersion = `Version: ${this.Application.LowCodeUnit.Version}`;
                         break;
                 }
                 this.CurrentVersion = curVersion;
+
+                switch (this.Application?.LowCodeUnit?.Type) {
+                    case 'GitHub':
+                        this.Version =
+                            this.Application?.LowCodeUnit?.CurrentBuild;
+                        break;
+
+                    case 'NPM':
+                        this.Version =
+                            this.Application?.LowCodeUnit?.CurrentVersion;
+                        break;
+                }
 
                 this.SourceControls = this.Environment?.Sources || {};
 
@@ -325,6 +355,18 @@ export class ApplicationComponent implements OnInit {
                 this.ActiveEnvironmentLookup = envLookups[0];
 
                 this.FilterTypes = Object.values(this.State?.FeedFilters || {});
+
+                if (this.Application?.LookupConfig?.IsPrivate) {
+                    this.HandleIsPrivateChanged(
+                        this.Application?.LookupConfig?.IsPrivate
+                    );
+                }
+
+                // if(this.Application?.LookupConfig?.IsPrivate){
+
+                //     document.getElementById('app-form-card').style.height = '830px';
+                //     document.getElementById('app-card-content').style.height = '690px';
+                // }
             }
         );
     }
@@ -334,6 +376,11 @@ export class ApplicationComponent implements OnInit {
     }
 
     //  API Methods
+
+    public CancelEditApp() {
+        this.ProcessorDetailsFormControls.SetupProcessorDetailsForm();
+        this.ApplicationFormControls.ngOnChanges();
+    }
 
     public DeleteApplication(appLookup: string, appName: string): void {
         this.eacSvc
@@ -357,6 +404,21 @@ export class ApplicationComponent implements OnInit {
         this.IsDisabled = !this.IsDisabled;
     }
 
+    public HandleIsPrivateChanged(isPrivate: boolean) {
+        // this.TempIsPrivate = isPrivate;
+        if (isPrivate) {
+            // document.getElementById('app-form-card').style.height = '830px';
+            // document.getElementById('app-card-content').style.height = '690px';
+            document.getElementById('app-form-card').style.height = '960px';
+            document.getElementById('app-card-content').style.height = '828px';
+        } else {
+            // document.getElementById('app-form-card').style.height = '650px';
+            // document.getElementById('app-card-content').style.height = '515px';
+            document.getElementById('app-form-card').style.height = '780px';
+            document.getElementById('app-card-content').style.height = '648px';
+        }
+    }
+
     public HandleLeftClickEvent(event: any) {
         this.OpenEditAppModal();
     }
@@ -367,6 +429,32 @@ export class ApplicationComponent implements OnInit {
         // console.log('Recieved Save Event: ', formValue);
         // this.SaveApplication();
     }
+
+    // public IsSaveDisabled(): boolean{
+    //     let disabled: boolean;
+    //     console.log(" pro valid = ",this.ProcessorDetailsFormControls
+    //     ?.ProcessorDetailsFormGroup?.valid )
+    //     console.log("app valid = ",
+    // this.ApplicationFormControls?.ApplicationFormGroup
+    //     ?.valid )
+
+    //     console.log("dirty = ",(this.ProcessorDetailsFormControls
+    //         ?.ProcessorDetailsFormGroup?.dirty ||
+    //     this.ApplicationFormControls?.ApplicationFormGroup
+    //         ?.dirty) )
+
+    //     disabled = !((this.ProcessorDetailsFormControls
+    //         ?.ProcessorDetailsFormGroup?.valid &&
+    //     this.ApplicationFormControls?.ApplicationFormGroup
+    //         ?.valid) &&
+    //         (this.ProcessorDetailsFormControls
+    //         ?.ProcessorDetailsFormGroup?.dirty ||
+    //     this.ApplicationFormControls?.ApplicationFormGroup
+    //         ?.dirty));
+    //         console.log("dis = ", disabled);
+
+    //     return !disabled;
+    // }
 
     public OpenEditAppModal() {
         const dialogRef = this.dialog.open(EditApplicationDialogComponent, {
@@ -406,8 +494,8 @@ export class ApplicationComponent implements OnInit {
             ApplicationLookup: this.ApplicationLookup,
             ApplicationName: this.Application.Application?.Name,
             Version:
-                this.Application.LowCodeUnit?.Version ||
-                this.Application.LowCodeUnit?.Build,
+                this.Application?.LowCodeUnit?.Version ||
+                this.Application?.LowCodeUnit?.Build,
         });
     }
 

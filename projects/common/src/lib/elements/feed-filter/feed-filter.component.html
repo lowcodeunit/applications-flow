@@ -39,4 +39,12 @@
             <button class="filter-button">Apply</button>
         </form>
     </mat-menu>
+    <!-- *ngIf="FeedCheck" -->
+    <mat-icon
+        *ngIf="FeedCheck"
+        matTooltip="Refresh for the latest feed items"
+        class="refresh-btn"
+        (click)="ReloadFeed()"
+        >refresh</mat-icon
+    >
 </div>

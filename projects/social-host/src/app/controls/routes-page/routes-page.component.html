@@ -2,6 +2,16 @@
     [project-lookup]="ProjectLookup"
     [loading]="State?.Loading"
 ></lcu-dashboard-toolbar>
+<!-- [selected-route]="AppRoute"
+    [routed-application]="RoutedApplications" -->
+<lcu-breadcrumb
+    [enterprise]="State?.EaC?.Enterprise"
+    [enterprises]="State?.Enterprises"
+    [loading]="Loading"
+    [projects]="State?.EaC?.Projects"
+    [project-lookup]="ProjectLookup"
+>
+</lcu-breadcrumb>
 
 <div class="routes-container" *ngIf="ActiveEnvironmentLookup && Project">
     <lcu-route-card

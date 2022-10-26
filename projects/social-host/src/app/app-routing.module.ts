@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ApplicationsOldComponent } from './controls/applications-old/applications-old.component';
-import { RoutesComponent } from './controls/routes/routes.component';
+import { RoutesOldComponent } from './controls/routes-old/routes-old.component';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
@@ -15,6 +15,7 @@ import { RoutesPageComponent } from './controls/routes-page/routes-page.componen
 import { CustomDomainPageComponent } from './controls/custom-domain-page/custom-domain-page.component';
 import { StateConfigPageComponent } from './controls/state-config-page/state-config-page.component';
 import { ApplicationComponent } from './controls/application/application.component';
+import { RoutesComponent } from './controls/routes/routes.component';
 
 const routes: Routes = [
     {
@@ -30,7 +31,7 @@ const routes: Routes = [
         component: RoutesComponent,
     },
     {
-        path: 'routes/:projectLookup',
+        path: 'applications/:projectLookup',
         component: RoutesPageComponent,
     },
     {
@@ -45,6 +46,7 @@ const routes: Routes = [
     { path: 'modifiers/:projectLookup', component: ModifiersComponent },
     { path: 'projects', component: ProjectPageComponent },
     { path: 'teams', component: TeamMembersComponent },
+    { path: 'teams/:projectLookup', component: TeamMembersComponent },
     {
         path: 'state-config/:projectLookup/:appLookup',
         component: StateConfigPageComponent,

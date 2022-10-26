@@ -36,7 +36,9 @@ export class NpmPackageSelectComponent implements OnInit {
         this.FormGroup.removeControl('version');
     }
 
-    public ngOnInit(): void {
+    public ngOnInit(): void {}
+
+    public ngOnChanges(): void {
         this.FormGroup.addControl(
             'package',
             new FormControl(this.NPMPackage || '', [Validators.required])
@@ -49,7 +51,7 @@ export class NpmPackageSelectComponent implements OnInit {
             ])
         );
 
-        this.FormGroup.controls.package.valueChanges
+        this.FormGroup?.controls?.package?.valueChanges
             .pipe(
                 debounceTime(500),
                 switchMap((value) =>

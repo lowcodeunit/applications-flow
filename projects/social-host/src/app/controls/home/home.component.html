@@ -32,13 +32,21 @@
             [loading-feed]="State?.LoadingFeed"
         ></lcu-feed-header>
         <!-- <lcu-feed-filter [filter-types]="FilterTypes"></lcu-feed-filter> -->
-        <lcu-project-wizard-card></lcu-project-wizard-card>
+        <lcu-project-wizard-card
+            *ngIf="ProjectLookups?.length <= 0 && !State?.Loading"
+        ></lcu-project-wizard-card>
 
         <lcu-skeleton-feed-card
             *ngIf="State?.LoadingFeed || !State?.Feed"
         ></lcu-skeleton-feed-card>
 
         <ng-container *ngIf="!State?.LoadingFeed && State?.Feed">
+            <lcu-feed-filter
+                [filter-types]="FilterTypes"
+                [feed-check]="State?.FeedCheck"
+            >
+            </lcu-feed-filter>
+
             <lcu-main-feed-card
                 *ngFor="let feedItem of State?.Feed"
                 [active-environment]="
@@ -54,6 +62,9 @@
             >
             </lcu-main-feed-card>
         </ng-container>
+        <lcu-project-wizard-card
+            *ngIf="ProjectLookups?.length > 0 && !State?.Loading"
+        ></lcu-project-wizard-card>
     </div>
 
     <div right>
