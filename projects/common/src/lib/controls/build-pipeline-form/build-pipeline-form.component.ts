@@ -156,14 +156,14 @@ export class BuildPipelineFormComponent implements OnInit {
     public SaveEnvironment(): void {
         const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
             Environment: {
-                // ...this.Environment,
+                //...this.Environment,
                 Artifacts: this.Environment.Artifacts || {},
-                // DevOpsActions: this.Environment.DevOpsActions || {},
-                // Secrets: this.Environment.Secrets || {},
-                // Sources: this.Environment.Sources || {},
+                //DevOpsActions: this.Environment.DevOpsActions || {},
+                //Secrets: this.Environment.Secrets || {},
+                //Sources: this.Environment.Sources || {},
             },
-            // EnvironmentLookup: this.EnvironmentLookup,
-            // EnterpriseDataTokens: {},
+            EnvironmentLookup: this.EnvironmentLookup,
+            //EnterpriseDataTokens: {},
         };
 
         let artifactLookup: string;

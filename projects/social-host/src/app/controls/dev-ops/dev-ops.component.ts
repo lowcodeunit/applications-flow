@@ -23,6 +23,8 @@ export class DevOpsComponent implements OnInit, OnDestroy {
         //  TODO:  Eventually support multiple environments
         const envLookups = Object.keys(this.State?.EaC?.Environments || {});
 
+        // console.log("env: ", envLookups[0]);
+
         return envLookups[0];
     }
 
@@ -99,6 +101,7 @@ export class DevOpsComponent implements OnInit, OnDestroy {
     }
 
     public OpenSourceControlDialog(scLookup: string, scName: string): void {
+        console.log('active ent: ', this.ActiveEnvironmentLookup);
         const dialogRef = this.dialog.open(SourceControlDialogComponent, {
             width: '385px',
             data: {
