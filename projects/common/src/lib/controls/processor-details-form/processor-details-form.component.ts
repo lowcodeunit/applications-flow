@@ -365,7 +365,6 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     public LCUTypeChanged(event: MatSelectChange): void {
         this.LCUType = event.value;
-        console.log('hi there: ', event);
 
         this.setupLcuTypeSubForm();
     }
@@ -380,9 +379,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.ProcessorDetailsFormGroup.removeControl('spaRoot');
 
         this.ProcessorDetailsFormGroup.removeControl('applicationId');
-        console.log('here a');
-        // this.ProcessorDetailsFormGroup.removeControl('sourceControl');
-        console.log('here b');
+        this.ProcessorDetailsFormGroup.removeControl('sourceControl');
 
         this.ProcessorDetailsFormGroup.removeControl('build');
 
@@ -417,10 +414,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
     protected listBuildPaths(): void {
         // this.Loading = true;
 
-        console.log(
-            'Source Control: ',
-            this.SourceControls[this.SourceControlFormControl.value]
-        );
+        // console.log(
+        //     'Source Control: ',
+        //     this.SourceControls[this.SourceControlFormControl.value]
+        // );
 
         this.appsFlowSvc
             .ListBuildPaths(
@@ -431,7 +428,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
             )
             .subscribe((response: BaseModeledResponse<string[]>) => {
                 this.BuildPathOptions = response.Model;
-                console.log('build path options: ', this.BuildPathOptions);
+                // console.log('build path options: ', this.BuildPathOptions);
 
                 // this.Loading = false;
 
@@ -443,53 +440,39 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     protected setupLcuTypeSubForm(): void {
         this.cleanupLcuTypeSubForm();
-        console.log('LCU Type: ', this.LCUType);
+        // console.log('LCU Type: ', this.LCUType);
 
         if (this.LCUType) {
             switch (this.LCUType) {
                 case 'API':
-                    console.log('hellp');
-
                     this.setupLCUAPIForm();
                     break;
 
                 case 'ApplicationPointer':
-                    console.log('hellp');
-
                     this.setupLCUApplicationPointerForm();
                     break;
 
                 case 'GitHub':
-                    console.log('hellp');
                     this.setupLCUGitHubForm();
                     break;
 
                 case 'GitHubOAuth':
-                    console.log('hellp');
-
                     this.setupLCUGitHubOAuthForm();
                     break;
 
                 case 'WordPress':
-                    console.log('hellp');
-
                     this.setupLCUWordPressForm();
                     break;
 
                 case 'NPM':
-                    console.log('WTF');
                     this.setupLCUNPMForm();
                     break;
 
                 case 'SPA':
-                    console.log('hellp');
-
                     this.setupLCUSPAForm();
                     break;
 
                 case 'Zip':
-                    console.log('hellp');
-
                     this.setupLCUZipForm();
                     break;
             }
@@ -513,9 +496,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected setupLCUGitHubForm(): void {
-        console.log('EditingApplication: ', this.EditingApplication);
-
-        console.log('SOURCE CONTROL SET HERE');
+        // console.log('EditingApplication: ', this.EditingApplication);
 
         this.ProcessorDetailsFormGroup.addControl(
             'sourceControl',
