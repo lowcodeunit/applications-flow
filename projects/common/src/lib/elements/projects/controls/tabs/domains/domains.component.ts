@@ -70,11 +70,14 @@ export class DomainsComponent implements OnInit, OnChanges {
         if (this.Data?.Hosts && this.Data?.PrimaryHost) {
             this.Host = this.Data?.Hosts[this.Data?.PrimaryHost];
         }
-        this.HostDNSInstance = this.Host ? this.Host?.HostDNSInstance : null;
+        this.HostDNSInstance =
+            'https://fathym-cloud-prd-lcu-customers-20349043.azurefd.net';
+
+        // this.HostDNSInstance = this.Host ? this.Host?.HostDNSInstance : null;
 
         console.log('data from domains: ', this.Data);
 
-        // console.log('hello primary host: ', this.Data?.PrimaryHost)
+        console.log('host dns Instance: ', this.HostDNSInstance);
 
         if (this.Data?.PrimaryHost) {
             this.setupForm();
@@ -90,7 +93,7 @@ export class DomainsComponent implements OnInit, OnChanges {
             Icon: 'head',
             Title: '',
             Subtitle:
-                'In order to use a custom domain, create a CNAME dns record pointing desired subdomain to ' +
+                'In order to use a custom domain, create a CNAME dns record pointing desired subdomain to https://fathym-cloud-prd-lcu-customers-20349043.azurefd.net' +
                 this.HostDNSInstance +
                 '.',
             FormActions: {
