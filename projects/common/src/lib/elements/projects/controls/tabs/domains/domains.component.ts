@@ -72,7 +72,7 @@ export class DomainsComponent implements OnInit, OnChanges {
         }
         this.HostDNSInstance = this.Host ? this.Host?.HostDNSInstance : null;
 
-        // console.log("data from domains: ", this.Data);
+        console.log('data from domains: ', this.Data);
 
         // console.log('hello primary host: ', this.Data?.PrimaryHost)
 
@@ -82,6 +82,7 @@ export class DomainsComponent implements OnInit, OnChanges {
         if (this.HostDNSInstance) {
             this.config();
         }
+        console.log('CONFIG: ', this.Config);
     }
 
     protected config(): void {
