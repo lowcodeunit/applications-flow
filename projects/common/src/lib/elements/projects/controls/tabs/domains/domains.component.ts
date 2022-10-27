@@ -75,9 +75,9 @@ export class DomainsComponent implements OnInit, OnChanges {
 
         // this.HostDNSInstance = this.Host ? this.Host?.HostDNSInstance : null;
 
-        console.log('data from domains: ', this.Data);
+        // console.log('data from domains: ', this.Data);
 
-        console.log('host dns Instance: ', this.HostDNSInstance);
+        // console.log('host dns Instance: ', this.HostDNSInstance);
 
         if (this.Data?.PrimaryHost) {
             this.setupForm();
@@ -85,7 +85,7 @@ export class DomainsComponent implements OnInit, OnChanges {
         if (this.HostDNSInstance) {
             this.config();
         }
-        console.log('CONFIG: ', this.Config);
+        // console.log('CONFIG: ', this.Config);
     }
 
     protected config(): void {
