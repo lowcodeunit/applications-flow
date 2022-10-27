@@ -188,7 +188,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
-        } else {
+        } else if (!this.ProcessorDetailsFormGroup) {
             this.SetupProcessorDetailsForm();
         }
         // else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
@@ -365,6 +365,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     public LCUTypeChanged(event: MatSelectChange): void {
         this.LCUType = event.value;
+        console.log('hi there: ', event);
 
         this.setupLcuTypeSubForm();
     }
@@ -379,7 +380,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.ProcessorDetailsFormGroup.removeControl('spaRoot');
 
         this.ProcessorDetailsFormGroup.removeControl('applicationId');
-        this.ProcessorDetailsFormGroup.removeControl('sourceControl');
+        console.log('here a');
+        // this.ProcessorDetailsFormGroup.removeControl('sourceControl');
+        console.log('here b');
 
         this.ProcessorDetailsFormGroup.removeControl('build');
 
@@ -440,38 +443,53 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     protected setupLcuTypeSubForm(): void {
         this.cleanupLcuTypeSubForm();
+        console.log('LCU Type: ', this.LCUType);
 
         if (this.LCUType) {
             switch (this.LCUType) {
                 case 'API':
+                    console.log('hellp');
+
                     this.setupLCUAPIForm();
                     break;
 
                 case 'ApplicationPointer':
+                    console.log('hellp');
+
                     this.setupLCUApplicationPointerForm();
                     break;
 
                 case 'GitHub':
+                    console.log('hellp');
                     this.setupLCUGitHubForm();
                     break;
 
                 case 'GitHubOAuth':
+                    console.log('hellp');
+
                     this.setupLCUGitHubOAuthForm();
                     break;
 
                 case 'WordPress':
+                    console.log('hellp');
+
                     this.setupLCUWordPressForm();
                     break;
 
-                // case 'NPM':
-                //   this.setupLCUNPMForm();
-                //   break;
+                case 'NPM':
+                    console.log('WTF');
+                    this.setupLCUNPMForm();
+                    break;
 
                 case 'SPA':
+                    console.log('hellp');
+
                     this.setupLCUSPAForm();
                     break;
 
                 case 'Zip':
+                    console.log('hellp');
+
                     this.setupLCUZipForm();
                     break;
             }
@@ -496,6 +514,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     protected setupLCUGitHubForm(): void {
         console.log('EditingApplication: ', this.EditingApplication);
+
+        console.log('SOURCE CONTROL SET HERE');
 
         this.ProcessorDetailsFormGroup.addControl(
             'sourceControl',
@@ -569,6 +589,16 @@ export class ProcessorDetailsFormComponent implements OnInit {
             'security',
             this.formBldr.control(
                 this.EditingApplication.LowCodeUnit?.Security || '',
+                [Validators.required]
+            )
+        );
+    }
+
+    protected setupLCUNPMForm(): void {
+        this.ProcessorDetailsFormGroup.addControl(
+            'sourceControl',
+            this.formBldr.control(
+                this.EditingApplication.LowCodeUnit?.SourceControlLookup || '',
                 [Validators.required]
             )
         );

@@ -93,7 +93,7 @@ export class DomainsComponent implements OnInit, OnChanges {
             Icon: 'head',
             Title: '',
             Subtitle:
-                'In order to use a custom domain, create a CNAME dns record pointing desired subdomain to https://fathym-cloud-prd-lcu-customers-20349043.azurefd.net' +
+                'In order to use a custom domain, create a CNAME dns record pointing desired subdomain to ' +
                 this.HostDNSInstance +
                 '.',
             FormActions: {
