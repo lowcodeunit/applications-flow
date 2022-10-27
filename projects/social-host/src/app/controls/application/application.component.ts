@@ -638,15 +638,13 @@ export class ApplicationComponent implements OnInit {
                     this.ApplicationFormControls.DescriptionFormControl.value,
                 PriorityShift: 0,
             },
-            AccessRightLookups: [],
-            DataTokens: {},
-            LicenseConfigurationLookups: [],
+            // AccessRightLookups: [],
+            // DataTokens: {},
+            // LicenseConfigurationLookups: [],
             LookupConfig: {
-                IsPrivate: false,
-                IsTriggerSignIn: false,
                 PathRegex: `${this.ApplicationFormControls.RouteFormControl.value}.*`,
-                QueryRegex: '',
-                HeaderRegex: '',
+                // QueryRegex: '',
+                // HeaderRegex: '',
                 AllowedMethods:
                     this.ProcessorDetailsFormControls.MethodsFormControl?.value
                         ?.split(' ')
@@ -655,7 +653,7 @@ export class ApplicationComponent implements OnInit {
             Processor: {
                 Type: this.ProcessorDetailsFormControls.ProcessorType,
             },
-            LowCodeUnit: {},
+            // LowCodeUnit: {},
         };
 
         switch (app.Processor.Type) {
