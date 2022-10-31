@@ -70,11 +70,14 @@ export class DomainsComponent implements OnInit, OnChanges {
         if (this.Data?.Hosts && this.Data?.PrimaryHost) {
             this.Host = this.Data?.Hosts[this.Data?.PrimaryHost];
         }
-        this.HostDNSInstance = this.Host ? this.Host?.HostDNSInstance : null;
+        this.HostDNSInstance =
+            'https://fathym-cloud-prd-lcu-customers-20349043.azurefd.net';
 
-        // console.log("data from domains: ", this.Data);
+        // this.HostDNSInstance = this.Host ? this.Host?.HostDNSInstance : null;
 
-        // console.log('hello primary host: ', this.Data?.PrimaryHost)
+        // console.log('data from domains: ', this.Data);
+
+        // console.log('host dns Instance: ', this.HostDNSInstance);
 
         if (this.Data?.PrimaryHost) {
             this.setupForm();
@@ -82,6 +85,7 @@ export class DomainsComponent implements OnInit, OnChanges {
         if (this.HostDNSInstance) {
             this.config();
         }
+        // console.log('CONFIG: ', this.Config);
     }
 
     protected config(): void {

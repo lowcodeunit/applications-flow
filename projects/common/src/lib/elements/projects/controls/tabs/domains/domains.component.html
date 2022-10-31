@@ -6,7 +6,12 @@
     [formGroup]="Form"
 >
     <div>
-        <lcu-form-card [config]="Config" [form]="Form" [is-dirty]="IsDirty">
+        <lcu-form-card
+            *ngIf="Config"
+            [config]="Config"
+            [form]="Form"
+            [is-dirty]="IsDirty"
+        >
             <div fxLayout="column">
                 <div fxLayout="row">
                     <div fxFlex fxLayout="row">

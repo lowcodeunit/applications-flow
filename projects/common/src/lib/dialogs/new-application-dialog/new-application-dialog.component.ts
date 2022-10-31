@@ -75,7 +75,9 @@ export class NewApplicationDialogComponent implements OnInit, OnDestroy {
                 );
             }
         });
-        this.SetupApplication(Guid.CreateRaw());
+        if (!this.NewApplicationLookup) {
+            this.SetupApplication(Guid.CreateRaw());
+        }
     }
 
     public ngOnDestroy(): void {
