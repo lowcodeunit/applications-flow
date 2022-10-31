@@ -33,6 +33,7 @@ export * from './lib/controls/security-toggle/security-toggle.component';
 export * from './lib/controls/emulated-devices-toggle/emulated-devices-toggle.component';
 export * from './lib/controls/source-control-form/source-control-form.component';
 export * from './lib/controls/state-config-form/state-config-form.component';
+export * from './lib/dialogs/add-team-member-dialog/add-team-member-dialog.component';
 export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.component';
 export * from './lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
 export * from './lib/dialogs/new-application-dialog/new-application-dialog.component';
