@@ -21,6 +21,7 @@
                     [routerLink]="['/enterprise']"
                     (click)="SetActiveEnterprise(ent.Lookup)"
                     *ngFor="let ent of Enterprises"
+                    [matTooltip]="ent.Name"
                 >
                     <span>{{ ent.Name }}</span>
                 </button>
@@ -49,15 +50,16 @@
             </button>
 
             <mat-menu #projectMenu="matMenu" xPosition="before">
-                <button
-                    mat-menu-item
-                    *ngFor="let projectLookup of ProjectLookups"
-                    [routerLink]="['/project', projectLookup]"
-                >
-                    <span *ngIf="Projects[projectLookup]; let pro">{{
-                        pro.Project?.Name
-                    }}</span>
-                </button>
+                <ng-container *ngFor="let projectLookup of ProjectLookups">
+                    <button
+                        mat-menu-item
+                        *ngIf="Projects[projectLookup]; let pro"
+                        [matTooltip]="pro.Project?.Name"
+                        [routerLink]="['/project', projectLookup]"
+                    >
+                        <span>{{ pro.Project?.Name }}</span>
+                    </button>
+                </ng-container>
             </mat-menu>
         </ng-container>
     </div>
@@ -82,13 +84,15 @@
             </button>
 
             <mat-menu #routeMenu="matMenu" xPosition="before">
-                <button
-                    mat-menu-item
-                    *ngFor="let appRoute of Routes"
-                    [routerLink]="['/route', appRoute, ProjectLookup]"
-                >
-                    <span *ngIf="appRoute">{{ appRoute }}</span>
-                </button>
+                <ng-container *ngFor="let appRoute of Routes">
+                    <button
+                        mat-menu-item
+                        [routerLink]="['/route', appRoute, ProjectLookup]"
+                        [matTooltip]="appRoute"
+                    >
+                        <span *ngIf="appRoute">{{ appRoute }}</span>
+                    </button>
+                </ng-container>
             </mat-menu>
         </ng-container>
     </div>
@@ -122,24 +126,26 @@
             </button>
 
             <mat-menu #applicationMenu="matMenu" xPosition="before">
-                <button
-                    mat-menu-item
+                <ng-container
                     *ngFor="let appLookup of CurrentRouteApplicationLookups"
-                    [routerLink]="[
-                        '/application',
-                        appLookup,
-                        SelectedRoute,
-                        ProjectLookup
-                    ]"
                 >
-                    <span
+                    <button
+                        mat-menu-item
+                        [routerLink]="[
+                            '/application',
+                            appLookup,
+                            SelectedRoute,
+                            ProjectLookup
+                        ]"
                         *ngIf="
                             RoutedApplications[SelectedRoute][appLookup];
                             let app
                         "
-                        >{{ app.Application?.Name }}</span
+                        [matTooltip]="app.Application?.Name"
                     >
-                </button>
+                        <span>{{ app.Application?.Name }}</span>
+                    </button>
+                </ng-container>
             </mat-menu>
         </ng-container>
     </div>
