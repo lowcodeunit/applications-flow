@@ -321,13 +321,11 @@ export class ApplicationComponent implements OnInit {
 
                 switch (this.Application?.LowCodeUnit?.Type) {
                     case 'GitHub':
-                        this.Version =
-                            this.Application?.LowCodeUnit?.CurrentBuild;
+                        this.Version = this.Application?.LowCodeUnit?.Build;
                         break;
 
                     case 'NPM':
-                        this.Version =
-                            this.Application?.LowCodeUnit?.CurrentVersion;
+                        this.Version = this.Application?.LowCodeUnit?.Version;
                         break;
                 }
 
@@ -504,7 +502,11 @@ export class ApplicationComponent implements OnInit {
     public SettingsClicked() {}
 
     public UpdateClicked() {
-        if (confirm(`Do you want to update the package to ${this.Version}?`)) {
+        if (
+            confirm(
+                `Do you want to update the package to the latest version of ${this.Version}?`
+            )
+        ) {
             this.UpdatePackage();
         }
     }
@@ -517,6 +519,8 @@ export class ApplicationComponent implements OnInit {
             Application: app,
             ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
         };
+
+        // console.log('Save app req update package: ', saveAppReq);
 
         this.eacSvc.SaveApplicationAsCode(saveAppReq);
     }
