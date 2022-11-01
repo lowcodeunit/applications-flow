@@ -184,7 +184,9 @@ export class ApplicationComponent implements OnInit {
 
     public CurrentApplicationRoute: string;
 
-    public CurrentVersion: string;
+    public CurrentVersionTag: string;
+
+    public DeployedVersion: string;
 
     public FilterTypes: any;
 
@@ -273,13 +275,13 @@ export class ApplicationComponent implements OnInit {
                 } else {
                     this.IsSmScreen = false;
                 }
-                console.log('small: ', this.IsSmScreen);
+                // console.log('small: ', this.IsSmScreen);
             });
         this.StateSub = this.eacSvc.State.subscribe(
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                console.log('State: ', this.State);
+                // console.log('State: ', this.State);
 
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
@@ -307,29 +309,32 @@ export class ApplicationComponent implements OnInit {
                 this.Application =
                     this.State?.EaC?.Applications[this.ApplicationLookup] || {};
 
-                let curVersion;
+                let curVersionTag;
                 switch (this.Application?.LowCodeUnit?.Type) {
                     case 'GitHub':
-                        curVersion = `Build: ${this.Application.LowCodeUnit.Build}`;
+                        curVersionTag = `Build: ${this.Application.LowCodeUnit.Build}`;
                         break;
 
                     case 'NPM':
-                        curVersion = `Version: ${this.Application.LowCodeUnit.Version}`;
+                        curVersionTag = `Version: ${this.Application.LowCodeUnit.Version}`;
                         break;
                 }
-                this.CurrentVersion = curVersion;
+                this.CurrentVersionTag = curVersionTag;
 
                 switch (this.Application?.LowCodeUnit?.Type) {
                     case 'GitHub':
-                        this.Version =
+                        this.Version = this.Application?.LowCodeUnit?.Build;
+                        this.DeployedVersion =
                             this.Application?.LowCodeUnit?.CurrentBuild;
                         break;
 
                     case 'NPM':
-                        this.Version =
+                        this.Version = this.Application?.LowCodeUnit?.Version;
+                        this.DeployedVersion =
                             this.Application?.LowCodeUnit?.CurrentVersion;
                         break;
                 }
+                console.log('DEPLOYED VERSION: ', this.DeployedVersion);
 
                 this.SourceControls = this.Environment?.Sources || {};
 
@@ -504,8 +509,22 @@ export class ApplicationComponent implements OnInit {
     public SettingsClicked() {}
 
     public UpdateClicked() {
-        if (confirm(`Do you want to update the package to ${this.Version}?`)) {
-            this.UpdatePackage();
+        if (this.Version.toLowerCase() === 'latest') {
+            if (
+                confirm(
+                    `Do you want to update the package to the latest version of main?`
+                )
+            ) {
+                this.UpdatePackage();
+            }
+        } else {
+            if (
+                confirm(
+                    `Do you want to update the package to the latest version of ${this.Version}?`
+                )
+            ) {
+                this.UpdatePackage();
+            }
         }
     }
 
@@ -517,6 +536,8 @@ export class ApplicationComponent implements OnInit {
             Application: app,
             ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
         };
+
+        // console.log('Save app req update package: ', saveAppReq);
 
         this.eacSvc.SaveApplicationAsCode(saveAppReq);
     }
@@ -617,7 +638,7 @@ export class ApplicationComponent implements OnInit {
     }
 
     public HandleSaveApplicationEvent(event: Status) {
-        console.log('event to save: ', event);
+        // console.log('event to save: ', event);
         if (event.Code === 0) {
             this.snackBar.open('Application Succesfully Updated', 'Dismiss', {
                 duration: 5000,
@@ -638,15 +659,15 @@ export class ApplicationComponent implements OnInit {
                     this.ApplicationFormControls.DescriptionFormControl.value,
                 PriorityShift: 0,
             },
-            AccessRightLookups: [],
-            DataTokens: {},
-            LicenseConfigurationLookups: [],
+            // AccessRightLookups: [],
+            // DataTokens: {},
+            // LicenseConfigurationLookups: [],
             LookupConfig: {
-                IsPrivate: false,
-                IsTriggerSignIn: false,
+                IsPrivate: this.Application.LookupConfig.IsPrivate,
+                IsTriggerSignIn: this.Application.LookupConfig.IsTriggerSignIn,
                 PathRegex: `${this.ApplicationFormControls.RouteFormControl.value}.*`,
-                QueryRegex: '',
-                HeaderRegex: '',
+                // QueryRegex: '',
+                // HeaderRegex: '',
                 AllowedMethods:
                     this.ProcessorDetailsFormControls.MethodsFormControl?.value
                         ?.split(' ')
@@ -655,7 +676,7 @@ export class ApplicationComponent implements OnInit {
             Processor: {
                 Type: this.ProcessorDetailsFormControls.ProcessorType,
             },
-            LowCodeUnit: {},
+            // LowCodeUnit: {},
         };
 
         switch (app.Processor.Type) {

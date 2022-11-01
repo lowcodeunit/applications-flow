@@ -65,18 +65,22 @@ export class SecurityToggleComponent implements OnInit {
     public ngOnInit(): void {}
 
     public ngOnChanges() {
-        if (this.IsPrivate === null || this.IsPrivate === undefined) {
-            this.IsPrivate = this.EditingApplication.LookupConfig?.IsPrivate;
+        if (
+            (this.IsPrivate === null || this.IsPrivate === undefined) &&
+            this.EditingApplication
+        ) {
+            this.IsPrivate = this.EditingApplication?.LookupConfig?.IsPrivate;
+            // console.log("IS PRIVATE: ", this.IsPrivate);
             this.setupSecurityFormGroup();
         }
     }
 
     public SecuritySubmit() {
         //save the security settings
-        console.log(
-            'submitting security values: ',
-            this.SecurityFormGroup.value
-        );
+        // console.log(
+        //     'submitting security values: ',
+        //     this.SecurityFormGroup.value
+        // );
         this.SaveFormEvent.emit(this.SecurityFormGroup.value);
     }
 
@@ -96,7 +100,7 @@ export class SecurityToggleComponent implements OnInit {
         this.SecurityFormGroup.addControl(
             'isPrivate',
             this.formBldr.control(
-                this.EditingApplication.LookupConfig?.IsPrivate || false,
+                this.EditingApplication?.LookupConfig?.IsPrivate || false,
                 [Validators.required]
             )
         );
@@ -104,7 +108,7 @@ export class SecurityToggleComponent implements OnInit {
         this.SecurityFormGroup.addControl(
             'isTriggerSignIn',
             this.formBldr.control(
-                this.EditingApplication.LookupConfig?.IsTriggerSignIn || false,
+                this.EditingApplication?.LookupConfig?.IsTriggerSignIn || false,
                 [Validators.required]
             )
         );

@@ -188,7 +188,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
-        } else {
+        } else if (!this.ProcessorDetailsFormGroup) {
             this.SetupProcessorDetailsForm();
         }
         // else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
@@ -414,10 +414,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
     protected listBuildPaths(): void {
         // this.Loading = true;
 
-        console.log(
-            'Source Control: ',
-            this.SourceControls[this.SourceControlFormControl.value]
-        );
+        // console.log(
+        //     'Source Control: ',
+        //     this.SourceControls[this.SourceControlFormControl.value]
+        // );
 
         this.appsFlowSvc
             .ListBuildPaths(
@@ -428,7 +428,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
             )
             .subscribe((response: BaseModeledResponse<string[]>) => {
                 this.BuildPathOptions = response.Model;
-                console.log('build path options: ', this.BuildPathOptions);
+                // console.log('build path options: ', this.BuildPathOptions);
 
                 // this.Loading = false;
 
@@ -440,6 +440,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     protected setupLcuTypeSubForm(): void {
         this.cleanupLcuTypeSubForm();
+        // console.log('LCU Type: ', this.LCUType);
 
         if (this.LCUType) {
             switch (this.LCUType) {
@@ -463,9 +464,9 @@ export class ProcessorDetailsFormComponent implements OnInit {
                     this.setupLCUWordPressForm();
                     break;
 
-                // case 'NPM':
-                //   this.setupLCUNPMForm();
-                //   break;
+                case 'NPM':
+                    this.setupLCUNPMForm();
+                    break;
 
                 case 'SPA':
                     this.setupLCUSPAForm();
@@ -495,7 +496,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected setupLCUGitHubForm(): void {
-        console.log('EditingApplication: ', this.EditingApplication);
+        // console.log('EditingApplication: ', this.EditingApplication);
 
         this.ProcessorDetailsFormGroup.addControl(
             'sourceControl',
@@ -570,6 +571,15 @@ export class ProcessorDetailsFormComponent implements OnInit {
             this.formBldr.control(
                 this.EditingApplication.LowCodeUnit?.Security || '',
                 [Validators.required]
+            )
+        );
+    }
+
+    protected setupLCUNPMForm(): void {
+        this.ProcessorDetailsFormGroup.addControl(
+            'sourceControl',
+            this.formBldr.control(
+                this.EditingApplication.LowCodeUnit?.SourceControlLookup || ''
             )
         );
     }

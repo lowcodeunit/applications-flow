@@ -32,4 +32,10 @@ export class FormCardComponent implements OnInit {
     constructor() {}
 
     ngOnInit(): void {}
+
+    ngOnChanges(): void {
+        if (this.Config) {
+            console.log('recieved Config: ', this.Config);
+        }
+    }
 }

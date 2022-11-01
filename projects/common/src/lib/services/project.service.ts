@@ -504,7 +504,7 @@ export class ProjectService {
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
             state.Loading = true;
-
+            console.log('eac: ', eac);
             this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
                 async (response: BaseModeledResponse<string>) => {
                     if (response.Status.Code === 0) {

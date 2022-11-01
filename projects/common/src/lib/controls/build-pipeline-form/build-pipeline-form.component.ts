@@ -154,23 +154,25 @@ export class BuildPipelineFormComponent implements OnInit {
     }
 
     public SaveEnvironment(): void {
+        // console.log("submitting build pipeline: ", this.BuildPipelineFormGroup.value);
+
         const saveEnvReq: SaveEnvironmentAsCodeEventRequest = {
             Environment: {
-                // ...this.Environment,
+                //...this.Environment,
                 Artifacts: this.Environment.Artifacts || {},
-                // DevOpsActions: this.Environment.DevOpsActions || {},
-                // Secrets: this.Environment.Secrets || {},
-                // Sources: this.Environment.Sources || {},
+                DevOpsActions: this.Environment.DevOpsActions || {},
+                //Secrets: this.Environment.Secrets || {},
+                //Sources: this.Environment.Sources || {},
             },
-            // EnvironmentLookup: this.EnvironmentLookup,
-            // EnterpriseDataTokens: {},
+            EnvironmentLookup: this.EnvironmentLookup,
+            //EnterpriseDataTokens: {},
         };
 
         let artifactLookup: string;
 
         let artifact: EaCArtifact = {
-            // ...this.Artifact,
-            // ...this.SelectedHostingOptionInputControlValues,
+            ...this.Artifact,
+            ...this.SelectedHostingOptionInputControlValues,
         };
 
         if (!this.ArtifactLookup) {
@@ -230,7 +232,7 @@ export class BuildPipelineFormComponent implements OnInit {
 
             saveEnvReq.Environment.DevOpsActions[devOpsActionLookup] = doa;
         }
-        console.log('env req: ', saveEnvReq);
+        // console.log('env req: ', saveEnvReq);
 
         this.eacSvc.SaveEnvironmentAsCode(saveEnvReq).then((res) => {
             this.ResponseEvent.emit(res);
