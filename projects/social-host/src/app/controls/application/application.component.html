@@ -78,16 +78,6 @@
             </ng-container>
 
             <ng-container *ngIf="!Loading">
-                <!-- <div
-                    class="version-item"
-                    id="version-container"
-                    fxLayoutAlign="center center"
-                >
-                    {{
-                        CurrentVersion ? CurrentVersion : "Package not deployed"
-                    }}
-                </div> -->
-
                 <button
                     *ngIf="
                         Application?.Processor?.Type === 'DFS' &&
@@ -102,7 +92,7 @@
                     <div fxLayout="row" fxLayoutAlign="center center">
                         <mat-icon>outbox</mat-icon>
                         <div *ngIf="!IsSmScreen">
-                            Update Package: {{ CurrentVersion }}
+                            Update Package: {{ CurrentVersionTag }}
                         </div>
                         <div *ngIf="IsSmScreen">Update</div>
                     </div>
@@ -125,7 +115,11 @@
                     id="version-container"
                     fxLayoutAlign="center center"
                 >
-                    {{ Version ? Version : "Package not deployed" }}
+                    {{
+                        DeployedVersion
+                            ? DeployedVersion
+                            : "Package not deployed"
+                    }}
                 </div>
                 <skeleton-block
                     *ngIf="Loading"
