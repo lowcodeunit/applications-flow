@@ -10,6 +10,7 @@
             class="add-member-btn"
             color="primary"
             (click)="OpenAddMemberModal()"
+            [disabled]="!Enterprise"
         >
             Add Member
         </button>

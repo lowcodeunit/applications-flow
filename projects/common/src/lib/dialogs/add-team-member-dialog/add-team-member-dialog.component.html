@@ -27,7 +27,12 @@
         </mat-select>
     </mat-form-field> -->
     <div fxLayoutAlign="end center">
-        <button mat-raised-button color="primary" id="send-invite-btn">
+        <button
+            mat-raised-button
+            color="primary"
+            id="send-invite-btn"
+            [disabled]="Email.invalid"
+        >
             Send Invite
         </button>
     </div>
