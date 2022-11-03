@@ -12,7 +12,6 @@ export class TeamMemberCardComponent implements OnInit {
     @Input('enterprise')
     public Enterprise: EnterpriseAsCode;
 
-    @Input('team-members')
     public TeamMembers: Array<any>;
 
     @Input('current-user')
@@ -31,6 +30,15 @@ export class TeamMemberCardComponent implements OnInit {
     }
 
     public ngOnInit(): void {}
+    public ngOnChanges(): void {
+        if (this.Projects && this.ProjectLookup) {
+            this.TeamMembers =
+                this.Projects[
+                    this.ProjectLookup
+                ].RelyingParty?.AccessConfigurations?.fathym?.Usernames;
+            // console.log("Team Members: ", this.TeamMembers);
+        }
+    }
 
     public OpenAddMemberModal() {
         const dialogRef = this.dialog.open(AddTeamMemberDialogComponent, {

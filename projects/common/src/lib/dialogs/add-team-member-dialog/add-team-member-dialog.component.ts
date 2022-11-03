@@ -82,7 +82,7 @@ export class AddTeamMemberDialogComponent implements OnInit {
             Project: proj,
             ProjectLookup: this.data.projectLookup,
         };
-        console.log('request: ', saveProjectRequest);
+        console.log('Add member request: ', saveProjectRequest);
         this.eacSvc.SaveProjectAsCode(saveProjectRequest).then((result) => {
             if (result.Code === 0) {
                 this.snackBar.open('Member Succesfully Added', 'Dismiss', {

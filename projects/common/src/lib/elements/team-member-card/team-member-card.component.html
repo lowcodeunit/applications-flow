@@ -16,11 +16,16 @@
     </div>
 
     <mat-card-content>
-        <div *ngIf="CurrentUser" fxLayout="row" fxLayoutAlign="start center">
+        <ng-container *ngIf="TeamMembers"></ng-container>
+        <div
+            *ngFor="let member of TeamMembers"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+        >
             <mat-icon class="member-icon">person</mat-icon>
             <div>
-                <div class="username">{{ CurrentUser }}</div>
-                <div>Owner</div>
+                <div class="username">{{ member }}</div>
+                <!-- <div>Owner</div> -->
             </div>
         </div>
         <div *ngIf="!CurrentUser" fxLayout="row" fxLayoutAlign="start center">

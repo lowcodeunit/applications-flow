@@ -582,6 +582,8 @@ export class EaCService {
 
         saveEaC.Projects[projectLookup] = project;
 
+        console.log('save eac request: ', saveEaC);
+
         let status = await this.projectService.SaveEnterpriseAsCode(
             state,
             saveEaC
