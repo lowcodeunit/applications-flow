@@ -53,6 +53,9 @@ export class TeamMemberCardComponent implements OnInit {
 
     protected BuildTeamMembers(): Array<string> {
         let memberList: Array<string> = new Array<string>();
+        if (this.CurrentUser) {
+            memberList.push(this.CurrentUser);
+        }
         this.ProjectLookups.forEach((proj: string) => {
             this.Projects[
                 proj
