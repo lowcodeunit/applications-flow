@@ -275,13 +275,13 @@ export class ApplicationComponent implements OnInit {
                 } else {
                     this.IsSmScreen = false;
                 }
-                console.log('small: ', this.IsSmScreen);
+                // console.log('small: ', this.IsSmScreen);
             });
         this.StateSub = this.eacSvc.State.subscribe(
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                console.log('State: ', this.State);
+                // console.log('State: ', this.State);
 
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
@@ -638,7 +638,7 @@ export class ApplicationComponent implements OnInit {
     }
 
     public HandleSaveApplicationEvent(event: Status) {
-        console.log('event to save: ', event);
+        // console.log('event to save: ', event);
         if (event.Code === 0) {
             this.snackBar.open('Application Succesfully Updated', 'Dismiss', {
                 duration: 5000,
@@ -663,6 +663,8 @@ export class ApplicationComponent implements OnInit {
             // DataTokens: {},
             // LicenseConfigurationLookups: [],
             LookupConfig: {
+                IsPrivate: this.Application.LookupConfig.IsPrivate,
+                IsTriggerSignIn: this.Application.LookupConfig.IsTriggerSignIn,
                 PathRegex: `${this.ApplicationFormControls.RouteFormControl.value}.*`,
                 // QueryRegex: '',
                 // HeaderRegex: '',
