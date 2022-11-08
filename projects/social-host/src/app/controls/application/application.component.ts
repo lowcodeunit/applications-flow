@@ -334,7 +334,7 @@ export class ApplicationComponent implements OnInit {
                             this.Application?.LowCodeUnit?.CurrentVersion;
                         break;
                 }
-                console.log('DEPLOYED VERSION: ', this.DeployedVersion);
+                // console.log('DEPLOYED VERSION: ', this.DeployedVersion);
 
                 this.SourceControls = this.Environment?.Sources || {};
 

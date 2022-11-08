@@ -1,7 +1,7 @@
 <lcu-dashboard-toolbar
     [app-lookup]="ApplicationLookup"
     [project-lookup]="ProjectLookup"
-    [loading]="State?.Loading"
+    [loading]="Loading"
 ></lcu-dashboard-toolbar>
 
 <lcu-breadcrumb
@@ -25,7 +25,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
-            [loading]="State?.Loading"
+            [loading]="Loading"
             [subtext]="
                 Project?.PrimaryHost
                     ? Project?.PrimaryHost + Application?.Processor?.BaseHref
@@ -137,7 +137,7 @@
             </div>
 
             <mat-card-content id="app-card-content">
-                <ng-conatiner *ngIf="!State?.Loading">
+                <ng-conatiner *ngIf="!Loading">
                     <lcu-edit-application-form
                         [application-lookup]="ApplicationLookup"
                         [editing-application]="Application"
@@ -172,7 +172,7 @@
                     </mat-error>
                 </ng-conatiner>
 
-                <ng-container *ngIf="State?.Loading">
+                <ng-container *ngIf="Loading">
                     <skeleton-block
                         [id]="fc"
                         class="s-block"
@@ -218,7 +218,7 @@
                 fxLayoutAlign="space-between center"
             >
                 <button
-                    *ngIf="!State?.Loading"
+                    *ngIf="!Loading"
                     action
                     color="warn"
                     mat-button
@@ -250,7 +250,7 @@
                         *ngIf="
                             ProcessorDetailsFormControls &&
                             ApplicationFormControls &&
-                            !State?.Loading
+                            !Loading
                         "
                         class="action-button"
                         mat-button
@@ -268,7 +268,7 @@
                         *ngIf="
                             ProcessorDetailsFormControls &&
                             ApplicationFormControls &&
-                            !State?.Loading
+                            !Loading
                         "
                         mat-button
                         [ngClass]="{ 'mat-raised-button': !IsSmScreen }"
@@ -301,7 +301,7 @@
             class="fit-content"
             [active-environment-lookup]="ActiveEnvironmentLookup"
             [filter-types]="FilterTypes"
-            [loading-feed]="State?.LoadingFeed"
+            [loading-feed]="Loading"
             [feed]="State?.Feed"
             [feed-check]="State?.FeedCheck"
             [has-gh-connection]="State?.GitHub?.HasConnection"
@@ -310,7 +310,7 @@
         </lcu-activity-card>
 
         <div class="state-config-card">
-            <mat-card class="social-card" *ngIf="!State?.Loading">
+            <mat-card class="social-card" *ngIf="!Loading">
                 <mat-card-title>Manage State Config</mat-card-title>
                 <mat-card-actions>
                     <button
@@ -323,7 +323,7 @@
                 </mat-card-actions>
             </mat-card>
 
-            <mat-card class="social-card" *ngIf="State?.Loading">
+            <mat-card class="social-card" *ngIf="Loading">
                 <mat-card-title>Manage State Config</mat-card-title>
                 <mat-card-actions>
                     <skeleton-block
@@ -337,7 +337,7 @@
 
         <lcu-security-toggle
             [editing-application]="Application"
-            [loading]="State?.Loading"
+            [loading]="Loading"
             [access-rights]="AccessRights"
             [license-configs]="LicenseConfigs"
             (save-form-event)="SaveSecuritySettings($event)"
