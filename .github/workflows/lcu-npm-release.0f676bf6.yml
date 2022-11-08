@@ -48,8 +48,8 @@ jobs:
           echo "Current branch is ${{ steps.vars.outputs.branchName }}"
           echo "Version bump type is ${{ steps.vars.outputs.versionBump }}"
 
-      # bump version and push tag
-      - name: Bump version and push tag
+      # bump version
+      - name: Bump version
         uses: fathym/github-tag-action@master
         id: versionBump
         env:
@@ -57,6 +57,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RELEASE_BRANCHES: .*
           WITH_V: false
+          DRY_RUN: true
       - run: echo "New version is ${{ steps.versionBump.outputs.new_tag }}"
 
       # replace text in package.json for main branch
@@ -92,3 +93,15 @@ jobs:
         run: ${{ env.DeployCommand }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      # bump version and push tag
+      - name: Bump version and push tag
+        uses: fathym/github-tag-action@master
+        id: versionBumpTag
+        env:
+          DEFAULT_BUMP: ${{ steps.vars.outputs.versionBump }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_BRANCHES: .*
+          WITH_V: false
+          DRY_RUN: false
+      - run: echo "New version is ${{ steps.versionBump.outputs.new_tag }}"
