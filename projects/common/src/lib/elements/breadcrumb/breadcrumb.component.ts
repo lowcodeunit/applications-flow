@@ -77,7 +77,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
                 } else {
                     this.IsSmScreen = false;
                 }
-                console.log('small: ', this.IsSmScreen);
+                // console.log('small: ', this.IsSmScreen);
 
                 if (this.IsSmScreen) {
                     this.CurrentLevel = this.determineCurrentLevel();

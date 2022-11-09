@@ -185,7 +185,7 @@ export class ApplicationsCardComponent implements OnInit {
     }
 
     public BuildProjectTree(): Array<TreeNode> {
-        console.log('calling build project tree');
+        // console.log('calling build project tree');
         let tempTreeData: Array<TreeNode> = [];
 
         let tempApps = this.CurrentRouteApplicationLookups;
@@ -193,7 +193,7 @@ export class ApplicationsCardComponent implements OnInit {
             let tempRouteChildren: Array<TreeNode> = [];
             tempApps.forEach((appLookup: string) => {
                 let tempApp = this.RoutedApplications[this.AppRoute][appLookup];
-                console.log('tempApp: ', tempApp);
+                // console.log('tempApp: ', tempApp);
                 let appPath = tempApp.LookupConfig?.PathRegex.substring(
                     0,
                     tempApp.LookupConfig?.PathRegex.length - 2
