@@ -435,31 +435,42 @@ export class ApplicationComponent implements OnInit {
         // this.SaveApplication();
     }
 
-    // public IsSaveDisabled(): boolean{
-    //     let disabled: boolean;
-    //     console.log(" pro valid = ",this.ProcessorDetailsFormControls
-    //     ?.ProcessorDetailsFormGroup?.valid )
-    //     console.log("app valid = ",
-    // this.ApplicationFormControls?.ApplicationFormGroup
-    //     ?.valid )
+    public IsSaveDisabled(): boolean {
+        let disabled: boolean;
+        // console.log(" pro valid = ",this.ProcessorDetailsFormControls
+        // ?.ProcessorDetailsFormGroup?.valid )
+        //     console.log("app valid = ",
+        // this.ApplicationFormControls?.ApplicationFormGroup
+        //     ?.valid )
 
-    //     console.log("dirty = ",(this.ProcessorDetailsFormControls
-    //         ?.ProcessorDetailsFormGroup?.dirty ||
-    //     this.ApplicationFormControls?.ApplicationFormGroup
-    //         ?.dirty) )
+        // console.log("dirty = ",(this.ProcessorDetailsFormControls
+        //     ?.ProcessorDetailsFormGroup?.dirty ||
+        // this.ApplicationFormControls?.ApplicationFormGroup
+        //     ?.dirty) )
 
-    //     disabled = !((this.ProcessorDetailsFormControls
-    //         ?.ProcessorDetailsFormGroup?.valid &&
-    //     this.ApplicationFormControls?.ApplicationFormGroup
-    //         ?.valid) &&
-    //         (this.ProcessorDetailsFormControls
-    //         ?.ProcessorDetailsFormGroup?.dirty ||
-    //     this.ApplicationFormControls?.ApplicationFormGroup
-    //         ?.dirty));
-    //         console.log("dis = ", disabled);
+        disabled = !(
+            this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup
+                ?.valid &&
+            this.ApplicationFormControls?.ApplicationFormGroup?.valid &&
+            (this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup
+                ?.dirty ||
+                this.ApplicationFormControls?.ApplicationFormGroup?.dirty)
+        );
+        // console.log("dis = ", disabled);
 
-    //     return !disabled;
-    // }
+        // !(
+        //     this.ProcessorDetailsFormControls
+        //         ?.ProcessorDetailsFormGroup?.valid &&
+        //     this.ApplicationFormControls
+        //         ?.ApplicationFormGroup?.valid &&
+        //     (this.ProcessorDetailsFormControls
+        //         ?.ProcessorDetailsFormGroup?.dirty ||
+        //         this.ApplicationFormControls
+        //             ?.ApplicationFormGroup?.dirty)
+        // )
+
+        return disabled;
+    }
 
     public OpenEditAppModal() {
         const dialogRef = this.dialog.open(EditApplicationDialogComponent, {
@@ -640,9 +651,15 @@ export class ApplicationComponent implements OnInit {
     public HandleSaveApplicationEvent(event: Status) {
         // console.log('event to save: ', event);
         if (event.Code === 0) {
-            this.snackBar.open('Application Succesfully Updated', 'Dismiss', {
+            this.snackBar.open('Application Succesfully Saved', 'Dismiss', {
                 duration: 5000,
             });
+
+            // setTimeout(()=>{
+            //     this.snackBar.open('Configuring Application: This may take a couple minutes.', 'Dismiss', {
+            //         duration: 10000,
+            //     });
+            // },6000)
         } else {
             this.ErrorMessage = event.Message;
         }
@@ -814,7 +831,7 @@ export class ApplicationComponent implements OnInit {
             app.LowCodeUnit.SourceControlLookup = null;
         }
 
-        // console.log("Save new App request: ", saveAppReq);
+        console.log('Save new App request: ', saveAppReq);
 
         this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res: any) => {
             this.HandleSaveApplicationEvent(res);

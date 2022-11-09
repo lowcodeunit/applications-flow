@@ -137,7 +137,7 @@
             </div>
 
             <mat-card-content id="app-card-content">
-                <ng-conatiner *ngIf="!Loading">
+                <ng-container *ngIf="!Loading">
                     <lcu-edit-application-form
                         [application-lookup]="ApplicationLookup"
                         [editing-application]="Application"
@@ -170,7 +170,7 @@
                     >
                         {{ ErrorMessage }}
                     </mat-error>
-                </ng-conatiner>
+                </ng-container>
 
                 <ng-container *ngIf="Loading">
                     <skeleton-block

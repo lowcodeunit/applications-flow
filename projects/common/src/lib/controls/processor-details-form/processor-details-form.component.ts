@@ -359,14 +359,18 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
     public ProcessorTypeChanged(event: MatSelectChange): void {
         this.ProcessorType = event.value;
+        this.LCUType = null;
 
         this.setupProcessorTypeSubForm();
+        // console.log("proc type changed: ", this.ProcessorDetailsFormGroup.controls)
     }
 
     public LCUTypeChanged(event: MatSelectChange): void {
         this.LCUType = event.value;
+        // console.log("lcu type changed: ", event.value)
 
         this.setupLcuTypeSubForm();
+        // console.log("lcu type changed: ", this.ProcessorDetailsFormGroup.controls)
     }
 
     //HELPERS
@@ -389,6 +393,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.ProcessorDetailsFormGroup.removeControl('version');
 
         this.ProcessorDetailsFormGroup.removeControl('zipFile');
+
+        // console.log("proc group: ", this.ProcessorDetailsFormGroup.controls);
     }
 
     protected cleanupProcessorTypeSubForm(): void {
