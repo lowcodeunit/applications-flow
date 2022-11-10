@@ -227,7 +227,12 @@
                         >
                             <a
                                 class="slot-action-anchor"
-                                (click)="OpenBuildPipelineDialog(doaLookup)"
+                                (click)="
+                                    OpenBuildPipelineDialog(
+                                        doaLookup,
+                                        doa?.Name
+                                    )
+                                "
                             >
                                 <mat-icon
                                     class="action-icon"
