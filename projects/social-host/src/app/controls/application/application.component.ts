@@ -655,11 +655,15 @@ export class ApplicationComponent implements OnInit {
                 duration: 5000,
             });
 
-            // setTimeout(()=>{
-            //     this.snackBar.open('Configuring Application: This may take a couple minutes.', 'Dismiss', {
-            //         duration: 10000,
-            //     });
-            // },6000)
+            setTimeout(() => {
+                this.snackBar.open(
+                    'Configuring Application: This may take a couple minutes.',
+                    'Dismiss',
+                    {
+                        duration: 10000,
+                    }
+                );
+            }, 6000);
         } else {
             this.ErrorMessage = event.Message;
         }
