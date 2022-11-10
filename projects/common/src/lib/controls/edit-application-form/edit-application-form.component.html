@@ -51,9 +51,11 @@
                 matInput
                 placeholder="Route"
                 formControlName="route"
+                (keyup)="VerifyRoute($event)"
                 required
             />
         </mat-form-field>
+        <mat-error *ngIf="RouteError">{{ RouteError }}</mat-error>
     </ng-container>
 
     <!-- </mat-card-content> -->

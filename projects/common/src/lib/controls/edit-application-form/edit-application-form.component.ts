@@ -55,9 +55,16 @@ export class EditApplicationFormComponent implements OnInit {
 
     public ApplicationFormGroup: FormGroup;
 
+    public RouteError: string;
+
+    public RouteRegex: string;
+
     constructor(protected formBldr: FormBuilder, protected eacSvc: EaCService) {
         this.SaveFormEvent = new EventEmitter();
         this.HasSaveButton = true;
+
+        this.RouteRegex =
+            '(^/{1}([A-Za-z0-9_-]*)$)|(^(/{1}([A-Za-z0-9_-]+)((/{1})([A-Za-z0-9_-]+))*)$)';
     }
 
     public ngOnInit(): void {}
@@ -107,11 +114,23 @@ export class EditApplicationFormComponent implements OnInit {
             ApplicationLookup: this.ApplicationLookup,
         };
 
-        console.log('processor details being submitted: ', app.Processor);
+        // console.log('processor details being submitted: ', app.Processor);
 
         this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
             this.SaveFormEvent.emit(res);
         });
+    }
+
+    public VerifyRoute() {
+        // console.log("route: ", this.ApplicationFormGroup.controls.route);
+        let regEx = new RegExp(this.RouteRegex);
+        if (!regEx.test(this.ApplicationFormGroup.controls.route.value)) {
+            // console.log("INVALID");
+            this.RouteError = 'Route Has Invalid Syntax.';
+        } else {
+            // console.log("VALID")
+            this.RouteError = null;
+        }
     }
 
     //HELPERS
@@ -119,21 +138,24 @@ export class EditApplicationFormComponent implements OnInit {
         if (this.EditingApplication != null) {
             this.ApplicationFormGroup = this.formBldr.group({
                 name: [
-                    this.EditingApplication.Application?.Name,
+                    this.EditingApplication?.Application?.Name,
                     Validators.required,
                 ],
                 description: [
-                    this.EditingApplication.Application?.Description,
+                    this.EditingApplication?.Application?.Description,
                     Validators.required,
                 ],
                 route: [
                     this.CurrentRoute
                         ? this.CurrentRoute
-                        : this.EditingApplication.LookupConfig?.PathRegex.replace(
+                        : this.EditingApplication?.LookupConfig?.PathRegex.replace(
                               '.*',
                               ''
                           ) || '/',
-                    Validators.required,
+                    Validators.compose([
+                        Validators.required,
+                        Validators.pattern(this.RouteRegex),
+                    ]),
                 ],
                 // priority: [
                 //   this.EditingApplication.Application?.Priority || 10000,
