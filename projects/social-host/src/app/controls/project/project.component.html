@@ -44,6 +44,19 @@
     </div>
 
     <!-- CENTER FEED -->
+
+    <div middle-left *ngIf="ProjectLookup">
+        <lcu-route-card
+            *ngIf="ProjectLookup"
+            class="fit-content"
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [applications-bank]="State?.EaC?.Applications"
+            [loading]="Loading"
+            [project-lookup]="ProjectLookup"
+            [project]="Project"
+        ></lcu-route-card>
+    </div>
+
     <div middle-right *ngIf="ProjectLookups?.length > 0">
         <lcu-activity-card
             class="fit-content"
@@ -56,18 +69,6 @@
             [feed-header-actions]="State?.FeedActions"
         >
         </lcu-activity-card>
-    </div>
-
-    <div middle-left *ngIf="ProjectLookup">
-        <lcu-route-card
-            *ngIf="ProjectLookup"
-            class="fit-content"
-            [active-environment-lookup]="ActiveEnvironmentLookup"
-            [applications-bank]="State?.EaC?.Applications"
-            [loading]="State?.Loading"
-            [project-lookup]="ProjectLookup"
-            [project]="Project"
-        ></lcu-route-card>
     </div>
     <div middle-full-width *ngIf="ProjectLookups?.length <= 0">
         <lcu-project-wizard-card></lcu-project-wizard-card>
