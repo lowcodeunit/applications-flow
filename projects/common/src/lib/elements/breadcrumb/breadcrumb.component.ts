@@ -77,7 +77,6 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
                 } else {
                     this.IsSmScreen = false;
                 }
-                // console.log('small: ', this.IsSmScreen);
 
                 if (this.IsSmScreen) {
                     this.CurrentLevel = this.determineCurrentLevel();
@@ -134,6 +133,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
 
             this.ReturnRouterLink = this.determineReturnRouterLink();
         }
+        console.log('Enterprises: ', this.Enterprises);
     }
 
     public ngOnDestroy(): void {
