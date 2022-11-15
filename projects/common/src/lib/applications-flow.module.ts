@@ -91,6 +91,8 @@ import { DashboardToolbarComponent } from './elements/dashboard-toolbar/dashboar
 import { ProjectCardComponent } from './elements/project-card/project-card.component';
 import { RouteCardComponent } from './elements/route-card/route-card.component';
 import { ApplicationsCardComponent } from './elements/applications-card/applications-card.component';
+import { EditEnterpriseDialogComponent } from './dialogs/edit-enterprise-dialog/edit-enterprise-dialog.component';
+import { EditEnterpriseFormComponent } from './controls/edit-enterprise-form/edit-enterprise-form.component';
 
 @NgModule({
     declarations: [
@@ -165,6 +167,8 @@ import { ApplicationsCardComponent } from './elements/applications-card/applicat
         ProjectCardComponent,
         RouteCardComponent,
         ApplicationsCardComponent,
+        EditEnterpriseDialogComponent,
+        EditEnterpriseFormComponent,
     ],
     imports: [
         AngularEditorModule,
@@ -254,6 +258,8 @@ import { ApplicationsCardComponent } from './elements/applications-card/applicat
         ProjectCardComponent,
         RouteCardComponent,
         ApplicationsCardComponent,
+        EditEnterpriseDialogComponent,
+        EditEnterpriseFormComponent,
     ],
     entryComponents: [
         ApplicationsFlowProjectsElementComponent,

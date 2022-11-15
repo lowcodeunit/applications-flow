@@ -6,6 +6,7 @@ import {
     BuildPipelineDialogComponent,
     ApplicationsFlowService,
     DFSModifiersDialogComponent,
+    EditEnterpriseDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCDevOpsAction,
@@ -108,7 +109,7 @@ export class Enterprise4Component implements OnInit, OnDestroy {
     ) {
         this.counter = 0;
 
-        this.IsInfoCardEditable = false;
+        this.IsInfoCardEditable = true;
         this.IsInfoCardShareable = false;
 
         this.SlicesCount = 5;
@@ -146,7 +147,10 @@ export class Enterprise4Component implements OnInit, OnDestroy {
         this.StateSub.unsubscribe();
     }
 
-    public HandleLeftClickEvent(event: any) {}
+    public HandleLeftClickEvent(event: any) {
+        this.OpenEditEnterpriseDialog();
+    }
+
     public HandleRightClickEvent(event: any) {}
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
@@ -231,5 +235,15 @@ export class Enterprise4Component implements OnInit, OnDestroy {
     public UpgradeClicked() {}
 
     //HELPERS
-    // protected async handleStateChange(): Promise<void> {}
+
+    protected OpenEditEnterpriseDialog() {
+        const dialogRef = this.dialog.open(EditEnterpriseDialogComponent, {
+            width: '600px',
+            data: {
+                enterprise: this.State?.EaC?.Enterprise,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result: any) => {});
+    }
 }
