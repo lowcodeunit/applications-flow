@@ -251,7 +251,7 @@ export class ApplicationComponent implements OnInit {
             // this.EntPath = params['enterprise'];
             this.ApplicationLookup = params['appLookup'];
             this.CurrentApplicationRoute = params['appRoute'];
-            console.log('route lookup: ', this.CurrentApplicationRoute);
+            // console.log('route lookup: ', this.CurrentApplicationRoute);
             this.ProjectLookup = params['projectLookup'];
         });
 
@@ -660,15 +660,6 @@ export class ApplicationComponent implements OnInit {
                 duration: 5000,
             });
 
-            setTimeout(() => {
-                this.snackBar.open(
-                    'Configuring Application: This may take a couple minutes.',
-                    'Dismiss',
-                    {
-                        duration: 10000,
-                    }
-                );
-            }, 6000);
             if (this.TempRoute !== this.CurrentApplicationRoute) {
                 // console.log("new route: ", this.TempRoute)
                 this.router.navigate([
@@ -678,6 +669,16 @@ export class ApplicationComponent implements OnInit {
                     this.ProjectLookup,
                 ]);
             }
+
+            setTimeout(() => {
+                this.snackBar.open(
+                    'Configuring Application: This may take a couple minutes.',
+                    'Dismiss',
+                    {
+                        duration: 10000,
+                    }
+                );
+            }, 6000);
         } else {
             this.ErrorMessage = event.Message;
         }
