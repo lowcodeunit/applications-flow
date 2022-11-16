@@ -127,6 +127,7 @@ export class Enterprise4Component implements OnInit, OnDestroy {
             (state: ApplicationsFlowState) => {
                 this.State = state;
                 console.log('State: ', this.State);
+
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
                     this.State?.LoadingEnterprises ||

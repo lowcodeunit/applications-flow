@@ -1,15 +1,35 @@
 <mat-card class="social-card">
-    <mat-card-title>Members</mat-card-title>
+    <div
+        class="team-member-header"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+    >
+        <mat-card-title>Members</mat-card-title>
+        <button
+            mat-raised-button
+            class="add-member-btn"
+            color="primary"
+            (click)="OpenAddMemberModal()"
+            [disabled]="!Enterprise"
+        >
+            Add Member
+        </button>
+    </div>
 
     <mat-card-content>
-        <div *ngIf="CurrentUser" fxLayout="row" fxLayoutAlign="start center">
+        <ng-container *ngIf="TeamMembers"></ng-container>
+        <div
+            *ngFor="let member of TeamMembers"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+        >
             <mat-icon class="member-icon">person</mat-icon>
             <div>
-                <div class="username">{{ CurrentUser }}</div>
-                <div>Owner</div>
+                <div class="username">{{ member }}</div>
+                <!-- <div>Owner</div> -->
             </div>
         </div>
-        <div *ngIf="!CurrentUser" fxLayout="row" fxLayoutAlign="start center">
+        <div *ngIf="!TeamMembers" fxLayout="row" fxLayoutAlign="start center">
             <skeleton-avatar
                 [showIcon]="true"
                 [effect]="SkeletonEffect"

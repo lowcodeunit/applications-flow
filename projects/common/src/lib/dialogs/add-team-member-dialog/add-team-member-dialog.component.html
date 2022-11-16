@@ -1,0 +1,39 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h3>Invite Member to {{ Enterprise.Name }}</h3>
+    <button mat-icon-button (click)="Cancel()">
+        <mat-icon>cancel</mat-icon>
+    </button>
+</div>
+<form
+    class="invite-form"
+    [formGroup]="AddTeamMemberFormGroup"
+    (ngSubmit)="AddMember()"
+>
+    <mat-form-field appearance="fill" class="invite-container">
+        <mat-label>Enter email</mat-label>
+        <input
+            matInput
+            placeholder="Enter Email of Invitee"
+            [formControl]="Email"
+            required
+        />
+        <mat-error *ngIf="Email.invalid">{{ GetErrorMessage() }}</mat-error>
+    </mat-form-field>
+
+    <!-- <mat-form-field appearance="fill" class="invite-container">
+        <mat-label>Permission</mat-label>
+        <mat-select [formControl]="Permission">
+            <mat-option value="option">Option</mat-option>
+        </mat-select>
+    </mat-form-field> -->
+    <div fxLayoutAlign="end center">
+        <button
+            mat-raised-button
+            color="primary"
+            id="send-invite-btn"
+            [disabled]="Email.invalid"
+        >
+            Send Invite
+        </button>
+    </div>
+</form>

@@ -90,6 +90,7 @@ import { SocialUIService } from './services/social-ui.service';
 import { DashboardToolbarComponent } from './elements/dashboard-toolbar/dashboard-toolbar.component';
 import { ProjectCardComponent } from './elements/project-card/project-card.component';
 import { RouteCardComponent } from './elements/route-card/route-card.component';
+import { AddTeamMemberDialogComponent } from './dialogs/add-team-member-dialog/add-team-member-dialog.component';
 import { ApplicationsCardComponent } from './elements/applications-card/applications-card.component';
 import { EditEnterpriseDialogComponent } from './dialogs/edit-enterprise-dialog/edit-enterprise-dialog.component';
 import { EditEnterpriseFormComponent } from './controls/edit-enterprise-form/edit-enterprise-form.component';
@@ -166,6 +167,7 @@ import { EditEnterpriseFormComponent } from './controls/edit-enterprise-form/edi
         DashboardToolbarComponent,
         ProjectCardComponent,
         RouteCardComponent,
+        AddTeamMemberDialogComponent,
         ApplicationsCardComponent,
         EditEnterpriseDialogComponent,
         EditEnterpriseFormComponent,
@@ -257,6 +259,7 @@ import { EditEnterpriseFormComponent } from './controls/edit-enterprise-form/edi
         DashboardToolbarComponent,
         ProjectCardComponent,
         RouteCardComponent,
+        AddTeamMemberDialogComponent,
         ApplicationsCardComponent,
         EditEnterpriseDialogComponent,
         EditEnterpriseFormComponent,
@@ -306,6 +309,7 @@ import { EditEnterpriseFormComponent } from './controls/edit-enterprise-form/edi
         EditApplicationDialogComponent,
         EmulatedDevicesToggleComponent,
         ConnectedSourceComponent,
+        AddTeamMemberDialogComponent,
     ],
     schemas: [
         CUSTOM_ELEMENTS_SCHEMA, // Tells Angular we will have custom tags in our templates
