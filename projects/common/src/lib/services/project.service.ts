@@ -522,6 +522,7 @@ export class ProjectService {
                                 state
                             ),
                         ]);
+                        console.log('LOAD EAC RESULTS: ', results);
                     } else {
                         state.Loading = false;
 
