@@ -27,7 +27,11 @@
         Team members can create new sites or change their settings, depending on
         their permissions.
     </p>
+
     <lcu-team-member-card
         [current-user]="State?.UserLicenseInfo?.Email"
+        [enterprise]="State?.EaC?.Enterprise"
+        [project-lookups]="ProjectLookups"
+        [projects]="State?.EaC?.Projects"
     ></lcu-team-member-card>
 </div>

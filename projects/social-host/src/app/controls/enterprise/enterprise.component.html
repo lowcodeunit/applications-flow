@@ -66,9 +66,12 @@
         <lcu-project-wizard-card></lcu-project-wizard-card>
     </div>
 
-    <div>
+    <div *ngIf="ProjectLookups?.length > 0">
         <lcu-team-member-card
             [current-user]="State?.UserLicenseInfo?.Email"
+            [enterprise]="State?.EaC?.Enterprise"
+            [project-lookups]="ProjectLookups"
+            [projects]="State?.EaC?.Projects"
         ></lcu-team-member-card>
     </div>
 </lcu-two-column>
