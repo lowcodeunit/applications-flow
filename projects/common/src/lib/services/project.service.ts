@@ -521,8 +521,9 @@ export class ProjectService {
                                 false,
                                 state
                             ),
+                            this.ListEnterprises(state),
                         ]);
-                        console.log('LOAD EAC RESULTS: ', results);
+                        // console.log('LOAD EAC RESULTS: ', results);
                     } else {
                         state.Loading = false;
 
