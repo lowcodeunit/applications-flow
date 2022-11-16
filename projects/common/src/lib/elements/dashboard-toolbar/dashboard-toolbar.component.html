@@ -12,7 +12,21 @@
         <a class="toolbar-item" href="/dashboard/projects">Projects</a>
         <div class="vl"></div>
 
-        <a class="toolbar-item" href="/dashboard/teams">Teams</a>
+        <a
+            class="toolbar-item"
+            href="/dashboard/teams"
+            *ngIf="ProjectLookups.length > 0"
+            >Teams</a
+        >
+
+        <a
+            class="toolbar-item disabled"
+            href="/dashboard/teams"
+            *ngIf="ProjectLookups.length <= 0"
+            matTooltip="Add a project to unlock this feature"
+            >Teams</a
+        >
+
         <div class="vl"></div>
 
         <a
