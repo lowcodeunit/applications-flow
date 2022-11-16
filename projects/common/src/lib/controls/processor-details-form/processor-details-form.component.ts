@@ -223,6 +223,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     public SaveProcessorDetails(): void {
+        console.log('Save processor details getting called');
         const app: EaCApplicationAsCode = this.EditingApplication;
         app.LookupConfig.AllowedMethods = this.MethodsFormControl?.value
             ?.split(' ')

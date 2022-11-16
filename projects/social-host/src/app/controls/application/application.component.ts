@@ -697,7 +697,7 @@ export class ApplicationComponent implements OnInit {
             Processor: {
                 Type: this.ProcessorDetailsFormControls.ProcessorType,
             },
-            // LowCodeUnit: {},
+            LowCodeUnit: {},
         };
 
         switch (app.Processor.Type) {
@@ -824,7 +824,7 @@ export class ApplicationComponent implements OnInit {
         };
         // this.HasBuildFormControl.value &&  taken out from below if statement
         if (
-            this.ProcessorDetailsFormControls.ProcessorType !== 'redirect' &&
+            this.ProcessorDetailsFormControls.ProcessorType !== 'Redirect' &&
             this.ProcessorDetailsFormControls.LCUType === 'GitHub'
         ) {
             if (app) {

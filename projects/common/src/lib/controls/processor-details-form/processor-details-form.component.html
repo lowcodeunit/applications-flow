@@ -175,6 +175,9 @@
                                 formControlName="sourceControl"
                                 (selectionChange)="SourceControlChanged($event)"
                             >
+                                <mat-option value="null">
+                                    No Source Control
+                                </mat-option>
                                 <mat-option
                                     *ngFor="
                                         let scLookup of SourceControlLookups
