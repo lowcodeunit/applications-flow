@@ -133,7 +133,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
 
             this.ReturnRouterLink = this.determineReturnRouterLink();
         }
-        console.log('Enterprises: ', this.Enterprises);
+        // console.log('Enterprises: ', this.Enterprises);
     }
 
     public ngOnDestroy(): void {

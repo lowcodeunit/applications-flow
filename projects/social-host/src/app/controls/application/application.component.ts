@@ -224,6 +224,8 @@ export class ApplicationComponent implements OnInit {
 
     public SlicesCount: number;
 
+    public TempRoute: string;
+
     public ProjectLookup: string;
 
     public IsDisabled: boolean;
@@ -249,6 +251,7 @@ export class ApplicationComponent implements OnInit {
             // this.EntPath = params['enterprise'];
             this.ApplicationLookup = params['appLookup'];
             this.CurrentApplicationRoute = params['appRoute'];
+            console.log('route lookup: ', this.CurrentApplicationRoute);
             this.ProjectLookup = params['projectLookup'];
         });
 
@@ -262,6 +265,8 @@ export class ApplicationComponent implements OnInit {
         this.Slices = {
             Modifiers: this.SlicesCount,
         };
+
+        this.TempRoute = '';
 
         this.IsDisabled = true;
     }
@@ -664,6 +669,15 @@ export class ApplicationComponent implements OnInit {
                     }
                 );
             }, 6000);
+            if (this.TempRoute !== this.CurrentApplicationRoute) {
+                // console.log("new route: ", this.TempRoute)
+                this.router.navigate([
+                    '/application',
+                    this.ApplicationLookup,
+                    this.TempRoute,
+                    this.ProjectLookup,
+                ]);
+            }
         } else {
             this.ErrorMessage = event.Message;
         }
@@ -836,6 +850,8 @@ export class ApplicationComponent implements OnInit {
         }
 
         console.log('Save new App request: ', saveAppReq);
+
+        this.TempRoute = this.ApplicationFormControls.RouteFormControl.value;
 
         this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res: any) => {
             this.HandleSaveApplicationEvent(res);
