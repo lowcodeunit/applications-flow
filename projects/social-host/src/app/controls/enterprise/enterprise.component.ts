@@ -126,7 +126,7 @@ export class Enterprise4Component implements OnInit, OnDestroy {
         this.StateSub = this.eacSvc.State.subscribe(
             (state: ApplicationsFlowState) => {
                 this.State = state;
-                console.log('State: ', this.State);
+                // console.log('State: ', this.State);
 
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
@@ -155,7 +155,7 @@ export class Enterprise4Component implements OnInit, OnDestroy {
     public HandleRightClickEvent(event: any) {}
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
-        console.log('Modifier lookup: ', mdfrLookup);
+        // console.log('Modifier lookup: ', mdfrLookup);
         // throw new Error('Not implemented: OpenModifierDialog');
         const dialogRef = this.dialog.open(DFSModifiersDialogComponent, {
             width: '600px',

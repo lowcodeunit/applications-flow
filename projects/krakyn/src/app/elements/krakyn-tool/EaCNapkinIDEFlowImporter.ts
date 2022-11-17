@@ -34,7 +34,7 @@ export class EaCNapkinIDEFlowImporter extends NapkinIDEFlowImporter<EnterpriseAs
         flow: NapkinIDEFlow
     ): void {
         const projLookups = Object.keys(eac.Projects || {});
-        console.log('project lookups: ', projLookups);
+        // console.log('project lookups: ', projLookups);
 
         let sysCount = 0;
 

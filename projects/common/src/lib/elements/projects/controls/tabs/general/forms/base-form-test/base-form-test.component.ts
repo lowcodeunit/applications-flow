@@ -93,6 +93,6 @@ export class BaseFormTestComponent extends BaseFormComponent implements OnInit {
     }
 
     protected save(): void {
-        console.log('CHILD SAVE');
+        // console.log('CHILD SAVE');
     }
 }

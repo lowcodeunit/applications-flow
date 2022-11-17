@@ -75,7 +75,7 @@ export class ProjectInfoCardComponent implements OnInit {
     }
 
     public RightIconClicked() {
-        console.log('share clicked');
+        // console.log('share clicked');
         this.RightClickEvent.emit({});
     }
 

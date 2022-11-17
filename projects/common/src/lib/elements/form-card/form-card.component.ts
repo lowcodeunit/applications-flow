@@ -35,7 +35,7 @@ export class FormCardComponent implements OnInit {
 
     ngOnChanges(): void {
         if (this.Config) {
-            console.log('recieved Config: ', this.Config);
+            // console.log('recieved Config: ', this.Config);
         }
     }
 }

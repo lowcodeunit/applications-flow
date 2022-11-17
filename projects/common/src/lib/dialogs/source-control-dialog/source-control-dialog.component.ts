@@ -67,7 +67,7 @@ export class SourceControlDialogComponent implements OnInit, OnDestroy {
     }
 
     public HandleSaveStatusEvent(event: Status) {
-        console.log('event to save: ', event);
+        // console.log('event to save: ', event);
         if (event.Code === 0) {
             this.snackBar.open('Source Control Succesfully Saved', 'Dismiss', {
                 duration: 5000,

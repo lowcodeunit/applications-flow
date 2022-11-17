@@ -47,7 +47,7 @@ export class EditEnterpriseFormComponent implements OnInit {
     }
 
     public SubmitEnterpriseControl() {
-        console.log('Enterprise form: ', this.EnterpriseFormGroup.value);
+        // console.log('Enterprise form: ', this.EnterpriseFormGroup.value);
         this.SaveEnterpriseDetails();
     }
 
@@ -58,7 +58,7 @@ export class EditEnterpriseFormComponent implements OnInit {
                 Description: this.DescriptionFormControl.value,
             },
         };
-        console.log('SAve eac: ', eac);
+        // console.log('SAve eac: ', eac);
 
         this.eacSvc.SaveEnterpriseAsCode(eac).then((res) => {
             this.SaveFormEvent.emit(res);

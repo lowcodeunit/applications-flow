@@ -35,19 +35,19 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
         flatten: boolean = false,
         zip: boolean = false
     ): Promise<object> {
-        console.log(
-            'Calling ColdQuery',
-            startDate,
-            endDate,
-            pageSize,
-            page,
-            selectedDeviceIds,
-            includeEmulated,
-            dataType,
-            resultType,
-            flatten,
-            zip
-        );
+        // console.log(
+        //     'Calling ColdQuery',
+        //     startDate,
+        //     endDate,
+        //     pageSize,
+        //     page,
+        //     selectedDeviceIds,
+        //     includeEmulated,
+        //     dataType,
+        //     resultType,
+        //     flatten,
+        //     zip
+        // );
 
         const args = {
             DataType: dataType,
@@ -71,7 +71,7 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
     }
 
     public EnrollDevice(device: IoTEnsembleDeviceEnrollment): void {
-        console.log('calling enrollDevice');
+        // console.log('calling enrollDevice');
 
         const args = {
             Device: device,
@@ -89,7 +89,7 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
         deviceName: string,
         expiryInSeconds: number = 0
     ): void {
-        console.log('calling issueDeviceSasToken');
+        // console.log('calling issueDeviceSasToken');
 
         const args = {
             DeviceName: deviceName,
@@ -124,7 +124,7 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
     }
 
     public RevokeDeviceEnrollment(deviceId: string): void {
-        console.log('calling RevokeDeviceEnrollment');
+        // console.log('calling RevokeDeviceEnrollment');
 
         const args = {
             DeviceID: deviceId,
@@ -142,7 +142,7 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
         deviceName: string,
         payload: IoTEnsembleTelemetryPayload
     ): void {
-        console.log('calling sendDeviceMessage');
+        // console.log('calling sendDeviceMessage');
 
         const args = {
             DeviceName: deviceName,
@@ -158,7 +158,7 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
     }
 
     public ToggleDetailsPane(): void {
-        console.log('calling toggleDetailsPane');
+        // console.log('calling toggleDetailsPane');
 
         const args = {};
 
@@ -171,7 +171,7 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
     }
 
     public ToggleEmulatedEnabled(): void {
-        console.log('calling ToggleEmulated');
+        // console.log('calling ToggleEmulated');
 
         const args = {};
 
@@ -184,7 +184,7 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
     }
 
     public ToggleTelemetrySync() {
-        console.log('calling toggleTelemetry');
+        // console.log('calling toggleTelemetry');
 
         const args = {};
 
@@ -241,17 +241,17 @@ export class IoTEnsembleStateContext extends StateContext<IoTEnsembleState> {
         selectedDeviceIds: string[] = [],
         includeEmulated: boolean = false
     ): Promise<object> {
-        console.log(
-            'calling warmQuery',
-            startDate,
-            endDate,
-            'page size:',
-            pageSize,
-            'page:',
-            page,
-            selectedDeviceIds,
-            includeEmulated
-        );
+        // console.log(
+        //     'calling warmQuery',
+        //     startDate,
+        //     endDate,
+        //     'page size:',
+        //     pageSize,
+        //     'page:',
+        //     page,
+        //     selectedDeviceIds,
+        //     includeEmulated
+        // );
 
         const args = {
             EndDate: endDate,

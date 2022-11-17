@@ -229,7 +229,7 @@ export class FeedHeaderDialogComponent implements OnInit, OnDestroy {
     }
 
     public PullRequestSourceControlChanged(event: MatSelectChange) {
-        console.log('sourcecontrol', this.SourceControlFormControl.value);
+        // console.log('sourcecontrol', this.SourceControlFormControl.value);
         this.SourceControl =
             this.SourceControls[this.SourceControlFormControl.value];
         this.listBranches();
@@ -327,7 +327,7 @@ export class FeedHeaderDialogComponent implements OnInit, OnDestroy {
     protected listBranches(): void {
         this.Loading = true;
 
-        console.log('LISTING BRANCHES');
+        // console.log('LISTING BRANCHES');
 
         this.appsFlowSvc
             .ListBranches(
@@ -349,10 +349,10 @@ export class FeedHeaderDialogComponent implements OnInit, OnDestroy {
             .subscribe(
                 (response: BaseModeledResponse<GitHubOrganization[]>) => {
                     this.OrganizationOptions = response.Model;
-                    console.log(
-                        'Organization Options: ',
-                        this.OrganizationOptions
-                    );
+                    // console.log(
+                    //     'Organization Options: ',
+                    //     this.OrganizationOptions
+                    // );
 
                     if (this.SourceControl?.Organization) {
                         setTimeout(() => {

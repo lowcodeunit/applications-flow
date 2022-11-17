@@ -63,14 +63,14 @@ export class SourceControlFormComponent implements OnInit {
 
     public SourceControlLookupChanged(event: MatSelectChange): void {
         //  TODO:  Anything to do here on change?
-        console.log('sourceControlLookupChanged: ', event);
+        // console.log('sourceControlLookupChanged: ', event);
     }
 
     public SubmitSourceControl() {
-        console.log(
-            'submitting source control: ',
-            this.SourceControlFormGroup.value
-        );
+        // console.log(
+        //     'submitting source control: ',
+        //     this.SourceControlFormGroup.value
+        // );
         this.SaveFormEvent.emit(this.SourceControlFormGroup.value);
     }
 

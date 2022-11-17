@@ -59,7 +59,7 @@ export class StateConfigFormComponent implements OnInit {
     public SaveStateConfig() {
         let app = this.Application;
 
-        console.log('APP = ', app);
+        // console.log('APP = ', app);
 
         app.DataTokens['lcu-state-config'] = {
             Name: this.StateConfigNameFormControl?.value,

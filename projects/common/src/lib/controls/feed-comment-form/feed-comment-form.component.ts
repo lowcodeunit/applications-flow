@@ -28,7 +28,7 @@ export class FeedCommentFormComponent implements OnInit {
     }
 
     public SubmitComment() {
-        console.log(this.CommentControl.value);
+        // console.log(this.CommentControl.value);
         this.SubmitEvent.emit(this.CommentControl.value);
     }
 

@@ -264,7 +264,7 @@ export class NewApplicationDialogComponent implements OnInit, OnDestroy {
     }
 
     protected handleSaveStatus(status: Status) {
-        console.log('event to save: ', status);
+        // console.log('event to save: ', status);
         if (status.Code === 0) {
             this.snackBar.open('Application Succesfully Created', 'Dismiss', {
                 duration: 5000,

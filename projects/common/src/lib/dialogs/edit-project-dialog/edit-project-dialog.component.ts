@@ -70,7 +70,7 @@ export class EditProjectDialogComponent implements OnInit, OnDestroy {
     }
 
     public HandleSaveProjectEvent(event: Status) {
-        console.log('event to save: ', event);
+        // console.log('event to save: ', event);
         if (event.Code === 0) {
             this.snackBar.open('Project Succesfully Updated', 'Dismiss', {
                 duration: 5000,
