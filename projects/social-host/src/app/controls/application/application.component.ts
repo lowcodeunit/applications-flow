@@ -224,6 +224,8 @@ export class ApplicationComponent implements OnInit {
 
     public SlicesCount: number;
 
+    public TempRoute: string;
+
     public ProjectLookup: string;
 
     public IsDisabled: boolean;
@@ -249,6 +251,7 @@ export class ApplicationComponent implements OnInit {
             // this.EntPath = params['enterprise'];
             this.ApplicationLookup = params['appLookup'];
             this.CurrentApplicationRoute = params['appRoute'];
+            // console.log('route lookup: ', this.CurrentApplicationRoute);
             this.ProjectLookup = params['projectLookup'];
         });
 
@@ -262,6 +265,8 @@ export class ApplicationComponent implements OnInit {
         this.Slices = {
             Modifiers: this.SlicesCount,
         };
+
+        this.TempRoute = '';
 
         this.IsDisabled = true;
     }
@@ -334,7 +339,7 @@ export class ApplicationComponent implements OnInit {
                             this.Application?.LowCodeUnit?.CurrentVersion;
                         break;
                 }
-                console.log('DEPLOYED VERSION: ', this.DeployedVersion);
+                // console.log('DEPLOYED VERSION: ', this.DeployedVersion);
 
                 this.SourceControls = this.Environment?.Sources || {};
 
@@ -435,31 +440,42 @@ export class ApplicationComponent implements OnInit {
         // this.SaveApplication();
     }
 
-    // public IsSaveDisabled(): boolean{
-    //     let disabled: boolean;
-    //     console.log(" pro valid = ",this.ProcessorDetailsFormControls
-    //     ?.ProcessorDetailsFormGroup?.valid )
-    //     console.log("app valid = ",
-    // this.ApplicationFormControls?.ApplicationFormGroup
-    //     ?.valid )
+    public IsSaveDisabled(): boolean {
+        let disabled: boolean;
+        // console.log(" pro valid = ",this.ProcessorDetailsFormControls
+        // ?.ProcessorDetailsFormGroup?.valid )
+        //     console.log("app valid = ",
+        // this.ApplicationFormControls?.ApplicationFormGroup
+        //     ?.valid )
 
-    //     console.log("dirty = ",(this.ProcessorDetailsFormControls
-    //         ?.ProcessorDetailsFormGroup?.dirty ||
-    //     this.ApplicationFormControls?.ApplicationFormGroup
-    //         ?.dirty) )
+        // console.log("dirty = ",(this.ProcessorDetailsFormControls
+        //     ?.ProcessorDetailsFormGroup?.dirty ||
+        // this.ApplicationFormControls?.ApplicationFormGroup
+        //     ?.dirty) )
 
-    //     disabled = !((this.ProcessorDetailsFormControls
-    //         ?.ProcessorDetailsFormGroup?.valid &&
-    //     this.ApplicationFormControls?.ApplicationFormGroup
-    //         ?.valid) &&
-    //         (this.ProcessorDetailsFormControls
-    //         ?.ProcessorDetailsFormGroup?.dirty ||
-    //     this.ApplicationFormControls?.ApplicationFormGroup
-    //         ?.dirty));
-    //         console.log("dis = ", disabled);
+        disabled = !(
+            this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup
+                ?.valid &&
+            this.ApplicationFormControls?.ApplicationFormGroup?.valid &&
+            (this.ProcessorDetailsFormControls?.ProcessorDetailsFormGroup
+                ?.dirty ||
+                this.ApplicationFormControls?.ApplicationFormGroup?.dirty)
+        );
+        // console.log("dis = ", disabled);
 
-    //     return !disabled;
-    // }
+        // !(
+        //     this.ProcessorDetailsFormControls
+        //         ?.ProcessorDetailsFormGroup?.valid &&
+        //     this.ApplicationFormControls
+        //         ?.ApplicationFormGroup?.valid &&
+        //     (this.ProcessorDetailsFormControls
+        //         ?.ProcessorDetailsFormGroup?.dirty ||
+        //         this.ApplicationFormControls
+        //             ?.ApplicationFormGroup?.dirty)
+        // )
+
+        return disabled;
+    }
 
     public OpenEditAppModal() {
         const dialogRef = this.dialog.open(EditApplicationDialogComponent, {
@@ -640,9 +656,29 @@ export class ApplicationComponent implements OnInit {
     public HandleSaveApplicationEvent(event: Status) {
         // console.log('event to save: ', event);
         if (event.Code === 0) {
-            this.snackBar.open('Application Succesfully Updated', 'Dismiss', {
+            this.snackBar.open('Application Succesfully Saved', 'Dismiss', {
                 duration: 5000,
             });
+
+            if (this.TempRoute !== this.CurrentApplicationRoute) {
+                // console.log("new route: ", this.TempRoute)
+                this.router.navigate([
+                    '/application',
+                    this.ApplicationLookup,
+                    this.TempRoute,
+                    this.ProjectLookup,
+                ]);
+            }
+
+            setTimeout(() => {
+                this.snackBar.open(
+                    'Configuring Application: This may take a couple minutes.',
+                    'Dismiss',
+                    {
+                        duration: 10000,
+                    }
+                );
+            }, 6000);
         } else {
             this.ErrorMessage = event.Message;
         }
@@ -676,7 +712,7 @@ export class ApplicationComponent implements OnInit {
             Processor: {
                 Type: this.ProcessorDetailsFormControls.ProcessorType,
             },
-            // LowCodeUnit: {},
+            LowCodeUnit: {},
         };
 
         switch (app.Processor.Type) {
@@ -803,7 +839,7 @@ export class ApplicationComponent implements OnInit {
         };
         // this.HasBuildFormControl.value &&  taken out from below if statement
         if (
-            this.ProcessorDetailsFormControls.ProcessorType !== 'redirect' &&
+            this.ProcessorDetailsFormControls.ProcessorType !== 'Redirect' &&
             this.ProcessorDetailsFormControls.LCUType === 'GitHub'
         ) {
             if (app) {
@@ -814,7 +850,9 @@ export class ApplicationComponent implements OnInit {
             app.LowCodeUnit.SourceControlLookup = null;
         }
 
-        // console.log("Save new App request: ", saveAppReq);
+        console.log('Save new App request: ', saveAppReq);
+
+        this.TempRoute = this.ApplicationFormControls.RouteFormControl.value;
 
         this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res: any) => {
             this.HandleSaveApplicationEvent(res);

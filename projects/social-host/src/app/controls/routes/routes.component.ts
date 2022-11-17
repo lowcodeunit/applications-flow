@@ -140,7 +140,7 @@ export class RoutesComponent implements OnInit {
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                console.log('Routes state: ', this.State);
+                // console.log('Routes state: ', this.State);
 
                 if (this.State?.EaC?.Environments) {
                     //  TODO:  Eventually support multiple environments

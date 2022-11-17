@@ -77,7 +77,6 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
                 } else {
                     this.IsSmScreen = false;
                 }
-                console.log('small: ', this.IsSmScreen);
 
                 if (this.IsSmScreen) {
                     this.CurrentLevel = this.determineCurrentLevel();
@@ -107,14 +106,16 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
         ) {
             this.Routes = Object.keys(this.RoutedApplications || {});
 
-            console.log('routed apps: ', this.RoutedApplications);
+            // console.log('routed apps: ', this.RoutedApplications);
 
             if (this.SelectedRoute) {
-                console.log('selected route: ', this.SelectedRoute);
+                // console.log('selected route: ', this.SelectedRoute);
 
-                this.CurrentRouteApplicationLookups =
-                    Object.keys(this.RoutedApplications[this.SelectedRoute]) ||
-                    [];
+                this.CurrentRouteApplicationLookups = this.RoutedApplications[
+                    this.SelectedRoute
+                ]
+                    ? Object.keys(this.RoutedApplications[this.SelectedRoute])
+                    : [];
             }
         }
 
@@ -134,6 +135,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
 
             this.ReturnRouterLink = this.determineReturnRouterLink();
         }
+        // console.log('Enterprises: ', this.Enterprises);
     }
 
     public ngOnDestroy(): void {

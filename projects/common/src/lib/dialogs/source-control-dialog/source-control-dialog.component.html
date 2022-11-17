@@ -10,7 +10,7 @@
         <lcu-git-auth></lcu-git-auth>
     </ng-container>
 
-    <ng-conatiner *ngIf="State?.GitHub?.HasConnection" fxLayout="column">
+    <ng-container *ngIf="State?.GitHub?.HasConnection" fxLayout="column">
         <div fxLayoutAlign="center center">
             <lcu-devops-source-control-form
                 [environment]="data.environment"
@@ -25,7 +25,7 @@
         <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center">
             {{ ErrorMessage }}
         </mat-error>
-    </ng-conatiner>
+    </ng-container>
 </mat-dialog-content>
 
 <mat-dialog-actions

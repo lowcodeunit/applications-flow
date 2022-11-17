@@ -25,7 +25,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
-            [loading]="State?.Loading"
+            [loading]="Loading"
             [subtext]="
                 Project?.PrimaryHost
                     ? Project?.PrimaryHost + Application?.Processor?.BaseHref
@@ -137,7 +137,7 @@
             </div>
 
             <mat-card-content id="app-card-content">
-                <ng-conatiner *ngIf="!State?.Loading">
+                <ng-container *ngIf="!State?.Loading">
                     <lcu-edit-application-form
                         [application-lookup]="ApplicationLookup"
                         [editing-application]="Application"
@@ -170,7 +170,7 @@
                     >
                         {{ ErrorMessage }}
                     </mat-error>
-                </ng-conatiner>
+                </ng-container>
 
                 <ng-container *ngIf="State?.Loading">
                     <skeleton-block
@@ -323,7 +323,7 @@
                 </mat-card-actions>
             </mat-card>
 
-            <mat-card class="social-card" *ngIf="State?.Loading">
+            <mat-card class="social-card" *ngIf="Loading">
                 <mat-card-title>Manage State Config</mat-card-title>
                 <mat-card-actions>
                     <skeleton-block

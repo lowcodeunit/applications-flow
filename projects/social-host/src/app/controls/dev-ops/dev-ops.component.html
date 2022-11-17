@@ -27,9 +27,10 @@
             </p>
         </div>
 
+        <!-- *ngIf="SourceControlLookups?.length > 0" -->
+
         <lcu-slotted-card-lg
             class="fit-content"
-            *ngIf="SourceControlLookups?.length > 0"
             card-title="Source Control"
             icon="build"
             [loading]="State?.Loading"
@@ -38,7 +39,7 @@
             "
             (main-action-clicked)="OpenSourceControlDialog(null, null)"
         >
-            <div>
+            <div *ngIf="SourceControlLookups?.length > 0">
                 <div
                     class="main-slot-container"
                     fxLayout="row"
@@ -168,7 +169,6 @@
         </div>
         <lcu-slotted-card-lg
             class="fit-content"
-            *ngIf="DevOpsActionLookups?.length > 0"
             card-title="Build Pipeline"
             icon="plumbing"
             [loading]="State?.Loading"
@@ -177,7 +177,7 @@
             "
             (main-action-clicked)="OpenBuildPipelineDialog(null)"
         >
-            <div>
+            <div *ngIf="DevOpsActionLookups?.length > 0">
                 <div
                     class="main-slot-container"
                     fxLayout="row"
@@ -227,7 +227,12 @@
                         >
                             <a
                                 class="slot-action-anchor"
-                                (click)="OpenBuildPipelineDialog(doaLookup)"
+                                (click)="
+                                    OpenBuildPipelineDialog(
+                                        doaLookup,
+                                        doa?.Name
+                                    )
+                                "
                             >
                                 <mat-icon
                                     class="action-icon"

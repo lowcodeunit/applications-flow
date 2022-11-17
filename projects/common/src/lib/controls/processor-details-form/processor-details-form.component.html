@@ -116,9 +116,16 @@
                             </mat-select>
                         </mat-form-field>
 
+                        <skeleton-block
+                            [id]="fc"
+                            class="s-block"
+                            effect="wave"
+                            *ngIf="IsSourceControlValid && !BuildPathOptions"
+                        ></skeleton-block>
+
                         <mat-form-field
                             class="mat-full-width with-hint"
-                            *ngIf="IsSourceControlValid"
+                            *ngIf="IsSourceControlValid && BuildPathOptions"
                         >
                             <mat-select
                                 formControlName="buildPath"
@@ -168,6 +175,9 @@
                                 formControlName="sourceControl"
                                 (selectionChange)="SourceControlChanged($event)"
                             >
+                                <mat-option value="null">
+                                    No Source Control
+                                </mat-option>
                                 <mat-option
                                     *ngFor="
                                         let scLookup of SourceControlLookups

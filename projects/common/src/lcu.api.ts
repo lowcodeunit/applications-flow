@@ -27,6 +27,7 @@ export * from './lib/controls/devops-source-control-form/devops-source-control-f
 export * from './lib/controls/dfs-modifiers-form/dfs-modifiers-form.component';
 export * from './lib/controls/edit-application-form/edit-application-form.component';
 export * from './lib/controls/edit-project-form/edit-project-form.component';
+export * from './lib/controls/edit-enterprise-form/edit-enterprise-form.component';
 export * from './lib/controls/feed-comment-form/feed-comment-form.component';
 export * from './lib/controls/processor-details-form/processor-details-form.component';
 export * from './lib/controls/security-toggle/security-toggle.component';
@@ -38,6 +39,7 @@ export * from './lib/dialogs/build-pipeline-dialog/build-pipeline-dialog.compone
 export * from './lib/dialogs/custom-domain-dialog/custom-domain-dialog.component';
 export * from './lib/dialogs/new-application-dialog/new-application-dialog.component';
 export * from './lib/dialogs/edit-application-dialog/edit-application-dialog.component';
+export * from './lib/dialogs/edit-enterprise-dialog/edit-enterprise-dialog.component';
 export * from './lib/dialogs/source-control-dialog/source-control-dialog.component';
 export * from './lib/dialogs/processor-details-dialog/processor-details-dialog.component';
 export * from './lib/dialogs/upgrade-dialog/upgrade-dialog.component';
