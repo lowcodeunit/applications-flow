@@ -167,18 +167,18 @@ export class FeedHeaderComponent implements OnInit {
         switch (this.selectedBtn) {
             case 'pr-btn':
                 //Pull request
-                console.log('creating pull request: ', this.value);
+                // console.log('creating pull request: ', this.value);
                 break;
             case 'oi-btn':
                 //Open Issue
-                console.log('Open issue: ', this.value);
+                // console.log('Open issue: ', this.value);
                 break;
             case 'fb-btn':
                 //Feature Branch
-                console.log('creating feature branch: ', this.value);
+                // console.log('creating feature branch: ', this.value);
                 break;
             default:
-                console.log('hmm');
+                // console.log('hmm');
 
                 break;
         }

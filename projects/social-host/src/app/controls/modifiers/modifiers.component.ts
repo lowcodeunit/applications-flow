@@ -36,13 +36,13 @@ export class ModifiersComponent implements OnInit, OnDestroy {
         this.SkeletonEffect = 'wave';
 
         this.activatedRoute.params.subscribe((params: any) => {
-            console.log('params: ', params);
+            // console.log('params: ', params);
             if (params) {
                 this.ProjectLookup = params['projectLookup'];
             } else {
                 this.ProjectLookup = null;
             }
-            console.log('pjl:', this.ProjectLookup);
+            // console.log('pjl:', this.ProjectLookup);
         });
     }
 
@@ -75,7 +75,7 @@ export class ModifiersComponent implements OnInit, OnDestroy {
     }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
-        console.log('Modifier lookup: ', mdfrLookup);
+        // console.log('Modifier lookup: ', mdfrLookup);
         // throw new Error('Not implemented: OpenModifierDialog');
         let level: string;
         if (this.ProjectLookup) {

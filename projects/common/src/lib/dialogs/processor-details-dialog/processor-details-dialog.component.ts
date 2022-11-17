@@ -88,7 +88,7 @@ export class ProcessorDetailsDialogComponent implements OnInit, OnDestroy {
     }
 
     public HandleSaveFormEvent(event: Status) {
-        console.log('event: ', event);
+        // console.log('event: ', event);
         if (event.Code === 0) {
             this.snackBar.open(
                 'Build Pipeline Created Succesfully',

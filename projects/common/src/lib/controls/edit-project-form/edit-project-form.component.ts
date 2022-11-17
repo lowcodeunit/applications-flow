@@ -79,7 +79,7 @@ export class EditProjectFormComponent implements OnInit {
     }
 
     public SubmitProjectControl() {
-        console.log('application form: ', this.ProjectFormGroup.value);
+        // console.log('application form: ', this.ProjectFormGroup.value);
         this.SaveProject();
     }
 

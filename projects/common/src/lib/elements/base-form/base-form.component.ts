@@ -79,7 +79,7 @@ export class BaseFormComponent implements OnInit {
     }
 
     protected save(): void {
-        console.log('PARENT SAVE');
+        // console.log('PARENT SAVE');
     }
 
     protected resetForm(): void {}

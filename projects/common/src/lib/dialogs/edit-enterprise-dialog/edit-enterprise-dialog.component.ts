@@ -39,7 +39,7 @@ export class EditEnterpriseDialogComponent implements OnInit {
     protected StateSub: Subscription;
 
     public ngOnInit(): void {
-        console.log('Ent: ', this.data.enterprise);
+        // console.log('Ent: ', this.data.enterprise);
         this.StateSub = this.eacSvc.State.subscribe((state) => {
             this.State = state;
         });
@@ -50,7 +50,7 @@ export class EditEnterpriseDialogComponent implements OnInit {
     }
 
     public HandleSaveFormEvent(event: Status) {
-        console.log('event to save: ', event);
+        // console.log('event to save: ', event);
         if (event.Code === 0) {
             this.snackBar.open('Enterprise Succesfully Updated', 'Dismiss', {
                 duration: 5000,

@@ -69,7 +69,7 @@ export class BuildPipelineDialogComponent implements OnInit, OnDestroy {
     }
 
     public HandleResponseEvent(event: Status) {
-        console.log('Response Event: ', event);
+        // console.log('Response Event: ', event);
         if (event.Code === 0) {
             this.snackBar.open(
                 'Build Pipeline Created Succesfully',

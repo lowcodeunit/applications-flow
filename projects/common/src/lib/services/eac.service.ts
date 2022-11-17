@@ -511,14 +511,14 @@ export class EaCService {
         }
 
         if (req.ApplicationLookup) {
-            console.log('APPLOokup: ', req.ApplicationLookup);
-            console.log('saveEAC: ', saveEaC);
+            // console.log('APPLOokup: ', req.ApplicationLookup);
+            // console.log('saveEAC: ', saveEaC);
             saveEaC.Applications[req.ApplicationLookup] = {
                 ModifierLookups: req.ModifierLookups,
             };
         }
 
-        console.log('Save mod eac: ', saveEaC);
+        // console.log('Save mod eac: ', saveEaC);
 
         const status = await this.projectService.SaveEnterpriseAsCode(
             state,
@@ -582,7 +582,7 @@ export class EaCService {
 
         saveEaC.Projects[projectLookup] = project;
 
-        console.log('save eac request: ', saveEaC);
+        // console.log('save eac request: ', saveEaC);
 
         let status = await this.projectService.SaveEnterpriseAsCode(
             state,

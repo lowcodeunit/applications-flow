@@ -54,23 +54,23 @@ export class AddTeamMemberDialogComponent implements OnInit {
         this.BuildForm();
 
         this.Enterprise = this.data.enterprise;
-        console.log('ent: ', this.Enterprise);
+        // console.log('ent: ', this.Enterprise);
 
         this.Projects = this.data.projects;
-        console.log('projects: ', this.Projects);
+        // console.log('projects: ', this.Projects);
         this.ProjectLookup = this.data.projectLookup;
-        console.log('ent: ', this.Enterprise);
+        // console.log('ent: ', this.Enterprise);
     }
 
     //include current project, ent lookup, relyingparty, accessconfig and then the user list
 
     public AddMember() {
-        console.log('ent lookup: ', this.Enterprise.ParentEnterpriseLookup);
-        console.log('invited: ', this.Email.value);
+        // console.log('ent lookup: ', this.Enterprise.ParentEnterpriseLookup);
+        // console.log('invited: ', this.Email.value);
         // console.log('permission: ', this.Permission.value);
 
         let proj: EaCProjectAsCode = this.Projects[this.ProjectLookup];
-        console.log('Proj: ', proj);
+        // console.log('Proj: ', proj);
 
         proj.RelyingParty.AccessConfigurations[
             this.Projects[
@@ -82,7 +82,7 @@ export class AddTeamMemberDialogComponent implements OnInit {
             Project: proj,
             ProjectLookup: this.data.projectLookup,
         };
-        console.log('Add member request: ', saveProjectRequest);
+        // console.log('Add member request: ', saveProjectRequest);
         this.eacSvc.SaveProjectAsCode(saveProjectRequest).then((result) => {
             if (result.Code === 0) {
                 this.snackBar.open('Member Succesfully Added', 'Dismiss', {

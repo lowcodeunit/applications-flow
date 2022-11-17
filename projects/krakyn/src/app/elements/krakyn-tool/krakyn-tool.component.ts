@@ -21,8 +21,8 @@ export class EaCNapkinIDELayoutManager {
 
     //  API Methods
     public Layout(data: any) {
-        console.log('Layout manager =================================>');
-        console.log(data);
+        // console.log('Layout manager =================================>');
+        // console.log(data);
 
         return data;
     }

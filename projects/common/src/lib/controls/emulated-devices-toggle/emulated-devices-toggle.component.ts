@@ -54,10 +54,10 @@ export class EmulatedDevicesToggleComponent implements OnInit {
 
     public EmulatedDevicesSubmit() {
         //save the EmulatedDevices settings
-        console.log(
-            'submitting EmulatedDevices values: ',
-            this.EmulatedDevicesFormGroup.value
-        );
+        // console.log(
+        //     'submitting EmulatedDevices values: ',
+        //     this.EmulatedDevicesFormGroup.value
+        // );
         this.SaveFormEvent.emit(this.EmulatedDevicesFormGroup.value);
     }
 

@@ -23,6 +23,6 @@ export class AppComponent implements OnInit {
     public ngOnInit(): void {}
 
     public DisplayDetails(): void {
-        console.log('DisplayDetails()');
+        // console.log('DisplayDetails()');
     }
 }

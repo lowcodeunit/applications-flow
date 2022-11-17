@@ -62,7 +62,7 @@ export class ProjectService {
 
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
@@ -105,7 +105,7 @@ export class ProjectService {
 
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
@@ -217,7 +217,7 @@ export class ProjectService {
                     } else {
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
@@ -274,7 +274,7 @@ export class ProjectService {
                     } else {
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
@@ -317,7 +317,7 @@ export class ProjectService {
                             );
 
                             if (projKeys.length == 1) {
-                                console.log('Directing to deeper link');
+                                // console.log('Directing to deeper link');
 
                                 let appKeys = Object.keys(
                                     state.EaC.Applications || {}
@@ -342,7 +342,7 @@ export class ProjectService {
                         }
                     });
 
-                    console.log(state);
+                    // console.log(state);
                 },
                 (err) => {
                     state.Loading = false;
@@ -453,17 +453,17 @@ export class ProjectService {
                     if (response.Status.Code === 0) {
                         this.EditingProjectLookup = null;
 
-                        console.log(
-                            'project service active ent: ',
-                            activeEntLookup
-                        );
+                        // console.log(
+                        //     'project service active ent: ',
+                        //     activeEntLookup
+                        // );
 
                         state.ActiveEnterpriseLookup = activeEntLookup;
 
-                        console.log(
-                            'project service State active ent: ',
-                            state.ActiveEnterpriseLookup
-                        );
+                        // console.log(
+                        //     'project service State active ent: ',
+                        //     state.ActiveEnterpriseLookup
+                        // );
 
                         resolve(response.Status);
 
@@ -484,7 +484,7 @@ export class ProjectService {
 
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
@@ -504,7 +504,7 @@ export class ProjectService {
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
             state.Loading = true;
-            console.log('eac: ', eac);
+            // console.log('eac: ', eac);
             this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
                 async (response: BaseModeledResponse<string>) => {
                     if (response.Status.Code === 0) {
@@ -529,7 +529,7 @@ export class ProjectService {
 
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
@@ -567,7 +567,7 @@ export class ProjectService {
 
                 this.CreatingProject = false;
 
-                console.log(state);
+                // console.log(state);
             } else {
                 state.Loading = false;
 
@@ -612,7 +612,7 @@ export class ProjectService {
 
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
@@ -659,7 +659,7 @@ export class ProjectService {
 
                         reject(response.Status);
 
-                        console.log(response);
+                        // console.log(response);
                     }
                 },
                 (err) => {
