@@ -61,6 +61,15 @@ export class EditApplicationDialogComponent implements OnInit, OnDestroy {
             this.snackBar.open('Application Succesfully Updated', 'Dismiss', {
                 duration: 5000,
             });
+            setTimeout(() => {
+                this.snackBar.open(
+                    'Configuring Application: This may take a couple minutes.',
+                    'Dismiss',
+                    {
+                        duration: 10000,
+                    }
+                );
+            }, 6000);
             this.CloseDialog();
         } else {
             this.ErrorMessage = event.Message;

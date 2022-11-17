@@ -1,15 +1,15 @@
 <form
     class="form-card"
-    [formGroup]="ProjectFormGroup"
-    (ngSubmit)="SubmitProjectControl()"
+    [formGroup]="EnterpriseFormGroup"
+    (ngSubmit)="SubmitEnterpriseControl()"
 >
-    <ng-container *ngIf="State?.Loading">
+    <ng-container *ngIf="Loading">
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
 
         <skeleton-block class="s-block" effect="wave"></skeleton-block>
     </ng-container>
 
-    <ng-container *ngIf="!State?.Loading">
+    <ng-container *ngIf="!Loading">
         <mat-form-field class="mat-full-width">
             <input
                 matInput

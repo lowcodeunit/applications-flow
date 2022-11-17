@@ -4,6 +4,7 @@ import {
     ApplicationsFlowState,
     EaCService,
     ApplicationsFlowService,
+    EditProjectDialogComponent,
 } from '@lowcodeunit/applications-flow-common';
 import {
     EaCApplicationAsCode,
@@ -222,7 +223,7 @@ export class ProjectComponent implements OnInit {
         this.eacSvc
             .DeleteProject(projectLookup, projectName)
             .then((status: Status) => {
-                this.router.navigate(['/enterprises']);
+                this.router.navigate(['/']);
             });
     }
 
@@ -230,6 +231,25 @@ export class ProjectComponent implements OnInit {
         console.log('right event: ', event);
     }
     public HandleLeftClickEvent(event: any) {
-        console.log('leftt event: ', event);
+        // console.log('leftt event: ', event);
+        this.OpenEditProjectDialog(this.ProjectLookup);
+    }
+
+    protected OpenEditProjectDialog(pLookup: string) {
+        console.log('project lookup: ', pLookup);
+        // throw new Error('Not implemented: OpenModifierDialog');
+        let level: string;
+
+        const dialogRef = this.dialog.open(EditProjectDialogComponent, {
+            width: '600px',
+            data: {
+                projectLookup: pLookup,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result: any) => {
+            // console.log('The dialog was closed');
+            // console.log("result:", result)
+        });
     }
 }

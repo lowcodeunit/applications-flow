@@ -44,6 +44,19 @@
     </div>
 
     <!-- CENTER FEED -->
+
+    <div middle-left *ngIf="ProjectLookup">
+        <lcu-route-card
+            *ngIf="ProjectLookup"
+            class="fit-content"
+            [active-environment-lookup]="ActiveEnvironmentLookup"
+            [applications-bank]="State?.EaC?.Applications"
+            [loading]="Loading"
+            [project-lookup]="ProjectLookup"
+            [project]="Project"
+        ></lcu-route-card>
+    </div>
+
     <div middle-right *ngIf="ProjectLookups?.length > 0">
         <lcu-activity-card
             class="fit-content"
@@ -57,25 +70,16 @@
         >
         </lcu-activity-card>
     </div>
-
-    <div middle-left *ngIf="ProjectLookup">
-        <lcu-route-card
-            *ngIf="ProjectLookup"
-            class="fit-content"
-            [active-environment-lookup]="ActiveEnvironmentLookup"
-            [applications-bank]="State?.EaC?.Applications"
-            [loading]="State?.Loading"
-            [project-lookup]="ProjectLookup"
-            [project]="Project"
-        ></lcu-route-card>
-    </div>
     <div middle-full-width *ngIf="ProjectLookups?.length <= 0">
         <lcu-project-wizard-card></lcu-project-wizard-card>
     </div>
 
-    <div>
+    <div *ngIf="ProjectLookups?.length > 0">
         <lcu-team-member-card
             [current-user]="State?.UserLicenseInfo?.Email"
+            [enterprise]="State?.EaC?.Enterprise"
+            [project-lookups]="ProjectLookups"
+            [projects]="State?.EaC?.Projects"
         ></lcu-team-member-card>
     </div>
 </lcu-two-column>

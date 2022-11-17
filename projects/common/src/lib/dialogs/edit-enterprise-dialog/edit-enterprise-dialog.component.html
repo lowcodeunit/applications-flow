@@ -1,0 +1,50 @@
+<div class="dialog-header" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title>Edit Enterprise: {{ data.enterprise.Name }}</h2>
+
+    <button mat-icon-button (click)="CloseDialog()">
+        <mat-icon>cancel</mat-icon>
+    </button>
+</div>
+
+<mat-dialog-content>
+    <lcu-edit-enterprise-form
+        [enterprise]="data.enterprise"
+        [loading]="State?.Loading"
+        (save-form-event)="HandleSaveFormEvent($event)"
+    ></lcu-edit-enterprise-form>
+
+    <mat-error *ngIf="ErrorMessage" fxLayoutAlign="center center">
+        {{ ErrorMessage }}
+    </mat-error>
+</mat-dialog-content>
+
+<mat-dialog-actions
+    class="actions-container"
+    div
+    fxLayout="row"
+    fxLayoutAlign="end center"
+>
+    <button
+        class="action-button"
+        mat-raised-button
+        fxFlex="25%"
+        fxFlex.lt-md="30%"
+        (click)="CloseDialog()"
+    >
+        Cancel
+    </button>
+
+    <button
+        *ngIf="!State?.Loading"
+        mat-raised-button
+        type="submit"
+        fxFlex="25%"
+        fxFlex.lt-md="30%"
+        color="primary"
+        (click)="SaveEnterprise()"
+        [disabled]="!EnterpriseFormGroup?.valid || !EnterpriseFormGroup?.dirty"
+    >
+        <!-- <mat-icon>save</mat-icon> -->
+        Save
+    </button>
+</mat-dialog-actions>
