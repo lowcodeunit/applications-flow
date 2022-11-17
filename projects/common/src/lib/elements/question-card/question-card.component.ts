@@ -20,7 +20,7 @@ export class QuestionCardComponent implements OnInit {
     ngOnInit(): void {}
 
     ngOnChanges() {
-        console.log('Questions: ', this.Questions);
+        // console.log('Questions: ', this.Questions);
         if (this.Questions?.length > 0 && !this.QuestionIndex) {
             this.QuestionIndex = 0;
             this.CurrentQuestion = this.Questions[this.QuestionIndex];

@@ -582,7 +582,7 @@ export class AppsFlowComponent implements OnInit {
 
     protected setupApplicationForm(): void {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
-        console.log('ProcessorType = ', this.ProcessorType);
+        // console.log('ProcessorType = ', this.ProcessorType);
 
         if (this.EditingApplication != null) {
             this.ApplicationFormGroup = this.formBldr.group({

@@ -192,12 +192,12 @@ export class DevopsSourceControlFormComponent
     }
 
     public ngOnInit(): void {
-        console.log('source control lookup', this.EditingSourceControlLookup);
+        // console.log('source control lookup', this.EditingSourceControlLookup);
 
         if (this.EditingSourceControlLookup === null) {
             this.CreateNewSourceControl();
         }
-        console.log('source control', this.EditingSourceControl);
+        // console.log('source control', this.EditingSourceControl);
 
         if (this.EditingSourceControl != null) {
             this.DevOpsSourceControlFormGroup = this.formBuilder.group({});
@@ -234,7 +234,7 @@ export class DevopsSourceControlFormComponent
             this.DevOpsActionLookups = Object.keys(this.DevOpsActions || {});
         }
 
-        console.log('devopsAction lookups: ', this.DevOpsActionLookups);
+        // console.log('devopsAction lookups: ', this.DevOpsActionLookups);
 
         if (this.Environment?.Sources && this.EditingSourceControlLookup) {
             this.EditingSourceControl =
@@ -242,10 +242,10 @@ export class DevopsSourceControlFormComponent
         }
 
         if (!!this.DevOpsActionLookupFormControl?.value) {
-            console.log(
-                'DevOpsActionLookupFormControl: ',
-                this.DevOpsActionLookupFormControl?.value
-            );
+            // console.log(
+            //     'DevOpsActionLookupFormControl: ',
+            //     this.DevOpsActionLookupFormControl?.value
+            // );
             this.DevOpsActionLookup = this.DevOpsActionLookupFormControl?.value;
         }
 
@@ -255,7 +255,7 @@ export class DevopsSourceControlFormComponent
         } else {
             this.DevOpsActionLookup = null;
         }
-        console.log('devops action lookup = ', this.DevOpsActionLookup);
+        // console.log('devops action lookup = ', this.DevOpsActionLookup);
         // console.log('form value', this.DevOpsActionLookupFormControl.value);
     }
 
@@ -385,10 +385,10 @@ export class DevopsSourceControlFormComponent
     }
 
     public SubmitSourceControl() {
-        console.log(
-            'source control submitted: ',
-            this.DevOpsSourceControlFormGroup.value
-        );
+        // console.log(
+        //     'source control submitted: ',
+        //     this.DevOpsSourceControlFormGroup.value
+        // );
         // console.log("saving source: ", this.EnvironmentLookup)
         this.SaveSourceControl();
     }
@@ -422,7 +422,7 @@ export class DevopsSourceControlFormComponent
 
         saveEnvReq.Environment.Sources[scLookup] = source;
 
-        console.log('save SC: ', saveEnvReq);
+        // console.log('save SC: ', saveEnvReq);
 
         let resp = this.eacSvc.SaveEnvironmentAsCode(saveEnvReq);
 
@@ -632,7 +632,7 @@ export class DevopsSourceControlFormComponent
     protected setupFormControls(): void {
         this.destroyFormControls();
 
-        console.log('Source Control: ', this.EditingSourceControl);
+        // console.log('Source Control: ', this.EditingSourceControl);
 
         this.DevOpsSourceControlFormGroup.addControl(
             'devOpsActionLookup',

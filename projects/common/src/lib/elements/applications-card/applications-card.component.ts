@@ -221,7 +221,7 @@ export class ApplicationsCardComponent implements OnInit {
     }
 
     public BuildRouteTree() {
-        console.log('called route tree');
+        // console.log('called route tree');
         let tempTreeData: Array<TreeNode> = [];
 
         let tempRoutes = this.ApplicationRoutes;
@@ -268,7 +268,7 @@ export class ApplicationsCardComponent implements OnInit {
     }
 
     public HandleRoute(route: string) {
-        console.log('route: ', route);
+        // console.log('route: ', route);
     }
 
     public OpenNewAppDialog(event: any) {

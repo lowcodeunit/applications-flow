@@ -228,9 +228,7 @@ export class ProjectCardComponent implements OnInit {
                                 lookup: appLookup,
                                 name: tempApp.Application.Name,
                                 url:
-                                    'https://' +
-                                    tempProj.PrimaryHost +
-                                    this.AppRoute,
+                                    'https://' + tempProj.PrimaryHost + appPath,
                                 description: tempApp.Application.Description,
                                 routerLink: [
                                     '/application',
@@ -256,7 +254,7 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public BuildRouteTree() {
-        console.log('called route tree');
+        // console.log('called route tree');
         let tempTreeData: Array<TreeNode> = [];
 
         let tempRoutes = this.ApplicationRoutes;
@@ -303,6 +301,6 @@ export class ProjectCardComponent implements OnInit {
     }
 
     public HandleRoute(route: string) {
-        console.log('route: ', route);
+        // console.log('route: ', route);
     }
 }

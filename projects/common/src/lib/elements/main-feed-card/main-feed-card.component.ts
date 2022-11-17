@@ -110,7 +110,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     public HandleSubmitComment(event: any) {
-        console.log('recieved comment: ', event);
+        // console.log('recieved comment: ', event);
     }
 
     public OpenSourceControlDialog(scLookup: string, scName: string): void {
@@ -136,14 +136,14 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
 
     public SanitizeVideos() {
         this.FeedItem?.Tabs?.forEach((tab) => {
-            if (tab.Data.Video) {
-                tab.Data.Video = this.SafeHtml(tab.Data.Video);
+            if (tab.Data?.Video) {
+                tab.Data.Video = this.SafeHtml(tab.Data?.Video);
             }
         });
     }
 
     public SubmitComment() {
-        console.log('comment: ', this.CommentControl.value);
+        // console.log('comment: ', this.CommentControl.value);
     }
 
     //  Helpers
@@ -158,7 +158,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
 
                             this.handleRefresh();
                         } else {
-                            console.log(response);
+                            // console.log(response);
                         }
                     },
                     (err: any) => {

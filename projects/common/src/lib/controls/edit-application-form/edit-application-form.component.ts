@@ -76,11 +76,11 @@ export class EditApplicationFormComponent implements OnInit {
         // } else {
         //     this.ApplicationFormGroup.enable();
         // }
-        console.log('loading: ', this.Loading);
+        // console.log('loading: ', this.Loading);
     }
 
     public SubmitApplicationControl() {
-        console.log('application form: ', this.ApplicationFormGroup.value);
+        // console.log('application form: ', this.ApplicationFormGroup.value);
         this.SaveApplication();
     }
 

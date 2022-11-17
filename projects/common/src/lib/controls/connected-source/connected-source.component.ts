@@ -51,7 +51,7 @@ export class ConnectedSourceComponent implements OnInit {
     }
 
     public SourceSubmit() {
-        console.log('submitting source values: ', this.SourceFormGroup.value);
+        // console.log('submitting source values: ', this.SourceFormGroup.value);
 
         this.SaveFormEvent.emit(this.SourceFormGroup.value);
     }

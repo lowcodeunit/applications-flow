@@ -48,7 +48,7 @@ export class CustomDomainPageComponent implements OnInit {
         this.StateSub = this.eacSvc.State.subscribe((state) => {
             this.State = state;
 
-            console.log('State: ', this.State);
+            // console.log('State: ', this.State);
 
             if (this.State?.EaC?.Projects) {
                 this.Project =

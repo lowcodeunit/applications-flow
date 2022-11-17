@@ -236,7 +236,7 @@ export class ProjectComponent implements OnInit {
     }
 
     protected OpenEditProjectDialog(pLookup: string) {
-        console.log('project lookup: ', pLookup);
+        // console.log('project lookup: ', pLookup);
         // throw new Error('Not implemented: OpenModifierDialog');
         let level: string;
 

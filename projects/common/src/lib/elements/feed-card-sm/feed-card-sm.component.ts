@@ -23,7 +23,7 @@ export class FeedCardSmComponent implements OnInit {
 
     //  API Methods
     public HandleAction(action: FeedItemAction) {
-        console.log('Action clicked');
+        // console.log('Action clicked');
     }
 
     //  Helpers
