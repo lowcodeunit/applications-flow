@@ -378,31 +378,25 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     public VerifyRedirect(): void {
-        console.log('called');
         let regex = new RegExp('^(HTTPS://)', 'i');
-
         let redirect: string = this.RedirectFormControl.value;
-        console.log('reg ex match; ', redirect.match(regex));
-        // let redirectSub = redirect.substring(0,8).toLowerCase();
+        // console.log('reg ex match; ', redirect.match(regex));
         if (this.IncludeRequestFormControl.value && !redirect.match(regex)) {
             this.RedirectError =
                 'Redirect url must begin with https:// when Include Path and Query is toggled';
-            console.log('set value');
-            this.IncludeRequestFormControl.addValidators(
-                Validators.pattern(regex)
-            );
-            console.log(this.ProcessorDetailsFormGroup);
+            this.IncludeRequestFormControl.setErrors({ incorrect: true });
         } else if (
             this.IncludeRequestFormControl.value &&
             redirect.match(regex)
         ) {
-            console.log('no error');
             this.RedirectError = null;
+            this.IncludeRequestFormControl.setErrors(null);
         } else if (!this.IncludeRequestFormControl.value) {
-            this.IncludeRequestFormControl.removeValidators(
-                Validators.pattern(regex)
-            );
+            this.RedirectError = null;
+            // this.IncludeRequestFormControl.setErrors(null);
         }
+        // console.log("request ", this.IncludeRequestFormControl);
+        // console.log("form: ", this.ProcessorDetailsFormGroup);
     }
 
     //HELPERS
@@ -691,7 +685,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 []
             )
         );
-        console.log('include request: ', this.EditingApplication?.Processor);
+        // console.log('include request: ', this.EditingApplication?.Processor);
         this.ProcessorDetailsFormGroup.addControl(
             'includeRequest',
             this.formBldr.control(
