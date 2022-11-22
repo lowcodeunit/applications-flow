@@ -357,7 +357,10 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     public SourceControlChanged(event: any) {
+        console.log('sc changed');
         this.IsSourceControlValid = this.SourceControlFormControl.valid;
+        this.BuildPathFormControl.patchValue(null);
+        this.BuildPathOptions = null;
         this.listBuildPaths();
     }
 
