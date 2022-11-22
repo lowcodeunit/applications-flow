@@ -13,9 +13,9 @@
     <ng-container *ngIf="State?.GitHub?.HasConnection" fxLayout="column">
         <div fxLayoutAlign="center center">
             <lcu-devops-source-control-form
-                [environment]="data.environment"
-                [environment-lookup]="data.environmentLookup"
-                [editing-source-control-lookup]="data.scLookup"
+                [environment]="data?.environment"
+                [environment-lookup]="data?.environmentLookup"
+                [editing-source-control-lookup]="data?.scLookup"
                 [loading]="State?.Loading"
                 (save-status-event)="HandleSaveStatusEvent($event)"
             >
@@ -67,7 +67,6 @@
                 !DevOpsSourceControlFormGroup?.dirty
             "
         >
-            <!-- <mat-icon>save</mat-icon> -->
             Save
         </button>
     </div>

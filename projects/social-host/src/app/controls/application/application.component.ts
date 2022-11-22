@@ -815,6 +815,9 @@ export class ApplicationComponent implements OnInit {
                 break;
 
             case 'Redirect':
+                app.Processor.IncludeRequest =
+                    !!this.ProcessorDetailsFormControls
+                        .IncludeRequestFormControl.value;
                 app.Processor.Permanent =
                     !!this.ProcessorDetailsFormControls.PermanentFormControl
                         .value;

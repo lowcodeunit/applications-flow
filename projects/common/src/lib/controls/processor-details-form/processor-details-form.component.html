@@ -356,9 +356,11 @@
                         matInput
                         placeholder="Redirect URL"
                         formControlName="redirect"
+                        (keyup)="VerifyRedirect($event)"
                         required
                     />
                 </mat-form-field>
+                <mat-error *ngIf="RedirectError">{{ RedirectError }}</mat-error>
 
                 <div>
                     <mat-slide-toggle
@@ -389,6 +391,7 @@
                     <mat-slide-toggle
                         class="spread"
                         formControlName="includeRequest"
+                        (change)="VerifyRedirect($event)"
                     >
                         Include Path and Query?
                     </mat-slide-toggle>

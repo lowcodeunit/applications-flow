@@ -3,6 +3,7 @@ import {
     AbstractControl,
     FormBuilder,
     FormGroup,
+    PatternValidator,
     Validators,
 } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
@@ -161,6 +162,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
     public LCUType: string;
 
     public redirectTooltip: string;
+
+    public RedirectError: string;
 
     public SourceControls: { [lookup: string]: EaCSourceControl };
 
@@ -372,6 +375,34 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
         this.setupLcuTypeSubForm();
         // console.log("lcu type changed: ", this.ProcessorDetailsFormGroup.controls)
+    }
+
+    public VerifyRedirect(): void {
+        console.log('called');
+        let regex = new RegExp('^(HTTPS://)', 'i');
+
+        let redirect: string = this.RedirectFormControl.value;
+        console.log('reg ex match; ', redirect.match(regex));
+        // let redirectSub = redirect.substring(0,8).toLowerCase();
+        if (this.IncludeRequestFormControl.value && !redirect.match(regex)) {
+            this.RedirectError =
+                'Redirect url must begin with https:// when Include Path and Query is toggled';
+            console.log('set value');
+            this.IncludeRequestFormControl.addValidators(
+                Validators.pattern(regex)
+            );
+            console.log(this.ProcessorDetailsFormGroup);
+        } else if (
+            this.IncludeRequestFormControl.value &&
+            redirect.match(regex)
+        ) {
+            console.log('no error');
+            this.RedirectError = null;
+        } else if (!this.IncludeRequestFormControl.value) {
+            this.IncludeRequestFormControl.removeValidators(
+                Validators.pattern(regex)
+            );
+        }
     }
 
     //HELPERS
@@ -660,11 +691,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 []
             )
         );
-
+        console.log('include request: ', this.EditingApplication?.Processor);
         this.ProcessorDetailsFormGroup.addControl(
             'includeRequest',
             this.formBldr.control(
-                this.EditingApplication.Processor?.IncludeRequest || false,
+                this.EditingApplication?.Processor?.IncludeRequest || false,
                 []
             )
         );
