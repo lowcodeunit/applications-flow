@@ -843,7 +843,8 @@ export class ApplicationComponent implements OnInit {
         // this.HasBuildFormControl.value &&  taken out from below if statement
         if (
             this.ProcessorDetailsFormControls.ProcessorType !== 'Redirect' &&
-            this.ProcessorDetailsFormControls.LCUType === 'GitHub'
+            (this.ProcessorDetailsFormControls.LCUType === 'GitHub' ||
+                this.ProcessorDetailsFormControls.LCUType === 'NPM')
         ) {
             if (app) {
                 app.LowCodeUnit.SourceControlLookup =
