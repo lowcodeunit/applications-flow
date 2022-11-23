@@ -384,17 +384,17 @@ export class ProcessorDetailsFormComponent implements OnInit {
         let regex = new RegExp('^(HTTPS://)', 'i');
         let redirect: string = this.RedirectFormControl.value;
         // console.log('reg ex match; ', redirect.match(regex));
-        if (this.IncludeRequestFormControl.value && !redirect.match(regex)) {
+        if (!this.IncludeRequestFormControl.value && !redirect.match(regex)) {
             this.RedirectError =
-                'Redirect url must begin with https:// when Include Path and Query is toggled';
+                'Redirect url must begin with https:// when Include Path and Query is NOT toggled';
             this.IncludeRequestFormControl.setErrors({ incorrect: true });
         } else if (
-            this.IncludeRequestFormControl.value &&
+            !this.IncludeRequestFormControl.value &&
             redirect.match(regex)
         ) {
             this.RedirectError = null;
             this.IncludeRequestFormControl.setErrors(null);
-        } else if (!this.IncludeRequestFormControl.value) {
+        } else if (this.IncludeRequestFormControl.value) {
             this.RedirectError = null;
             // this.IncludeRequestFormControl.setErrors(null);
         }
