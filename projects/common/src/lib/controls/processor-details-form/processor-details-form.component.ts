@@ -3,6 +3,7 @@ import {
     AbstractControl,
     FormBuilder,
     FormGroup,
+    PatternValidator,
     Validators,
 } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
@@ -161,6 +162,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
     public LCUType: string;
 
     public redirectTooltip: string;
+
+    public RedirectError: string;
 
     public SourceControls: { [lookup: string]: EaCSourceControl };
 
@@ -354,7 +357,13 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     public SourceControlChanged(event: any) {
+        console.log('sc changed');
         this.IsSourceControlValid = this.SourceControlFormControl.valid;
+        if (this.LCUType === 'GitHub') {
+            this.BuildPathFormControl.patchValue(null);
+            this.BuildPathOptions = null;
+        }
+
         this.listBuildPaths();
     }
 
@@ -372,6 +381,28 @@ export class ProcessorDetailsFormComponent implements OnInit {
 
         this.setupLcuTypeSubForm();
         // console.log("lcu type changed: ", this.ProcessorDetailsFormGroup.controls)
+    }
+
+    public VerifyRedirect(): void {
+        let regex = new RegExp('^(HTTPS://)', 'i');
+        let redirect: string = this.RedirectFormControl.value;
+        // console.log('reg ex match; ', redirect.match(regex));
+        if (!this.IncludeRequestFormControl.value && !redirect.match(regex)) {
+            this.RedirectError =
+                'Redirect url must begin with https:// when Include Path and Query is NOT toggled';
+            this.IncludeRequestFormControl.setErrors({ incorrect: true });
+        } else if (
+            !this.IncludeRequestFormControl.value &&
+            redirect.match(regex)
+        ) {
+            this.RedirectError = null;
+            this.IncludeRequestFormControl.setErrors(null);
+        } else if (this.IncludeRequestFormControl.value) {
+            this.RedirectError = null;
+            // this.IncludeRequestFormControl.setErrors(null);
+        }
+        // console.log("request ", this.IncludeRequestFormControl);
+        // console.log("form: ", this.ProcessorDetailsFormGroup);
     }
 
     //HELPERS
@@ -660,11 +691,11 @@ export class ProcessorDetailsFormComponent implements OnInit {
                 []
             )
         );
-
+        // console.log('include request: ', this.EditingApplication?.Processor);
         this.ProcessorDetailsFormGroup.addControl(
             'includeRequest',
             this.formBldr.control(
-                this.EditingApplication.Processor?.IncludeRequest || false,
+                this.EditingApplication?.Processor?.IncludeRequest || false,
                 []
             )
         );

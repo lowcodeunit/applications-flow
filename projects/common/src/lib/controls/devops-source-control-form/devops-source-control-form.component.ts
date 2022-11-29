@@ -44,9 +44,7 @@ import {
     templateUrl: './devops-source-control-form.component.html',
     styleUrls: ['./devops-source-control-form.component.scss'],
 })
-export class DevopsSourceControlFormComponent
-    implements AfterViewInit, OnDestroy, OnInit
-{
+export class DevopsSourceControlFormComponent implements OnDestroy, OnInit {
     //  Fields
 
     @Input('editing-source-control-lookup')
@@ -165,6 +163,7 @@ export class DevopsSourceControlFormComponent
         protected eacSvc: EaCService,
         protected formBuilder: FormBuilder
     ) {
+        // console.log("ctor")
         this.SaveStatusEvent = new EventEmitter();
 
         this.EditingSourceControl = {};
@@ -182,22 +181,21 @@ export class DevopsSourceControlFormComponent
         this.UseBranches = true;
 
         this.UseBuildPath = false;
+        // console.log("end ctor")
     }
 
     //  Life Cycle
-    public ngAfterViewInit(): void {}
+    // public ngAfterViewInit(): void {}
 
     public ngOnDestroy(): void {
         this.destroyFormControls();
     }
 
     public ngOnInit(): void {
-        // console.log('source control lookup', this.EditingSourceControlLookup);
-
+        // console.log("on init")
         if (this.EditingSourceControlLookup === null) {
             this.CreateNewSourceControl();
         }
-        // console.log('source control', this.EditingSourceControl);
 
         if (this.EditingSourceControl != null) {
             this.DevOpsSourceControlFormGroup = this.formBuilder.group({});
@@ -206,9 +204,11 @@ export class DevopsSourceControlFormComponent
         }
 
         this.RefreshOrganizations();
+        // console.log("end init")
     }
 
     public ngOnChanges() {
+        // console.log("on changes")
         if (this.Environment) {
             if (this.Environment?.Artifacts && this.ArtifactLookup) {
                 this.Artifact =
@@ -220,7 +220,9 @@ export class DevopsSourceControlFormComponent
 
                 if (this.DevOpsActionLookup) {
                     this.DevOpsAction =
-                        this.Environment.DevOpsActions[this.DevOpsActionLookup];
+                        this.Environment?.DevOpsActions[
+                            this.DevOpsActionLookup
+                        ];
                 }
             }
 
@@ -321,6 +323,7 @@ export class DevopsSourceControlFormComponent
 
     public RefreshOrganizations(): void {
         // this.Loading = true;
+        console.log('refresh');
         this.listOrganizations();
 
         this.OrganizationFormControl?.reset();
@@ -562,10 +565,10 @@ export class DevopsSourceControlFormComponent
             .subscribe(
                 (response: BaseModeledResponse<GitHubOrganization[]>) => {
                     this.OrganizationOptions = response.Model;
-                    console.log(
-                        'Organization Options: ',
-                        this.OrganizationOptions
-                    );
+                    // console.log(
+                    //     'Organization Options: ',
+                    //     this.OrganizationOptions
+                    // );
 
                     this.Loading = false;
 

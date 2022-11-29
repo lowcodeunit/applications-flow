@@ -104,7 +104,7 @@ export class DevOpsComponent implements OnInit, OnDestroy {
     public OpenSourceControlDialog(scLookup: string, scName: string): void {
         // console.log('active ent: ', this.ActiveEnvironmentLookup);
         const dialogRef = this.dialog.open(SourceControlDialogComponent, {
-            width: '385px',
+            width: '600px',
             data: {
                 environment: this.Environment,
                 environmentLookup: this.ActiveEnvironmentLookup,
