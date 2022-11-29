@@ -815,6 +815,9 @@ export class ApplicationComponent implements OnInit {
                 break;
 
             case 'Redirect':
+                app.Processor.IncludeRequest =
+                    !!this.ProcessorDetailsFormControls
+                        .IncludeRequestFormControl.value;
                 app.Processor.Permanent =
                     !!this.ProcessorDetailsFormControls.PermanentFormControl
                         .value;
@@ -840,7 +843,8 @@ export class ApplicationComponent implements OnInit {
         // this.HasBuildFormControl.value &&  taken out from below if statement
         if (
             this.ProcessorDetailsFormControls.ProcessorType !== 'Redirect' &&
-            this.ProcessorDetailsFormControls.LCUType === 'GitHub'
+            (this.ProcessorDetailsFormControls.LCUType === 'GitHub' ||
+                this.ProcessorDetailsFormControls.LCUType === 'NPM')
         ) {
             if (app) {
                 app.LowCodeUnit.SourceControlLookup =
@@ -850,7 +854,7 @@ export class ApplicationComponent implements OnInit {
             app.LowCodeUnit.SourceControlLookup = null;
         }
 
-        // console.log('Save new App request: ', saveAppReq);
+        console.log('Save new App request: ', saveAppReq);
 
         this.TempRoute = this.ApplicationFormControls.RouteFormControl.value;
 
