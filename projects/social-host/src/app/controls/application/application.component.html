@@ -311,7 +311,9 @@
 
         <div class="state-config-card">
             <mat-card class="social-card" *ngIf="!Loading">
-                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-title class="state-config-title"
+                    >Manage State Config</mat-card-title
+                >
                 <mat-card-actions>
                     <button
                         mat-raised-button
@@ -324,7 +326,9 @@
             </mat-card>
 
             <mat-card class="social-card" *ngIf="Loading">
-                <mat-card-title>Manage State Config</mat-card-title>
+                <mat-card-title class="state-config-title"
+                    >Manage State Config</mat-card-title
+                >
                 <mat-card-actions>
                     <skeleton-block
                         width="100%"

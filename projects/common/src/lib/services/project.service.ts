@@ -297,6 +297,7 @@ export class ProjectService {
             this.appsFlowSvc.LoadEnterpriseAsCode().subscribe(
                 (response: BaseModeledResponse<EnterpriseAsCode>) => {
                     state.Loading = false;
+                    console.log('Load eac response: ', response);
 
                     if (response.Status.Code === 0) {
                         state.EaC = response.Model || {};
@@ -304,6 +305,7 @@ export class ProjectService {
                     }
 
                     state.EaC = state.EaC || {};
+                    console.log('state.eac = ', state.EaC);
 
                     this.CreatingProject =
                         Object.keys(state?.EaC?.Projects || {}).length <= 0;
@@ -504,7 +506,7 @@ export class ProjectService {
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
             state.Loading = true;
-            console.log('eac: ', eac);
+            // console.log('eac: ', eac);
             this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
                 async (response: BaseModeledResponse<string>) => {
                     if (response.Status.Code === 0) {
