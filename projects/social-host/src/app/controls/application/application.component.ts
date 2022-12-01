@@ -689,6 +689,12 @@ export class ApplicationComponent implements OnInit {
     // }
     public SaveApplication(): void {
         const app: EaCApplicationAsCode = {
+            //TODO try if statement to fill app object
+            // if( this.ApplicationFormControls.NameFormControl.dirty){
+            //     app.Application ={
+            //         Name:
+            //     }
+            // }
             Application: {
                 Name: this.ApplicationFormControls.NameFormControl.value,
                 Description:

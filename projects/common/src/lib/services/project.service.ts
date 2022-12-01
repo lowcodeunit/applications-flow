@@ -511,7 +511,10 @@ export class ProjectService {
                         resolve(response.Status);
 
                         var results = await Promise.all([
+                            // this.EnsureUserEnterprise(state),
                             this.LoadEnterpriseAsCode(state),
+                            this.ListEnterprises(state),
+                            // this.GetActiveEnterprise(state),
                             this.LoadUserFeed(
                                 1,
                                 25,
@@ -521,7 +524,6 @@ export class ProjectService {
                                 false,
                                 state
                             ),
-                            this.ListEnterprises(state),
                         ]);
                         // console.log('LOAD EAC RESULTS: ', results);
                     } else {
