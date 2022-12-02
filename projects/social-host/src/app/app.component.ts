@@ -57,6 +57,7 @@ export class AppComponent implements OnDestroy, OnInit {
                         this.eacSvc.LoadUserFeed(1, 25, false),
                     ]);
                 } else if (!this.initialized) {
+                    // console.log("refresh")
                     this.initialized = true;
 
                     await Promise.all([

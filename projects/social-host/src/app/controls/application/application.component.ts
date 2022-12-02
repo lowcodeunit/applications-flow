@@ -286,7 +286,7 @@ export class ApplicationComponent implements OnInit {
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                // console.log('State: ', this.State);
+                console.log('State at app page: ', this.State);
 
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
@@ -689,6 +689,12 @@ export class ApplicationComponent implements OnInit {
     // }
     public SaveApplication(): void {
         const app: EaCApplicationAsCode = {
+            //TODO try if statement to fill app object: note back end needs all values or exceptions are thrown
+            // if( this.ApplicationFormControls.NameFormControl.dirty){
+            //     app.Application ={
+            //         Name:
+            //     }
+            // }
             Application: {
                 Name: this.ApplicationFormControls.NameFormControl.value,
                 Description:
