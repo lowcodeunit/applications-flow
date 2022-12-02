@@ -191,9 +191,19 @@ export class ProcessorDetailsFormComponent implements OnInit {
         }
         if (!this.EditingApplication) {
             this.CreateNewApplication();
-        } else if (!this.ProcessorDetailsFormGroup) {
+        }
+        // else if (!this.ProcessorDetailsFormGroup) {
+        else if (
+            !this.ProcessorDetailsFormGroup ||
+            JSON.stringify(this.EditingApplication) !==
+                localStorage.getItem('CurrentApp')
+        ) {
             this.SetupProcessorDetailsForm();
         }
+        localStorage.setItem(
+            'CurrentApp',
+            JSON.stringify(this.EditingApplication)
+        );
         // else if (this.EditingApplication && !this.ProcessorDetailsFormGroup) {
         //     this.SetupProcessorDetailsForm();
         // }
@@ -357,7 +367,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     public SourceControlChanged(event: any) {
-        console.log('sc changed');
+        // console.log('sc changed');
         this.IsSourceControlValid = this.SourceControlFormControl.valid;
         if (this.LCUType === 'GitHub') {
             this.BuildPathFormControl.patchValue(null);
@@ -521,7 +531,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
         this.ProcessorType = this.EditingApplication?.Processor?.Type || '';
 
         // console.log('EDITING APP = ', this.EditingApplication);
-        this.ProcessorDetailsFormGroup;
+        // this.ProcessorDetailsFormGroup;
         if (this.EditingApplication != null) {
             this.ProcessorDetailsFormGroup = this.formBldr.group({
                 procType: [this.ProcessorType, [Validators.required]],
@@ -534,7 +544,7 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected setupLCUGitHubForm(): void {
-        // console.log('EditingApplication: ', this.EditingApplication);
+        // console.log('EditingApplication sc: ', this.EditingApplication.LowCodeUnit?.SourceControlLookup);
 
         this.ProcessorDetailsFormGroup.addControl(
             'sourceControl',
@@ -614,6 +624,8 @@ export class ProcessorDetailsFormComponent implements OnInit {
     }
 
     protected setupLCUNPMForm(): void {
+        // console.log('EditingApplication sc: ', this.EditingApplication.LowCodeUnit?.SourceControlLookup);
+
         this.ProcessorDetailsFormGroup.addControl(
             'sourceControl',
             this.formBldr.control(
