@@ -286,7 +286,7 @@ export class ApplicationComponent implements OnInit {
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                console.log('State at app page: ', this.State);
+                // console.log('State at app page: ', this.State);
 
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||

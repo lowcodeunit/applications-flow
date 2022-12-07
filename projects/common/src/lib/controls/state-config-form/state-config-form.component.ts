@@ -6,6 +6,8 @@ import {
     Validators,
 } from '@angular/forms';
 import { Guid, Status } from '@lcu/common';
+// import { jsonValidator } from '@lcu/common';
+
 import { EaCApplicationAsCode, EaCDataToken } from '@semanticjs/common';
 import {
     EaCService,
@@ -44,6 +46,8 @@ export class StateConfigFormComponent implements OnInit {
 
     public StateConfigForm: FormGroup;
 
+    public StateConfigValid: boolean;
+
     constructor(protected eacSvc: EaCService, public formbldr: FormBuilder) {
         this.StateConfigForm = this.formbldr.group({});
 
@@ -75,6 +79,10 @@ export class StateConfigFormComponent implements OnInit {
         });
     }
 
+    // public CheckJSON(){
+    //     this.isJsonString(this.StateConfigValueFormControl.value);
+    // }
+
     protected buildForm() {
         this.StateConfigForm.addControl(
             'name',
@@ -90,7 +98,7 @@ export class StateConfigFormComponent implements OnInit {
                 [Validators.required]
             )
         );
-
+        // TODO update lcu/common package and add Validators.compose(Validators.required, jsonValidator)
         this.StateConfigForm.addControl(
             'value',
             this.formbldr.control(
@@ -105,4 +113,19 @@ export class StateConfigFormComponent implements OnInit {
             )
         );
     }
+
+    // protected isJsonString(str:string) {
+    //     console.log("string: ", str)
+    //     let test = JSON.parse(str);
+    //     console.log("json: ", test)
+    //     try {
+    //         let test = JSON.parse(str);
+    //         console.log("json: ", test)
+    //     } catch (e) {
+    //         this.StateConfigValid = false;
+    //         // return false;
+    //     }
+    //     this.StateConfigValid = true;
+    //     // return true;
+    // }
 }
