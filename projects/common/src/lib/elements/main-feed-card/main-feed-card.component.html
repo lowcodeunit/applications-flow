@@ -17,13 +17,33 @@
             <div *ngIf="FeedItem.Subtext">{{ FeedItem.Subtext }}</div>
 
             <div *ngIf="FeedItem.Status">
-                <mat-icon
+                <ng-container [ngSwitch]="FeedItem.Status?.Code">
+                    <mat-icon *ngSwitchCase="0" [style.color]="green"
+                        >check_circle</mat-icon
+                    >
+
+                    <mat-icon *ngSwitchCase="1" [style.color]="red"
+                        >cancel</mat-icon
+                    >
+
+                    <mat-icon
+                        *ngSwitchCase="2"
+                        [style.color]="blue"
+                        [class.spin]="FeedItem.Status?.Code == 2"
+                        >sync</mat-icon
+                    >
+
+                    <mat-icon *ngSwitchDefault [style.color]="grey"
+                        >help_outline</mat-icon
+                    >
+                </ng-container>
+                <!-- <mat-icon
                     *ngIf="Icon"
                     [style.color]="IconColor"
                     [class.spin]="FeedItem.Status?.Code == 2"
                 >
                     {{ Icon }}
-                </mat-icon>
+                </mat-icon> -->
 
                 <span *ngIf="FeedItem.Status?.Message">
                     {{ FeedItem.Status?.Message }}

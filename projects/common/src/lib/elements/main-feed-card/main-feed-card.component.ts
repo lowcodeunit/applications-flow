@@ -49,9 +49,9 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
             .comment;
     }
 
-    public Icon: string;
+    // public Icon: string;
 
-    public IconColor: string;
+    // public IconColor: string;
 
     constructor(
         protected eacSvc: EaCService,
@@ -73,19 +73,19 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     public ngOnChanges() {
-        if (this.FeedItem?.Status?.Code === 0) {
-            this.Icon = 'check_circle';
-            this.IconColor = 'green';
-        } else if (this.FeedItem?.Status?.Code === 1) {
-            this.Icon = 'cancel';
-            this.IconColor = 'red';
-        } else if (this.FeedItem?.Status?.Code === 2) {
-            this.Icon = 'sync';
-            this.IconColor = 'blue';
-        } else {
-            this.Icon = 'help_outline';
-            this.IconColor = 'gray';
-        }
+        // if (this.FeedItem?.Status?.Code === 0) {
+        //     this.Icon = 'check_circle';
+        //     this.IconColor = 'green';
+        // } else if (this.FeedItem?.Status?.Code === 1) {
+        //     this.Icon = 'cancel';
+        //     this.IconColor = 'red';
+        // } else if (this.FeedItem?.Status?.Code === 2) {
+        //     this.Icon = 'sync';
+        //     this.IconColor = 'blue';
+        // } else {
+        //     this.Icon = 'help_outline';
+        //     this.IconColor = 'gray';
+        // }
     }
 
     //  API Methods
