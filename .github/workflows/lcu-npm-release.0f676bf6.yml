@@ -34,13 +34,13 @@ jobs:
         run: |
           branch=${GITHUB_REF##*/}
 
-          echo "branchName::$branch" >> $GITHUB_OUTPUT
+           echo ::set-output name=branchName::$branch
 
           if [ "$branch" == "${{ env.MainBranch }}" ]
           then
-              echo "versionBump::minor" >> $GITHUB_OUTPUT
+              echo "::set-output name=versionBump::minor"
           else
-              echo "versionBump::patch" >> $GITHUB_OUTPUT
+              echo "::set-output name=versionBump::patch"
           fi
 
       - run: |
