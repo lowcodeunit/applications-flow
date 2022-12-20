@@ -72,12 +72,10 @@
                                     ></div>
                                 </ng-container>
 
-                                <ng-container *ngIf="tab.Data?.Content">
+                                <ng-container *ngIf="tab.Content">
                                     <div
                                         class="content"
-                                        [innerHTML]="
-                                            SafeHtml(tab.Data?.Content)
-                                        "
+                                        [innerHTML]="SafeHtml(tab.Content)"
                                     ></div>
                                 </ng-container>
 

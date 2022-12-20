@@ -73,7 +73,7 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     public ngOnChanges() {
-        // if(this.FeedItem?.Type === "pull-request"){
+        // if(this.FeedItem?.Type === "recipe"){
         //     console.log("feed item: ", this.FeedItem)
         // }
         // if (this.FeedItem?.Status?.Code === 0) {
