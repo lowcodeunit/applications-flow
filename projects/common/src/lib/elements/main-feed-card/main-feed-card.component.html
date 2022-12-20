@@ -18,22 +18,22 @@
 
             <div *ngIf="FeedItem.Status">
                 <ng-container [ngSwitch]="FeedItem.Status?.Code">
-                    <mat-icon *ngSwitchCase="0" [style.color]="green"
+                    <mat-icon *ngSwitchCase="0" style="color: green"
                         >check_circle</mat-icon
                     >
 
-                    <mat-icon *ngSwitchCase="1" [style.color]="red"
+                    <mat-icon *ngSwitchCase="1" style="color: red"
                         >cancel</mat-icon
                     >
 
                     <mat-icon
                         *ngSwitchCase="2"
-                        [style.color]="blue"
+                        style="color: blue"
                         [class.spin]="FeedItem.Status?.Code == 2"
                         >sync</mat-icon
                     >
 
-                    <mat-icon *ngSwitchDefault [style.color]="grey"
+                    <mat-icon *ngSwitchDefault style="color: grey"
                         >help_outline</mat-icon
                     >
                 </ng-container>
@@ -149,6 +149,8 @@
             <button
                 mat-raised-button
                 [color]="action.Color"
+                [style.background-color]="action.Color"
+                [style.color]="action.Color ? '#f1f4f6' : 'black'"
                 (click)="HandleAction(action)"
             >
                 <div fxLayout="row" fxLayoutAlign="center center">

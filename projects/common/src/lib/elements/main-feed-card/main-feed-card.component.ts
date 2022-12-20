@@ -73,6 +73,9 @@ export class MainFeedCardComponent implements OnDestroy, OnInit {
     }
 
     public ngOnChanges() {
+        // if(this.FeedItem?.Type === "pull-request"){
+        //     console.log("feed item: ", this.FeedItem)
+        // }
         // if (this.FeedItem?.Status?.Code === 0) {
         //     this.Icon = 'check_circle';
         //     this.IconColor = 'green';
