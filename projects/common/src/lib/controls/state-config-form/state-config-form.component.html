@@ -16,4 +16,7 @@
         <textarea matInput formControlName="value" rows="10" required>
         </textarea>
     </mat-form-field>
+    <mat-error *ngIf="!StateConfigValid"
+        >Value is not properly formatted in JSON</mat-error
+    >
 </form>
