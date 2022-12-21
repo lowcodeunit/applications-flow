@@ -34,7 +34,7 @@ jobs:
         run: |
           branch=${GITHUB_REF##*/}
 
-          echo echo "branchName=$branch" >> $GITHUB_OUTPUT
+          echo "branchName=$branch" >> $GITHUB_OUTPUT
 
           if [ "$branch" == "${{ env.MainBranch }}" ]
           then
