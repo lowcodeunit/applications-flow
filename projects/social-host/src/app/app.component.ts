@@ -54,6 +54,7 @@ export class AppComponent implements OnDestroy, OnInit {
                 if (this.State?.EaC) {
                     await Promise.all([
                         this.eacSvc.LoadEnterpriseAsCode(),
+                        this.eacSvc.GetActiveEnterprise(),
                         this.eacSvc.LoadUserFeed(1, 25, false),
                     ]);
                 } else if (!this.initialized) {

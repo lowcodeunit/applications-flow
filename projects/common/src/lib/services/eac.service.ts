@@ -518,7 +518,7 @@ export class EaCService {
             };
         }
 
-        // console.log('Save mod eac: ', saveEaC);
+        console.log('Save mod eac: ', saveEaC);
 
         const status = await this.projectService.SaveEnterpriseAsCode(
             state,

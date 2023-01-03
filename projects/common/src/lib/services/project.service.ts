@@ -455,12 +455,14 @@ export class ProjectService {
                     if (response.Status.Code === 0) {
                         this.EditingProjectLookup = null;
 
+                        console.log('state: ', state);
+
                         // console.log(
                         //     'project service active ent: ',
                         //     activeEntLookup
                         // );
 
-                        state.ActiveEnterpriseLookup = activeEntLookup;
+                        // state.ActiveEnterpriseLookup = activeEntLookup;
 
                         // console.log(
                         //     'project service State active ent: ',
@@ -470,6 +472,7 @@ export class ProjectService {
                         resolve(response.Status);
 
                         var results = await Promise.all([
+                            this.ListEnterprises(state),
                             this.LoadEnterpriseAsCode(state),
                             this.LoadUserFeed(
                                 1,
