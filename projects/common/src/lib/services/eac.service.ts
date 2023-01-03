@@ -512,7 +512,6 @@ export class EaCService {
 
         if (req.ApplicationLookup) {
             // console.log('APPLOokup: ', req.ApplicationLookup);
-            // console.log('saveEAC: ', saveEaC);
             saveEaC.Applications[req.ApplicationLookup] = {
                 ModifierLookups: req.ModifierLookups,
             };
