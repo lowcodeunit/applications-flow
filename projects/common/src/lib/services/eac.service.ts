@@ -230,10 +230,6 @@ export class EaCService {
         }
     }
 
-    // this.appsFlowEventsSvc.EnsureUserEnterpriseEvent.subscribe(async () => {
-    //   await this.projectService.EnsureUserEnterprise(this.State);
-    // });
-
     public async EnsureUserEnterprise(): Promise<BaseResponse> {
         const state = this.stateSubject.getValue();
 
