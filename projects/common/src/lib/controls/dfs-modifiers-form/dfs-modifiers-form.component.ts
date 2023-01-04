@@ -268,7 +268,7 @@ export class DFSModifiersFormComponent implements OnInit {
                 saveStatus = status;
             });
         } else if (this.ModifierSelectFormGroup) {
-            console.log('here 2');
+            // console.log('here 2');
 
             const saveMdfrReq: SaveDFSModifierEventRequest = {
                 ModifierLookups: this.MultiSelectFormControl.value,
