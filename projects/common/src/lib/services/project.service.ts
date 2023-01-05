@@ -212,6 +212,10 @@ export class ProjectService {
 
                     if (response.Status.Code === 0) {
                         state.ActiveEnterpriseLookup = response.Model?.Lookup;
+                        console.log(
+                            'Active Ent set to = ',
+                            response.Model?.Lookup
+                        );
 
                         resolve();
                     } else {
@@ -265,6 +269,7 @@ export class ProjectService {
 
             this.appsFlowSvc.ListEnterprises().subscribe(
                 async (response: BaseModeledResponse<Array<any>>) => {
+                    console.log('list Enterprises resp: ', response);
                     state.LoadingEnterprises = false;
 
                     if (response.Status.Code === 0) {
@@ -292,11 +297,14 @@ export class ProjectService {
         state: ApplicationsFlowState
     ): Promise<EnterpriseAsCode> {
         return new Promise((resolve, reject) => {
+            console.log('Load ent called!!!');
             state.Loading = true;
+            state.LoadingActiveEnterprise = true;
 
             this.appsFlowSvc.LoadEnterpriseAsCode().subscribe(
                 (response: BaseModeledResponse<EnterpriseAsCode>) => {
                     state.Loading = false;
+                    state.LoadingActiveEnterprise = false;
                     console.log('Load eac response: ', response);
 
                     if (response.Status.Code === 0) {
@@ -365,6 +373,7 @@ export class ProjectService {
         state: ApplicationsFlowState
     ): Promise<Array<FeedItem>> {
         return new Promise((resolve, reject) => {
+            console.log('load user feed called');
             state.LoadingFeed = !forCheck;
 
             let paramMap = this.activatedRoute.snapshot.children[0].paramMap;
@@ -447,8 +456,12 @@ export class ProjectService {
         activeEntLookup: string
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
+            console.log('SET ACTIVE ENT CALLED', activeEntLookup);
             state.Loading = true;
+            state.LoadingActiveEnterprise = true;
             state.LoadingFeed = true;
+            state.ActiveEnterpriseLookup = activeEntLookup;
+            // state.LoadingFeed = true;
 
             this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
                 async (response: BaseResponse) => {
@@ -472,20 +485,21 @@ export class ProjectService {
                         resolve(response.Status);
 
                         var results = await Promise.all([
-                            this.ListEnterprises(state),
-                            this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(
-                                1,
-                                25,
-                                localStorage.getItem('activeFilter')
-                                    ? localStorage.getItem('activeFilter')
-                                    : '',
-                                false,
-                                state
-                            ),
+                            // this.ListEnterprises(state),
+                            // this.LoadEnterpriseAsCode(state),
+                            // this.LoadUserFeed(
+                            //     1,
+                            //     25,
+                            //     localStorage.getItem('activeFilter')
+                            //         ? localStorage.getItem('activeFilter')
+                            //         : '',
+                            //     false,
+                            //     state
+                            // ),
                         ]);
                     } else {
                         state.Loading = false;
+                        state.LoadingActiveEnterprise = false;
 
                         reject(response.Status);
 
@@ -494,6 +508,7 @@ export class ProjectService {
                 },
                 (err) => {
                     state.Loading = false;
+                    state.LoadingActiveEnterprise = false;
 
                     reject(err);
 

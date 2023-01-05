@@ -6,7 +6,7 @@
 <lcu-breadcrumb
     [enterprise]="State?.EaC?.Enterprise"
     [enterprises]="State?.Enterprises"
-    [loading]="Loading"
+    [loading]="State?.Loading"
     [projects]="State?.EaC?.Projects"
     [project-lookup]="ProjectLookup"
 >
@@ -51,7 +51,7 @@
             class="fit-content"
             [active-environment-lookup]="ActiveEnvironmentLookup"
             [applications-bank]="State?.EaC?.Applications"
-            [loading]="Loading"
+            [loading]="State?.Loading"
             [project-lookup]="ProjectLookup"
             [project]="Project"
         ></lcu-route-card>
