@@ -6,7 +6,7 @@
 <lcu-breadcrumb
     [enterprise]="State?.EaC?.Enterprise"
     [enterprises]="State?.Enterprises"
-    [loading]="State?.Loading"
+    [loading]="Loading"
     [projects]="State?.EaC?.Projects"
     [project-lookup]="ProjectLookup"
 >
@@ -20,7 +20,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
-            [loading]="State?.Loading"
+            [loading]="Loading"
             [subtext]="Project?.PrimaryHost ? Project?.PrimaryHost : ''"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"
@@ -51,7 +51,7 @@
             class="fit-content"
             [active-environment-lookup]="ActiveEnvironmentLookup"
             [applications-bank]="State?.EaC?.Applications"
-            [loading]="State?.Loading"
+            [loading]="Loading"
             [project-lookup]="ProjectLookup"
             [project]="Project"
         ></lcu-route-card>
