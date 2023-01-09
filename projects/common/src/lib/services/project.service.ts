@@ -212,10 +212,10 @@ export class ProjectService {
 
                     if (response.Status.Code === 0) {
                         state.ActiveEnterpriseLookup = response.Model?.Lookup;
-                        console.log(
-                            'Active Ent set to = ',
-                            response.Model?.Lookup
-                        );
+                        // console.log(
+                        //     'Active Ent set to = ',
+                        //     response.Model?.Lookup
+                        // );
 
                         resolve();
                     } else {
@@ -269,7 +269,7 @@ export class ProjectService {
 
             this.appsFlowSvc.ListEnterprises().subscribe(
                 async (response: BaseModeledResponse<Array<any>>) => {
-                    console.log('list Enterprises resp: ', response);
+                    // console.log('list Enterprises resp: ', response);
                     state.LoadingEnterprises = false;
 
                     if (response.Status.Code === 0) {
@@ -297,7 +297,7 @@ export class ProjectService {
         state: ApplicationsFlowState
     ): Promise<EnterpriseAsCode> {
         return new Promise((resolve, reject) => {
-            console.log('Load ent called!!!');
+            // console.log('Load ent called!!!');
             state.Loading = true;
             state.LoadingActiveEnterprise = true;
 
@@ -305,7 +305,7 @@ export class ProjectService {
                 (response: BaseModeledResponse<EnterpriseAsCode>) => {
                     state.Loading = false;
                     state.LoadingActiveEnterprise = false;
-                    console.log('Load eac response: ', response);
+                    // console.log('Load eac response: ', response);
 
                     if (response.Status.Code === 0) {
                         state.EaC = response.Model || {};
@@ -313,7 +313,7 @@ export class ProjectService {
                     }
 
                     state.EaC = state.EaC || {};
-                    console.log('state.eac = ', state.EaC);
+                    // console.log('state.eac = ', state.EaC);
 
                     this.CreatingProject =
                         Object.keys(state?.EaC?.Projects || {}).length <= 0;
@@ -373,7 +373,7 @@ export class ProjectService {
         state: ApplicationsFlowState
     ): Promise<Array<FeedItem>> {
         return new Promise((resolve, reject) => {
-            console.log('load user feed called');
+            // console.log('load user feed called');
             state.LoadingFeed = !forCheck;
 
             let paramMap = this.activatedRoute.snapshot.children[0].paramMap;
@@ -456,7 +456,7 @@ export class ProjectService {
         activeEntLookup: string
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
-            console.log('SET ACTIVE ENT CALLED', activeEntLookup);
+            // console.log('SET ACTIVE ENT CALLED', activeEntLookup);
             state.Loading = true;
             state.LoadingActiveEnterprise = true;
             state.LoadingFeed = true;
@@ -468,7 +468,7 @@ export class ProjectService {
                     if (response.Status.Code === 0) {
                         this.EditingProjectLookup = null;
 
-                        console.log('state: ', state);
+                        // console.log('state: ', state);
 
                         // console.log(
                         //     'project service active ent: ',

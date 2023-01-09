@@ -135,7 +135,7 @@ export class DFSModifiersDialogComponent implements OnInit, OnDestroy {
     }
 
     public SaveDFSModifier() {
-        console.log('level at save: ', this.data.level);
+        // console.log('level at save: ', this.data.level);
 
         let status: Status;
 

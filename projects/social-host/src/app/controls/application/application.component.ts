@@ -860,7 +860,7 @@ export class ApplicationComponent implements OnInit {
             app.LowCodeUnit.SourceControlLookup = null;
         }
 
-        console.log('Save new App request: ', saveAppReq);
+        // console.log('Save new App request: ', saveAppReq);
 
         this.TempRoute = this.ApplicationFormControls.RouteFormControl.value;
 

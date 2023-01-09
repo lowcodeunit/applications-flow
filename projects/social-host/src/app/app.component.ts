@@ -52,7 +52,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
             if (changed) {
                 if (this.State?.EaC) {
-                    console.log('calling from here 1');
+                    // console.log('calling from here 1');
                     await Promise.all([
                         this.eacSvc.GetActiveEnterprise(),
                         // this.eacSvc.LoadEnterpriseAsCode(),
@@ -72,7 +72,7 @@ export class AppComponent implements OnDestroy, OnInit {
                     ]).catch((err) => {
                         console.log(err);
                     });
-                    console.log('calling from here 2');
+                    // console.log('calling from here 2');
 
                     await Promise.all([
                         this.eacSvc.LoadEnterpriseAsCode(),
@@ -100,7 +100,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
                     if (!this.feedCheckInterval) {
                         this.feedCheckInterval = setInterval(() => {
-                            console.log('interval called');
+                            // console.log('interval called');
                             this.eacSvc.LoadUserFeed(
                                 1,
                                 25,
