@@ -286,12 +286,28 @@ export class ApplicationComponent implements OnInit {
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                // console.log('State at app page: ', this.State);
+                console.log('State at app page: ', this.State);
 
                 this.Loading =
                     this.State?.LoadingActiveEnterprise ||
                     this.State?.LoadingEnterprises ||
                     this.State?.Loading;
+
+                console.log('Loading: ', this.Loading);
+
+                console.log(
+                    'Loading active ent = ',
+                    this.State?.LoadingActiveEnterprise
+                );
+                console.log('LoadingEnt = ', this.State?.LoadingEnterprises);
+                console.log('Loading state = ', this.State?.Loading);
+                console.log(
+                    'Loading = ',
+                    this.State?.LoadingActiveEnterprise ||
+                        this.State?.LoadingEnterprises ||
+                        this.State?.Loading
+                );
+                // debugger;
 
                 this.Project =
                     this.State?.EaC?.Projects[this.ProjectLookup] || {};
@@ -555,7 +571,9 @@ export class ApplicationComponent implements OnInit {
 
         // console.log('Save app req update package: ', saveAppReq);
 
-        this.eacSvc.SaveApplicationAsCode(saveAppReq);
+        this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
+            console.log('State Res: ', this.State);
+        });
     }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {

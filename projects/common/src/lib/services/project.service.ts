@@ -320,7 +320,7 @@ export class ProjectService {
 
                     resolve(state.EaC);
 
-                    this.activatedRoute.queryParams.subscribe((params) => {
+                    this.activatedRoute.queryParams.subscribe((params: any) => {
                         if (params?.direct == 'true') {
                             let projKeys = Object.keys(
                                 state.EaC.Projects || {}
@@ -461,7 +461,6 @@ export class ProjectService {
             state.LoadingActiveEnterprise = true;
             state.LoadingFeed = true;
             state.ActiveEnterpriseLookup = activeEntLookup;
-            // state.LoadingFeed = true;
 
             this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
                 async (response: BaseResponse) => {
@@ -523,6 +522,7 @@ export class ProjectService {
         eac: EnterpriseAsCode
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
+            console.log('save EAC called');
             state.Loading = true;
             // console.log('eac: ', eac);
             this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
@@ -533,19 +533,21 @@ export class ProjectService {
                         var results = await Promise.all([
                             // this.EnsureUserEnterprise(state),
                             this.LoadEnterpriseAsCode(state),
-                            this.ListEnterprises(state),
+                            // this.ListEnterprises(state),
                             // this.GetActiveEnterprise(state),
-                            this.LoadUserFeed(
-                                1,
-                                25,
-                                localStorage.getItem('activeFilter')
-                                    ? localStorage.getItem('activeFilter')
-                                    : '',
-                                false,
-                                state
-                            ),
+                            // this.LoadUserFeed(
+                            //     1,
+                            //     25,
+                            //     localStorage.getItem('activeFilter')
+                            //         ? localStorage.getItem('activeFilter')
+                            //         : '',
+                            //     false,
+                            //     state
+                            // ),
                         ]);
-                        // console.log('LOAD EAC RESULTS: ', results);
+                        console.log('LOAD EAC RESULTS: ', results);
+                        // state.Loading = false;
+                        console.log('State from save eac: ', state);
                     } else {
                         state.Loading = false;
 
