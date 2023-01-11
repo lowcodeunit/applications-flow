@@ -299,8 +299,8 @@ export class ProjectService {
     ): Promise<EnterpriseAsCode> {
         return new Promise((resolve, reject) => {
             console.log('Load ent called!!!');
-            // state.Loading = true;
-            // state.LoadingActiveEnterprise = true;
+            state.Loading = true;
+            state.LoadingActiveEnterprise = true;
             this.appsFlowSvc.LoadEnterpriseAsCode().subscribe({
                 next: async (
                     response: BaseModeledResponse<EnterpriseAsCode>
