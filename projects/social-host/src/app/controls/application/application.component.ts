@@ -289,23 +289,23 @@ export class ApplicationComponent implements OnInit {
                 console.log('State at app page: ', this.State);
 
                 this.Loading =
-                    this.State?.LoadingActiveEnterprise ||
-                    this.State?.LoadingEnterprises ||
-                    this.State?.Loading;
+                    this.State.LoadingActiveEnterprise ||
+                    this.State.LoadingEnterprises ||
+                    this.State.Loading;
 
                 console.log('Loading: ', this.Loading);
 
                 console.log(
                     'Loading active ent = ',
-                    this.State?.LoadingActiveEnterprise
+                    this.State.LoadingActiveEnterprise
                 );
-                console.log('LoadingEnt = ', this.State?.LoadingEnterprises);
-                console.log('Loading state = ', this.State?.Loading);
+                console.log('LoadingEnt = ', this.State.LoadingEnterprises);
+                console.log('Loading state = ', this.State.Loading);
                 console.log(
                     'Loading = ',
-                    this.State?.LoadingActiveEnterprise ||
-                        this.State?.LoadingEnterprises ||
-                        this.State?.Loading
+                    this.State.LoadingActiveEnterprise ||
+                        this.State.LoadingEnterprises ||
+                        this.State.Loading
                 );
                 // debugger;
 
@@ -569,11 +569,14 @@ export class ApplicationComponent implements OnInit {
             ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
         };
 
-        // console.log('Save app req update package: ', saveAppReq);
+        console.log('Save app req update package: ', saveAppReq);
 
-        this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
-            console.log('State Res: ', this.State);
-        });
+        Promise.all([
+            this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
+                console.log('State Res: ', this.State);
+                // this.ngOnInit();
+            }),
+        ]);
     }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {

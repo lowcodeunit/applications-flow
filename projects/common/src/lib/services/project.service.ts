@@ -13,6 +13,7 @@ import {
     UserFeedResponse,
 } from '../models/user-feed.model';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -267,8 +268,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.LoadingEnterprises = true;
 
-            this.appsFlowSvc.ListEnterprises().subscribe(
-                async (response: BaseModeledResponse<Array<any>>) => {
+            this.appsFlowSvc.ListEnterprises().subscribe({
+                next: async (response: BaseModeledResponse<Array<any>>) => {
                     // console.log('list Enterprises resp: ', response);
                     state.LoadingEnterprises = false;
 
@@ -282,30 +283,34 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.LoadingEnterprises = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
-    public LoadEnterpriseAsCode(
+    public async LoadEnterpriseAsCode(
         state: ApplicationsFlowState
     ): Promise<EnterpriseAsCode> {
         return new Promise((resolve, reject) => {
-            // console.log('Load ent called!!!');
-            state.Loading = true;
-            state.LoadingActiveEnterprise = true;
-
-            this.appsFlowSvc.LoadEnterpriseAsCode().subscribe(
-                (response: BaseModeledResponse<EnterpriseAsCode>) => {
+            console.log('Load ent called!!!');
+            // state.Loading = true;
+            // state.LoadingActiveEnterprise = true;
+            // BaseModeledResponse<EnterpriseAsCode>
+            this.appsFlowSvc.LoadEnterpriseAsCode().subscribe({
+                next: (response: BaseModeledResponse<EnterpriseAsCode>) => {
+                    console.log('State at Load ent: ', state);
                     state.Loading = false;
                     state.LoadingActiveEnterprise = false;
-                    // console.log('Load eac response: ', response);
+                    console.log(
+                        'Load eac State after set Loading FALSE: ',
+                        state
+                    );
 
                     if (response.Status.Code === 0) {
                         state.EaC = response.Model || {};
@@ -354,14 +359,15 @@ export class ProjectService {
 
                     // console.log(state);
                 },
-                (err) => {
+                error: (err) => {
+                    console.log('Load EAC ERROR Block');
                     state.Loading = false;
 
                     reject(err);
 
-                    console.log(err);
-                }
-            );
+                    console.error(err);
+                },
+            });
         });
     }
 
@@ -463,7 +469,7 @@ export class ProjectService {
             state.ActiveEnterpriseLookup = activeEntLookup;
 
             this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
-                async (response: BaseResponse) => {
+                async (response: any) => {
                     if (response.Status.Code === 0) {
                         this.EditingProjectLookup = null;
 
@@ -524,15 +530,19 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             console.log('save EAC called');
             state.Loading = true;
+            state.LoadingActiveEnterprise = true;
             // console.log('eac: ', eac);
-            this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
-                async (response: BaseModeledResponse<string>) => {
-                    if (response.Status.Code === 0) {
-                        resolve(response.Status);
+            let saveEntSub: Subscription = this.appsFlowSvc
+                .SaveEnterpriseAsCode(eac)
+                .subscribe({
+                    next: async (response: BaseModeledResponse<string>) => {
+                        if (response.Status.Code === 0) {
+                            resolve(response.Status);
+                            console.log('Save EAC Success');
 
-                        var results = await Promise.all([
+                            // var results =  Promise.all([
                             // this.EnsureUserEnterprise(state),
-                            this.LoadEnterpriseAsCode(state),
+                            //  this.LoadEnterpriseAsCode(state),
                             // this.ListEnterprises(state),
                             // this.GetActiveEnterprise(state),
                             // this.LoadUserFeed(
@@ -544,26 +554,31 @@ export class ProjectService {
                             //     false,
                             //     state
                             // ),
-                        ]);
-                        console.log('LOAD EAC RESULTS: ', results);
-                        // state.Loading = false;
-                        console.log('State from save eac: ', state);
-                    } else {
+                            // ]);
+                            var results = this.LoadEnterpriseAsCode(state);
+
+                            console.log('LOAD EAC RESULTS: ', results);
+                            state.Loading = false;
+                            state.LoadingActiveEnterprise = false;
+                            console.log('State from save eac: ', state);
+                        } else {
+                            state.Loading = false;
+
+                            reject(response.Status);
+
+                            // console.log(response);
+                        }
+                    },
+                    error: (err: any) => {
                         state.Loading = false;
 
-                        reject(response.Status);
+                        reject(err);
 
-                        // console.log(response);
-                    }
-                },
-                (err) => {
-                    state.Loading = false;
-
-                    reject(err);
-
-                    console.log(err);
-                }
-            );
+                        console.log(err);
+                    },
+                });
+            console.log('SAVE ENT SUB: ', saveEntSub);
+            // saveEntSub.unsubscribe();
         });
     }
 
