@@ -571,12 +571,9 @@ export class ApplicationComponent implements OnInit {
 
         console.log('Save app req update package: ', saveAppReq);
 
-        Promise.all([
-            this.eacSvc.SaveApplicationAsCode(saveAppReq).then((res) => {
-                console.log('State Res: ', this.State);
-                // this.ngOnInit();
-            }),
-        ]);
+        // Promise.all([
+        this.eacSvc.SaveApplicationAsCode(saveAppReq);
+        // ]);
     }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {

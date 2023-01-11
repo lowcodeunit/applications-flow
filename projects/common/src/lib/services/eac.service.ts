@@ -478,13 +478,16 @@ export class EaCService {
             saveEaC.Applications[req.ApplicationLookup] = req.Application;
         }
         //await
-        const status = await Promise.all([
-            this.projectService.SaveEnterpriseAsCode(state, saveEaC),
-        ]);
+        // const status = await Promise.all([
+        const status = await this.projectService.SaveEnterpriseAsCode(
+            state,
+            saveEaC
+        );
+        // ]);
         console.log('State after save app: ', state);
 
         this.stateSubject.next(state);
-        return status[0];
+        return status;
     }
 
     protected async handleSaveDFSModifier(

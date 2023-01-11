@@ -52,8 +52,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.EnsureUserEnterprise().subscribe(
-                async (response: BaseResponse) => {
+            this.appsFlowSvc.EnsureUserEnterprise().subscribe({
+                next: async (response: BaseResponse) => {
                     if (response.Status.Code === 0) {
                         // const eac = await this.LoadEnterpriseAsCode(state);
 
@@ -66,14 +66,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -84,8 +84,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.EnterpriseAsCodeRemovals(eac).subscribe(
-                async (response: BaseModeledResponse<string>) => {
+            this.appsFlowSvc.EnterpriseAsCodeRemovals(eac).subscribe({
+                next: async (response: BaseModeledResponse<string>) => {
                     if (response.Status.Code === 0) {
                         resolve(response.Status);
 
@@ -109,14 +109,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -202,8 +202,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.LoadingActiveEnterprise = true;
 
-            this.appsFlowSvc.GetActiveEnterprise().subscribe(
-                async (
+            this.appsFlowSvc.GetActiveEnterprise().subscribe({
+                next: async (
                     response: BaseModeledResponse<{
                         Name: string;
                         Lookup: string;
@@ -225,14 +225,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.LoadingActiveEnterprise = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -243,8 +243,8 @@ export class ProjectService {
         return new Promise(async (resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.HasValidConnection().subscribe(
-                async (response: BaseResponse) => {
+            this.appsFlowSvc.HasValidConnection().subscribe({
+                next: async (response: BaseResponse) => {
                     state.GitHub.HasConnection = response.Status.Code === 0;
 
                     if (state.GitHub.HasConnection || forceEnsureUser) {
@@ -253,14 +253,14 @@ export class ProjectService {
 
                     resolve({});
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -301,9 +301,10 @@ export class ProjectService {
             console.log('Load ent called!!!');
             // state.Loading = true;
             // state.LoadingActiveEnterprise = true;
-            // BaseModeledResponse<EnterpriseAsCode>
             this.appsFlowSvc.LoadEnterpriseAsCode().subscribe({
-                next: (response: BaseModeledResponse<EnterpriseAsCode>) => {
+                next: async (
+                    response: BaseModeledResponse<EnterpriseAsCode>
+                ) => {
                     console.log('State at Load ent: ', state);
                     state.Loading = false;
                     state.LoadingActiveEnterprise = false;
@@ -394,8 +395,8 @@ export class ProjectService {
                     result?.Project,
                     result?.Applications
                 )
-                .subscribe(
-                    async (response: UserFeedResponse) => {
+                .subscribe({
+                    next: async (response: UserFeedResponse) => {
                         state.LoadingFeed = false;
 
                         if (response.Status.Code === 0) {
@@ -432,14 +433,14 @@ export class ProjectService {
                             reject(response.Status);
                         }
                     },
-                    (err) => {
+                    error: (err) => {
                         state.LoadingFeed = false;
 
                         reject(err);
 
                         console.log(err);
-                    }
-                );
+                    },
+                });
         });
     }
 
@@ -468,8 +469,8 @@ export class ProjectService {
             state.LoadingFeed = true;
             state.ActiveEnterpriseLookup = activeEntLookup;
 
-            this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
-                async (response: any) => {
+            this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe({
+                next: async (response: any) => {
                     if (response.Status.Code === 0) {
                         this.EditingProjectLookup = null;
 
@@ -511,15 +512,15 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
                     state.LoadingActiveEnterprise = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -540,22 +541,22 @@ export class ProjectService {
                             resolve(response.Status);
                             console.log('Save EAC Success');
 
-                            // var results =  Promise.all([
-                            // this.EnsureUserEnterprise(state),
-                            //  this.LoadEnterpriseAsCode(state),
-                            // this.ListEnterprises(state),
-                            // this.GetActiveEnterprise(state),
-                            // this.LoadUserFeed(
-                            //     1,
-                            //     25,
-                            //     localStorage.getItem('activeFilter')
-                            //         ? localStorage.getItem('activeFilter')
-                            //         : '',
-                            //     false,
-                            //     state
-                            // ),
-                            // ]);
-                            var results = this.LoadEnterpriseAsCode(state);
+                            var results = Promise.all([
+                                // this.EnsureUserEnterprise(state),
+                                this.LoadEnterpriseAsCode(state),
+                                // this.ListEnterprises(state),
+                                // this.GetActiveEnterprise(state),
+                                // this.LoadUserFeed(
+                                //     1,
+                                //     25,
+                                //     localStorage.getItem('activeFilter')
+                                //         ? localStorage.getItem('activeFilter')
+                                //         : '',
+                                //     false,
+                                //     state
+                                // ),
+                            ]);
+                            // var results = this.LoadEnterpriseAsCode(state);
 
                             console.log('LOAD EAC RESULTS: ', results);
                             state.Loading = false;
@@ -626,8 +627,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.SubmitFeedEntry(entry).subscribe(
-                async (response: BaseModeledResponse<string>) => {
+            this.appsFlowSvc.SubmitFeedEntry(entry).subscribe({
+                next: async (response: BaseModeledResponse<string>) => {
                     if (
                         response.Status.Code === 0 ||
                         response.Status.Code === 1
@@ -654,14 +655,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -676,8 +677,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.UnpackLowCodeUnit(req).subscribe(
-                async (response: BaseResponse) => {
+            this.appsFlowSvc.UnpackLowCodeUnit(req).subscribe({
+                next: async (response: BaseResponse) => {
                     if (response.Status.Code === 0) {
                         resolve(response.Status);
 
@@ -701,14 +702,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
