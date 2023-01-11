@@ -483,6 +483,8 @@ export class EaCService {
             saveEaC
         );
         console.log('State after save app: ', state);
+        state.Loading = false;
+        state.LoadingActiveEnterprise = false;
 
         this.stateSubject.next(state);
         return status;

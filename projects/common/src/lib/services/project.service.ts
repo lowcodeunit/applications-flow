@@ -539,22 +539,22 @@ export class ProjectService {
                     next: async (response: BaseModeledResponse<string>) => {
                         if (response.Status.Code === 0) {
                             resolve(response.Status);
-                            console.log('Save EAC Success');
+                            console.log('Save EAC Success: ', response);
 
                             var results = await Promise.all([
                                 // this.EnsureUserEnterprise(state),
                                 this.LoadEnterpriseAsCode(state),
                                 // this.ListEnterprises(state),
                                 // this.GetActiveEnterprise(state),
-                                // this.LoadUserFeed(
-                                //     1,
-                                //     25,
-                                //     localStorage.getItem('activeFilter')
-                                //         ? localStorage.getItem('activeFilter')
-                                //         : '',
-                                //     false,
-                                //     state
-                                // ),
+                                this.LoadUserFeed(
+                                    1,
+                                    25,
+                                    localStorage.getItem('activeFilter')
+                                        ? localStorage.getItem('activeFilter')
+                                        : '',
+                                    false,
+                                    state
+                                ),
                             ]);
                             // var results = this.LoadEnterpriseAsCode(state);
 
@@ -564,6 +564,7 @@ export class ProjectService {
                             console.log('State from save eac: ', state);
                         } else {
                             state.Loading = false;
+                            state.LoadingActiveEnterprise = false;
 
                             reject(response.Status);
 
