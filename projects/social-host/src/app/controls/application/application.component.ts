@@ -560,7 +560,7 @@ export class ApplicationComponent implements OnInit {
         }
     }
 
-    public UpdatePackage() {
+    public async UpdatePackage() {
         const app: EaCApplicationAsCode = this.Application;
 
         const saveAppReq: SaveApplicationAsCodeEventRequest = {
@@ -571,9 +571,7 @@ export class ApplicationComponent implements OnInit {
 
         console.log('Save app req update package: ', saveAppReq);
 
-        // Promise.all([
-        this.eacSvc.SaveApplicationAsCode(saveAppReq);
-        // ]);
+        await this.eacSvc.SaveApplicationAsCode(saveAppReq);
     }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {

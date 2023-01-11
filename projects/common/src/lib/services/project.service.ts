@@ -541,7 +541,7 @@ export class ProjectService {
                             resolve(response.Status);
                             console.log('Save EAC Success');
 
-                            var results = Promise.all([
+                            var results = await Promise.all([
                                 // this.EnsureUserEnterprise(state),
                                 this.LoadEnterpriseAsCode(state),
                                 // this.ListEnterprises(state),
