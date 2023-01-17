@@ -482,9 +482,9 @@ export class EaCService {
             state,
             saveEaC
         );
-        console.log('State after save app: ', state);
-        state.Loading = false;
-        state.LoadingActiveEnterprise = false;
+        console.log('SHOULD BE CALLED LAST State after save app: ', state);
+        // state.Loading = false;
+        // state.LoadingActiveEnterprise = false;
 
         this.stateSubject.next(state);
         return status;

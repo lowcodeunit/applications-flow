@@ -570,6 +570,7 @@ export class ApplicationComponent implements OnInit {
         };
 
         console.log('Save app req update package: ', saveAppReq);
+        this.Loading = true;
 
         await this.eacSvc.SaveApplicationAsCode(saveAppReq);
     }

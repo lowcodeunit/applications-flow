@@ -305,7 +305,7 @@ export class ProjectService {
                 next: async (
                     response: BaseModeledResponse<EnterpriseAsCode>
                 ) => {
-                    console.log('State at Load ent: ', state);
+                    // console.log('State at Load ent: ', state);
                     state.Loading = false;
                     state.LoadingActiveEnterprise = false;
                     console.log(
@@ -533,53 +533,51 @@ export class ProjectService {
             state.Loading = true;
             state.LoadingActiveEnterprise = true;
             // console.log('eac: ', eac);
-            let saveEntSub: Subscription = this.appsFlowSvc
-                .SaveEnterpriseAsCode(eac)
-                .subscribe({
-                    next: async (response: BaseModeledResponse<string>) => {
-                        if (response.Status.Code === 0) {
-                            resolve(response.Status);
-                            console.log('Save EAC Success: ', response);
+            this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe({
+                next: async (response: BaseModeledResponse<string>) => {
+                    if (response.Status.Code === 0) {
+                        resolve(response.Status);
+                        console.log('Save EAC Success: ', response);
 
-                            var results = await Promise.all([
-                                // this.EnsureUserEnterprise(state),
-                                this.LoadEnterpriseAsCode(state),
-                                // this.ListEnterprises(state),
-                                // this.GetActiveEnterprise(state),
-                                this.LoadUserFeed(
-                                    1,
-                                    25,
-                                    localStorage.getItem('activeFilter')
-                                        ? localStorage.getItem('activeFilter')
-                                        : '',
-                                    false,
-                                    state
-                                ),
-                            ]);
-                            // var results = this.LoadEnterpriseAsCode(state);
+                        // var results = await Promise.all([
+                        // this.EnsureUserEnterprise(state),
+                        // this.LoadEnterpriseAsCode(state),
+                        // this.ListEnterprises(state),
+                        // this.GetActiveEnterprise(state),
+                        // this.LoadUserFeed(
+                        //     1,
+                        //     25,
+                        //     localStorage.getItem('activeFilter')
+                        //         ? localStorage.getItem('activeFilter')
+                        //         : '',
+                        //     false,
+                        //     state
+                        // ),
+                        // ]);
+                        var results = await this.LoadEnterpriseAsCode(state);
 
-                            console.log('LOAD EAC RESULTS: ', results);
-                            state.Loading = false;
-                            state.LoadingActiveEnterprise = false;
-                            console.log('State from save eac: ', state);
-                        } else {
-                            state.Loading = false;
-                            state.LoadingActiveEnterprise = false;
-
-                            reject(response.Status);
-
-                            // console.log(response);
-                        }
-                    },
-                    error: (err: any) => {
+                        console.log('LOAD EAC RESULTS: ', results);
                         state.Loading = false;
+                        state.LoadingActiveEnterprise = false;
+                        console.log('State from save eac: ', state);
+                    } else {
+                        state.Loading = false;
+                        state.LoadingActiveEnterprise = false;
 
-                        reject(err);
+                        reject(response.Status);
 
-                        console.log(err);
-                    },
-                });
-            console.log('SAVE ENT SUB: ', saveEntSub);
+                        // console.log(response);
+                    }
+                },
+                error: (err: any) => {
+                    state.Loading = false;
+
+                    reject(err);
+
+                    console.log(err);
+                },
+            });
+            // console.log('SAVE ENT SUB: ', saveEntSub);
             // saveEntSub.unsubscribe();
         });
     }
