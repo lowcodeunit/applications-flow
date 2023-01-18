@@ -28,7 +28,9 @@
             [loading]="Loading"
             [subtext]="
                 Project?.PrimaryHost
-                    ? Project?.PrimaryHost + Application?.Processor?.BaseHref
+                    ? Project?.PrimaryHost +
+                      (Application?.LookupConfig?.PathRegex.replace('.*', '') ||
+                          '')
                     : ''
             "
             [app]="Application"
