@@ -163,7 +163,7 @@ export class FeedHeaderComponent implements OnInit {
     }
 
     public Submit() {
-        console.log('submitting: ', this.value);
+        // console.log('submitting: ', this.value);
         switch (this.selectedBtn) {
             case 'pr-btn':
                 //Pull request

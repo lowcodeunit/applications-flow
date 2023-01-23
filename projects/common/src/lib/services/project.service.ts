@@ -13,6 +13,7 @@ import {
     UserFeedResponse,
 } from '../models/user-feed.model';
 import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -51,8 +52,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.EnsureUserEnterprise().subscribe(
-                async (response: BaseResponse) => {
+            this.appsFlowSvc.EnsureUserEnterprise().subscribe({
+                next: async (response: BaseResponse) => {
                     if (response.Status.Code === 0) {
                         // const eac = await this.LoadEnterpriseAsCode(state);
 
@@ -65,14 +66,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -83,8 +84,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.EnterpriseAsCodeRemovals(eac).subscribe(
-                async (response: BaseModeledResponse<string>) => {
+            this.appsFlowSvc.EnterpriseAsCodeRemovals(eac).subscribe({
+                next: async (response: BaseModeledResponse<string>) => {
                     if (response.Status.Code === 0) {
                         resolve(response.Status);
 
@@ -108,14 +109,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -201,8 +202,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.LoadingActiveEnterprise = true;
 
-            this.appsFlowSvc.GetActiveEnterprise().subscribe(
-                async (
+            this.appsFlowSvc.GetActiveEnterprise().subscribe({
+                next: async (
                     response: BaseModeledResponse<{
                         Name: string;
                         Lookup: string;
@@ -212,6 +213,10 @@ export class ProjectService {
 
                     if (response.Status.Code === 0) {
                         state.ActiveEnterpriseLookup = response.Model?.Lookup;
+                        // console.log(
+                        //     'Active Ent set to = ',
+                        //     response.Model?.Lookup
+                        // );
 
                         resolve();
                     } else {
@@ -220,14 +225,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.LoadingActiveEnterprise = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -238,8 +243,8 @@ export class ProjectService {
         return new Promise(async (resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.HasValidConnection().subscribe(
-                async (response: BaseResponse) => {
+            this.appsFlowSvc.HasValidConnection().subscribe({
+                next: async (response: BaseResponse) => {
                     state.GitHub.HasConnection = response.Status.Code === 0;
 
                     if (state.GitHub.HasConnection || forceEnsureUser) {
@@ -248,14 +253,14 @@ export class ProjectService {
 
                     resolve({});
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -263,8 +268,9 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.LoadingEnterprises = true;
 
-            this.appsFlowSvc.ListEnterprises().subscribe(
-                async (response: BaseModeledResponse<Array<any>>) => {
+            this.appsFlowSvc.ListEnterprises().subscribe({
+                next: async (response: BaseModeledResponse<Array<any>>) => {
+                    // console.log('list Enterprises resp: ', response);
                     state.LoadingEnterprises = false;
 
                     if (response.Status.Code === 0) {
@@ -277,27 +283,35 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.LoadingEnterprises = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
-    public LoadEnterpriseAsCode(
+    public async LoadEnterpriseAsCode(
         state: ApplicationsFlowState
     ): Promise<EnterpriseAsCode> {
         return new Promise((resolve, reject) => {
+            console.log('Load ent called!!!');
             state.Loading = true;
-
-            this.appsFlowSvc.LoadEnterpriseAsCode().subscribe(
-                (response: BaseModeledResponse<EnterpriseAsCode>) => {
+            state.LoadingActiveEnterprise = true;
+            this.appsFlowSvc.LoadEnterpriseAsCode().subscribe({
+                next: async (
+                    response: BaseModeledResponse<EnterpriseAsCode>
+                ) => {
+                    // console.log('State at Load ent: ', state);
                     state.Loading = false;
-                    console.log('Load eac response: ', response);
+                    state.LoadingActiveEnterprise = false;
+                    console.log(
+                        'Load eac State after set Loading FALSE: ',
+                        state
+                    );
 
                     if (response.Status.Code === 0) {
                         state.EaC = response.Model || {};
@@ -305,14 +319,14 @@ export class ProjectService {
                     }
 
                     state.EaC = state.EaC || {};
-                    console.log('state.eac = ', state.EaC);
+                    // console.log('state.eac = ', state.EaC);
 
                     this.CreatingProject =
                         Object.keys(state?.EaC?.Projects || {}).length <= 0;
 
                     resolve(state.EaC);
 
-                    this.activatedRoute.queryParams.subscribe((params) => {
+                    this.activatedRoute.queryParams.subscribe((params: any) => {
                         if (params?.direct == 'true') {
                             let projKeys = Object.keys(
                                 state.EaC.Projects || {}
@@ -346,14 +360,15 @@ export class ProjectService {
 
                     // console.log(state);
                 },
-                (err) => {
+                error: (err) => {
+                    console.log('Load EAC ERROR Block');
                     state.Loading = false;
 
                     reject(err);
 
-                    console.log(err);
-                }
-            );
+                    console.error(err);
+                },
+            });
         });
     }
 
@@ -365,6 +380,7 @@ export class ProjectService {
         state: ApplicationsFlowState
     ): Promise<Array<FeedItem>> {
         return new Promise((resolve, reject) => {
+            // console.log('load user feed called');
             state.LoadingFeed = !forCheck;
 
             let paramMap = this.activatedRoute.snapshot.children[0].paramMap;
@@ -379,8 +395,8 @@ export class ProjectService {
                     result?.Project,
                     result?.Applications
                 )
-                .subscribe(
-                    async (response: UserFeedResponse) => {
+                .subscribe({
+                    next: async (response: UserFeedResponse) => {
                         state.LoadingFeed = false;
 
                         if (response.Status.Code === 0) {
@@ -417,14 +433,14 @@ export class ProjectService {
                             reject(response.Status);
                         }
                     },
-                    (err) => {
+                    error: (err) => {
                         state.LoadingFeed = false;
 
                         reject(err);
 
                         console.log(err);
-                    }
-                );
+                    },
+                });
         });
     }
 
@@ -447,20 +463,25 @@ export class ProjectService {
         activeEntLookup: string
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
+            // console.log('SET ACTIVE ENT CALLED', activeEntLookup);
             state.Loading = true;
+            state.LoadingActiveEnterprise = true;
             state.LoadingFeed = true;
+            state.ActiveEnterpriseLookup = activeEntLookup;
 
-            this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe(
-                async (response: BaseResponse) => {
+            this.appsFlowSvc.SetActiveEnterprise(activeEntLookup).subscribe({
+                next: async (response: any) => {
                     if (response.Status.Code === 0) {
                         this.EditingProjectLookup = null;
+
+                        // console.log('state: ', state);
 
                         // console.log(
                         //     'project service active ent: ',
                         //     activeEntLookup
                         // );
 
-                        state.ActiveEnterpriseLookup = activeEntLookup;
+                        // state.ActiveEnterpriseLookup = activeEntLookup;
 
                         // console.log(
                         //     'project service State active ent: ',
@@ -470,33 +491,36 @@ export class ProjectService {
                         resolve(response.Status);
 
                         var results = await Promise.all([
-                            this.LoadEnterpriseAsCode(state),
-                            this.LoadUserFeed(
-                                1,
-                                25,
-                                localStorage.getItem('activeFilter')
-                                    ? localStorage.getItem('activeFilter')
-                                    : '',
-                                false,
-                                state
-                            ),
+                            // this.ListEnterprises(state),
+                            // this.LoadEnterpriseAsCode(state),
+                            // this.LoadUserFeed(
+                            //     1,
+                            //     25,
+                            //     localStorage.getItem('activeFilter')
+                            //         ? localStorage.getItem('activeFilter')
+                            //         : '',
+                            //     false,
+                            //     state
+                            // ),
                         ]);
                     } else {
                         state.Loading = false;
+                        state.LoadingActiveEnterprise = false;
 
                         reject(response.Status);
 
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
+                    state.LoadingActiveEnterprise = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -505,45 +529,56 @@ export class ProjectService {
         eac: EnterpriseAsCode
     ): Promise<Status> {
         return new Promise((resolve, reject) => {
+            console.log('save EAC called');
             state.Loading = true;
+            state.LoadingActiveEnterprise = true;
             // console.log('eac: ', eac);
-            this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe(
-                async (response: BaseModeledResponse<string>) => {
+            this.appsFlowSvc.SaveEnterpriseAsCode(eac).subscribe({
+                next: async (response: BaseModeledResponse<string>) => {
                     if (response.Status.Code === 0) {
                         resolve(response.Status);
+                        console.log('Save EAC Success: ', response);
 
-                        var results = await Promise.all([
-                            // this.EnsureUserEnterprise(state),
-                            this.LoadEnterpriseAsCode(state),
-                            this.ListEnterprises(state),
-                            // this.GetActiveEnterprise(state),
-                            this.LoadUserFeed(
-                                1,
-                                25,
-                                localStorage.getItem('activeFilter')
-                                    ? localStorage.getItem('activeFilter')
-                                    : '',
-                                false,
-                                state
-                            ),
-                        ]);
-                        // console.log('LOAD EAC RESULTS: ', results);
+                        // var results = await Promise.all([
+                        // this.EnsureUserEnterprise(state),
+                        // this.LoadEnterpriseAsCode(state),
+                        // this.ListEnterprises(state),
+                        // this.GetActiveEnterprise(state),
+                        // this.LoadUserFeed(
+                        //     1,
+                        //     25,
+                        //     localStorage.getItem('activeFilter')
+                        //         ? localStorage.getItem('activeFilter')
+                        //         : '',
+                        //     false,
+                        //     state
+                        // ),
+                        // ]);
+                        var results = await this.LoadEnterpriseAsCode(state);
+
+                        console.log('LOAD EAC RESULTS: ', results);
+                        state.Loading = false;
+                        state.LoadingActiveEnterprise = false;
+                        console.log('State from save eac: ', state);
                     } else {
                         state.Loading = false;
+                        state.LoadingActiveEnterprise = false;
 
                         reject(response.Status);
 
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err: any) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
+            // console.log('SAVE ENT SUB: ', saveEntSub);
+            // saveEntSub.unsubscribe();
         });
     }
 
@@ -591,8 +626,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.SubmitFeedEntry(entry).subscribe(
-                async (response: BaseModeledResponse<string>) => {
+            this.appsFlowSvc.SubmitFeedEntry(entry).subscribe({
+                next: async (response: BaseModeledResponse<string>) => {
                     if (
                         response.Status.Code === 0 ||
                         response.Status.Code === 1
@@ -619,14 +654,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 
@@ -641,8 +676,8 @@ export class ProjectService {
         return new Promise((resolve, reject) => {
             state.Loading = true;
 
-            this.appsFlowSvc.UnpackLowCodeUnit(req).subscribe(
-                async (response: BaseResponse) => {
+            this.appsFlowSvc.UnpackLowCodeUnit(req).subscribe({
+                next: async (response: BaseResponse) => {
                     if (response.Status.Code === 0) {
                         resolve(response.Status);
 
@@ -666,14 +701,14 @@ export class ProjectService {
                         // console.log(response);
                     }
                 },
-                (err) => {
+                error: (err) => {
                     state.Loading = false;
 
                     reject(err);
 
                     console.log(err);
-                }
-            );
+                },
+            });
         });
     }
 

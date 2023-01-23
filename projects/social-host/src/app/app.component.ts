@@ -52,12 +52,20 @@ export class AppComponent implements OnDestroy, OnInit {
 
             if (changed) {
                 if (this.State?.EaC) {
+                    console.log('calling from here 1');
+                    await Promise.all([
+                        this.eacSvc.GetActiveEnterprise(),
+                        // this.eacSvc.LoadEnterpriseAsCode(),
+                        // this.eacSvc.LoadUserFeed(1, 25, false),
+                    ]);
                     await Promise.all([
                         this.eacSvc.LoadEnterpriseAsCode(),
                         this.eacSvc.LoadUserFeed(1, 25, false),
                     ]);
                 } else if (!this.initialized) {
                     // console.log("refresh")
+                    console.log('calling from here 2');
+
                     this.initialized = true;
 
                     await Promise.all([
@@ -66,6 +74,7 @@ export class AppComponent implements OnDestroy, OnInit {
                     ]).catch((err) => {
                         console.log(err);
                     });
+
                     await Promise.all([
                         this.eacSvc.LoadEnterpriseAsCode(),
                         this.eacSvc.ListEnterprises(),
@@ -92,6 +101,7 @@ export class AppComponent implements OnDestroy, OnInit {
 
                     if (!this.feedCheckInterval) {
                         this.feedCheckInterval = setInterval(() => {
+                            console.log('interval called');
                             this.eacSvc.LoadUserFeed(
                                 1,
                                 25,
@@ -140,6 +150,7 @@ export class AppComponent implements OnDestroy, OnInit {
         this.StateSub = this.eacSvc.State.subscribe(
             (state: ApplicationsFlowState) => {
                 this.State = state;
+                console.log('STATE CHANGED APP LEVEL: ', this.State);
             }
         );
         this.handleStateChange().then((eac) => {});

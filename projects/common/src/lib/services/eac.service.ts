@@ -356,6 +356,7 @@ export class EaCService {
     public async SaveApplicationAsCode(
         req: SaveApplicationAsCodeEventRequest
     ): Promise<Status> {
+        console.log('Calling Save App as Code: ', req);
         return await this.handleSaveApplication(req);
     }
 
@@ -455,7 +456,7 @@ export class EaCService {
     ): Promise<Status> {
         const state = this.stateSubject.getValue();
 
-        // console.log("app req: ", req);
+        console.log('calling handle Save App: ', state);
 
         const saveEaC: EnterpriseAsCode = {
             EnterpriseLookup: state.EaC.EnterpriseLookup,
@@ -481,6 +482,9 @@ export class EaCService {
             state,
             saveEaC
         );
+        console.log('SHOULD BE CALLED LAST State after save app: ', state);
+        // state.Loading = false;
+        // state.LoadingActiveEnterprise = false;
 
         this.stateSubject.next(state);
         return status;

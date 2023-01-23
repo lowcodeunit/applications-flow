@@ -133,6 +133,21 @@ export class Enterprise4Component implements OnInit, OnDestroy {
                     this.State?.LoadingEnterprises ||
                     this.State?.Loading;
 
+                // console.log('Loading: ', this.Loading);
+
+                // console.log(
+                //     'Loading active ent = ',
+                //     this.State?.LoadingActiveEnterprise
+                // );
+                // console.log('LoadingEnt = ', this.State?.LoadingEnterprises);
+                // console.log('Loading state = ', this.State?.Loading);
+                // console.log(
+                //     'Loading = ',
+                //     this.State?.LoadingActiveEnterprise ||
+                //         this.State?.LoadingEnterprises ||
+                //         this.State?.Loading
+                // );
+
                 this.ProjectLookups = Object.keys(
                     this.State?.EaC?.Projects || {}
                 ).reverse();

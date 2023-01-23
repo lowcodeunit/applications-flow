@@ -59,7 +59,7 @@ export class TeamMemberCardComponent implements OnInit {
         this.ProjectLookups.forEach((proj: string) => {
             this.Projects[
                 proj
-            ].RelyingParty?.AccessConfigurations?.fathym?.Usernames?.forEach(
+            ]?.RelyingParty?.AccessConfigurations?.fathym?.Usernames?.forEach(
                 (username: string) => {
                     if (!memberList.includes(username)) {
                         memberList.push(username);

@@ -286,12 +286,28 @@ export class ApplicationComponent implements OnInit {
             (state: ApplicationsFlowState) => {
                 this.State = state;
 
-                // console.log('State at app page: ', this.State);
+                console.log('State at app page: ', this.State);
 
                 this.Loading =
-                    this.State?.LoadingActiveEnterprise ||
-                    this.State?.LoadingEnterprises ||
-                    this.State?.Loading;
+                    this.State.LoadingActiveEnterprise ||
+                    this.State.LoadingEnterprises ||
+                    this.State.Loading;
+
+                console.log('Loading: ', this.Loading);
+
+                console.log(
+                    'Loading active ent = ',
+                    this.State.LoadingActiveEnterprise
+                );
+                console.log('LoadingEnt = ', this.State.LoadingEnterprises);
+                console.log('Loading state = ', this.State.Loading);
+                console.log(
+                    'Loading = ',
+                    this.State.LoadingActiveEnterprise ||
+                        this.State.LoadingEnterprises ||
+                        this.State.Loading
+                );
+                // debugger;
 
                 this.Project =
                     this.State?.EaC?.Projects[this.ProjectLookup] || {};
@@ -544,7 +560,7 @@ export class ApplicationComponent implements OnInit {
         }
     }
 
-    public UpdatePackage() {
+    public async UpdatePackage() {
         const app: EaCApplicationAsCode = this.Application;
 
         const saveAppReq: SaveApplicationAsCodeEventRequest = {
@@ -553,9 +569,10 @@ export class ApplicationComponent implements OnInit {
             ApplicationLookup: this.ApplicationLookup || Guid.CreateRaw(),
         };
 
-        // console.log('Save app req update package: ', saveAppReq);
+        console.log('Save app req update package: ', saveAppReq);
+        this.Loading = true;
 
-        this.eacSvc.SaveApplicationAsCode(saveAppReq);
+        await this.eacSvc.SaveApplicationAsCode(saveAppReq);
     }
 
     public OpenModifierDialog(mdfrLookup: string, mdfrName: string) {
@@ -860,7 +877,7 @@ export class ApplicationComponent implements OnInit {
             app.LowCodeUnit.SourceControlLookup = null;
         }
 
-        console.log('Save new App request: ', saveAppReq);
+        // console.log('Save new App request: ', saveAppReq);
 
         this.TempRoute = this.ApplicationFormControls.RouteFormControl.value;
 

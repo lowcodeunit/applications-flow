@@ -3882,7 +3882,9 @@ $mat-calendar-weekday-table-font-size: 11px !default;
 
 // Utility mixin to target cells that aren't selected. Used to make selector easier to follow.
 @mixin _mat-datepicker-unselected-cell {
-    &:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+    &:not(.mat-calendar-body-selected):not(
+            .mat-calendar-body-comparison-identical
+        ) {
         @content;
     }
 }
@@ -7016,7 +7018,9 @@ $mat-form-field-outline-dedupe: 0;
         }
     }
 
-    .mat-form-field-type-mat-native-select.mat-focused:not(.mat-form-field-invalid) {
+    .mat-form-field-type-mat-native-select.mat-focused:not(
+            .mat-form-field-invalid
+        ) {
         .mat-form-field-infix::after {
             color: $underline-focused-color;
         }

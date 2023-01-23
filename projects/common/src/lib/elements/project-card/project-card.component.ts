@@ -190,10 +190,10 @@ export class ProjectCardComponent implements OnInit {
             let tempProj = this.Projects[pLookup];
             this.Project = tempProj;
             let tempProjNode: TreeNode = {
-                name: tempProj.Project.Name,
-                description: tempProj.Project.Description,
+                name: tempProj?.Project?.Name,
+                description: tempProj?.Project?.Description,
                 lookup: pLookup,
-                url: 'https://' + tempProj.PrimaryHost,
+                url: 'https://' + tempProj?.PrimaryHost,
                 routerLink: ['/project', pLookup],
             };
 
