@@ -246,6 +246,7 @@ export class DFSModifiersFormComponent implements OnInit {
     public SaveModifier(projectLookup: string = null): Status {
         let saveStatus: Status;
         if (this.ModifierFormGroup) {
+            // console.log("here 1")
             const saveMdfrReq: SaveDFSModifierEventRequest = {
                 Modifier: {
                     ...this.EditingModifier,
@@ -256,7 +257,7 @@ export class DFSModifiersFormComponent implements OnInit {
                     Type: this.CurrentType,
                 },
                 ModifierLookups: [this.EditingModifierLookup],
-                ProjectLookups: [projectLookup],
+                // ProjectLookups: [projectLookup],
             };
 
             let details = this.getDetails();
@@ -267,6 +268,8 @@ export class DFSModifiersFormComponent implements OnInit {
                 saveStatus = status;
             });
         } else if (this.ModifierSelectFormGroup) {
+            // console.log('here 2');
+
             const saveMdfrReq: SaveDFSModifierEventRequest = {
                 ModifierLookups: this.MultiSelectFormControl.value,
                 ProjectLookups: [projectLookup],

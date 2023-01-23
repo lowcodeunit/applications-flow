@@ -20,7 +20,7 @@
             [is-editable]="IsInfoCardEditable"
             [is-shareable]="IsInfoCardShareable"
             image="./assets/images/black_thinky.png"
-            [loading]="State?.Loading"
+            [loading]="Loading"
             [subtext]="Project?.PrimaryHost ? Project?.PrimaryHost : ''"
             (left-click-event)="HandleLeftClickEvent($event)"
             (right-click-event)="HandleRightClickEvent($event)"

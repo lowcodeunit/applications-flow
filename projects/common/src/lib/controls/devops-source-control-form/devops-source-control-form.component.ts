@@ -323,7 +323,7 @@ export class DevopsSourceControlFormComponent implements OnDestroy, OnInit {
 
     public RefreshOrganizations(): void {
         // this.Loading = true;
-        console.log('refresh');
+        // console.log('refresh');
         this.listOrganizations();
 
         this.OrganizationFormControl?.reset();
