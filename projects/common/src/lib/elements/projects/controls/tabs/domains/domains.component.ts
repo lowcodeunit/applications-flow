@@ -165,6 +165,7 @@ export class DomainsComponent implements OnInit, OnChanges {
                 ...this.Data?.Project,
                 // Hosts: [...this.Project.Hosts, this.Domain.value],
                 Hosts: [this.Domain.value],
+                PrimaryHost: this.Domain.value,
             },
         });
         this.formsService.UpdateValuesReference({
