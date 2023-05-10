@@ -10,9 +10,6 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProjectComponent } from './controls/project/project.component';
-import { RoutesOldComponent } from './controls/routes-old/routes-old.component';
-import { EnterpriseComponent } from './controls/enterprise-old/enterprise-old.component';
-import { ApplicationsOldComponent } from './controls/applications-old/applications-old.component';
 import { ApplicationsFlowModule } from '@lowcodeunit/applications-flow-common';
 import { environment } from '../environments/environment';
 import { MatCardModule } from '@angular/material/card';
@@ -41,12 +38,9 @@ import { RoutesComponent } from './controls/routes/routes.component';
     declarations: [
         AppComponent,
         ProjectComponent,
-        RoutesOldComponent,
         DiscoverComponent,
-        EnterpriseComponent,
         Enterprise4Component,
         IoTComponent,
-        ApplicationsOldComponent,
         HomeComponent,
         DevOpsComponent,
         ModifiersComponent,
@@ -95,12 +89,9 @@ import { RoutesComponent } from './controls/routes/routes.component';
     entryComponents: [
         ProjectComponent,
         RoutesComponent,
-        RoutesOldComponent,
         RoutesPageComponent,
         DiscoverComponent,
-        EnterpriseComponent,
         Enterprise4Component,
-        ApplicationsOldComponent,
         DevOpsComponent,
         ModifiersComponent,
         IoTComponent,

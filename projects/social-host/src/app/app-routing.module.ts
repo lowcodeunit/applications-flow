@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ApplicationsOldComponent } from './controls/applications-old/applications-old.component';
-import { RoutesOldComponent } from './controls/routes-old/routes-old.component';
 import { IoTComponent } from './controls/iot/iot.component';
 import { DiscoverComponent } from './controls/discover/discover.component';
 import { HomeComponent } from './controls/home/home.component';
@@ -18,10 +16,10 @@ import { ApplicationComponent } from './controls/application/application.compone
 import { RoutesComponent } from './controls/routes/routes.component';
 
 const routes: Routes = [
-    {
-        path: 'application-old/:appLookup/:appRoute/:projectLookup',
-        component: ApplicationsOldComponent,
-    },
+    // {
+    //     path: 'application-old/:appLookup/:appRoute/:projectLookup',
+    //     component: ApplicationsOldComponent,
+    // },
     {
         path: 'project/:projectLookup',
         component: ProjectComponent,
