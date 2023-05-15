@@ -168,6 +168,7 @@ export class DomainsComponent implements OnInit, OnChanges {
                 PrimaryHost: this.Domain.value,
             },
         });
+        this.eacSvc.ConfigureCustomDomain(this.Domain.value);
         this.formsService.UpdateValuesReference({
             Id: this.formName,
             Form: this.Form,
