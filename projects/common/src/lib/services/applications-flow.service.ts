@@ -24,6 +24,16 @@ export class ApplicationsFlowService {
     }
 
     // API Methods
+    public ConfigureCustomDomain(host: string): Observable<object> {
+        return this.http.post(
+            `${this.apiRoot}/api/lowcodeunit/customdomain/${host}/configure`,
+            {},
+            {
+                headers: this.loadHeaders(),
+            }
+        );
+    }
+
     public ConfigureDevOpsAction(actionLookup: string): Observable<object> {
         return this.http.post(
             `${this.apiRoot}/api/lowcodeunit/manage/devops/actions/${actionLookup}/configure`,

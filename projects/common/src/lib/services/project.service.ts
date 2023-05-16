@@ -46,6 +46,38 @@ export class ProjectService {
     //     });
     // }
 
+    public async ConfigureCustomDomain(
+        state: ApplicationsFlowState,
+        host: string
+    ): Promise<Status> {
+        return new Promise((resolve, reject) => {
+            state.Loading = true;
+
+            this.appsFlowSvc.ConfigureCustomDomain(host).subscribe({
+                next: async (response: any) => {
+                    state.Loading = false;
+
+                    if (response.Status.Code === 0) {
+                        console.log('Custom Domain Configured');
+
+                        resolve(response.Status);
+                    } else {
+                        reject(response.Status);
+
+                        // console.log(response);
+                    }
+                },
+                error: (err) => {
+                    state.Loading = false;
+
+                    reject(err);
+
+                    console.log(err);
+                },
+            });
+        });
+    }
+
     public EnsureUserEnterprise(
         state: ApplicationsFlowState
     ): Promise<BaseResponse> {
