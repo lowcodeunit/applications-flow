@@ -78,6 +78,17 @@ export class EaCService {
     }
 
     //  API Methods
+    public async ConfigureCustomDomain(host: string): Promise<Status> {
+        const state = this.stateSubject.getValue();
+
+        const status = await this.projectService.ConfigureCustomDomain(
+            state,
+            host
+        );
+
+        return status;
+    }
+
     public CheckUserFeedItem(feedItem: FeedItem): Observable<object> {
         return this.http.get(feedItem.RefreshLink);
     }
