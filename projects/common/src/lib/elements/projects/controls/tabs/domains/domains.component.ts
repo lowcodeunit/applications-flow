@@ -158,8 +158,8 @@ export class DomainsComponent implements OnInit, OnChanges {
     /**
      * Save changes
      */
-    protected save(): void {
-        this.eacSvc.SaveProjectAsCode({
+    protected async save(): Promise<void> {
+        await this.eacSvc.SaveProjectAsCode({
             ProjectLookup: this.Data?.ProjectLookup,
             Project: {
                 ...this.Data?.Project,
@@ -168,8 +168,9 @@ export class DomainsComponent implements OnInit, OnChanges {
                 PrimaryHost: this.Domain.value,
             },
         });
-        this.eacSvc.ConfigureCustomDomain(this.Domain.value);
-        this.formsService.UpdateValuesReference({
+        await this.eacSvc.ConfigureCustomDomain(this.Domain.value);
+
+        await this.formsService.UpdateValuesReference({
             Id: this.formName,
             Form: this.Form,
         });
