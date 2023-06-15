@@ -61,11 +61,11 @@ export class EditProjectFormComponent implements OnInit {
     }
 
     public SaveProject(): void {
-        const proj: EaCProjectAsCode = this.Project;
-        // console.log("APP=", app);
-        proj.Project = {
-            Name: this.NameFormControl.value,
-            Description: this.DescriptionFormControl.value,
+        const proj: EaCProjectAsCode = {
+            Project: {
+                Name: this.NameFormControl.value,
+                Description: this.DescriptionFormControl.value,
+            },
         };
 
         const saveProjReq: SaveProjectAsCodeEventRequest = {
